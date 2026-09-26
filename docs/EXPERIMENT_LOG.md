@@ -30,7 +30,7 @@
 | 2026-09-16 | v3-full | 50-task full run | baseline 48% | `experiments/20260916_v3_50task_full/` |
 | 2026-09-16 | v3-fix | interference-fixed run | 60% (5-Q validation) | `experiments/20260916_v3_interference_fix/` |
 
-> These predate the current `configs/*.yaml` standard (configs were inline in `config.py`); their `EXPERIMENT.md` files remain the authoritative record. New experiments must follow the template above.
+> These predate the current `configs/*.yaml` standard (configs were inline in `src/config.py`); their `EXPERIMENT.md` files remain the authoritative record. New experiments must follow the template above.
 
 ---
 

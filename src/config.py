@@ -44,7 +44,7 @@ HF_MODEL_R1 = "deepseek-ai/DeepSeek-R1"                  # reasoning model (CoT)
 # Finance Agent Benchmark (FAB) data config
 # ======================================================================
 FAB_PUBLIC_CSV_URL = "https://raw.githubusercontent.com/vals-ai/finance-agent/main/data/public.csv"
-FAB_DATA_PATH = os.getenv("FAB_DATA_PATH", "data/fab_public.csv")
+FAB_DATA_PATH = os.getenv("FAB_DATA_PATH", "data/raw/fab_public.csv")
 
 # ======================================================================
 # Scoring tolerance / robustness config

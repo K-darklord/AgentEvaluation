@@ -13,10 +13,10 @@
 
 What was built:
 
-- Task schema + mini benchmark + FAB public loader (`benchmark.py`)
-- Agents: rule-based / FinGPT / OpenAI / HuggingFace ReAct + EDGAR tools (`agent.py`)
-- Main loop + trajectory recording (`runner.py`)
-- 2-tier continuous scoring + dealbreaker (`evaluator.py`)
+- Task schema + mini benchmark + FAB public loader (`src/benchmark.py`)
+- Agents: rule-based / FinGPT / OpenAI / HuggingFace ReAct + EDGAR tools (`src/agent.py`)
+- Main loop + trajectory recording (`src/runner.py`)
+- 2-tier continuous scoring + dealbreaker (`src/evaluator.py`)
 
 Milestones: `v0.1-skeleton` → `v2.1` (accuracy 8.3% → 34% via bug fixes).
 

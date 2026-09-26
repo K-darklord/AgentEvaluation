@@ -17,6 +17,7 @@
 | 2026-09-26 | Repository home | **This AgentEvaluation repository** (code + research docs unified under `docs/`). The separate `metacog-research/` drafting directory is superseded. |
 | 2026-09-26 | Repo refactor | Reorganized into `docs/`, `paper/`, `scripts/`, `docs/figures/`; added `PROTOCOL.md`, `docs/REPRODUCIBILITY.md`, `docs/TIMELINE.md`, `docs/EXPERIMENT_LOG.md`; un-ignored `experiments/` to keep it in the evidence chain. |
 | 2026-09-26 | Repository rename | **FinAgent → AgentEvaluation** (directory, README title, env-var prefix `FINAGENT_* → AGENTEVALUATION_*`, SEC User-Agent, git remote). Historical "FinAgent" references are retained only in `docs/HISTORY.md` and this log. |
+| 2026-09-26 | License choice | **MIT**. Rationale: permissive, widest compatibility, no copyleft obligation — the default for research code. Revisit only if patent grants matter (then Apache-2.0). |
 
 ---
 
@@ -27,7 +28,6 @@
 3. **Strong-tier model list and API budget cap** — $100 / $500 / $1,000+ / uncapped.
 4. **Target-venue priority** — Nature MI → TPAMI → NeurIPS ordering.
 5. **Cloud GPUs** — whether to introduce before Phase 3 to scale local weak/mid-tier throughput.
-6. **License choice** — pick an open-source license for the repository (collaboration/visibility decision).
 
 ---
 
@@ -48,3 +48,4 @@
 | 0.1 | 2026-09-26 | Created; moved decision/process content out of the research plan. |
 | 0.2 | 2026-09-26 | Resolved repository home (AgentEvaluation repo) and recorded the repo refactor; added license-choice open question. |
 | 0.3 | 2026-09-26 | Recorded repository rename FinAgent → AgentEvaluation. |
+| 0.4 | 2026-09-26 | Resolved license choice: MIT. |

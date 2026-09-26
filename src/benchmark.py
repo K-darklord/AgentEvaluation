@@ -200,7 +200,7 @@ def load_fab_questions(
     I map FAB columns to the Task dataclass and synthesize task_id = fab_{idx:03d}.
     FAB ships no evidence URLs, so evidence=[] (agent answers from parametric knowledge).
     """
-    from config import FAB_DATA_PATH
+    from src.config import FAB_DATA_PATH
 
     if csv_path is None:
         csv_path = FAB_DATA_PATH

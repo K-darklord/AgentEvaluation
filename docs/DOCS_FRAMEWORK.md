@@ -15,7 +15,7 @@
 Information was scattered across two places and has now been unified into this repository:
 
 - **The source attachments** — RP outline + workmap + experiment summary + timeline + reproducibility standard (the *metacognition* vision);
-- **The AgentEvaluation code** — `agent.py` / `evaluator.py` / `runner.py` + the existing `EVALUATION_STANDARD.md`, `CHANGELOG.md` (the *interference + evaluation* status quo).
+- **The AgentEvaluation code** — `src/agent.py` / `src/evaluator.py` / `src/runner.py` + the existing `EVALUATION_STANDARD.md`, `CHANGELOG.md` (the *interference + evaluation* status quo).
 
 ---
 
@@ -66,7 +66,7 @@ Information was scattered across two places and has now been unified into this r
 | PROTOCOL | (governance) | — |
 | REPRODUCIBILITY | Appendix + Supplementary | `README` + `scripts/reproduce.sh` |
 | TIMELINE | (planning) | — |
-| EVALUATION_STANDARD | Method (scoring) | `evaluator.py` |
+| EVALUATION_STANDARD | Method (scoring) | `src/evaluator.py` |
 | INTERFERENCE_CAUSAL_TABLE | Introduction motivation | Appendix evidence |
 | EXPERIMENT_LOG | Appendix reproducibility evidence | `experiments/` |
 | WORKMAP | Related Work | — |
@@ -95,7 +95,7 @@ claim (paper) → experiment-log record → config + seed → raw trajectories �
 
 1. Migrate the workmap HTML/PDF → `docs/WORKMAP.md` under version control.
 2. Add a `LICENSE` file (license choice is a process decision — see DECISION_LOG).
-3. Migrate the flat finance pipeline (`benchmark.py`, `agent.py`, `runner.py`, `evaluator.py`, `config.py`) into the `src/` layout defined in `REPRODUCIBILITY.md` §2.1 as the Phase-1 framework matures.
+3. ~~Migrate the flat finance pipeline into `src/`~~ — **done (2026-09-26)**: `src/` now holds `benchmark.py`, `agent.py`, `runner.py`, `evaluator.py`, `config.py`. Remaining: split into `src/{models,evaluator,experiment,analysis,judge,utils}/` and convert `config.py` → YAML as the Phase-1 framework matures.
 4. Create `configs/*.yaml`, `results/`, `logs/`, and `data/raw|processed/` scaffolding.
 
 ---

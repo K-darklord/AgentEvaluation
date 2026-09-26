@@ -18,7 +18,7 @@ import json
 import urllib.request
 from dataclasses import dataclass, field, asdict
 from typing import Optional
-import config
+from src import config
 import re
 
 
@@ -1130,7 +1130,7 @@ class OpenAIAgent(BaseAgent):
 
 
 if __name__ == "__main__":
-    from benchmark import load_tasks
+    from src.benchmark import load_tasks
     agent = RuleBasedFinanceAgent()
     for task in load_tasks():
         r = agent.solve(task)

@@ -16,11 +16,11 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from benchmark import load_tasks, load_fab_questions
-from agent import BaseAgent, RuleBasedFinanceAgent
+from src.benchmark import load_tasks, load_fab_questions
+from src.agent import BaseAgent, RuleBasedFinanceAgent
 
 
-OUTPUT_DIR = Path(__file__).parent / "output"
+OUTPUT_DIR = Path(__file__).resolve().parents[1] / "output"
 
 
 def run_evaluation(
@@ -93,16 +93,16 @@ if __name__ == "__main__":
     bench_name = os.getenv("AGENTEVALUATION_BENCH", "mini").lower()
 
     if agent_name == "fingpt":
-        from agent import FinGPTAgent
+        from src.agent import FinGPTAgent
         agent = FinGPTAgent()
     elif agent_name == "openai":
-        from agent import OpenAIAgent
+        from src.agent import OpenAIAgent
         agent = OpenAIAgent()
     elif agent_name == "hf":
-        from agent import HuggingFaceAgent
+        from src.agent import HuggingFaceAgent
         agent = HuggingFaceAgent()
     else:
-        from agent import RuleBasedFinanceAgent
+        from src.agent import RuleBasedFinanceAgent
         agent = RuleBasedFinanceAgent()
 
     if bench_name == "fab":

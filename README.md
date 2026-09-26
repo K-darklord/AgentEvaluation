@@ -18,15 +18,21 @@
 ```
 AgentEvaluation/
 ├── README.md                  # this index + reproduction guide
+├── LICENSE                    # MIT
 ├── PROTOCOL.md                # change-propagation protocol (how documents stay consistent)
 ├── CHANGELOG.md               # engineering change log
 ├── requirements.txt
-├── benchmark.py               # task schema + mini benchmark + FAB loader
-├── agent.py                   # RuleBased / FinGPT / OpenAI / HuggingFace (ReAct + EDGAR tools)
-├── runner.py                  # run agent → trajectories + run summary
-├── evaluator.py               # 2-tier continuous scoring + error attribution + dealbreaker
-├── config.py                  # API keys / models / scoring config
-├── data/                      # FAB public dataset
+├── src/                       # working finance-agent pipeline (package)
+│   ├── __init__.py
+│   ├── benchmark.py           # task schema + mini benchmark + FAB loader
+│   ├── agent.py               # RuleBased / FinGPT / OpenAI / HuggingFace (ReAct + EDGAR tools)
+│   ├── runner.py              # run agent → trajectories + run summary
+│   ├── evaluator.py           # 2-tier continuous scoring + error attribution + dealbreaker
+│   └── config.py              # API keys / models / scoring config
+├── configs/                   # experiment configs (Phase-1 YAML; scaffolded)
+├── data/
+│   ├── raw/                   # FAB public dataset (fab_public.csv)
+│   └── processed/             # derived task banks (scaffolded)
 ├── docs/                      # academic deliverables + process logs (see index below)
 │   ├── RESEARCH_PLAN.md       # experiment protocol (authority)
 │   ├── REPRODUCIBILITY.md     # top-venue reproducibility standard
@@ -35,11 +41,15 @@ AgentEvaluation/
 │   ├── INTERFERENCE_CAUSAL_TABLE.md
 │   ├── EXPERIMENT_LOG.md      # per-run evidence index
 │   ├── DECISION_LOG.md        # decisions + open questions (process)
+│   ├── HISTORY.md             # stage history + continuity rules
+│   ├── WORKMAP.md             # 4-dimension academic frontier map (evaluation / verification / optimization / inference scaling)
 │   └── figures/
 ├── paper/                     # manuscript skeleton + drafts
 ├── experiments/               # per-experiment evidence (EXPERIMENT.md + data)
+├── results/                   # results layout (raw_outputs / judge_scores / analysis / figures)
 ├── scripts/                   # dump_project.py (and future reproduce.sh)
-└── output/                    # run artifacts (gitignored)
+├── logs/                      # per-run logs (auto-generated)
+└── output/                    # working-pipeline run artifacts (gitignored)
 ```
 
 ---
@@ -56,6 +66,7 @@ AgentEvaluation/
 | [docs/EXPERIMENT_LOG.md](docs/EXPERIMENT_LOG.md) | Evidence index (every claim traces to a run) |
 | [docs/DECISION_LOG.md](docs/DECISION_LOG.md) | Decisions, open questions, working notes (not a deliverable) |
 | [docs/HISTORY.md](docs/HISTORY.md) | Project stage history (finance pipeline → interference → metacognition) + continuity rules |
+| [docs/WORKMAP.md](docs/WORKMAP.md) | 4-dimension academic frontier map (33 sources): evaluation / verification / optimization / inference scaling → proposal positioning |
 | [PROTOCOL.md](PROTOCOL.md) | How every change propagates to all dependent documents |
 
 ---
@@ -66,17 +77,17 @@ AgentEvaluation/
 pip install -r requirements.txt
 
 # Mini benchmark (3 tasks, rule-based agent, no API key)
-python runner.py
+python -m src.runner
 
 # Score and analyze
-python evaluator.py
+python -m src.evaluator
 ```
 
 **Agents** (via `AGENTEVALUATION_AGENT`): `rule` (default), `hf` (HuggingFace/DeepSeek), `fingpt`, `openai`.
 **Bench marks** (via `AGENTEVALUATION_BENCH`): `mini` (default), `fab` (FAB 50-question public set).
 
 ```bash
-AGENTEVALUATION_AGENT=hf AGENTEVALUATION_BENCH=fab python runner.py
+AGENTEVALUATION_AGENT=hf AGENTEVALUATION_BENCH=fab python -m src.runner
 ```
 
 Outputs: `output/trajectories.jsonl` (full per-step trajectory), `output/run_summary.csv`, `output/results.csv`, `output/error_report.json`, accuracy charts.
@@ -101,5 +112,7 @@ Outputs: `output/trajectories.jsonl` (full per-step trajectory), `output/run_sum
 | Version | Date | Change |
 |---|---|---|
 | — | 2026-09-16 | Prior evaluation pipeline README. |
+| 2.3 | 2026-09-26 | Added docs/WORKMAP.md (English frontier map, migrated from the agent-eval workmap; 33 sources). |
+| 2.2 | 2026-09-26 | Migrated pipeline code to src/ package; added configs/ results/ logs/ data/{raw,processed}/; added MIT LICENSE. |
 | 2.1 | 2026-09-26 | Renamed repository FinAgent → AgentEvaluation (project title, env-var prefix, SEC User-Agent, git remote). |
 | 2.0 | 2026-09-26 | Reorganized into the research-repository structure; added docs/ index, PROTOCOL.md, reproducibility standard. |

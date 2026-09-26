@@ -23,8 +23,8 @@ import logging
 from pathlib import Path
 from collections import Counter
 
-from runner import OUTPUT_DIR
-import config
+from src.runner import OUTPUT_DIR
+from src import config
 
 logger = logging.getLogger(__name__)
 
