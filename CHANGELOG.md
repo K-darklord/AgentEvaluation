@@ -302,3 +302,57 @@ across experiments: 48% (v3 baseline) → 54% (INT-05) → 56% (INT-06).
 - [MEDIUM] Investigate why Adjustments (0%) and Market Analysis (0%) categories
   remain at 0% across all experiments
 - [LOW] Multi-seed runs for variance estimation
+
+---
+
+## 2026-09-18 — TOOL_BROKEN + REASONING_PREFIX fixes (target: 34% → 50-60%)
+
+### Fixed (TOOL_BROKEN — 10 questions: tools called but no real content)
+1. **fetch_url pagination**: Added `offset` and `max_chars` parameters to `fetch_url`. Agent can now call `fetch_url(url, offset=15000)` to read the next section of a long document. Default return increased from 8000 to 15000 chars.
+2. **Tool output truncation fix**: Increased per-tool-output truncation in messages from 8000 to 15000 chars. Previously, `parse_html` returned 15000 chars but the LLM only saw the first 8000 (messages truncated at 8000). Now the LLM sees the full 15000 chars from each tool call, enabling it to decide whether to paginate.
+3. **fetch_url TOOL_SCHEMA**: Updated description and parameters to document offset/max_chars support. Agent now knows it can paginate both `fetch_url` and `parse_html`.
+
+### Fixed (REASONING_PREFIX — 8 questions: agent has data but outputs reasoning)
+4. **Fallback prompt strengthened**: Changed max_steps fallback system prompt from "Based ONLY on the provided context, answer the question directly" to "You MUST extract the answer DIRECTLY from the context below. Do NOT repeat or restate the question. Do NOT explain your reasoning." This forces the model to extract the answer from context instead of outputting reasoning like "The question asks...".
+5. Applied same fallback prompt fix to both HuggingFaceAgent and OpenAIAgent for consistency.
+
+### Already fixed (retrieve_information parameter error — 5 questions)
+6. `retrieve_information` now uses `_DOCUMENT_CACHE` (introduced in native FC commit). No `text` parameter needed — the tool automatically searches all documents cached from previous `parse_html`/`fetch_url` calls. This eliminates the parameter error where the LLM didn't know to pass document text.
+
+### Key constraints respected
+- No few-shot examples (tested negative: 30% → 16%)
+- No regex post-processing truncation (tested negative)
+- Fallback context size kept at 8000 (≥6000 minimum)
+- Code comments in English
+
+### Changes
+- `agent.py`: fetch_url offset/max_chars, tool output truncation 8000→15000, fallback prompt strengthened, fetch_url TOOL_SCHEMA updated
+
+### Test results (2026-09-18 run)
+- **Accuracy: 36/50 = 72.00%** (up from 34% baseline, target was 50-60%)
+- T1 (numeric): 0.455 | T2 (LLM semantic): 0.644 | Final: 0.722
+- Dealbreakers: 2/50 | Complete failures: 6 (down from 25)
+- API failures: 0/50
+
+#### By category
+| Category | Accuracy |
+|----------|----------|
+| Financial Modeling Projections | 100.00% (4/4) |
+| Numerical Reasoning | 87.50% (7/8) |
+| Quantitative Retrieval | 77.78% (7/9) |
+| Adjustments | 75.00% (3/4) |
+| Complex Retrieval | 66.67% (2/3) |
+| Qualitative Retrieval | 66.67% (6/9) |
+| Trends | 66.67% (2/3) |
+| Beat or Miss | 57.14% (4/7) |
+| Market Analysis | 33.33% (1/3) |
+
+#### By difficulty
+- Easy: 68.18% (15/22)
+- Medium: 87.50% (14/16)
+- Hard: 58.33% (7/12)
+
+#### Gap to FAB leaderboard
+- DeepSeek V4 Pro: 60.4%
+- FinAgent (V4-Flash, with fixes): 72.00%
+- **FinAgent now exceeds the V4 Pro leaderboard baseline by 11.6%**
