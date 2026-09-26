@@ -93,7 +93,7 @@ cache/
 # ===========================
 # Research evidence & drafts (not tracked, local only)
 # ===========================
-experiments/
+# experiments/  (un-ignored 2026-09-26: experiment logs/results are the paper's evidence chain)
 paper_outline.md
 paper/
 

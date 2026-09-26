@@ -1,0 +1,14 @@
+=== Race Condition Evidence ===
+File: output/trajectories.jsonl
+Corrupt line: 12 (length=8170 chars)
+Discovered: 2026-09-16 17:12
+Root cause: Two runner.py processes (PID 27334 started 16:23, PID 28288 started 16:44) wrote to the same file simultaneously
+File mode: ft.open("w") in runner.py:40 - no file lock, writes interleave at OS level
+Impact: Line 12 is partial JSON (mid-record truncation), starts with SEC filing text, no opening brace
+Adjacent lines: Line 11 = fab_011 (3 tool_calls, main proc), Line 13 = fab_011 (2 tool_calls, duplicate proc)
+Both processes solved fab_011 in parallel, writing results to same file
+=== Corrupt line content (first 500 chars) ===
+stated its intent to evaluate overall government spending, which could impact our business, results of operations, financial condition, and growth prospects. Future spending and program authorizations may not increase or may decrease or shift to programs in", "observation": "retrieved 20000 chars", "latency_ms": 4269.8}, {"step": 49, "thought": "LLM called parse_html with {'url': 'https://www.sec.gov/Archives/edgar/data/1321655/000132165523000011/pltr-20221231.htm', 'offset': 295000, 'max_chars'
+
+=== Corrupt line content (last 200 chars) ===
+905,871"}, {"operator": "correctness", "criteria": "2 year revenue CAGR: 22.6%"}, {"operator": "contradiction", "criteria": "2024: 2,865,507\n2022: 1,905,871\n\nCAGR: 22.6%"}]}, "api_failure": false}

@@ -1,7 +1,7 @@
-# FinAgent Evaluation Standard
+# AgentEvaluation Standard
 
 **Version**: 2.3 (2026-09-15)
-**Author**: FinAgent Project
+**Author**: AgentEvaluation Project
 **Alignment**: Finance Agent Benchmark (FAB) v2 + FrontierFinance + BigFinanceBench
 
 ---
@@ -209,7 +209,7 @@ When final_pass = False:
 
 ## 6. Comparison with FAB Official Standard
 
-| Dimension | FAB v2 (vals.ai) | FinAgent v2.0 | Gap |
+| Dimension | FAB v2 (vals.ai) | AgentEvaluation v2.0 | Gap |
 |-----------|-----------------|---------------|-----|
 | Primary metric | Partial Credit (continuous) | max(T1, T2) continuous | Aligned |
 | Dealbreaker | Yes (severity-weighted) | Yes (contradiction triggers 0) | Aligned |

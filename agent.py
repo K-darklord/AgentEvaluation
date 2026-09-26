@@ -63,7 +63,7 @@ def fetch_url(url: str, timeout: int = 20) -> str:
     import re as _re
     try:
         req = urllib.request.Request(url, headers={
-            "User-Agent": "FinAgentEval/1.0 yuan.kevin.wang@connect.hku.hk",
+            "User-Agent": "AgentEvaluation/1.0 yuan.kevin.wang@connect.hku.hk",
             "Accept": "text/html,application/xhtml+xml,*/*",
         })
         with urllib.request.urlopen(req, timeout=timeout) as resp:
@@ -155,7 +155,7 @@ def edgar_search(query: str = "", form_type: str = "", max_results: int = 5, **k
 
     try:
         req = urllib.request.Request(url, headers={
-            "User-Agent": "FinAgentEval/1.0 yuan.kevin.wang@connect.hku.hk",
+            "User-Agent": "AgentEvaluation/1.0 yuan.kevin.wang@connect.hku.hk",
             "Accept": "application/json",
         })
         with urllib.request.urlopen(req, timeout=15) as resp:
@@ -209,7 +209,7 @@ def parse_html(url: str, timeout: int = 20, offset: int = 0, max_chars: int = 15
 
     try:
         req = urllib.request.Request(url, headers={
-            "User-Agent": "FinAgentEval/1.0 yuan.kevin.wang@connect.hku.hk",
+            "User-Agent": "AgentEvaluation/1.0 yuan.kevin.wang@connect.hku.hk",
         })
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             raw = resp.read().decode("utf-8", errors="ignore")

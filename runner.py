@@ -86,11 +86,11 @@ def run_evaluation(
 
 if __name__ == "__main__":
     # I support env-driven agent and benchmark selection:
-    #   FINAGENT_AGENT=openai python runner.py   (use OpenAI API upper bound)
-    #   FINAGENT_AGENT=fingpt python runner.py   (use FinGPT baseline)
-    #   FINAGENT_BENCH=fab python runner.py      (use FAB public dataset)
-    agent_name = os.getenv("FINAGENT_AGENT", "rule").lower()
-    bench_name = os.getenv("FINAGENT_BENCH", "mini").lower()
+    #   AGENTEVALUATION_AGENT=openai python runner.py   (use OpenAI API upper bound)
+    #   AGENTEVALUATION_AGENT=fingpt python runner.py   (use FinGPT baseline)
+    #   AGENTEVALUATION_BENCH=fab python runner.py      (use FAB public dataset)
+    agent_name = os.getenv("AGENTEVALUATION_AGENT", "rule").lower()
+    bench_name = os.getenv("AGENTEVALUATION_BENCH", "mini").lower()
 
     if agent_name == "fingpt":
         from agent import FinGPTAgent
@@ -111,7 +111,7 @@ if __name__ == "__main__":
         tasks = load_tasks()
 
     # Allow limiting number of tasks for quick testing
-    num_tasks = os.environ.get("FINAGENT_NUM_TASKS")
+    num_tasks = os.environ.get("AGENTEVALUATION_NUM_TASKS")
     if num_tasks:
         tasks = tasks[:int(num_tasks)]
 

@@ -1,0 +1,32 @@
+/Users/kevin/PycharmProjects/FinAgent/evaluator.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  for ch in ["\$", "€", "£", "¥", ",", "(", ")", "%"]:
+
+=== Evaluation Report (v2.0 — continuous scoring) ===
+Accuracy: 2/5 = 40.00% (threshold=0.5)
+Avg scores: T1(numeric)=0.325  T2(LLM-semantic)=0.200  Final=0.338
+Dealbreakers triggered: 0/5
+Error distribution: {'complete_failure': 2, 'correct': 2, 'numeric_error': 1}
+Avg latency: 185042.0 ms  |  Total cost: $0.0
+Detailed results: /Users/kevin/PycharmProjects/FinAgent/output/results.csv
+
+=== Basic Stats ===
+Total tasks : 5 (excl. 0 API failures: 5 valid)
+Correct     : 2
+Accuracy    : 40.00% (all tasks)
+
+--- By Category ---
+  Beat or Miss                   1/1 = 100.00%
+  Complex Retrieval              0/1 = 0.00%
+  Market Analysis                0/1 = 0.00%
+  Qualitative Retrieval          1/1 = 100.00%
+  Trends                         0/1 = 0.00%
+
+--- By Difficulty ---
+  Easy       1/1 = 100.00%
+  Hard       0/2 = 0.00%
+  Medium     1/2 = 50.00%
+
+=== Error Distribution ===
+Total errors: 3 / 5
+  complete_failure          2
+  numeric_error             1

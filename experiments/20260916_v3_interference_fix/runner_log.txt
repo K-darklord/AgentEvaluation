@@ -1,0 +1,4 @@
+[runner] agent=hf bench=fab tasks=5
+✅ Run 20260916_115752 done. 5 tasks.
+   trajectories: /Users/kevin/PycharmProjects/FinAgent/output/trajectories.jsonl
+   summary:      /Users/kevin/PycharmProjects/FinAgent/output/run_summary.csv

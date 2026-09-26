@@ -1,6 +1,6 @@
 """
 dump_project.py
-把 FinAgent 项目里的关键源文件合并导出成一个 project_dump.txt，
+把 AgentEvaluation 项目里的关键源文件合并导出成一个 project_dump.txt，
 方便整体丢给 AI（Claude Code / ChatGPT 等）理解上下文。
 
 用法（在项目根目录下执行）：
@@ -68,7 +68,7 @@ def collect_files(root_dir: str):
 
 def write_dump(files, output_path: str, root_dir: str, with_tree: bool):
     with open(output_path, "w", encoding="utf-8") as out:
-        out.write("# Project Dump - FinAgent\n")
+        out.write("# Project Dump - AgentEvaluation\n")
         out.write(f"# Generated: {datetime.now().isoformat(timespec='seconds')}\n")
         out.write(f"# Root: {os.path.abspath(root_dir)}\n")
         out.write(f"# Total files: {len(files)}\n\n")
@@ -97,7 +97,7 @@ def write_dump(files, output_path: str, root_dir: str, with_tree: bool):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Dump FinAgent project into a single text file")
+    parser = argparse.ArgumentParser(description="Dump AgentEvaluation project into a single text file")
     parser.add_argument("-o", "--output", default="project_dump.txt",
                         help="输出文件名 (默认: project_dump.txt)")
     parser.add_argument("-r", "--root", default=".",

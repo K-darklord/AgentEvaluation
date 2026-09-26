@@ -10,7 +10,7 @@ I follow the principle of recording what changed, why, and what remains.
 ### Fixed
 - **ARGS parsing bug**: LLM outputs for tool arguments were nesting redundant `query:` prefixes inside the query value. I added a 3-layer fallback: JSON parse -> ast.literal_eval -> regex key-value extraction. Tool arguments now arrive clean.
 - **EDGAR URL format**: `edgar_search` returned directory listing pages instead of specific filing documents. I now build the filing URL from the `_id` field (contains the exact document path like `tm242389d18_defa14a.htm`), so `fetch_url` can retrieve actual filing content.
-- **User-Agent compliance**: SEC EDGAR requires a contact email in the User-Agent header. I was using `FinAgentEval/1.0` without an email, causing 403/503 errors. Fixed to include `yuan.kevin.wang@connect.hku.hk`.
+- **User-Agent compliance**: SEC EDGAR requires a contact email in the User-Agent header. I was using `AgentEvaluation/1.0` without an email, causing 403/503 errors. Fixed to include `yuan.kevin.wang@connect.hku.hk`.
 - **fetch_url HTML stripping**: `fetch_url` was returning raw HTML tags. I added script/style stripping and tag cleanup logic, matching `parse_html` behavior.
 - **max_steps increased**: ReAct loop max steps raised from 5 to 10. Previously 21/50 questions hit the step limit before the agent could finish searching -> parsing -> answering.
 
@@ -57,7 +57,7 @@ I follow the principle of recording what changed, why, and what remains.
 
 ### Changed
 - `scorer.py` and `analysis.py` **merged** into `evaluator.py` (unified scoring + analysis class).
-- `runner.py`: Added environment variable control (`FINAGENT_AGENT`, `FINAGENT_BENCH`, `FINAGENT_NUM_TASKS`) and metadata persistence.
+- `runner.py`: Added environment variable control (`AGENTEVALUATION_AGENT`, `AGENTEVALUATION_BENCH`, `AGENTEVALUATION_NUM_TASKS`) and metadata persistence.
 - `config.py`: Added FinGPT, FAB, and scoring tolerance configurations.
 - `requirements.txt`: Added `transformers`, `peft`, `pandas`, `matplotlib`, `sentence-transformers`.
 
@@ -82,7 +82,7 @@ I follow the principle of recording what changed, why, and what remains.
 - `.gitignore` for Python/IDE/output/model artifacts.
 
 ### Git
-- Initialized repository, pushed to `github.com/K-darklord/FinAgent` (private).
+- Initialized repository, pushed to `github.com/K-darklord/AgentEvaluation` (private).
 - Tag `v0.1-skeleton` marks the initial commit.
 
 ### Issues found and fixed
@@ -201,7 +201,7 @@ max_steps fallback prompt is still not strong enough. Agent retrieves real conte
 
 ### Gap to FAB leaderboard
 - DeepSeek V4 Pro: 60.4%
-- FinAgent (V4-Flash): 34%
+- AgentEvaluation (V4-Flash): 34%
 - Gap: 26%, mainly from Flash vs Pro model capability (~15-20%) + single-model judge (~3-5%)
 
 ### Key lesson
