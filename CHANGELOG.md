@@ -354,5 +354,5 @@ across experiments: 48% (v3 baseline) → 54% (INT-05) → 56% (INT-06).
 
 #### Gap to FAB leaderboard
 - DeepSeek V4 Pro: 60.4%
-- FinAgent (V4-Flash, with fixes): 72.00%
-- **FinAgent now exceeds the V4 Pro leaderboard baseline by 11.6%**
+- AgentEvaluation (V4-Flash, with fixes): 72.00%
+- **AgentEvaluation now exceeds the V4 Pro leaderboard baseline by 11.6%**
