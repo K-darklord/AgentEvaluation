@@ -114,7 +114,7 @@ Three framings are held open; pilot data will be used to compare them for fit an
 
 ### 3.6 Three methodological decouplings
 
-1. **Capability-dimensional decoupling.** Do not pre-impose L1/L2/L3; use tensor decomposition to extract latent capability axes from the data. Expectation: the proxy's effect concentrates on a few feedback-sensitive latent dimensions.
+1. **Capability-dimensional decoupling (revised 2026-09-29).** L1 (base, no-tool) and L2 (augmentation, tool) are *a priori* design partitions — fixed by the task-family split — so a static tensor cannot "recover" them: factorizing model × family × error-type merely projects the imposed taxonomy back (rank-1, PCs aligned one-to-one with families; verified empirically). L1/L2 are therefore **not inverted** from a static matrix. Only **L3/L4** are open process properties, living on the *round* dimension (presence vs. selection of the correct candidate across feedback rounds), not on static error labels (§5.10).
 2. **Activation vs. locking.** *Activation* (event A): the correct answer appears at least once within N rounds — measures **proxy** effectiveness. *Locking* (event B): the final round is correct — measures **model** capability. Activation without locking diagnoses the model, not the proxy.
 3. **Recognizing vs. correcting errors.** *Recognizing* (metacognitive) is the object of proof; *correcting* is an engineering concern outside the current scope. The proxy needs only to raise the probability that the correct answer appears, not to guarantee it is locked.
 
@@ -230,7 +230,9 @@ never re-executed needlessly:
 
 ### 5.4 Capability matrix and tensor decomposition
 
-Construct a tensor **T ∈ R^{M × T × E}** (model × task family × error type), optionally 4th-order with round R. Factorize via PARAFAC / Tucker / PCA to extract latent capability axes. The diagnostic output is a structured report mapping each model to bottleneck capability axes (with factor loadings relative to a model-class mean) and a recommended intervention.
+**Static decomposition — no-go for L1/L2.** A tensor **T ∈ R^{M × T × E}** (model × task family × error type) is rank-1 dominated: PCs align one-to-one with task families because error labels are defined per-family and the leaf × family structure is block-diagonal. Factorizing it (PARAFAC / Tucker / PCA) only projects the pre-imposed taxonomy back and produces no new L1/L2 axis. L1 (no-tool) and L2 (tool) are already fixed by the task-family partition (§5.2), so "recovering" them is tautological. Static decomposition is retained only as a taxonomy-coverage diagnostic, not as a capability-inversion tool.
+
+**L3/L4 inversion lives on the round dimension** — §5.10 specifies the taxonomy-free activation / locking / correction statistics and two round-level decomposition carriers (state transition, trajectory).
 
 ### 5.5 Ablation matrix
 
@@ -364,6 +366,33 @@ change the scoring decision and must be declared as interventions in every resul
 family (e.g. a direct-letter prompt for MMLU-Pro), and a format-enforcing prompt applied to the
 *generator* is itself an intervention — separate from, and not a substitute for, a sound evaluator.
 
+### 5.10 L3/L4 discrimination — round-dimension scheme
+
+**Scope rationale (2026-09-29).** L1/L2 are *a priori* (task-family split, §5.2) and not inverted (§5.4). L3 (meta-cognitive: recognise an error on the external signal) and L4 (correction: fix it once recognised) are *process* properties observable only across feedback rounds. Their operationalisation is **taxonomy-free** — it needs only two per-round events, not an error-type label, so it is immune to the block-diagonal projection that defeats the static matrix.
+
+**Events (per model × task, over N rounds).**
+- A — *activation*: ≥1 candidate across the N rounds is scored correct against the gold **offline**. Measures proxy effectiveness + the model's activatability.
+- B — *locking*: the final selected candidate is correct. Measures model capability.
+
+**Derived statistics (per model × family).**
+- activation rate = P(A); locking rate = P(B); correction rate = P(B | A);
+- L4-deficit = 1 − P(B | A) (activated but failed to lock);
+- first-activation round (early activation ⇒ easily activated);
+- L3-deficit separated via the A1 ablation (self-loop, no proxy): the activation-rate gap proxy − A1 isolates the signal's activation contribution, and the A-event internals split "recognised but did not move" from "never recognised".
+
+**Round-dimension data schema (per model × task trajectory).**
+```
+per_round[]: candidates[] {text_hash, offline_gold_match}, selected_idx,
+             critique_topn {error_type: prob}  # proxy arm only, cost_tokens
+derived:      first_activation_round, final_selected_correct
+```
+
+**Decomposition carriers (Level 2).** Both are used; neither touches the static model × family × error-type matrix.
+- **Carrier A — state transition.** `M_model ∈ R^{E×E}` over the unified leaf (or 6-axis) error states, read as which error types are corrected under feedback and which recur. Spectral decomposition (Perron–Frobenius / mixture-Markov deconvolution) localises absorbent vs. recurrent error classes — the L4 correction profile.
+- **Carrier B — trajectory.** `X ∈ R^{(model×task) × round}`, one binary correctness time-series per row. PCA / MDS of X separates convergent, oscillating, and divergent trajectories and shows how they stratify by model.
+
+**Execution order (build before burn).** The N=10 in ~3-round segments loop (§5.7) is the data precondition for L1/L2 inversion. First the round-dimension schema + Level-1 statistics are built against the existing single-round d1_baseline (round=1 degenerates to static — pipeline check only); the A1 ablation and multi-round data then unlock Level-1 measurement and both Level-2 carriers.
+
 ---
 
 ## 6. Reproducibility and Implementation
@@ -447,4 +476,5 @@ The dominant cost driver is the number of API model × question × round cells p
 | 0.4 | 2026-09-28 | Added §5.2 Task-Bank Blueprint (provisional): L1/L2 family × benchmark × capability-layer (L1-L4) × evaluator × token-budget matrix, each probe set fixed at 50 questions; renumbered former §5.2-5.5 to §5.3-5.6. |
 | 0.5 | 2026-09-29 | Added §5.7 Phase-1 (probe) execution plan: four feasibility checks (capability decomposition / Bayesian proxy / L3-L4 discrimination / cost–reliability curves), build-before-burn order with N=10 in 3-round segments, and no-human-labelling validation; corrected §5.3 Stage-1 human-labelled errors to outcome-based validation. |
 | 0.6 | 2026-09-29 | Added §5.9 three-tier scoring framework (T1 deterministic / T2 LLM re-judge rescue / T3 multi-judge voting), intervention registration, and the false-negative convention (correct = positive). |
+| 0.7 | 2026-09-29 | Revised §3.6 decoupling 1 and §5.4: a static tensor cannot invert L1/L2 (a priori task-family partition; rank-1 projection, empirically verified) — decompose only as taxonomy-coverage diagnostic; added §5.10 L3/L4 round-dimension scheme (taxonomy-free activation/locking/correction events + two decomposition carriers: state transition & trajectory). |
 | 0.6 | 2026-09-29 | Renamed the metacognitive proxy from "evaluator" to a single embedding-based **critique** module; added §5.8 spec (offline annotated error bank + online instance-similarity retrieval; deterministic shallow-feature embedding; parallel Top-N candidate revisions with agent self-selection; full N=10 rounds, no early stopping); recast L3/L4 as activation-without-locking. |
