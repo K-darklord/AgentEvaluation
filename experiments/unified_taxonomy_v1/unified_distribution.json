@@ -1,0 +1,100 @@
+{
+  "version": "v1.0-unified",
+  "note": "detector-first unified leaf; parallel to per-family 19-leaf taxonomy",
+  "leaf_family_coverage": {
+    "empty": [],
+    "missing_candidate": [
+      "math500",
+      "mmlu_pro"
+    ],
+    "format_violation": [
+      "math500",
+      "mmlu_pro"
+    ],
+    "numeric_error": [
+      "finance",
+      "math",
+      "math500"
+    ],
+    "wrong_target": [
+      "bfcl",
+      "finance",
+      "mmlu_pro"
+    ],
+    "retrieval_failure": [
+      "finance"
+    ],
+    "contradiction": [
+      "finance"
+    ],
+    "non_converged": [
+      "finance"
+    ]
+  },
+  "distribution": {
+    "math500": {
+      "deepseek-v4-flash": {
+        "numeric_error": 5
+      },
+      "glm-5.3": {
+        "format_violation": 1,
+        "numeric_error": 4,
+        "missing_candidate": 3
+      },
+      "qwen3.8-flash": {}
+    },
+    "finance": {
+      "deepseek-v4-flash": {
+        "numeric_error": 9,
+        "non_converged": 12,
+        "contradiction": 5,
+        "wrong_target": 3
+      },
+      "glm-5.3": {
+        "numeric_error": 8,
+        "non_converged": 16,
+        "retrieval_failure": 2,
+        "wrong_target": 2,
+        "contradiction": 2
+      },
+      "qwen3.8-flash": {
+        "numeric_error": 8,
+        "non_converged": 15,
+        "wrong_target": 5,
+        "contradiction": 3
+      }
+    },
+    "bfcl": {
+      "deepseek-v4-flash": {
+        "wrong_target": 5
+      },
+      "glm-5.3": {
+        "wrong_target": 5
+      },
+      "qwen3.8-flash": {}
+    },
+    "math": {
+      "glm-5.3": {
+        "numeric_error": 1
+      },
+      "deepseek-v4-flash": {},
+      "qwen3.8-flash": {}
+    },
+    "mmlu_pro": {
+      "deepseek-v4-flash": {
+        "missing_candidate": 3,
+        "wrong_target": 4
+      },
+      "glm-5.3": {
+        "format_violation": 3,
+        "wrong_target": 5,
+        "missing_candidate": 2
+      },
+      "qwen3.8-flash": {
+        "wrong_target": 3,
+        "format_violation": 1,
+        "missing_candidate": 2
+      }
+    }
+  }
+}

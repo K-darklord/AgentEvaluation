@@ -1,0 +1,137 @@
+{"task_id": "math500_010", "family": "math500", "model": "deepseek-v4-flash", "unified_leaf": "numeric_error", "subtype": "factor", "sub_signals": {"ratio": 0.25, "gold_num": 4.0, "pred_num": 1.0}}
+{"task_id": "math500_012", "family": "math500", "model": "deepseek-v4-flash", "unified_leaf": "numeric_error", "subtype": "magnitude", "sub_signals": {"ratio": 0.0, "gold_num": 3.0, "pred_num": 0.0}}
+{"task_id": "math500_019", "family": "math500", "model": "deepseek-v4-flash", "unified_leaf": "numeric_error", "subtype": "plain", "sub_signals": {"ratio": 4.428571, "gold_num": 28.0, "pred_num": 124.0}}
+{"task_id": "math500_044", "family": "math500", "model": "deepseek-v4-flash", "unified_leaf": "numeric_error", "subtype": "plain", "sub_signals": {"ratio": 0.285714, "gold_num": 70.0, "pred_num": 20.0}}
+{"task_id": "math500_048", "family": "math500", "model": "deepseek-v4-flash", "unified_leaf": "numeric_error", "subtype": "factor", "sub_signals": {"ratio": 1.4, "gold_num": 5.0, "pred_num": 7.0}}
+{"task_id": "fab_001", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "numeric_error", "subtype": "near_miss", "sub_signals": {"ratio": 1.0}}
+{"task_id": "fab_002", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_006", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "numeric_error", "subtype": "near_miss", "sub_signals": {"ratio": 0.95057}}
+{"task_id": "fab_008", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_010", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "numeric_error", "subtype": "magnitude", "sub_signals": {"ratio": 8e-06}}
+{"task_id": "fab_011", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "contradiction", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_012", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "numeric_error", "subtype": "magnitude", "sub_signals": {"ratio": 25.4}}
+{"task_id": "fab_014", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_021", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "contradiction", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_022", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_023", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_025", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "wrong_target", "subtype": "qualitative_wrong", "sub_signals": {}}
+{"task_id": "fab_026", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "contradiction", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_027", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_028", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "contradiction", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_029", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "numeric_error", "subtype": "near_miss", "sub_signals": {"ratio": 1.0}}
+{"task_id": "fab_033", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_036", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "contradiction", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_038", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_039", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "wrong_target", "subtype": "qualitative_wrong", "sub_signals": {}}
+{"task_id": "fab_040", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "wrong_target", "subtype": "qualitative_wrong", "sub_signals": {}}
+{"task_id": "fab_041", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_042", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_043", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "numeric_error", "subtype": "plain", "sub_signals": {"ratio": 0.147929}}
+{"task_id": "fab_046", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "numeric_error", "subtype": "factor", "sub_signals": {"ratio": 0.5}}
+{"task_id": "fab_047", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_048", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "numeric_error", "subtype": "near_miss", "sub_signals": {"ratio": 0.999682}}
+{"task_id": "fab_049", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "numeric_error", "subtype": "near_miss", "sub_signals": {"ratio": 0.930233}}
+{"task_id": "fab_050", "family": "finance", "model": "deepseek-v4-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "bfcl_014", "family": "bfcl", "model": "deepseek-v4-flash", "unified_leaf": "wrong_target", "subtype": "wrong_argument", "sub_signals": {"param": "interval"}}
+{"task_id": "bfcl_015", "family": "bfcl", "model": "deepseek-v4-flash", "unified_leaf": "wrong_target", "subtype": "wrong_argument", "sub_signals": {"param": "function"}}
+{"task_id": "bfcl_016", "family": "bfcl", "model": "deepseek-v4-flash", "unified_leaf": "wrong_target", "subtype": "wrong_argument", "sub_signals": {"param": "function"}}
+{"task_id": "bfcl_017", "family": "bfcl", "model": "deepseek-v4-flash", "unified_leaf": "wrong_target", "subtype": "wrong_argument", "sub_signals": {"param": "function"}}
+{"task_id": "bfcl_031", "family": "bfcl", "model": "deepseek-v4-flash", "unified_leaf": "wrong_target", "subtype": "wrong_argument", "sub_signals": {"param": "initial_velocity"}}
+{"task_id": "gsm8k_013", "family": "math", "model": "glm-5.3", "unified_leaf": "numeric_error", "subtype": "plain", "sub_signals": {"ratio": 0.538462, "gold_num": 13.0, "pred_num": 7.0}}
+{"task_id": "math500_005", "family": "math500", "model": "glm-5.3", "unified_leaf": "format_violation", "subtype": "gold_not_numeric", "sub_signals": {}}
+{"task_id": "math500_010", "family": "math500", "model": "glm-5.3", "unified_leaf": "numeric_error", "subtype": "plain", "sub_signals": {"ratio": 3.5, "gold_num": 4.0, "pred_num": 14.0}}
+{"task_id": "math500_012", "family": "math500", "model": "glm-5.3", "unified_leaf": "numeric_error", "subtype": "plain", "sub_signals": {"ratio": 2.666667, "gold_num": 3.0, "pred_num": 8.0}}
+{"task_id": "math500_018", "family": "math500", "model": "glm-5.3", "unified_leaf": "missing_candidate", "subtype": null, "sub_signals": {}}
+{"task_id": "math500_019", "family": "math500", "model": "glm-5.3", "unified_leaf": "missing_candidate", "subtype": null, "sub_signals": {}}
+{"task_id": "math500_025", "family": "math500", "model": "glm-5.3", "unified_leaf": "numeric_error", "subtype": "magnitude", "sub_signals": {"ratio": 0.01, "gold_num": 10.0, "pred_num": 0.1}}
+{"task_id": "math500_026", "family": "math500", "model": "glm-5.3", "unified_leaf": "numeric_error", "subtype": "factor", "sub_signals": {"ratio": 2.0, "gold_num": 1.0, "pred_num": 2.0}}
+{"task_id": "math500_044", "family": "math500", "model": "glm-5.3", "unified_leaf": "missing_candidate", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_001", "family": "finance", "model": "glm-5.3", "unified_leaf": "numeric_error", "subtype": "near_miss", "sub_signals": {"ratio": 1.0}}
+{"task_id": "fab_002", "family": "finance", "model": "glm-5.3", "unified_leaf": "numeric_error", "subtype": "plain", "sub_signals": {"ratio": 1.161738}}
+{"task_id": "fab_006", "family": "finance", "model": "glm-5.3", "unified_leaf": "numeric_error", "subtype": "plain", "sub_signals": {"ratio": 1.188213}}
+{"task_id": "fab_010", "family": "finance", "model": "glm-5.3", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_011", "family": "finance", "model": "glm-5.3", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_012", "family": "finance", "model": "glm-5.3", "unified_leaf": "retrieval_failure", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_014", "family": "finance", "model": "glm-5.3", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_015", "family": "finance", "model": "glm-5.3", "unified_leaf": "numeric_error", "subtype": "magnitude", "sub_signals": {"ratio": 1004.285714}}
+{"task_id": "fab_016", "family": "finance", "model": "glm-5.3", "unified_leaf": "numeric_error", "subtype": "plain", "sub_signals": {"ratio": 0.869565}}
+{"task_id": "fab_017", "family": "finance", "model": "glm-5.3", "unified_leaf": "numeric_error", "subtype": "plain", "sub_signals": {"ratio": 2.255639}}
+{"task_id": "fab_018", "family": "finance", "model": "glm-5.3", "unified_leaf": "wrong_target", "subtype": "qualitative_wrong", "sub_signals": {}}
+{"task_id": "fab_019", "family": "finance", "model": "glm-5.3", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_022", "family": "finance", "model": "glm-5.3", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_025", "family": "finance", "model": "glm-5.3", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_026", "family": "finance", "model": "glm-5.3", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_027", "family": "finance", "model": "glm-5.3", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_028", "family": "finance", "model": "glm-5.3", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_029", "family": "finance", "model": "glm-5.3", "unified_leaf": "numeric_error", "subtype": "near_miss", "sub_signals": {"ratio": 1.0}}
+{"task_id": "fab_030", "family": "finance", "model": "glm-5.3", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_031", "family": "finance", "model": "glm-5.3", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_032", "family": "finance", "model": "glm-5.3", "unified_leaf": "contradiction", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_033", "family": "finance", "model": "glm-5.3", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_034", "family": "finance", "model": "glm-5.3", "unified_leaf": "contradiction", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_040", "family": "finance", "model": "glm-5.3", "unified_leaf": "wrong_target", "subtype": "qualitative_wrong", "sub_signals": {}}
+{"task_id": "fab_042", "family": "finance", "model": "glm-5.3", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_043", "family": "finance", "model": "glm-5.3", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_046", "family": "finance", "model": "glm-5.3", "unified_leaf": "numeric_error", "subtype": "plain", "sub_signals": {"ratio": 1.25}}
+{"task_id": "fab_048", "family": "finance", "model": "glm-5.3", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_049", "family": "finance", "model": "glm-5.3", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_050", "family": "finance", "model": "glm-5.3", "unified_leaf": "retrieval_failure", "subtype": null, "sub_signals": {}}
+{"task_id": "bfcl_014", "family": "bfcl", "model": "glm-5.3", "unified_leaf": "wrong_target", "subtype": "wrong_argument", "sub_signals": {"param": "interval"}}
+{"task_id": "bfcl_015", "family": "bfcl", "model": "glm-5.3", "unified_leaf": "wrong_target", "subtype": "wrong_argument", "sub_signals": {"param": "function"}}
+{"task_id": "bfcl_016", "family": "bfcl", "model": "glm-5.3", "unified_leaf": "wrong_target", "subtype": "wrong_argument", "sub_signals": {"param": "function"}}
+{"task_id": "bfcl_017", "family": "bfcl", "model": "glm-5.3", "unified_leaf": "wrong_target", "subtype": "wrong_argument", "sub_signals": {"param": "function"}}
+{"task_id": "bfcl_031", "family": "bfcl", "model": "glm-5.3", "unified_leaf": "wrong_target", "subtype": "wrong_argument", "sub_signals": {"param": "initial_velocity"}}
+{"task_id": "fab_001", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "numeric_error", "subtype": "factor", "sub_signals": {"ratio": 0.166667}}
+{"task_id": "fab_002", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_003", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_005", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "wrong_target", "subtype": "qualitative_wrong", "sub_signals": {}}
+{"task_id": "fab_006", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "numeric_error", "subtype": "factor", "sub_signals": {"ratio": 0.712928}}
+{"task_id": "fab_008", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_011", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_012", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_014", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "numeric_error", "subtype": "magnitude", "sub_signals": {"ratio": 17.637795}}
+{"task_id": "fab_015", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "numeric_error", "subtype": "plain", "sub_signals": {"ratio": 0.464286}}
+{"task_id": "fab_017", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_018", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "wrong_target", "subtype": "qualitative_wrong", "sub_signals": {}}
+{"task_id": "fab_019", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_020", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "numeric_error", "subtype": "magnitude", "sub_signals": {"ratio": 60.294118}}
+{"task_id": "fab_021", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_022", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "contradiction", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_025", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "wrong_target", "subtype": "qualitative_wrong", "sub_signals": {}}
+{"task_id": "fab_029", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "numeric_error", "subtype": "near_miss", "sub_signals": {"ratio": 1.0}}
+{"task_id": "fab_030", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_032", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_033", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "contradiction", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_036", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_037", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_038", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "contradiction", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_039", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "wrong_target", "subtype": "qualitative_wrong", "sub_signals": {}}
+{"task_id": "fab_040", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "wrong_target", "subtype": "qualitative_wrong", "sub_signals": {}}
+{"task_id": "fab_042", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_043", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "numeric_error", "subtype": "plain", "sub_signals": {"ratio": 3.698225}}
+{"task_id": "fab_046", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "fab_048", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "numeric_error", "subtype": "near_miss", "sub_signals": {"ratio": 0.993644}}
+{"task_id": "fab_050", "family": "finance", "model": "qwen3.8-flash", "unified_leaf": "non_converged", "subtype": null, "sub_signals": {}}
+{"task_id": "mmlu_pro_003", "family": "mmlu_pro", "model": "deepseek-v4-flash", "unified_leaf": "missing_candidate", "subtype": null, "sub_signals": {}}
+{"task_id": "mmlu_pro_004", "family": "mmlu_pro", "model": "deepseek-v4-flash", "unified_leaf": "wrong_target", "subtype": "wrong_option", "sub_signals": {"pred": "H", "gold": "C"}}
+{"task_id": "mmlu_pro_012", "family": "mmlu_pro", "model": "deepseek-v4-flash", "unified_leaf": "wrong_target", "subtype": "wrong_option", "sub_signals": {"pred": "C", "gold": "G"}}
+{"task_id": "mmlu_pro_017", "family": "mmlu_pro", "model": "deepseek-v4-flash", "unified_leaf": "wrong_target", "subtype": "wrong_option", "sub_signals": {"pred": "J", "gold": "F"}}
+{"task_id": "mmlu_pro_040", "family": "mmlu_pro", "model": "deepseek-v4-flash", "unified_leaf": "missing_candidate", "subtype": null, "sub_signals": {}}
+{"task_id": "mmlu_pro_044", "family": "mmlu_pro", "model": "deepseek-v4-flash", "unified_leaf": "missing_candidate", "subtype": null, "sub_signals": {}}
+{"task_id": "mmlu_pro_046", "family": "mmlu_pro", "model": "deepseek-v4-flash", "unified_leaf": "wrong_target", "subtype": "wrong_option", "sub_signals": {"pred": "A", "gold": "J"}}
+{"task_id": "mmlu_pro_002", "family": "mmlu_pro", "model": "glm-5.3", "unified_leaf": "format_violation", "subtype": "multiple_letters", "sub_signals": {"letters": ["D", "J"]}}
+{"task_id": "mmlu_pro_004", "family": "mmlu_pro", "model": "glm-5.3", "unified_leaf": "wrong_target", "subtype": "wrong_option", "sub_signals": {"pred": "H", "gold": "C"}}
+{"task_id": "mmlu_pro_012", "family": "mmlu_pro", "model": "glm-5.3", "unified_leaf": "wrong_target", "subtype": "wrong_option", "sub_signals": {"pred": "C", "gold": "G"}}
+{"task_id": "mmlu_pro_014", "family": "mmlu_pro", "model": "glm-5.3", "unified_leaf": "wrong_target", "subtype": "wrong_option", "sub_signals": {"pred": "C", "gold": "D"}}
+{"task_id": "mmlu_pro_015", "family": "mmlu_pro", "model": "glm-5.3", "unified_leaf": "format_violation", "subtype": "multiple_letters", "sub_signals": {"letters": ["I", "A"]}}
+{"task_id": "mmlu_pro_017", "family": "mmlu_pro", "model": "glm-5.3", "unified_leaf": "format_violation", "subtype": "multiple_letters", "sub_signals": {"letters": ["J", "E", "J", "E", "E", "E", "E", "E", "J", "E", "E", "E", "E", "E"]}}
+{"task_id": "mmlu_pro_033", "family": "mmlu_pro", "model": "glm-5.3", "unified_leaf": "missing_candidate", "subtype": null, "sub_signals": {}}
+{"task_id": "mmlu_pro_040", "family": "mmlu_pro", "model": "glm-5.3", "unified_leaf": "wrong_target", "subtype": "wrong_option", "sub_signals": {"pred": "H", "gold": "J"}}
+{"task_id": "mmlu_pro_044", "family": "mmlu_pro", "model": "glm-5.3", "unified_leaf": "missing_candidate", "subtype": null, "sub_signals": {}}
+{"task_id": "mmlu_pro_048", "family": "mmlu_pro", "model": "glm-5.3", "unified_leaf": "wrong_target", "subtype": "wrong_option", "sub_signals": {"pred": "J", "gold": "I"}}
+{"task_id": "mmlu_pro_012", "family": "mmlu_pro", "model": "qwen3.8-flash", "unified_leaf": "wrong_target", "subtype": "wrong_option", "sub_signals": {"pred": "C", "gold": "G"}}
+{"task_id": "mmlu_pro_014", "family": "mmlu_pro", "model": "qwen3.8-flash", "unified_leaf": "wrong_target", "subtype": "wrong_option", "sub_signals": {"pred": "C", "gold": "D"}}
+{"task_id": "mmlu_pro_017", "family": "mmlu_pro", "model": "qwen3.8-flash", "unified_leaf": "format_violation", "subtype": "multiple_letters", "sub_signals": {"letters": ["E", "D", "E", "D", "D", "A", "E", "I", "E"]}}
+{"task_id": "mmlu_pro_033", "family": "mmlu_pro", "model": "qwen3.8-flash", "unified_leaf": "missing_candidate", "subtype": null, "sub_signals": {}}
+{"task_id": "mmlu_pro_040", "family": "mmlu_pro", "model": "qwen3.8-flash", "unified_leaf": "wrong_target", "subtype": "wrong_option", "sub_signals": {"pred": "I", "gold": "J"}}
+{"task_id": "mmlu_pro_043", "family": "mmlu_pro", "model": "qwen3.8-flash", "unified_leaf": "missing_candidate", "subtype": null, "sub_signals": {}}
