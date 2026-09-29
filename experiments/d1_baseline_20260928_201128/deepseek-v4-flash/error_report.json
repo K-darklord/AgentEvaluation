@@ -2,11 +2,11 @@
   "n_tasks": 250,
   "n_valid_tasks": 250,
   "n_api_failures": 0,
-  "accuracy": 0.788,
-  "accuracy_excl_api_failures": 0.788,
+  "accuracy": 0.792,
+  "accuracy_excl_api_failures": 0.792,
   "error_distribution": {
-    "correct": 197,
-    "numeric_error": 18,
+    "correct": 198,
+    "numeric_error": 17,
     "complete_failure": 30,
     "factual_contradiction": 5
   },
@@ -14,8 +14,8 @@
   "total_cost_usd": 0.0,
   "tier_breakdown": {
     "t1_numeric_avg": 0.7951,
-    "t2_llm_semantic_avg": 0.054,
-    "final_score_avg": 0.7964,
+    "t2_llm_semantic_avg": 0.058,
+    "final_score_avg": 0.8004,
     "dealbreakers_triggered": 5
   }
 }

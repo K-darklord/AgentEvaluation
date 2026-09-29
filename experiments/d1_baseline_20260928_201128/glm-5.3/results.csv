@@ -63,16 +63,16 @@ glm-5.3,math500_005,Mathematical Reasoning,Hard,\text{Evelyn},"Average speed equ
 - Debra: 2.8 / 5.6 = 0.5
 - Angela: 1.4 / 6.8 ≈ 0.21",False,numeric_error,0.0,0.0,False,0.0,0,3928,glm-5.3
 glm-5.3,math500_006,Mathematical Reasoning,Hard,42,42,True,correct,1.0,0.0,False,1.0,0,1657,glm-5.3
-glm-5.3,math500_007,Mathematical Reasoning,Hard,27,27 (since 8 + 9 + 10 = 27 = 3³),False,numeric_error,0.0,0.0,False,0.0,0,2792,glm-5.3
-glm-5.3,math500_008,Mathematical Reasoning,Hard,90^\circ,"The direction vectors are $(3, 2, -6)$ and $(2, -12, -3)$, whose dot product is $6 - 24 + 18 = 0$, so the lines are perpendicular.",False,numeric_error,0.0,0.0,False,0.0,0,3723,glm-5.3
+glm-5.3,math500_007,Mathematical Reasoning,Hard,27,27 (since 8 + 9 + 10 = 27 = 3³),True,correct,0.0,1.0,False,1.0,0,2792,glm-5.3
+glm-5.3,math500_008,Mathematical Reasoning,Hard,90^\circ,"The direction vectors are $(3, 2, -6)$ and $(2, -12, -3)$, whose dot product is $6 - 24 + 18 = 0$, so the lines are perpendicular.",True,correct,0.0,1.0,False,1.0,0,3723,glm-5.3
 glm-5.3,math500_009,Mathematical Reasoning,Hard,3\sqrt{13},3√13,True,correct,1.0,0.0,False,1.0,0,1583,glm-5.3
 glm-5.3,math500_010,Mathematical Reasoning,Hard,4,14,False,numeric_error,0.0,0.0,False,0.0,0,11480,glm-5.3
 glm-5.3,math500_011,Mathematical Reasoning,Hard,2220,2220,True,correct,1.0,0.0,False,1.0,0,3455,glm-5.3
 glm-5.3,math500_012,Mathematical Reasoning,Hard,\frac{3}{56},$8a + b = 8 \cdot (-29/40320) + (-27/40320) = (-232 - 27)/40320 = -259/40,False,numeric_error,0.0,0.0,False,0.0,0,9859,glm-5.3
-glm-5.3,math500_013,Mathematical Reasoning,Hard,284,"The proper divisors of 284 are 1, 2, 4, 71, and 142, which sum to 220. The proper divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55, and 110, which sum to 284. (284 and 220 form an amicable pair.)",False,numeric_error,0.0,0.0,False,0.0,0,3720,glm-5.3
+glm-5.3,math500_013,Mathematical Reasoning,Hard,284,"The proper divisors of 284 are 1, 2, 4, 71, and 142, which sum to 220. The proper divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55, and 110, which sum to 284. (284 and 220 form an amicable pair.)",True,correct,0.0,1.0,False,1.0,0,3720,glm-5.3
 glm-5.3,math500_014,Mathematical Reasoning,Hard,5,5,True,correct,1.0,0.0,False,1.0,0,1385,glm-5.3
 glm-5.3,math500_015,Mathematical Reasoning,Hard,\sqrt{51},"Since $\sin D = \frac{EF}{DF} = \frac{7}{DF} = 0.7$, we get $DF = 10$. Then by the Pythagorean theorem, $DE = \sqrt{DF^2 - EF^2} = \sqrt{100 - 49} = \sqrt{51}$.",True,correct,1.0,0.0,False,1.0,0,2935,glm-5.3
-glm-5.3,math500_016,Mathematical Reasoning,Hard,6 - 5i,"(Computation: $z - c = \sqrt{2} - 3\sqrt{2}\,i$, and multiplying by $e^{i\pi/4} = \frac{\sqrt{2}}{2}(1+i)$ gives $(1+i)(1-3i) = 4 - 2i$; adding back $c = 2 - 3i$ yields $w = 6 - 5i$.)",False,numeric_error,0.0,0.0,False,0.0,0,4862,glm-5.3
+glm-5.3,math500_016,Mathematical Reasoning,Hard,6 - 5i,"(Computation: $z - c = \sqrt{2} - 3\sqrt{2}\,i$, and multiplying by $e^{i\pi/4} = \frac{\sqrt{2}}{2}(1+i)$ gives $(1+i)(1-3i) = 4 - 2i$; adding back $c = 2 - 3i$ yields $w = 6 - 5i$.)",True,correct,0.0,1.0,False,1.0,0,4862,glm-5.3
 glm-5.3,math500_017,Mathematical Reasoning,Hard,-50,-50,True,correct,1.0,0.0,False,1.0,0,1702,glm-5.3
 glm-5.3,math500_018,Mathematical Reasoning,Hard,\pi,**,False,numeric_error,0.0,0.0,False,0.0,0,10378,glm-5.3
 glm-5.3,math500_019,Mathematical Reasoning,Hard,28,**,False,numeric_error,0.0,0.0,False,0.0,0,12686,glm-5.3
@@ -80,7 +80,7 @@ glm-5.3,math500_020,Mathematical Reasoning,Hard,3,"Since $a > 0$, the smallest p
 glm-5.3,math500_021,Mathematical Reasoning,Hard,6+9i,$6+9i$,True,correct,1.0,0.0,False,1.0,0,8406,glm-5.3
 glm-5.3,math500_022,Mathematical Reasoning,Hard,13535,13535,True,correct,1.0,0.0,False,1.0,0,7240,glm-5.3
 glm-5.3,math500_023,Mathematical Reasoning,Hard,5,"Since $x \neq 0$, we get $x = 5$.",True,correct,1.0,0.0,False,1.0,0,3875,glm-5.3
-glm-5.3,math500_024,Mathematical Reasoning,Hard,x=5,"Checking: $x = 1$ gives $\sqrt{9} + 4 = 7 \neq 1$ (extraneous), while $x = 5$ gives $\sqrt{1} + 4 = 5$ ✓.",False,numeric_error,0.0,0.0,False,0.0,0,3720,glm-5.3
+glm-5.3,math500_024,Mathematical Reasoning,Hard,x=5,"Checking: $x = 1$ gives $\sqrt{9} + 4 = 7 \neq 1$ (extraneous), while $x = 5$ gives $\sqrt{1} + 4 = 5$ ✓.",True,correct,0.0,1.0,False,1.0,0,3720,glm-5.3
 glm-5.3,math500_025,Mathematical Reasoning,Hard,10,"Thus $r = 0.10$, i.e., **10%** (check: $24{,}200 + 22{,}000 + 20{,}000 = 66{,}200$).",False,numeric_error,0.0,0.0,False,0.0,0,5042,glm-5.3
 glm-5.3,math500_026,Mathematical Reasoning,Hard,"1,-2","Wait — rechecking with the particular solution $f(x) = \frac{x^2}{2} - 1 + h(x)$ where $h$ is additive: $f(1) = -\frac{1}{2} + h(1) = 1$ gives $h(1) = \frac{3}{2}$, so $f(n) = \frac{n^2}{2} - 1 + \frac{3n}{2} = \frac{n^2 + 3n - 2}{2}$. Setting this equal to $n$:
 $$n^2 + 3n - 2 = 2n \implies n^2 + n - 2 = 0 \implies (n+2)(n",False,numeric_error,0.0,0.0,False,0.0,0,10241,glm-5.3
@@ -93,10 +93,10 @@ glm-5.3,math500_032,Mathematical Reasoning,Hard,11\sqrt2,11√2,True,correct,1.0
 glm-5.3,math500_033,Mathematical Reasoning,Hard,720,"Treating Pierre, Rosa, and Thomas as one block gives 6 units around the round table, which can be arranged in (6−1)! = 5! = 120 ways. The three within the block can be arranged in 3! = 6 ways. Total: 120 × 6 = 720.",True,correct,1.0,0.0,False,1.0,0,2555,glm-5.3
 glm-5.3,math500_034,Mathematical Reasoning,Hard,\frac{243}{625},"(The common ratio is $\frac{3}{5}$, so the eighth term is $\frac{125}{9}\left(\frac{3}{5}\right)^7 = \frac{243}{625}$.)",True,correct,1.0,0.0,False,1.0,0,4497,glm-5.3
 glm-5.3,math500_035,Mathematical Reasoning,Hard,-125,$$\binom{5}{3}(10x^3)^{2}\left(-\frac{1}{2x^2}\right)^{3} = 10 \cdot 100x^6 \cdot \left(-\frac{1}{8x^6}\right) = -\frac{1000}{8} = -125$$,True,correct,1.0,0.0,False,1.0,0,3627,glm-5.3
-glm-5.3,math500_036,Mathematical Reasoning,Hard,3,So $(n+2)(n+4)(n+6) \equiv 4 \cdot 6 \cdot 1 = 24 \equiv 3 \pmod{7}$.,False,numeric_error,0.0,0.0,False,0.0,0,2701,glm-5.3
+glm-5.3,math500_036,Mathematical Reasoning,Hard,3,So $(n+2)(n+4)(n+6) \equiv 4 \cdot 6 \cdot 1 = 24 \equiv 3 \pmod{7}$.,True,correct,0.0,1.0,False,1.0,0,2701,glm-5.3
 glm-5.3,math500_037,Mathematical Reasoning,Hard,"3, 5, 7","- a = 0 → x = 3
 - b = 0 → x = 7
-- a + b = 0 → 2x − 10 = 0 → x = 5",False,numeric_error,0.0,0.0,False,0.0,0,4349,glm-5.3
+- a + b = 0 → 2x − 10 = 0 → x = 5",True,correct,0.0,1.0,False,1.0,0,4349,glm-5.3
 glm-5.3,math500_038,Mathematical Reasoning,Hard,72,72 degrees,True,correct,1.0,0.0,False,1.0,0,996,glm-5.3
 glm-5.3,math500_039,Mathematical Reasoning,Hard,2000,2000 calories,True,correct,1.0,0.0,False,1.0,0,2873,glm-5.3
 glm-5.3,math500_040,Mathematical Reasoning,Hard,23,23,True,correct,1.0,0.0,False,1.0,0,3822,glm-5.3

@@ -12,8 +12,8 @@
       "declared_temperature": 0.0,
       "seed": null,
       "thinking": "unknown",
-      "accuracy": 0.812,
-      "accuracy_excl_api_failures": 0.812,
+      "accuracy": 0.816,
+      "accuracy_excl_api_failures": 0.816,
       "n_valid_tasks": 250,
       "n_api_failures": 0,
       "per_domain": {
@@ -22,7 +22,7 @@
           "n": 50
         },
         "math500": {
-          "correct": 44,
+          "correct": 45,
           "n": 50
         },
         "logic": {
@@ -47,8 +47,8 @@
         }
       },
       "error_distribution": {
-        "correct": 203,
-        "numeric_error": 18,
+        "correct": 204,
+        "numeric_error": 17,
         "complete_failure": 24,
         "factual_contradiction": 5
       },
@@ -56,6 +56,11 @@
         "correct": 43,
         "before": 37,
         "delta": 6
+      },
+      "math500_t2_rescue": {
+        "before": 44,
+        "after": 45,
+        "delta": 1
       }
     },
     "qwen3.8-flash": {
@@ -64,8 +69,8 @@
       "declared_temperature": 0.0,
       "seed": null,
       "thinking": "unknown",
-      "accuracy": 0.768,
-      "accuracy_excl_api_failures": 0.768,
+      "accuracy": 0.828,
+      "accuracy_excl_api_failures": 0.828,
       "n_valid_tasks": 250,
       "n_api_failures": 0,
       "per_domain": {
@@ -74,7 +79,7 @@
           "n": 50
         },
         "math500": {
-          "correct": 35,
+          "correct": 50,
           "n": 50
         },
         "logic": {
@@ -99,8 +104,8 @@
         }
       },
       "error_distribution": {
-        "correct": 192,
-        "numeric_error": 28,
+        "correct": 207,
+        "numeric_error": 13,
         "complete_failure": 27,
         "factual_contradiction": 3
       },
@@ -108,6 +113,11 @@
         "correct": 44,
         "before": 22,
         "delta": 22
+      },
+      "math500_t2_rescue": {
+        "before": 35,
+        "after": 50,
+        "delta": 15
       }
     },
     "glm-5.3": {
@@ -116,8 +126,8 @@
       "declared_temperature": 0.0,
       "seed": null,
       "thinking": "unknown",
-      "accuracy": 0.756,
-      "accuracy_excl_api_failures": 0.756,
+      "accuracy": 0.784,
+      "accuracy_excl_api_failures": 0.784,
       "n_valid_tasks": 250,
       "n_api_failures": 0,
       "per_domain": {
@@ -126,7 +136,7 @@
           "n": 50
         },
         "math500": {
-          "correct": 35,
+          "correct": 42,
           "n": 50
         },
         "logic": {
@@ -151,8 +161,8 @@
         }
       },
       "error_distribution": {
-        "correct": 189,
-        "numeric_error": 25,
+        "correct": 196,
+        "numeric_error": 18,
         "complete_failure": 32,
         "qualitative_incomplete": 2,
         "factual_contradiction": 2
@@ -161,6 +171,11 @@
         "correct": 40,
         "before": 22,
         "delta": 18
+      },
+      "math500_t2_rescue": {
+        "before": 35,
+        "after": 42,
+        "delta": 7
       }
     }
   },

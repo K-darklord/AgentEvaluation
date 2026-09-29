@@ -65,14 +65,14 @@ qwen3.8-flash,gsm8k_048,Mathematical Reasoning,Medium,800,$800,True,correct,1.0,
 qwen3.8-flash,gsm8k_049,Mathematical Reasoning,Medium,8,8,True,correct,1.0,0.0,False,1.0,0,1928,qwen3.8-flash
 qwen3.8-flash,gsm8k_050,Mathematical Reasoning,Medium,30,30,True,correct,1.0,0.0,False,1.0,0,1445,qwen3.8-flash
 qwen3.8-flash,math500_001,Mathematical Reasoning,Hard,"\left( 3, \frac{\pi}{2} \right)","$(3, \pi/2)$",True,correct,1.0,0.0,False,1.0,0,1258,qwen3.8-flash
-qwen3.8-flash,math500_002,Mathematical Reasoning,Hard,p - q,p − q  (≈ 0.4429),False,numeric_error,0.0,0.0,False,0.0,0,6092,qwen3.8-flash
-qwen3.8-flash,math500_003,Mathematical Reasoning,Hard,\frac{14}{3},\(\frac{14}{3}\),False,numeric_error,0.0,0.0,False,0.0,0,2243,qwen3.8-flash
+qwen3.8-flash,math500_002,Mathematical Reasoning,Hard,p - q,p − q  (≈ 0.4429),True,correct,0.0,1.0,False,1.0,0,6092,qwen3.8-flash
+qwen3.8-flash,math500_003,Mathematical Reasoning,Hard,\frac{14}{3},\(\frac{14}{3}\),True,correct,0.0,1.0,False,1.0,0,2243,qwen3.8-flash
 qwen3.8-flash,math500_004,Mathematical Reasoning,Hard,9,9,True,correct,1.0,0.0,False,1.0,0,2047,qwen3.8-flash
 qwen3.8-flash,math500_005,Mathematical Reasoning,Hard,\text{Evelyn},"- Evelyn: 4.5 / 1.25 = 3.6
 - Briana: 2.2 / 2.5 = 0.88
 - Carla: 5.2 / 4.25 ≈ 1.22
 - Debra: 2.8 / 5.6 = 0.5
-- Angela: 1.4 / 6.8 ≈ 0.21",False,numeric_error,0.0,0.0,False,0.0,0,5217,qwen3.8-flash
+- Angela: 1.4 / 6.8 ≈ 0.21",True,correct,0.0,1.0,False,1.0,0,5217,qwen3.8-flash
 qwen3.8-flash,math500_006,Mathematical Reasoning,Hard,42,"- Each equilateral triangle has side 21 ÷ 3 = 7 inches.
 - The hexagon's sides equal the triangle's sides, so its perimeter is 6 × 7 = **42 inches**.",True,correct,1.0,0.0,False,1.0,0,2826,qwen3.8-flash
 qwen3.8-flash,math500_007,Mathematical Reasoning,Hard,27,"The sum of three consecutive integers is always 3n (where n is the middle integer), so the cube must be divisible by 3. The smallest positive perfect cube divisible by 3 is 3³ = 27, and indeed 8 + 9 + 10 = 27.",True,correct,1.0,0.0,False,1.0,0,4388,qwen3.8-flash
@@ -81,22 +81,22 @@ qwen3.8-flash,math500_009,Mathematical Reasoning,Hard,3\sqrt{13},$3\sqrt{13}$,Tr
 qwen3.8-flash,math500_010,Mathematical Reasoning,Hard,4,4,True,correct,1.0,0.0,False,1.0,0,27338,qwen3.8-flash
 qwen3.8-flash,math500_011,Mathematical Reasoning,Hard,2220,"- Multiple of 30 ⇒ must end in 0 (divisible by 10) and have digit sum divisible by 3.
 - Digit sum = 2 × (number of 2s), so the count of 2s must be a multiple of 3 → minimum three 2s.
-- Fewest digits = 3 twos + 1 trailing zero = 4 digits → 2220, and 2220 ÷ 30 = 74.",False,numeric_error,0.0,0.0,False,0.0,0,7103,qwen3.8-flash
+- Fewest digits = 3 twos + 1 trailing zero = 4 digits → 2220, and 2220 ÷ 30 = 74.",True,correct,0.0,1.0,False,1.0,0,7103,qwen3.8-flash
 qwen3.8-flash,math500_012,Mathematical Reasoning,Hard,\frac{3}{56},3/56,True,correct,1.0,0.0,False,1.0,0,106956,qwen3.8-flash
 qwen3.8-flash,math500_013,Mathematical Reasoning,Hard,284,(220 and 284 are an amicable pair.),True,correct,1.0,0.0,False,1.0,0,7960,qwen3.8-flash
 qwen3.8-flash,math500_014,Mathematical Reasoning,Hard,5,Volume = πr²h = π(3)²h = 9πh = 45π → h = 5 cm.,True,correct,1.0,0.0,False,1.0,0,3414,qwen3.8-flash
 qwen3.8-flash,math500_015,Mathematical Reasoning,Hard,\sqrt{51},"- $\sin D = \dfrac{EF}{DF} = 0.7 \implies DF = \dfrac{7}{0.7} = 10$
-- By the Pythagorean theorem: $DE = \sqrt{DF^2 - EF^2} = \sqrt{100 - 49} = \sqrt{51} \approx 7.14$",False,numeric_error,0.0,0.0,False,0.0,0,4554,qwen3.8-flash
-qwen3.8-flash,math500_016,Mathematical Reasoning,Hard,6 - 5i,Then w = c + (4 − 2i) = (2 − 3i) + (4 − 2i) = **6 − 5i**,False,numeric_error,0.0,0.0,False,0.0,2,91120,qwen3.8-flash
+- By the Pythagorean theorem: $DE = \sqrt{DF^2 - EF^2} = \sqrt{100 - 49} = \sqrt{51} \approx 7.14$",True,correct,0.0,1.0,False,1.0,0,4554,qwen3.8-flash
+qwen3.8-flash,math500_016,Mathematical Reasoning,Hard,6 - 5i,Then w = c + (4 − 2i) = (2 − 3i) + (4 − 2i) = **6 − 5i**,True,correct,0.0,1.0,False,1.0,2,91120,qwen3.8-flash
 qwen3.8-flash,math500_017,Mathematical Reasoning,Hard,-50,-50,True,correct,1.0,0.0,False,1.0,0,2017,qwen3.8-flash
 qwen3.8-flash,math500_018,Mathematical Reasoning,Hard,\pi,The smallest possible value is $c = \pi$.,True,correct,1.0,0.0,False,1.0,0,13956,qwen3.8-flash
 qwen3.8-flash,math500_019,Mathematical Reasoning,Hard,28,**x = 28**,True,correct,1.0,0.0,False,1.0,2,160157,qwen3.8-flash
 qwen3.8-flash,math500_020,Mathematical Reasoning,Hard,3,3,True,correct,1.0,0.0,False,1.0,0,5751,qwen3.8-flash
-qwen3.8-flash,math500_021,Mathematical Reasoning,Hard,6+9i,\(6+9i\),False,numeric_error,0.0,0.0,False,0.0,0,1910,qwen3.8-flash
+qwen3.8-flash,math500_021,Mathematical Reasoning,Hard,6+9i,\(6+9i\),True,correct,0.0,1.0,False,1.0,0,1910,qwen3.8-flash
 qwen3.8-flash,math500_022,Mathematical Reasoning,Hard,13535,Hence the greatest integer less than $(\sqrt7+\sqrt5)^6$ is $\boxed{13535}$.,True,correct,1.0,0.0,False,1.0,0,11928,qwen3.8-flash
 qwen3.8-flash,math500_023,Mathematical Reasoning,Hard,5,x = 5,True,correct,1.0,0.0,False,1.0,0,17845,qwen3.8-flash
-qwen3.8-flash,math500_024,Mathematical Reasoning,Hard,x=5,Only x = 5 satisfies the equation.,False,numeric_error,0.0,0.0,False,0.0,0,6333,qwen3.8-flash
-qwen3.8-flash,math500_025,Mathematical Reasoning,Hard,10,"(Check: 20,000(1.10)² + 20,000(1.10) + 20,000 = 24,200 + 22,000 + 20,000 = 66,200)",False,numeric_error,0.0,0.0,False,0.0,0,5156,qwen3.8-flash
+qwen3.8-flash,math500_024,Mathematical Reasoning,Hard,x=5,Only x = 5 satisfies the equation.,True,correct,0.0,1.0,False,1.0,0,6333,qwen3.8-flash
+qwen3.8-flash,math500_025,Mathematical Reasoning,Hard,10,"(Check: 20,000(1.10)² + 20,000(1.10) + 20,000 = 24,200 + 22,000 + 20,000 = 66,200)",True,correct,0.0,1.0,False,1.0,0,5156,qwen3.8-flash
 qwen3.8-flash,math500_026,Mathematical Reasoning,Hard,"1,-2","-2, 1",True,correct,1.0,0.0,False,1.0,0,10890,qwen3.8-flash
 qwen3.8-flash,math500_027,Mathematical Reasoning,Hard,144,144,True,correct,1.0,0.0,False,1.0,0,5129,qwen3.8-flash
 qwen3.8-flash,math500_028,Mathematical Reasoning,Hard,78,$78,True,correct,1.0,0.0,False,1.0,0,2048,qwen3.8-flash
@@ -105,12 +105,12 @@ qwen3.8-flash,math500_030,Mathematical Reasoning,Hard,225,"**Calculation:**
 - Upper class soldiers: C(5,4) = 5
 - Lower class soldiers: C(10,8) = 45
 - Total battalions: 5 × 45 = **225 different battalions**",True,correct,1.0,0.0,False,1.0,0,2187,qwen3.8-flash
-qwen3.8-flash,math500_031,Mathematical Reasoning,Hard,52_8,\(52_8\),False,numeric_error,0.0,0.0,False,0.0,0,2508,qwen3.8-flash
-qwen3.8-flash,math500_032,Mathematical Reasoning,Hard,11\sqrt2,"(Since $242 = 121 \times 2 = 11^2 \times 2$, so $\sqrt{242} = 11\sqrt{2} \approx 15.556$.)",False,numeric_error,0.0,0.0,False,0.0,0,2720,qwen3.8-flash
+qwen3.8-flash,math500_031,Mathematical Reasoning,Hard,52_8,\(52_8\),True,correct,0.0,1.0,False,1.0,0,2508,qwen3.8-flash
+qwen3.8-flash,math500_032,Mathematical Reasoning,Hard,11\sqrt2,"(Since $242 = 121 \times 2 = 11^2 \times 2$, so $\sqrt{242} = 11\sqrt{2} \approx 15.556$.)",True,correct,0.0,1.0,False,1.0,0,2720,qwen3.8-flash
 qwen3.8-flash,math500_033,Mathematical Reasoning,Hard,720,720,True,correct,1.0,0.0,False,1.0,0,2615,qwen3.8-flash
-qwen3.8-flash,math500_034,Mathematical Reasoning,Hard,\frac{243}{625},\(\frac{243}{625}\),False,numeric_error,0.0,0.0,False,0.0,0,3624,qwen3.8-flash
+qwen3.8-flash,math500_034,Mathematical Reasoning,Hard,\frac{243}{625},\(\frac{243}{625}\),True,correct,0.0,1.0,False,1.0,0,3624,qwen3.8-flash
 qwen3.8-flash,math500_035,Mathematical Reasoning,Hard,-125,-125,True,correct,1.0,0.0,False,1.0,0,3424,qwen3.8-flash
-qwen3.8-flash,math500_036,Mathematical Reasoning,Hard,3,Product $\equiv 4 \times 6 \times 1 = 24 \equiv 3 \pmod 7$.,False,numeric_error,0.0,0.0,False,0.0,0,3860,qwen3.8-flash
+qwen3.8-flash,math500_036,Mathematical Reasoning,Hard,3,Product $\equiv 4 \times 6 \times 1 = 24 \equiv 3 \pmod 7$.,True,correct,0.0,1.0,False,1.0,0,3860,qwen3.8-flash
 qwen3.8-flash,math500_037,Mathematical Reasoning,Hard,"3, 5, 7","x = 3, 5, 7",True,correct,1.0,0.0,False,1.0,0,8946,qwen3.8-flash
 qwen3.8-flash,math500_038,Mathematical Reasoning,Hard,72,72 degrees,True,correct,1.0,0.0,False,1.0,0,1629,qwen3.8-flash
 qwen3.8-flash,math500_039,Mathematical Reasoning,Hard,2000,2000 calories,True,correct,1.0,0.0,False,1.0,0,970,qwen3.8-flash
@@ -118,12 +118,12 @@ qwen3.8-flash,math500_040,Mathematical Reasoning,Hard,23,23,True,correct,1.0,0.0
 qwen3.8-flash,math500_041,Mathematical Reasoning,Hard,12,12 cm,True,correct,1.0,0.0,False,1.0,0,2511,qwen3.8-flash
 qwen3.8-flash,math500_042,Mathematical Reasoning,Hard,17,17,True,correct,1.0,0.0,False,1.0,0,5322,qwen3.8-flash
 qwen3.8-flash,math500_043,Mathematical Reasoning,Hard,4,4,True,correct,1.0,0.0,False,1.0,0,2215,qwen3.8-flash
-qwen3.8-flash,math500_044,Mathematical Reasoning,Hard,70 \sqrt{2},"**70√2** (≈ 98.99), attained at x = 20, y = 30.",False,numeric_error,0.0,0.0,False,0.0,0,19409,qwen3.8-flash
+qwen3.8-flash,math500_044,Mathematical Reasoning,Hard,70 \sqrt{2},"**70√2** (≈ 98.99), attained at x = 20, y = 30.",True,correct,0.0,1.0,False,1.0,0,19409,qwen3.8-flash
 qwen3.8-flash,math500_045,Mathematical Reasoning,Hard,1.25,1.25,True,correct,1.0,0.0,False,1.0,0,2487,qwen3.8-flash
 qwen3.8-flash,math500_046,Mathematical Reasoning,Hard,2,tan A = sin A / cos A = (2 cos A)/cos A = **2**,True,correct,1.0,0.0,False,1.0,0,2894,qwen3.8-flash
 qwen3.8-flash,math500_047,Mathematical Reasoning,Hard,6,"The polynomial factors as $z^4 + z^2 + 1 = \frac{z^6 - 1}{z^2 - 1} = (z^2+z+1)(z^2-z+1)$, so its roots are the 6th roots of unity other than $\pm 1$: namely $e^{\pm 2\pi i/3}$ (order 3) and $e^{\pm \pi i/3}$ (order 6). For every root to satisfy $z^n = 1$, $n$ must be a multiple of each root's order, i.e., of $\mathrm{lcm}(3,6) = 6$. The smallest such positive integer is $n = 6$.",True,correct,1.0,0.0,False,1.0,0,15223,qwen3.8-flash
 qwen3.8-flash,math500_048,Mathematical Reasoning,Hard,5,$a+b+c = 7+(-2)+0 = \boxed{5}$,True,correct,1.0,0.0,False,1.0,0,4553,qwen3.8-flash
-qwen3.8-flash,math500_049,Mathematical Reasoning,Hard,\frac{3}{2},"4^(3/2) = 8, so the power is **3/2**.",False,numeric_error,0.0,0.0,False,0.0,0,1549,qwen3.8-flash
+qwen3.8-flash,math500_049,Mathematical Reasoning,Hard,\frac{3}{2},"4^(3/2) = 8, so the power is **3/2**.",True,correct,0.0,1.0,False,1.0,0,1549,qwen3.8-flash
 qwen3.8-flash,math500_050,Mathematical Reasoning,Hard,83,83,True,correct,1.0,0.0,False,1.0,0,3340,qwen3.8-flash
 qwen3.8-flash,mmlu_pro_001,Logical Reasoning,Hard,I,"I. Unsafe practices, Distress, Fear, Serious",True,correct,1.0,0.0,False,1.0,5,42532,qwen3.8-flash
 qwen3.8-flash,mmlu_pro_002,Logical Reasoning,Hard,F,"**F. Shareholders, Care and Skill, Diligence**",True,correct,1.0,0.0,False,1.0,2,10511,qwen3.8-flash
