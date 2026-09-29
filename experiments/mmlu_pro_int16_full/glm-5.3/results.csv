@@ -1,0 +1,65 @@
+run_id,task_id,category,difficulty,gold_answer,final_answer,is_correct,error_type,tier1_numeric,tier2_llm_semantic,dealbreaker_triggered,final_score,tool_calls,total_latency_ms,model_name
+glm-5.3,mmlu_pro_001,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,1,8569,glm-5.3
+glm-5.3,mmlu_pro_002,Logical Reasoning,Hard,F,"But wait — D and J are ""Stakeholders, Diligence, Care and Skill"" and ""Stake",False,complete_failure,0.0,0.0,False,0.0,0,12192,glm-5.3
+glm-5.3,mmlu_pro_003,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,11083,glm-5.3
+glm-5.3,mmlu_pro_004,Logical Reasoning,Hard,C,H,False,complete_failure,0.0,0.0,False,0.0,0,2925,glm-5.3
+glm-5.3,mmlu_pro_005,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,1.0,0,2623,glm-5.3
+glm-5.3,mmlu_pro_006,Logical Reasoning,Hard,A,A,True,correct,1.0,0.0,False,1.0,0,2870,glm-5.3
+glm-5.3,mmlu_pro_007,Logical Reasoning,Hard,D,D,True,correct,1.0,0.0,False,1.0,0,1697,glm-5.3
+glm-5.3,mmlu_pro_008,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,1350,glm-5.3
+glm-5.3,mmlu_pro_009,Logical Reasoning,Hard,E,E,True,correct,1.0,0.0,False,1.0,0,1361,glm-5.3
+glm-5.3,mmlu_pro_010,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,1.0,0,1222,glm-5.3
+glm-5.3,mmlu_pro_011,Logical Reasoning,Hard,E,E,True,correct,1.0,0.0,False,1.0,0,867,glm-5.3
+glm-5.3,mmlu_pro_012,Logical Reasoning,Hard,G,C,False,complete_failure,0.0,0.0,False,0.0,0,2923,glm-5.3
+glm-5.3,mmlu_pro_013,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,1085,glm-5.3
+glm-5.3,mmlu_pro_014,Logical Reasoning,Hard,D,C,False,complete_failure,0.0,0.0,False,0.0,0,8137,glm-5.3
+glm-5.3,mmlu_pro_015,Logical Reasoning,Hard,F,"Actually, I recall a quizlet flashcard: ""Cognitive dissonance theory — people make choices regarding how to behave based on values and beliefs."" Hmm, or maybe it's ""Expectancy theory.""",False,complete_failure,0.0,0.0,False,0.0,0,11981,glm-5.3
+glm-5.3,mmlu_pro_016,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,1952,glm-5.3
+glm-5.3,mmlu_pro_017,Logical Reasoning,Hard,F,"j=10: 12*e^{0.57735} = 12*1.781372 = 21.3765
+j=9: 12*e^{0.46188} = 12*1.586865... let me compute e^{0.46188} = 1.58687? e^{0.46188}: e^{0.4}=1.49182, e^{0.06188}=1.06383, product = 1.58704. So 12*1.58704 = 19.0445.
+j=8: 12*e^{0.34641} = 12*1.41421 = 16.9705 (since e^{0.34641} = e^{√(2)/... } actually 0.34641 = 0.2*√12/... hmm, 0.11547*3 = 0.34641, e^{0.34641} = 1.41421? e^{0.346",False,complete_failure,0.0,0.0,False,0.0,0,11154,glm-5.3
+glm-5.3,mmlu_pro_018,Logical Reasoning,Hard,A,A,True,correct,1.0,0.0,False,1.0,0,4198,glm-5.3
+glm-5.3,mmlu_pro_019,Logical Reasoning,Hard,B,B,True,correct,1.0,0.0,False,1.0,0,5307,glm-5.3
+glm-5.3,mmlu_pro_020,Logical Reasoning,Hard,D,D,True,correct,1.0,0.0,False,1.0,0,2096,glm-5.3
+glm-5.3,mmlu_pro_021,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,3443,glm-5.3
+glm-5.3,mmlu_pro_022,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,0,1344,glm-5.3
+glm-5.3,mmlu_pro_023,Logical Reasoning,Hard,E,E,True,correct,1.0,0.0,False,1.0,0,2926,glm-5.3
+glm-5.3,mmlu_pro_024,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,0,6605,glm-5.3
+glm-5.3,mmlu_pro_025,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,4342,glm-5.3
+glm-5.3,mmlu_pro_026,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,2093,glm-5.3
+glm-5.3,mmlu_pro_027,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,0,2371,glm-5.3
+glm-5.3,mmlu_pro_028,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,1.0,0,1239,glm-5.3
+glm-5.3,mmlu_pro_029,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,0,5043,glm-5.3
+glm-5.3,mmlu_pro_030,Logical Reasoning,Hard,C,C,True,correct,1.0,0.0,False,1.0,0,2077,glm-5.3
+glm-5.3,mmlu_pro_031,Logical Reasoning,Hard,E,E,True,correct,1.0,0.0,False,1.0,0,1879,glm-5.3
+glm-5.3,mmlu_pro_032,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,0,1855,glm-5.3
+glm-5.3,mmlu_pro_033,Logical Reasoning,Hard,J,Scenario 1: Tax on subtotal (,False,complete_failure,0.0,0.0,False,0.0,0,10496,glm-5.3
+glm-5.3,mmlu_pro_034,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,0,2973,glm-5.3
+glm-5.3,mmlu_pro_035,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,0,1419,glm-5.3
+glm-5.3,mmlu_pro_036,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,1,5704,glm-5.3
+glm-5.3,mmlu_pro_037,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,0,3434,glm-5.3
+glm-5.3,mmlu_pro_038,Logical Reasoning,Hard,A,A,True,correct,1.0,0.0,False,1.0,0,1248,glm-5.3
+glm-5.3,mmlu_pro_039,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,0,944,glm-5.3
+glm-5.3,mmlu_pro_040,Logical Reasoning,Hard,J,"Hmm, maybe the maintenance is 14.5% of price per year, and the purchase price is not counted? Then difference = 0.145×20 = 2.9. H = 2.9/0.007729 = 375.2",False,complete_failure,0.0,0.0,False,0.0,0,11473,glm-5.3
+glm-5.3,mmlu_pro_041,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,1.0,0,2191,glm-5.3
+glm-5.3,mmlu_pro_042,Logical Reasoning,Hard,A,A,True,correct,1.0,0.0,False,1.0,0,1558,glm-5.3
+glm-5.3,mmlu_pro_043,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,1.0,0,4841,glm-5.3
+glm-5.3,mmlu_pro_044,Logical Reasoning,Hard,A,"Actually, the 1948 Revenue Act rates for 1949 (single):
+- 20% on first $2,000
+- 22% on $2,000–$4,000
+- 26% on $4,000–$6,000
+- 30% on $6,000–$8,000
+- 34% on $8,000–$10,000
+- 38% on $10,000–$12,000
+- 43% on $12,000–$14,000
+- 47% on $14,000–$16,000
+- 50% on $16,000–$18,000
+- 53% on $18,000–$20,000
+- 55% on $20,000–$22,000
+- 57% on $22,000–$24,000? Hmm...",False,complete_failure,0.0,0.0,False,0.0,0,12209,glm-5.3
+glm-5.3,mmlu_pro_045,Logical Reasoning,Hard,B,B,True,correct,1.0,0.0,False,1.0,0,1542,glm-5.3
+glm-5.3,mmlu_pro_046,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,11228,glm-5.3
+glm-5.3,mmlu_pro_047,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,7879,glm-5.3
+glm-5.3,mmlu_pro_048,Logical Reasoning,Hard,I,J,False,complete_failure,0.0,0.0,False,0.0,0,1445,glm-5.3
+glm-5.3,mmlu_pro_049,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,1.0,0,2617,glm-5.3
+glm-5.3,mmlu_pro_050,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,1.0,0,1377,glm-5.3

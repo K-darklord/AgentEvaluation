@@ -1,0 +1,6 @@
+run_id,task_id,category,difficulty,gold_answer,final_answer,is_correct,error_type,tier1_numeric,tier2_llm_semantic,dealbreaker_triggered,final_score,tool_calls,total_latency_ms,model_name
+qwen3.8-flash,mmlu_pro_001,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,0,2673,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_002,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,1.0,0,4018,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_003,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,11775,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_004,Logical Reasoning,Hard,C,C,True,correct,1.0,0.0,False,1.0,0,2743,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_005,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,1.0,0,2465,qwen3.8-flash

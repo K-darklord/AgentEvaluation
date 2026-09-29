@@ -1,0 +1,9 @@
+name: smoke_multiseed
+benchmark: fab
+model: deepseek-ai/DeepSeek-V4-Flash
+num_tasks: 3
+temperature: 0.0
+seeds: [42, 43, 44]
+concurrency: 3
+max_tokens: 1024
+max_tool_calls: 50

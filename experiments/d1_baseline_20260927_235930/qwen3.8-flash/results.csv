@@ -1,0 +1,4 @@
+run_id,task_id,category,difficulty,gold_answer,final_answer,is_correct,error_type,tier1_numeric,tier2_llm_semantic,dealbreaker_triggered,final_score,tool_calls,total_latency_ms,model_name
+qwen3.8-flash,gsm8k_001,Mathematical Reasoning,Medium,18,$18,True,correct,1.0,0.0,False,1.0,0,1593,qwen3.8-flash
+qwen3.8-flash,gsm8k_002,Mathematical Reasoning,Medium,3,3 bolts,True,correct,1.0,0.0,False,1.0,0,1082,qwen3.8-flash
+qwen3.8-flash,gsm8k_003,Mathematical Reasoning,Medium,70000,"$70,000",True,correct,1.0,0.0,False,1.0,0,3151,qwen3.8-flash

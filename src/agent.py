@@ -1,7 +1,8 @@
 """
 agent.py
 =========
-真实的金融 Agent：带 **工具调用循环 (tool loop)** 的 ReAct-style agent。
+真实的金融 Agent：带工具调用循环 (tool loop)。调用接口策略（calling-interface policy）：
+中等能力档及以上一律 native function calling；仅当模型不支持 function calling（低能力档）时才回退 ReAct 文本格式（原生接口缺 FC 能力，别无选择）。
 
 为什么这是"真"的而不是 mock：
   - 它真的会去 fetch 公开 URL（NVIDIA/Apple/Microsoft 财报页），拿到真实文本；
@@ -16,6 +17,7 @@ import time
 import os
 import json
 import urllib.request
+import threading
 from dataclasses import dataclass, field, asdict
 from typing import Optional
 from src import config
@@ -30,12 +32,23 @@ import re
 # In native function calling, LLMs cannot pass 2000+ chars of document text as a
 # function parameter. This cache stores outputs from parse_html/fetch_url so that
 # retrieve_information can search through them without requiring the LLM to pass text.
-_DOCUMENT_CACHE = []
+#
+# Thread-local: concurrent tasks (ThreadPoolExecutor) each own an isolated cache so
+# tool calls from one task never leak into another task's retrieval context, and a
+# per-task reset only affects the current thread.
+_DOC_CACHE_LOCAL = threading.local()
+
+
+def _get_document_cache() -> list:
+    """Return the current thread's document cache (created lazily)."""
+    if not hasattr(_DOC_CACHE_LOCAL, "cache"):
+        _DOC_CACHE_LOCAL.cache = []
+    return _DOC_CACHE_LOCAL.cache
+
 
 def reset_document_cache():
-    """Reset the document cache at the start of each task."""
-    global _DOCUMENT_CACHE
-    _DOCUMENT_CACHE = []
+    """Reset the document cache at the start of each task (thread-local)."""
+    _DOC_CACHE_LOCAL.cache = []
 
 _LOCAL_EVIDENCE = {
     "nvidia": "NVIDIA FY2024 annual report: Revenue $60,922 million.",
@@ -92,7 +105,7 @@ def fetch_url(url: str, timeout: int = 20, offset: int = 0, max_chars: int = 150
             # Remove long numeric/metadata runs (50+ chars of digits/dots/dashes)
             text = _re.sub(r"[\d\s\-\\.]{50,}", " ", text)
             text = " ".join(text.split())  # re-collapse whitespace
-            _DOCUMENT_CACHE.append(text)
+            _get_document_cache().append(text)
             # Find the first substantial text content
             # SEC filings: the actual content starts at "UNITED STATES" or "SECURITIES AND EXCHANGE"
             # For iXBRL filings this can be 100K+ chars into the text. I search up to 500K.
@@ -258,42 +271,63 @@ def parse_html(url: str, timeout: int = 20, offset: int = 0, max_chars: int = 15
         text = " ".join(text.split())
 
         result = text[offset:offset+max_chars] if text else "[empty page]"
-        _DOCUMENT_CACHE.append(result)
+        _get_document_cache().append(result)
         return result
     except Exception as e:
         return f"parse_html failed: {e}"
 
 
+def _chunk_text(text: str, size: int = 1500) -> list[str]:
+    """Split text into sentence-boundary-aligned chunks of ~`size` chars.
+
+    Deterministic: chunks follow sentence order; a stable sort on equal keyword score
+    preserves this order (reproducibility, INT-15)."""
+    text = (text or "").strip()
+    if not text:
+        return []
+    sentences = re.split(r'(?<=[.!?])\s+', text)
+    chunks: list[str] = []
+    cur = ""
+    for sent in sentences:
+        if cur and len(cur) + len(sent) + 1 > size:
+            chunks.append(cur)
+            cur = sent
+        else:
+            cur = (cur + " " + sent).strip() if cur else sent
+    if cur:
+        chunks.append(cur)
+    return chunks
+
+
 def retrieve_information(query: str = "", max_chars: int = 4000) -> str:
     """
-    Retrieve relevant sentences from previously fetched documents based on a query.
-    I search through all documents cached from previous parse_html/fetch_url calls.
-    I do simple keyword matching: find sentences containing query keywords.
-    No need to pass document text — I automatically search the document cache.
+    Retrieve relevant chunks from previously fetched documents based on a query.
+    Documents are chunked (~RETRIEVE_CHUNK_SIZE chars, sentence-aligned); chunks are
+    scored by keyword overlap and the top-k chunks returned (INT-15). This replaces
+    the older top-5-scattered-sentences behaviour to bound injected context size.
     """
-    import re as _re
-
     if not query:
         return "Error: query parameter is required"
 
-    if not _DOCUMENT_CACHE:
+    cache = _get_document_cache()
+    if not cache:
         return "No documents in cache. Use parse_html or fetch_url first to fetch a document, then call retrieve_information with your query."
 
-    # Combine all cached documents
-    all_text = " ".join(_DOCUMENT_CACHE)
-    sentences = _re.split(r'(?<=[.!?])\s+', all_text)
     # Extract keywords from query (words > 3 chars, not stopwords)
     stopwords = {"what", "when", "where", "which", "how", "much", "many", "the", "for", "from", "that", "this", "with", "were", "was", "are", "been", "have", "has", "had"}
     keywords = [w.lower().strip(".,?;:\"'()") for w in query.split() if len(w) > 3 and w.lower() not in stopwords]
 
+    # T1: chunk each cached document and score chunks by keyword overlap.
     scored = []
-    for sent in sentences:
-        score = sum(1 for kw in keywords if kw in sent.lower())
-        if score > 0:
-            scored.append((score, sent))
+    for doc in cache:
+        for chunk in _chunk_text(doc, config.RETRIEVE_CHUNK_SIZE):
+            score = sum(1 for kw in keywords if kw in chunk.lower())
+            if score > 0:
+                scored.append((score, chunk))
 
+    # Stable sort by descending score; equal scores keep document/chunk order (frozen).
     scored.sort(key=lambda x: -x[0])
-    result = " ".join(s for _, s in scored[:5])
+    result = "\n\n".join(c for _, c in scored[:config.RETRIEVE_TOP_K])
     return result[:max_chars] if result else "No matching sentences found."
 
 
@@ -337,6 +371,21 @@ _REASONING_CUES = (
     "i want to", "i am trying", "i'm trying",
     "from the context", "the context includes", "the context provides",
 )
+
+
+def _extract_content(msg) -> str:
+    """Return the message's visible content, falling back to reasoning_content.
+
+    Reasoning models (deepseek / qwen / glm hidden-CoT) may emit the final answer
+    into `reasoning_content` and leave `content` empty. Reading only `content` would
+    silently drop the answer (T0 fix). `content` always wins when non-empty."""
+    content = getattr(msg, "content", None)
+    if content:
+        return content
+    reasoning = getattr(msg, "reasoning_content", None)
+    if not reasoning:
+        reasoning = (getattr(msg, "model_extra", None) or {}).get("reasoning_content")
+    return reasoning or ""
 
 
 def _strip_reasoning_prefix(text: str) -> str:
@@ -419,6 +468,8 @@ class AgentResult:
     total_cost_usd: float = 0.0
     error: str = ""
     model_name: str = "rule-based-local"
+    seed: int | None = None
+    temperature: float = 0.0
     api_failure: bool = False  # True if LLM API timed out or connection failed
 
     def to_dict(self):
@@ -648,28 +699,41 @@ class FinGPTAgent(BaseAgent):
 
 
 class HuggingFaceAgent(BaseAgent):
-    """HuggingFace Inference API agent using native function calling.
-    I call remote models on HF infrastructure via OpenAI-compatible router.
-    I use native function calling (tools parameter) instead of ReAct text format.
-    This eliminates format parsing errors and lets each model use its trained interface.
-    I need HF_TOKEN env var (free at https://huggingface.co/settings/tokens).
-    I support any model from https://router.huggingface.co/v1/models via HF_MODEL env var."""
+    """Agent via OpenAI-compatible API using native function calling.
+
+    Calling-interface policy: this is the DEFAULT agent for mid-tier (and above)
+    models. Models with native function-calling support MUST use this path
+    (tools + tool_choice); driving them through ReAct incurs a format penalty
+    (interference registry INT-01). ReAct text fallback (OpenAIAgent) is reserved
+    for low-capability models that cannot do function calling.
+
+    base_url / token are injected per model (e.g. Alibaba Token Plan)."""
 
     name = "hf-agent"
 
-    def __init__(self, model: str = None, token: str = None, max_tokens: int = 1024):
+    def __init__(self, model: str = None, token: str = None, base_url: str = None,
+                 max_tokens: int = 1024, temperature: float = 0.0,
+                 seed: int | None = None, max_steps: int | None = None,
+                 enable_thinking: bool | None = None):
         self.model = model or os.getenv("HF_MODEL", "deepseek-ai/DeepSeek-V4-Flash")
         self.token = token or os.getenv("HF_TOKEN") or os.getenv("HUGGING_FACE_HUB_TOKEN")
+        self.base_url = base_url or os.getenv("HF_BASE_URL", "https://router.huggingface.co/v1")
         self.max_tokens = max_tokens
+        self.temperature = temperature
+        self.seed = seed
+        self.enable_thinking = enable_thinking
+        self.max_steps = max_steps or config.MAX_TOOL_CALLS_PER_TASK
         self._client = None
 
     def _get_client(self):
-        """I lazily create the OpenAI client pointed at HF router."""
+        """I lazily create the OpenAI client pointed at self.base_url (HF router by default)."""
         if self._client is None:
             from openai import OpenAI
+            import httpx
             self._client = OpenAI(
-                base_url="https://router.huggingface.co/v1",
+                base_url=self.base_url,
                 api_key=self.token,
+                timeout=httpx.Timeout(config.LLM_READ_TIMEOUT, connect=config.LLM_CONNECT_TIMEOUT),
             )
         return self._client
 
@@ -702,14 +766,19 @@ class HuggingFaceAgent(BaseAgent):
         last_error = None
         for attempt in range(3):
             try:
-                resp = client.chat.completions.create(
-                    model=self.model,
-                    messages=messages,
-                    tools=tools,
-                    tool_choice=tool_choice,
-                    max_tokens=self.max_tokens,
-                    temperature=0,
-                )
+                kwargs = {
+                    "model": self.model,
+                    "messages": messages,
+                    "tools": tools,
+                    "tool_choice": tool_choice,
+                    "max_tokens": self.max_tokens,
+                    "temperature": self.temperature,
+                }
+                if self.seed is not None:
+                    kwargs["seed"] = self.seed
+                if self.enable_thinking is not None:
+                    kwargs["extra_body"] = {"enable_thinking": self.enable_thinking}
+                resp = client.chat.completions.create(**kwargs)
                 return resp
             except Exception as e:
                 last_error = e
@@ -718,7 +787,10 @@ class HuggingFaceAgent(BaseAgent):
                     "timeout", "timed out", "connection error",
                     "connection reset", "connection refused",
                     "service unavailable", "internal server error",
-                    "rate limit", "overloaded", "temporarily unavailable"
+                    "rate limit", "overloaded", "temporarily unavailable",
+                    # Chinese rate-limit errors (Zhipu):
+                    "访问量过大", "速率限制", "限流", "请求频率", "频率限制",
+                    "系统繁忙", "访问过多", "throttl", "429",
                 ])
                 if not is_transient or attempt == 2:
                     raise
@@ -734,13 +806,18 @@ class HuggingFaceAgent(BaseAgent):
         last_error = None
         for attempt in range(3):
             try:
-                resp = client.chat.completions.create(
-                    model=self.model,
-                    messages=messages,
-                    max_tokens=self.max_tokens,
-                    temperature=0,
-                )
-                return resp.choices[0].message.content or ""
+                kwargs = {
+                    "model": self.model,
+                    "messages": messages,
+                    "max_tokens": self.max_tokens,
+                    "temperature": self.temperature,
+                }
+                if self.seed is not None:
+                    kwargs["seed"] = self.seed
+                if self.enable_thinking is not None:
+                    kwargs["extra_body"] = {"enable_thinking": self.enable_thinking}
+                resp = client.chat.completions.create(**kwargs)
+                return _extract_content(resp.choices[0].message)
             except Exception as e:
                 last_error = e
                 err_str = str(e).lower()
@@ -748,7 +825,10 @@ class HuggingFaceAgent(BaseAgent):
                     "timeout", "timed out", "connection error",
                     "connection reset", "connection refused",
                     "service unavailable", "internal server error",
-                    "rate limit", "overloaded", "temporarily unavailable"
+                    "rate limit", "overloaded", "temporarily unavailable",
+                    # Chinese rate-limit errors (Zhipu):
+                    "访问量过大", "速率限制", "限流", "请求频率", "频率限制",
+                    "系统繁忙", "访问过多", "throttl", "429",
                 ])
                 if not is_transient or attempt == 2:
                     raise
@@ -756,9 +836,73 @@ class HuggingFaceAgent(BaseAgent):
                 _time.sleep(wait)
         raise last_error
 
+    def _solve_bfcl(self, task, result) -> AgentResult:
+        """Single-turn function call for BFCL (light-FC L2 probe).
+
+        I use tool_choice="auto" (NOT "required") because Alibaba thinking-mode
+        rejects forced tool_choice. A strong system prompt plus "auto" reliably
+        triggers the tool call without disabling model thinking. The emitted
+        {name, arguments} is captured verbatim as final_answer. The BFCL evaluator then
+        compares this against the AST ground truth (function name + argument value sets).
+        The `tools` list (OpenAI format) is parsed from the parquet at load time, so it is
+        passed straight through to native function calling."""
+        import json as _json
+        t0 = time.time()
+
+        tools = task.metadata.get("tools") or []
+        messages = [
+            {"role": "system", "content": (
+                "You are a function-calling assistant. Respond by calling ONE function "
+                "with the correct arguments. You must make a tool call; do not write "
+                "plain text."
+            )},
+            {"role": "user", "content": task.prompt},
+        ]
+
+        try:
+            resp = self._call_llm_with_tools(messages, tools, tool_choice="auto")
+        except Exception as e:
+            result.api_failure = True
+            result.final_answer = _json.dumps({"error": str(e)})
+            result.trajectory = [asdict(TrajectoryStep(
+                step=1, thought="LLM API failure.", observation=str(e)[:300]))]
+            result.total_latency_ms = int((time.time() - t0) * 1000)
+            return result
+
+        msg = resp.choices[0].message
+        if msg.tool_calls:
+            tc = msg.tool_calls[0]
+            result.final_answer = _json.dumps(
+                {"name": tc.function.name, "arguments": tc.function.arguments},
+                ensure_ascii=False,
+            )
+            result.tool_calls = 1
+            result.trajectory = [asdict(TrajectoryStep(
+                step=1,
+                thought=f"LLM called {tc.function.name} with {tc.function.arguments}",
+                tool_name=tc.function.name,
+                tool_input=tc.function.arguments,
+                observation="forced function call",
+                latency_ms=int((time.time() - t0) * 1000),
+            ))]
+        else:
+            answer = _strip_reasoning_prefix(_extract_content(msg))
+            result.final_answer = answer
+            result.tool_calls = 0
+            result.trajectory = [asdict(TrajectoryStep(
+                step=1, thought="LLM produced text instead of a tool call.",
+                observation=(answer or "")[:300]))]
+
+        result.total_latency_ms = int((time.time() - t0) * 1000)
+        return result
+
+
     def solve(self, task) -> AgentResult:
         reset_document_cache()
-        result = AgentResult(task_id=task.task_id, model_name=self.model)
+        result = AgentResult(task_id=task.task_id, model_name=self.model,
+                             seed=self.seed, temperature=self.temperature)
+        if task.metadata.get("benchmark") == "bfcl":
+            return self._solve_bfcl(task, result)
         t0 = time.time()
         steps: list[TrajectoryStep] = []
         import json as _json
@@ -766,18 +910,31 @@ class HuggingFaceAgent(BaseAgent):
 
         fc_tools = self._build_fc_tools()
 
-        system_msg = (
-            "You are a financial research agent. You have access to tools:\n"
-            + "\n".join(f"- {t['name']}: {t['description']}" for t in TOOL_SCHEMA)
-            + "\n\nUse tools to find the answer. When you have enough information, "
-            "respond with the final answer directly (no tool call needed).\n"
-            "CRITICAL formatting rules:\n"
-            "- The answer must contain ONLY the factual answer (numbers, names, or direct statements).\n"
-            "- Do NOT include any reasoning or preamble.\n"
-            "- If the answer is a number, give the number with unit.\n"
-            "- If qualitative, state the fact directly.\n"
-            "- If you cannot find the answer, say: Not found in the retrieved documents."
-        )
+        if task.metadata.get("benchmark") == "mmlu_pro":
+            # MMLU-Pro is a 10-option MCQ. The generic finance prompt ("respond with
+            # only the factual answer") actively nudges reasoning models to emit a
+            # computed value instead of selecting A-J, which broke option-letter
+            # scoring (INT-16). Align to the official MCQ harness: demand ONLY the
+            # option letter. Frozen verbatim across runs to keep re-score comparable.
+            system_msg = (
+                "You are answering a multiple-choice question. Choose the single best "
+                "option from the provided list. Respond with ONLY the option letter of "
+                "your chosen answer (for example: \"A\"). Do not include any reasoning, "
+                "explanation, or the option text."
+            )
+        else:
+            system_msg = (
+                "You are a financial research agent. You have access to tools:\n"
+                + "\n".join(f"- {t['name']}: {t['description']}" for t in TOOL_SCHEMA)
+                + "\n\nUse tools to find the answer. When you have enough information, "
+                "respond with the final answer directly (no tool call needed).\n"
+                "CRITICAL formatting rules:\n"
+                "- The answer must contain ONLY the factual answer (numbers, names, or direct statements).\n"
+                "- Do NOT include any reasoning or preamble.\n"
+                "- If the answer is a number, give the number with unit.\n"
+                "- If qualitative, state the fact directly.\n"
+                "- If you cannot find the answer, say: Not found in the retrieved documents."
+            )
 
         messages = [
             {"role": "system", "content": system_msg},
@@ -786,7 +943,7 @@ class HuggingFaceAgent(BaseAgent):
 
         context_parts = []
         step_num = 1
-        max_steps = config.MAX_TOOL_CALLS_PER_TASK
+        max_steps = self.max_steps
         _tool_cache = {}  # Cache: (tool_name, frozenset(args)) -> output
         _call_counts = {}  # Dedup: (tool_name, arg_signature) -> count
         _MAX_DUPLICATE = 3  # Max times same tool+args before forcing synthesis
@@ -801,7 +958,12 @@ class HuggingFaceAgent(BaseAgent):
                     "connection reset", "connection refused",
                     "service unavailable", "rate limit", "overloaded",
                     "temporarily unavailable", "402", "credits", "depleted",
-                    "payment", "billing"
+                    "payment", "billing",
+                    # Chinese provider errors (Zhipu/DashScope):
+                    "访问量过大", "速率限制", "限流", "请求频率", "频率限制",
+                    "系统繁忙", "访问过多", "throttl", "429",
+                    # billing/quota exhaustion:
+                    "欠费", "余额", "insufficient", "quota", "额度",
                 ])
                 result.api_failure = is_api_failure
                 result.final_answer = f"LLM error: {e}"
@@ -838,7 +1000,8 @@ class HuggingFaceAgent(BaseAgent):
 
                     # Check cache first
                     _cache_key = (tool_name, _arg_sig)
-                    if _cache_key in _tool_cache:
+                    cache_hit = _cache_key in _tool_cache
+                    if cache_hit:
                         tool_out = _tool_cache[_cache_key]
                         latency = 0.0
                     elif _call_counts[_dedup_key] >= _MAX_DUPLICATE:
@@ -872,10 +1035,15 @@ class HuggingFaceAgent(BaseAgent):
                     ))
                     step_num += 1
                     context_parts.append(str(tool_out)[:15000])
+                    # T0 dedup: on cache hit do NOT re-inject the full result — it is
+                    # already in the conversation history (semantically equivalent, no new
+                    # information). Kills the O(N^2) repeated-fetch token growth.
+                    tool_reply = ("[CACHED] identical tool call; result already provided above."
+                                  if cache_hit else str(tool_out)[:15000])
                     messages.append({
                         "role": "tool",
                         "tool_call_id": tc.id,
-                        "content": str(tool_out)[:15000],
+                        "content": tool_reply,
                     })
                 
                 # If force_synthesis, break out of tool loop to generate answer
@@ -886,7 +1054,7 @@ class HuggingFaceAgent(BaseAgent):
                         "Please provide your final answer based on the information gathered so far."})
             else:
                 # No tool calls -> model gave final answer
-                answer = msg.content or ""
+                answer = _extract_content(msg)
                 answer = _strip_reasoning_prefix(answer)
                 result.final_answer = answer
                 steps.append(TrajectoryStep(
@@ -932,10 +1100,13 @@ class HuggingFaceAgent(BaseAgent):
 
 
 class OpenAIAgent(BaseAgent):
-    """Real LLM agent via OpenAI-compatible API using native function calling.
-    I share the same TOOLS and TOOL_SCHEMA as HuggingFaceAgent — same tools,
-    different calling interface (native function calling vs text-based ReAct).
-    This ensures fair comparison: same tools, same eval framework, different models."""
+    """ReAct text-format agent — LOW-CAPABILITY fallback only.
+
+    Reserved for models that cannot natively do function calling. Mid-tier (and
+    above) models MUST use HuggingFaceAgent (native function calling), never this
+    ReAct path — ReAct penalizes models that natively support function calling
+    (interference registry INT-01). Same TOOLS / TOOL_SCHEMA as HuggingFaceAgent;
+    only the calling interface differs (text "TOOL:/ARGS:" vs native tool_calls)."""
 
     name = "openai-agent"
 
@@ -1081,7 +1252,7 @@ class OpenAIAgent(BaseAgent):
                         "Please provide your final answer based on the information gathered so far."})
             else:
                 # No tool calls -> model gave final answer
-                answer = msg.content or ""
+                answer = _extract_content(msg)
                 answer = _strip_reasoning_prefix(answer)
                 result.final_answer = answer
                 steps.append(TrajectoryStep(
@@ -1106,7 +1277,7 @@ class OpenAIAgent(BaseAgent):
             try:
                 fb_resp = self.client.chat.completions.create(
                     model=self.model, messages=fallback_msgs)
-                answer = fb_resp.choices[0].message.content or ""
+                answer = _extract_content(fb_resp.choices[0].message)
                 total_tokens += fb_resp.usage.total_tokens
             except Exception as e:
                 result.api_failure = True

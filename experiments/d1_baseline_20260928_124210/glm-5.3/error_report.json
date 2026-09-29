@@ -1,0 +1,22 @@
+{
+  "n_tasks": 150,
+  "n_valid_tasks": 150,
+  "n_api_failures": 0,
+  "accuracy": 0.5933333333333334,
+  "accuracy_excl_api_failures": 0.5933333333333334,
+  "error_distribution": {
+    "correct": 89,
+    "numeric_error": 7,
+    "complete_failure": 51,
+    "qualitative_incomplete": 1,
+    "factual_contradiction": 2
+  },
+  "avg_latency_ms": 30959.1,
+  "total_cost_usd": 0.0,
+  "tier_breakdown": {
+    "t1_numeric_avg": 0.5809,
+    "t2_llm_semantic_avg": 0.0788,
+    "final_score_avg": 0.5914,
+    "dealbreakers_triggered": 2
+  }
+}

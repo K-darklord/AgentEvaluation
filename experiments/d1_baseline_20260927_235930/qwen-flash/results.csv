@@ -1,0 +1,4 @@
+run_id,task_id,category,difficulty,gold_answer,final_answer,is_correct,error_type,tier1_numeric,tier2_llm_semantic,dealbreaker_triggered,final_score,tool_calls,total_latency_ms,model_name
+qwen-flash,gsm8k_001,Mathematical Reasoning,Medium,18,18,True,correct,1.0,0.0,False,1.0,0,915,qwen-flash
+qwen-flash,gsm8k_002,Mathematical Reasoning,Medium,3,2 bolts of blue fiber + 1 bolt of white fiber = 3 bolts in total.,True,correct,1.0,0.0,False,1.0,0,986,qwen-flash
+qwen-flash,gsm8k_003,Mathematical Reasoning,Medium,70000,"$70,000",True,correct,1.0,0.0,False,1.0,0,2155,qwen-flash

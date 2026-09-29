@@ -1,0 +1,4 @@
+run_id,task_id,category,difficulty,gold_answer,final_answer,is_correct,error_type,tier1_numeric,tier2_llm_semantic,dealbreaker_triggered,final_score,tool_calls,total_latency_ms,model_name
+glm-4.7-flash,gsm8k_001,Mathematical Reasoning,Medium,18,"LLM error: Error code: 429 - {'error': {'code': '1305', 'message': '该模型当前访问量过大，请您稍后再试'}}",False,numeric_error,0.0,0.0,False,0.0,0,13044,glm-4.7-flash
+glm-4.7-flash,gsm8k_002,Mathematical Reasoning,Medium,3,3 bolts,True,correct,1.0,0.0,False,1.0,0,36953,glm-4.7-flash
+glm-4.7-flash,gsm8k_003,Mathematical Reasoning,Medium,70000,"$70,000",True,correct,1.0,0.0,False,1.0,0,62452,glm-4.7-flash

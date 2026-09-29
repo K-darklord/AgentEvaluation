@@ -67,6 +67,7 @@ AgentEvaluation/
 | [docs/DECISION_LOG.md](docs/DECISION_LOG.md) | Decisions, open questions, working notes (not a deliverable) |
 | [docs/HISTORY.md](docs/HISTORY.md) | Project stage history (finance pipeline → interference → metacognition) + continuity rules |
 | [docs/WORKMAP.md](docs/WORKMAP.md) | 4-dimension academic frontier map (33 sources): evaluation / verification / optimization / inference scaling → proposal positioning |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Implementation blueprint for the experiment-execution layer (SQLite task queue, provider routing, phased landing plan) |
 | [PROTOCOL.md](PROTOCOL.md) | How every change propagates to all dependent documents |
 
 ---
@@ -112,6 +113,7 @@ Outputs: `output/trajectories.jsonl` (full per-step trajectory), `output/run_sum
 | Version | Date | Change |
 |---|---|---|
 | — | 2026-09-16 | Prior evaluation pipeline README. |
+| 2.4 | 2026-09-27 | Added docs/ARCHITECTURE.md (experiment-execution architecture blueprint). |
 | 2.3 | 2026-09-26 | Added docs/WORKMAP.md (English frontier map, migrated from the agent-eval workmap; 33 sources). |
 | 2.2 | 2026-09-26 | Migrated pipeline code to src/ package; added configs/ results/ logs/ data/{raw,processed}/; added MIT LICENSE. |
 | 2.1 | 2026-09-26 | Renamed repository FinAgent → AgentEvaluation (project title, env-var prefix, SEC User-Agent, git remote). |

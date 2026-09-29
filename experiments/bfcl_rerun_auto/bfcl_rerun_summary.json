@@ -1,0 +1,39 @@
+{
+  "n_tasks": 50,
+  "tool_choice": "auto",
+  "models": {
+    "deepseek-v4-flash": {
+      "model_id": "deepseek-v4-flash-0731",
+      "accuracy": 0.9,
+      "accuracy_excl_api_failures": 0.9,
+      "n_valid_tasks": 50,
+      "n_api_failures": 0,
+      "error_distribution": {
+        "correct": 45,
+        "complete_failure": 5
+      }
+    },
+    "qwen3.8-flash": {
+      "model_id": "qwen3.8-flash",
+      "accuracy": 0.88,
+      "accuracy_excl_api_failures": 0.88,
+      "n_valid_tasks": 50,
+      "n_api_failures": 0,
+      "error_distribution": {
+        "correct": 44,
+        "complete_failure": 6
+      }
+    },
+    "glm-5.3": {
+      "model_id": "glm-5.3",
+      "accuracy": 0.9,
+      "accuracy_excl_api_failures": 0.9,
+      "n_valid_tasks": 50,
+      "n_api_failures": 0,
+      "error_distribution": {
+        "correct": 45,
+        "complete_failure": 5
+      }
+    }
+  }
+}

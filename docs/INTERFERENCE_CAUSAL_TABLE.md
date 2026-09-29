@@ -1,6 +1,6 @@
 # Interference Causal Comparison Table
 
-**Last Updated**: 2026-09-16 (50-task full validation)
+**Last Updated**: 2026-09-29 (INT-16 quantified: MMLU-Pro 74/44/44% → 86/88/80%)
 **Git Tag**: v3-interference-fix-60pct (5-task) → 50-task full run confirmed 48%
 
 ---
@@ -21,6 +21,9 @@
 | INT-06 | Context truncation 8000 chars | **INTERFERENCE** | Code correct. But SEC 10-K filings are 50K+ chars. |
 | INT-07 | T2 judge = same model as agent | **INTERFERENCE** | Code correct. But mechanism introduces self-evaluation bias. |
 | INT-12 | Forced synthesis step | **INTERFERENCE** | Code correct. But mechanism deprives search time. FAB doesn't force. |
+| reasoning_content ignored | Final answer dropped for hidden-CoT models | **BUG** | `msg.content or ""` ignored `reasoning_content`; deepseek/qwen/glm put the answer there, so final_answer was empty (~20/22 deepseek logic errors). Fixed 2026-09-28 via `_extract_content()` fallback. |
+| INT-15 | Retrieve: whole-doc re-injection + no cache dedup → chunk + top-k keyword + dedup | **INTERFERENCE** | Old: every tool result (≤15000 chars) re-appended even on cache hit → O(N²) token growth. New: chunk docs, return top-5 chunks; cache-hit replies a short marker. Lossy (changes model-visible info). Frozen: chunk_size=1500, top_k=5, keyword scoring, stable order. |
+| INT-16 | MMLU-Pro MCQ reuses generic finance prompt → model emits computed value, not option letter | **INTERFERENCE** | Code correct, but the "respond with ONLY the factual answer" finance prompt is wrong for a 10-option MCQ: reasoning models output a number instead of selecting A-J, so `\b[A-J]\b` finds no letter (69 wrong = 19 wrong-letter + 50 no-letter). Fix: benchmark-specific prompt demanding ONLY the option letter, frozen verbatim in src/agent.py. Lossless (does not change model-visible data, only instruction). |
 
 ---
 
@@ -37,6 +40,8 @@
 | INT-06 | T2 trajectory 4000→20000 chars | Hyperparam | INT-05 trajectories (T2=4000) | 54% | INT-06 (T2=20000, same trajectories) | 56% | **+2pp** | Hard 33.3→41.7%, Beat-or-Miss +1 task. Minimal interference; judge already had enough context. |
 | INT-07 | Judge self-eval bias | Mechanism | PAUSED (cost) | TBD | TBD | TBD | TBD | V4-Pro judge too expensive; deferred. Use V4.1-Flash or R1 as cheaper alternative, or limit V4-Pro to boundary cases only. |
 | INT-12 | Hidden max_steps + forced synthesis | Mechanism | PLANNED (Option D) | TBD | TBD | TBD | TBD | Dual-layer interference: max_steps is hidden constraint, fallback is compensation. Test: make budget transparent + remove fallback. See experiments/20260916_int12_transparent_budget/EXPERIMENT.md |
+| INT-15 | Retrieve chunking + cache-dedup | Mechanism | PLANNED (pre-run) | TBD | TBD | TBD | TBD | Registered 2026-09-28; frozen hyperparams in src/config.py (RETRIEVE_CHUNK_SIZE=1500, RETRIEVE_TOP_K=5). Quantify vs prior run after re-running FAB. |
+| INT-16 | MCQ answer-format prompt alignment | Prompt | v3-generic prompt (50 tasks) | 74% / 44% / 44% | INT-16 letter-only prompt (50 tasks) | 86% / 88% / 80% | **+12 / +44 / +36 pp** | deepseek-v4-flash / qwen3.8-flash / glm-5.3 (0 api_failure); ≈ official MMLU-Pro (86.4 / 88.6 / 86.77). Frozen prompt in src/agent.py. |
 
 ---
 
@@ -88,9 +93,9 @@
 
 | Metric | Value |
 |---|---|
-| Total issues identified | 12 (INT-01 to INT-14) |
+| Total issues identified | 13 (INT-01 to INT-16, incl. sub-labels) |
 | Pure bugs | 3 |
-| True interferences | 9 |
+| True interferences | 11 |
 | Confirmed (with causal data) | 5 |
 | Suspected (needs experiment) | 4 |
 | Non-interference | 1 (INT-11: cache hit rate) |

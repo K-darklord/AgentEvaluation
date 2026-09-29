@@ -20,6 +20,8 @@ import csv
 import json
 import re
 import logging
+import threading
+import concurrent.futures
 from pathlib import Path
 from collections import Counter
 
@@ -325,20 +327,28 @@ def _score_t1_numeric(row: dict) -> float:
 # ======================================================================
 
 _judge_client = None
+_judge_client_lock = threading.Lock()
 
 def _get_judge_client():
-    """I lazily create an OpenAI client for LLM judge via HF router."""
+    """I lazily create an OpenAI client for the LLM judge.
+    The client is a shared singleton; a lock guards init so concurrent scoring
+    threads never double-create it.
+    Judge channel moved off HF router (TCP timeout / HTTP 000, blocked) to
+    Alibaba Token Plan (2026-09-28); reuses config.T2_JUDGE_*."""
     global _judge_client
     if _judge_client is None:
-        import os
-        token = os.getenv("HF_TOKEN") or os.getenv("HUGGING_FACE_HUB_TOKEN")
-        if not token:
-            return None
-        from openai import OpenAI
-        _judge_client = OpenAI(
-            base_url="https://router.huggingface.co/v1",
-            api_key=token,
-        )
+        with _judge_client_lock:
+            if _judge_client is None:
+                token = config.T2_JUDGE_API_KEY
+                if not token:
+                    return None
+                from openai import OpenAI
+                import httpx
+                _judge_client = OpenAI(
+                    base_url=config.T2_JUDGE_BASE_URL,
+                    api_key=token,
+                    timeout=httpx.Timeout(config.LLM_READ_TIMEOUT, connect=config.LLM_CONNECT_TIMEOUT),
+                )
     return _judge_client
 
 
@@ -403,7 +413,7 @@ def _llm_judge_correctness_single(row: dict, criteria_list: list,
         resp = client.chat.completions.create(
             model=config.T2_JUDGE_MODEL,
             messages=[{"role": "user", "content": prompt}],
-            max_tokens=100,
+            max_tokens=config.T2_JUDGE_MAX_TOKENS,
             temperature=config.T2_TEMPERATURE,
         )
         verdict_text = (resp.choices[0].message.content or "").strip().upper()
@@ -491,7 +501,7 @@ def _llm_judge_dealbreaker_single(row: dict, contra_list: list,
         resp = client.chat.completions.create(
             model=config.T2_JUDGE_MODEL,
             messages=[{"role": "user", "content": prompt}],
-            max_tokens=50,
+            max_tokens=config.T2_JUDGE_MAX_TOKENS,
             temperature=config.T2_TEMPERATURE,
         )
         contra_text = (resp.choices[0].message.content or "").strip().upper()
@@ -556,15 +566,307 @@ def _score_t2_llm_semantic(row: dict) -> tuple:
 # Final score aggregation
 # ======================================================================
 
+def _score_logic_exact(row: dict) -> float:
+    """I grade multiple-choice logic answers by exact option-letter match.
+    I extract standalone A-E letters from the prediction and return 1.0 if the
+    gold letter is present, else 0.0."""
+    gold = str(row.get("gold_answer", "")).strip().upper()
+    pred = str(row.get("final_answer", "")).strip()
+    if not gold or not pred:
+        return 0.0
+    letters = re.findall(r"\b[A-E]\b", pred.upper())
+    return 1.0 if gold in letters else 0.0
+
+
+_UNICODE_MATH = {
+    "\u03c0": "pi",     # π pi
+    "\u2212": "-",       # -− minus sign
+    "\u2013": "-",       # – en dash
+    "\u2014": "-",       # — em dash
+    "\u00d7": "*",       # × multiplication sign
+    "\u22c5": "*",       # ⋅ dot operator
+    "\u00b7": "*",       # · middle dot
+    "\u221a": "\\sqrt",    # √ square root
+}
+
+_TEXT_ANSWER_RE = re.compile(r"\\text\s*\{([^}]*)\}")
+_BOXED_RE = re.compile(r"\\boxed\s*\{([^{}]*)\}")
+_MATH_NUM_TOKEN_RE = re.compile(r"-?\d+(?:\.\d+)?")
+_LETTER_TOKEN_RE = re.compile(r"\b[A-J]\b")
+
+
+def _is_year_token(n: str) -> bool:
+    """Treat 1900..2100 as years (likely incidental, not an answer) and skip them."""
+    try:
+        return 1900 < float(n) < 2100
+    except ValueError:
+        return False
+
+def _norm_unicode_math(t: str) -> str:
+    """I fold common Unicode math glyphs (pi, U+2212 minus, x, sqrt, ...) into their
+    ASCII canonical forms so sympy parses them consistently with LaTeX gold answers."""
+    for u, a in _UNICODE_MATH.items():
+        t = t.replace(u, a)
+    return t
+
+_MATH_UNITS = [
+    "inches", "inch", "degrees", "degree", "battalions", "battalion",
+    "calories", "calorie", "dollars", "dollar", "cents", "feet", "foot",
+    "units", "unit", "meters", "meter", "metres", "metre", "pounds", "pound",
+    "minutes", "minute", "seconds", "second", "percent",
+]
+
+
+def _strip_math_noise(s: str) -> str:
+    """Strip presentation noise (degree marks, units, currency, LaTeX padding) from a
+    MATH-500 answer so equivalent numeric answers compare cleanly. Symmetric on gold
+    and prediction; runs after the text-answer path has already been handled."""
+    s = s.replace("^\\circ", " degrees ").replace("\\circ", " degrees ").replace("\u00b0", " degrees ")
+    for u in _MATH_UNITS:
+        s = re.sub(r"\b" + u + r"\b", " ", s, flags=re.IGNORECASE)
+    s = s.replace("$", " ").replace("\\left", "").replace("\\right", "")
+    s = re.sub(r"\s*=\s*", "=", s)
+    return " ".join(s.split())
+
+
+def _extract_text_answer(t: str) -> str | None:
+    """I return the inner text when `t` is a pure LaTeX \\text{...} answer (e.g.
+    '\\text{Evelyn}'), else None. Pure-text answers are graded by string match."""
+    m = _TEXT_ANSWER_RE.fullmatch(t.strip())
+    return m.group(1).strip() if m else None
+
+
+def _strip_outer_delims(s: str) -> str:
+    """Strip one wrapping pair of parentheses (LaTeX left/right delimiters or plain)."""
+    s = s.strip()
+    for lo, hi in (("\\left(", "\\right)"), ("\\left[", "\\right]"), ("(", ")"), ("[", "]")):
+        if s.startswith(lo) and s.endswith(hi):
+            return s[len(lo):len(s) - len(hi)].strip()
+    return s
+
+
+def _split_top_level_commas(s: str) -> list[str]:
+    """Split s on commas not nested inside ( ) / { } / [ ]; used to decompose
+    coordinate-tuple answers like "(3, pi/2)" that sympy cannot parse."""
+    parts: list[str] = []
+    depth = 0
+    cur: list[str] = []
+    for ch in s:
+        if ch in "({[":
+            depth += 1
+        elif ch in ")}]":
+            depth = max(0, depth - 1)
+        if ch == "," and depth == 0:
+            parts.append("".join(cur).strip())
+            cur = []
+        else:
+            cur.append(ch)
+    parts.append("".join(cur).strip())
+    return parts
+
+
+def _math_answer_candidates(pred: str) -> list[str]:
+    """Extract deterministic final-answer candidates from a MATH-500 prediction.
+    The ground-truth answer is conventionally emitted last — inside a \\boxed{...}, after
+    a trailing '=', on the final line, or as the final numeric/letter token — with
+    reasoning text preceding it. I return these candidates (deduplicated, order-preserved)
+    so the answer can be rescued when the full-string sympy parse of the whole response
+    fails. This is the deterministic T1b extraction layer (zero LLM)."""
+    out: list[str] = []
+    for m in _BOXED_RE.finditer(pred):
+        out.append(m.group(1).strip())
+    if "=" in pred:
+        out.append(pred.rsplit("=", 1)[1].strip())
+    lines = [l.strip() for l in pred.splitlines() if l.strip()]
+    if lines:
+        out.append(lines[-1])
+    nums = [n for n in _MATH_NUM_TOKEN_RE.findall(pred) if not _is_year_token(n)]
+    if nums:
+        out.append(nums[-1])
+    lets = _LETTER_TOKEN_RE.findall(pred)
+    if lets:
+        out.append(lets[-1].upper())
+    seen: set[str] = set()
+    res: list[str] = []
+    for c in out:
+        if c and c not in seen and len(c) <= 200:
+            seen.add(c)
+            res.append(c)
+    return res
+
+
+def _score_math500(row: dict) -> float:
+    """I grade MATH-500 by symbolic equivalence. I parse the gold (LaTeX) answer and the
+    prediction with sympy (parse_latex for LaTeX, sympify for plain expressions), then
+    check simplify(gold - pred) == 0. I fall back to normalized string equality when
+    either side does not parse. I return 1.0 if equivalent, else 0.0."""
+    gold = str(row.get("gold_answer", "")).strip()
+    pred = str(row.get("final_answer", "")).strip()
+    if not gold or not pred:
+        return 0.0
+
+    gold = _norm_unicode_math(gold)
+    pred = _norm_unicode_math(pred)
+
+    try:
+        import sympy
+    except ImportError:
+        return 1.0 if _normalize_answer(gold) == _normalize_answer(pred) else 0.0
+
+    from sympy.parsing.latex import parse_latex
+
+    g_text = _extract_text_answer(gold)
+    if g_text is not None:
+        p_text = _extract_text_answer(pred) or pred
+        return 1.0 if _normalize_answer(g_text) == _normalize_answer(p_text) else 0.0
+
+    gold = _strip_math_noise(gold)
+    pred = _strip_math_noise(pred)
+    if not gold or not pred:
+        return 0.0
+
+    def _parse(t: str):
+        t = t.strip()
+        while True:
+            m = re.search(r"\\boxed\{([^{}]*)\}", t)
+            if not m:
+                break
+            t = m.group(1)
+        # Normalize unbraced radicals (e.g. \\sqrt2 -> \\sqrt{2}) for sympy parse_latex.
+        t = re.sub(r"\\sqrt([0-9]+)", r"\\sqrt{\1}", t)
+        if re.search(r"\\[a-zA-Z]+", t):
+            try:
+                return parse_latex(t)
+            except Exception:
+                return None
+        # Plain expression: allow implicit multiplication (e.g. 5i -> 5*i) for complex answers.
+        t = re.sub(r"(\d)i\b", lambda m: m.group(1) + "*i", t)
+        try:
+            return sympy.sympify(t)
+        except Exception:
+            return None
+
+    consts = {sympy.Symbol("pi"): sympy.pi, sympy.Symbol("e"): sympy.E, sympy.Symbol("i"): sympy.I}
+
+    def _sym_equiv(a: str, b: str) -> bool:
+        ga = _parse(a)
+        pb = _parse(b)
+        if ga is None or pb is None:
+            return _normalize_answer(a) == _normalize_answer(b)
+        try:
+            return sympy.simplify(ga.subs(consts) - pb.subs(consts)) == 0
+        except Exception:
+            return _normalize_answer(a) == _normalize_answer(b)
+
+    if _sym_equiv(gold, pred):
+        return 1.0
+
+    if "," in gold:
+        g_parts = _split_top_level_commas(_strip_outer_delims(gold))
+        p_parts = _split_top_level_commas(_strip_outer_delims(pred))
+        if len(g_parts) == len(p_parts) > 1 and all(_sym_equiv(a, b) for a, b in zip(g_parts, p_parts)):
+            return 1.0
+
+        # Order-insensitive numeric multiset: '-2, 1' vs '1,-2', or prose roots
+        # 'The roots are $x = 3, 5, 7$.' vs '3, 5, 7'. Guarded to multi-value gold.
+        g_nums = sorted(_extract_numbers(gold))
+        p_nums = sorted(_extract_numbers(pred))
+        if len(g_nums) > 1 and len(g_nums) == len(p_nums) and all(
+                abs(a - b) <= config.SCORING_NUMERIC_TOL * max(abs(a), abs(b), 1e-12)
+                for a, b in zip(g_nums, p_nums)):
+            return 1.0
+
+    # T1b: deterministic final-answer candidate extraction. Some predictions emit the
+    # final answer buried after reasoning text (not boxed, not parseable as one
+    # expression); grade each extracted candidate against gold to rescue extraction
+    # false negatives (answers that are present but were missed by full-string parse).
+    for cand in _math_answer_candidates(pred):
+        cand = _strip_math_noise(_norm_unicode_math(cand))
+        if not cand or cand == pred:
+            continue
+        if _sym_equiv(gold, cand):
+            return 1.0
+
+    return 0.0
+
+
+def _score_mmlu_pro(row: dict) -> float:
+    """I grade MMLU-Pro 10-option MCQ by exact option-letter (A-J) match."""
+    gold = str(row.get("gold_answer", "")).strip().upper()
+    pred = str(row.get("final_answer", "")).strip()
+    if not gold or not pred:
+        return 0.0
+    letters = re.findall(r"\b[A-J]\b", pred.upper())
+    return 1.0 if gold in letters else 0.0
+
+
+def _score_bfcl(row: dict) -> float:
+    """I grade BFCL by AST comparison: the predicted {name, arguments} must match the
+    function name in ground truth, and every ground-truth parameter must take a value
+    present in that parameter accepted-value list. Extra predicted parameters are
+    ignored; values are compared string-insensitively (absent == ""). 1.0 on full match
+    else 0.0."""
+    pred_raw = str(row.get("final_answer", "")).strip()
+    if not pred_raw:
+        return 0.0
+
+    gold_raw = row.get("gold_answer", "")
+    if isinstance(gold_raw, str):
+        try:
+            gt = json.loads(gold_raw)
+        except (json.JSONDecodeError, TypeError):
+            gt = []
+    else:
+        gt = gold_raw
+    if not gt:
+        return 0.0
+
+    try:
+        pred = json.loads(pred_raw)
+    except (json.JSONDecodeError, TypeError):
+        return 0.0
+
+    name = str(pred.get("name", "")).replace(".", "_")
+    args_raw = pred.get("arguments", "{}")
+    if isinstance(args_raw, str):
+        try:
+            args = json.loads(args_raw)
+        except (json.JSONDecodeError, TypeError):
+            args = {}
+    else:
+        args = args_raw
+    if not isinstance(args, dict):
+        args = {}
+
+    entry = None
+    for e in gt:
+        if not isinstance(e, dict):
+            continue
+        for k, v in e.items():
+            if str(k).replace(".", "_") == name:
+                entry = v
+                break
+        if entry is not None:
+            break
+    if entry is None:
+        return 0.0
+    if not isinstance(entry, dict) or not entry:
+        return 1.0
+
+    for param, accepted in entry.items():
+        accepted_list = accepted if isinstance(accepted, list) else [accepted]
+        pred_val = args.get(param, "")
+        if not any(str(pred_val) == str(a) for a in accepted_list):
+            return 0.0
+    return 1.0
+
+
 def _label_row_tiered(row: dict) -> dict:
     """I run T1 (numeric) and T2 (LLM semantic) and aggregate the final score.
-    final_score = max(T1, T2), unless dealbreaker triggers (then 0).
-    I return continuous scores + final pass/fail + error type."""
-    t1_score = _score_t1_numeric(row)
-    t2_score, dealbreaker = _score_t2_llm_semantic(row)
-
-    # API failure override: if the agent failed due to API timeout/connection,
-    # mark as api_failure and exclude from accuracy denominator
+    For pure-reasoning domains (metadata.benchmark = math / logic) I use a single
+    rule-based grader instead of the financial T2 judge, since those tasks carry no
+    financial rubric. Finance keeps final_score = max(T1, T2); dealbreaker forces 0."""
+    # API failure override (uniform across domains): exclude from accuracy denominator
     if row.get("api_failure", False):
         return {
             "tier1_numeric": 0.0,
@@ -575,13 +877,83 @@ def _label_row_tiered(row: dict) -> dict:
             "error_type": "api_failure",
         }
 
+    metadata = row.get("metadata", {})
+    if isinstance(metadata, str):
+        try:
+            metadata = json.loads(metadata)
+        except (json.JSONDecodeError, TypeError):
+            metadata = {}
+    benchmark = metadata.get("benchmark", "")
+
+    if benchmark == "math":
+        t1 = _score_t1_numeric(row)
+        return {
+            "tier1_numeric": t1,
+            "tier2_llm_semantic": 0.0,
+            "dealbreaker_triggered": False,
+            "final_score": t1,
+            "is_correct": t1 >= config.FINAL_PASS_THRESHOLD,
+            "error_type": "correct" if t1 >= config.FINAL_PASS_THRESHOLD else "numeric_error",
+        }
+    if benchmark == "logic":
+        t1 = _score_logic_exact(row)
+        return {
+            "tier1_numeric": t1,
+            "tier2_llm_semantic": 0.0,
+            "dealbreaker_triggered": False,
+            "final_score": t1,
+            "is_correct": t1 >= config.FINAL_PASS_THRESHOLD,
+            "error_type": "correct" if t1 >= config.FINAL_PASS_THRESHOLD else "complete_failure",
+        }
+
+    if benchmark == "math500":
+        t1 = _score_math500(row)
+        tier = "T1"
+        t2 = 0.0
+        if t1 < config.FINAL_PASS_THRESHOLD and config.T2_RESCUE_ENABLED:
+            t2 = _score_t2_extract_judge(row)
+            if t2 >= config.FINAL_PASS_THRESHOLD:
+                tier = "T2"
+        final = max(t1, t2)
+        return {
+            "tier1_numeric": t1,
+            "tier2_llm_semantic": t2,
+            "dealbreaker_triggered": False,
+            "final_score": final,
+            "is_correct": final >= config.FINAL_PASS_THRESHOLD,
+            "error_type": "correct" if final >= config.FINAL_PASS_THRESHOLD else "numeric_error",
+            "eval_tier": tier,
+        }
+    if benchmark == "mmlu_pro":
+        t1 = _score_mmlu_pro(row)
+        return {
+            "tier1_numeric": t1,
+            "tier2_llm_semantic": 0.0,
+            "dealbreaker_triggered": False,
+            "final_score": t1,
+            "is_correct": t1 >= config.FINAL_PASS_THRESHOLD,
+            "error_type": "correct" if t1 >= config.FINAL_PASS_THRESHOLD else "complete_failure",
+        }
+    if benchmark == "bfcl":
+        t1 = _score_bfcl(row)
+        return {
+            "tier1_numeric": t1,
+            "tier2_llm_semantic": 0.0,
+            "dealbreaker_triggered": False,
+            "final_score": t1,
+            "is_correct": t1 >= config.FINAL_PASS_THRESHOLD,
+            "error_type": "correct" if t1 >= config.FINAL_PASS_THRESHOLD else "complete_failure",
+        }
+
+    t1_score = _score_t1_numeric(row)
+    t2_score, dealbreaker = _score_t2_llm_semantic(row)
+
     # Dealbreaker override: if T2 detected a contradiction, force 0
     if dealbreaker:
         final_score = 0.0
         error_type = "factual_contradiction"
     else:
         final_score = max(t1_score, t2_score)
-        # Determine error type
         if final_score >= config.FINAL_PASS_THRESHOLD:
             error_type = "correct"
         elif t1_score == 0 and t2_score == 0:
@@ -598,7 +970,32 @@ def _label_row_tiered(row: dict) -> dict:
         "final_score": final_score,
         "is_correct": final_score >= config.FINAL_PASS_THRESHOLD,
         "error_type": error_type,
+        "eval_tier": "T3" if (dealbreaker or t2_score > t1_score) else "T1",
     }
+
+
+def _score_one_row(r: dict) -> dict:
+    """I label a single row (T1 + T2 + final aggregation) and attach scores in place.
+    I never raise: on any failure I log and fall back to 'qualitative_incomplete' so
+    one bad row never aborts the whole scoring pass."""
+    try:
+        tiered = _label_row_tiered(r)
+        r["tier1_numeric"] = round(tiered["tier1_numeric"], 4)
+        r["tier2_llm_semantic"] = round(tiered["tier2_llm_semantic"], 4)
+        r["dealbreaker_triggered"] = tiered["dealbreaker_triggered"]
+        r["eval_tier"] = tiered.get("eval_tier", "T1")
+        r["final_score"] = round(tiered["final_score"], 4)
+        r["is_correct"] = tiered["is_correct"]
+        r["error_type"] = tiered["error_type"]
+    except Exception as e:
+        logger.warning(f"Scoring failed for {r.get('task_id', '?')}: {e}")
+        r["error_type"] = "qualitative_incomplete"
+        r["is_correct"] = False
+        r["tier1_numeric"] = 0.0
+        r["tier2_llm_semantic"] = 0.0
+        r["dealbreaker_triggered"] = False
+        r["final_score"] = 0.0
+    return r
 
 
 # ======================================================================
@@ -634,25 +1031,9 @@ class Evaluator:
                 if line:
                     rows.append(json.loads(line))
 
-        scored = []
-        for r in rows:
-            try:
-                tiered = _label_row_tiered(r)
-                r["tier1_numeric"] = round(tiered["tier1_numeric"], 4)
-                r["tier2_llm_semantic"] = round(tiered["tier2_llm_semantic"], 4)
-                r["dealbreaker_triggered"] = tiered["dealbreaker_triggered"]
-                r["final_score"] = round(tiered["final_score"], 4)
-                r["is_correct"] = tiered["is_correct"]
-                r["error_type"] = tiered["error_type"]
-            except Exception as e:
-                logger.warning(f"Scoring failed for {r.get('task_id', '?')}: {e}")
-                r["error_type"] = "qualitative_incomplete"
-                r["is_correct"] = False
-                r["tier1_numeric"] = 0.0
-                r["tier2_llm_semantic"] = 0.0
-                r["dealbreaker_triggered"] = False
-                r["final_score"] = 0.0
-            scored.append(r)
+        concurrency = max(1, config.RUNNER_CONCURRENCY)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=concurrency) as ex:
+            scored = list(ex.map(_score_one_row, rows))
 
         self.results = scored
 
@@ -661,7 +1042,7 @@ class Evaluator:
         fields = ["run_id", "task_id", "category", "difficulty", "gold_answer",
                   "final_answer", "is_correct", "error_type",
                   "tier1_numeric", "tier2_llm_semantic", "dealbreaker_triggered",
-                  "final_score",
+                  "eval_tier", "final_score",
                   "tool_calls", "total_latency_ms", "model_name"]
         with out_csv.open("w", newline="", encoding="utf-8") as f:
             w = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
@@ -879,3 +1260,44 @@ if __name__ == "__main__":
     ev = Evaluator()
     ev.score()
     ev.analyze()
+
+
+def _score_t2_extract_judge(row: dict) -> float:
+    # T2 (registered intervention): LLM-assisted parse + judge. For answers buried in
+    # reasoning text that deterministic extraction (T1) cannot recover, ask the judge to
+    # read the full response, extract the FINAL answer, and compare it against the KNOWN
+    # gold for mathematical equivalence. Returns 1.0 (correct) or 0.0 (incorrect).
+    # Only invoked for rows T1 already judged wrong (rescue) and only when enabled.
+    client = _get_judge_client()
+    if client is None:
+        return 0.0
+    question = str(row.get("prompt", "")).strip()
+    gold = str(row.get("gold_answer", "")).strip()
+    pred = str(row.get("final_answer", "")).strip()
+    if not gold or not pred:
+        return 0.0
+    prompt = (
+        "You are an expert math evaluator.\n"
+        "Read the model's full response below (it may contain reasoning text).\n"
+        "Extract the model's FINAL answer to the question, then judge whether that final\n"
+        "answer is mathematically equivalent to the REFERENCE answer.\n"
+        "Ignore any intermediate working - only the final answer matters.\n"
+        "Reply with ONLY one word: CORRECT or INCORRECT.\n\n"
+        f"Question: {question}\n\n"
+        f"Model response:\n{pred[:4000]}\n\n"
+        f"Reference answer: {gold}\n\n"
+        "Verdict (CORRECT / INCORRECT):"
+    )
+    try:
+        resp = client.chat.completions.create(
+            model=config.T2_JUDGE_MODEL,
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=config.T2_RESCUE_MAX_TOKENS,
+            temperature=config.T2_TEMPERATURE,
+        )
+        text = (resp.choices[0].message.content or "").strip().upper()
+        return 1.0 if text.startswith("CORRECT") else 0.0
+    except Exception as e:
+        logger.warning(f"T2 extract-judge failed: {e}")
+        return 0.0
+

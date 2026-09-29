@@ -14,6 +14,11 @@ MAX_TOOL_CALLS_PER_TASK = 50
 # Alias for agent.py
 MAX_TOOL_CALLS = MAX_TOOL_CALLS_PER_TASK
 REQUEST_TIMEOUT = 15
+# LLM API 调用超时（秒）。旧代码 LLM client（openai SDK/httpx）未接线任何 timeout，
+# 连接挂起时请求可无限阻塞（2026-09-28 d1-baseline 卡死 2.5h、0% CPU、11 个悬挂连接实锤）。
+# read 用较大值：qwen3.8-flash 等 reasoning 模型单次推理可能 >60s，避免误杀长推理。
+LLM_CONNECT_TIMEOUT = float(os.getenv("LLM_CONNECT_TIMEOUT", "15"))
+LLM_READ_TIMEOUT = float(os.getenv("LLM_READ_TIMEOUT", "180"))
 
 
 
@@ -47,6 +52,29 @@ FAB_PUBLIC_CSV_URL = "https://raw.githubusercontent.com/vals-ai/finance-agent/ma
 FAB_DATA_PATH = os.getenv("FAB_DATA_PATH", "data/raw/fab_public.csv")
 
 # ======================================================================
+# Phase-1 task set: math (GSM8K) + logic (LogiQA), finance via FAB above
+# ======================================================================
+GSM8K_DATA_URL = "https://raw.githubusercontent.com/openai/grade-school-math/master/grade_school_math/data/test.jsonl"
+GSM8K_DATA_PATH = os.getenv("GSM8K_DATA_PATH", "data/raw/gsm8k_test.jsonl")
+LOGIQA_DATA_URL = "https://raw.githubusercontent.com/lgw863/LogiQA-dataset/master/Test.txt"
+LOGIQA_DATA_PATH = os.getenv("LOGIQA_DATA_PATH", "data/raw/logiqa_test.txt")
+PHASE1_N_PER_BENCH = int(os.getenv("PHASE1_N_PER_BENCH", "50"))
+
+# MATH-500 (Hendrycks MATH 500-question hard subset) — mirrors HuggingFaceH4/MATH-500
+MATH500_DATA_URL = "https://modelscope.cn/datasets/AI-ModelScope/MATH-500/resolve/master/test.jsonl"
+MATH500_DATA_PATH = os.getenv("MATH500_DATA_PATH", "data/raw/math500_test.jsonl")
+
+# MMLU-Pro (10-option MCQ, 14 domains) — mirrors TIGER-Lab/MMLU-Pro
+MMLU_PRO_DATA_URL = "https://modelscope.cn/datasets/TIGER-Lab/MMLU-Pro/resolve/master/data/test-00000-of-00001.parquet"
+MMLU_PRO_DATA_PATH = os.getenv("MMLU_PRO_DATA_PATH", "data/raw/mmlu_pro_test.parquet")
+
+# BFCL (Berkeley Function-Calling Leaderboard) — mirrors gorilla-llm BFCL; we use the
+# single-turn 'simple' Python subset (AST_NON_LIVE) as the light-FC L2 anchor.
+BFCL_DATA_URL = "https://modelscope.cn/datasets/AI-ModelScope/bfcl_v3/resolve/master/data/train-00000-of-00001.parquet"
+BFCL_DATA_PATH = os.getenv("BFCL_DATA_PATH", "data/raw/bfcl_v3_train.parquet")
+
+
+# ======================================================================
 # Scoring tolerance / robustness config
 # ======================================================================
 SCORING_NUMERIC_TOL = float(os.getenv("SCORING_NUMERIC_TOL", "0.05"))       # relative tolerance for numeric scoring
@@ -65,10 +93,79 @@ T1_NUMERIC_TOLERANCE = float(os.getenv("T1_NUMERIC_TOLERANCE", "0.01"))  # 1% re
 T1_PASS_THRESHOLD = float(os.getenv("T1_PASS_THRESHOLD", "0.5"))         # min score to pass T1
 
 # Tier 2: LLM Semantic Judgment (continuous 0-1, with dealbreaker)
-T2_JUDGE_MODEL = os.getenv("T2_JUDGE_MODEL", "deepseek-ai/DeepSeek-V4-Flash")
+T2_JUDGE_MODEL = os.getenv("T2_JUDGE_MODEL", "deepseek-v4-pro")  # 最强可达 judge（DeepSeek V4 Pro）；原 HF 名已弃（HF 墙）
+T2_JUDGE_BASE_URL = os.getenv("T2_JUDGE_BASE_URL", "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1")
+T2_JUDGE_API_KEY = os.getenv("T2_JUDGE_API_KEY", "") or os.getenv("TOKEN_PLAN_API_KEY", "")
+T2_JUDGE_MAX_TOKENS = int(os.getenv("T2_JUDGE_MAX_TOKENS", "500"))  # pro 有 hidden CoT，预留 token 否则 content 被吃空
+T2_JUDGE_BASE_URL = os.getenv("T2_JUDGE_BASE_URL", "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1")
+T2_JUDGE_API_KEY = os.getenv("T2_JUDGE_API_KEY", "") or os.getenv("TOKEN_PLAN_API_KEY", "")
 T2_PASS_THRESHOLD = float(os.getenv("T2_PASS_THRESHOLD", "0.5"))          # min score to pass T2
+# T2 rescue = LLM-assisted parse+judge (framework tier 2), a REGISTERED intervention.
+# Only runs on rows T1 already judged wrong, and only when enabled. Zero-API rescoring
+# stays deterministic with T2_RESCUE_ENABLED=0 (default).
+T2_RESCUE_ENABLED = os.getenv("T2_RESCUE_ENABLED", "0") == "1"
+T2_RESCUE_MAX_TOKENS = int(os.getenv("T2_RESCUE_MAX_TOKENS", "1000"))
 T2_TEMPERATURE = 0                                                          # reproducibility
 T2_MAX_TRAJECTORY_CHARS = int(os.getenv("T2_MAX_TRAJECTORY_CHARS", "4000"))  # truncation for context
 
 # Final aggregation
 FINAL_PASS_THRESHOLD = float(os.getenv("FINAL_PASS_THRESHOLD", "0.5"))    # final_score >= this -> pass
+
+# ======================================================================
+# T1 retrieve_information chunking (INT-15: document chunking + top-k retrieval)
+# ======================================================================
+# Frozen hyperparameters for retrieve_information's chunk-and-retrieve rework.
+# MUST stay fixed across runs to keep FAB re-score comparable (INT-15).
+RETRIEVE_CHUNK_SIZE = int(os.getenv("RETRIEVE_CHUNK_SIZE", "1500"))  # chars/chunk (sentence-aligned)
+RETRIEVE_TOP_K = int(os.getenv("RETRIEVE_TOP_K", "5"))               # top-k chunks returned
+
+# ======================================================================
+# Concurrency (ThreadPoolExecutor across tasks / scoring rows)
+# ======================================================================
+# Number of tasks solved in parallel in runner, and rows scored in parallel in evaluator.
+# Tune down if the HF router starts rate-limiting (HTTP 429 / "overloaded").
+RUNNER_CONCURRENCY = int(os.getenv("AGENTEVALUATION_CONCURRENCY", "6"))
+
+
+# ======================================================================
+# Phase-1 probe model registry (2026-09-28 updated)
+# Phase 1 = 3 mid-tier models, all on Alibaba Token Plan:
+#   deepseek-v4-flash-0731 / qwen3.8-flash / glm-5.3.
+# weak tier (qwen3.6-flash / glm-4.7-flash) deferred to Phase 2.
+# Kimi (4th family) pending Tencent Cloud TokenHub quota.
+# strong tier (Claude Opus 5.5 / GPT-6 Astra) deferred to Phase 2/3.
+# Each entry feeds HuggingFaceAgent(model=..., token=..., base_url=...).
+# ======================================================================
+DASHSCOPE_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+# Token Plan (personal) dedicated endpoint: sk-sp- prefix key + this domain only.
+# NOT interchangeable with DASHSCOPE_* (pay-as-you-go); mixing routes to wrong billing.
+TOKEN_PLAN_BASE_URL = "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1"
+ZHIPU_BASE_URL = "https://open.bigmodel.cn/api/paas/v4"
+
+PHASE1_MODELS = {
+    "deepseek-v4-flash": {
+        "tier": "mid",
+        "model": "deepseek-v4-flash-0731",
+        "base_url": TOKEN_PLAN_BASE_URL,
+        "api_key": os.getenv("TOKEN_PLAN_API_KEY", ""),
+        # Moved off HF router (TCP timeout / HTTP 000) to Alibaba Token Plan
+        # origin-supply on 2026-09-28. Same DeepSeek-V4-Flash-0731 model.
+    },
+    "qwen3.8-flash": {
+        "tier": "mid",
+        "model": os.getenv("QWEN_FLASH_MODEL", "qwen3.8-flash"),
+        "base_url": os.getenv("TOKEN_PLAN_BASE_URL", TOKEN_PLAN_BASE_URL),
+        "api_key": os.getenv("TOKEN_PLAN_API_KEY", ""),
+        # thinking left at model default (qwen3.8-flash defaults to thinking ON).
+        # We do NOT disable it — thinking is model capability, not interference.
+        # Finance token cost is dominated by tool-loop context growth, not hidden CoT.
+    },
+    "glm-5.3": {
+        "tier": "mid",
+        "model": "glm-5.3",
+        "base_url": TOKEN_PLAN_BASE_URL,
+        "api_key": os.getenv("TOKEN_PLAN_API_KEY", ""),
+    },
+    # weak tier (qwen3.6-flash @ TokenPlan, glm-4.7-flash @ Zhipu) DEFERRED to Phase 2.
+    # Kimi (4th family) pending Tencent Cloud TokenHub quota; add here when confirmed.
+}

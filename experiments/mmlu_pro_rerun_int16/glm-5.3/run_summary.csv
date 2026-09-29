@@ -1,0 +1,6 @@
+run_id,task_id,category,difficulty,gold_answer,final_answer,tool_calls,latency_ms,cost_usd,model,seed,metadata
+glm-5.3,mmlu_pro_001,Logical Reasoning,Hard,I,I,14,81590,0.0,glm-5.3,,"{""source"": ""mmlu_pro"", ""split"": ""test"", ""benchmark"": ""mmlu_pro"", ""subject"": ""business"", ""n_options"": 9}"
+glm-5.3,mmlu_pro_002,Logical Reasoning,Hard,F,F,0,12512,0.0,glm-5.3,,"{""source"": ""mmlu_pro"", ""split"": ""test"", ""benchmark"": ""mmlu_pro"", ""subject"": ""business"", ""n_options"": 10}"
+glm-5.3,mmlu_pro_003,Logical Reasoning,Hard,J,"""Remuneration is a second",0,12477,0.0,glm-5.3,,"{""source"": ""mmlu_pro"", ""split"": ""test"", ""benchmark"": ""mmlu_pro"", ""subject"": ""business"", ""n_options"": 10}"
+glm-5.3,mmlu_pro_004,Logical Reasoning,Hard,C,C,0,6168,0.0,glm-5.3,,"{""source"": ""mmlu_pro"", ""split"": ""test"", ""benchmark"": ""mmlu_pro"", ""subject"": ""business"", ""n_options"": 10}"
+glm-5.3,mmlu_pro_005,Logical Reasoning,Hard,G,G,0,2826,0.0,glm-5.3,,"{""source"": ""mmlu_pro"", ""split"": ""test"", ""benchmark"": ""mmlu_pro"", ""subject"": ""business"", ""n_options"": 10}"

@@ -1,0 +1,6 @@
+run_id,task_id,category,difficulty,gold_answer,final_answer,is_correct,error_type,tier1_numeric,tier2_llm_semantic,dealbreaker_triggered,final_score,tool_calls,total_latency_ms,model_name
+deepseek-v4-flash,mmlu_pro_001,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,0,4415,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_002,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,1.0,0,10235,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_003,Logical Reasoning,Hard,J,"Actually! There is a classic set of ethical issues in the workplace: (1) Privacy, (2) Autonomy, (3) ... In ""Ethical Issues in Business"" — employee privacy, autonomy (whistleblowing?), etc. Hmm.",False,complete_failure,0.0,0.0,False,0.0,29,935437,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_004,Logical Reasoning,Hard,C,H,False,complete_failure,0.0,0.0,False,0.0,0,2732,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_005,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,1.0,0,2892,deepseek-v4-flash-0731

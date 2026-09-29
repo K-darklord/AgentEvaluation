@@ -1,0 +1,56 @@
+run_id,task_id,category,difficulty,gold_answer,final_answer,is_correct,error_type,tier1_numeric,tier2_llm_semantic,dealbreaker_triggered,final_score,tool_calls,total_latency_ms,model_name
+qwen3.8-flash,mmlu_pro_001,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,0,3178,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_002,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,1.0,0,7755,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_003,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,2,64258,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_004,Logical Reasoning,Hard,C,C,True,correct,1.0,0.0,False,1.0,0,4132,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_005,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,1.0,0,2044,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_006,Logical Reasoning,Hard,A,A,True,correct,1.0,0.0,False,1.0,4,64142,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_007,Logical Reasoning,Hard,D,D,True,correct,1.0,0.0,False,1.0,0,4228,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_008,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,3078,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_009,Logical Reasoning,Hard,E,E,True,correct,1.0,0.0,False,1.0,0,2402,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_010,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,1.0,0,1281,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_011,Logical Reasoning,Hard,E,E,True,correct,1.0,0.0,False,1.0,0,1460,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_012,Logical Reasoning,Hard,G,C,False,complete_failure,0.0,0.0,False,0.0,0,2442,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_013,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,1414,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_014,Logical Reasoning,Hard,D,C,False,complete_failure,0.0,0.0,False,0.0,70,1071739,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_015,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,1.0,0,4619,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_016,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,2672,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_017,Logical Reasoning,Hard,F,"Using Δt = 1/12: u = e^(0.20√(1/12)) = 1.0594, d = 0.9439, p = (e^(0.10/12) − d)/(u − d) = 0.558. The 10-step lattice gives a risk-neutral expected terminal payoff ≈ 0.579, discounted at e^(−0.0833) ≈ 0.920 → ≈ $0.53 (i.e., 53.0 cents).",False,complete_failure,0.0,0.0,False,0.0,0,408495,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_018,Logical Reasoning,Hard,A,A,True,correct,1.0,0.0,False,1.0,0,8172,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_019,Logical Reasoning,Hard,B,B,True,correct,1.0,0.0,False,1.0,0,6500,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_020,Logical Reasoning,Hard,D,D,True,correct,1.0,0.0,False,1.0,0,1900,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_021,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,25654,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_022,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,0,1778,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_023,Logical Reasoning,Hard,E,E,True,correct,1.0,0.0,False,1.0,0,2878,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_024,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,2,35599,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_025,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,15345,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_026,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,1388,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_027,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,0,3393,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_028,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,1.0,0,1349,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_029,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,0,2897,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_030,Logical Reasoning,Hard,C,C,True,correct,1.0,0.0,False,1.0,0,2715,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_031,Logical Reasoning,Hard,E,E,True,correct,1.0,0.0,False,1.0,0,1353,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_032,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,0,1716,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_033,Logical Reasoning,Hard,J,"- Base price: $5,779.00 + $73.00 + $920.00 (factory options) + $54.25 (dealer options) = $6,826.25
+- Insurance: $505.75 + $231.50 = $737.25 → $7,563.50
+- Sales tax (5% of $6,826.25) = $341.31 → $7,904.81
+- Less cash deposit $500 and used‑car allowance $370 → amount financed = $7,034.81
+- Finance charge: $7,034.81 × 9.5% × 2 = $1,336.61 → total = $8,371.42
+- Monthly payment: $8,371.42 ÷ 24 ≈ $348.81 ≈ **$349**",False,complete_failure,0.0,0.0,False,0.0,0,63114,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_034,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,1,5781,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_035,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,0,3444,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_036,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,0,12561,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_037,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,9,163706,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_038,Logical Reasoning,Hard,A,A,True,correct,1.0,0.0,False,1.0,0,1482,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_039,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,0,1420,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_040,Logical Reasoning,Hard,J,I.,False,complete_failure,0.0,0.0,False,0.0,0,138644,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_041,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,1.0,0,3841,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_042,Logical Reasoning,Hard,A,A,True,correct,1.0,0.0,False,1.0,0,2524,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_043,Logical Reasoning,Hard,G,"450 × 9¾¢ = 4,387.5¢ ≈ **$43.88**",False,complete_failure,0.0,0.0,False,0.0,0,9610,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_044,Logical Reasoning,Hard,A,**A**,True,correct,1.0,0.0,False,1.0,14,555091,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_045,Logical Reasoning,Hard,B,B,True,correct,1.0,0.0,False,1.0,0,1692,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_046,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,8,125408,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_047,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,4076,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_048,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,0,931,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_049,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,1.0,0,4652,qwen3.8-flash
+qwen3.8-flash,mmlu_pro_050,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,1.0,0,8688,qwen3.8-flash

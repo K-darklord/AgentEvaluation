@@ -1,0 +1,123 @@
+{
+  "metadata": {
+    "taxonomy_version": "v1.1",
+    "generated_at_utc": "2026-09-29T03:38:40.023917+00:00",
+    "script": "src/build_error_taxonomy.py",
+    "data_sources": {
+      "math_math500_finance_bfcl": "experiments/d1_baseline_20260928_201128",
+      "mmlu_pro": "experiments/mmlu_pro_int16_full"
+    },
+    "thresholds": {
+      "RUBRIC_COVERAGE_THRESHOLD": 0.6,
+      "NUMERIC_TOL": 0.05,
+      "SIGN_FLIP_THRESHOLD": -0.9,
+      "MAGNITUDE_LOW": 0.1,
+      "MAGNITUDE_HIGH": 10.0,
+      "NEAR_MISS_REL": 0.1,
+      "FACTOR_TOLERANCE": 0.05,
+      "SIMPLE_FACTORS": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        0.5,
+        0.3333333333333333,
+        0.25,
+        0.2,
+        0.16666666666666666,
+        1.5,
+        0.6666666666666666,
+        1.3333333333333333,
+        0.75,
+        2.5,
+        0.4
+      ]
+    },
+    "labelers": {
+      "math": "label_math500 (reused)",
+      "math500": "label_math500",
+      "mmlu_pro": "label_mmlu",
+      "finance": "label_finance",
+      "bfcl": "label_bfcl"
+    }
+  },
+  "distribution": {
+    "math500": {
+      "deepseek-v4-flash": {
+        "near_miss": 13,
+        "factor_error": 3,
+        "magnitude_error": 1,
+        "wrong_symbolic": 3,
+        "sign_flip": 1,
+        "empty_or_unparseable": 1
+      },
+      "glm-5.3": {
+        "near_miss": 12,
+        "wrong_symbolic": 5,
+        "magnitude_error": 11,
+        "factor_error": 5,
+        "empty_or_unparseable": 4
+      },
+      "qwen3.8-flash": {
+        "near_miss": 16,
+        "wrong_symbolic": 4,
+        "factor_error": 6,
+        "magnitude_error": 5,
+        "empty_or_unparseable": 2,
+        "sign_flip": 1
+      }
+    },
+    "finance": {
+      "deepseek-v4-flash": {
+        "numeric_error": 12,
+        "complete_failure": 12,
+        "contradiction": 5
+      },
+      "glm-5.3": {
+        "numeric_error": 8,
+        "coverage_incomplete": 2,
+        "complete_failure": 16,
+        "retrieval_failure": 2,
+        "contradiction": 2
+      },
+      "qwen3.8-flash": {
+        "numeric_error": 13,
+        "complete_failure": 15,
+        "contradiction": 3
+      }
+    },
+    "bfcl": {
+      "deepseek-v4-flash": {
+        "wrong_argument": 7
+      },
+      "glm-5.3": {
+        "wrong_argument": 5
+      },
+      "qwen3.8-flash": {}
+    },
+    "math": {
+      "glm-5.3": {
+        "wrong_symbolic": 1
+      },
+      "deepseek-v4-flash": {},
+      "qwen3.8-flash": {}
+    },
+    "mmlu_pro": {
+      "deepseek-v4-flash": {
+        "non_letter_output": 3,
+        "wrong_option": 4
+      },
+      "glm-5.3": {
+        "multiple_letters": 3,
+        "wrong_option": 5,
+        "non_letter_output": 2
+      },
+      "qwen3.8-flash": {
+        "wrong_option": 3,
+        "multiple_letters": 1,
+        "non_letter_output": 2
+      }
+    }
+  }
+}

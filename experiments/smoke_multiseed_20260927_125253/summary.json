@@ -1,0 +1,33 @@
+{
+  "name": "smoke_multiseed",
+  "config": "/tmp/smoke_exp.yaml",
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "n_tasks": 3,
+  "temperature": 0.0,
+  "accuracy_mean": 0.6667,
+  "accuracy_std": 0.0,
+  "per_seed": [
+    {
+      "seed": 42,
+      "accuracy": 0.6667,
+      "n_valid_tasks": 3,
+      "n_api_failures": 0
+    },
+    {
+      "seed": 43,
+      "accuracy": 0.6667,
+      "n_valid_tasks": 3,
+      "n_api_failures": 0
+    },
+    {
+      "seed": 44,
+      "accuracy": 0.6667,
+      "n_valid_tasks": 3,
+      "n_api_failures": 0
+    }
+  ]
+}

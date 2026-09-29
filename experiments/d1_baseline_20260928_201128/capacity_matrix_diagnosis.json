@@ -1,0 +1,92 @@
+{
+  "run": "d1_baseline_20260928_201128",
+  "note": "error_type is the CURRENT coarse evaluator label, not the critique taxonomy.",
+  "families": {
+    "math": {
+      "wrong_total": 1,
+      "wrong_per_model": {
+        "deepseek-v4-flash": 0,
+        "glm-5.3": 1,
+        "qwen3.8-flash": 0
+      },
+      "distinct_labels": [
+        "numeric_error"
+      ],
+      "anchored_error_counts": {
+        "numeric_error": 1
+      },
+      "ceiling": true,
+      "degenerate": true
+    },
+    "math500": {
+      "wrong_total": 93,
+      "wrong_per_model": {
+        "deepseek-v4-flash": 22,
+        "glm-5.3": 37,
+        "qwen3.8-flash": 34
+      },
+      "distinct_labels": [
+        "numeric_error"
+      ],
+      "anchored_error_counts": {
+        "numeric_error": 93
+      },
+      "ceiling": false,
+      "degenerate": true
+    },
+    "mmlu_pro": {
+      "wrong_total": 69,
+      "wrong_per_model": {
+        "deepseek-v4-flash": 13,
+        "glm-5.3": 28,
+        "qwen3.8-flash": 28
+      },
+      "distinct_labels": [
+        "complete_failure"
+      ],
+      "anchored_error_counts": {
+        "complete_failure": 69
+      },
+      "ceiling": false,
+      "degenerate": true
+    },
+    "finance": {
+      "wrong_total": 90,
+      "wrong_per_model": {
+        "deepseek-v4-flash": 29,
+        "glm-5.3": 30,
+        "qwen3.8-flash": 31
+      },
+      "distinct_labels": [
+        "complete_failure",
+        "factual_contradiction",
+        "numeric_error",
+        "qualitative_incomplete"
+      ],
+      "anchored_error_counts": {
+        "numeric_error": 34,
+        "complete_failure": 44,
+        "factual_contradiction": 10,
+        "qualitative_incomplete": 2
+      },
+      "ceiling": false,
+      "degenerate": false
+    },
+    "bfcl": {
+      "wrong_total": 12,
+      "wrong_per_model": {
+        "deepseek-v4-flash": 7,
+        "glm-5.3": 5,
+        "qwen3.8-flash": 0
+      },
+      "distinct_labels": [
+        "complete_failure"
+      ],
+      "anchored_error_counts": {
+        "complete_failure": 12
+      },
+      "ceiling": false,
+      "degenerate": true
+    }
+  }
+}

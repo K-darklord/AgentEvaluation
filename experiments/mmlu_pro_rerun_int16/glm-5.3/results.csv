@@ -1,0 +1,6 @@
+run_id,task_id,category,difficulty,gold_answer,final_answer,is_correct,error_type,tier1_numeric,tier2_llm_semantic,dealbreaker_triggered,final_score,tool_calls,total_latency_ms,model_name
+glm-5.3,mmlu_pro_001,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,14,81590,glm-5.3
+glm-5.3,mmlu_pro_002,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,1.0,0,12512,glm-5.3
+glm-5.3,mmlu_pro_003,Logical Reasoning,Hard,J,"""Remuneration is a second",False,complete_failure,0.0,0.0,False,0.0,0,12477,glm-5.3
+glm-5.3,mmlu_pro_004,Logical Reasoning,Hard,C,C,True,correct,1.0,0.0,False,1.0,0,6168,glm-5.3
+glm-5.3,mmlu_pro_005,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,1.0,0,2826,glm-5.3

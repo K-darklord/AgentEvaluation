@@ -18,16 +18,16 @@ Writing & submission           (4–6 weeks)
 
 ---
 
-## 2. Phase 1 — probe experiment (Day 1–3)
+## 2. Phase 1 — probe: end-to-end feasibility (go/no-go)
 
-**Budget**: < $50. **Models**: 6 across three tiers (Qwen2.5-1.5B, TinyLlama-1.1B, Qwen2.5-7B, Llama-3.1-8B, GPT-4o-mini, Claude-3-Haiku). **Tasks**: math reasoning 20 Qs + logic puzzles 20 Qs (incl. L2–L3 level).
+**Budget**: < $200. **Models**: 3 mid-tier via Aliyun Token Plan — deepseek-v4-flash-0731, qwen3.8-flash, glm-5.3; **no local model loading**; strong tier deferred to Phase 2/3. **Tasks**: 250 Qs — GSM8K 50 + MATH-500 50 + MMLU-Pro 50 + FAB 50 + BFCL 50 (L1:L2 = 3:2).
 
-**Day 1 — environment + baseline**: build the experiment framework (code structure, config management, logging); deploy 4 local models (vLLM); configure API keys; run the 6-model × 40-Q baseline. *Acceptance*: baseline sanity (weak models clearly below strong).
+The authoritative Phase-1 plan (four feasibility checks, build-before-burn order, N=10 in 3-round
+segments, no-human-labelling validation) is `docs/RESEARCH_PLAN.md` §5.7. Milestones:
 
-**Day 2 — evaluator + feedback**: implement the minimal evaluator (round-1 error stats → Top-K feedback); run 6 models × 40 Qs × 3 feedback rounds; add a random-feedback control arm. *Acceptance*: all 4 rounds of outputs saved for every model × question.
-
-**Day 3 — analysis + decision**: compute activation rate / first-activation round / locking rate; Fisher's exact test + visualization; write the phase report and decide.
-- pass → prepare Phase 2; fail → adjust evaluator (template / K / prior) and rerun (1–2 days); fail twice → reassess direction.
+- **Foundations (no API cost)** — capability-matrix definition + decomposition check against d1_baseline; per-domain error taxonomy + Top-K signal generator + prior-weighted update; validated by deterministic rules and outcome-based next-round improvement, not human labelling.
+- **Multi-round feedback (N=10, 3-round segments)** — advance the loop in ~3-round segments; after each segment inspect activation/locking for signal-driven change before spending the next.
+- **Analysis + decision** — L3/L4 discrimination from round-dimension events; fit cost–reliability curves (k classification); write the go/no-go report. pass → Phase 2; fail → adjust evaluator (template / K / prior) and rerun at most twice before reassessing direction.
 
 ---
 
@@ -100,3 +100,5 @@ Writing & submission           (4–6 weeks)
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 2026-09-26 | Translated to English. |
+| 1.1 | 2026-09-27 | Phase-1 probe revised: 4 models (weak local ×2, mid API ×2, strong deferred), tasks expanded to math/logic/finance 50 each. |
+| 1.2 | 2026-09-29 | Phase-1 probe re-scoped to an end-to-end feasibility loop (per RESEARCH_PLAN §5.7): 3 mid models via Aliyun, 250-Q probe set, N=10 feedback in 3-round segments, build-before-burn, no human labelling. |

@@ -139,26 +139,100 @@ Convergence is classified into four classes: **convergent**, **oscillating**, **
 
 Probes (individual questions) are drawn from multiple task families; the design is **cross-domain** and retains **finance** as one family (reusing the FAB setup). The metrics are task- and model-focused, not problem-focused.
 
-- **Task families** (Probe: math (GSM8K), commonsense (MMLU), finance (FAB); Feasibility adds code (HumanEval), factual consistency (TruthfulQA), multi-hop (HotpotQA), translation (WMT zh–en); Full extends to 12–15 families, with L2/L3-level items ≥ 40%).
+- **Task families** (Probe: math (GSM8K), logic, finance (FAB); Feasibility adds code (HumanEval), factual consistency (TruthfulQA), multi-hop (HotpotQA), translation (WMT zh–en); Full extends to 12–15 families, with L2/L3-level items ≥ 40%).
 - **Models** (three tiers):
-  - *Weak*: Qwen2.5-1.5B, TinyLlama-1.1B (local);
-  - *Mid*: Qwen2.5-7B, Llama-3.1-8B (local, Q4);
-  - *Strong*: GPT-4o-mini, Claude-3-Haiku (API); full phase extends to GPT-4o, Claude-3.5-Sonnet, Gemini-1.5-Pro/Flash, DeepSeek-V4-Flash, etc.
+  - *Weak*: Qwen3.5-4B, TinyLlama-1.1B (local);
+  - *Mid*: DeepSeek-V4-Flash, Qwen3.8-Flash (API);
+  - *Strong*: Claude Opus 5.5, GPT-6 Astra (API; deferred to Phase 2/3).
 
-### 5.2 Experimental stages
+### 5.2 Task-Bank Blueprint (Provisional)
+
+> **Status: DRAFT / PROVISIONAL.** Composition, per-question token budgets, and capability-layer
+> mapping below are planning estimates to be re-quoted against exact model pricing at execution
+> time (§7). This table defines the *candidate pool*; stage-specific subsets (not yet frozen) are
+> drawn from it.
+
+**Design principles.**
+1. **Balanced L1/L2 coverage (~1:1).** Both the no-tool base tier and the tool-augmented tier must
+   carry enough anchoring questions, or the tensor factorization (§5.4) cannot separate the axes.
+2. **Hard items replace saturated items in L1.** Pure-knowledge probes (GSM8K, plain MMLU) are near
+   ceiling for the mid tier; MATH-500 / MMLU-Pro / GPQA-Diamond recover discrimination.
+3. **L2 split into heavy-FC vs light-FC.** Heavy FC (finance FAB, SWE, WebArena) re-injects large
+   documents into the tool loop, causing O(N^2) context growth, so it is kept as a small anchor set.
+   Light FC (BFCL, HotpotQA, HumanEval) measures native function-calling itself at near-zero cost.
+4. **Evaluator matches answer form.** Letter -> exact match; numeric/LaTeX -> numeric comparison;
+   open-generation -> LLM-judge or metric (BLEU/COMET); code -> pass@k execution; FC -> tool-trigger
+   + parameter check.
+
+**Capability layers.** Four layers are used: **L1 Base** (single-shot, no tools), **L2 Augmentation**
+(tool/function-calling under an agent harness), **L3 Meta-cognitive** (recognizes an error on the
+external signal but does not change), **L4 Correction** (corrects the error on signal, improves).
+L4 is a scope expansion beyond the three-layer hypothesis in §3.1; L3/L4 are *process* properties
+sampled across feedback rounds — not static per-question labels — and every question contributes to
+them through the round dimension (§5.4).
+
+**Task bank.**
+
+| Family | Benchmarks (easy->hard) | Layer | Answer form | Evaluator | Native FC | Qs / set | Tokens / Q (order) | Stage |
+|---|---|---|---|---|---|---|---|---|---|
+| math | GSM8K -> MATH-500 / AIME | L1 | numeric / LaTeX | numeric + symbol | no | 50 | 1-5K | P1-P3 |
+| logic | BBH -> MMLU-Pro | L1 | letter (10-opt) | exact letter | no | 50 | 2-3K | P1-P3 |
+| commonsense | HellaSwag / CSQA | L1 | letter | exact letter | no | 50 | ~1.5K | P2-P3 |
+| factual-QA | TriviaQA / NQ / SimpleQA | L1 | short answer | LLM-judge / EM | no | 50 | ~1.5K | P2-P3 |
+| science | GPQA-Diamond | L1 | letter (hard) | exact letter | no | 50 | 3-4K | P2-P3 |
+| translation | WMT zh-en / FLORES | L1 | generation | BLEU / COMET / judge | no | 50 | ~2K | P2-P3 |
+| finance | FAB | L2 heavy-FC | agent + domain tools | max(T1,T2) | yes | 50 | 50-80K | P1-P3 |
+| tool-use | BFCL | L2 light-FC | function call | trigger + param | yes | 50 | 2-5K | P1-P3 |
+| code | HumanEval -> SWE-bench | L2 light->heavy | code | pass@k | partial* | 50 | 2-150K | P2-P3 |
+| multi-hop | HotpotQA / MuSiQue | L2 light-FC | retrieval QA | EM / F1 | yes | 50 | 10-20K | P2-P3 |
+| web | WebArena / GAIA | L2 heavy-FC | agent + browser | judge + completion | yes | 50 | 30-100K | P3 |
+
+* HumanEval is generation-only (no FC) unless run under an executor harness; SWE-bench uses
+file-edit / bash tools.
+
+**Stage-1 (probe) subset — recommended, provisional.** Every probe set is fixed at **50
+questions** for uniform statistical power and tensor-cell comparability. Total 250 Qs at ~¥7-11 per
+mid model on the cheap price tier (x~7 on glm-5.3); L1:L2 = 3:2 (three L1 sets, two L2 sets):
+
+| Family | Probe set | Qs | Layer |
+|---|---|---|---|
+| math | GSM8K 50 | 50 | L1 |
+| math | MATH-500 50 | 50 | L1 |
+| logic | MMLU-Pro 50 | 50 | L1 |
+| finance | FAB 50 (heavy-FC anchor) | 50 | L2 |
+| tool-use | BFCL 50 (light-FC anchor) | 50 | L2 |
+
+**Token budget (order of magnitude).** Lower bound = deepseek-v4-flash (¥1/M in, ¥2/M out); upper
+bound = glm-5.3 (¥8/M in, ¥28/M out); qwen3.8-flash sits between. L1 no-tool families cost <= ¥1 per
+100 Q on the cheap tier, so they can be expanded to 100-200 Q freely. Finance FAB is the sole budget
+sink (¥10-15 / 100 Q cheap tier, ¥80-120 / 100 Q glm), reduced 50-70% by the INT-15 chunking + cache
+dedup (docs/INTERFERENCE_CAUSAL_TABLE.md). L3/L4 multiply any family's cost by its round count (<=11).
+
+**Budget-calibrate-archive loop.** Every run follows a fixed discipline so results are reusable and
+never re-executed needlessly:
+
+1. **Budget first.** Before every run, estimate cost from the table above and record it in the run
+   manifest, alongside the explicit temperature / seed / thinking config (see docs/REPRODUCIBILITY.md).
+2. **Calibrate after.** After the run, compare actual tokens and cost against the estimate, then
+   back-fill the per-question token and per-model unit-price numbers so subsequent estimates tighten.
+3. **Archive on pass.** A run that completes without bug or API-failure contamination is archived
+   (trajectories.jsonl + summary.json) and reused across stages. Only models that failed on network
+   errors are re-run in isolation to fill gaps; already-passed models are not re-run.
+
+### 5.3 Experimental stages
 
 | Stage | Purpose | Configuration |
 |---|---|---|
-| **1. Signal validity** | Build the error taxonomy + rule-based evaluator; validate Top-K against human-labelled errors. | Finance (FAB) + math (GSM8K); validate the proxy signal. |
+| **1. Signal validity** | Build the annotated error bank + embedding-based critique; validate Top-N by its own downstream effect (next-round improvement) — no human labelling (see §5.7–5.8). | math + logic + finance (FAB), 50 each; validate the proxy signal. |
 | **2. Trajectory collection** | Run the feedback loop up to ~10 rounds over a fixed probe set; log full trajectories (correctness, error type, output distance, cumulative cost per round). | DeepSeek, GPT-4o-mini, Llama-3; gather cost–accuracy data. |
 | **3. Convergence analysis** | Assess convergence of the population trajectory; compare the three mathematical framings (§3.5). | Math · Finance · Fact QA · Open generation; test capability convergence. |
 | **4. Cost prediction** | Fit converged trajectories; predict required cost from the first 2–3 rounds, out-of-sample. | Cross-model and cross-domain; validate the cost forecast. |
 
-### 5.3 Capability matrix and tensor decomposition
+### 5.4 Capability matrix and tensor decomposition
 
 Construct a tensor **T ∈ R^{M × T × E}** (model × task family × error type), optionally 4th-order with round R. Factorize via PARAFAC / Tucker / PCA to extract latent capability axes. The diagnostic output is a structured report mapping each model to bottleneck capability axes (with factor loadings relative to a model-class mean) and a recommended intervention.
 
-### 5.4 Ablation matrix
+### 5.5 Ablation matrix
 
 | ID | Condition | Alternative explanation ruled out |
 |---|---|---|
@@ -169,12 +243,126 @@ Construct a tensor **T ∈ R^{M × T × E}** (model × task family × error type
 | A5 | Different temperature (0 vs 0.7 vs 1.0) | sampling randomness |
 | A6 | Different feedback strength (Top-1 vs Top-3 vs Top-5) | signal-strength effect |
 
-### 5.5 Metrics and statistics
+### 5.6 Metrics and statistics
 
 - **Observed**: activation rate, first-activation round, locking rate.
 - **Test**: Fisher's exact test, p < 0.05, for activation-rate differences between proxy and baseline arms.
 - **Success criteria** (any): a statistically significant activation-rate gain on ≥ 1 task family; or an activation gain on ≥ 1 weak model.
 - **Stop conditions** (any): no activation gain on any model × family; gain < 5%; ablation shows equal gain without the proxy.
+
+---
+
+### 5.7 Phase-1 (probe) execution plan — go/no-go feasibility
+
+**Objective.** Verify at minimum scale that the metacognitive-proxy pipeline is realizable
+end-to-end before scaling to Phase 2/3. Phase 1 collapses Stage 1 (signal validity), the
+first half of Stage 2 (multi-round trajectory collection), and a first pass at Stage 4
+(cost forecast) into one closed loop over the 250-Q probe set (§5.2) and the three mid-tier
+models (deepseek-v4-flash-0731 / qwen3.8-flash / glm-5.3; all Aliyun Token Plan, **no local
+model loading**). The four feasibility checks and their pass criteria:
+
+1. **Capability decomposition.** Extend the 6-label finance taxonomy into a per-domain error
+   taxonomy (math / logic / finance / tool-use), ground-truth-deterministic wherever possible.
+   Pass: every wrong answer receives a stable label, and per-error-type anchoring counts are
+   non-degenerate (no empty classes), so the later model × task-family × error-type × round
+   tensor carries enough information to separate axes.
+2. **Embedding-based critique as proxy meta-cognition.** A single critique module (no evaluator/judge,
+   no separate analyzer + feedback) mechanically scores a candidate answer against an annotated
+   error bank: wrong-answer instances are embedded into a reference bank (each tagged with an error type),
+   the candidate is embedded in the same space, top-k neighbour errors vote into a Top-N error-type
+   distribution that is fed back *without revealing the gold* (§5.8). Pass: signal-named questions improve
+   next-round at a significantly higher rate than unnamed ones (Fisher exact p < 0.05), and prior-based
+   beats the random-feedback (A2) and uniform-prior (A4) arms.
+3. **L3/L4 discrimination.** All candidate answers across rounds are logged and judged against the gold
+   *offline*. If a correct answer appeared anywhere in the trajectory, the model could *activate* it (L3,
+   recognizing/activation); if it appeared but was not selected as the final answer, the model failed to
+   *lock* it (L4, correcting deficit). Pass: per-model activation-without-locking (L4-deficit) quantities
+   are separable and interpretably different across the three models — information visible only under
+   multi-round feedback.
+4. **Cost–reliability curves.** Fit Accuracy(c) = f(c; θ) over cumulative rounds/tokens per model ×
+   family; classify the extreme-value shape k (§3.4): k > 1 acceleration, k = 1 random walk, k < 1
+   oscillation. Pass: at least one model × family shows monotonic reliability growth and k separates
+   the models.
+
+**Build before burn (execution order).** Multi-round runs multiply the finance FAB budget sink by the
+round count, so the expensive loop starts only after the cheap foundations pass on the existing
+d1_baseline data (zero additional API cost): (i) capability-matrix definition — fix the tensor axes and
+verify the matrix is information-rich against d1_baseline; (ii) error bank + critique — the analysed
+and annotated wrong-answer bank, instance embedding, and Top-N retrieval, exercised end-to-end. Then run
+the feedback loop to **N = 10 rounds in ~3-round segments**, inspecting activation/locking after each
+segment for signal-driven change before spending the next; stop and diagnose if a segment shows no change.
+
+**No human labelling.** The error-type annotations on the reference bank are produced automatically,
+grounded in offline gold-based scoring (math numeric, logic letter, BFCL function/parameter, finance
+T1/T2) — never by hand. The online critique never sees the gold: it matches a candidate to annotated
+wrong-answer instances by embedding similarity (§5.8). Signal effectiveness is established by its own
+downstream effect (next-round improvement) against the random-feedback and uniform-prior controls —
+consistent with the premise that the proxy must succeed with minimal external intervention.
+
+**Go/no-go.** Go if the four checks pass (or the §5.6 success subset); otherwise stop, adjust the
+critique (embedding / N / prior), and rerun at most twice before reassessing direction (§8.2).
+
+### 5.8 Critique module specification
+
+The metacognitive proxy is a single **critique** module (called *critic* in the self-correction
+literature). It is *not* an evaluator: it never assigns correctness, never consults the gold, and never
+calls a judge. Correctness is handled entirely by the offline evaluation layer, which scores final answers
+and records errors as environment feedback. The critique's only job is to mechanically emit a Top-N
+error-type distribution for a candidate answer.
+
+**Two-layer split.** (1) *Offline, with gold* — the wrong-answer set is analysed and each instance tagged
+with an error type from the per-domain taxonomy (§5.2), forming the **reference bank**; per-type frequencies
+give the **prior** over error types. (2) *Online, no gold* — a candidate answer is embedded in the same
+space, matched to its nearest bank instances, and their type labels vote into a **Top-N error-type
+distribution** that is fed back to the agent. Error types are *labels on bank instances*, never objects
+compared directly against the answer.
+
+**Similarity embedding (retrieval construction).** The candidate answer and every bank instance must be
+encoded by the *same* encoder so the comparison lives in one space. Phase 1 starts with deterministic
+shallow-feature vectors (presence of numerals / option letters / units, length, tool error, ANSWER marker,
+…) — zero model, zero cost — with a cloud text-embedding API as the upgrade path if semantic separation is
+insufficient. The candidate-vs.-abstract-error-type-name embedding is explicitly rejected (granularity
+mismatch).
+
+**Feedback loop.** The critique's Top-N error directions (**start N = 2**; A6 later sweeps Top-1/3/5) are
+applied **in parallel** to produce N candidate revisions from the same starting point; the **agent then
+selects** one candidate to carry into the next round — the critique only activates candidates, it never
+chooses. Runs go the full **N = 10 rounds with no early stopping**, which would mask oscillation or
+divergence; early stopping is deferred to Phase-2 cost control. Sequential single-direction revision is a
+separate ablation axis (A3, §5.5), **not** an interchangeable equivalent of parallel selection — the
+selection step adds a candidate-aggregation confound that A3 exists to exclude.
+### 5.9 Evaluation tiers (three-tier scoring framework)
+
+Correctness scoring is dispatched into three tiers by answer form and by how recoverable the
+answer is from the model's full response. Every scored row records which tier produced its final
+score in an `eval_tier` field, so hybrid scoring stays reproducible at per-question granularity.
+
+- **T1 — deterministic match (no LLM).** Numeric / symbol / letter / JSON answers are compared to
+  the gold by rule or symbol equivalence (sympy). For MATH-500, a deterministic extraction layer
+  (T1b) recovers a final answer buried inside the reasoning chain: candidates are drawn from
+  `\boxed{}`, the trailing `= …`, the last non-empty line, the last number (excluding year tokens
+  in 1900–2100), or the last option letter, and each is symbol-compared to the gold. T1 is the
+  zero-cost default for math / logic / BFCL.
+- **T2 — LLM-assisted parse + judge (deepseek-v4-pro; registered intervention).** When T1 marks a
+  row wrong but the answer may be present-yet-unrecoverable by the extractor (failure mode A:
+  "answer is in the response, the parser failed"), the full response is re-read by the strongest
+  judge model against a known gold and scored CORRECT / INCORRECT. T2 runs *only* on T1-missed rows
+  (tier-2 rescue) to contain cost, and is disabled by default (`T2_RESCUE_ENABLED`) until an API
+  key is supplied. T2 counts as an intervention and is recorded in `eval_tier`.
+- **T3 — multi-LLM voting.** Open / qualitative answers (finance FAB rubric, generation) whose gold
+  is not exhaustively expressible are judged by multiple LLMs with majority vote; the current
+  finance path uses `max(T1, T2)` rubric coverage as an interim stand-in pending a multi-judge setup.
+
+**False-negative convention.** `correct` is the positive class, so "scored wrong but actually
+right" is a **false negative (FN)** and "scored right but actually wrong" is a false positive. The
+T1b extraction layer and the T2 rescue both target FN specifically. FNs are quantified per model by
+re-scoring stored answers (zero API) and comparing against a strict rule re-label before/after.
+
+**Intervention registration.** Only T1 is intervention-free. T2 (LLM re-judge) and T3 (multi-judge)
+change the scoring decision and must be declared as interventions in every result they touch. The
+"answer-format-doesn't-matter" stance is *not* a universal default: it must be declared per task
+family (e.g. a direct-letter prompt for MMLU-Pro), and a format-enforcing prompt applied to the
+*generator* is itself an intervention — separate from, and not a substitute for, a sound evaluator.
 
 ---
 
@@ -255,3 +443,8 @@ The dominant cost driver is the number of API model × question × round cells p
 |---|---|---|
 | 0.1 | 2026-09-26 | Initial working draft (internal). |
 | 0.2 | 2026-09-26 | Restructured into an academic experiment protocol; incorporated the two-uncertainty motivation, three-layer capability hypothesis, three candidate mathematical framings, cost–reliability extreme-value form, three decouplings, and three contributions; removed process/decision content (moved to `DECISION_LOG.md`). |
+| 0.3 | 2026-09-27 | Phase-1 probe model tiers + task set revised: weak Qwen3.5-4B+TinyLlama-1.1B (local), mid DeepSeek-V4-Flash+Qwen3.8-Flash (API), strong Claude Opus 5.5+GPT-6 Astra (deferred); tasks math/logic/finance 50 each (150 Qs). |
+| 0.4 | 2026-09-28 | Added §5.2 Task-Bank Blueprint (provisional): L1/L2 family × benchmark × capability-layer (L1-L4) × evaluator × token-budget matrix, each probe set fixed at 50 questions; renumbered former §5.2-5.5 to §5.3-5.6. |
+| 0.5 | 2026-09-29 | Added §5.7 Phase-1 (probe) execution plan: four feasibility checks (capability decomposition / Bayesian proxy / L3-L4 discrimination / cost–reliability curves), build-before-burn order with N=10 in 3-round segments, and no-human-labelling validation; corrected §5.3 Stage-1 human-labelled errors to outcome-based validation. |
+| 0.6 | 2026-09-29 | Added §5.9 three-tier scoring framework (T1 deterministic / T2 LLM re-judge rescue / T3 multi-judge voting), intervention registration, and the false-negative convention (correct = positive). |
+| 0.6 | 2026-09-29 | Renamed the metacognitive proxy from "evaluator" to a single embedding-based **critique** module; added §5.8 spec (offline annotated error bank + online instance-similarity retrieval; deterministic shallow-feature embedding; parallel Top-N candidate revisions with agent self-selection; full N=10 rounds, no early stopping); recast L3/L4 as activation-without-locking. |

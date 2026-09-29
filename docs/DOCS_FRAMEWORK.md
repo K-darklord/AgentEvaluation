@@ -1,4 +1,4 @@
-# Document System (Version 0.3)
+# Document System (Version 0.4)
 
 > **Scope**: defines *which* documents exist, their register, how they are versioned, and how they map to the paper and code. It is itself part of the living-document system.
 >
@@ -35,6 +35,7 @@ Information was scattered across two places and has now been unified into this r
 | **WORKMAP.md** | academic | frontier literature map + proposal gap | `docs/WORKMAP.md` (pending) |
 | **paper skeleton** | academic | manuscript skeleton + three contribution claims + figure/table placeholders | `paper/paper_outline.md` |
 | **data registry** | academic | dataset version / source / sha256 / license | `data/README.md` (to create) |
+| **ARCHITECTURE.md** | academic (implementation) | code-architecture blueprint for the experiment-execution layer, sized to the Phase-3 workload | `docs/ARCHITECTURE.md` |
 | **ablation matrix** | academic | ablations (rule out alternative explanations) | `configs/ablation/` (to create) |
 
 ### B. Process logs (not deliverables)
@@ -106,4 +107,5 @@ claim (paper) → experiment-log record → config + seed → raw trajectories �
 |---|---|---|
 | 0.1 | 2026-09-26 | Initial document system. |
 | 0.2 | 2026-09-26 | Introduced the academic/process register separation. |
+| 0.4 | 2026-09-27 | Registered docs/ARCHITECTURE.md (experiment-execution implementation blueprint). |
 | 0.3 | 2026-09-26 | Aligned to the AgentEvaluation repository (canonical home); added PROTOCOL / TIMELINE / EXPERIMENT_LOG / EVALUATION_STANDARD / INTERFERENCE_CAUSAL_TABLE to the inventory; updated pending migrations. |

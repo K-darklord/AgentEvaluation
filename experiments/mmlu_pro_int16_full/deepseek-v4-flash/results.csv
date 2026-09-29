@@ -1,0 +1,63 @@
+run_id,task_id,category,difficulty,gold_answer,final_answer,is_correct,error_type,tier1_numeric,tier2_llm_semantic,dealbreaker_triggered,final_score,tool_calls,total_latency_ms,model_name
+deepseek-v4-flash,mmlu_pro_001,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,0,4759,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_002,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,1.0,0,10066,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_003,Logical Reasoning,Hard,J,So the words: 1) Down 2) [key issue] 3) [second issue] 4) [package type].,False,complete_failure,0.0,0.0,False,0.0,0,12419,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_004,Logical Reasoning,Hard,C,H,False,complete_failure,0.0,0.0,False,0.0,0,2931,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_005,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,1.0,0,5159,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_006,Logical Reasoning,Hard,A,A,True,correct,1.0,0.0,False,1.0,27,303089,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_007,Logical Reasoning,Hard,D,D,True,correct,1.0,0.0,False,1.0,0,1686,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_008,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,1369,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_009,Logical Reasoning,Hard,E,E,True,correct,1.0,0.0,False,1.0,0,1686,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_010,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,1.0,0,3516,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_011,Logical Reasoning,Hard,E,E,True,correct,1.0,0.0,False,1.0,0,1375,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_012,Logical Reasoning,Hard,G,C,False,complete_failure,0.0,0.0,False,0.0,0,5352,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_013,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,1554,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_014,Logical Reasoning,Hard,D,D,True,correct,1.0,0.0,False,1.0,10,194578,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_015,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,1.0,0,3190,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_016,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,3234,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_017,Logical Reasoning,Hard,F,"Let's compute multiplicative S:
+j=0: 6.737
+j=1: 6.737*1.12242=7.562
+j=2: 7.562*1.12242=8.488
+j=3: 8.488*1.12242=9.527
+j=4: 9.527*1.12242=10.693
+j=5: 10.693*1.12242=12.002
+j=6: 12.002*1.12242=13.471
+j=7: 13.471*1.12242=15.120
+j=8: 15.120*1.12242=16.971
+j=9: 16.971*1.12242=19.048
+j=10: 19.048*1.12242=21.381",False,complete_failure,0.0,0.0,False,0.0,0,10554,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_018,Logical Reasoning,Hard,A,A,True,correct,1.0,0.0,False,1.0,0,4808,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_019,Logical Reasoning,Hard,B,B,True,correct,1.0,0.0,False,1.0,0,3774,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_020,Logical Reasoning,Hard,D,D,True,correct,1.0,0.0,False,1.0,0,2062,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_021,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,7949,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_022,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,0,1778,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_023,Logical Reasoning,Hard,E,E,True,correct,1.0,0.0,False,1.0,0,2012,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_024,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,0,1627,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_025,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,7063,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_026,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,2550,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_027,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,0,2043,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_028,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,1.0,0,1154,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_029,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,0,3693,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_030,Logical Reasoning,Hard,C,C,True,correct,1.0,0.0,False,1.0,0,2771,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_031,Logical Reasoning,Hard,E,E,True,correct,1.0,0.0,False,1.0,0,1490,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_032,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,0,1760,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_033,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,9982,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_034,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,0,2843,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_035,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,0,1968,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_036,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,0,7993,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_037,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,0,3173,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_038,Logical Reasoning,Hard,A,A,True,correct,1.0,0.0,False,1.0,0,1501,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_039,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,1.0,0,1417,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_040,Logical Reasoning,Hard,J,Maybe the answer choices include 374 2/3. Let's compute with different approach. Perhaps they use 1 HP = 0.746 kW and electric energy 2.35 cents per kWh = $0.0235. Efficiency maybe expressed full-load efficiency.,False,complete_failure,0.0,0.0,False,0.0,0,9789,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_041,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,1.0,0,1704,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_042,Logical Reasoning,Hard,A,A,True,correct,1.0,0.0,False,1.0,0,1703,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_043,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,1.0,0,7660,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_044,Logical Reasoning,Hard,A,"Need exact table. Let's find. For single persons, 1949: 
+- 19% on first $2,000? Actually 1948: tax on first $2,000 = $380? Wait.",False,complete_failure,0.0,0.0,False,0.0,0,11982,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_045,Logical Reasoning,Hard,B,B,True,correct,1.0,0.0,False,1.0,0,1752,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_046,Logical Reasoning,Hard,J,"Let's think deeply about ""not incur a short term loss"" phrasing. Suppose he sells at $13, covering direct costs but not overhead. In accounting, he does incur a loss on the product (overhead not covered) if we include all costs. But ""short term loss""",False,complete_failure,0.0,0.0,False,0.0,0,12117,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_047,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,1.0,0,6279,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_048,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,1.0,0,1459,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_049,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,1.0,0,4029,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_050,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,1.0,0,1660,deepseek-v4-flash-0731

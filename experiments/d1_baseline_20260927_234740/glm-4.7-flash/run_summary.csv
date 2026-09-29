@@ -1,0 +1,4 @@
+run_id,task_id,category,difficulty,gold_answer,final_answer,tool_calls,latency_ms,cost_usd,model,seed,metadata
+glm-4.7-flash,gsm8k_001,Mathematical Reasoning,Medium,18,"LLM error: Error code: 429 - {'error': {'code': '1305', 'message': '该模型当前访问量过大，请您稍后再试'}}",0,13044,0.0,glm-4.7-flash,,"{""source"": ""gsm8k"", ""split"": ""test"", ""benchmark"": ""math""}"
+glm-4.7-flash,gsm8k_002,Mathematical Reasoning,Medium,3,3 bolts,0,36953,0.0,glm-4.7-flash,,"{""source"": ""gsm8k"", ""split"": ""test"", ""benchmark"": ""math""}"
+glm-4.7-flash,gsm8k_003,Mathematical Reasoning,Medium,70000,"$70,000",0,62452,0.0,glm-4.7-flash,,"{""source"": ""gsm8k"", ""split"": ""test"", ""benchmark"": ""math""}"

@@ -1,0 +1,6 @@
+run_id,task_id,category,difficulty,gold_answer,final_answer,tool_calls,latency_ms,cost_usd,model,seed,metadata
+qwen3.8-flash,mmlu_pro_001,Logical Reasoning,Hard,I,I,0,2673,0.0,qwen3.8-flash,,"{""source"": ""mmlu_pro"", ""split"": ""test"", ""benchmark"": ""mmlu_pro"", ""subject"": ""business"", ""n_options"": 9}"
+qwen3.8-flash,mmlu_pro_002,Logical Reasoning,Hard,F,F,0,4018,0.0,qwen3.8-flash,,"{""source"": ""mmlu_pro"", ""split"": ""test"", ""benchmark"": ""mmlu_pro"", ""subject"": ""business"", ""n_options"": 10}"
+qwen3.8-flash,mmlu_pro_003,Logical Reasoning,Hard,J,J,0,11775,0.0,qwen3.8-flash,,"{""source"": ""mmlu_pro"", ""split"": ""test"", ""benchmark"": ""mmlu_pro"", ""subject"": ""business"", ""n_options"": 10}"
+qwen3.8-flash,mmlu_pro_004,Logical Reasoning,Hard,C,C,0,2743,0.0,qwen3.8-flash,,"{""source"": ""mmlu_pro"", ""split"": ""test"", ""benchmark"": ""mmlu_pro"", ""subject"": ""business"", ""n_options"": 10}"
+qwen3.8-flash,mmlu_pro_005,Logical Reasoning,Hard,G,G,0,2465,0.0,qwen3.8-flash,,"{""source"": ""mmlu_pro"", ""split"": ""test"", ""benchmark"": ""mmlu_pro"", ""subject"": ""business"", ""n_options"": 10}"

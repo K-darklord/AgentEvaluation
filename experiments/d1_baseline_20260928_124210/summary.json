@@ -1,0 +1,116 @@
+{
+  "run_id": "20260928_124210",
+  "n_tasks": 150,
+  "temperature": 0.0,
+  "seed": null,
+  "concurrency": 6,
+  "t2_judge": "deepseek-v4-pro",
+  "models": {
+    "deepseek-v4-flash": {
+      "tier": "mid",
+      "model_id": "deepseek-v4-flash-0731",
+      "declared_temperature": 0.0,
+      "seed": null,
+      "thinking": "unknown",
+      "accuracy": 0.7,
+      "accuracy_excl_api_failures": 0.7,
+      "n_valid_tasks": 150,
+      "n_api_failures": 0,
+      "per_domain": {
+        "math": {
+          "correct": 50,
+          "n": 50
+        },
+        "logic": {
+          "correct": 28,
+          "n": 50
+        },
+        "finance": {
+          "correct": 27,
+          "n": 50
+        },
+        "other": {
+          "correct": 0,
+          "n": 0
+        }
+      },
+      "error_distribution": {
+        "correct": 105,
+        "complete_failure": 39,
+        "numeric_error": 4,
+        "factual_contradiction": 2
+      }
+    },
+    "qwen3.8-flash": {
+      "tier": "mid",
+      "model_id": "qwen3.8-flash",
+      "declared_temperature": 0.0,
+      "seed": null,
+      "thinking": "on",
+      "accuracy": 0.7533333333333333,
+      "accuracy_excl_api_failures": 0.7533333333333333,
+      "n_valid_tasks": 150,
+      "n_api_failures": 0,
+      "per_domain": {
+        "math": {
+          "correct": 49,
+          "n": 50
+        },
+        "logic": {
+          "correct": 39,
+          "n": 50
+        },
+        "finance": {
+          "correct": 25,
+          "n": 50
+        },
+        "other": {
+          "correct": 0,
+          "n": 0
+        }
+      },
+      "error_distribution": {
+        "correct": 113,
+        "numeric_error": 14,
+        "complete_failure": 21,
+        "factual_contradiction": 2
+      }
+    },
+    "glm-5.3": {
+      "tier": "mid",
+      "model_id": "glm-5.3",
+      "declared_temperature": 0.0,
+      "seed": null,
+      "thinking": "unknown",
+      "accuracy": 0.5933333333333334,
+      "accuracy_excl_api_failures": 0.5933333333333334,
+      "n_valid_tasks": 150,
+      "n_api_failures": 0,
+      "per_domain": {
+        "math": {
+          "correct": 49,
+          "n": 50
+        },
+        "logic": {
+          "correct": 25,
+          "n": 50
+        },
+        "finance": {
+          "correct": 15,
+          "n": 50
+        },
+        "other": {
+          "correct": 0,
+          "n": 0
+        }
+      },
+      "error_distribution": {
+        "correct": 89,
+        "numeric_error": 7,
+        "complete_failure": 51,
+        "qualitative_incomplete": 1,
+        "factual_contradiction": 2
+      }
+    }
+  }
+}

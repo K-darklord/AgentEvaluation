@@ -1,0 +1,279 @@
+{
+  "metadata": {
+    "taxonomy_version": "v2.0",
+    "generated_at_utc": "2026-09-29T05:22:30.688205+00:00",
+    "script": "src/build_error_taxonomy.py",
+    "data_sources": {
+      "math_math500_finance_bfcl": "experiments/d1_baseline_20260928_201128",
+      "mmlu_pro": "experiments/mmlu_pro_int16_full"
+    },
+    "thresholds": {
+      "RUBRIC_COVERAGE_THRESHOLD": 0.6,
+      "NUMERIC_TOL": 0.05,
+      "SIGN_FLIP_THRESHOLD": -0.9,
+      "MAGNITUDE_LOW": 0.1,
+      "MAGNITUDE_HIGH": 10.0,
+      "NEAR_MISS_REL": 0.1,
+      "FACTOR_TOLERANCE": 0.05,
+      "SIMPLE_FACTORS": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        0.5,
+        0.3333333333333333,
+        0.25,
+        0.2,
+        0.16666666666666666,
+        1.5,
+        0.6666666666666666,
+        1.3333333333333333,
+        0.75,
+        2.5,
+        0.4
+      ]
+    },
+    "labelers": {
+      "math": "label_math500 (reused)",
+      "math500": "label_math500",
+      "mmlu_pro": "label_mmlu",
+      "finance": "label_finance",
+      "bfcl": "label_bfcl"
+    },
+    "ontology": {
+      "sign_flip": {
+        "group": "arithmetic_error",
+        "source": "GSM-Ranges / NTT calculation"
+      },
+      "magnitude_error": {
+        "group": "arithmetic_error",
+        "source": "GSM-Ranges / NTT calculation"
+      },
+      "factor_error": {
+        "group": "arithmetic_error",
+        "source": "GSM-Ranges / NTT calculation"
+      },
+      "near_miss": {
+        "group": "arithmetic_error",
+        "source": "GSM-Ranges / NTT calculation"
+      },
+      "wrong_symbolic": {
+        "group": "symbolic_error",
+        "source": "NTT symbolic manipulation"
+      },
+      "empty_or_unparseable": {
+        "group": "invalid_output",
+        "source": "n/a (not a reasoning class)"
+      },
+      "non_letter_output": {
+        "group": "instruction_following_error",
+        "source": "PRISM"
+      },
+      "multiple_letters": {
+        "group": "instruction_following_error",
+        "source": "PRISM"
+      },
+      "wrong_option": {
+        "group": "wrong_option",
+        "source": "PRISM Reasoning Error"
+      },
+      "empty_pred": {
+        "group": "invalid_output",
+        "source": "n/a (not a reasoning class)"
+      },
+      "tool_error": {
+        "group": "tool_error",
+        "source": "BFCL-adjacent (tool-use)"
+      },
+      "retrieval_failure": {
+        "group": "knowledge_missing",
+        "source": "PRISM Knowledge Missing"
+      },
+      "contradiction": {
+        "group": "knowledge_error",
+        "source": "PRISM Knowledge Error / fine-grained hallucination"
+      },
+      "complete_failure": {
+        "group": "no_reasoning",
+        "source": "n/a (no valid reasoning produced)"
+      },
+      "numeric_error": {
+        "group": "reasoning_error",
+        "source": "PRISM Reasoning Error"
+      },
+      "coverage_incomplete": {
+        "group": "reasoning_error",
+        "source": "PRISM Reasoning Error"
+      },
+      "json_parse_error": {
+        "group": "malformed_output",
+        "source": "BFCL"
+      },
+      "wrong_function_name": {
+        "group": "wrong_function",
+        "source": "BFCL task-level"
+      },
+      "wrong_argument": {
+        "group": "wrong_argument",
+        "source": "BFCL component-level"
+      }
+    },
+    "not_detectable_classes": {
+      "GSM-Ranges": [
+        "logical error",
+        "number-copy error"
+      ],
+      "NTT (21-class)": [
+        "full step-level reasoning-process classes"
+      ],
+      "PE/CE/IE": [
+        "procedural / conceptual / impasse step classification"
+      ],
+      "fine-grained hallucination": [
+        "fabrication",
+        "factual inconsistency",
+        "context inconsistency",
+        "logical inconsistency"
+      ]
+    }
+  },
+  "distribution": {
+    "math500": {
+      "deepseek-v4-flash": {
+        "factor_error": 3,
+        "magnitude_error": 1,
+        "wrong_symbolic": 3,
+        "near_miss": 2
+      },
+      "glm-5.3": {
+        "wrong_symbolic": 5,
+        "near_miss": 4,
+        "magnitude_error": 11,
+        "factor_error": 5,
+        "empty_or_unparseable": 3
+      },
+      "qwen3.8-flash": {
+        "wrong_symbolic": 4,
+        "near_miss": 10,
+        "factor_error": 6,
+        "magnitude_error": 5,
+        "empty_or_unparseable": 1
+      }
+    },
+    "finance": {
+      "deepseek-v4-flash": {
+        "numeric_error": 12,
+        "complete_failure": 12,
+        "contradiction": 5
+      },
+      "glm-5.3": {
+        "numeric_error": 8,
+        "coverage_incomplete": 2,
+        "complete_failure": 16,
+        "retrieval_failure": 2,
+        "contradiction": 2
+      },
+      "qwen3.8-flash": {
+        "numeric_error": 13,
+        "complete_failure": 15,
+        "contradiction": 3
+      }
+    },
+    "bfcl": {
+      "deepseek-v4-flash": {
+        "wrong_argument": 7
+      },
+      "glm-5.3": {
+        "wrong_argument": 5
+      },
+      "qwen3.8-flash": {}
+    },
+    "math": {
+      "glm-5.3": {
+        "wrong_symbolic": 1
+      },
+      "deepseek-v4-flash": {},
+      "qwen3.8-flash": {}
+    },
+    "mmlu_pro": {
+      "deepseek-v4-flash": {
+        "non_letter_output": 3,
+        "wrong_option": 4
+      },
+      "glm-5.3": {
+        "multiple_letters": 3,
+        "wrong_option": 5,
+        "non_letter_output": 2
+      },
+      "qwen3.8-flash": {
+        "wrong_option": 3,
+        "multiple_letters": 1,
+        "non_letter_output": 2
+      }
+    }
+  },
+  "group_distribution": {
+    "math500": {
+      "deepseek-v4-flash": {
+        "arithmetic_error": 6,
+        "symbolic_error": 3
+      },
+      "glm-5.3": {
+        "symbolic_error": 5,
+        "arithmetic_error": 20,
+        "invalid_output": 3
+      },
+      "qwen3.8-flash": {
+        "symbolic_error": 4,
+        "arithmetic_error": 21,
+        "invalid_output": 1
+      }
+    },
+    "finance": {
+      "deepseek-v4-flash": {
+        "reasoning_error": 12,
+        "no_reasoning": 12,
+        "knowledge_error": 5
+      },
+      "glm-5.3": {
+        "reasoning_error": 10,
+        "no_reasoning": 16,
+        "knowledge_missing": 2,
+        "knowledge_error": 2
+      },
+      "qwen3.8-flash": {
+        "reasoning_error": 13,
+        "no_reasoning": 15,
+        "knowledge_error": 3
+      }
+    },
+    "bfcl": {
+      "deepseek-v4-flash": {
+        "wrong_argument": 7
+      },
+      "glm-5.3": {
+        "wrong_argument": 5
+      }
+    },
+    "math": {
+      "glm-5.3": {
+        "symbolic_error": 1
+      }
+    },
+    "mmlu_pro": {
+      "deepseek-v4-flash": {
+        "instruction_following_error": 3,
+        "wrong_option": 4
+      },
+      "glm-5.3": {
+        "instruction_following_error": 5,
+        "wrong_option": 5
+      },
+      "qwen3.8-flash": {
+        "wrong_option": 3,
+        "instruction_following_error": 3
+      }
+    }
+  }
+}

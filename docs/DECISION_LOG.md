@@ -41,6 +41,25 @@
 
 ---
 
+## 4. Concurrency & parallelization (working notes)
+
+> Status: engineering warm-up for Phase 1; recorded for later, NOT executed now.
+
+### Current state (done)
+- Serial-to-parallel refactor completed and smoke-tested:
+  - `agent.py`: `_DOCUMENT_CACHE` -> `threading.local()` (thread-safe; 12 threads no cross-talk).
+  - `runner.py`: `ThreadPoolExecutor` task-level parallelism + failure isolation (`AGENTEVALUATION_CONCURRENCY`, default 6).
+  - `evaluator.py`: parallel scoring via `_score_one_row` + `ThreadPoolExecutor`.
+- 10-task stress test @ concurrency 6: 10/10 done, 0 API failures, wall-clock 6:44 (serial ~ 21 min), ~3.2x speedup. Single-task latency unchanged (min 30s / mean 128s / max 339s).
+- Bottleneck is tail variance, not throughput: a wave's wall-clock equals its slowest task (the "bucket" effect), so speedup stays well below the concurrency factor.
+
+### Future directions (defer until more real questions are added)
+1. **Duration-tagged basket scheduling**: tag each question with its expected duration, group near-duration tasks into a basket, and run them concurrently — reduces the tail/bucket penalty by keeping wave-mates close in runtime (load-balance by predicted latency instead of FIFO batching).
+2. **Multi-API agents**: route different questions to different API-backed agents (distinct endpoints/accounts), raising the total concurrency ceiling by spreading rate limits.
+3. Open follow-up: sweep concurrency (6/8/12/16) to locate the HF-router rate-limit knee before any full-scale run.
+
+---
+
 ## Revision History
 
 | Version | Date | Change |
@@ -49,3 +68,4 @@
 | 0.2 | 2026-09-26 | Resolved repository home (AgentEvaluation repo) and recorded the repo refactor; added license-choice open question. |
 | 0.3 | 2026-09-26 | Recorded repository rename FinAgent → AgentEvaluation. |
 | 0.4 | 2026-09-26 | Resolved license choice: MIT. |
+| 0.5 | 2026-09-27 | Logged concurrency refactor status + future parallelization strategies (duration-basket scheduling, multi-API agents); deferred execution. |

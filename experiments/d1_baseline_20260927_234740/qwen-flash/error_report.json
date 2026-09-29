@@ -1,0 +1,18 @@
+{
+  "n_tasks": 3,
+  "n_valid_tasks": 0,
+  "n_api_failures": 3,
+  "accuracy": 0.0,
+  "accuracy_excl_api_failures": 0,
+  "error_distribution": {
+    "api_failure": 3
+  },
+  "avg_latency_ms": 52594.0,
+  "total_cost_usd": 0.0,
+  "tier_breakdown": {
+    "t1_numeric_avg": 0.0,
+    "t2_llm_semantic_avg": 0.0,
+    "final_score_avg": 0.0,
+    "dealbreakers_triggered": 0
+  }
+}

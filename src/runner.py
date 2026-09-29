@@ -16,8 +16,17 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from src.benchmark import load_tasks, load_fab_questions
-from src.agent import BaseAgent, RuleBasedFinanceAgent
+import concurrent.futures
+
+from src import config
+from src.benchmark import (
+    load_tasks,
+    load_fab_questions,
+    load_gsm8k_questions,
+    load_logic_questions,
+    load_phase1_tasks,
+)
+from src.agent import BaseAgent, AgentResult, RuleBasedFinanceAgent
 
 
 OUTPUT_DIR = Path(__file__).resolve().parents[1] / "output"
@@ -28,18 +37,42 @@ def run_evaluation(
     tasks=None,
     output_dir: Path = OUTPUT_DIR,
     run_id: str | None = None,
+    concurrency: int | None = None,
 ) -> dict:
-    tasks = tasks or load_tasks()
+    tasks = list(tasks or load_tasks())
     output_dir.mkdir(parents=True, exist_ok=True)
     run_id = run_id or datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    if concurrency is None:
+        concurrency = max(1, config.RUNNER_CONCURRENCY)
 
     traj_path = output_dir / "trajectories.jsonl"
     sum_path = output_dir / "run_summary.csv"
 
+    # Task-level parallelism only: each task's internal tool loop stays sequential.
+    # Results are collected by index so trajectory/CSV output order is reproducible.
+    def _solve_one(item):
+        idx, task = item
+        try:
+            return idx, agent.solve(task)
+        except Exception as e:
+            # Isolate failures: one bad task must not abort the whole run.
+            err = AgentResult(
+                task_id=getattr(task, "task_id", f"task_{idx}"),
+                model_name=getattr(agent, "name", "unknown"),
+            )
+            err.final_answer = f"Error: {e}"
+            err.error = str(e)
+            return idx, err
+
+    results = [None] * len(tasks)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=concurrency) as ex:
+        for idx, result in ex.map(_solve_one, enumerate(tasks)):
+            results[idx] = result
+
     rows = []
     with traj_path.open("w", encoding="utf-8") as ft:
-        for task in tasks:
-            result = agent.solve(task)
+        for task, result in zip(tasks, results):
             record = {
                 "run_id": run_id,
                 "task_id": task.task_id,
@@ -52,6 +85,7 @@ def run_evaluation(
                 "total_latency_ms": result.total_latency_ms,
                 "total_cost_usd": result.total_cost_usd,
                 "model_name": result.model_name,
+                "seed": result.seed,
                 "trajectory": result.trajectory,   # 完整轨迹：归因分析的原料
                 "metadata": task.metadata,
                 "api_failure": result.api_failure,
@@ -69,6 +103,7 @@ def run_evaluation(
                 "latency_ms": result.total_latency_ms,
                 "cost_usd": result.total_cost_usd,
                 "model": result.model_name,
+                "seed": result.seed,
                 "metadata": json.dumps(task.metadata, ensure_ascii=False),
             })
 
@@ -78,7 +113,7 @@ def run_evaluation(
         writer.writeheader()
         writer.writerows(rows)
 
-    print(f"✅ Run {run_id} done. {len(rows)} tasks.")
+    print(f"✅ Run {run_id} done. {len(rows)} tasks (concurrency={concurrency}).")
     print(f"   trajectories: {traj_path}")
     print(f"   summary:      {sum_path}")
     return {"run_id": run_id, "n": len(rows), "traj_path": str(traj_path)}
@@ -107,6 +142,12 @@ if __name__ == "__main__":
 
     if bench_name == "fab":
         tasks = load_fab_questions()
+    elif bench_name == "gsm8k":
+        tasks = load_gsm8k_questions()
+    elif bench_name == "logic":
+        tasks = load_logic_questions()
+    elif bench_name in ("phase1", "all"):
+        tasks = load_phase1_tasks()
     else:
         tasks = load_tasks()
 
