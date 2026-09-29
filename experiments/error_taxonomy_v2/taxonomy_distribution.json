@@ -1,7 +1,7 @@
 {
   "metadata": {
     "taxonomy_version": "v2.0",
-    "generated_at_utc": "2026-09-29T05:22:30.688205+00:00",
+    "generated_at_utc": "2026-09-29T12:57:38.862302+00:00",
     "script": "src/build_error_taxonomy.py",
     "data_sources": {
       "math_math500_finance_bfcl": "experiments/d1_baseline_20260928_201128",
@@ -95,8 +95,8 @@
         "source": "PRISM Knowledge Error / fine-grained hallucination"
       },
       "complete_failure": {
-        "group": "no_reasoning",
-        "source": "n/a (no valid reasoning produced)"
+        "group": "reasoning_error",
+        "source": "n/a (reasoning not finalized / truncated / non-convergent)"
       },
       "numeric_error": {
         "group": "reasoning_error",
@@ -141,25 +141,17 @@
   "distribution": {
     "math500": {
       "deepseek-v4-flash": {
-        "factor_error": 3,
+        "factor_error": 2,
         "magnitude_error": 1,
-        "wrong_symbolic": 3,
-        "near_miss": 2
+        "wrong_symbolic": 2
       },
       "glm-5.3": {
-        "wrong_symbolic": 5,
-        "near_miss": 4,
-        "magnitude_error": 11,
-        "factor_error": 5,
-        "empty_or_unparseable": 3
+        "wrong_symbolic": 3,
+        "empty_or_unparseable": 3,
+        "magnitude_error": 1,
+        "factor_error": 1
       },
-      "qwen3.8-flash": {
-        "wrong_symbolic": 4,
-        "near_miss": 10,
-        "factor_error": 6,
-        "magnitude_error": 5,
-        "empty_or_unparseable": 1
-      }
+      "qwen3.8-flash": {}
     },
     "finance": {
       "deepseek-v4-flash": {
@@ -182,7 +174,7 @@
     },
     "bfcl": {
       "deepseek-v4-flash": {
-        "wrong_argument": 7
+        "wrong_argument": 5
       },
       "glm-5.3": {
         "wrong_argument": 5
@@ -216,41 +208,33 @@
   "group_distribution": {
     "math500": {
       "deepseek-v4-flash": {
-        "arithmetic_error": 6,
-        "symbolic_error": 3
+        "arithmetic_error": 3,
+        "symbolic_error": 2
       },
       "glm-5.3": {
-        "symbolic_error": 5,
-        "arithmetic_error": 20,
-        "invalid_output": 3
-      },
-      "qwen3.8-flash": {
-        "symbolic_error": 4,
-        "arithmetic_error": 21,
-        "invalid_output": 1
+        "symbolic_error": 3,
+        "invalid_output": 3,
+        "arithmetic_error": 2
       }
     },
     "finance": {
       "deepseek-v4-flash": {
-        "reasoning_error": 12,
-        "no_reasoning": 12,
+        "reasoning_error": 24,
         "knowledge_error": 5
       },
       "glm-5.3": {
-        "reasoning_error": 10,
-        "no_reasoning": 16,
+        "reasoning_error": 26,
         "knowledge_missing": 2,
         "knowledge_error": 2
       },
       "qwen3.8-flash": {
-        "reasoning_error": 13,
-        "no_reasoning": 15,
+        "reasoning_error": 28,
         "knowledge_error": 3
       }
     },
     "bfcl": {
       "deepseek-v4-flash": {
-        "wrong_argument": 7
+        "wrong_argument": 5
       },
       "glm-5.3": {
         "wrong_argument": 5

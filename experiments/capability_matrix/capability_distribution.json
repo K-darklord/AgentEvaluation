@@ -1,0 +1,91 @@
+{
+  "note": "shared cross-domain middle axis; leaf->axis via CAPABILITY_DIMENSIONS (see docs/ERROR_TAXONOMY.md)",
+  "capability_distribution": {
+    "math500": {
+      "deepseek-v4-flash": {
+        "computation": 3,
+        "reasoning": 2
+      },
+      "glm-5.3": {
+        "reasoning": 3,
+        "instruction": 3,
+        "computation": 2
+      },
+      "qwen3.8-flash": {}
+    },
+    "finance": {
+      "deepseek-v4-flash": {
+        "computation": 12,
+        "reasoning": 12,
+        "knowledge": 5
+      },
+      "glm-5.3": {
+        "computation": 8,
+        "completeness": 2,
+        "reasoning": 16,
+        "knowledge": 4
+      },
+      "qwen3.8-flash": {
+        "computation": 13,
+        "reasoning": 15,
+        "knowledge": 3
+      }
+    },
+    "bfcl": {
+      "deepseek-v4-flash": {
+        "tool": 5
+      },
+      "glm-5.3": {
+        "tool": 5
+      },
+      "qwen3.8-flash": {}
+    },
+    "math": {
+      "glm-5.3": {
+        "reasoning": 1
+      },
+      "deepseek-v4-flash": {},
+      "qwen3.8-flash": {}
+    },
+    "mmlu_pro": {
+      "deepseek-v4-flash": {
+        "instruction": 3,
+        "reasoning": 4
+      },
+      "glm-5.3": {
+        "instruction": 5,
+        "reasoning": 5
+      },
+      "qwen3.8-flash": {
+        "reasoning": 3,
+        "instruction": 3
+      }
+    }
+  },
+  "class_family_coverage": {
+    "computation": [
+      "finance",
+      "math500"
+    ],
+    "reasoning": [
+      "finance",
+      "math",
+      "math500",
+      "mmlu_pro"
+    ],
+    "knowledge": [
+      "finance"
+    ],
+    "instruction": [
+      "math500",
+      "mmlu_pro"
+    ],
+    "tool": [
+      "bfcl"
+    ],
+    "completeness": [
+      "finance"
+    ]
+  },
+  "n_unmapped": 0
+}

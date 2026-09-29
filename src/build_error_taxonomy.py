@@ -98,7 +98,7 @@ ONTOLOGY = {
     "tool_error":          {"group": "tool_error", "source": "BFCL-adjacent (tool-use)"},
     "retrieval_failure":   {"group": "knowledge_missing", "source": "PRISM Knowledge Missing"},
     "contradiction":       {"group": "knowledge_error", "source": "PRISM Knowledge Error / fine-grained hallucination"},
-    "complete_failure":    {"group": "no_reasoning", "source": "n/a (no valid reasoning produced)"},
+    "complete_failure":    {"group": "reasoning_error", "source": "n/a (reasoning not finalized / truncated / non-convergent)"},
     "numeric_error":       {"group": "reasoning_error", "source": "PRISM Reasoning Error"},
     "coverage_incomplete": {"group": "reasoning_error", "source": "PRISM Reasoning Error"},
     # bfcl (BFCL official task-level vs component-level)
