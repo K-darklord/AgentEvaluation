@@ -304,35 +304,59 @@ consistent with the premise that the proxy must succeed with minimal external in
 **Go/no-go.** Go if the four checks pass (or the §5.6 success subset); otherwise stop, adjust the
 critique (embedding / N / prior), and rerun at most twice before reassessing direction (§8.2).
 
-### 5.8 Critique module specification
+### 5.8 Critique module specification — simple rule-based metacognition
 
-The metacognitive proxy is a single **critique** module (called *critic* in the self-correction
-literature). It is *not* an evaluator: it never assigns correctness, never consults the gold, and never
-calls a judge. Correctness is handled entirely by the offline evaluation layer, which scores final answers
-and records errors as environment feedback. The critique's only job is to mechanically emit a Top-N
-error-type distribution for a candidate answer.
+**Positioning.** The metacognitive proxy is a single **critique** module (a *critic* in the
+self-correction literature). It is *not* an evaluator and *not* a classifier: it never assigns
+correctness, never consults the gold, never calls a judge, and never claims to *identify* which
+error occurred. Correctness is handled entirely by the offline evaluation layer. The critique's only
+job is to emit a few **reflective probes** — directions for the agent to re-examine its own reasoning.
 
-**Two-layer split.** (1) *Offline, with gold* — the wrong-answer set is analysed and each instance tagged
-with an error type from the per-domain taxonomy (§5.2), forming the **reference bank**; per-type frequencies
-give the **prior** over error types. (2) *Online, no gold* — a candidate answer is embedded in the same
-space, matched to its nearest bank instances, and their type labels vote into a **Top-N error-type
-distribution** that is fed back to the agent. Error types are *labels on bank instances*, never objects
-compared directly against the answer.
+**Simplicity constraint (design principle).** Metacognition is a *reflection trigger*, not a recognition
+model. HMM / embedding / deep-similarity schemes are therefore rejected as the critique body: they optimise
+for "recognising which error" where the task only needs "flagging what to re-check". The body is a
+deterministic rule set `if signal then reflective-probe` — no model, no reference-bank retrieval.
 
-**Similarity embedding (retrieval construction).** The candidate answer and every bank instance must be
-encoded by the *same* encoder so the comparison lives in one space. Phase 1 starts with deterministic
-shallow-feature vectors (presence of numerals / option letters / units, length, tool error, ANSWER marker,
-…) — zero model, zero cost — with a cloud text-embedding API as the upgrade path if semantic separation is
-insufficient. The candidate-vs.-abstract-error-type-name embedding is explicitly rejected (granularity
-mismatch).
+**Single-round body + optional history signal.** The critique operates on the *current round only* — the
+answer and its process — so it never depends on future rounds and never needs multi-round training data.
+A *history-delta* signal (did the answer change vs. the previous rounds, or stay frozen?) is an optional
+add-on that is equally online-available, does not leak the gold, and is itself highly meta-cognitive
+("am I oscillating? did I actually re-think?").
 
-**Feedback loop.** The critique's Top-N error directions (**start N = 2**; A6 later sweeps Top-1/3/5) are
-applied **in parallel** to produce N candidate revisions from the same starting point; the **agent then
-selects** one candidate to carry into the next round — the critique only activates candidates, it never
-chooses. Runs go the full **N = 10 rounds with no early stopping**, which would mask oscillation or
-divergence; early stopping is deferred to Phase-2 cost control. Sequential single-direction revision is a
-separate ablation axis (A3, §5.5), **not** an interchangeable equivalent of parallel selection — the
-selection step adds a candidate-aggregation confound that A3 exists to exclude.
+**Three deterministic signal layers (all gold-free).**
+
+| Layer | Signals | Example reflective probe |
+|---|---|---|
+| Answer shape | empty / multiple candidates / sign / magnitude / unclosed format | "commit to one definite value" / "re-check the sign" |
+| Process primitives | zero retrievals / high re-call count / commit without verify | "did you skip grounding evidence?" / "are you looping?" / "back-substitute once" |
+| History delta | invariant across rounds / oscillating across rounds | "did you actually re-think, or copy the previous round?" |
+
+Signals are extracted from `final_answer` plus the per-round tool sequence mapped to `retrieve` /
+`compute` / `verify` / `commit` / `loop` primitives. A candidate may fire several rules at once.
+*Data constraint:* the process-primitive layer needs a tool/step trajectory; L1 no-tool families
+(math / math500 / mmlu_pro) currently store only a single-step placeholder, so for them only the
+answer-shape (and history-delta) layers fire.
+
+**Prior (static, ranking use only).** The static per-family 19-leaf frequency (§5.2,
+`build_error_taxonomy.py`) serves a single purpose: when several signals fire, order their reflective
+probes by the historical frequency of the corresponding error direction. It is a *ranking* prior, not a
+voting weight (there is no retrieval vote), and is fixed offline — never updated online.
+
+**Top-N feedback.** The top **N = 2** fired reflective probes are phrased in a reflective-guide voice
+(not "you are wrong", but "check whether your reasoning has this habit") and fed back. Each probe maps to
+one fine-grained 19-leaf error direction, so the feedback stays directional without naming a verdict.
+
+**Feedback loop.** The N reflective probes are applied **in parallel** to produce N candidate revisions
+from the same starting point; the **agent then selects** one to carry into the next round — the critique
+only activates candidates, it never chooses. Runs go the full **N = 10 rounds with no early stopping**
+(which would mask oscillation / divergence); early stopping is deferred to Phase-2. Sequential
+single-direction revision is a separate ablation axis (A3, §5.5), not an interchangeable equivalent of
+parallel selection — the selection step adds a candidate-aggregation confound that A3 excludes.
+
+**Separation from L3/L4.** The critique is single-round and generates feedback; L3/L4 (§5.10) are
+cross-round offline diagnoses (activation vs. locking). The history-delta signal is the only place the
+two touch, and it stays gold-free.
+
 ### 5.9 Evaluation tiers (three-tier scoring framework)
 
 Correctness scoring is dispatched into three tiers by answer form and by how recoverable the
@@ -476,5 +500,6 @@ The dominant cost driver is the number of API model × question × round cells p
 | 0.4 | 2026-09-28 | Added §5.2 Task-Bank Blueprint (provisional): L1/L2 family × benchmark × capability-layer (L1-L4) × evaluator × token-budget matrix, each probe set fixed at 50 questions; renumbered former §5.2-5.5 to §5.3-5.6. |
 | 0.5 | 2026-09-29 | Added §5.7 Phase-1 (probe) execution plan: four feasibility checks (capability decomposition / Bayesian proxy / L3-L4 discrimination / cost–reliability curves), build-before-burn order with N=10 in 3-round segments, and no-human-labelling validation; corrected §5.3 Stage-1 human-labelled errors to outcome-based validation. |
 | 0.6 | 2026-09-29 | Added §5.9 three-tier scoring framework (T1 deterministic / T2 LLM re-judge rescue / T3 multi-judge voting), intervention registration, and the false-negative convention (correct = positive). |
+| 0.8 | 2026-09-29 | Rewrote §5.8 critique from embedding-based retrieval to a simple rule-based metacognition: three gold-free signal layers (answer shape / process primitives / history delta), static ranking prior, reflective-guide Top-N probes; recorded the simplicity constraint and the L1 no-process data limitation. |
 | 0.7 | 2026-09-29 | Revised §3.6 decoupling 1 and §5.4: a static tensor cannot invert L1/L2 (a priori task-family partition; rank-1 projection, empirically verified) — decompose only as taxonomy-coverage diagnostic; added §5.10 L3/L4 round-dimension scheme (taxonomy-free activation/locking/correction events + two decomposition carriers: state transition & trajectory). |
 | 0.6 | 2026-09-29 | Renamed the metacognitive proxy from "evaluator" to a single embedding-based **critique** module; added §5.8 spec (offline annotated error bank + online instance-similarity retrieval; deterministic shallow-feature embedding; parallel Top-N candidate revisions with agent self-selection; full N=10 rounds, no early stopping); recast L3/L4 as activation-without-locking. |
