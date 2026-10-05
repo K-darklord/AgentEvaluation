@@ -29,8 +29,9 @@ Information was scattered across two places and has now been unified into this r
 | **PROTOCOL.md** | academic (governance) | change-propagation rules (which documents change when) | `PROTOCOL.md` |
 | **REPRODUCIBILITY.md** | academic | top-venue reproducibility standard (three-tier, layout, seeds, config manifest, checklist) | `docs/REPRODUCIBILITY.md` |
 | **TIMELINE.md** | academic | phases, milestones, budget, risk buffers | `docs/TIMELINE.md` |
-| **EVALUATION_STANDARD.md** | academic | 2-tier scoring spec + error taxonomy + dealbreaker | `docs/EVALUATION_STANDARD.md` |
-| **INTERFERENCE_CAUSAL_TABLE.md** | academic (evidence) | INT-01…14 interference causal status | `docs/INTERFERENCE_CAUSAL_TABLE.md` |
+| **EVALUATION_STANDARD.md** | academic | 3-tier scoring spec (T1/T2/T3) + finance-path detail | `docs/EVALUATION_STANDARD.md` |
+| **ERROR_TAXONOMY.md** | academic | 19-leaf error taxonomy (leaf → literature anchor → rule → 6 middle axes) + L1–L4 separation | `docs/ERROR_TAXONOMY.md` |
+| **INTERFERENCE_CAUSAL_TABLE.md** | academic (evidence) | INT-01…16 interference causal status | `docs/INTERFERENCE_CAUSAL_TABLE.md` |
 | **EXPERIMENT_LOG.md** | academic (evidence) | per-run evidence index (config/seed/model/status/commit) | `docs/EXPERIMENT_LOG.md` |
 | **WORKMAP.md** | academic | frontier literature map + proposal gap | `docs/WORKMAP.md` (pending) |
 | **paper skeleton** | academic | manuscript skeleton + three contribution claims + figure/table placeholders | `paper/paper_outline.md` |
@@ -109,3 +110,4 @@ claim (paper) → experiment-log record → config + seed → raw trajectories �
 | 0.2 | 2026-09-26 | Introduced the academic/process register separation. |
 | 0.4 | 2026-09-27 | Registered docs/ARCHITECTURE.md (experiment-execution implementation blueprint). |
 | 0.3 | 2026-09-26 | Aligned to the AgentEvaluation repository (canonical home); added PROTOCOL / TIMELINE / EXPERIMENT_LOG / EVALUATION_STANDARD / INTERFERENCE_CAUSAL_TABLE to the inventory; updated pending migrations. |
+| 0.5 | 2026-10-05 | EVALUATION_STANDARD re-scoped to 3-tier; added ERROR_TAXONOMY.md to the inventory; INTERFERENCE_CAUSAL_TABLE range extended to INT-16. |

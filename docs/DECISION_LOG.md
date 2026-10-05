@@ -36,6 +36,7 @@
 - **Hardware**: M4 MacBook Air, 24 GB unified memory, no CUDA. Local inference via MLX / Ollama / llama.cpp.
 - **Local feasibility**: 0.5B–8B smooth; 14B marginal; 32B/70B infeasible.
 - **Model routing**: weak/mid tiers local (free); strong tier budget API. The three-tier design and Mac capabilities are complementary.
+  - *(superseded 2026-09-27/28)*: Phase 1 now loads **no model locally** — all three mid-tier models run on the Aliyun Token Plan; the Mac's local MLX/Ollama path is reserved for the Phase-2 weak tier.
 - **API cost**: budget-tier scenario keeps the whole program within the low thousands of dollars; top-tier-API-heavy scenario reaches ~$10,000 for Phase 3 (see RESEARCH_PLAN §7).
 - **Escalation ladder**: (1) free inference tiers (HF / Groq / Together / Replicate) → (2) spot cloud GPUs (RunPod / Lambda / Vast) → (3) offload to budget API.
 

@@ -8,7 +8,7 @@
 
 ## What this repository is
 
-1. **A working finance-agent evaluation pipeline** — real benchmark data (FAB) + tool-calling agents + trajectory recording + 2-tier continuous scoring with a dealbreaker.
+1. **The evaluation pipeline** — real benchmark data across five task families (GSM8K, MATH-500, MMLU-Pro, FAB, BFCL) + tool-calling agents + trajectory recording + three-tier scoring (T1 rule / T2 LLM rescue / T3 multi-judge).
 2. **The home of the research program** — single end-to-end paper whose core contribution is *metacognition*: an external meta-cognitive proxy redefines capability from single-shot accuracy into a cost–reliability curve + convergence class, and a model × task × error-type tensor decomposition localizes which capability a model lacks. The evaluation-framework-interference study (26pp spurious deficit) motivates "static accuracy is a bad metric".
 
 ---
@@ -27,7 +27,7 @@ AgentEvaluation/
 │   ├── benchmark.py           # task schema + mini benchmark + FAB loader
 │   ├── agent.py               # RuleBased / FinGPT / OpenAI / HuggingFace (ReAct + EDGAR tools)
 │   ├── runner.py              # run agent → trajectories + run summary
-│   ├── evaluator.py           # 2-tier continuous scoring + error attribution + dealbreaker
+│   ├── evaluator.py           # 3-tier scoring (T1 rule / T2 LLM rescue / T3 multi-judge) + error taxonomy
 │   └── config.py              # API keys / models / scoring config
 ├── configs/                   # experiment configs (Phase-1 YAML; scaffolded)
 ├── data/
@@ -37,7 +37,7 @@ AgentEvaluation/
 │   ├── RESEARCH_PLAN.md       # experiment protocol (authority)
 │   ├── REPRODUCIBILITY.md     # top-venue reproducibility standard
 │   ├── TIMELINE.md            # phases, milestones, budget
-│   ├── EVALUATION_STANDARD.md # 2-tier scoring spec
+│   ├── EVALUATION_STANDARD.md # 3-tier scoring spec (T1/T2/T3)
 │   ├── INTERFERENCE_CAUSAL_TABLE.md
 │   ├── EXPERIMENT_LOG.md      # per-run evidence index
 │   ├── DECISION_LOG.md        # decisions + open questions (process)
@@ -61,7 +61,7 @@ AgentEvaluation/
 | [docs/RESEARCH_PLAN.md](docs/RESEARCH_PLAN.md) | Research questions, theoretical framework (3-layer capability hypothesis, 3 math framings, cost–reliability model), experimental design, contributions, risks |
 | [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md) | Three-tier reproducibility, repo layout, seed management, config manifest, ablation matrix, checklist |
 | [docs/TIMELINE.md](docs/TIMELINE.md) | 3 phases (probe → feasibility → full) + writing, budget, milestones, risk buffers |
-| [docs/EVALUATION_STANDARD.md](docs/EVALUATION_STANDARD.md) | 2-tier continuous scoring spec (T1 numeric + T2 LLM judge + dealbreaker), error taxonomy |
+| [docs/EVALUATION_STANDARD.md](docs/EVALUATION_STANDARD.md) | 3-tier scoring spec (T1 rule / T2 LLM rescue / T3 multi-judge), 19-leaf error taxonomy |
 | [docs/INTERFERENCE_CAUSAL_TABLE.md](docs/INTERFERENCE_CAUSAL_TABLE.md) | INT-01…14 interference causal status |
 | [docs/EXPERIMENT_LOG.md](docs/EXPERIMENT_LOG.md) | Evidence index (every claim traces to a run) |
 | [docs/DECISION_LOG.md](docs/DECISION_LOG.md) | Decisions, open questions, working notes (not a deliverable) |
@@ -84,20 +84,21 @@ python -m src.runner
 python -m src.evaluator
 ```
 
-**Agents** (via `AGENTEVALUATION_AGENT`): `rule` (default), `hf` (HuggingFace/DeepSeek), `fingpt`, `openai`.
-**Bench marks** (via `AGENTEVALUATION_BENCH`): `mini` (default), `fab` (FAB 50-question public set).
+**Phase-1 models** (Aliyun Token Plan, no local model loading): `deepseek-v4-flash-0731`, `qwen3.8-flash`, `glm-5.3` — see `PHASE1_MODELS` in `src/config.py`. Weak / strong tiers are deferred to Phase 2+.
+**Benchmarks** (5 families × 50 Qs = 250): GSM8K, MATH-500, MMLU-Pro, FAB, BFCL.
 
 ```bash
-AGENTEVALUATION_AGENT=hf AGENTEVALUATION_BENCH=fab python -m src.runner
+# Phase-1 baseline: 3 mid models (Aliyun Token Plan) over the 5-family 250-Q probe set
+python -m src.phase1_baseline
 ```
 
-Outputs: `output/trajectories.jsonl` (full per-step trajectory), `output/run_summary.csv`, `output/results.csv`, `output/error_report.json`, accuracy charts.
+The legacy finance pipeline (`AGENTEVALUATION_AGENT=hf AGENTEVALUATION_BENCH=fab python -m src.runner`) is retained as one task-family module. Outputs: `output/trajectories.jsonl` (full per-step trajectory), `output/run_summary.csv`, `output/results.csv`, `output/error_report.json`, accuracy charts.
 
 ---
 
-## Evaluation (v2.1 — 2-tier continuous scoring)
+## Evaluation (v3.0 — three-tier scoring)
 
-`final_score = max(T1, T2)`, zeroed by a **dealbreaker** (contradiction of a gold fact). All scores continuous in [0, 1]. Full spec: [docs/EVALUATION_STANDARD.md](docs/EVALUATION_STANDARD.md).
+Correctness is dispatched into three tiers by answer form: **T1** deterministic rule/symbol match (no LLM), **T2** LLM-assisted parse + judge rescue (`deepseek-v4-pro`, only on T1-missed rows, off by default via `T2_RESCUE_ENABLED`), **T3** multi-LLM voting (finance uses `max(T1, T2)` rubric coverage as an interim). Full spec: [docs/EVALUATION_STANDARD.md](docs/EVALUATION_STANDARD.md).
 
 ---
 
@@ -113,6 +114,7 @@ Outputs: `output/trajectories.jsonl` (full per-step trajectory), `output/run_sum
 | Version | Date | Change |
 |---|---|---|
 | — | 2026-09-16 | Prior evaluation pipeline README. |
+| 2.5 | 2026-10-05 | Aligned README with current state: three-tier scoring, 5-family 250-Q task set, Phase-1 Aliyun models; removed legacy `fingpt`/FinGPT agent references. |
 | 2.4 | 2026-09-27 | Added docs/ARCHITECTURE.md (experiment-execution architecture blueprint). |
 | 2.3 | 2026-09-26 | Added docs/WORKMAP.md (English frontier map, migrated from the agent-eval workmap; 33 sources). |
 | 2.2 | 2026-09-26 | Migrated pipeline code to src/ package; added configs/ results/ logs/ data/{raw,processed}/; added MIT LICENSE. |

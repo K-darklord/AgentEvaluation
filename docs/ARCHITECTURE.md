@@ -87,8 +87,8 @@ experiment:
   version: 1
 models:
   - id: deepseek-v4-flash
-    provider: hf-router
-    model_name: deepseek-ai/DeepSeek-V4-Flash
+    provider: aliyun-token-plan
+    model_name: deepseek-v4-flash-0731
     tier: api
   - id: qwen2.5-7b
     provider: local-ollama
@@ -154,7 +154,7 @@ a re-run re-enqueues only `pending`/`failed` rows, never re-executes `done` cell
 `agent.solve` becomes provider-parameterized rather than hard-coding `base_url`. A `ProviderRegistry`
 holds `{base_url, api_key, model_list, rate_limit, cost_per_1k}`; the openai-compatible `chat.completions`
 call is the universal transport, so "different platforms" reduce to different registry entries, not new
-agent classes. Local tier (MLX/Ollama on the M4) and API tier (HF router / OpenAI / Anthropic) are both
+agent classes. Local tier (MLX/Ollama on the M4) and API tier (Aliyun Token Plan / Tencent TokenHub / OpenAI / Anthropic) are both
 registry entries routed by `tier`.
 
 ### 4.6 Artifact Store

@@ -1,6 +1,6 @@
 # A Proxy-Based Meta-Cognitive Evaluation Framework for LLM Agents
 
-**Document type**: Research plan (experiment protocol) · **Version**: 0.2 (Draft) · **Date**: 2026-09-26
+**Document type**: Research plan (experiment protocol) · **Version**: 0.9 (Draft) · **Date**: 2026-10-05
 **Target venues**: Nature Machine Intelligence / IEEE TPAMI / NeurIPS (primary); ACL / EMNLP workshop (early checkpoint).
 
 ---
@@ -139,11 +139,11 @@ Convergence is classified into four classes: **convergent**, **oscillating**, **
 
 Probes (individual questions) are drawn from multiple task families; the design is **cross-domain** and retains **finance** as one family (reusing the FAB setup). The metrics are task- and model-focused, not problem-focused.
 
-- **Task families** (Probe: math (GSM8K), logic, finance (FAB); Feasibility adds code (HumanEval), factual consistency (TruthfulQA), multi-hop (HotpotQA), translation (WMT zh–en); Full extends to 12–15 families, with L2/L3-level items ≥ 40%).
-- **Models** (three tiers):
-  - *Weak*: Qwen3.5-4B, TinyLlama-1.1B (local);
-  - *Mid*: DeepSeek-V4-Flash, Qwen3.8-Flash (API);
-  - *Strong*: Claude Opus 5.5, GPT-6 Astra (API; deferred to Phase 2/3).
+- **Task families** (Probe: 5 families × 50 Qs — math (GSM8K), math500 (MATH-500), logic (MMLU-Pro), finance (FAB), tool-use (BFCL), L1:L2 = 3:2; Feasibility adds code (HumanEval), factual consistency (TruthfulQA), multi-hop (HotpotQA), translation (WMT zh–en); Full extends to 12–15 families, with L2/L3-level items ≥ 40%).
+- **Models** (Phase 1 = 3 mid-tier via Aliyun Token Plan; **no local model loading**):
+  - *Mid (Phase 1)*: deepseek-v4-flash-0731, qwen3.8-flash, glm-5.3 (Aliyun Token Plan);
+  - *Weak*: qwen3.6-flash, glm-4.7-flash (deferred to Phase 2);
+  - *Strong*: Claude Opus 5.5, GPT-6 Astra (deferred to Phase 2/3).
 
 ### 5.2 Task-Bank Blueprint (Provisional)
 
@@ -223,8 +223,8 @@ never re-executed needlessly:
 
 | Stage | Purpose | Configuration |
 |---|---|---|
-| **1. Signal validity** | Build the annotated error bank + embedding-based critique; validate Top-N by its own downstream effect (next-round improvement) — no human labelling (see §5.7–5.8). | math + logic + finance (FAB), 50 each; validate the proxy signal. |
-| **2. Trajectory collection** | Run the feedback loop up to ~10 rounds over a fixed probe set; log full trajectories (correctness, error type, output distance, cumulative cost per round). | DeepSeek, GPT-4o-mini, Llama-3; gather cost–accuracy data. |
+| **1. Signal validity** | Build the annotated error bank + rule-based critique; validate Top-N by its own downstream effect (next-round improvement) — no human labelling (see §5.7–5.8). | 5-family 250-Q probe set (§5.2); validate the proxy signal. |
+| **2. Trajectory collection** | Run the feedback loop up to ~10 rounds over a fixed probe set; log full trajectories (correctness, error type, output distance, cumulative cost per round). | deepseek-v4-flash-0731, qwen3.8-flash, glm-5.3; gather cost–accuracy data. |
 | **3. Convergence analysis** | Assess convergence of the population trajectory; compare the three mathematical framings (§3.5). | Math · Finance · Fact QA · Open generation; test capability convergence. |
 | **4. Cost prediction** | Fit converged trajectories; predict required cost from the first 2–3 rounds, out-of-sample. | Cross-model and cross-domain; validate the cost forecast. |
 
@@ -268,13 +268,11 @@ model loading**). The four feasibility checks and their pass criteria:
    Pass: every wrong answer receives a stable label, and per-error-type anchoring counts are
    non-degenerate (no empty classes), so the later model × task-family × error-type × round
    tensor carries enough information to separate axes.
-2. **Embedding-based critique as proxy meta-cognition.** A single critique module (no evaluator/judge,
-   no separate analyzer + feedback) mechanically scores a candidate answer against an annotated
-   error bank: wrong-answer instances are embedded into a reference bank (each tagged with an error type),
-   the candidate is embedded in the same space, top-k neighbour errors vote into a Top-N error-type
-   distribution that is fed back *without revealing the gold* (§5.8). Pass: signal-named questions improve
-   next-round at a significantly higher rate than unnamed ones (Fisher exact p < 0.05), and prior-based
-   beats the random-feedback (A2) and uniform-prior (A4) arms.
+2. **Rule-based critique as proxy meta-cognition.** A single critique module (no evaluator / judge /
+   gold) emits reflective probes from three deterministic gold-free signal layers — answer shape, process
+   primitives, and history delta (§5.8). Pass: signal-named questions improve next-round at a significantly
+   higher rate than unnamed ones (Fisher exact p < 0.05), and the static ranking prior beats the
+   random-feedback (A2) and uniform-prior (A4) arms.
 3. **L3/L4 discrimination.** All candidate answers across rounds are logged and judged against the gold
    *offline*. If a correct answer appeared anywhere in the trajectory, the model could *activate* it (L3,
    recognizing/activation); if it appeared but was not selected as the final answer, the model failed to
@@ -439,7 +437,7 @@ The full reproducibility standard (three-tier reproduction, repository layout, s
 | 14B (Q4) | marginal | ~15–20 tok/s |
 | 32B / 70B | no | — |
 
-**Model-routing strategy**: weak/mid tiers run locally (free); strong tier runs on budget API. The three-tier design and the Mac's capabilities are complementary: the weak tier (which API providers do not serve) is exactly what the Mac runs natively, and the strong tier (which the Mac cannot run) is exactly what budget APIs make cheap.
+**Model-routing strategy**: Phase 1 loads **no model locally** — all three mid-tier models run on the Aliyun Token Plan. Local MLX / Ollama / llama.cpp inference is reserved for the weak tier in Phase 2 (which API providers do not serve) and is not used in Phase 1.
 
 ---
 
@@ -494,6 +492,7 @@ The dominant cost driver is the number of API model × question × round cells p
 
 | Version | Date | Change |
 |---|---|---|
+| 0.9 | 2026-10-05 | Consistency pass: §5.1 models/task families, §5.3 stages, §5.7 check-2, and §6.1 routing aligned to Phase-1 reality (3 mid Aliyun models, no local loading, rule-based critique). |
 | 0.1 | 2026-09-26 | Initial working draft (internal). |
 | 0.2 | 2026-09-26 | Restructured into an academic experiment protocol; incorporated the two-uncertainty motivation, three-layer capability hypothesis, three candidate mathematical framings, cost–reliability extreme-value form, three decouplings, and three contributions; removed process/decision content (moved to `DECISION_LOG.md`). |
 | 0.3 | 2026-09-27 | Phase-1 probe model tiers + task set revised: weak Qwen3.5-4B+TinyLlama-1.1B (local), mid DeepSeek-V4-Flash+Qwen3.8-Flash (API), strong Claude Opus 5.5+GPT-6 Astra (deferred); tasks math/logic/finance 50 each (150 Qs). |

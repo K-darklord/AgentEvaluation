@@ -356,3 +356,78 @@ across experiments: 48% (v3 baseline) → 54% (INT-05) → 56% (INT-06).
 - DeepSeek V4 Pro: 60.4%
 - AgentEvaluation (V4-Flash, with fixes): 72.00%
 - **AgentEvaluation now exceeds the V4 Pro leaderboard baseline by 11.6%**
+
+
+---
+
+## 2026-09-26 — Repository reorganized into the metacognition research program
+
+### Changed
+- Reorganized the repo around a single end-to-end paper whose core contribution is *metacognition*.
+  The evaluation-framework-interference pilot (see 09-13 → 09-18 above) is retained as the motivation
+  ("static accuracy is a bad metric").
+- Added the document system: `docs/RESEARCH_PLAN.md` (authority), `PROTOCOL.md` (change-propagation),
+  `docs/REPRODUCIBILITY.md`, `docs/TIMELINE.md`, `docs/EXPERIMENT_LOG.md`, `docs/HISTORY.md`,
+  `docs/DECISION_LOG.md`, `docs/WORKMAP.md`.
+- Refactored the pipeline into `src/` package; added `configs/`, `results/`, `logs/`,
+  `data/{raw,processed}/`; added MIT `LICENSE`.
+- Renamed repository **FinAgent → AgentEvaluation** (directory, README title, env-var prefix
+  `FINAGENT_* → AGENTEVALUATION_*`, SEC User-Agent, git remote).
+
+---
+
+## 2026-09-27 — Architecture blueprint + concurrency refactor
+
+### Added
+- `docs/ARCHITECTURE.md` — implementation blueprint for the experiment-execution layer (SQLite
+  persistent task queue, provider routing, phased P0–P3 landing), sized to the Phase-3 workload.
+
+### Changed
+- Serial → parallel refactor: `agent.py` `_DOCUMENT_CACHE` → `threading.local()` (thread-safe);
+  `runner.py` `ThreadPoolExecutor` task-level parallelism; `evaluator.py` parallel scoring.
+- 10-task stress test @ concurrency 6: ~3.2× wall-clock speedup (tail-variance bound, not throughput).
+
+---
+
+## 2026-09-28 — Aliyun Token Plan migration + FAB interference fixes (INT-15/16)
+
+### Changed
+- `deepseek-v4-flash-0731` migrated off the HuggingFace router (TCP timeout / HTTP 000) to the Aliyun
+  Token Plan endpoint. HF channel abandoned for this program.
+- Fixed hidden-CoT `reasoning_content` bug: `msg.content or ""` dropped the answer for models that put
+  it in `reasoning_content` (deepseek/qwen/glm); added `_extract_content()` fallback.
+- INT-15: `retrieve_information` chunked rework (chunk_size=1500, top_k=5, cache-dedup marker) to stop
+  O(N²) tool-loop context growth.
+- INT-16: MMLU-Pro letter-only prompt (the generic finance prompt made models emit a value, not a letter).
+
+---
+
+## 2026-09-29 — Error taxonomy + three-tier evaluator + critique scaffolding
+
+### Added
+- `src/build_error_taxonomy.py` — 19 fine-grained leaf error types over 5 families, each anchored to an
+  academic ontology (BFCL / GSM-Ranges / NTT / PRISM), mapped to 6 shared middle axes.
+- `src/build_capability_matrix.py`, `src/run_tensor_decomp.py`, `src/diagnose_capacity_matrix.py` —
+  capability-matrix construction and static tensor decomposition (marked no-go for L1/L2 inversion).
+- `src/build_unified_taxonomy.py` — parallel cross-domain leaf scheme (8 detectors).
+- `src/align_bfcl.py`, `src/rescore_math500.py`, `src/rescore_math500_t2.py`, `src/bucket_false_negatives.py`.
+
+### Changed
+- `evaluator.py` re-architected to a **three-tier dispatcher** (T1 → T2 → T3): T1 deterministic
+  rule/symbol match; T2 LLM-assisted parse + judge rescue (`deepseek-v4-pro`) on T1-missed rows only
+  (`T2_RESCUE_ENABLED` default off, `T2_JUDGE_MAX_TOKENS=500`); T3 multi-judge (finance uses
+  `max(T1, T2)` rubric coverage as interim).
+- Added T1b deterministic extraction for MATH-500; quantified false negatives (FN) via zero-API rescoring.
+
+---
+
+## 2026-10-05 — Critique spec finalized + documentation alignment
+
+### Changed
+- `docs/RESEARCH_PLAN.md` §5.8 — critique re-specified as a simple rule-based metacognition (three
+  gold-free signal layers: answer shape / process primitives / history delta; static ranking prior;
+  reflective-guide Top-N probes) instead of embedding retrieval. Tag `phase1-critique-rule-based`.
+- `docs/EVALUATION_STANDARD.md` v3.0 — rewritten to the three-tier framework (T1/T2/T3, `deepseek-v4-pro`
+  judge, 19-leaf taxonomy reference).
+- `README.md` v2.5 — aligned to current state (three-tier scoring, 5-family 250-Q task set, Phase-1
+  Aliyun models; removed legacy `fingpt`/FinGPT agent references).
