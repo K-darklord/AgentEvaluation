@@ -263,9 +263,16 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
         states = Counter(t["end_state"] for t in per_task)
         wrong_start = [t for t in per_task if not t["start_correct"] and t["family"]]
         right_start = [t for t in per_task if t["start_correct"]]
-        activation = (sum(1 for t in wrong_start
-                          if any(r["is_correct"] for r in t["rounds"][1:]))
-                      / len(wrong_start)) if wrong_start else 0.0
+        # L3 activation = fraction of ALL tasks where the correct answer appeared
+        # in >=1 round (incl. round 0). Absolute activation capability, decoupled
+        # from whether the model locks it in (that is L4's job).
+        appeared = sum(1 for t in per_task if t["correct_appeared"])
+        activation = appeared / n if n else 0.0
+        # L3 reversibility = among first-wrong tasks, fraction that later produced
+        # the correct answer (feedback-driven recovery potential).
+        reversibility = (sum(1 for t in wrong_start
+                             if any(r["is_correct"] for r in t["rounds"][1:]))
+                         / len(wrong_start)) if wrong_start else 0.0
         locked = (sum(1 for t in right_start if t["end_state"] == 1)
                   / len(right_start)) if right_start else 0.0
         misled = (sum(1 for t in right_start if t["end_state"] == 2)
@@ -278,6 +285,7 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
             "final_accuracy": round(final_correct / n, 4) if n else 0.0,
             "end_state_distribution": {str(k): v for k, v in sorted(states.items())},
             "l3_activation_rate": round(activation, 4),
+            "l3_reversibility_rate": round(reversibility, 4),
             "l4_lock_rate": round(locked, 4),
             "l4_misled_rate": round(misled, 4),
             "avg_rounds": round(avg_rounds, 2),
@@ -289,6 +297,7 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
             json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
         print(f"  [{name}] init={m['init_accuracy']:.2%} final={m['final_accuracy']:.2%} "
               f"states={m['end_state_distribution']} L3_act={m['l3_activation_rate']:.2%} "
+              f"L3_rev={m['l3_reversibility_rate']:.2%} "
               f"L4_lock={m['l4_lock_rate']:.2%} L4_misled={m['l4_misled_rate']:.2%} "
               f"avg_rounds={m['avg_rounds']} "
               f"tok={m['total_prompt_tokens']}+{m['total_completion_tokens']}")
