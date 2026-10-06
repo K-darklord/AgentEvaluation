@@ -836,7 +836,7 @@ class HuggingFaceAgent(BaseAgent):
                 _time.sleep(wait)
         raise last_error
 
-    def _solve_bfcl(self, task, result) -> AgentResult:
+    def _solve_bfcl(self, task, result, feedback: str | None = None) -> AgentResult:
         """Single-turn function call for BFCL (light-FC L2 probe).
 
         I use tool_choice="auto" (NOT "required") because Alibaba thinking-mode
@@ -858,6 +858,8 @@ class HuggingFaceAgent(BaseAgent):
             )},
             {"role": "user", "content": task.prompt},
         ]
+        if feedback:
+            messages.append({"role": "user", "content": feedback})
 
         try:
             resp = self._call_llm_with_tools(messages, tools, tool_choice="auto")
@@ -897,12 +899,13 @@ class HuggingFaceAgent(BaseAgent):
         return result
 
 
-    def solve(self, task) -> AgentResult:
+    def solve(self, task, feedback: str | None = None,
+              tool_cache: dict | None = None) -> AgentResult:
         reset_document_cache()
         result = AgentResult(task_id=task.task_id, model_name=self.model,
                              seed=self.seed, temperature=self.temperature)
         if task.metadata.get("benchmark") == "bfcl":
-            return self._solve_bfcl(task, result)
+            return self._solve_bfcl(task, result, feedback=feedback)
         t0 = time.time()
         steps: list[TrajectoryStep] = []
         import json as _json
@@ -940,11 +943,13 @@ class HuggingFaceAgent(BaseAgent):
             {"role": "system", "content": system_msg},
             {"role": "user", "content": task.prompt},
         ]
+        if feedback:
+            messages.append({"role": "user", "content": feedback})
 
         context_parts = []
         step_num = 1
         max_steps = self.max_steps
-        _tool_cache = {}  # Cache: (tool_name, frozenset(args)) -> output
+        _tool_cache = tool_cache if tool_cache is not None else {}  # Cache: (tool_name, frozenset(args)) -> output (shared across feedback rounds)
         _call_counts = {}  # Dedup: (tool_name, arg_signature) -> count
         _MAX_DUPLICATE = 3  # Max times same tool+args before forcing synthesis
 

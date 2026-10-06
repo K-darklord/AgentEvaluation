@@ -47,17 +47,20 @@ Four frontier threads frame this work; the complete literature map with citation
 
 ## 3. Theoretical Framework
 
-### 3.1 Three-layer capability hypothesis
+### 3.1 Four-layer capability hypothesis
 
-We hypothesise three separable capabilities; this separation is the conceptual core.
+We hypothesise four separable capabilities; this separation is the conceptual core.
 
 | Layer | Capability | Definition |
 |---|---|---|
 | **L1** | Base | Single-shot correctness of the naked model, with no external aid — the raw latent accuracy. |
 | **L2** | Augmentation | The extent to which the model is embedded in an agent system: function/tool calling, retrieval harness, workflow orchestration, multi-sample voting, search, retry, best-of-N. A property of *model-plus-system*, not of the model alone. |
-| **L3** | Meta-cognitive | The ability to monitor one's own reasoning, receive external signals, and self-correct accordingly. Largely absent today; this is what the proxy is designed to probe. |
+| **L3** | Meta-cognitive (activation) | The ability, given an external error signal, to *activate* the correct answer at least once across feedback rounds. Measures whether the correct candidate is within reach. |
+| **L4** | Correction (locking) | The ability to *lock onto* the correct answer — to resist a misleading signal, hold a correct answer, and not oscillate. Probes inference-time compute scaling (added 2026-10-06). |
 
 **Terminology note.** The middle layer is named *Augmentation* (in the sense of agent augmentation) because it is not merely optimisation — it is any capacity gained by placing the model inside an augmented system. A model with weak L1 but strong L2 may still solve a task purely as an engineering/cost outcome. Our role is **not** to improve L1 or L2 directly; we construct an external signal system and test whether the model can use it.
+
+**Reconstruction (2026-10-06): static baseline vs. round-dynamics.** Reframe the four layers as two orthogonal axes. L1+L2 jointly define the *static accuracy* — the **intercept** of the cost–reliability curve (§3.4). L3 and L4 define the *round-dynamics* — the **shape** of that curve. Two models with identical accuracy are indistinguishable classically, yet a model with higher L3/L4 produces a stable cost–reliability curve (and thus scales under inference-time compute), whereas a model with broken L3/L4 cannot scale at all. Formally the intercept is L1+L2 and the shape parameter is k = f(L3, L4): k > 1 (accelerating convergence) ⇔ strong L4 locking; k < 1 / oscillation ⇔ an L3 or L4 deficit (§3.4).
 
 ### 3.2 The meta-cognitive proxy
 
@@ -368,6 +371,12 @@ is a separate ablation axis (A3, §5.5).
 cross-round offline diagnoses (activation vs. locking). The two touch only through the
 round-dimension events, which stay gold-free.
 
+**Rev 3 — exemplar retrieval + evidence threshold + error signal (2026-10-06, replaces Rev-2 Naive Bayes).** `src/build_weak_critic.py` (CRITIC_VERSION v2.0) is now an exemplar-retrieval classifier over the wrong bank. The evidence for an answer is the weighted similarity to the nearest wrong exemplars, s = W_Q·sim_q(question) + W_A·sim_a(answer) (W_Q=0.7 primary, W_A=0.3), and the error signal is error_score = family_base_rate × s. Flagging is a "disease-test positive" cut on the **evidence** (`EVIDENCE_THRESHOLD`, currently 0.1): s ≥ threshold → feedback, else silent. The feedback hands the agent the **error direction (Top-K leaf) + confidence** and the error_score as a soft signal, and lets the agent decide whether to revise.
+
+**Critic is a hint, not a verifier.** Correctness stays entirely in the offline layer (§5.9). The critic never decides right/wrong, so its quality metric is the **top-K direction hit rate** (84–100% on the wrong bank), not any false-positive rate.
+
+**Known risk (recorded 2026-10-06, unresolved).** The evidence s has no discriminating power between correct and wrong answers — on the correct-answer set the flag rate is ~98%. Root cause: s is dominated by *question* similarity (0.7), which is structurally high for template-heavy families (bfcl ≈ 0.65, math500 ≈ 0.46) and low for open-domain families (finance ≈ 0.16, mmlu ≈ 0.10); finance/mmlu evidence is further *reversed* (correct answers resemble the wrong bank more than wrong answers, which are truncated). The scalar error_score is therefore also reversed for finance. Tracked in §8.2; a go/no-go item for the real feedback loop.
+
 ### 5.9 Evaluation tiers (three-tier scoring framework)
 
 Correctness scoring is dispatched into three tiers by answer form and by how recoverable the
@@ -427,6 +436,39 @@ derived:      first_activation_round, final_selected_correct
 - **Carrier B — trajectory.** `X ∈ R^{(model×task) × round}`, one binary correctness time-series per row. PCA / MDS of X separates convergent, oscillating, and divergent trajectories and shows how they stratify by model.
 
 **Execution order (build before burn).** The N=10 in ~3-round segments loop (§5.7) is the data precondition for L1/L2 inversion. First the round-dimension schema + Level-1 statistics are built against the existing single-round d1_baseline (round=1 degenerates to static — pipeline check only); the A1 ablation and multi-round data then unlock Level-1 measurement and both Level-2 carriers.
+
+**Six end-states (2026-10-06).** Every (model × task) loop run falls into exactly one of six mutually exclusive end-states, jointly operationalising L3 (activation) and L4 (locking / anti-interference):
+
+| End-state | Start | Correct appears | Final | Reading |
+|---|---|---|---|---|
+| 1 | correct | — (never flips) | correct | L4 full (strong anti-interference) |
+| 2 | correct | flips wrong | wrong | L4 deficit (misled into an error) |
+| 3 | correct | flips + recovers | correct | L4 weak but recoverable |
+| 4 | wrong | appears | correct | L3 + L4 full |
+| 5 | wrong | appears | wrong | L3 present, L4 deficit (oscillation) |
+| 6 | wrong | never appears | wrong | L3 absent (signal cannot activate) |
+
+End-states 2/3 are the "oscillation / flip-correct-to-wrong" phenomenon; the critic's false-positives here double as a *natural L4 anti-interference stress test*. End-states 5 vs 4 isolate "can activate" (L3) from "can lock" (L4).
+
+---
+
+### 5.11 Feedback-loop implementation (Phase 1)
+
+The §5.10 round-dimension scheme is implemented as a bounded feedback–self-correction driver, `src/run_feedback_loop.py`, which produces the raw L3/L4 trajectory data (§5.10 activation/locking events, §5.10 six end-states).
+
+**Loop mechanics.** For each (model, task): round 0 is a baseline solve with no feedback; rounds 1..R inject the previous answer plus the weak critic's gold-free feedback as an extra user message and re-solve the *same* question **independently** (fresh context, not a multi-turn continuation), so the agent's natural single-question behaviour is unaltered. Tool results are cached across rounds so a finance task does not re-fetch the same document every round. The agent alone decides whether to revise - no forced output format, preserving the design constraint against prompting the agent to emit only the answer.
+
+**Hyperparameters (this probe).** R = 10 max feedback rounds (round 0 baseline + rounds 1..10); early-stop N = 3 - the loop halts once the final answer is unchanged for 3 consecutive rounds (case/whitespace-normalized), bounding finance over-oscillation. Feedback tier C (error type + probability + cause + attention). temperature = 0, seed = None (deterministic; temp=0 makes the seed a no-op).
+
+**Zero-LLM scoring within the loop.** Per-round correctness drives early stopping and the six end-states; it is a deliberate *lower-bound proxy*, not a re-statement of baseline accuracy.
+
+- math / math500 / mmlu_pro / bfcl - T1 deterministic rules (`_score_t1_numeric` / `_score_math500` / `_score_mmlu_pro` / `_score_bfcl`).
+- finance quantitative - T1 numeric or normalized rubric coverage.
+- finance qualitative - T2 LLM-judge rescue (`_score_t2_llm_semantic`, deepseek-v4-pro 3-vote median + dealbreaker). This is a **registered intervention** (§5.9); every round's answer, gold answer, and prompt are still recorded, so any bad judge call can be re-scored offline afterwards.
+
+**Scope & outputs.** 3 mid-tier models (deepseek-v4-flash, glm-5.3, qwen3.8-flash, Aliyun Token Plan) × 250 tasks (5 families × 50). Per model: `experiments/feedback_loop_{run_id}/{model}/loop_trajectories.jsonl` (one JSON per task - full per-round record: answer, correctness, evidence, error_score, no_signal, top-3 leaves, tool calls, latency - plus gold_answer and prompt for offline re-judge) and `loop_summary.json` (initial/final accuracy, end-state distribution, L3 activation rate, L4 lock rate, L4 misled rate, mean rounds).
+
+**Concurrency note.** The weak critic's `_predict` returns (top-k, evidence, error) atomically so the 6-way ThreadPoolExecutor never cross-contaminates one task's signal with another's.
 
 ---
 
@@ -496,6 +538,8 @@ The dominant cost driver is the number of API model × question × round cells p
 | Cost too high to observe change within N steps | low | medium | pin typical round count via pre-experiment |
 | No accuracy gain within N steps | high | low | activation–locking decoupling |
 | Oscillation, no convergence | medium | medium | stopping criteria (threshold / max-round / no-improvement) |
+| Weak-critic evidence has no discriminating power (98% FPR; reversed for finance/mmlu) | high | high | recorded 2026-10-06; go/no-go — re-derive evidence or accept critic as a pure direction hint |
+| Weak critic under-powered (137 wrong exemplars; 0–20 per leaf family) | medium | high | enlarge bank in Phase 2; keep deterministic gold-free features for reproducibility |
 
 **Methodological stance.** Negative results are informative: if feedback makes a model increasingly wrong, that reveals an absent or broken meta-cognitive loop — the more consequential diagnosis. The framework is robust to either outcome.
 
@@ -505,6 +549,8 @@ The dominant cost driver is the number of API model × question × round cells p
 
 | Version | Date | Change |
 |---|---|---|
+| 0.12 | 2026-10-06 | Added §5.11 feedback-loop implementation: bounded re-solve loop (round 0 baseline + R=10 feedback rounds), N=3 consecutive-identical early stop, tier-C critic feedback, temperature=0, independent re-solve with cross-round tool cache, zero-LLM scoring with finance-qualitative T2-judge rescue (registered intervention; full answers recorded for offline re-judge), six-end-state outputs; made the weak-critic prediction race-free (`_predict`). |
+| 0.11 | 2026-10-06 | Upgraded §3.1 to a four-layer hypothesis (added L4 = correction/locking) plus a static-baseline-vs-round-dynamics reconstruction (intercept = L1+L2, shape k = f(L3,L4)); appended §5.8 Rev-3 (exemplar retrieval + evidence threshold + error_score; critic redefined as a direction/confidence hint, not a verifier) with its recorded risks; added §5.10 six end-states and §8.2 weak-critic risk rows. |
 | 0.10 | 2026-10-06 | Rewrote §5.8 from rule-based metacognition to the **weak critic**: a two-layer pipeline (taxonomy prior `build_error_taxonomy.py` + Naive-Bayes classifier `build_weak_critic.py`, Top-3 over the fixed 19 leaves); added gold-free static cause/attention fields per leaf and a three-tier feedback ablation (A type+prob / B +cause / C +cause+attention). |
 | 0.9 | 2026-10-05 | Consistency pass: §5.1 models/task families, §5.3 stages, §5.7 check-2, and §6.1 routing aligned to Phase-1 reality (3 mid Aliyun models, no local loading, rule-based critique). |
 | 0.1 | 2026-09-26 | Initial working draft (internal). |
