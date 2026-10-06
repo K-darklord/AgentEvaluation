@@ -472,6 +472,60 @@ The §5.10 round-dimension scheme is implemented as a bounded feedback–self-co
 
 ---
 
+### 5.12 Capability-layered dynamics model (L1/L2 + L3 + L4 → accuracy/cost)
+
+**Motivation (2026-10-06).** §5.10 defines the L3/L4 round-dimension events; §5.11 produces them. Here we state *why* a directional weak critic — even a near-noise one — is predicted to lift accuracy, and turn that prediction into an estimable model whose parameters become the evaluation target.
+
+**Statistical skeleton.** Model ability on a task is a latent mean μ (the intercept = L1/L2). A single observation Y is μ plus noise from sampling, LLM-as-Judge variance, and rubric noise. Three arms:
+
+- **A — no feedback (baseline):** `E[Y_A] = μ`.
+- **B — directionless noise (random feedback / self-loop / extra test-time re-solve):** `E[Y_B] ≈ μ`. Noise widens variance but does not shift the mean — the expected "more test-time compute does not guarantee a better result" outcome.
+- **C — directional weak critic:** `E[Y_C] = μ + Δ`.
+
+**The L3 existence claim.** Estimate `Δ = E[Y_C] − E[Y_B]`. A significant `Δ > 0` is the minimal evidence that a *directional* weak critic (a weak but non-zero L3) has value, independent of critic strength. The contrast is **C vs B**, not C vs A: C vs A confounds "multiple rounds" with "directional signal", whereas C vs B isolates the directional contribution. This is what separates L3 from L4 — L4 is the locking/anti-interference profile *inside* arm C; L3 is the directional lift *between* arms.
+
+**L3/L4 separation inside arm C.** Three per-task probabilities:
+
+- `P_act = P(correct appears in a later round | first-wrong)` — **L3 activation** (§5.11 `l3_reversibility_rate`).
+- `P_lock = P(final correct | correct appeared and first-wrong)` — **L4 lock**.
+- `q_stay = P(final correct | first-correct)` — **L4 anti-interference** (1 − misled rate).
+
+They decompose final accuracy as
+
+```
+final_acc = μ·q_stay + (1 − μ)·P_act·P_lock
+```
+
+The first term is "knew it and was not misled"; the second is "did not know it, was activated, and locked". This single identity carries L1/L2 (μ), L3 (P_act), and L4 (P_lock, q_stay).
+
+**Self-consistency check (deepseek, arm C, 250 tasks).** μ-hat = 207/250 = 0.828 (round-0 accuracy), P_act = 22/43 ≈ 0.512, P_lock = 13/22 ≈ 0.591, q_stay = 196/207 ≈ 0.947. Then μ·q_stay = 0.784 and (1 − μ)·P_act·P_lock = 0.052, summing to 0.836 — exactly the observed final accuracy. The decomposition is internally consistent on the existing arm-C data.
+
+**Cost side.** `cost(R) = Σ_{r=1..R} tokens(r)`, where finance's repeated tool re-injection makes tokens(r) grow (documents re-inserted per step). R is governed by the N = 3 early stop, so stable tasks (high q_stay) halt at 3 rounds at low cost while oscillating tasks (finance) run the full R at high cost — cost is coupled to the L4 stability profile.
+
+**New evaluation target.** Replace the single accuracy scalar with a capability-layered profile:
+
+```
+model_score = ( μ, P_act, P_lock, q_stay, cost(R) )
+```
+
+This distinguishes a model strong at baseline (high μ) from one recovering chiefly through feedback (high P_act / P_lock) — possibly equal final accuracy but different cost and dynamics — and supports an accuracy–cost frontier stratified by capability layer.
+
+**Three-arm ablation (statistical design).**
+
+| Arm | Feedback | Estimates | Purpose |
+|---|---|---|---|
+| A | none (single pass) | μ | L1/L2 intercept |
+| B | directionless noise | μ_B | control for multi-round / test-time |
+| C | directional weak critic (tier C) | μ + Δ, P_act, P_lock, q_stay | directional lift + L3/L4 internals |
+
+**Reuse of arm A.** Arm C's round 0 is a no-feedback single pass, so it already supplies the arm-A μ estimate (init accuracy); arm A need not be run separately. Only arm B must be added to identify Δ.
+
+The B-arm noise generator must match C in perturbation strength and message format while erasing direction (e.g. shuffle C's top-K leaf labels, or draw a random leaf from the same family prior); otherwise C vs B is not a clean Δ.
+
+**Data status (2026-10-06).** Arm C exists today (3 models × 250 tasks) and already yields μ-hat, P_act, P_lock, q_stay per model (§5.11 `loop_summary`). Δ remains unidentified until arm B is run against the same question set.
+
+---
+
 ## 6. Reproducibility and Implementation
 
 The full reproducibility standard (three-tier reproduction, repository layout, seeds, config manifest, experiment log, one-command reproduction) is specified in `docs/REPRODUCIBILITY.md`. Key invariants:
@@ -549,6 +603,7 @@ The dominant cost driver is the number of API model × question × round cells p
 
 | Version | Date | Change |
 |---|---|---|
+| 0.13 | 2026-10-06 | Added §5.12 capability-layered dynamics model: latent mean μ (L1/L2 intercept) + directional lift Δ = E[Y_C] − E[Y_B] (L3 existence claim, C-vs-B contrast); L3/L4 separation inside arm C via P_act / P_lock / q_stay with the identity final_acc = μ·q_stay + (1 − μ)·P_act·P_lock (self-consistency verified on deepseek arm-C data); cost side cost(R); layered evaluation target model_score = (μ, P_act, P_lock, q_stay, cost(R)); three-arm statistical design with arm A reused from round 0 and only arm B outstanding. |
 | 0.12 | 2026-10-06 | Added §5.11 feedback-loop implementation: bounded re-solve loop (round 0 baseline + R=10 feedback rounds), N=3 consecutive-identical early stop, tier-C critic feedback, temperature=0, independent re-solve with cross-round tool cache, zero-LLM scoring with finance-qualitative T2-judge rescue (registered intervention; full answers recorded for offline re-judge), six-end-state outputs; made the weak-critic prediction race-free (`_predict`). |
 | 0.11 | 2026-10-06 | Upgraded §3.1 to a four-layer hypothesis (added L4 = correction/locking) plus a static-baseline-vs-round-dynamics reconstruction (intercept = L1+L2, shape k = f(L3,L4)); appended §5.8 Rev-3 (exemplar retrieval + evidence threshold + error_score; critic redefined as a direction/confidence hint, not a verifier) with its recorded risks; added §5.10 six end-states and §8.2 weak-critic risk rows. |
 | 0.10 | 2026-10-06 | Rewrote §5.8 from rule-based metacognition to the **weak critic**: a two-layer pipeline (taxonomy prior `build_error_taxonomy.py` + Naive-Bayes classifier `build_weak_critic.py`, Top-3 over the fixed 19 leaves); added gold-free static cause/attention fields per leaf and a three-tier feedback ablation (A type+prob / B +cause / C +cause+attention). |
