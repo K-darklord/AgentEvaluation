@@ -302,58 +302,71 @@ consistent with the premise that the proxy must succeed with minimal external in
 **Go/no-go.** Go if the four checks pass (or the §5.6 success subset); otherwise stop, adjust the
 critique (embedding / N / prior), and rerun at most twice before reassessing direction (§8.2).
 
-### 5.8 Critique module specification — simple rule-based metacognition
+### 5.8 Weak critic specification — taxonomy-prior × Naive-Bayes classifier
 
-**Positioning.** The metacognitive proxy is a single **critique** module (a *critic* in the
-self-correction literature). It is *not* an evaluator and *not* a classifier: it never assigns
-correctness, never consults the gold, never calls a judge, and never claims to *identify* which
-error occurred. Correctness is handled entirely by the offline evaluation layer. The critique's only
-job is to emit a few **reflective probes** — directions for the agent to re-examine its own reasoning.
+**Positioning.** The meta-cognitive proxy's feedback generator is the **weak critic**: a
+deterministic, gold-free classifier that maps one answer onto the fixed 19-leaf error taxonomy and
+returns the **Top-3** most likely error directions with probabilities. It never assigns
+correctness, never consults the gold, and never calls a judge. Its only job is to emit a few
+directional reflections for the agent to re-examine. Correctness stays entirely in the offline
+evaluation layer (§5.9).
 
-**Simplicity constraint (design principle).** Metacognition is a *reflection trigger*, not a recognition
-model. HMM / embedding / deep-similarity schemes are therefore rejected as the critique body: they optimise
-for "recognising which error" where the task only needs "flagging what to re-check". The body is a
-deterministic rule set `if signal then reflective-probe` — no model, no reference-bank retrieval.
+**Two-layer pipeline.**
 
-**Single-round body + optional history signal.** The critique operates on the *current round only* — the
-answer and its process — so it never depends on future rounds and never needs multi-round training data.
-A *history-delta* signal (did the answer change vs. the previous rounds, or stay frozen?) is an optional
-add-on that is equally online-available, does not leak the gold, and is itself highly meta-cognitive
-("am I oscillating? did I actually re-think?").
+1. **Layer-0 prior — the taxonomy.** `src/build_error_taxonomy.py` auto-labels every wrong
+   instance in d1_baseline with one of the 19 leaves (model × family × prompt/gold), producing the
+   error bank `experiments/error_taxonomy_v2/wrong_bank.jsonl`. This is the *prior*: the base rate
+   of each error direction per family. Each leaf also carries two fixed, gold-free static fields —
+   **cause** (one-sentence error reason) and **attention** (one-sentence directional "how to
+   check", never pointing at the correct value).
+2. **Layer-1 classifier — Naive Bayes.** `src/build_weak_critic.py` reads the bank, estimates the
+   per-family conditional tables P(signal | leaf) and P(leaf) with Laplace smoothing, and returns
+   the posterior over that family's leaves, ranked descending.
 
-**Three deterministic signal layers (all gold-free).**
+**Why Naive Bayes.** The bank holds only a few dozen wrong instances per family; after the
+model × type split most cells hold 0–20 rows, so any capacity-rich model would overfit. Laplace
+smoothing (α = 1) keeps every leaf reachable. Phase 2 (larger data) is the upgrade point to
+logistic / random-forest.
 
-| Layer | Signals | Example reflective probe |
-|---|---|---|
-| Answer shape | empty / multiple candidates / sign / magnitude / unclosed format | "commit to one definite value" / "re-check the sign" |
-| Process primitives | zero retrievals / high re-call count / commit without verify | "did you skip grounding evidence?" / "are you looping?" / "back-substitute once" |
-| History delta | invariant across rounds / oscillating across rounds | "did you actually re-think, or copy the previous round?" |
+**Gold-free observations.** Features are computed from `final_answer` only, plus (finance) the
+recorded tool-call count — never from `gold_answer`:
 
-Signals are extracted from `final_answer` plus the per-round tool sequence mapped to `retrieve` /
-`compute` / `verify` / `commit` / `loop` primitives. A candidate may fire several rules at once.
-*Data constraint:* the process-primitive layer needs a tool/step trajectory; L1 no-tool families
-(math / math500 / mmlu_pro) currently store only a single-step placeholder, so for them only the
-answer-shape (and history-delta) layers fire.
+| Family | Observation features (categorical) |
+|---|---|
+| math / math500 | empty / number count {0,1,2+} / sign of any number |
+| mmlu_pro | empty / distinct option-letter count {0,1,2+} |
+| finance | empty / tool-call count {0,1,2+} |
+| bfcl | empty / valid-JSON |
 
-**Prior (static, ranking use only).** The static per-family 19-leaf frequency (§5.2,
-`build_error_taxonomy.py`) serves a single purpose: when several signals fire, order their reflective
-probes by the historical frequency of the corresponding error direction. It is a *ranking* prior, not a
-voting weight (there is no retrieval vote), and is fixed offline — never updated online.
+The leaves split into *gold-free observable* (`empty_or_unparseable`, `non_letter_output`,
+`multiple_letters`, `json_parse_error`, `empty_pred`, `tool_error`, `retrieval_failure`) and
+*gold-dependent* (`sign_flip`, `magnitude_error`, `factor_error`, `near_miss`, `wrong_symbolic`,
+`wrong_option`, `contradiction`, `complete_failure`, `numeric_error`, `coverage_incomplete`,
+`wrong_function_name`, `wrong_argument`). The latter are inferred only statistically through their
+shape profile — which is precisely why the critic is *weak*.
 
-**Top-N feedback.** The top **N = 2** fired reflective probes are phrased in a reflective-guide voice
-(not "you are wrong", but "check whether your reasoning has this habit") and fed back. Each probe maps to
-one fine-grained 19-leaf error direction, so the feedback stays directional without naming a verdict.
+**Top-K feedback.** The critic returns the top **K = 3** leaves with probabilities, phrased as
+natural-language type phrases (never the internal leaf names) and a neutral open ending. The
+feedback carries a three-tier ablation:
 
-**Feedback loop.** The N reflective probes are applied **in parallel** to produce N candidate revisions
-from the same starting point; the **agent then selects** one to carry into the next round — the critique
-only activates candidates, it never chooses. Runs go the full **N = 10 rounds with no early stopping**
-(which would mask oscillation / divergence); early stopping is deferred to Phase-2. Sequential
-single-direction revision is a separate ablation axis (A3, §5.5), not an interchangeable equivalent of
-parallel selection — the selection step adds a candidate-aggregation confound that A3 excludes.
+- **A** = type phrase + probability (baseline)
+- **B** = A + cause
+- **C** = B + cause + attention
 
-**Separation from L3/L4.** The critique is single-round and generates feedback; L3/L4 (§5.10) are
-cross-round offline diagnoses (activation vs. locking). The history-delta signal is the only place the
-two touch, and it stays gold-free.
+The ablation burns A/B/C against next-round improvement to test whether the extra diagnostic text
+helps (§5.7), recorded in `EXPERIMENT_LOG`. The prompt obeys three rules: no mechanism
+self-confession (never "based on statistics / a reference bank"), no internal leaf labels, and a
+neutral closing ("if any applies, revise accordingly; otherwise keep your answer as is").
+
+**Feedback loop.** Reflective feedback is applied **in parallel** to produce candidate revisions
+from the same starting point; the agent then selects one to carry into the next round — the critic
+only activates candidates, it never chooses. Runs go the full **N = 10 rounds with no early
+stopping** (early stopping masks oscillation / divergence); sequential single-direction revision
+is a separate ablation axis (A3, §5.5).
+
+**Separation from L3/L4.** The critic is single-round and generates feedback; L3/L4 (§5.10) are
+cross-round offline diagnoses (activation vs. locking). The two touch only through the
+round-dimension events, which stay gold-free.
 
 ### 5.9 Evaluation tiers (three-tier scoring framework)
 
@@ -492,6 +505,7 @@ The dominant cost driver is the number of API model × question × round cells p
 
 | Version | Date | Change |
 |---|---|---|
+| 0.10 | 2026-10-06 | Rewrote §5.8 from rule-based metacognition to the **weak critic**: a two-layer pipeline (taxonomy prior `build_error_taxonomy.py` + Naive-Bayes classifier `build_weak_critic.py`, Top-3 over the fixed 19 leaves); added gold-free static cause/attention fields per leaf and a three-tier feedback ablation (A type+prob / B +cause / C +cause+attention). |
 | 0.9 | 2026-10-05 | Consistency pass: §5.1 models/task families, §5.3 stages, §5.7 check-2, and §6.1 routing aligned to Phase-1 reality (3 mid Aliyun models, no local loading, rule-based critique). |
 | 0.1 | 2026-09-26 | Initial working draft (internal). |
 | 0.2 | 2026-09-26 | Restructured into an academic experiment protocol; incorporated the two-uncertainty motivation, three-layer capability hypothesis, three candidate mathematical framings, cost–reliability extreme-value form, three decouplings, and three contributions; removed process/decision content (moved to `DECISION_LOG.md`). |

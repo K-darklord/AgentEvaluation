@@ -1,7 +1,7 @@
 {
   "metadata": {
     "taxonomy_version": "v2.0",
-    "generated_at_utc": "2026-09-29T12:57:38.862302+00:00",
+    "generated_at_utc": "2026-10-06T07:09:32.390082+00:00",
     "script": "src/build_error_taxonomy.py",
     "data_sources": {
       "math_math500_finance_bfcl": "experiments/d1_baseline_20260928_201128",
@@ -118,6 +118,48 @@
         "group": "wrong_argument",
         "source": "BFCL component-level"
       }
+    },
+    "leaf_cause": {
+      "sign_flip": "a sign was flipped during the arithmetic",
+      "magnitude_error": "the magnitude is far off a reasonable scale",
+      "factor_error": "the result is off by a simple multiplicative factor",
+      "near_miss": "the result is close but not exact (small arithmetic slip)",
+      "wrong_symbolic": "the symbolic form is not the one the definitions imply",
+      "empty_or_unparseable": "no numeric answer could be extracted from the response",
+      "non_letter_output": "the response contains no single option letter",
+      "multiple_letters": "the response mentions more than one option letter",
+      "wrong_option": "the selected option is not the intended one",
+      "empty_pred": "no final answer was produced",
+      "tool_error": "a tool call returned an error",
+      "retrieval_failure": "no grounding evidence was retrieved",
+      "contradiction": "the answer contradicts retrieved evidence",
+      "complete_failure": "reasoning was truncated or did not converge",
+      "numeric_error": "a numeric computation is incorrect",
+      "coverage_incomplete": "only part of the required answer was addressed",
+      "json_parse_error": "the output is not valid JSON",
+      "wrong_function_name": "the function name is not the expected one",
+      "wrong_argument": "an argument value is not the expected one"
+    },
+    "leaf_attention": {
+      "sign_flip": "re-examine the signs in every arithmetic step",
+      "magnitude_error": "re-check the order of magnitude and units",
+      "factor_error": "check whether a factor was dropped or doubled",
+      "near_miss": "re-run the final arithmetic step once more",
+      "wrong_symbolic": "re-derive the symbolic expression from the definitions",
+      "empty_or_unparseable": "commit to one concrete value",
+      "non_letter_output": "state only the option letter",
+      "multiple_letters": "commit to exactly one option letter",
+      "wrong_option": "re-read the stem and re-check the selected option",
+      "empty_pred": "produce a final answer",
+      "tool_error": "retry the tool or fix its arguments",
+      "retrieval_failure": "retrieve source evidence before answering",
+      "contradiction": "reconcile the answer with the retrieved facts",
+      "complete_failure": "complete the derivation to a final answer",
+      "numeric_error": "re-check every arithmetic step",
+      "coverage_incomplete": "address every part of the question",
+      "json_parse_error": "emit valid JSON only",
+      "wrong_function_name": "confirm the function name matches the task",
+      "wrong_argument": "confirm argument values match the schema"
     },
     "not_detectable_classes": {
       "GSM-Ranges": [

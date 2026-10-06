@@ -1,0 +1,189 @@
+[
+  {
+    "family": "math500",
+    "task_id": "math500_010",
+    "true_error_type": "factor_error",
+    "obs": {
+      "empty": "F",
+      "n_nums": "2",
+      "has_neg": "F"
+    },
+    "top3": [
+      {
+        "leaf": "wrong_symbolic",
+        "probability": 0.473947,
+        "phrase": "a symbolic-form error",
+        "cause": "the symbolic form is not the one the definitions imply",
+        "attention": "re-derive the symbolic expression from the definitions"
+      },
+      {
+        "leaf": "factor_error",
+        "probability": 0.264231,
+        "phrase": "an arithmetic factor slip",
+        "cause": "the result is off by a simple multiplicative factor",
+        "attention": "check whether a factor was dropped or doubled"
+      },
+      {
+        "leaf": "magnitude_error",
+        "probability": 0.13934,
+        "phrase": "a magnitude / scale error",
+        "cause": "the magnitude is far off a reasonable scale",
+        "attention": "re-check the order of magnitude and units"
+      }
+    ],
+    "prompts": {
+      "A": "Re-examine your answer against the following reflections, ordered by likelihood:\n\n1. a symbolic-form error (probability 47%)\n2. an arithmetic factor slip (probability 26%)\n3. a magnitude / scale error (probability 14%)\n\nIf any of these applies to your answer, revise accordingly; otherwise keep your answer as is.",
+      "B": "Re-examine your answer against the following reflections, ordered by likelihood:\n\n1. a symbolic-form error (probability 47%)\n   possible cause: the symbolic form is not the one the definitions imply\n2. an arithmetic factor slip (probability 26%)\n   possible cause: the result is off by a simple multiplicative factor\n3. a magnitude / scale error (probability 14%)\n   possible cause: the magnitude is far off a reasonable scale\n\nIf any of these applies to your answer, revise accordingly; otherwise keep your answer as is.",
+      "C": "Re-examine your answer against the following reflections, ordered by likelihood:\n\n1. a symbolic-form error (probability 47%)\n   possible cause: the symbolic form is not the one the definitions imply\n   to check: re-derive the symbolic expression from the definitions\n2. an arithmetic factor slip (probability 26%)\n   possible cause: the result is off by a simple multiplicative factor\n   to check: check whether a factor was dropped or doubled\n3. a magnitude / scale error (probability 14%)\n   possible cause: the magnitude is far off a reasonable scale\n   to check: re-check the order of magnitude and units\n\nIf any of these applies to your answer, revise accordingly; otherwise keep your answer as is."
+    }
+  },
+  {
+    "family": "finance",
+    "task_id": "fab_001",
+    "true_error_type": "numeric_error",
+    "obs": {
+      "empty": "F",
+      "n_tool": "2"
+    },
+    "top3": [
+      {
+        "leaf": "complete_failure",
+        "probability": 0.495739,
+        "phrase": "incomplete or truncated reasoning",
+        "cause": "reasoning was truncated or did not converge",
+        "attention": "complete the derivation to a final answer"
+      },
+      {
+        "leaf": "numeric_error",
+        "probability": 0.375779,
+        "phrase": "a numeric computation error",
+        "cause": "a numeric computation is incorrect",
+        "attention": "re-check every arithmetic step"
+      },
+      {
+        "leaf": "contradiction",
+        "probability": 0.102783,
+        "phrase": "an evidence contradiction",
+        "cause": "the answer contradicts retrieved evidence",
+        "attention": "reconcile the answer with the retrieved facts"
+      }
+    ],
+    "prompts": {
+      "A": "Re-examine your answer against the following reflections, ordered by likelihood:\n\n1. incomplete or truncated reasoning (probability 50%)\n2. a numeric computation error (probability 38%)\n3. an evidence contradiction (probability 10%)\n\nIf any of these applies to your answer, revise accordingly; otherwise keep your answer as is.",
+      "B": "Re-examine your answer against the following reflections, ordered by likelihood:\n\n1. incomplete or truncated reasoning (probability 50%)\n   possible cause: reasoning was truncated or did not converge\n2. a numeric computation error (probability 38%)\n   possible cause: a numeric computation is incorrect\n3. an evidence contradiction (probability 10%)\n   possible cause: the answer contradicts retrieved evidence\n\nIf any of these applies to your answer, revise accordingly; otherwise keep your answer as is.",
+      "C": "Re-examine your answer against the following reflections, ordered by likelihood:\n\n1. incomplete or truncated reasoning (probability 50%)\n   possible cause: reasoning was truncated or did not converge\n   to check: complete the derivation to a final answer\n2. a numeric computation error (probability 38%)\n   possible cause: a numeric computation is incorrect\n   to check: re-check every arithmetic step\n3. an evidence contradiction (probability 10%)\n   possible cause: the answer contradicts retrieved evidence\n   to check: reconcile the answer with the retrieved facts\n\nIf any of these applies to your answer, revise accordingly; otherwise keep your answer as is."
+    }
+  },
+  {
+    "family": "bfcl",
+    "task_id": "bfcl_014",
+    "true_error_type": "wrong_argument",
+    "obs": {
+      "empty": "F",
+      "valid_json": "T"
+    },
+    "top3": [
+      {
+        "leaf": "wrong_argument",
+        "probability": 0.924948,
+        "phrase": "a wrong argument value",
+        "cause": "an argument value is not the expected one",
+        "attention": "confirm argument values match the schema"
+      },
+      {
+        "leaf": "empty_pred",
+        "probability": 0.025017,
+        "phrase": "no final answer",
+        "cause": "no final answer was produced",
+        "attention": "produce a final answer"
+      },
+      {
+        "leaf": "json_parse_error",
+        "probability": 0.025017,
+        "phrase": "invalid JSON output",
+        "cause": "the output is not valid JSON",
+        "attention": "emit valid JSON only"
+      }
+    ],
+    "prompts": {
+      "A": "Re-examine your answer against the following reflections, ordered by likelihood:\n\n1. a wrong argument value (probability 92%)\n2. no final answer (probability 3%)\n3. invalid JSON output (probability 3%)\n\nIf any of these applies to your answer, revise accordingly; otherwise keep your answer as is.",
+      "B": "Re-examine your answer against the following reflections, ordered by likelihood:\n\n1. a wrong argument value (probability 92%)\n   possible cause: an argument value is not the expected one\n2. no final answer (probability 3%)\n   possible cause: no final answer was produced\n3. invalid JSON output (probability 3%)\n   possible cause: the output is not valid JSON\n\nIf any of these applies to your answer, revise accordingly; otherwise keep your answer as is.",
+      "C": "Re-examine your answer against the following reflections, ordered by likelihood:\n\n1. a wrong argument value (probability 92%)\n   possible cause: an argument value is not the expected one\n   to check: confirm argument values match the schema\n2. no final answer (probability 3%)\n   possible cause: no final answer was produced\n   to check: produce a final answer\n3. invalid JSON output (probability 3%)\n   possible cause: the output is not valid JSON\n   to check: emit valid JSON only\n\nIf any of these applies to your answer, revise accordingly; otherwise keep your answer as is."
+    }
+  },
+  {
+    "family": "math",
+    "task_id": "gsm8k_013",
+    "true_error_type": "wrong_symbolic",
+    "obs": {
+      "empty": "F",
+      "n_nums": "2",
+      "has_neg": "F"
+    },
+    "top3": [
+      {
+        "leaf": "wrong_symbolic",
+        "probability": 0.516129,
+        "phrase": "a symbolic-form error",
+        "cause": "the symbolic form is not the one the definitions imply",
+        "attention": "re-derive the symbolic expression from the definitions"
+      },
+      {
+        "leaf": "empty_or_unparseable",
+        "probability": 0.096774,
+        "phrase": "an unparseable or missing answer",
+        "cause": "no numeric answer could be extracted from the response",
+        "attention": "commit to one concrete value"
+      },
+      {
+        "leaf": "factor_error",
+        "probability": 0.096774,
+        "phrase": "an arithmetic factor slip",
+        "cause": "the result is off by a simple multiplicative factor",
+        "attention": "check whether a factor was dropped or doubled"
+      }
+    ],
+    "prompts": {
+      "A": "Re-examine your answer against the following reflections, ordered by likelihood:\n\n1. a symbolic-form error (probability 52%)\n2. an unparseable or missing answer (probability 10%)\n3. an arithmetic factor slip (probability 10%)\n\nIf any of these applies to your answer, revise accordingly; otherwise keep your answer as is.",
+      "B": "Re-examine your answer against the following reflections, ordered by likelihood:\n\n1. a symbolic-form error (probability 52%)\n   possible cause: the symbolic form is not the one the definitions imply\n2. an unparseable or missing answer (probability 10%)\n   possible cause: no numeric answer could be extracted from the response\n3. an arithmetic factor slip (probability 10%)\n   possible cause: the result is off by a simple multiplicative factor\n\nIf any of these applies to your answer, revise accordingly; otherwise keep your answer as is.",
+      "C": "Re-examine your answer against the following reflections, ordered by likelihood:\n\n1. a symbolic-form error (probability 52%)\n   possible cause: the symbolic form is not the one the definitions imply\n   to check: re-derive the symbolic expression from the definitions\n2. an unparseable or missing answer (probability 10%)\n   possible cause: no numeric answer could be extracted from the response\n   to check: commit to one concrete value\n3. an arithmetic factor slip (probability 10%)\n   possible cause: the result is off by a simple multiplicative factor\n   to check: check whether a factor was dropped or doubled\n\nIf any of these applies to your answer, revise accordingly; otherwise keep your answer as is."
+    }
+  },
+  {
+    "family": "mmlu_pro",
+    "task_id": "mmlu_pro_003",
+    "true_error_type": "non_letter_output",
+    "obs": {
+      "empty": "F",
+      "n_letters": "0"
+    },
+    "top3": [
+      {
+        "leaf": "non_letter_output",
+        "probability": 0.802508,
+        "phrase": "no option letter given",
+        "cause": "the response contains no single option letter",
+        "attention": "state only the option letter"
+      },
+      {
+        "leaf": "wrong_option",
+        "probability": 0.113524,
+        "phrase": "the wrong option selected",
+        "cause": "the selected option is not the intended one",
+        "attention": "re-read the stem and re-check the selected option"
+      },
+      {
+        "leaf": "multiple_letters",
+        "probability": 0.083968,
+        "phrase": "multiple option letters given",
+        "cause": "the response mentions more than one option letter",
+        "attention": "commit to exactly one option letter"
+      }
+    ],
+    "prompts": {
+      "A": "Re-examine your answer against the following reflections, ordered by likelihood:\n\n1. no option letter given (probability 80%)\n2. the wrong option selected (probability 11%)\n3. multiple option letters given (probability 8%)\n\nIf any of these applies to your answer, revise accordingly; otherwise keep your answer as is.",
+      "B": "Re-examine your answer against the following reflections, ordered by likelihood:\n\n1. no option letter given (probability 80%)\n   possible cause: the response contains no single option letter\n2. the wrong option selected (probability 11%)\n   possible cause: the selected option is not the intended one\n3. multiple option letters given (probability 8%)\n   possible cause: the response mentions more than one option letter\n\nIf any of these applies to your answer, revise accordingly; otherwise keep your answer as is.",
+      "C": "Re-examine your answer against the following reflections, ordered by likelihood:\n\n1. no option letter given (probability 80%)\n   possible cause: the response contains no single option letter\n   to check: state only the option letter\n2. the wrong option selected (probability 11%)\n   possible cause: the selected option is not the intended one\n   to check: re-read the stem and re-check the selected option\n3. multiple option letters given (probability 8%)\n   possible cause: the response mentions more than one option letter\n   to check: commit to exactly one option letter\n\nIf any of these applies to your answer, revise accordingly; otherwise keep your answer as is."
+    }
+  }
+]

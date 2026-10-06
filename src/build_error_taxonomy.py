@@ -117,6 +117,68 @@ NOT_DETECTABLE = {
                                    "context inconsistency", "logical inconsistency"],
 }
 
+
+# ----------------------------------------------------------------------
+# Gold-free static diagnostics per leaf (added 2026-10-06).
+# `cause`  = one-sentence diagnosis of the error direction (implicit, no gold).
+# `attention` = one-sentence, directional "how to check", phrased so it never
+#     points at the correct value (no gold leak). Both are fixed at taxonomy
+#     build time; neither is ever computed from gold at inference. Used by the
+#     weak critic as the B / C feedback-tiers (see build_weak_critic.py and
+#     RESEARCH_PLAN §5.8).
+# ----------------------------------------------------------------------
+LEAF_CAUSE = {
+    # math500 / math
+    "sign_flip":           "a sign was flipped during the arithmetic",
+    "magnitude_error":     "the magnitude is far off a reasonable scale",
+    "factor_error":        "the result is off by a simple multiplicative factor",
+    "near_miss":           "the result is close but not exact (small arithmetic slip)",
+    "wrong_symbolic":      "the symbolic form is not the one the definitions imply",
+    "empty_or_unparseable": "no numeric answer could be extracted from the response",
+    # mmlu_pro
+    "non_letter_output":   "the response contains no single option letter",
+    "multiple_letters":    "the response mentions more than one option letter",
+    "wrong_option":        "the selected option is not the intended one",
+    # finance
+    "empty_pred":          "no final answer was produced",
+    "tool_error":          "a tool call returned an error",
+    "retrieval_failure":   "no grounding evidence was retrieved",
+    "contradiction":       "the answer contradicts retrieved evidence",
+    "complete_failure":    "reasoning was truncated or did not converge",
+    "numeric_error":       "a numeric computation is incorrect",
+    "coverage_incomplete": "only part of the required answer was addressed",
+    # bfcl
+    "json_parse_error":    "the output is not valid JSON",
+    "wrong_function_name": "the function name is not the expected one",
+    "wrong_argument":      "an argument value is not the expected one",
+}
+
+LEAF_ATTENTION = {
+    # math500 / math
+    "sign_flip":           "re-examine the signs in every arithmetic step",
+    "magnitude_error":     "re-check the order of magnitude and units",
+    "factor_error":        "check whether a factor was dropped or doubled",
+    "near_miss":           "re-run the final arithmetic step once more",
+    "wrong_symbolic":      "re-derive the symbolic expression from the definitions",
+    "empty_or_unparseable": "commit to one concrete value",
+    # mmlu_pro
+    "non_letter_output":   "state only the option letter",
+    "multiple_letters":    "commit to exactly one option letter",
+    "wrong_option":        "re-read the stem and re-check the selected option",
+    # finance
+    "empty_pred":          "produce a final answer",
+    "tool_error":          "retry the tool or fix its arguments",
+    "retrieval_failure":   "retrieve source evidence before answering",
+    "contradiction":       "reconcile the answer with the retrieved facts",
+    "complete_failure":    "complete the derivation to a final answer",
+    "numeric_error":       "re-check every arithmetic step",
+    "coverage_incomplete": "address every part of the question",
+    # bfcl
+    "json_parse_error":    "emit valid JSON only",
+    "wrong_function_name": "confirm the function name matches the task",
+    "wrong_argument":      "confirm argument values match the schema",
+}
+
 # ----------------------------------------------------------------------
 # Helpers
 # ----------------------------------------------------------------------
@@ -428,6 +490,8 @@ def main() -> None:
             "gold_answer": rec.get("gold_answer", ""),
             "prompt": rec.get("prompt", ""),
             "signals": sig,
+            "cause": LEAF_CAUSE.get(label, ""),
+            "attention": LEAF_ATTENTION.get(label, ""),
         })
 
     # Build a clean distribution aggregate
@@ -483,6 +547,8 @@ def main() -> None:
             "bfcl": "label_bfcl",
         },
         "ontology": ONTOLOGY,
+        "leaf_cause": LEAF_CAUSE,
+        "leaf_attention": LEAF_ATTENTION,
         "not_detectable_classes": NOT_DETECTABLE,
     }
 
