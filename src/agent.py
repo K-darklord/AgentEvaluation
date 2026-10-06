@@ -466,6 +466,8 @@ class AgentResult:
     tool_calls: int = 0
     total_latency_ms: int = 0
     total_cost_usd: float = 0.0
+    total_prompt_tokens: int = 0      # accumulated OpenAI usage.prompt_tokens
+    total_completion_tokens: int = 0  # accumulated usage.completion_tokens
     error: str = ""
     model_name: str = "rule-based-local"
     seed: int | None = None
@@ -817,7 +819,7 @@ class HuggingFaceAgent(BaseAgent):
                 if self.enable_thinking is not None:
                     kwargs["extra_body"] = {"enable_thinking": self.enable_thinking}
                 resp = client.chat.completions.create(**kwargs)
-                return _extract_content(resp.choices[0].message)
+                return _extract_content(resp.choices[0].message), resp
             except Exception as e:
                 last_error = e
                 err_str = str(e).lower()
@@ -872,6 +874,10 @@ class HuggingFaceAgent(BaseAgent):
             return result
 
         msg = resp.choices[0].message
+        _u = getattr(resp, "usage", None)
+        if _u is not None:
+            result.total_prompt_tokens += getattr(_u, "prompt_tokens", 0)
+            result.total_completion_tokens += getattr(_u, "completion_tokens", 0)
         if msg.tool_calls:
             tc = msg.tool_calls[0]
             result.final_answer = _json.dumps(
@@ -907,6 +913,8 @@ class HuggingFaceAgent(BaseAgent):
         if task.metadata.get("benchmark") == "bfcl":
             return self._solve_bfcl(task, result, feedback=feedback)
         t0 = time.time()
+        _pt = 0  # local token accumulators (thread-safe: no shared instance state)
+        _ct = 0
         steps: list[TrajectoryStep] = []
         import json as _json
         import inspect as _ins
@@ -956,6 +964,10 @@ class HuggingFaceAgent(BaseAgent):
         for iteration in range(max_steps):
             try:
                 resp = self._call_llm_with_tools(messages, fc_tools, tool_choice="auto")
+                _u = getattr(resp, "usage", None)
+                if _u is not None:
+                    _pt += getattr(_u, "prompt_tokens", 0)
+                    _ct += getattr(_u, "completion_tokens", 0)
             except Exception as e:
                 err_str = str(e).lower()
                 is_api_failure = any(k in err_str for k in [
@@ -1083,7 +1095,11 @@ class HuggingFaceAgent(BaseAgent):
                 {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {task.prompt}\n\nAnswer:"},
             ]
             try:
-                answer = self._call_llm_text(fallback_msgs)
+                answer, _resp = self._call_llm_text(fallback_msgs)
+                _u = getattr(_resp, "usage", None)
+                if _u is not None:
+                    _pt += getattr(_u, "prompt_tokens", 0)
+                    _ct += getattr(_u, "completion_tokens", 0)
             except Exception as e:
                 result.api_failure = True
                 answer = f"[max steps reached, LLM error: {e}]"
@@ -1101,6 +1117,8 @@ class HuggingFaceAgent(BaseAgent):
         result.tool_calls = sum(1 for s in steps if s.tool_name and s.tool_name != "fallback_generate")
         result.total_latency_ms = int((time.time() - t0) * 1000)
         result.total_cost_usd = 0.0  # HF router doesn't report token usage in free tier
+        result.total_prompt_tokens = _pt
+        result.total_completion_tokens = _ct
         return result
 
 

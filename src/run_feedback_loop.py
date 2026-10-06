@@ -136,6 +136,8 @@ def _round_record(r: int, result, correct: bool, evidence, error, no_signal,
         "tool_calls": result.tool_calls,
         "latency_ms": result.total_latency_ms,
         "api_failure": result.api_failure,
+        "prompt_tokens": result.total_prompt_tokens,
+        "completion_tokens": result.total_completion_tokens,
     }
 
 
@@ -242,8 +244,11 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
             futs = {ex.submit(_run_task_loop, agent, critic, task, tier,
                               max_rounds, early_stop_n): i
                     for i, task in enumerate(tasks)}
+            done = 0
             for fut in concurrent.futures.as_completed(futs):
                 per_task[futs[fut]] = fut.result()
+                done += 1
+                print(f"  [{name}] {done}/{len(tasks)} tasks done", flush=True)
 
         # write loop trajectories (one JSON line per task)
         traj_path = model_dir / "loop_trajectories.jsonl"
@@ -276,6 +281,8 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
             "l4_lock_rate": round(locked, 4),
             "l4_misled_rate": round(misled, 4),
             "avg_rounds": round(avg_rounds, 2),
+            "total_prompt_tokens": sum(r["prompt_tokens"] for t in per_task for r in t["rounds"]),
+            "total_completion_tokens": sum(r["completion_tokens"] for t in per_task for r in t["rounds"]),
         }
         summary["models"][name] = m
         (out_root / "loop_summary.json").write_text(
@@ -283,7 +290,8 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
         print(f"  [{name}] init={m['init_accuracy']:.2%} final={m['final_accuracy']:.2%} "
               f"states={m['end_state_distribution']} L3_act={m['l3_activation_rate']:.2%} "
               f"L4_lock={m['l4_lock_rate']:.2%} L4_misled={m['l4_misled_rate']:.2%} "
-              f"avg_rounds={m['avg_rounds']}")
+              f"avg_rounds={m['avg_rounds']} "
+              f"tok={m['total_prompt_tokens']}+{m['total_completion_tokens']}")
 
     (out_root / "loop_summary.json").write_text(
         json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
