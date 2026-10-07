@@ -29,6 +29,17 @@ judge rescue for qualitative finance answers.
 | **Locking loss** | `P(A) − P(final)`, in percentage points. The avoidable loss between ceiling and final accuracy. |
 | **Never-activated** (state 6) | Tasks where the correct answer never appears in any round — a *true reachability* (L1/L2) gap, distinct from a locking gap. |
 
+**Six end-states.** Each (model × task) loop run lands in exactly one of six mutually exclusive states, jointly operationalising L3 (activation) and L4 (locking). `start` / `final` = round-0 / last-round correctness; “appears” = the correct answer surfaces in ≥ 1 round.
+
+| State | Start | Correct appears | Final | Reading |
+|---|---|---|---|---|
+| 1 | correct | never flips | correct | L4 full — answer held across all rounds |
+| 2 | correct | flips wrong | wrong | L4 deficit — a correct start is misled into an error |
+| 3 | correct | flips, then recovers | correct | L4 weak but recoverable |
+| 4 | wrong | appears | correct | L3 + L4 full — activated, then locked |
+| 5 | wrong | appears | wrong | L3 present, L4 deficit — activated but not held (oscillation) |
+| 6 | wrong | never appears | wrong | L3 absent — the signal cannot activate the answer |
+
 ## 3. The weak-critic proxy — mechanism and current limits
 
 The round-1..R feedback is emitted by a **weak critic**: a deterministic, *gold-free* classifier
@@ -200,9 +211,13 @@ P(correct appears by round r) = 1 − exp(−(r / θ)^k)
 
 with **k = activation shape** (k > 1 acceleration; k < 1 oscillation) and **θ = locking scale**.
 Estimate k from the cumulative activation curve, θ/locking from `P(F | A ∧ ¬S)` per round; the cost
-axis is steps (already logged) plus **tokens** (needs per-round instrumentation — at minimum for
-finance). Output the first cost–reliability curves, and out-of-sample: predict rounds-to-90% from
-the first 2–3 rounds.
+axis is steps (already logged) plus **tokens → cost**, which is collected from Phase 2 onward (not
+backfilled for Phase 1). The agent already meters per-call `usage` into
+`result.total_prompt_tokens/completion_tokens` and each feedback round records them, so a re-run drops
+the axis automatically. Cost = token count × provider unit price (deepseek ¥1/¥2, glm ¥8/¥28 per M
+input/output tokens), with reasoning (thinking) tokens separated from content tokens before pricing
+(qwen's default thinking otherwise inflates completion tokens). Output the first cost–reliability
+curves, and out-of-sample: predict rounds-to-90% from the first 2–3 rounds.
 
 ### 8.7 Execution order and dependencies
 
@@ -231,7 +246,9 @@ the first 2–3 rounds.
   resolved; 0 regressions).
 - **Finance qualitative scoring**: registered T2 LLM-judge rescue, false-negative-prone; finance
   locking loss is measured with uncertainty.
-- **Cost**: HuggingFaceAgent drops usage, so no per-round token/cost data exists in this run.
+- **Cost**: no per-round token/cost data in this run — it ran on the HF router (free tier, no usage).
+  Token→cost metering is deferred to Phase 2 (§8.6): the agent-side usage instrumentation and Aliyun's
+  usage return are already in place, so no new development is required.
 
 ---
 
