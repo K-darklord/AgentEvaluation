@@ -800,12 +800,45 @@ def _score_mmlu_pro(row: dict) -> float:
     return 1.0 if gold in letters else 0.0
 
 
+def _norm_math_expr(s: str) -> str:
+    """I normalise a maths-expression string so notationally-equivalent forms compare
+    equal: caret power ``x^3`` -> ``x**3``, implicit multiplication ``3x**2`` -> ``3*x**2``,
+    and remove all whitespace. Used by BFCL function-string arguments, which the model and
+    the ground truth may spell differently (``x^3`` vs ``x**3``, ``2x**2`` vs ``2*x**2``)."""
+    s = str(s)
+    s = s.replace("^", "**")
+    s = re.sub(r"(\d)([a-zA-Z(])", r"\1*\2", s)
+    s = re.sub(r"\s+", "", s)
+    return s
+
+
+def _bfcl_val_equal(a, b) -> bool:
+    """I compare one BFCL accepted value `a` against a predicted value `b`, tolerant to
+    (i) list-typed values compared element-wise (so ``[1, 3]`` == ``[1.0, 3.0]``),
+    (ii) numeric values compared with a tight relative tolerance (so ``0`` == ``0.0``), and
+    (iii) maths-expression strings compared after ``_norm_math_expr``. An empty-string
+    accepted value remains the wildcard for an absent optional argument."""
+    if isinstance(a, list) and isinstance(b, list):
+        return len(a) == len(b) and all(_bfcl_val_equal(x, y) for x, y in zip(a, b))
+    if (isinstance(a, (int, float)) and isinstance(b, (int, float))
+            and not isinstance(a, bool) and not isinstance(b, bool)):
+        return abs(a - b) <= 1e-9 * max(abs(a), abs(b), 1.0)
+    sa, sb = str(a).strip(), str(b).strip()
+    if _norm_math_expr(sa) == _norm_math_expr(sb):
+        return True
+    try:
+        fa, fb = float(sa), float(sb)
+        return abs(fa - fb) <= 1e-9 * max(abs(fa), abs(fb), 1.0)
+    except (ValueError, TypeError):
+        return False
+
+
 def _score_bfcl(row: dict) -> float:
     """I grade BFCL by AST comparison: the predicted {name, arguments} must match the
     function name in ground truth, and every ground-truth parameter must take a value
     present in that parameter accepted-value list. Extra predicted parameters are
-    ignored; values are compared string-insensitively (absent == ""). 1.0 on full match
-    else 0.0."""
+    ignored; values are compared with tolerance for maths-notation and numeric formatting
+    (absent == "" wildcard). 1.0 on full match else 0.0."""
     pred_raw = str(row.get("final_answer", "")).strip()
     if not pred_raw:
         return 0.0
@@ -824,6 +857,8 @@ def _score_bfcl(row: dict) -> float:
     try:
         pred = json.loads(pred_raw)
     except (json.JSONDecodeError, TypeError):
+        return 0.0
+    if not isinstance(pred, dict):
         return 0.0
 
     name = str(pred.get("name", "")).replace(".", "_")
@@ -856,7 +891,7 @@ def _score_bfcl(row: dict) -> float:
     for param, accepted in entry.items():
         accepted_list = accepted if isinstance(accepted, list) else [accepted]
         pred_val = args.get(param, "")
-        if not any(str(pred_val) == str(a) for a in accepted_list):
+        if not any(_bfcl_val_equal(pred_val, a) for a in accepted_list):
             return 0.0
     return 1.0
 

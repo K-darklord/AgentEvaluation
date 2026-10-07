@@ -484,31 +484,42 @@ The §5.10 round-dimension scheme is implemented as a bounded feedback–self-co
 
 **The L3 existence claim.** Estimate `Δ = E[Y_C] − E[Y_B]`. A significant `Δ > 0` is the minimal evidence that a *directional* weak critic (a weak but non-zero L3) has value, independent of critic strength. The contrast is **C vs B**, not C vs A: C vs A confounds "multiple rounds" with "directional signal", whereas C vs B isolates the directional contribution. This is what separates L3 from L4 — L4 is the locking/anti-interference profile *inside* arm C; L3 is the directional lift *between* arms.
 
-**L3/L4 separation inside arm C.** Three per-task probabilities:
+**L3/L4 separation inside arm C.** Four per-task quantities, defined over the looping events (`A` = "correct answer appears in ≥ 1 round"; `S` = "round-0 correct"; `F` = "final round correct"):
 
-- `P_act = P(correct appears in a later round | first-wrong)` — **L3 activation** (§5.11 `l3_reversibility_rate`).
-- `P_lock = P(final correct | correct appeared and first-wrong)` — **L4 lock**.
-- `q_stay = P(final correct | first-correct)` — **L4 anti-interference** (1 − misled rate).
+- `P_act = P(A)` — **L3 activation = the model's reachable ceiling** (§5.11 `l3_activation_rate`). The fraction of tasks where the correct answer is produced *at least once* anywhere in the loop (round 0 included) — the upper bound on the accuracy the model can reach. It is deliberately **not** a locking property: a task where the answer never appears (end-state 6) is a true reachability deficit of the model's own capability (an L1/L2 gap), whereas a task that appears but is not locked in finally (end-state 5) is a separable L4 deficit. Low activation therefore signals a raw capability gap, not merely a failure to lock — this is the distinction the analysis now prioritises over locking alone.
+- `r = P(A | ¬S)` — **reversibility (初错可逆率)** (§5.11 `l3_reversibility_rate`): among first-wrong tasks, the fraction that later produce the correct answer under feedback.
+- `P_lock = P(F | A ∧ ¬S)` — **L4 lock**: among first-wrong-but-activated tasks, the fraction locked to the correct final answer.
+- `q_stay = P(F | S)` — **L4 anti-interference**: among first-correct tasks, the fraction not misled (= 1 − misled rate).
 
-They decompose final accuracy as
+Because `S ⊆ A` (a correct round-0 answer trivially "appeared"), the ceiling and the final accuracy decompose as
 
 ```
-final_acc = μ·q_stay + (1 − μ)·P_act·P_lock
+P_act = μ + (1 − μ)·r
 ```
 
-The first term is "knew it and was not misled"; the second is "did not know it, was activated, and locked". This single identity carries L1/L2 (μ), L3 (P_act), and L4 (P_lock, q_stay).
+```
+final_acc = μ·q_stay + (1 − μ)·r·P_lock
+```
 
-**Self-consistency check (deepseek, arm C, 250 tasks).** μ-hat = 207/250 = 0.828 (round-0 accuracy), P_act = 22/43 ≈ 0.512, P_lock = 13/22 ≈ 0.591, q_stay = 196/207 ≈ 0.947. Then μ·q_stay = 0.784 and (1 − μ)·P_act·P_lock = 0.052, summing to 0.836 — exactly the observed final accuracy. The decomposition is internally consistent on the existing arm-C data.
+The first term is "knew it and was not misled"; the second is "did not know it, recovered it, and locked it". This single identity carries L1/L2 (μ), L3 (`P_act` via `r`), and L4 (`P_lock`, `q_stay`). The gap
+
+```
+locking_loss = P_act − final_acc
+```
+
+is the fraction of tasks where the correct answer was within reach but not locked in — the model's avoidable loss.
+
+**Self-consistency check (deepseek, arm C, 250 tasks).** μ-hat = 207/250 = 0.828 (round-0 accuracy), r = 22/43 ≈ 0.512 (reversibility), P_lock = 13/22 ≈ 0.591, q_stay = 196/207 ≈ 0.947, and P_act = μ + (1 − μ)·r = 0.828 + 0.172·0.512 ≈ 0.916. Then μ·q_stay = 0.784 and (1 − μ)·r·P_lock = 0.052, summing to 0.836 — exactly the observed final accuracy — leaving a locking loss of 0.916 − 0.836 ≈ 0.080 (≈ 8 pp). The decomposition is internally consistent on the existing arm-C data.
 
 **Cost side.** `cost(R) = Σ_{r=1..R} tokens(r)`, where finance's repeated tool re-injection makes tokens(r) grow (documents re-inserted per step). R is governed by the N = 3 early stop, so stable tasks (high q_stay) halt at 3 rounds at low cost while oscillating tasks (finance) run the full R at high cost — cost is coupled to the L4 stability profile.
 
 **New evaluation target.** Replace the single accuracy scalar with a capability-layered profile:
 
 ```
-model_score = ( μ, P_act, P_lock, q_stay, cost(R) )
+model_score = ( μ, P_act, r, P_lock, q_stay, cost(R) )
 ```
 
-This distinguishes a model strong at baseline (high μ) from one recovering chiefly through feedback (high P_act / P_lock) — possibly equal final accuracy but different cost and dynamics — and supports an accuracy–cost frontier stratified by capability layer.
+This distinguishes a model strong at baseline (high μ) from one with a wide reach but weak locking (high `P_act`, low `P_lock`), and from one recovering chiefly through feedback (high `r`) — possibly equal final accuracy but different ceiling, dynamics, and cost — and supports an accuracy–cost frontier stratified by capability layer. `P_act` is the primary "model ceiling" metric the analysis now emphasises over accuracy alone.
 
 **Three-arm ablation (statistical design).**
 
@@ -516,13 +527,13 @@ This distinguishes a model strong at baseline (high μ) from one recovering chie
 |---|---|---|---|
 | A | none (single pass) | μ | L1/L2 intercept |
 | B | directionless noise | μ_B | control for multi-round / test-time |
-| C | directional weak critic (tier C) | μ + Δ, P_act, P_lock, q_stay | directional lift + L3/L4 internals |
+| C | directional weak critic (tier C) | μ + Δ, P_act, r, P_lock, q_stay | directional lift + L3/L4 internals |
 
 **Reuse of arm A.** Arm C's round 0 is a no-feedback single pass, so it already supplies the arm-A μ estimate (init accuracy); arm A need not be run separately. Only arm B must be added to identify Δ.
 
 The B-arm noise generator must match C in perturbation strength and message format while erasing direction (e.g. shuffle C's top-K leaf labels, or draw a random leaf from the same family prior); otherwise C vs B is not a clean Δ.
 
-**Data status (2026-10-06).** Arm C exists today (3 models × 250 tasks) and already yields μ-hat, P_act, P_lock, q_stay per model (§5.11 `loop_summary`). Δ remains unidentified until arm B is run against the same question set.
+**Data status (2026-10-06).** Arm C exists today (3 models × 250 tasks) and already yields μ-hat, P_act, r, P_lock, q_stay per model (§5.11 `loop_summary`). Δ remains unidentified until arm B is run against the same question set.
 
 ---
 
@@ -603,6 +614,7 @@ The dominant cost driver is the number of API model × question × round cells p
 
 | Version | Date | Change |
 |---|---|---|
+| 0.14 | 2026-10-07 | Corrected §5.12 L3 activation semantics: `P_act` redefined as the full-reach activation rate `P(A)` (the model's accuracy ceiling, §5.11 `l3_activation_rate`), decoupled from a separate `r = P(A | ¬S)` reversibility (初错可逆率, §5.11 `l3_reversibility_rate`); decomposition rewritten as `P_act = μ + (1−μ)·r` and `final_acc = μ·q_stay + (1−μ)·r·P_lock` with an explicit locking-loss term `P_act − final_acc`; evaluation target extended to `(μ, P_act, r, P_lock, q_stay, cost(R))`. Fixed `_score_bfcl` false negatives (function-string maths-notation normalisation + list/numeric value tolerance + non-dict guard), resolving 5 state-6 BFCL tasks (correct function calls previously misjudged). |
 | 0.13 | 2026-10-06 | Added §5.12 capability-layered dynamics model: latent mean μ (L1/L2 intercept) + directional lift Δ = E[Y_C] − E[Y_B] (L3 existence claim, C-vs-B contrast); L3/L4 separation inside arm C via P_act / P_lock / q_stay with the identity final_acc = μ·q_stay + (1 − μ)·P_act·P_lock (self-consistency verified on deepseek arm-C data); cost side cost(R); layered evaluation target model_score = (μ, P_act, P_lock, q_stay, cost(R)); three-arm statistical design with arm A reused from round 0 and only arm B outstanding. |
 | 0.12 | 2026-10-06 | Added §5.11 feedback-loop implementation: bounded re-solve loop (round 0 baseline + R=10 feedback rounds), N=3 consecutive-identical early stop, tier-C critic feedback, temperature=0, independent re-solve with cross-round tool cache, zero-LLM scoring with finance-qualitative T2-judge rescue (registered intervention; full answers recorded for offline re-judge), six-end-state outputs; made the weak-critic prediction race-free (`_predict`). |
 | 0.11 | 2026-10-06 | Upgraded §3.1 to a four-layer hypothesis (added L4 = correction/locking) plus a static-baseline-vs-round-dynamics reconstruction (intercept = L1+L2, shape k = f(L3,L4)); appended §5.8 Rev-3 (exemplar retrieval + evidence threshold + error_score; critic redefined as a direction/confidence hint, not a verifier) with its recorded risks; added §5.10 six end-states and §8.2 weak-critic risk rows. |
