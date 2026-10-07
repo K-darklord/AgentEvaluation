@@ -43,6 +43,34 @@ Four frontier threads frame this work; the complete literature map with citation
 - **Optimization** — test-time search, best-of-N, verifier-guided decoding.
 - **Inference scaling** — test-time compute scaling laws and the cost–accuracy trade-off.
 
+**Core positioning (2026-10-07).** The centre of gravity is a **new evaluation paradigm**: replace static
+single-shot accuracy with round-dimension dynamic observables — activation ceiling `P(A)`, locking rate
+`P(F | A)`, locking loss, reversibility — and quantify the **cost–reliability** and **risk** relationship that
+follows. This is a measurement contribution, not a capability-improvement one (we deliberately do not optimise
+L1/L2). The subordinate claim is an **existence proof**: a cheap, gold-free *weak critic* acting as a
+metacognition proxy can still raise the activation ceiling, establishing metacognition — and its locking/correction
+half — as a separable, optimisable axis of its own rather than a by-product of raw ability (§3.1).
+
+**Nearest-neighbour works to differentiate against.** Three lines already observe the same phenomena from other
+angles; the novelty claim must be drawn against them explicitly.
+
+- **Feedback Friction (Jiang et al., arXiv:2506.11930)** — models plateau *below their performance ceiling* even
+  with high-quality feedback; that ceiling is the closest published analogue to our `P(A)`, and the plateau to our
+  locking loss. Difference: their feedback is binary / reflective / strong-model (near-oracle), ours is a
+  *gold-free statistical critic*; they read the plateau as "resistance to feedback", we read it as a *separable
+  locking quantity* with a risk-factor model.
+- **Overthinking in test-time scaling (Zhou et al., arXiv:2604.10739)** — "flip events" where a correct answer is
+  abandoned inside a single chain. This is our state-2 (locking deficit), but located *within one CoT under token
+  scaling*, not across a *multi-round external feedback loop*.
+- **Activation-probe self-correction ("The Count Is There, but Misaligned"; "The Shape of Addition", arXiv:2606.03645)**
+  — the correct answer is encoded in internal activations yet not emitted ("decision-locking points"); white-box,
+  mechanism-side evidence of activation-without-locking, versus our black-box, gold-free protocol-side measure.
+
+Together these confirm the *phenomena* are real and independently observed. What is not established is the
+synthesis unique to this program: (i) a protocol that promotes activation/locking to first-class round-dimension
+observables, (ii) a gold-free proxy driving them, and (iii) a causal arm design (A/A2/C) plus a survival-hazard
+risk-factor model of locking.
+
 ---
 
 ## 3. Theoretical Framework
@@ -614,6 +642,7 @@ The dominant cost driver is the number of API model × question × round cells p
 
 | Version | Date | Change |
 |---|---|---|
+| 0.16 | 2026-10-07 | Added §2 core positioning (new evaluation paradigm — round-dimension dynamic observables + cost–reliability/risk as centre of gravity; weak-critic existence proof as subordinate claim) and nearest-neighbour differentiation against Feedback Friction (arXiv:2506.11930), overthinking (arXiv:2604.10739), and activation-probe self-correction (arXiv:2606.03645). |
 | 0.15 | 2026-10-07 | Marked Phase 1 complete: per-family activation/locking results (math/math500/mmlu-pro/finance/bfcl, n=50 each, 3 mid models) and the Phase 2 plan are consolidated into `docs/PHASE1_SUMMARY.md` (weak-critic mechanism + limits §3, per-family + pooled tables §4–5, Phase 2 plan §8); `docs/PHASE2_PLAN.md` merged into it and removed. |
 | 0.14 | 2026-10-07 | Corrected §5.12 L3 activation semantics: `P_act` redefined as the full-reach activation rate `P(A)` (the model's accuracy ceiling, §5.11 `l3_activation_rate`), decoupled from a separate `r = P(A | ¬S)` reversibility (初错可逆率, §5.11 `l3_reversibility_rate`); decomposition rewritten as `P_act = μ + (1−μ)·r` and `final_acc = μ·q_stay + (1−μ)·r·P_lock` with an explicit locking-loss term `P_act − final_acc`; evaluation target extended to `(μ, P_act, r, P_lock, q_stay, cost(R))`. Fixed `_score_bfcl` false negatives (function-string maths-notation normalisation + list/numeric value tolerance + non-dict guard), resolving 5 state-6 BFCL tasks (correct function calls previously misjudged). |
 | 0.13 | 2026-10-06 | Added §5.12 capability-layered dynamics model: latent mean μ (L1/L2 intercept) + directional lift Δ = E[Y_C] − E[Y_B] (L3 existence claim, C-vs-B contrast); L3/L4 separation inside arm C via P_act / P_lock / q_stay with the identity final_acc = μ·q_stay + (1 − μ)·P_act·P_lock (self-consistency verified on deepseek arm-C data); cost side cost(R); layered evaluation target model_score = (μ, P_act, P_lock, q_stay, cost(R)); three-arm statistical design with arm A reused from round 0 and only arm B outstanding. |
