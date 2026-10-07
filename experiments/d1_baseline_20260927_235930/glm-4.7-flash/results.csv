@@ -1,4 +1,0 @@
-run_id,task_id,category,difficulty,gold_answer,final_answer,is_correct,error_type,tier1_numeric,tier2_llm_semantic,dealbreaker_triggered,final_score,tool_calls,total_latency_ms,model_name
-glm-4.7-flash,gsm8k_001,Mathematical Reasoning,Medium,18,"LLM error: Error code: 429 - {'error': {'code': '1302', 'message': '您的账户已达到速率限制，请您控制请求频率'}}",False,numeric_error,0.0,0.0,False,0.0,0,1745,glm-4.7-flash
-glm-4.7-flash,gsm8k_002,Mathematical Reasoning,Medium,3,3 bolts,True,correct,1.0,0.0,False,1.0,0,50687,glm-4.7-flash
-glm-4.7-flash,gsm8k_003,Mathematical Reasoning,Medium,70000,"LLM error: Error code: 429 - {'error': {'code': '1302', 'message': '您的账户已达到速率限制，请您控制请求频率'}}",False,numeric_error,0.0,0.0,False,0.0,0,1794,glm-4.7-flash

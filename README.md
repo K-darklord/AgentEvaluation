@@ -114,6 +114,7 @@ Correctness is dispatched into three tiers by answer form: **T1** deterministic 
 
 - **Reproduce**: see [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md) §5 (one-command reproduction).
 - **Change**: when direction or conclusions change, follow [PROTOCOL.md](PROTOCOL.md) — every dependent document is revised in the same change.
+- **Archive**: superseded `d1_baseline_*` runs (early smoke / partial / weak-tier) are removed from the tree and archived to `experiments/archive/superseded_d1_baseline_20261007.tar.gz` (local; recoverable from git history via the `phase1-*` tags).
 
 ---
 

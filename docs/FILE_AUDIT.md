@@ -80,11 +80,12 @@ Fixed in the 2026-10-07 batch (commit `7d47469`, tag `phase1-docs-alignment-v0.1
 README, PHASE1_SUMMARY, TIMELINE, RESEARCH_PLAN §6.1, DOCS_FRAMEWORK, PROTOCOL.
 
 Resolved in the follow-up cleanup batch: `CHANGELOG.md` Phase-1 entries added; FinGPT local path
-(`agent.py`/`config.py`/`runner.py`) removed; `configs/fab_baseline.yaml` removed.
+(`agent.py`/`config.py`/`runner.py`) removed; `configs/fab_baseline.yaml` removed; superseded
+`d1_baseline_*` runs archived to `experiments/archive/superseded_d1_baseline_20261007.tar.gz`
+(one-off scripts kept in `src/` per continuity).
 
 ## 6. Remaining debt (pending)
 
 | Item | Type | Action |
 |---|---|---|
 | `src/experiment.py` + `configs/*` scaffolding | dead | confirm before removing (never-shipped legacy; `REPRODUCIBILITY`/`ARCHITECTURE` still sketch a YAML experiment layer) |
-| redundant `experiments/d1_baseline_*` runs | evidence | confirm which are referenced before pruning |

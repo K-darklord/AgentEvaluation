@@ -485,3 +485,9 @@ across experiments: 48% (v3 baseline) → 54% (INT-05) → 56% (INT-06).
   Token Plan `HuggingFaceAgent` path.
 - `configs/fab_baseline.yaml` — superseded FAB-only multi-seed config (stale HF model id); the Phase-1 model
   registry now lives in `config.py` `PHASE1_MODELS`.
+
+### Archived
+- Superseded `experiments/d1_baseline_*` runs (early smoke n=3 ×2, partial n=150 ×2, weak-tier, 2-model)
+  archived to `experiments/archive/superseded_d1_baseline_20261007.tar.gz` (local, gitignored) and removed from
+  the tree; the canonical `d1_baseline_20260928_201128` (250-Q full) is retained. One-off analysis scripts kept
+  in `src/` (reproducibility of the archived error-taxonomy / capability-matrix artifacts).
