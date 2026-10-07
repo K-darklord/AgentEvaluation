@@ -1,0 +1,63 @@
+{
+  "run_id": "20261006_173715",
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "seed": null,
+  "n_tasks": 250,
+  "concurrency": 6,
+  "models": {
+    "deepseek-v4-flash": {
+      "model_id": "deepseek-v4-flash-0731",
+      "init_accuracy": 0.828,
+      "final_accuracy": 0.836,
+      "end_state_distribution": {
+        "1": 177,
+        "2": 11,
+        "3": 19,
+        "4": 13,
+        "5": 9,
+        "6": 21
+      },
+      "l3_activation_rate": 0.5116,
+      "l4_lock_rate": 0.8551,
+      "l4_misled_rate": 0.0531,
+      "avg_rounds": 4.81
+    },
+    "glm-5.3": {
+      "model_id": "glm-5.3",
+      "init_accuracy": 0.772,
+      "final_accuracy": 0.76,
+      "end_state_distribution": {
+        "1": 159,
+        "2": 16,
+        "3": 18,
+        "4": 13,
+        "5": 15,
+        "6": 29
+      },
+      "l3_activation_rate": 0.4912,
+      "l4_lock_rate": 0.8238,
+      "l4_misled_rate": 0.0829,
+      "avg_rounds": 5.9
+    },
+    "qwen3.8-flash": {
+      "model_id": "qwen3.8-flash",
+      "init_accuracy": 0.792,
+      "final_accuracy": 0.828,
+      "end_state_distribution": {
+        "1": 146,
+        "2": 14,
+        "3": 38,
+        "4": 23,
+        "5": 11,
+        "6": 18
+      },
+      "l3_activation_rate": 0.6538,
+      "l4_lock_rate": 0.7374,
+      "l4_misled_rate": 0.0707,
+      "avg_rounds": 6.44
+    }
+  }
+}

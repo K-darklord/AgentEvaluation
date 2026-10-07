@@ -1,0 +1,200 @@
+{
+  "critic_version": "v2.0",
+  "generated_at_utc": "2026-10-06T08:23:58.235258+00:00",
+  "hyperparameters": {
+    "TOP_K": 3,
+    "TOP_M": 10,
+    "W_Q": 0.7,
+    "W_A": 0.3,
+    "PRIOR_SMOOTH": 1.0,
+    "EVIDENCE_SMOOTH": 1e-06,
+    "EVIDENCE_THRESHOLD": 0.1
+  },
+  "family_base_rate": {
+    "math": 0.006666666666666667,
+    "math500": 0.08666666666666667,
+    "finance": 0.6,
+    "bfcl": 0.10666666666666667,
+    "mmlu_pro": 0.15333333333333332
+  },
+  "leaves_by_family": {
+    "math": [
+      "empty_or_unparseable",
+      "sign_flip",
+      "magnitude_error",
+      "factor_error",
+      "near_miss",
+      "wrong_symbolic"
+    ],
+    "math500": [
+      "empty_or_unparseable",
+      "sign_flip",
+      "magnitude_error",
+      "factor_error",
+      "near_miss",
+      "wrong_symbolic"
+    ],
+    "mmlu_pro": [
+      "non_letter_output",
+      "multiple_letters",
+      "wrong_option"
+    ],
+    "finance": [
+      "empty_pred",
+      "tool_error",
+      "retrieval_failure",
+      "contradiction",
+      "complete_failure",
+      "numeric_error",
+      "coverage_incomplete"
+    ],
+    "bfcl": [
+      "json_parse_error",
+      "wrong_function_name",
+      "wrong_argument",
+      "empty_pred"
+    ]
+  },
+  "type_phrase": {
+    "sign_flip": "a sign error",
+    "magnitude_error": "a magnitude / scale error",
+    "factor_error": "an arithmetic factor slip",
+    "near_miss": "a near-miss arithmetic slip",
+    "wrong_symbolic": "a symbolic-form error",
+    "empty_or_unparseable": "an unparseable or missing answer",
+    "non_letter_output": "no option letter given",
+    "multiple_letters": "multiple option letters given",
+    "wrong_option": "the wrong option selected",
+    "empty_pred": "no final answer",
+    "tool_error": "a tool-call error",
+    "retrieval_failure": "missing source evidence",
+    "contradiction": "an evidence contradiction",
+    "complete_failure": "incomplete or truncated reasoning",
+    "numeric_error": "a numeric computation error",
+    "coverage_incomplete": "partial answer coverage",
+    "json_parse_error": "invalid JSON output",
+    "wrong_function_name": "the wrong function name",
+    "wrong_argument": "a wrong argument value"
+  },
+  "leaf_cause": {
+    "sign_flip": "a sign was flipped during the arithmetic",
+    "magnitude_error": "the magnitude is far off a reasonable scale",
+    "factor_error": "the result is off by a simple multiplicative factor",
+    "near_miss": "the result is close but not exact (small arithmetic slip)",
+    "wrong_symbolic": "the symbolic form is not the one the definitions imply",
+    "empty_or_unparseable": "no numeric answer could be extracted from the response",
+    "non_letter_output": "the response contains no single option letter",
+    "multiple_letters": "the response mentions more than one option letter",
+    "wrong_option": "the selected option is not the intended one",
+    "empty_pred": "no final answer was produced",
+    "tool_error": "a tool call returned an error",
+    "retrieval_failure": "no grounding evidence was retrieved",
+    "contradiction": "the answer contradicts retrieved evidence",
+    "complete_failure": "reasoning was truncated or did not converge",
+    "numeric_error": "a numeric computation is incorrect",
+    "coverage_incomplete": "only part of the required answer was addressed",
+    "json_parse_error": "the output is not valid JSON",
+    "wrong_function_name": "the function name is not the expected one",
+    "wrong_argument": "an argument value is not the expected one"
+  },
+  "leaf_attention": {
+    "sign_flip": "re-examine the signs in every arithmetic step",
+    "magnitude_error": "re-check the order of magnitude and units",
+    "factor_error": "check whether a factor was dropped or doubled",
+    "near_miss": "re-run the final arithmetic step once more",
+    "wrong_symbolic": "re-derive the symbolic expression from the definitions",
+    "empty_or_unparseable": "commit to one concrete value",
+    "non_letter_output": "state only the option letter",
+    "multiple_letters": "commit to exactly one option letter",
+    "wrong_option": "re-read the stem and re-check the selected option",
+    "empty_pred": "produce a final answer",
+    "tool_error": "retry the tool or fix its arguments",
+    "retrieval_failure": "retrieve source evidence before answering",
+    "contradiction": "reconcile the answer with the retrieved facts",
+    "complete_failure": "complete the derivation to a final answer",
+    "numeric_error": "re-check every arithmetic step",
+    "coverage_incomplete": "address every part of the question",
+    "json_parse_error": "emit valid JSON only",
+    "wrong_function_name": "confirm the function name matches the task",
+    "wrong_argument": "confirm argument values match the schema"
+  },
+  "ontology": {
+    "sign_flip": {
+      "group": "arithmetic_error",
+      "source": "GSM-Ranges / NTT calculation"
+    },
+    "magnitude_error": {
+      "group": "arithmetic_error",
+      "source": "GSM-Ranges / NTT calculation"
+    },
+    "factor_error": {
+      "group": "arithmetic_error",
+      "source": "GSM-Ranges / NTT calculation"
+    },
+    "near_miss": {
+      "group": "arithmetic_error",
+      "source": "GSM-Ranges / NTT calculation"
+    },
+    "wrong_symbolic": {
+      "group": "symbolic_error",
+      "source": "NTT symbolic manipulation"
+    },
+    "empty_or_unparseable": {
+      "group": "invalid_output",
+      "source": "n/a (not a reasoning class)"
+    },
+    "non_letter_output": {
+      "group": "instruction_following_error",
+      "source": "PRISM"
+    },
+    "multiple_letters": {
+      "group": "instruction_following_error",
+      "source": "PRISM"
+    },
+    "wrong_option": {
+      "group": "wrong_option",
+      "source": "PRISM Reasoning Error"
+    },
+    "empty_pred": {
+      "group": "invalid_output",
+      "source": "n/a (not a reasoning class)"
+    },
+    "tool_error": {
+      "group": "tool_error",
+      "source": "BFCL-adjacent (tool-use)"
+    },
+    "retrieval_failure": {
+      "group": "knowledge_missing",
+      "source": "PRISM Knowledge Missing"
+    },
+    "contradiction": {
+      "group": "knowledge_error",
+      "source": "PRISM Knowledge Error / fine-grained hallucination"
+    },
+    "complete_failure": {
+      "group": "reasoning_error",
+      "source": "n/a (reasoning not finalized / truncated / non-convergent)"
+    },
+    "numeric_error": {
+      "group": "reasoning_error",
+      "source": "PRISM Reasoning Error"
+    },
+    "coverage_incomplete": {
+      "group": "reasoning_error",
+      "source": "PRISM Reasoning Error"
+    },
+    "json_parse_error": {
+      "group": "malformed_output",
+      "source": "BFCL"
+    },
+    "wrong_function_name": {
+      "group": "wrong_function",
+      "source": "BFCL task-level"
+    },
+    "wrong_argument": {
+      "group": "wrong_argument",
+      "source": "BFCL component-level"
+    }
+  },
+  "wrong_bank_source": "experiments/error_taxonomy_v2/wrong_bank.jsonl"
+}

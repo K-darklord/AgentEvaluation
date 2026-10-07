@@ -1,0 +1,2800 @@
+{
+  "leave_one_out": {
+    "math500": {
+      "n": 13,
+      "n_signal": 13,
+      "no_signal": 0,
+      "top1_hits": 5,
+      "top3_hits": 11,
+      "prior_mode_hits": 5
+    },
+    "finance": {
+      "n": 90,
+      "n_signal": 83,
+      "no_signal": 7,
+      "top1_hits": 45,
+      "top3_hits": 79,
+      "prior_mode_hits": 43
+    },
+    "bfcl": {
+      "n": 10,
+      "n_signal": 10,
+      "no_signal": 0,
+      "top1_hits": 10,
+      "top3_hits": 10,
+      "prior_mode_hits": 10
+    },
+    "math": {
+      "n": 1,
+      "n_signal": 0,
+      "no_signal": 1,
+      "top1_hits": 0,
+      "top3_hits": 0,
+      "prior_mode_hits": 1
+    },
+    "mmlu_pro": {
+      "n": 23,
+      "n_signal": 11,
+      "no_signal": 12,
+      "top1_hits": 7,
+      "top3_hits": 11,
+      "prior_mode_hits": 12
+    }
+  },
+  "predictions": [
+    {
+      "task_id": "math500_010",
+      "family": "math500",
+      "true": "factor_error",
+      "evidence": 0.3101,
+      "error_score": 0.0269,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.6405
+        },
+        {
+          "leaf": "magnitude_error",
+          "prob": 0.1325
+        },
+        {
+          "leaf": "factor_error",
+          "prob": 0.1187
+        }
+      ]
+    },
+    {
+      "task_id": "math500_012",
+      "family": "math500",
+      "true": "magnitude_error",
+      "evidence": 0.4287,
+      "error_score": 0.0372,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.561
+        },
+        {
+          "leaf": "factor_error",
+          "prob": 0.2664
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.1726
+        }
+      ]
+    },
+    {
+      "task_id": "math500_019",
+      "family": "math500",
+      "true": "wrong_symbolic",
+      "evidence": 0.7499,
+      "error_score": 0.065,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.5832
+        },
+        {
+          "leaf": "factor_error",
+          "prob": 0.2296
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.1181
+        }
+      ]
+    },
+    {
+      "task_id": "math500_044",
+      "family": "math500",
+      "true": "wrong_symbolic",
+      "evidence": 0.4811,
+      "error_score": 0.0417,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.5526
+        },
+        {
+          "leaf": "factor_error",
+          "prob": 0.3336
+        },
+        {
+          "leaf": "magnitude_error",
+          "prob": 0.0635
+        }
+      ]
+    },
+    {
+      "task_id": "math500_048",
+      "family": "math500",
+      "true": "factor_error",
+      "evidence": 0.4811,
+      "error_score": 0.0417,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.6259
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.1517
+        },
+        {
+          "leaf": "magnitude_error",
+          "prob": 0.1124
+        }
+      ]
+    },
+    {
+      "task_id": "fab_001",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1757,
+      "error_score": 0.1054,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "numeric_error",
+          "prob": 0.547
+        },
+        {
+          "leaf": "complete_failure",
+          "prob": 0.4389
+        },
+        {
+          "leaf": "retrieval_failure",
+          "prob": 0.0078
+        }
+      ]
+    },
+    {
+      "task_id": "fab_002",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1993,
+      "error_score": 0.1196,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.5982
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.3098
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0849
+        }
+      ]
+    },
+    {
+      "task_id": "fab_006",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1164,
+      "error_score": 0.0699,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6322
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.3678
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_008",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1081,
+      "error_score": 0.0649,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8566
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.076
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0674
+        }
+      ]
+    },
+    {
+      "task_id": "fab_010",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1485,
+      "error_score": 0.0891,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "numeric_error",
+          "prob": 0.5138
+        },
+        {
+          "leaf": "complete_failure",
+          "prob": 0.4784
+        },
+        {
+          "leaf": "coverage_incomplete",
+          "prob": 0.0078
+        }
+      ]
+    },
+    {
+      "task_id": "fab_011",
+      "family": "finance",
+      "true": "contradiction",
+      "evidence": 0.151,
+      "error_score": 0.0906,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.9018
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0497
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0413
+        }
+      ]
+    },
+    {
+      "task_id": "fab_012",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1639,
+      "error_score": 0.0983,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6174
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.3737
+        },
+        {
+          "leaf": "retrieval_failure",
+          "prob": 0.0089
+        }
+      ]
+    },
+    {
+      "task_id": "fab_014",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1045,
+      "error_score": 0.0627,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "numeric_error",
+          "prob": 0.4841
+        },
+        {
+          "leaf": "complete_failure",
+          "prob": 0.4358
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0705
+        }
+      ]
+    },
+    {
+      "task_id": "fab_021",
+      "family": "finance",
+      "true": "contradiction",
+      "evidence": 0.1683,
+      "error_score": 0.101,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.9575
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0425
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_022",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.2352,
+      "error_score": 0.1411,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8164
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.1321
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0286
+        }
+      ]
+    },
+    {
+      "task_id": "fab_023",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.0869,
+      "error_score": 0.0521,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "fab_025",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.092,
+      "error_score": 0.0552,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "fab_026",
+      "family": "finance",
+      "true": "contradiction",
+      "evidence": 0.2006,
+      "error_score": 0.1204,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.943
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.057
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_027",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1811,
+      "error_score": 0.1086,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6729
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.263
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0641
+        }
+      ]
+    },
+    {
+      "task_id": "fab_028",
+      "family": "finance",
+      "true": "contradiction",
+      "evidence": 0.1993,
+      "error_score": 0.1196,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.7802
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.2001
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0197
+        }
+      ]
+    },
+    {
+      "task_id": "fab_029",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.127,
+      "error_score": 0.0762,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8856
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0774
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0278
+        }
+      ]
+    },
+    {
+      "task_id": "fab_033",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1281,
+      "error_score": 0.0769,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "numeric_error",
+          "prob": 0.6033
+        },
+        {
+          "leaf": "complete_failure",
+          "prob": 0.3967
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_036",
+      "family": "finance",
+      "true": "contradiction",
+      "evidence": 0.1081,
+      "error_score": 0.0649,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8746
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0816
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0376
+        }
+      ]
+    },
+    {
+      "task_id": "fab_038",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.3055,
+      "error_score": 0.1833,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6865
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.3054
+        },
+        {
+          "leaf": "retrieval_failure",
+          "prob": 0.0081
+        }
+      ]
+    },
+    {
+      "task_id": "fab_039",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1177,
+      "error_score": 0.0706,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "numeric_error",
+          "prob": 1.0
+        },
+        {
+          "leaf": "complete_failure",
+          "prob": 0.0
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_040",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1657,
+      "error_score": 0.0994,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.5572
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.3539
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.089
+        }
+      ]
+    },
+    {
+      "task_id": "fab_041",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1463,
+      "error_score": 0.0878,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.499
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.4447
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0482
+        }
+      ]
+    },
+    {
+      "task_id": "fab_042",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1017,
+      "error_score": 0.061,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6757
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.2781
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0381
+        }
+      ]
+    },
+    {
+      "task_id": "fab_043",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1639,
+      "error_score": 0.0983,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.7664
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.1675
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0308
+        }
+      ]
+    },
+    {
+      "task_id": "fab_046",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1254,
+      "error_score": 0.0753,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8017
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.1897
+        },
+        {
+          "leaf": "retrieval_failure",
+          "prob": 0.0086
+        }
+      ]
+    },
+    {
+      "task_id": "fab_047",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.2448,
+      "error_score": 0.1469,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.7941
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.1363
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0503
+        }
+      ]
+    },
+    {
+      "task_id": "fab_048",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.146,
+      "error_score": 0.0876,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6387
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.3093
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0437
+        }
+      ]
+    },
+    {
+      "task_id": "fab_049",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1208,
+      "error_score": 0.0725,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6771
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.2342
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0806
+        }
+      ]
+    },
+    {
+      "task_id": "fab_050",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.2352,
+      "error_score": 0.1411,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8388
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0812
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0728
+        }
+      ]
+    },
+    {
+      "task_id": "bfcl_014",
+      "family": "bfcl",
+      "true": "wrong_argument",
+      "evidence": 0.6535,
+      "error_score": 0.0697,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_argument",
+          "prob": 1.0
+        },
+        {
+          "leaf": "empty_pred",
+          "prob": 0.0
+        },
+        {
+          "leaf": "json_parse_error",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "bfcl_015",
+      "family": "bfcl",
+      "true": "wrong_argument",
+      "evidence": 0.7817,
+      "error_score": 0.0834,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_argument",
+          "prob": 1.0
+        },
+        {
+          "leaf": "empty_pred",
+          "prob": 0.0
+        },
+        {
+          "leaf": "json_parse_error",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "bfcl_016",
+      "family": "bfcl",
+      "true": "wrong_argument",
+      "evidence": 0.6535,
+      "error_score": 0.0697,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_argument",
+          "prob": 1.0
+        },
+        {
+          "leaf": "empty_pred",
+          "prob": 0.0
+        },
+        {
+          "leaf": "json_parse_error",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "bfcl_017",
+      "family": "bfcl",
+      "true": "wrong_argument",
+      "evidence": 0.7817,
+      "error_score": 0.0834,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_argument",
+          "prob": 1.0
+        },
+        {
+          "leaf": "empty_pred",
+          "prob": 0.0
+        },
+        {
+          "leaf": "json_parse_error",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "bfcl_031",
+      "family": "bfcl",
+      "true": "wrong_argument",
+      "evidence": 0.1927,
+      "error_score": 0.0206,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_argument",
+          "prob": 1.0
+        },
+        {
+          "leaf": "empty_pred",
+          "prob": 0.0
+        },
+        {
+          "leaf": "json_parse_error",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k_013",
+      "family": "math",
+      "true": "wrong_symbolic",
+      "evidence": 0.1927,
+      "error_score": 0.0206,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "math500_005",
+      "family": "math500",
+      "true": "wrong_symbolic",
+      "evidence": 0.7499,
+      "error_score": 0.065,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.4707
+        },
+        {
+          "leaf": "factor_error",
+          "prob": 0.2238
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.2122
+        }
+      ]
+    },
+    {
+      "task_id": "math500_010",
+      "family": "math500",
+      "true": "wrong_symbolic",
+      "evidence": 0.3185,
+      "error_score": 0.0276,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.6786
+        },
+        {
+          "leaf": "magnitude_error",
+          "prob": 0.1223
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.1015
+        }
+      ]
+    },
+    {
+      "task_id": "math500_012",
+      "family": "math500",
+      "true": "wrong_symbolic",
+      "evidence": 0.4637,
+      "error_score": 0.0402,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.5735
+        },
+        {
+          "leaf": "factor_error",
+          "prob": 0.2814
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.1451
+        }
+      ]
+    },
+    {
+      "task_id": "math500_018",
+      "family": "math500",
+      "true": "empty_or_unparseable",
+      "evidence": 0.4865,
+      "error_score": 0.0422,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.5814
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.2212
+        },
+        {
+          "leaf": "factor_error",
+          "prob": 0.1525
+        }
+      ]
+    },
+    {
+      "task_id": "math500_019",
+      "family": "math500",
+      "true": "empty_or_unparseable",
+      "evidence": 0.5671,
+      "error_score": 0.0491,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.5013
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.2679
+        },
+        {
+          "leaf": "factor_error",
+          "prob": 0.1648
+        }
+      ]
+    },
+    {
+      "task_id": "math500_025",
+      "family": "math500",
+      "true": "magnitude_error",
+      "evidence": 0.2562,
+      "error_score": 0.0222,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.5656
+        },
+        {
+          "leaf": "factor_error",
+          "prob": 0.286
+        },
+        {
+          "leaf": "magnitude_error",
+          "prob": 0.0967
+        }
+      ]
+    },
+    {
+      "task_id": "math500_026",
+      "family": "math500",
+      "true": "factor_error",
+      "evidence": 0.4221,
+      "error_score": 0.0366,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.5961
+        },
+        {
+          "leaf": "factor_error",
+          "prob": 0.1823
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.1542
+        }
+      ]
+    },
+    {
+      "task_id": "math500_044",
+      "family": "math500",
+      "true": "empty_or_unparseable",
+      "evidence": 0.2693,
+      "error_score": 0.0233,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "factor_error",
+          "prob": 0.4074
+        },
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.378
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.1383
+        }
+      ]
+    },
+    {
+      "task_id": "fab_001",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1757,
+      "error_score": 0.1054,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "numeric_error",
+          "prob": 0.5246
+        },
+        {
+          "leaf": "complete_failure",
+          "prob": 0.462
+        },
+        {
+          "leaf": "retrieval_failure",
+          "prob": 0.0075
+        }
+      ]
+    },
+    {
+      "task_id": "fab_002",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1931,
+      "error_score": 0.1159,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6068
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.3072
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0789
+        }
+      ]
+    },
+    {
+      "task_id": "fab_006",
+      "family": "finance",
+      "true": "coverage_incomplete",
+      "evidence": 0.1071,
+      "error_score": 0.0643,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6377
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.3623
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_010",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1485,
+      "error_score": 0.0891,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "numeric_error",
+          "prob": 0.5152
+        },
+        {
+          "leaf": "complete_failure",
+          "prob": 0.4763
+        },
+        {
+          "leaf": "coverage_incomplete",
+          "prob": 0.0085
+        }
+      ]
+    },
+    {
+      "task_id": "fab_011",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1796,
+      "error_score": 0.1077,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8993
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0508
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0435
+        }
+      ]
+    },
+    {
+      "task_id": "fab_012",
+      "family": "finance",
+      "true": "retrieval_failure",
+      "evidence": 0.1702,
+      "error_score": 0.1021,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6086
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.3826
+        },
+        {
+          "leaf": "retrieval_failure",
+          "prob": 0.0088
+        }
+      ]
+    },
+    {
+      "task_id": "fab_014",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.0946,
+      "error_score": 0.0568,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "fab_015",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1757,
+      "error_score": 0.1054,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "numeric_error",
+          "prob": 0.6987
+        },
+        {
+          "leaf": "complete_failure",
+          "prob": 0.3013
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_016",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1139,
+      "error_score": 0.0684,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.9152
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0774
+        },
+        {
+          "leaf": "retrieval_failure",
+          "prob": 0.0074
+        }
+      ]
+    },
+    {
+      "task_id": "fab_017",
+      "family": "finance",
+      "true": "coverage_incomplete",
+      "evidence": 0.2081,
+      "error_score": 0.1249,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6539
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.2948
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0439
+        }
+      ]
+    },
+    {
+      "task_id": "fab_018",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.112,
+      "error_score": 0.0672,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "numeric_error",
+          "prob": 0.5646
+        },
+        {
+          "leaf": "complete_failure",
+          "prob": 0.4169
+        },
+        {
+          "leaf": "coverage_incomplete",
+          "prob": 0.01
+        }
+      ]
+    },
+    {
+      "task_id": "fab_019",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.2006,
+      "error_score": 0.1204,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.869
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.131
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_022",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.2352,
+      "error_score": 0.1411,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8106
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.1332
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0312
+        }
+      ]
+    },
+    {
+      "task_id": "fab_025",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.092,
+      "error_score": 0.0552,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "fab_026",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1822,
+      "error_score": 0.1093,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.9341
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0659
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_027",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1511,
+      "error_score": 0.0906,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6561
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.2834
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0606
+        }
+      ]
+    },
+    {
+      "task_id": "fab_028",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.2062,
+      "error_score": 0.1237,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.7852
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.1985
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0162
+        }
+      ]
+    },
+    {
+      "task_id": "fab_029",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1303,
+      "error_score": 0.0782,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8848
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0764
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.029
+        }
+      ]
+    },
+    {
+      "task_id": "fab_030",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1609,
+      "error_score": 0.0965,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.9079
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0921
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_031",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1253,
+      "error_score": 0.0752,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.818
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.1102
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0611
+        }
+      ]
+    },
+    {
+      "task_id": "fab_032",
+      "family": "finance",
+      "true": "contradiction",
+      "evidence": 0.1352,
+      "error_score": 0.0811,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8828
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.092
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0252
+        }
+      ]
+    },
+    {
+      "task_id": "fab_033",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1014,
+      "error_score": 0.0608,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "numeric_error",
+          "prob": 0.5853
+        },
+        {
+          "leaf": "complete_failure",
+          "prob": 0.4147
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_034",
+      "family": "finance",
+      "true": "contradiction",
+      "evidence": 0.1378,
+      "error_score": 0.0827,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8674
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0955
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0296
+        }
+      ]
+    },
+    {
+      "task_id": "fab_040",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1705,
+      "error_score": 0.1023,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.5403
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.3704
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0893
+        }
+      ]
+    },
+    {
+      "task_id": "fab_042",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.0963,
+      "error_score": 0.0578,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "fab_043",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1572,
+      "error_score": 0.0943,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.7678
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.1715
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0275
+        }
+      ]
+    },
+    {
+      "task_id": "fab_046",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1294,
+      "error_score": 0.0777,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8113
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.1806
+        },
+        {
+          "leaf": "retrieval_failure",
+          "prob": 0.0081
+        }
+      ]
+    },
+    {
+      "task_id": "fab_048",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.146,
+      "error_score": 0.0876,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6315
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.322
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0377
+        }
+      ]
+    },
+    {
+      "task_id": "fab_049",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1208,
+      "error_score": 0.0725,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.7028
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.2144
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0737
+        }
+      ]
+    },
+    {
+      "task_id": "fab_050",
+      "family": "finance",
+      "true": "retrieval_failure",
+      "evidence": 0.2352,
+      "error_score": 0.1411,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8386
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0822
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.072
+        }
+      ]
+    },
+    {
+      "task_id": "bfcl_014",
+      "family": "bfcl",
+      "true": "wrong_argument",
+      "evidence": 0.6535,
+      "error_score": 0.0697,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_argument",
+          "prob": 1.0
+        },
+        {
+          "leaf": "empty_pred",
+          "prob": 0.0
+        },
+        {
+          "leaf": "json_parse_error",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "bfcl_015",
+      "family": "bfcl",
+      "true": "wrong_argument",
+      "evidence": 0.7817,
+      "error_score": 0.0834,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_argument",
+          "prob": 1.0
+        },
+        {
+          "leaf": "empty_pred",
+          "prob": 0.0
+        },
+        {
+          "leaf": "json_parse_error",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "bfcl_016",
+      "family": "bfcl",
+      "true": "wrong_argument",
+      "evidence": 0.6535,
+      "error_score": 0.0697,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_argument",
+          "prob": 1.0
+        },
+        {
+          "leaf": "empty_pred",
+          "prob": 0.0
+        },
+        {
+          "leaf": "json_parse_error",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "bfcl_017",
+      "family": "bfcl",
+      "true": "wrong_argument",
+      "evidence": 0.7817,
+      "error_score": 0.0834,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_argument",
+          "prob": 1.0
+        },
+        {
+          "leaf": "empty_pred",
+          "prob": 0.0
+        },
+        {
+          "leaf": "json_parse_error",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "bfcl_031",
+      "family": "bfcl",
+      "true": "wrong_argument",
+      "evidence": 0.1927,
+      "error_score": 0.0206,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_argument",
+          "prob": 1.0
+        },
+        {
+          "leaf": "empty_pred",
+          "prob": 0.0
+        },
+        {
+          "leaf": "json_parse_error",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_001",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1757,
+      "error_score": 0.1054,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "numeric_error",
+          "prob": 0.5366
+        },
+        {
+          "leaf": "complete_failure",
+          "prob": 0.4494
+        },
+        {
+          "leaf": "retrieval_failure",
+          "prob": 0.0073
+        }
+      ]
+    },
+    {
+      "task_id": "fab_002",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.2054,
+      "error_score": 0.1232,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.602
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.3052
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0862
+        }
+      ]
+    },
+    {
+      "task_id": "fab_003",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.3055,
+      "error_score": 0.1833,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8413
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0905
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0585
+        }
+      ]
+    },
+    {
+      "task_id": "fab_005",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1164,
+      "error_score": 0.0699,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.4952
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.4272
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0637
+        }
+      ]
+    },
+    {
+      "task_id": "fab_006",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1103,
+      "error_score": 0.0662,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6252
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.3748
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_008",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1,
+      "error_score": 0.06,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8464
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0835
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0701
+        }
+      ]
+    },
+    {
+      "task_id": "fab_011",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1783,
+      "error_score": 0.107,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8976
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0516
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0442
+        }
+      ]
+    },
+    {
+      "task_id": "fab_012",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1572,
+      "error_score": 0.0943,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6286
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.3621
+        },
+        {
+          "leaf": "retrieval_failure",
+          "prob": 0.0093
+        }
+      ]
+    },
+    {
+      "task_id": "fab_014",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1113,
+      "error_score": 0.0668,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "numeric_error",
+          "prob": 0.4751
+        },
+        {
+          "leaf": "complete_failure",
+          "prob": 0.4402
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0754
+        }
+      ]
+    },
+    {
+      "task_id": "fab_015",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1757,
+      "error_score": 0.1054,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "numeric_error",
+          "prob": 0.6893
+        },
+        {
+          "leaf": "complete_failure",
+          "prob": 0.3107
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_017",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.2263,
+      "error_score": 0.1358,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6655
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.2785
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0486
+        }
+      ]
+    },
+    {
+      "task_id": "fab_018",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1148,
+      "error_score": 0.0689,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "numeric_error",
+          "prob": 0.5769
+        },
+        {
+          "leaf": "complete_failure",
+          "prob": 0.4037
+        },
+        {
+          "leaf": "coverage_incomplete",
+          "prob": 0.0109
+        }
+      ]
+    },
+    {
+      "task_id": "fab_019",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.186,
+      "error_score": 0.1116,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.872
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.128
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_020",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1582,
+      "error_score": 0.0949,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6993
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.2501
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0308
+        }
+      ]
+    },
+    {
+      "task_id": "fab_021",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1632,
+      "error_score": 0.0979,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.9569
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0431
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_022",
+      "family": "finance",
+      "true": "contradiction",
+      "evidence": 0.2445,
+      "error_score": 0.1467,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8157
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.1323
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0285
+        }
+      ]
+    },
+    {
+      "task_id": "fab_025",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.092,
+      "error_score": 0.0552,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "fab_029",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1304,
+      "error_score": 0.0782,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8851
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0763
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0291
+        }
+      ]
+    },
+    {
+      "task_id": "fab_030",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1628,
+      "error_score": 0.0977,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.9062
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0938
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_032",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1237,
+      "error_score": 0.0742,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8712
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.1063
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0225
+        }
+      ]
+    },
+    {
+      "task_id": "fab_033",
+      "family": "finance",
+      "true": "contradiction",
+      "evidence": 0.122,
+      "error_score": 0.0732,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "numeric_error",
+          "prob": 0.6034
+        },
+        {
+          "leaf": "complete_failure",
+          "prob": 0.3966
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_036",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1203,
+      "error_score": 0.0722,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8856
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0737
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0361
+        }
+      ]
+    },
+    {
+      "task_id": "fab_037",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1683,
+      "error_score": 0.101,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.7421
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.2168
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0411
+        }
+      ]
+    },
+    {
+      "task_id": "fab_038",
+      "family": "finance",
+      "true": "contradiction",
+      "evidence": 0.2987,
+      "error_score": 0.1792,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6541
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.3382
+        },
+        {
+          "leaf": "retrieval_failure",
+          "prob": 0.0077
+        }
+      ]
+    },
+    {
+      "task_id": "fab_039",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1096,
+      "error_score": 0.0658,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "numeric_error",
+          "prob": 1.0
+        },
+        {
+          "leaf": "complete_failure",
+          "prob": 0.0
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "fab_040",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1657,
+      "error_score": 0.0994,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.5521
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.3536
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0943
+        }
+      ]
+    },
+    {
+      "task_id": "fab_042",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.0995,
+      "error_score": 0.0597,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "fab_043",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.1713,
+      "error_score": 0.1028,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.758
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.1757
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0309
+        }
+      ]
+    },
+    {
+      "task_id": "fab_046",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.1667,
+      "error_score": 0.1,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8221
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.1708
+        },
+        {
+          "leaf": "retrieval_failure",
+          "prob": 0.0071
+        }
+      ]
+    },
+    {
+      "task_id": "fab_048",
+      "family": "finance",
+      "true": "numeric_error",
+      "evidence": 0.146,
+      "error_score": 0.0876,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.6187
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.3254
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0476
+        }
+      ]
+    },
+    {
+      "task_id": "fab_050",
+      "family": "finance",
+      "true": "complete_failure",
+      "evidence": 0.2582,
+      "error_score": 0.1549,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "complete_failure",
+          "prob": 0.8441
+        },
+        {
+          "leaf": "numeric_error",
+          "prob": 0.0788
+        },
+        {
+          "leaf": "contradiction",
+          "prob": 0.0702
+        }
+      ]
+    },
+    {
+      "task_id": "mmlu_pro_003",
+      "family": "mmlu_pro",
+      "true": "non_letter_output",
+      "evidence": 0.0526,
+      "error_score": 0.0081,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "mmlu_pro_004",
+      "family": "mmlu_pro",
+      "true": "wrong_option",
+      "evidence": 0.0626,
+      "error_score": 0.0096,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "mmlu_pro_012",
+      "family": "mmlu_pro",
+      "true": "wrong_option",
+      "evidence": 0.0993,
+      "error_score": 0.0152,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "mmlu_pro_017",
+      "family": "mmlu_pro",
+      "true": "wrong_option",
+      "evidence": 0.5319,
+      "error_score": 0.0816,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_option",
+          "prob": 0.7715
+        },
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.2285
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "mmlu_pro_040",
+      "family": "mmlu_pro",
+      "true": "non_letter_output",
+      "evidence": 0.1269,
+      "error_score": 0.0195,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.7427
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.1949
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0624
+        }
+      ]
+    },
+    {
+      "task_id": "mmlu_pro_044",
+      "family": "mmlu_pro",
+      "true": "non_letter_output",
+      "evidence": 0.1442,
+      "error_score": 0.0221,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_option",
+          "prob": 0.4976
+        },
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.4064
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.096
+        }
+      ]
+    },
+    {
+      "task_id": "mmlu_pro_046",
+      "family": "mmlu_pro",
+      "true": "wrong_option",
+      "evidence": 0.1205,
+      "error_score": 0.0185,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_option",
+          "prob": 0.6081
+        },
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.2862
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.1056
+        }
+      ]
+    },
+    {
+      "task_id": "mmlu_pro_002",
+      "family": "mmlu_pro",
+      "true": "multiple_letters",
+      "evidence": 0.0678,
+      "error_score": 0.0104,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "mmlu_pro_004",
+      "family": "mmlu_pro",
+      "true": "wrong_option",
+      "evidence": 0.0626,
+      "error_score": 0.0096,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "mmlu_pro_012",
+      "family": "mmlu_pro",
+      "true": "wrong_option",
+      "evidence": 0.0993,
+      "error_score": 0.0152,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "mmlu_pro_014",
+      "family": "mmlu_pro",
+      "true": "wrong_option",
+      "evidence": 0.0515,
+      "error_score": 0.0079,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "mmlu_pro_015",
+      "family": "mmlu_pro",
+      "true": "multiple_letters",
+      "evidence": 0.0732,
+      "error_score": 0.0112,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "mmlu_pro_017",
+      "family": "mmlu_pro",
+      "true": "multiple_letters",
+      "evidence": 0.2319,
+      "error_score": 0.0356,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_option",
+          "prob": 0.7094
+        },
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.2906
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "mmlu_pro_033",
+      "family": "mmlu_pro",
+      "true": "non_letter_output",
+      "evidence": 0.0795,
+      "error_score": 0.0122,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "mmlu_pro_040",
+      "family": "mmlu_pro",
+      "true": "wrong_option",
+      "evidence": 0.1269,
+      "error_score": 0.0195,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_option",
+          "prob": 0.4756
+        },
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.372
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.1523
+        }
+      ]
+    },
+    {
+      "task_id": "mmlu_pro_044",
+      "family": "mmlu_pro",
+      "true": "non_letter_output",
+      "evidence": 0.1442,
+      "error_score": 0.0221,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_option",
+          "prob": 0.4976
+        },
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.4064
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.096
+        }
+      ]
+    },
+    {
+      "task_id": "mmlu_pro_048",
+      "family": "mmlu_pro",
+      "true": "wrong_option",
+      "evidence": 0.5319,
+      "error_score": 0.0816,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_option",
+          "prob": 0.6409
+        },
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.2286
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.1305
+        }
+      ]
+    },
+    {
+      "task_id": "mmlu_pro_012",
+      "family": "mmlu_pro",
+      "true": "wrong_option",
+      "evidence": 0.0993,
+      "error_score": 0.0152,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "mmlu_pro_014",
+      "family": "mmlu_pro",
+      "true": "wrong_option",
+      "evidence": 0.0515,
+      "error_score": 0.0079,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "mmlu_pro_017",
+      "family": "mmlu_pro",
+      "true": "multiple_letters",
+      "evidence": 0.2319,
+      "error_score": 0.0356,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_option",
+          "prob": 0.7094
+        },
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.2906
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "mmlu_pro_033",
+      "family": "mmlu_pro",
+      "true": "non_letter_output",
+      "evidence": 0.0795,
+      "error_score": 0.0122,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "mmlu_pro_040",
+      "family": "mmlu_pro",
+      "true": "wrong_option",
+      "evidence": 0.1269,
+      "error_score": 0.0195,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_option",
+          "prob": 0.4756
+        },
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.372
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.1523
+        }
+      ]
+    },
+    {
+      "task_id": "mmlu_pro_043",
+      "family": "mmlu_pro",
+      "true": "non_letter_output",
+      "evidence": 0.1417,
+      "error_score": 0.0217,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.5714
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.3376
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0911
+        }
+      ]
+    }
+  ]
+}
