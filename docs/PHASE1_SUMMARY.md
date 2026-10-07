@@ -22,7 +22,9 @@ judge rescue for qualitative finance answers.
 
 ## 2. Definitions
 
-**Capability layers (L1–L4).** Four separable capabilities (RESEARCH_PLAN §3.1); the layer labels used throughout this document and the weak-critic feedback.
+### 2.1 Capability layers (L1–L4)
+
+Four separable capabilities (RESEARCH_PLAN §3.1); the layer labels used throughout this document and the weak-critic feedback.
 
 | Layer | Name | Definition |
 |---|---|---|
@@ -31,6 +33,8 @@ judge rescue for qualitative finance answers.
 | L3 | Meta-cognitive (activation) | Given an external error signal, activates the correct answer at least once across feedback rounds — the reachable ceiling. |
 | L4 | Correction (locking) | Locks onto the correct answer — resists a misleading signal, holds a correct answer, does not oscillate. |
 
+### 2.2 Observed quantities
+
 | Quantity | Definition |
 |---|---|
 | **Activation rate** `P(A)` | Fraction of tasks where the correct answer appears in ≥ 1 round. The model's *reachable ceiling* (upper bound on accuracy), not a locking property. |
@@ -38,7 +42,9 @@ judge rescue for qualitative finance answers.
 | **Locking loss** | `P(A) − P(final)`, in percentage points. The avoidable loss between ceiling and final accuracy. |
 | **Never-activated** (state 6) | Tasks where the correct answer never appears in any round — a *true reachability* (L1/L2) gap, distinct from a locking gap. |
 
-**Six end-states.** Each (model × task) loop run lands in exactly one of six mutually exclusive states, jointly operationalising L3 (activation) and L4 (locking). `start` / `final` = round-0 / last-round correctness; “appears” = the correct answer surfaces in ≥ 1 round.
+### 2.3 Six end-states
+
+Each (model × task) loop run lands in exactly one of six mutually exclusive states, jointly operationalising L3 (activation) and L4 (locking). `start` / `final` = round-0 / last-round correctness; “appears” = the correct answer surfaces in ≥ 1 round.
 
 | State | Start | Correct appears | Final | Reading |
 |---|---|---|---|---|
@@ -69,6 +75,8 @@ i.e. a weighted similarity to the nearest annotated wrong-answer exemplars; the 
 positive" cut); the feedback then states the top direction + confidence + `error_score` as a soft
 signal. Feedback tiers A/B/C add progressively richer text (type+probability / +cause / +attention)
 for ablation, and the agent always decides whether to revise.
+
+**Similarity computation.** `sim_q` is a number-blind TF-IDF cosine over the question: numbers are replaced with a `NUM` placeholder (math also tokenizes operators `+-*/=<>^()[]{}`), words are weighted by TF × IDF (built per family from the wrong bank), and the question is compared against the family's wrong-answer exemplars. `sim_a` is a per-family shallow rule: numeric closeness for math/math500, option-letter set equality for mmlu-pro, Jaccard bag-of-words overlap for finance, and JSON function-name + argument-key match for bfcl. Both are computed over the annotated wrong bank only, never against the gold.
 
 **Why weak.** Inference is statistical, from shallow gold-free shape features (empty output,
 number count, option-letter count, tool-call count, valid-JSON), anchored on a small annotated
