@@ -491,3 +491,12 @@ across experiments: 48% (v3 baseline) → 54% (INT-05) → 56% (INT-06).
   archived to `experiments/archive/superseded_d1_baseline_20261007.tar.gz` (local, gitignored) and removed from
   the tree; the canonical `d1_baseline_20260928_201128` (250-Q full) is retained. One-off analysis scripts kept
   in `src/` (reproducibility of the archived error-taxonomy / capability-matrix artifacts).
+
+
+## 2026-10-07 — Remove never-shipped YAML experiment scaffold
+
+### Removed
+- `src/experiment.py` — generic YAML experiment loader that was never wired in (Phase-1 runs go through
+  `src/phase1_baseline.py` + `config.py` `PHASE1_MODELS`); its only default config (`fab_baseline.yaml`) had
+  already been removed.
+- `pyyaml` from `requirements.txt` — the sole `import yaml` lived in `experiment.py`.

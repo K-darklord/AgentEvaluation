@@ -5,6 +5,3 @@ matplotlib
 
 # --- LLM-as-Judge + OpenAI-compatible API client (pin: repo depends on 3.x) ---
 openai==3.13.0
-
-# --- configuration (YAML) ---
-pyyaml

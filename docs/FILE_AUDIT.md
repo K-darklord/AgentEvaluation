@@ -86,6 +86,5 @@ Resolved in the follow-up cleanup batch: `CHANGELOG.md` Phase-1 entries added; F
 
 ## 6. Remaining debt (pending)
 
-| Item | Type | Action |
-|---|---|---|
-| `src/experiment.py` + `configs/*` scaffolding | dead | confirm before removing (never-shipped legacy; `REPRODUCIBILITY`/`ARCHITECTURE` still sketch a YAML experiment layer) |
+No outstanding items as of 2026-10-07. The last entry — `src/experiment.py` + `configs/*` scaffolding —
+was removed after confirmation (2026-10-07); the now-unused `pyyaml` dependency went with it.
