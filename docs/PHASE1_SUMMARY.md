@@ -1,6 +1,6 @@
 # Phase 1 Summary and Phase 2 Plan
 
-**Document type**: Phase 1 (probe) summary + Phase 2 plan · **Version**: 0.2 · **Date**: 2026-10-07
+**Document type**: Phase 1 (probe) summary + Phase 2 plan · **Version**: 0.3 · **Date**: 2026-10-07
 **Companion documents**: `RESEARCH_PLAN.md` (protocol §5), `REPRODUCIBILITY.md` (config provenance).
 
 ---
@@ -266,8 +266,8 @@ shape** (k > 1 acceleration; k < 1 oscillation), and **θ = activation scale** (
 Locking is a *separate fourth quantity* `P(F | A)` — not one of these three parameters — so the activation
 curve is an ideal upper bound that ignores locking loss. Estimate k and θ from the cumulative activation
 curve, locking from `P(F | A)` per round; the cost
-axis is steps (already logged) plus **tokens → cost**, which is collected from Phase 2 onward (not
-backfilled for Phase 1). The agent already meters per-call `usage` into
+axis is steps (already logged) plus **tokens → cost**, whose pricing is implemented as Phase-2 step P2.0 and applied
+offline to the already-recorded Phase-1 token counts (no re-run). The agent already meters per-call `usage` into
 `result.total_prompt_tokens/completion_tokens` and each feedback round records them, so a re-run drops
 the axis automatically. Cost = token count × provider unit price (deepseek ¥1/¥2, glm ¥8/¥28 per M
 input/output tokens), with reasoning (thinking) tokens separated from content tokens before pricing
@@ -289,13 +289,28 @@ modelling target, not yet claimed.
 
 ### 8.7 Execution order and dependencies
 
+Revised ordering (2026-10-07): **cost metering first**, then the control arms, then the critic,
+and only then the weak tier + task-set expansion. Every downstream run must carry a cost axis from
+the start, and the control-arm data must be forward-compatible with Phase 3 so nothing is collected
+twice.
+
 | Step | Work | Depends on | Blocks |
 |---|---|---|---|
-| P2.1 | Control arms A / A2 vs C (§8.3) | nothing (cheap, L1-first) | critic verdicts, §8.4 |
-| P2.2 | Add weak tier, FC-carrier ablation (§8.2) | Aliyun channel | model-axis width |
-| P2.3 | Critic optimization (§8.4) | P2.1 baseline | proxy quality |
-| P2.4 | k/θ fitting + token instrumentation (§8.6) | existing trajectories + P2.2 | cost–reliability |
-| P2.5 | Strong tier + family expansion (§8.2, §8.5) | §8.8 channel decision | full matrix |
+| P2.0 | Cost metering (§8.6): per-model token→cost pricing + reasoning/thinking-token split, applied offline to the Phase-1 trajectories that already carry token counts | nothing | cost axis for every run below |
+| P2.1 | Control arms A (no-feedback self-loop) + A2 (random-direction placebo) vs C (§8.3); `arm` written as a first-class field, schema forward-compatible with Phase 3 | P2.0 (costs captured) | critic verdict (§8.4), Phase-3 control baseline |
+| P2.2 | Weak-critic optimization (§8.4) | P2.1 baseline | proxy quality |
+| P2.3 | Weak tier + FC-carrier ablation (§8.2) and task-set expansion (§8.5) | P2.0–P2.1 (reusable control data) | model-axis width, full matrix |
+| P2.4 | k/θ activation-curve fitting (§8.6) | P2.1–P2.3 (round-dimension data) | cost–reliability surface |
+| P2.5 | Strong tier (§8.2) | §8.8 channel decision | axis ceiling |
+
+**Phase-3 reuse contract.** The P2.1 control-arm trajectories (arms A / A2 / C over the core 5
+families, 250 tasks) are not disposable probe artifacts — they are the control-arm slice of the
+Phase-3 matrix. To reuse them without re-running: (i) `arm ∈ {A, A2, C}` is written into every loop
+trajectory as a first-class field; (ii) the trajectory/summary schema stays backward-compatible with
+Phase-1 `loop_trajectories.jsonl` (new fields are additive; nothing is dropped or renamed);
+(iii) Phase-3 only adds model/task/arm cells on top, never re-collects a control cell already
+present. Because P2.0 meters cost on the same runs, one collection serves both the Phase-2
+feasibility gate and the Phase-3 full matrix.
 
 ### 8.8 Open decisions for discussion
 
@@ -305,6 +320,15 @@ modelling target, not yet claimed.
    time, not pre-committed here.
 2. **FC-carrier convention.** Confirm `fc_carrier` is recorded as an intervention field so the
    native-vs-ReAct ablation is auditable.
+
+3. **Control-arm sampling regime (temperature).** Phase 1 ran temperature = 0 (deterministic),
+   under which arm A (no-feedback self-loop) is near-degenerate — the same prompt yields the same
+   answer every round, so its activation matches round-0 accuracy and the round dimension only moves
+   under arm A2 / C (their feedback text changes the prompt). Two regimes are open: (a) keep
+   temperature = 0 for the causal Δ test (cheap; C vs A2 isolates the critic's *directional*
+   information); (b) introduce temperature > 0 multi-seed for arm A so re-solve sampling diversity
+   is measurable (needed for mean±std, but multiplies cost and mixes sampling diversity into the
+   feedback effect). Decision required before P2.1.
 
 ## 9. Provenance and caveats
 

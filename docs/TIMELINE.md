@@ -1,6 +1,6 @@
 # Timeline
 
-> Version 1.3 · 2026-10-07
+> Version 1.4 · 2026-10-07
 
 ---
 
@@ -35,7 +35,9 @@ segments, no-human-labelling validation) is `docs/RESEARCH_PLAN.md` §5.7. Miles
 
 **Budget**: < $1,200. **Models**: mid tier (reused) + weak tier (qwen3.6-flash, glm-4.7-flash via rented Aliyun instance) + strong tier (strongest runnable, channel TBD). **Tasks**: core 5 families + hard-L1 (GPQA-Diamond) + a second light-FC family.
 
-- **Prep (Day 4–6)**: unified model interface; control arms A / A2 / C; FC-carrier ablation; task-set expansion (difficulty-calibrated); weak-critic recalibration.
+Execution order (see PHASE1_SUMMARY §8.7): **cost metering → control arms → critic → weak tier + task expansion**. The control-arm trajectories are forward-compatible with Phase 3 and reused there, not re-run.
+
+- **Prep (Day 4–6)**: cost metering (token→cost pricing + reasoning-token split + offline backfill of Phase-1 tokens, P2.0); control arms A / A2 / C (P2.1); FC-carrier ablation; task-set expansion (difficulty-calibrated); weak-critic recalibration.
 - **Main (Day 7–11)**: baseline (1 round) + evaluator feedback (5 rounds) across 8–10 models × 5–8 classes; daily data-integrity checks.
 - **Ablations (Day 12–14)**: no-evaluator self-loop, random feedback, uniform prior, no voting, different K.
 - **Analysis (Day 15–18)**: statistical comparison across arms; metric summaries; visualizations; phase report + decision.
@@ -102,4 +104,5 @@ segments, no-human-labelling validation) is `docs/RESEARCH_PLAN.md` §5.7. Miles
 | 1.0 | 2026-09-26 | Translated to English. |
 | 1.1 | 2026-09-27 | Phase-1 probe revised: 4 models (weak local ×2, mid API ×2, strong deferred), tasks expanded to math/logic/finance 50 each. |
 | 1.3 | 2026-10-07 | Phase 1 complete (all Aliyun, no local); Phase 2 plan consolidated in PHASE1_SUMMARY.md §8 (control arms, weak tier via rented Aliyun instance, strong tier TBD, task expansion, k/θ cost curves). |
+| 1.4 | 2026-10-07 | Phase 2 execution order revised: cost metering (P2.0) → control arms A/A2/C → critic → weak tier + expansion; control-arm data forward-compatible with Phase 3 (reuse, no re-run). |
 | 1.2 | 2026-09-29 | Phase-1 probe re-scoped to an end-to-end feasibility loop (per RESEARCH_PLAN §5.7): 3 mid models via Aliyun, 250-Q probe set, N=10 feedback in 3-round segments, build-before-burn, no human labelling. |
