@@ -22,6 +22,15 @@ judge rescue for qualitative finance answers.
 
 ## 2. Definitions
 
+**Capability layers (L1–L4).** Four separable capabilities (RESEARCH_PLAN §3.1); the layer labels used throughout this document and the weak-critic feedback.
+
+| Layer | Name | Definition |
+|---|---|---|
+| L1 | Base | Single-shot correctness of the naked model with no external aid — raw latent accuracy. |
+| L2 | Augmentation | Capability gained by embedding the model in an agent system (function/tool calling, retrieval, orchestration) — a property of model-plus-system, not the model alone. |
+| L3 | Meta-cognitive (activation) | Given an external error signal, activates the correct answer at least once across feedback rounds — the reachable ceiling. |
+| L4 | Correction (locking) | Locks onto the correct answer — resists a misleading signal, holds a correct answer, does not oscillate. |
+
 | Quantity | Definition |
 |---|---|
 | **Activation rate** `P(A)` | Fraction of tasks where the correct answer appears in ≥ 1 round. The model's *reachable ceiling* (upper bound on accuracy), not a locking property. |
