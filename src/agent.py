@@ -465,9 +465,10 @@ class AgentResult:
     trajectory: list[dict] = field(default_factory=list)
     tool_calls: int = 0
     total_latency_ms: int = 0
-    total_cost_usd: float = 0.0
-    total_prompt_tokens: int = 0      # accumulated OpenAI usage.prompt_tokens
+    total_cost_usd: float = 0.0       # deprecated (HF-era USD)
+    total_prompt_tokens: int = 0      # accumulated usage.prompt_tokens
     total_completion_tokens: int = 0  # accumulated usage.completion_tokens
+    reasoning_tokens: int = 0         # accumulated usage.reasoning_tokens (thinking CoT)
     error: str = ""
     model_name: str = "rule-based-local"
     seed: int | None = None
@@ -732,6 +733,7 @@ class HuggingFaceAgent(BaseAgent):
         if _u is not None:
             result.total_prompt_tokens += getattr(_u, "prompt_tokens", 0)
             result.total_completion_tokens += getattr(_u, "completion_tokens", 0)
+            result.reasoning_tokens += getattr(_u, "reasoning_tokens", 0)
         if msg.tool_calls:
             tc = msg.tool_calls[0]
             result.final_answer = _json.dumps(
@@ -769,6 +771,7 @@ class HuggingFaceAgent(BaseAgent):
         t0 = time.time()
         _pt = 0  # local token accumulators (thread-safe: no shared instance state)
         _ct = 0
+        _rt = 0  # reasoning (thinking CoT) tokens
         steps: list[TrajectoryStep] = []
         import json as _json
         import inspect as _ins
@@ -822,6 +825,7 @@ class HuggingFaceAgent(BaseAgent):
                 if _u is not None:
                     _pt += getattr(_u, "prompt_tokens", 0)
                     _ct += getattr(_u, "completion_tokens", 0)
+                    _rt += getattr(_u, "reasoning_tokens", 0)
             except Exception as e:
                 err_str = str(e).lower()
                 is_api_failure = any(k in err_str for k in [
@@ -954,6 +958,7 @@ class HuggingFaceAgent(BaseAgent):
                 if _u is not None:
                     _pt += getattr(_u, "prompt_tokens", 0)
                     _ct += getattr(_u, "completion_tokens", 0)
+                    _rt += getattr(_u, "reasoning_tokens", 0)
             except Exception as e:
                 result.api_failure = True
                 answer = f"[max steps reached, LLM error: {e}]"
@@ -970,9 +975,10 @@ class HuggingFaceAgent(BaseAgent):
         result.trajectory = [asdict(s) for s in steps]
         result.tool_calls = sum(1 for s in steps if s.tool_name and s.tool_name != "fallback_generate")
         result.total_latency_ms = int((time.time() - t0) * 1000)
-        result.total_cost_usd = 0.0  # HF router doesn't report token usage in free tier
+        result.total_cost_usd = 0.0  # deprecated (HF-era USD)
         result.total_prompt_tokens = _pt
         result.total_completion_tokens = _ct
+        result.reasoning_tokens = _rt
         return result
 
 
@@ -1051,7 +1057,8 @@ class OpenAIAgent(BaseAgent):
 
         context_parts = []
         step_num = 1
-        total_tokens = 0
+        _pt = 0
+        _ct = 0
         max_steps = config.MAX_TOOL_CALLS_PER_TASK
 
         for iteration in range(max_steps):
@@ -1061,7 +1068,8 @@ class OpenAIAgent(BaseAgent):
                     tool_choice="auto" if iteration < max_steps - 1 else "none",
                 )
                 msg = resp.choices[0].message
-                total_tokens += resp.usage.total_tokens
+                _pt += resp.usage.prompt_tokens
+                _ct += resp.usage.completion_tokens
             except Exception as e:
                 err_str = str(e).lower()
                 is_api_failure = any(k in err_str for k in [
@@ -1155,7 +1163,8 @@ class OpenAIAgent(BaseAgent):
                 fb_resp = self.client.chat.completions.create(
                     model=self.model, messages=fallback_msgs)
                 answer = _extract_content(fb_resp.choices[0].message)
-                total_tokens += fb_resp.usage.total_tokens
+                _pt += fb_resp.usage.prompt_tokens
+                _ct += fb_resp.usage.completion_tokens
             except Exception as e:
                 result.api_failure = True
                 answer = f"[max steps reached, LLM error: {e}]"
@@ -1172,7 +1181,8 @@ class OpenAIAgent(BaseAgent):
         result.trajectory = [asdict(s) for s in steps]
         result.tool_calls = sum(1 for s in steps if s.tool_name and s.tool_name != "fallback_generate")
         result.total_latency_ms = int((time.time() - t0) * 1000)
-        result.total_cost_usd = round(total_tokens / 1e6 * 0.30, 4)
+        result.total_prompt_tokens = _pt
+        result.total_completion_tokens = _ct
         return result
 
 

@@ -138,6 +138,7 @@ def _round_record(r: int, result, correct: bool, evidence, error, no_signal,
         "api_failure": result.api_failure,
         "prompt_tokens": result.total_prompt_tokens,
         "completion_tokens": result.total_completion_tokens,
+        "reasoning_tokens": result.reasoning_tokens,
     }
 
 
@@ -291,6 +292,7 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
             "avg_rounds": round(avg_rounds, 2),
             "total_prompt_tokens": sum(r["prompt_tokens"] for t in per_task for r in t["rounds"]),
             "total_completion_tokens": sum(r["completion_tokens"] for t in per_task for r in t["rounds"]),
+            "total_reasoning_tokens": sum(r.get("reasoning_tokens", 0) for t in per_task for r in t["rounds"]),
         }
         summary["models"][name] = m
         (out_root / "loop_summary.json").write_text(
@@ -300,7 +302,8 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
               f"L3_rev={m['l3_reversibility_rate']:.2%} "
               f"L4_lock={m['l4_lock_rate']:.2%} L4_misled={m['l4_misled_rate']:.2%} "
               f"avg_rounds={m['avg_rounds']} "
-              f"tok={m['total_prompt_tokens']}+{m['total_completion_tokens']}")
+              f"tok={m['total_prompt_tokens']}+{m['total_completion_tokens']} "
+              f"reason={m['total_reasoning_tokens']}")
 
     (out_root / "loop_summary.json").write_text(
         json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")

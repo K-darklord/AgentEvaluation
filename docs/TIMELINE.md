@@ -35,9 +35,9 @@ segments, no-human-labelling validation) is `docs/RESEARCH_PLAN.md` §5.7. Miles
 
 **Budget**: < $1,200. **Models**: mid tier (reused) + weak tier (qwen3.6-flash, glm-4.7-flash via rented Aliyun instance) + strong tier (strongest runnable, channel TBD). **Tasks**: core 5 families + hard-L1 (GPQA-Diamond) + a second light-FC family.
 
-Execution order (see PHASE1_SUMMARY §8.7): **cost metering → control arms → critic → weak tier + task expansion**. The control-arm trajectories are forward-compatible with Phase 3 and reused there, not re-run.
+Execution order (see PHASE1_SUMMARY §8.7): **token metering → control arms → critic → weak tier + task expansion**. The control-arm trajectories are forward-compatible with Phase 3 and reused there, not re-run.
 
-- **Prep (Day 4–6)**: cost metering (token→cost pricing + reasoning-token split + offline backfill of Phase-1 tokens, P2.0); control arms A / A2 / C (P2.1); FC-carrier ablation; task-set expansion (difficulty-calibrated); weak-critic recalibration.
+- **Prep (Day 4–6)**: token metering (prompt/completion/reasoning token counts, P2.0); control arms A / A2 / C (P2.1); FC-carrier ablation; task-set expansion (difficulty-calibrated); weak-critic recalibration.
 - **Main (Day 7–11)**: baseline (1 round) + evaluator feedback (5 rounds) across 8–10 models × 5–8 classes; daily data-integrity checks.
 - **Ablations (Day 12–14)**: no-evaluator self-loop, random feedback, uniform prior, no voting, different K.
 - **Analysis (Day 15–18)**: statistical comparison across arms; metric summaries; visualizations; phase report + decision.

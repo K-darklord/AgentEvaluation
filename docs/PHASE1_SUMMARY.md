@@ -187,7 +187,7 @@ Percentages are followed by raw counts in parentheses. `r0` = round-0 accuracy.
   necessarily effective feedback); an interference-free activation/locking profile needs arm A
   (self-loop, no feedback).
 - **Any cost statement.** No per-round token/cost figure was aggregated in this run (Aliyun Token
-  Plan); token→cost metering begins in Phase 2 (§8.6).
+  Plan); token metering begins in Phase 2 (§8.6).
 
 ## 8. Phase 2 plan
 
@@ -223,7 +223,7 @@ clearly-weak model is the cheapest, highest-leverage move and does not wait on t
 ### 8.3 Control arms — prove the proxy raises the ceiling
 
 - **arm A** (no-proxy self-loop, R rounds, no feedback); **arm A2** (random/placebo directions);
-  **arm C** (weak critic tier C, the Phase-1 config reused as treatment).
+  **arm C** (weak critic tier C — the Phase-1 run reused as-is, temperature = 0, no re-collect).
 - **Test.** `Δ_act = P(A)_C − P(A)_A` and `Δ_final = P(F)_C − P(F)_A` per family; Fisher exact on
   counts + paired bootstrap on rates; one-sided p < 0.05.
 - **Go/stop.** Go if C beats both A and A2 on ≥ 1 family; stop if C ≈ A2 (confirms the §3 critic
@@ -266,13 +266,13 @@ shape** (k > 1 acceleration; k < 1 oscillation), and **θ = activation scale** (
 Locking is a *separate fourth quantity* `P(F | A)` — not one of these three parameters — so the activation
 curve is an ideal upper bound that ignores locking loss. Estimate k and θ from the cumulative activation
 curve, locking from `P(F | A)` per round; the cost
-axis is steps (already logged) plus **tokens → cost**, whose pricing is implemented as Phase-2 step P2.0 and applied
-offline to the already-recorded Phase-1 token counts (no re-run). The agent already meters per-call `usage` into
-`result.total_prompt_tokens/completion_tokens` and each feedback round records them, so a re-run drops
-the axis automatically. Cost = token count × provider unit price (deepseek ¥1/¥2, glm ¥8/¥28 per M
-input/output tokens), with reasoning (thinking) tokens separated from content tokens before pricing
-(qwen's default thinking otherwise inflates completion tokens). Output the first cost–reliability
-curves, and out-of-sample: predict rounds-to-90% from the first 2–3 rounds.
+axis is steps (already logged) plus token counts. P2.0 meters token usage only — prompt / completion /
+reasoning tokens per round — and does not price in-code: a unit price can be applied to the recorded
+token counts afterwards without a re-run, since pricing is external to metering. The agent reads
+per-call `usage` into `result.total_prompt_tokens/completion_tokens/reasoning_tokens` and each feedback
+round records them, so every Phase-2 run drops the axis automatically. Reasoning (thinking) tokens are
+separated from content tokens (qwen's default thinking otherwise inflates completion tokens). Output the
+first cost–reliability curves, and out-of-sample: predict rounds-to-90% from the first 2–3 rounds.
 
 **Locking as a risk factor (provisional framing).** The activation curve above is the *ideal* upper
 bound — it implicitly assumes locking is already mature (`P(F | A) = 1`). When locking is incomplete,
@@ -289,14 +289,14 @@ modelling target, not yet claimed.
 
 ### 8.7 Execution order and dependencies
 
-Revised ordering (2026-10-07): **cost metering first**, then the control arms, then the critic,
+Revised ordering (2026-10-07): **token metering first**, then the control arms, then the critic,
 and only then the weak tier + task-set expansion. Every downstream run must carry a cost axis from
 the start, and the control-arm data must be forward-compatible with Phase 3 so nothing is collected
 twice.
 
 | Step | Work | Depends on | Blocks |
 |---|---|---|---|
-| P2.0 | Cost metering (§8.6): per-model token→cost pricing + reasoning/thinking-token split, applied offline to the Phase-1 trajectories that already carry token counts | nothing | cost axis for every run below |
+| P2.0 | Token metering (§8.6): per-model prompt/completion/reasoning token counts (no in-code pricing) | nothing | token cost axis for every run below |
 | P2.1 | Control arms A (no-feedback self-loop) + A2 (random-direction placebo) vs C (§8.3); `arm` written as a first-class field, schema forward-compatible with Phase 3 | P2.0 (costs captured) | critic verdict (§8.4), Phase-3 control baseline |
 | P2.2 | Weak-critic optimization (§8.4) | P2.1 baseline | proxy quality |
 | P2.3 | Weak tier + FC-carrier ablation (§8.2) and task-set expansion (§8.5) | P2.0–P2.1 (reusable control data) | model-axis width, full matrix |
@@ -309,7 +309,7 @@ Phase-3 matrix. To reuse them without re-running: (i) `arm ∈ {A, A2, C}` is wr
 trajectory as a first-class field; (ii) the trajectory/summary schema stays backward-compatible with
 Phase-1 `loop_trajectories.jsonl` (new fields are additive; nothing is dropped or renamed);
 (iii) Phase-3 only adds model/task/arm cells on top, never re-collects a control cell already
-present. Because P2.0 meters cost on the same runs, one collection serves both the Phase-2
+present. Because P2.0 meters tokens on the same runs, one collection serves both the Phase-2
 feasibility gate and the Phase-3 full matrix.
 
 ### 8.8 Open decisions for discussion
@@ -321,14 +321,12 @@ feasibility gate and the Phase-3 full matrix.
 2. **FC-carrier convention.** Confirm `fc_carrier` is recorded as an intervention field so the
    native-vs-ReAct ablation is auditable.
 
-3. **Control-arm sampling regime (temperature).** Phase 1 ran temperature = 0 (deterministic),
-   under which arm A (no-feedback self-loop) is near-degenerate — the same prompt yields the same
-   answer every round, so its activation matches round-0 accuracy and the round dimension only moves
-   under arm A2 / C (their feedback text changes the prompt). Two regimes are open: (a) keep
-   temperature = 0 for the causal Δ test (cheap; C vs A2 isolates the critic's *directional*
-   information); (b) introduce temperature > 0 multi-seed for arm A so re-solve sampling diversity
-   is measurable (needed for mean±std, but multiplies cost and mixes sampling diversity into the
-   feedback effect). Decision required before P2.1.
+3. **Control-arm sampling regime (temperature) — decided: keep temperature = 0.** Arm C is the
+   Phase-1 run itself, reused as-is (no re-collect); Phase 2 only adds arms A and A2 at the same
+   temperature = 0. Under temperature = 0 arm A is a clean degenerate baseline (the round dimension
+   does not move without feedback), which is exactly the intended no-intervention reference.
+   Multi-seed (temperature > 0) sampling variance is deferred to the Phase-3 ablation matrix, not the
+   Phase-2 causal test.
 
 ## 9. Provenance and caveats
 
@@ -338,9 +336,8 @@ feasibility gate and the Phase-3 full matrix.
   resolved; 0 regressions).
 - **Finance qualitative scoring**: registered T2 LLM-judge rescue, false-negative-prone; finance
   locking loss is measured with uncertainty.
-- **Cost**: no per-round token/cost figure was aggregated in this run (Aliyun Token Plan).
-  Token→cost metering is deferred to Phase 2 (§8.6): the agent-side usage instrumentation and Aliyun's
-  usage return are already in place, so no new development is required.
+- **Cost**: Phase-1 aggregated no per-round token usage (the run predates usage capture). Token metering
+  is added in Phase 2 (P2.0, §8.6); Phase-1 itself carries no token data and is not backfillable.
 
 ---
 
