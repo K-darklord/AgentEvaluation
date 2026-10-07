@@ -166,6 +166,14 @@ Percentages are followed by raw counts in parentheses. `r0` = round-0 accuracy.
   locking) + reachability (finance: 68% activation); qwen = locking (bfcl: 100% activation vs 88%
   locking) with otherwise high activation; deepseek = nearest to balanced. Locking-loss is a
   *different kind* of failure from never-activation, and a single accuracy score cannot separate them.
+- **glm is the cleanest single-model case.** glm's pooled accuracy (78.0%) sits close to qwen
+  (84.4%) and deepseek (85.6%), yet its deficit is split across two *different* capability layers: in
+  math500 it has the *highest* activation (94%) but the *lowest* locking (80.9%) — an L4 (locking)
+  deficit — while in finance it has the *lowest* activation (68%) and the most never-activated tasks
+  (16/50) — an L2/L3 (reachability) deficit (§6.2–6.5). A single accuracy number cannot see that one
+  model fails by *reaching-but-not-holding* on one family and by *never-reaching* on another; the
+  round dimension exposes both, direction-consistent and reproducible under temperature = 0.
+
 - **This is hard to attribute to chance.** The profile is reproducible under one deterministic config
   (temperature = 0), so models with near-identical pooled accuracy still carry structurally distinct
   capability profiles. That itself is the non-triviality claim — it holds even if the weak critic were
@@ -232,16 +240,28 @@ light-FC family** (multi-hop/HotpotQA or HumanEval) for a second L2 cell at near
 Avoid another heavy-FC sink. Each new family needs a scorer + critic schema + gold format; pilot
 ≤ 20 tasks before the 50-question cell.
 
+**Sizing by activation events, not question count.** k/θ are identifiable only from tasks that first
+activate *after* round 0; the expected number per (model × family) cell is `n × (P(A) − r0)` — the
+reachable-but-not-yet-correct window measured in Phase 1. The curve model fundamentally targets *hard*
+tasks (easy tasks saturate at round 0 and contribute no shape information, only an `P(A) ≈ 1` ceiling), so a
+cell should be sized so this window yields ≥ ~30–50 observed first-activation events summed over the models;
+for a hard family with `P(A) − r0 ≈ 0.3` that means n ≈ 100–170 tasks per family, i.e. the Phase-1 cells
+must be expanded for the dynamics families. Easy families (GSM8K) stay small, as L1 / P(A)-ceiling
+calibration only.
+
 ### 8.6 Round-level dynamics — k/θ cost curves
 
 Fit the extreme-value hazard to the per-round correctness time series per model × family:
 
 ```
-P(correct appears by round r) = 1 − exp(−(r / θ)^k)
+P(activated by round r) = P(A) · [1 − exp(−(r / θ)^k)]   (cure-rate form)
 ```
 
-with **k = activation shape** (k > 1 acceleration; k < 1 oscillation) and **θ = locking scale**.
-Estimate k from the cumulative activation curve, θ/locking from `P(F | A ∧ ¬S)` per round; the cost
+with **P(A) = activation ceiling** (the §2.2 activation rate, the curve's asymptote), **k = activation
+shape** (k > 1 acceleration; k < 1 oscillation), and **θ = activation scale** (rounds to ~63% of P(A)).
+Locking is a *separate fourth quantity* `P(F | A)` — not one of these three parameters — so the activation
+curve is an ideal upper bound that ignores locking loss. Estimate k and θ from the cumulative activation
+curve, locking from `P(F | A)` per round; the cost
 axis is steps (already logged) plus **tokens → cost**, which is collected from Phase 2 onward (not
 backfilled for Phase 1). The agent already meters per-call `usage` into
 `result.total_prompt_tokens/completion_tokens` and each feedback round records them, so a re-run drops
