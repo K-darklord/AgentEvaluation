@@ -157,15 +157,29 @@ Percentages are followed by raw counts in parentheses. `r0` = round-0 accuracy.
 
 ## 7. Conclusions
 
-- The activation/locking decomposition **does discriminate models once split by family**,
-  and the signal lives entirely on the round dimension — the only place the plan (§5.4)
-  argued inversion is possible. The result is therefore methodologically non-trivial.
-- The dominant deficit **type differs by model**: glm = locking (math500) + reachability
-  (finance); qwen = locking (bfcl) with consistently high activation; deepseek = nearest to
-  balanced.
-- The instrument works (taxonomy, critique, six end-states, self-consistent decomposition);
-  what remains unestablished is the *causal effect* of the proxy (no no-proxy / random-feedback
-  control arm) and the *cost* axis (no token instrumentation).
+**What Phase 1 can claim.**
+
+- **The instrument discriminates where accuracy cannot.** Split by family, the activation/locking
+  decomposition separates models that a single pooled number hides; the signal lives entirely on the
+  round dimension — the only place the plan (§5.4) argued inversion is possible.
+- **The dominant deficit *type* differs by model.** glm = locking (math500: 94% activation vs 81%
+  locking) + reachability (finance: 68% activation); qwen = locking (bfcl: 100% activation vs 88%
+  locking) with otherwise high activation; deepseek = nearest to balanced. Locking-loss is a
+  *different kind* of failure from never-activation, and a single accuracy score cannot separate them.
+- **This is hard to attribute to chance.** The profile is reproducible under one deterministic config
+  (temperature = 0), so models with near-identical pooled accuracy still carry structurally distinct
+  capability profiles. That itself is the non-triviality claim — it holds even if the weak critic were
+  pure noise, because activation/locking is read off the round dimension, not off the feedback.
+
+**What Phase 1 cannot yet claim.**
+
+- **A causal effect of the weak critic.** Only arm C was run, so `Δ = E[Y_C] − E[Y_A]` is unestimable;
+  "the proxy raises the ceiling" remains confounded with "more rounds". Needs arm A / A2 (§8.3).
+- **That the profiles are intrinsic to the model.** They are measured under arm C (a directed but not
+  necessarily effective feedback); an interference-free activation/locking profile needs arm A
+  (self-loop, no feedback).
+- **Any cost statement.** No per-round token/cost data exists in this run (HF router, free tier);
+  token→cost metering begins in Phase 2 (§8.6).
 
 ## 8. Phase 2 plan
 
