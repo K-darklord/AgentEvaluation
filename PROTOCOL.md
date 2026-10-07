@@ -1,6 +1,6 @@
 # Change-Propagation Protocol
 
-> Living document · v1.1 · 2026-10-07
+> Living document · v1.2 · 2026-10-07
 >
 > This protocol governs how the repository stays internally consistent when the research direction changes or new experimental conclusions revise prior views. It is **normative**: every change must follow it.
 
@@ -42,6 +42,7 @@
 | `docs/EXPERIMENT_LOG.md` | per-run evidence index | `experiments/`, `configs/` |
 | `docs/DECISION_LOG.md` | decisions, open questions, working notes | — |
 | `docs/DOCS_FRAMEWORK.md` | the document system itself | — |
+| `docs/FILE_AUDIT.md` | file-audit & doc-sync workflow (sync-on-push, periodic scan) | DOCS_FRAMEWORK |
 | `docs/HISTORY.md` | project stage history + continuity rules | — |
 | `paper/` | manuscript (downstream of all) | all of the above |
 | `CHANGELOG.md` | engineering changes | git |
@@ -94,5 +95,6 @@ A change to any claim invalidates downstream artifacts that depend on it. On any
 
 | Version | Date | Change |
 |---|---|---|
+| 1.2 | 2026-10-07 | Document graph: added FILE_AUDIT.md (file-audit & doc-sync playbook). |
 | 1.1 | 2026-10-07 | Document graph: added PHASE1_SUMMARY.md + ERROR_TAXONOMY.md; EVALUATION_STANDARD corrected to 3-tier; INTERFERENCE range to INT-16. |
 | 1.0 | 2026-09-26 | Initial protocol. |

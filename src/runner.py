@@ -122,15 +122,11 @@ def run_evaluation(
 if __name__ == "__main__":
     # I support env-driven agent and benchmark selection:
     #   AGENTEVALUATION_AGENT=openai python runner.py   (use OpenAI API upper bound)
-    #   AGENTEVALUATION_AGENT=fingpt python runner.py   (use FinGPT baseline)
     #   AGENTEVALUATION_BENCH=fab python runner.py      (use FAB public dataset)
     agent_name = os.getenv("AGENTEVALUATION_AGENT", "rule").lower()
     bench_name = os.getenv("AGENTEVALUATION_BENCH", "mini").lower()
 
-    if agent_name == "fingpt":
-        from src.agent import FinGPTAgent
-        agent = FinGPTAgent()
-    elif agent_name == "openai":
+    if agent_name == "openai":
         from src.agent import OpenAIAgent
         agent = OpenAIAgent()
     elif agent_name == "hf":

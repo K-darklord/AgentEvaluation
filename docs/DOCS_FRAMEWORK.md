@@ -1,4 +1,4 @@
-# Document System (Version 0.6)
+# Document System (Version 0.7)
 
 > **Scope**: defines *which* documents exist, their register, how they are versioned, and how they map to the paper and code. It is itself part of the living-document system.
 >
@@ -48,6 +48,7 @@ Information was scattered across two places and has now been unified into this r
 | **CHANGELOG.md** | process | engineering change record (what changed) | repo root |
 | **budget tracker** | process | per-run API cost + cumulative | `docs/` (internal) |
 | **compute notes** | process | hardware / engine / measured throughput | `docs/` (internal) |
+| **FILE_AUDIT.md** | process | file-audit & doc-sync playbook (sync-on-push, periodic scan) | `docs/FILE_AUDIT.md` |
 
 ---
 
@@ -113,3 +114,4 @@ claim (paper) → experiment-log record → config + seed → raw trajectories �
 | 0.3 | 2026-09-26 | Aligned to the AgentEvaluation repository (canonical home); added PROTOCOL / TIMELINE / EXPERIMENT_LOG / EVALUATION_STANDARD / INTERFERENCE_CAUSAL_TABLE to the inventory; updated pending migrations. |
 | 0.6 | 2026-10-07 | Registered PHASE1_SUMMARY.md as the authoritative Phase-1 + Phase-2 summary; WORKMAP now 36 sources (no longer pending). |
 | 0.5 | 2026-10-05 | EVALUATION_STANDARD re-scoped to 3-tier; added ERROR_TAXONOMY.md to the inventory; INTERFERENCE_CAUSAL_TABLE range extended to INT-16. |
+| 0.7 | 2026-10-07 | Registered FILE_AUDIT.md (file-audit & doc-sync playbook) in the process-logs register. |

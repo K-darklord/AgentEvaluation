@@ -431,3 +431,57 @@ across experiments: 48% (v3 baseline) → 54% (INT-05) → 56% (INT-06).
   judge, 19-leaf taxonomy reference).
 - `README.md` v2.5 — aligned to current state (three-tier scoring, 5-family 250-Q task set, Phase-1
   Aliyun models; removed legacy `fingpt`/FinGPT agent references).
+
+
+## 2026-10-06 — Phase-1 feedback loop + weak critic (the L3/L4 instrument)
+
+### Added
+- `src/build_weak_critic.py` — weak critic as a metacognition proxy: 19-leaf taxonomy prior + exemplar
+  retrieval (`s = W_Q·sim_q + W_A·sim_a`, W_Q=0.7 / W_A=0.3) → Naive-Bayes Top-3 error posterior. Gold-free
+  (never sees the answer key); three feedback ablations (A: type+prob, B: +cause, C: +cause+attention).
+- `src/run_feedback_loop.py` — bounded feedback–self-correction driver: round-dimension tracking of the six
+  end-states (state 1–6), activation `P(A)`, locking `P(F|A)`, locking loss, reversibility `r`, and per-task
+  token metering for the cost–reliability + risk model.
+
+### Fixed
+- Decoupled L3 activation from reversibility: `P(A)` redefined as the reachable ceiling (correct answer
+  appearing in ≥1 round across all tasks); `r = P(A | ¬S)` kept as the separate first-wrong reversibility rate.
+
+### Added (docs)
+- `docs/RESEARCH_PLAN.md` §5.12 — capability-layered dynamics model (μ + Δ, `P_act` / `P_lock` / `q_stay`,
+  three-arm skeleton; `model_score = (μ, P_act, P_lock, q_stay, cost(R))`).
+
+## 2026-10-07 — Phase-1 summary + core positioning + docs alignment
+
+### Added
+- `docs/PHASE1_SUMMARY.md` — authoritative Phase-1 results + Phase-2 plan (six end-states, L1–L4 layer
+  definitions, per-family activation/locking, weak-critic mechanism, Phase-2 model tiers + control arms).
+- Core positioning in `docs/RESEARCH_PLAN.md` §2: primary contribution is a **new evaluation paradigm**
+  (round-dimension dynamic observables replace static single-shot accuracy; cost–reliability + risk
+  quantified); secondary contribution is a **weak-critic existence proof** (a gold-free metacognition proxy
+  raises the activation ceiling). Nearest-neighbour differentiation added (Feedback Friction / Overthinking /
+  activation-probe).
+
+### Fixed
+- `evaluator.py` `_score_bfcl` — normalized function-name string math symbols, nested-list/numeric tolerance
+  comparison, and a non-dict prediction guard. 58 wrong→right flips, 0 regressions (offline).
+- `docs/RESEARCH_PLAN.md` §8.5/§8.6 — glm single-model case, hard-family sizing by activation events, Weibull
+  cure-rate form `P(A)·[1−exp(−(r/θ)^k)]` with corrected θ semantics, locking framed as a survival-hazard
+  risk factor.
+
+### Changed
+- cost channel recorded as Aliyun Token Plan (not HF router); weak-tier deployment moved to a rented Aliyun
+  instance; strong-tier channel left open (to be resolved at run time).
+
+## 2026-10-07 — Doc-sync cleanup + file-audit playbook
+
+### Added
+- `docs/FILE_AUDIT.md` — file-audit & doc-sync playbook (sync-on-push rule, periodic scan checklist,
+  single-source-of-truth rule, drift-findings log).
+
+### Removed
+- Local FinGPT inference path (`agent.py` `FinGPTAgent`, `config.py` `FINGPT_*`, `runner.py` `fingpt` branch).
+  Local model loading was abandoned (mlx/mpi4py ABI crash; HF channel dropped); superseded by the Aliyun
+  Token Plan `HuggingFaceAgent` path.
+- `configs/fab_baseline.yaml` — superseded FAB-only multi-seed config (stale HF model id); the Phase-1 model
+  registry now lives in `config.py` `PHASE1_MODELS`.

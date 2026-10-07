@@ -25,7 +25,7 @@ AgentEvaluation/
 ├── src/                       # working finance-agent pipeline (package)
 │   ├── __init__.py
 │   ├── benchmark.py           # task schema + mini benchmark + FAB loader
-│   ├── agent.py               # OpenAI-compatible (Aliyun Token Plan); legacy FinGPT/HuggingFace local path deprecated
+│   ├── agent.py               # OpenAI-compatible agents (Aliyun Token Plan); rule-based baseline retained
 │   ├── runner.py              # run agent → trajectories + run summary
 │   ├── evaluator.py           # 3-tier scoring (T1 rule / T2 LLM rescue / T3 multi-judge) + error taxonomy
 │   └── config.py              # API keys / models / scoring config
@@ -44,6 +44,7 @@ AgentEvaluation/
 │   ├── DECISION_LOG.md        # decisions + open questions (process)
 │   ├── HISTORY.md             # stage history + continuity rules
 │   ├── WORKMAP.md             # 4-dimension academic frontier map (evaluation / verification / optimization / inference scaling)
+│   ├── FILE_AUDIT.md          # file-audit & doc-sync playbook (sync-on-push, periodic scan)
 │   └── figures/
 ├── paper/                     # manuscript skeleton + drafts
 ├── experiments/               # per-experiment evidence (EXPERIMENT.md + data)
@@ -69,6 +70,7 @@ AgentEvaluation/
 | [docs/EXPERIMENT_LOG.md](docs/EXPERIMENT_LOG.md) | Evidence index (every claim traces to a run) |
 | [docs/DECISION_LOG.md](docs/DECISION_LOG.md) | Decisions, open questions, working notes (not a deliverable) |
 | [docs/HISTORY.md](docs/HISTORY.md) | Project stage history (finance pipeline → interference → metacognition) + continuity rules |
+| [docs/FILE_AUDIT.md](docs/FILE_AUDIT.md) | File-audit & doc-sync playbook (sync-on-push habit, periodic scan checklist) |
 | [docs/WORKMAP.md](docs/WORKMAP.md) | 4-dimension academic frontier map (36 sources): evaluation / verification / optimization / inference scaling → proposal positioning |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Implementation blueprint for the experiment-execution layer (SQLite task queue, provider routing, phased landing plan) |
 | [PROTOCOL.md](PROTOCOL.md) | How every change propagates to all dependent documents |
@@ -120,6 +122,7 @@ Correctness is dispatched into three tiers by answer form: **T1** deterministic 
 | Version | Date | Change |
 |---|---|---|
 | — | 2026-09-16 | Prior evaluation pipeline README. |
+| 2.7 | 2026-10-07 | File-audit cleanup: added FILE_AUDIT.md playbook; removed legacy FinGPT local-inference dead code and superseded configs/fab_baseline.yaml; completed CHANGELOG. |
 | 2.6 | 2026-10-07 | Phase 1 complete: 4-layer capability framing (activation/locking), weak critic, PHASE1_SUMMARY.md as authoritative summary+plan; WORKMAP 36 sources. |
 | 2.5 | 2026-10-05 | Aligned README with current state: three-tier scoring, 5-family 250-Q task set, Phase-1 Aliyun models; removed legacy `fingpt`/FinGPT agent references. |
 | 2.4 | 2026-09-27 | Added docs/ARCHITECTURE.md (experiment-execution architecture blueprint). |

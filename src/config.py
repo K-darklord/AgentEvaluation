@@ -23,15 +23,6 @@ LLM_READ_TIMEOUT = float(os.getenv("LLM_READ_TIMEOUT", "180"))
 
 
 # ======================================================================
-# FinGPT baseline agent config
-# ======================================================================
-FINGPT_BASE_MODEL = os.getenv("FINGPT_BASE_MODEL", "tiiuae/falcon-7b")
-FINGPT_PEFT_MODEL = os.getenv("FINGPT_PEFT_MODEL", "FinGPT/fingpt-mt_falcon-7b_lora")
-FINGPT_USE_8BIT = os.getenv("FINGPT_USE_8BIT", "1") == "1"   # bitsandbytes 8-bit quantization
-FINGPT_DEVICE = os.getenv("FINGPT_DEVICE", "cuda")           # cpu / cuda / mps
-FINGPT_MAX_NEW_TOKENS = int(os.getenv("FINGPT_MAX_NEW_TOKENS", "128"))
-
-# ======================================================================
 # HuggingFace Inference API agent (baseline via remote inference)
 # ======================================================================
 HF_TOKEN = os.getenv("HF_TOKEN", "")
