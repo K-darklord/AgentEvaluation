@@ -1,6 +1,6 @@
 # AgentEvaluation — Metacognitive Evaluation of Agent Capability
 
-> Living document · 2026-09-26
+> Living document · 2026-10-07
 >
 > A financial-agent evaluation pipeline, now reorganized as the single source of truth for the metacognition research program. All research documents, the reproducibility standard, and the change-propagation protocol live alongside the code.
 
@@ -9,7 +9,7 @@
 ## What this repository is
 
 1. **The evaluation pipeline** — real benchmark data across five task families (GSM8K, MATH-500, MMLU-Pro, FAB, BFCL) + tool-calling agents + trajectory recording + three-tier scoring (T1 rule / T2 LLM rescue / T3 multi-judge).
-2. **The home of the research program** — single end-to-end paper whose core contribution is *metacognition*: an external meta-cognitive proxy redefines capability from single-shot accuracy into a cost–reliability curve + convergence class, and a model × task × error-type tensor decomposition localizes which capability a model lacks. The evaluation-framework-interference study (26pp spurious deficit) motivates "static accuracy is a bad metric".
+2. **The home of the research program** — single end-to-end paper whose core contribution is a *new evaluation paradigm*: an external meta-cognitive (weak-critic) proxy redefines capability from static single-shot accuracy into round-dimension dynamic observables — activation ceiling `P(A)`, locking `P(F | A)`, locking loss — and a cost–reliability + risk relationship; a model × task × error-type tensor decomposition localizes which of four capability layers (L1–L4) a model lacks. The evaluation-framework-interference study (26pp spurious deficit) motivates "static accuracy is a bad metric".
 
 ---
 
@@ -25,7 +25,7 @@ AgentEvaluation/
 ├── src/                       # working finance-agent pipeline (package)
 │   ├── __init__.py
 │   ├── benchmark.py           # task schema + mini benchmark + FAB loader
-│   ├── agent.py               # RuleBased / FinGPT / OpenAI / HuggingFace (ReAct + EDGAR tools)
+│   ├── agent.py               # OpenAI-compatible (Aliyun Token Plan); legacy FinGPT/HuggingFace local path deprecated
 │   ├── runner.py              # run agent → trajectories + run summary
 │   ├── evaluator.py           # 3-tier scoring (T1 rule / T2 LLM rescue / T3 multi-judge) + error taxonomy
 │   └── config.py              # API keys / models / scoring config
@@ -35,6 +35,7 @@ AgentEvaluation/
 │   └── processed/             # derived task banks (scaffolded)
 ├── docs/                      # academic deliverables + process logs (see index below)
 │   ├── RESEARCH_PLAN.md       # experiment protocol (authority)
+│   ├── PHASE1_SUMMARY.md    # Phase 1 results + Phase 2 plan (authoritative summary)
 │   ├── REPRODUCIBILITY.md     # top-venue reproducibility standard
 │   ├── TIMELINE.md            # phases, milestones, budget
 │   ├── EVALUATION_STANDARD.md # 3-tier scoring spec (T1/T2/T3)
@@ -58,15 +59,17 @@ AgentEvaluation/
 
 | Document | Purpose |
 |---|---|
-| [docs/RESEARCH_PLAN.md](docs/RESEARCH_PLAN.md) | Research questions, theoretical framework (3-layer capability hypothesis, 3 math framings, cost–reliability model), experimental design, contributions, risks |
+| [docs/RESEARCH_PLAN.md](docs/RESEARCH_PLAN.md) | Research questions, theoretical framework (4-layer capability hypothesis L1–L4, 3 math framings, cost–reliability model), experimental design, contributions, risks |
+| [docs/PHASE1_SUMMARY.md](docs/PHASE1_SUMMARY.md) | Phase 1 (probe) results + Phase 2 plan — weak-critic mechanism, six end-states, activation/locking, cost–reliability + risk modelling |
 | [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md) | Three-tier reproducibility, repo layout, seed management, config manifest, ablation matrix, checklist |
 | [docs/TIMELINE.md](docs/TIMELINE.md) | 3 phases (probe → feasibility → full) + writing, budget, milestones, risk buffers |
 | [docs/EVALUATION_STANDARD.md](docs/EVALUATION_STANDARD.md) | 3-tier scoring spec (T1 rule / T2 LLM rescue / T3 multi-judge), 19-leaf error taxonomy |
+| [docs/ERROR_TAXONOMY.md](docs/ERROR_TAXONOMY.md) | 19-leaf error taxonomy (per-family) + shared 6-axis cross-domain labels |
 | [docs/INTERFERENCE_CAUSAL_TABLE.md](docs/INTERFERENCE_CAUSAL_TABLE.md) | INT-01…14 interference causal status |
 | [docs/EXPERIMENT_LOG.md](docs/EXPERIMENT_LOG.md) | Evidence index (every claim traces to a run) |
 | [docs/DECISION_LOG.md](docs/DECISION_LOG.md) | Decisions, open questions, working notes (not a deliverable) |
 | [docs/HISTORY.md](docs/HISTORY.md) | Project stage history (finance pipeline → interference → metacognition) + continuity rules |
-| [docs/WORKMAP.md](docs/WORKMAP.md) | 4-dimension academic frontier map (33 sources): evaluation / verification / optimization / inference scaling → proposal positioning |
+| [docs/WORKMAP.md](docs/WORKMAP.md) | 4-dimension academic frontier map (36 sources): evaluation / verification / optimization / inference scaling → proposal positioning |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Implementation blueprint for the experiment-execution layer (SQLite task queue, provider routing, phased landing plan) |
 | [PROTOCOL.md](PROTOCOL.md) | How every change propagates to all dependent documents |
 
@@ -90,6 +93,9 @@ python -m src.evaluator
 ```bash
 # Phase-1 baseline: 3 mid models (Aliyun Token Plan) over the 5-family 250-Q probe set
 python -m src.phase1_baseline
+
+# Phase-1 weak-critic feedback loop (round-dimension dynamics; activation/locking)
+python -m src.run_feedback_loop
 ```
 
 The legacy finance pipeline (`AGENTEVALUATION_AGENT=hf AGENTEVALUATION_BENCH=fab python -m src.runner`) is retained as one task-family module. Outputs: `output/trajectories.jsonl` (full per-step trajectory), `output/run_summary.csv`, `output/results.csv`, `output/error_report.json`, accuracy charts.
@@ -114,6 +120,7 @@ Correctness is dispatched into three tiers by answer form: **T1** deterministic 
 | Version | Date | Change |
 |---|---|---|
 | — | 2026-09-16 | Prior evaluation pipeline README. |
+| 2.6 | 2026-10-07 | Phase 1 complete: 4-layer capability framing (activation/locking), weak critic, PHASE1_SUMMARY.md as authoritative summary+plan; WORKMAP 36 sources. |
 | 2.5 | 2026-10-05 | Aligned README with current state: three-tier scoring, 5-family 250-Q task set, Phase-1 Aliyun models; removed legacy `fingpt`/FinGPT agent references. |
 | 2.4 | 2026-09-27 | Added docs/ARCHITECTURE.md (experiment-execution architecture blueprint). |
 | 2.3 | 2026-09-26 | Added docs/WORKMAP.md (English frontier map, migrated from the agent-eval workmap; 33 sources). |

@@ -1,18 +1,10 @@
-# --- FinGPT baseline agent (local LoRA inference) ---
-transformers==4.32.0
-peft==0.5.0
-sentencepiece
-accelerate
-bitsandbytes
-torch>=2.0
-
 # --- evaluation / analysis ---
+numpy
 pandas
 matplotlib
-sentence-transformers      # future trajectory clustering
 
-# --- LLM-as-Judge + OpenAI-compatible API client ---
-openai>=1.0.0
+# --- LLM-as-Judge + OpenAI-compatible API client (pin: repo depends on 3.x) ---
+openai==3.13.0
 
-# --- optional: Anthropic upper bound ---
-# anthropic
+# --- configuration (YAML) ---
+pyyaml

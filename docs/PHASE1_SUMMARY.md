@@ -186,8 +186,8 @@ Percentages are followed by raw counts in parentheses. `r0` = round-0 accuracy.
 - **That the profiles are intrinsic to the model.** They are measured under arm C (a directed but not
   necessarily effective feedback); an interference-free activation/locking profile needs arm A
   (self-loop, no feedback).
-- **Any cost statement.** No per-round token/cost data exists in this run (HF router, free tier);
-  token→cost metering begins in Phase 2 (§8.6).
+- **Any cost statement.** No per-round token/cost figure was aggregated in this run (Aliyun Token
+  Plan); token→cost metering begins in Phase 2 (§8.6).
 
 ## 8. Phase 2 plan
 
@@ -209,9 +209,13 @@ axis (run weak models in both arms where feasible) rather than an ad-hoc fallbac
 weak models enter on L1 + light FC (bfcl) first; finance (heavy FC, O(N²) growth) last, only if
 native FC holds.
 
-**Strong tier** (`Claude Opus 5.5`, `GPT-6 Astra`). Blocked: no domestic channel carries Claude/GPT,
-and this collides with the "no OpenAI" constraint (open decision §8.8). If opened, run strong models
-only on the discriminating cells (finance + a hard L1 anchor), arm C only, reduced subset.
+**Deployment (weak tier).** Not on the local Mac and not via HF: weak models are planned to run on a
+rented Aliyun instance (or the equivalent API channel), decided at execution time.
+
+**Strong tier** (`Claude Opus 5.5`, `GPT-6 Astra`, or the strongest runnable model). No forced choice
+(open decision §8.8): the principle is that the axis must span up to the strongest model that can be
+run. Channel (overseas endpoint / rented Aliyun instance) is decided at execution; when run, restrict
+to the discriminating cells (finance + a hard L1 anchor), arm C only, reduced subset.
 
 **Principle.** Minimum span along the capability axis that breaks the flat model axis — adding one
 clearly-weak model is the cheapest, highest-leverage move and does not wait on the strong tier.
@@ -295,10 +299,10 @@ modelling target, not yet claimed.
 
 ### 8.8 Open decisions for discussion
 
-1. **Strong-tier channel.** No domestic endpoint serves Claude/GPT; using one contradicts the "no
-   OpenAI" constraint. Options: resolve to overseas endpoint + relax the constraint for strong tier
-   only / construct the axis from weak + mid + model-size scaling within a domestic provider / defer
-   strong tier to Phase 3.
+1. **Strong-tier channel.** Not a hard blocker. The requirement is only that the strong-tier
+   benchmark must be able to run the strongest available model; the concrete channel (overseas
+   endpoint, rented Aliyun instance, or a domestic size-scaled stand-in) is decided at execution
+   time, not pre-committed here.
 2. **FC-carrier convention.** Confirm `fc_carrier` is recorded as an intervention field so the
    native-vs-ReAct ablation is auditable.
 
@@ -310,7 +314,7 @@ modelling target, not yet claimed.
   resolved; 0 regressions).
 - **Finance qualitative scoring**: registered T2 LLM-judge rescue, false-negative-prone; finance
   locking loss is measured with uncertainty.
-- **Cost**: no per-round token/cost data in this run — it ran on the HF router (free tier, no usage).
+- **Cost**: no per-round token/cost figure was aggregated in this run (Aliyun Token Plan).
   Token→cost metering is deferred to Phase 2 (§8.6): the agent-side usage instrumentation and Aliyun's
   usage return are already in place, so no new development is required.
 

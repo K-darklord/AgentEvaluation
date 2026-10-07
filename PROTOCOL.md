@@ -1,6 +1,6 @@
 # Change-Propagation Protocol
 
-> Living document · v1.0 · 2026-09-26
+> Living document · v1.1 · 2026-10-07
 >
 > This protocol governs how the repository stays internally consistent when the research direction changes or new experimental conclusions revise prior views. It is **normative**: every change must follow it.
 
@@ -32,9 +32,11 @@
 | Document | Authoritative for | Depends on |
 |---|---|---|
 | `docs/RESEARCH_PLAN.md` | research questions, method, experimental design, contributions, risks | — |
+| `docs/PHASE1_SUMMARY.md` | Phase 1 results + Phase 2 plan (authoritative summary) | RESEARCH_PLAN, `experiments/` |
 | `docs/REPRODUCIBILITY.md` | reproducibility standard (seeds, configs, layout, checklists) | — |
-| `docs/EVALUATION_STANDARD.md` | scoring methodology (2-tier, dealbreaker, error taxonomy) | — |
-| `docs/INTERFERENCE_CAUSAL_TABLE.md` | interference evidence (INT-01…14 causal status) | `experiments/` |
+| `docs/EVALUATION_STANDARD.md` | scoring methodology (3-tier T1/T2/T3) | — |
+| `docs/ERROR_TAXONOMY.md` | 19-leaf error taxonomy | EVALUATION_STANDARD |
+| `docs/INTERFERENCE_CAUSAL_TABLE.md` | interference evidence (INT-01…16 causal status) | `experiments/` |
 | `docs/TIMELINE.md` | phases, milestones, budget | RESEARCH_PLAN |
 | `docs/WORKMAP.md` | frontier literature map | — |
 | `docs/EXPERIMENT_LOG.md` | per-run evidence index | `experiments/`, `configs/` |
@@ -92,4 +94,5 @@ A change to any claim invalidates downstream artifacts that depend on it. On any
 
 | Version | Date | Change |
 |---|---|---|
+| 1.1 | 2026-10-07 | Document graph: added PHASE1_SUMMARY.md + ERROR_TAXONOMY.md; EVALUATION_STANDARD corrected to 3-tier; INTERFERENCE range to INT-16. |
 | 1.0 | 2026-09-26 | Initial protocol. |

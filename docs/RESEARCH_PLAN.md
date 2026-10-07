@@ -576,7 +576,7 @@ The full reproducibility standard (three-tier reproduction, repository layout, s
 
 ### 6.1 Environment and compute
 
-**Hardware**: Apple M4 MacBook Air, 24 GB unified memory (no CUDA). Local inference via MLX / Ollama / llama.cpp.
+**Hardware**: Apple M4 MacBook Air, 24 GB unified memory (no CUDA). No local model loading is planned (local MLX / Ollama / llama.cpp is deprecated).
 
 | Tier | Feasible locally | Throughput (est.) |
 |---|---|---|
@@ -585,7 +585,7 @@ The full reproducibility standard (three-tier reproduction, repository layout, s
 | 14B (Q4) | marginal | ~15–20 tok/s |
 | 32B / 70B | no | — |
 
-**Model-routing strategy**: Phase 1 loads **no model locally** — all three mid-tier models run on the Aliyun Token Plan. Local MLX / Ollama / llama.cpp inference is reserved for the weak tier in Phase 2 (which API providers do not serve) and is not used in Phase 1.
+**Model-routing strategy**: Phase 1 loads **no model locally** — all three mid-tier models run on the Aliyun Token Plan. For Phase 2, weak-tier models are planned to run on a **rented Aliyun instance** rather than local MLX / Ollama / llama.cpp; HF is abandoned.
 
 ---
 
@@ -642,6 +642,7 @@ The dominant cost driver is the number of API model × question × round cells p
 
 | Version | Date | Change |
 |---|---|---|
+| 0.17 | 2026-10-07 | §6.1 hardware/model-routing: local MLX/Ollama deprecated; weak tier via rented Aliyun instance. |
 | 0.16 | 2026-10-07 | Added §2 core positioning (new evaluation paradigm — round-dimension dynamic observables + cost–reliability/risk as centre of gravity; weak-critic existence proof as subordinate claim) and nearest-neighbour differentiation against Feedback Friction (arXiv:2506.11930), overthinking (arXiv:2604.10739), and activation-probe self-correction (arXiv:2606.03645). |
 | 0.15 | 2026-10-07 | Marked Phase 1 complete: per-family activation/locking results (math/math500/mmlu-pro/finance/bfcl, n=50 each, 3 mid models) and the Phase 2 plan are consolidated into `docs/PHASE1_SUMMARY.md` (weak-critic mechanism + limits §3, per-family + pooled tables §4–5, Phase 2 plan §8); `docs/PHASE2_PLAN.md` merged into it and removed. |
 | 0.14 | 2026-10-07 | Corrected §5.12 L3 activation semantics: `P_act` redefined as the full-reach activation rate `P(A)` (the model's accuracy ceiling, §5.11 `l3_activation_rate`), decoupled from a separate `r = P(A | ¬S)` reversibility (初错可逆率, §5.11 `l3_reversibility_rate`); decomposition rewritten as `P_act = μ + (1−μ)·r` and `final_acc = μ·q_stay + (1−μ)·r·P_lock` with an explicit locking-loss term `P_act − final_acc`; evaluation target extended to `(μ, P_act, r, P_lock, q_stay, cost(R))`. Fixed `_score_bfcl` false negatives (function-string maths-notation normalisation + list/numeric value tolerance + non-dict guard), resolving 5 state-6 BFCL tasks (correct function calls previously misjudged). |

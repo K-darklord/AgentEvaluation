@@ -1,6 +1,6 @@
 # Timeline
 
-> Version 1.0 · 2026-09-26
+> Version 1.3 · 2026-10-07
 
 ---
 
@@ -18,7 +18,7 @@ Writing & submission           (4–6 weeks)
 
 ---
 
-## 2. Phase 1 — probe: end-to-end feasibility (go/no-go)
+## 2. Phase 1 — probe: end-to-end feasibility (COMPLETE → PHASE1_SUMMARY.md)
 
 **Budget**: < $200. **Models**: 3 mid-tier via Aliyun Token Plan — deepseek-v4-flash-0731, qwen3.8-flash, glm-5.3; **no local model loading**; strong tier deferred to Phase 2/3. **Tasks**: 250 Qs — GSM8K 50 + MATH-500 50 + MMLU-Pro 50 + FAB 50 + BFCL 50 (L1:L2 = 3:2).
 
@@ -31,11 +31,11 @@ segments, no-human-labelling validation) is `docs/RESEARCH_PLAN.md` §5.7. Miles
 
 ---
 
-## 3. Phase 2 — feasibility (Day 4–18)
+## 3. Phase 2 — feasibility (planned; PHASE1_SUMMARY.md §8)
 
-**Budget**: < $1,200. **Models**: 8–10 (Phase-1 six + Mistral-7B, Gemma-2-9B + some GPT-4o). **Tasks**: 5–8 classes, 50–100 Qs each.
+**Budget**: < $1,200. **Models**: mid tier (reused) + weak tier (qwen3.6-flash, glm-4.7-flash via rented Aliyun instance) + strong tier (strongest runnable, channel TBD). **Tasks**: core 5 families + hard-L1 (GPQA-Diamond) + a second light-FC family.
 
-- **Prep (Day 4–6)**: unified model interface; deploy new local models; prepare 5–8 task classes (difficulty-calibrated); implement 6 ablation arms.
+- **Prep (Day 4–6)**: unified model interface; control arms A / A2 / C; FC-carrier ablation; task-set expansion (difficulty-calibrated); weak-critic recalibration.
 - **Main (Day 7–11)**: baseline (1 round) + evaluator feedback (5 rounds) across 8–10 models × 5–8 classes; daily data-integrity checks.
 - **Ablations (Day 12–14)**: no-evaluator self-loop, random feedback, uniform prior, no voting, different K.
 - **Analysis (Day 15–18)**: statistical comparison across arms; metric summaries; visualizations; phase report + decision.
@@ -77,7 +77,7 @@ segments, no-human-labelling validation) is `docs/RESEARCH_PLAN.md` §5.7. Miles
 | Risk | Response | Buffer |
 |---|---|---|
 | Phase 1 needs a rerun | 1–2 days for adjustment | Day 3–4 |
-| Phase 2 model-deploy delay | local models first, API later | Day 4–6 |
+| Phase 2 model-deploy delay | rent Aliyun instance / resolve strong-tier channel | Day 4–6 |
 | Phase 3 API over-budget | cut top API models' question load; replace with local large models | budget elasticity |
 | Tensor decomposition unclear | fall back to direct curve comparison (2–3 days) | Day 46–48 |
 | Writing lag | shrink to an 8-page workshop version | Day 76–80 |
@@ -101,4 +101,5 @@ segments, no-human-labelling validation) is `docs/RESEARCH_PLAN.md` §5.7. Miles
 |---|---|---|
 | 1.0 | 2026-09-26 | Translated to English. |
 | 1.1 | 2026-09-27 | Phase-1 probe revised: 4 models (weak local ×2, mid API ×2, strong deferred), tasks expanded to math/logic/finance 50 each. |
+| 1.3 | 2026-10-07 | Phase 1 complete (all Aliyun, no local); Phase 2 plan consolidated in PHASE1_SUMMARY.md §8 (control arms, weak tier via rented Aliyun instance, strong tier TBD, task expansion, k/θ cost curves). |
 | 1.2 | 2026-09-29 | Phase-1 probe re-scoped to an end-to-end feasibility loop (per RESEARCH_PLAN §5.7): 3 mid models via Aliyun, 250-Q probe set, N=10 feedback in 3-round segments, build-before-burn, no human labelling. |
