@@ -270,6 +270,19 @@ input/output tokens), with reasoning (thinking) tokens separated from content to
 (qwen's default thinking otherwise inflates completion tokens). Output the first cost–reliability
 curves, and out-of-sample: predict rounds-to-90% from the first 2–3 rounds.
 
+**Locking as a risk factor (provisional framing).** The activation curve above is the *ideal* upper
+bound — it implicitly assumes locking is already mature (`P(F | A) = 1`). When locking is incomplete,
+reachable-but-not-held tasks (state 5 / oscillation) inject a heavy right tail into the per-task cost
+distribution; the lower the locking rate, the thicker and higher-peaked that tail becomes. Two regimes
+anchor the framing: (i) an external verifier — human-in-the-loop, or an *absolute oracle* that confirms
+each step — recovers the ideal upper bound, because it converts each round's "activated" answer into a
+"locked" one; (ii) human-out-of-the-loop, fully autonomous running, leaves everything
+activated-but-not-locked exposed, so tail risk grows as `P(F | A)` falls. Locking thus behaves like a
+*risk factor* (survival-hazard-like), with a natural link to long-horizon task planning: a longer horizon
+multiplies the exposure to a sub-unit locking rate. The final formulation is open and is a Phase-2
+modelling target, not yet claimed.
+
+
 ### 8.7 Execution order and dependencies
 
 | Step | Work | Depends on | Blocks |
