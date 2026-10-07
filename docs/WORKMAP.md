@@ -167,6 +167,15 @@ The table maps each core concept of the proposal to the most relevant frontier w
 
 > **Positioning** — the proposal's originality lies not in any single point of the four dimensions (each point already has literature), but in the **crossover**: modeling self-correction as a stochastic convergence process, and outputting "early trajectory → extrapolated cost + convergence class." The two rows marked **gap** in Table 2 are where the effort should be poured.
 
+### 8.3 Nearest-neighbour works to differentiate against (added 2026-10-07)
+
+Three recent works observe the *same phenomena* from different angles; the novelty claim in §2 of `RESEARCH_PLAN.md` must be drawn against them explicitly, and they should be re-checked before submission:
+
+- **Feedback Friction [34]** — models plateau *below their performance ceiling* even with binary / reflective / strong-model (near-oracle) feedback; the ceiling is the closest published analogue to our `P(A)`, and the plateau to our locking loss. We differ by using a *gold-free* statistical critic and by modeling the plateau as a *separable locking quantity* with a risk-factor (survival-hazard) model rather than as "resistance to feedback".
+- **Overthinking in test-time scaling [35]** — "flip events" where a correct answer is abandoned inside a single chain (our state-2, locking deficit), but located *within one CoT under token scaling*, not across a *multi-round external feedback loop*.
+- **Activation-probe self-correction [36]** ("The Shape of Addition"; cf. "The Count Is There, but Misaligned") — the correct answer is encoded in internal activations yet not emitted ("decision-locking points"): white-box, mechanism-side evidence of activation-without-locking, versus our black-box, gold-free protocol-side measure.
+
+
 ## 9. Work Map · action roadmap (aligned to proposal Phase 1–4)
 
 Binding the proposal's four experimental phases to the frontier, forming a "literature → experimental action" landing map. Each row points to a directly comparable frontier baseline or method.
@@ -225,3 +234,6 @@ There are three real opportunities remaining for the proposal, all concentrated 
 31. (2025). *A Theoretical Study on Bridging Internal Probability and Self-Consistency for LLM Reasoning* (NeurIPS 2025) — https://papers.nips.cc/paper_files/paper/2025/file/7e9afa9a02857bce4515247842471444-Paper-Conference.pdf
 32. (2025). *Scaling Test-time Compute for LLM Agents* — https://arxiv.org/abs/2506.12928
 33. Bai, Y. et al. (2022). *Constitutional AI: Harmlessness from AI Feedback* — https://arxiv.org/abs/2212.08073
+34. Jiang, D. et al. (2025). *Feedback Friction: LLMs Struggle to Fully Incorporate External Feedback* — https://arxiv.org/abs/2506.11930
+35. Zhou, S. et al. (2026). *When More Thinking Hurts: Overthinking in LLM Test-Time Compute Scaling* — https://arxiv.org/abs/2604.10739
+36. (2026). *The Shape of Addition: Geometric Structures of Arithmetic in Large Language Models* — https://arxiv.org/abs/2606.03645
