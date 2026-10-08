@@ -1,0 +1,118 @@
+{
+  "models": {
+    "deepseek-v4-flash": {
+      "tier": "mid",
+      "model_id": "deepseek-v4-flash-0731",
+      "declared_temperature": 0.0,
+      "seed": null,
+      "thinking": "unknown",
+      "accuracy": 0.8888888888888888,
+      "accuracy_excl_api_failures": 0.8888888888888888,
+      "n_valid_tasks": 144,
+      "n_api_failures": 0,
+      "per_bench": {
+        "aime": {
+          "correct": 47,
+          "n": 50
+        },
+        "gpqa": {
+          "correct": 41,
+          "n": 50
+        },
+        "bbh": {
+          "correct": 40,
+          "n": 44
+        },
+        "other": {
+          "correct": 0,
+          "n": 0
+        }
+      },
+      "error_distribution": {
+        "correct": 128,
+        "numeric_error": 3,
+        "wrong_option": 5,
+        "complete_failure": 8
+      }
+    },
+    "qwen3.8-flash": {
+      "tier": "mid",
+      "model_id": "qwen3.8-flash",
+      "declared_temperature": 0.0,
+      "seed": null,
+      "thinking": "unknown",
+      "accuracy": 0.8055555555555556,
+      "accuracy_excl_api_failures": 0.8111888111888111,
+      "n_valid_tasks": 143,
+      "n_api_failures": 1,
+      "per_bench": {
+        "aime": {
+          "correct": 48,
+          "n": 50
+        },
+        "gpqa": {
+          "correct": 29,
+          "n": 50
+        },
+        "bbh": {
+          "correct": 39,
+          "n": 44
+        },
+        "other": {
+          "correct": 0,
+          "n": 0
+        }
+      },
+      "error_distribution": {
+        "correct": 116,
+        "numeric_error": 2,
+        "complete_failure": 18,
+        "wrong_option": 7,
+        "api_failure": 1
+      }
+    },
+    "glm-5.3": {
+      "tier": "mid",
+      "model_id": "glm-5.3",
+      "declared_temperature": 0.0,
+      "seed": null,
+      "thinking": "unknown",
+      "accuracy": 0.7986111111111112,
+      "accuracy_excl_api_failures": 0.7986111111111112,
+      "n_valid_tasks": 144,
+      "n_api_failures": 0,
+      "per_bench": {
+        "aime": {
+          "correct": 44,
+          "n": 50
+        },
+        "gpqa": {
+          "correct": 30,
+          "n": 50
+        },
+        "bbh": {
+          "correct": 41,
+          "n": 44
+        },
+        "other": {
+          "correct": 0,
+          "n": 0
+        }
+      },
+      "error_distribution": {
+        "correct": 115,
+        "numeric_error": 6,
+        "complete_failure": 18,
+        "wrong_option": 5
+      }
+    }
+  },
+  "run_id": "20261008_full",
+  "bench": "new_set",
+  "n_tasks": 144,
+  "n_per_bench": 50,
+  "bbh_per_task": 4,
+  "temperature": 0.0,
+  "seed": null,
+  "concurrency": 6
+}

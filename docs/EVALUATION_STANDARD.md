@@ -71,6 +71,74 @@ For the finance family, T1 checks whether the predicted answer contains the gold
    (`matched_tokens / total_tokens`).
 5. No predicted numbers but gold has numbers → `T1_score = 0.0`.
 
+### 3.3 The "commit, don't scan" extractor contract
+
+For answer forms whose gold is a single committed token — a multiple-choice letter, an integer, a
+real number, or a closed-set word (Yes/No/True/False) — T1 grades the token the model *actually
+commits to*, never a value it merely mentions. A committed token is drawn, in order, from:
+`\boxed{...}`; a whole-string bare token; the token right after an explicit answer cue (`answer is …`,
+`ANSWER: …`); the last non-empty line; and, for numerics, the token after the last `=`. When no token
+is committed, the row scores **0** rather than matching a stray substring.
+For letters, a committed letter that carries a short label — `(B) heptagon`, `B. heptagon` —
+also counts (the bracket/period separator keeps the bare article `a`/`A` from matching).
+
+Rationale — scanning the full response opened two systematic false-positive channels and one
+false-negative channel, observed on 2026-10-08 when the hard benchmarks were added:
+
+- **Letter.** Upper-casing the whole prediction turned the article "a" into "A", so a prose-only
+  answer matched gold `A` (GPQA `gpqa_009` / `gpqa_016`).
+- **Integer.** A reasoning chain that merely *passed through* the gold integer mid-derivation scored
+  correct (AIME).
+- **Word.** Substring matching let gold `No` hit "I don't know" (which contains "no") and gold `Yes`
+  hit "Yesterday" (which contains "yes"); BBH.
+
+The contract is implemented by `_extract_mcq_letter` / `_extract_committed_integer` /
+`_extract_committed_number` / `_extract_committed_text` in `src/evaluator.py`, and frozen by the
+regression suite `tests/test_evaluator_commit.py`.
+
+**Deliberate exception.** MMLU-Pro still scans for an `A`–`J` letter, frozen on purpose to keep the
+INT-16 74% → 86% comparison comparable; the fix is deferred until that comparison is closed.
+
+### 3.4 Deferred — unify T1 dispatch by answer *form*, not benchmark name
+
+**Status: planned, not started (2026-10-08). Gated on the first full run of the new
+benchmark set.** More benchmarks will be added after that run, so the unification is
+deliberately postponed until the new set's data lands — integrating now would have to be
+redone once the extra subjects arrive. This is a standing decision: the cross-subject
+evaluation standard *will* be unified; it is a matter of when, not whether.
+
+Today `_label_row_tiered` (`src/evaluator.py`) routes with a per-benchmark
+`if benchmark == "..."` chain, and every benchmark carries its own thin `_score_*` wrapper.
+The extractor primitives (`_extract_mcq_letter` / `_extract_committed_integer` /
+`_extract_committed_number` / `_extract_committed_text`) are already subject-agnostic; what is
+missing is a single dispatcher keyed on the answer **form** declared in the item metadata:
+
+    answer_form ∈ {letter, integer, number, word, expression, tool_call}
+
+| answer_form | planned grader |
+|---|---|
+| `letter` | `_extract_mcq_letter(pred, metadata["choices"]) == gold` |
+| `integer` | `_extract_committed_integer(pred) == gold` |
+| `number` | `_extract_committed_number(pred)` ≈ gold |
+| `word` | `_extract_committed_text(pred, metadata["choices"]) == gold.lower()` |
+| `expression` | `_score_math500` (sympy equivalence) |
+| `tool_call` | `_score_bfcl` (AST match) |
+
+so any new subject reuses the standard with **zero new scorer code**.
+
+**Still outside the contract today (to fold in during the unification):**
+
+- `_score_mmlu_pro` — full-text `A`–`J` scan, kept deliberately to preserve the INT-16
+  74% → 86% comparison; migrate behind a compatibility switch.
+- `_score_logic_exact` — full-text `A`–`E` scan (mini logic); same latent `.upper()` hazard,
+  not yet migrated.
+- `_score_t1_numeric` — finance / mini-math numeric + keyword scan; different paradigm, decide
+  during the unification whether to keep or route via `answer_form`.
+
+**Acceptance for the deferred task:** unified `answer_form` dispatch lands for every subject;
+offline rescore (zero API) of all stored runs shows **0 unintended flips** (or every flip is
+explained); and `tests/test_evaluator_commit.py` gains coverage per form.
+
 ---
 
 ## 4. T2 — LLM-assisted parse + judge rescue (registered intervention)
@@ -120,6 +188,13 @@ multi-judge setup; a true multi-judge T3 is deferred. T3 is a registered interve
   and a format-enforcing prompt applied to the *generator* is itself an intervention, separate from the
   evaluator.
 
+**Registered non-evaluator interventions (2026-10-08).** INT-17/18/19
+(docs/INTERFERENCE_CAUSAL_TABLE.md): per-family answer-format prompts for AIME (integer-only) and
+BBH (short-answer), GPQA reusing the INT-16 MCQ letter-only prompt; the reasoning-benchmark
+generation budget (`REASONING_BENCH_MAX_TOKENS`, 8192, aime/gpqa only); and the fixed-seed GPQA option
+shuffle. Frozen in src/agent.py, src/config.py, src/benchmark.py respectively — generator/config-side,
+distinct from T1/T2/T3 scoring.
+
 ---
 
 ## 7. Finance-family scoring detail (retained from v2 — dealbreaker)
@@ -162,3 +237,5 @@ The legacy 6-label finance error set (`retrieval_failure`, `numeric_error`, `cit
 | 2.2 | 2026-09-15 | Fair-evaluation principles (§9); API retry + `api_failure` flag. |
 | 2.3 | 2026-09-15 | Empirical V4-Flash vs V4-Pro comparison; failure-mode taxonomy; cost analysis. |
 | 3.0 | 2026-10-05 | Re-architected to a three-tier scoring framework (T1 deterministic / T2 LLM rescue / T3 multi-judge); T2 judge moved to `deepseek-v4-pro` with `T2_JUDGE_MAX_TOKENS`; cross-domain scope (5 families); taxonomy delegated to `docs/ERROR_TAXONOMY.md`; finance-path detail (dealbreaker) retained in §7. |
+| 3.1 | 2026-10-08 | Added §3.3 "commit, don't scan" extractor contract for single-token answer forms (letter / integer / number / closed-set word); fixed the BBH word and numeric branches; added `_extract_committed_number` + `_extract_committed_text`; frozen by `tests/test_evaluator_commit.py`; MMLU-Pro full-text scan kept as a deliberate exception. |
+| 3.2 | 2026-10-08 | Registered the deferred task §3.4: unify T1 dispatch by answer *form* (`letter`/`integer`/`number`/`word`/`expression`/`tool_call`) instead of per-benchmark code. Postponed until the new benchmark set's first full run, since more subjects are still being added. |

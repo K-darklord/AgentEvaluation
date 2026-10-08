@@ -64,6 +64,40 @@ MMLU_PRO_DATA_PATH = os.getenv("MMLU_PRO_DATA_PATH", "data/raw/mmlu_pro_test.par
 BFCL_DATA_URL = "https://modelscope.cn/datasets/AI-ModelScope/bfcl_v3/resolve/master/data/train-00000-of-00001.parquet"
 BFCL_DATA_PATH = os.getenv("BFCL_DATA_PATH", "data/raw/bfcl_v3_train.parquet")
 
+# AIME 1983-2024 (integer-answer competition math, 0-999) - mirrors di-zhang-fdu/AIME_1983_2024.
+# HF router is TCP-blocked in this network; hf-mirror.com is the reachable mirror.
+AIME_DATA_URL = "https://hf-mirror.com/datasets/di-zhang-fdu/AIME_1983_2024/resolve/main/AIME_Dataset_1983_2024.csv"
+AIME_DATA_PATH = os.getenv("AIME_DATA_PATH", "data/raw/aime_1983_2024.csv")
+
+# GPQA-Diamond (198 hard graduate-science 4-option MCQ) - mirrors Idavidrein/gpqa via ModelScope.
+GPQA_DATA_URL = "https://modelscope.cn/datasets/modelscope/gpqa/resolve/master/gpqa_diamond.csv"
+GPQA_DATA_PATH = os.getenv("GPQA_DATA_PATH", "data/raw/gpqa_diamond.csv")
+
+# BIG-Bench Hard (curated reasoning tasks) - mirrors suzgunmiirc/BIG-Bench-Hard (GitHub raw).
+# Curated subset of cheap, clearly scoreable tasks (letter MCQ + short free-form).
+BBH_DATA_DIR = os.getenv("BBH_DATA_DIR", "data/raw/bbh")
+BBH_TASKS = [
+    "geometric_shapes",
+    "logical_deduction_three_objects",
+    "object_counting",
+    "penguins_in_a_table",
+    "salient_translation_error_detection",
+    "snarks",
+    "temporal_sequences",
+    "web_of_lies",
+    "navigate",
+    "multistep_arithmetic_two",
+    "boolean_expressions",
+]
+
+# Generation budget for the hard reasoning benchmarks (AIME / GPQA-Diamond). Their
+# models are reasoning models that spend most of the budget on a hidden CoT before
+# emitting the visible answer; at the default 1024 cap the CoT alone truncates the
+# answer (finish_reason=length) and the run scores wrong even when the model solved
+# it. 8192 is the smallest cap observed to let the visible answer through on the
+# hardest AIME items; frozen so the baseline stays comparable across runs.
+REASONING_BENCH_MAX_TOKENS = int(os.getenv("REASONING_BENCH_MAX_TOKENS", "8192"))
+
 
 # ======================================================================
 # Scoring tolerance / robustness config

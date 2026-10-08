@@ -790,6 +790,47 @@ def _score_math500(row: dict) -> float:
     return 0.0
 
 
+def _extract_mcq_letter(pred: str, choices: str = "ABCD") -> str | None:
+    """I extract the single option letter a prediction actually committed to, for MCQ
+    benchmarks. I accept (1) a bare answer ('A', 'A.', '(A)', 'a'), (2) the letter right
+    after an explicit answer cue ('answer is A', 'ANSWER: B'), and (3) a final line that is
+    just an option letter. I deliberately do NOT upper-case the whole prediction before
+    matching: doing so turned the English article 'a' into 'A' and let prose-only answers
+    match gold='A' by luck (gpqa_009/gpqa_016, smoke-20 2026-10-08). I return None when no
+    option letter is committed to, so such answers score wrong instead of matching a stray
+    letter. `choices` restricts the accepted letters (e.g. 'ABCD' for GPQA, A-Z for BBH). I also
+accept a committed letter that carries a short label ('(B) heptagon', 'B. heptagon'),
+requiring a bracket/punctuation separator so the bare article 'a'/'A' cannot match."""
+    p = pred.strip()
+    # Markdown emphasis/backticks wrapping a lone committed letter ('**B**', '*b*',
+    # '`C`') hide it from the patterns below and produced GPQA false negatives
+    # (gpqa_001 '**B**' labelled complete_failure on 2026-10-08). Unwrap an emphasised
+    # single letter, then drop stray asterisks/backticks; identifiers such as '__init__'
+    # or 'snake_case' are left intact because they are not a lone letter.
+    p = re.sub(r"(?<![A-Za-z0-9])_{1,2}([A-Za-z])_{1,2}(?![A-Za-z0-9])", r"\1", p)
+    p = re.sub(r"[*`]", "", p)
+    bare = r"[\s\(\[]*([A-Za-z])[\s\)\]]*[\.\:]?"
+    m = re.fullmatch(bare, p)
+    if m and m.group(1).upper() in choices:
+        return m.group(1).upper()
+    m = re.search(r"(?:answer|choice|option|ans)\b(?:\s+(?:is|are|was|were))?\s*[:\-]?\s*\(?([A-Za-z])\)?(?![A-Za-z])",
+                  p, re.IGNORECASE)
+    if m and m.group(1).upper() in choices:
+        return m.group(1).upper()
+    lines = [l.strip() for l in p.splitlines() if l.strip()]
+    if lines:
+        m = re.fullmatch(bare, lines[-1])
+        if m and m.group(1).upper() in choices:
+            return m.group(1).upper()
+
+    labeled = re.compile(r"\s*[\(\[]?([A-Za-z])(?:[\)\]]|[\.\:\-\u2013\u2014])(?!\w)")
+    for cand in ([lines[-1]] if lines else []) + [p]:
+        m = labeled.match(cand)
+        if m and m.group(1).upper() in choices:
+            return m.group(1).upper()
+    return None
+
+
 def _score_mmlu_pro(row: dict) -> float:
     """I grade MMLU-Pro 10-option MCQ by exact option-letter (A-J) match."""
     gold = str(row.get("gold_answer", "")).strip().upper()
@@ -798,6 +839,218 @@ def _score_mmlu_pro(row: dict) -> float:
         return 0.0
     letters = re.findall(r"\b[A-J]\b", pred.upper())
     return 1.0 if gold in letters else 0.0
+
+
+def _score_gpqa(row: dict) -> float:
+    """I grade GPQA-Diamond 4-option MCQ by exact option-letter (A-D) match. I require the
+    prediction to actually commit to an option letter (see _extract_mcq_letter) instead of
+    scanning the whole text, so prose answers that merely contain an 'a'/'A' no longer score
+    by luck (gpqa_009/gpqa_016, smoke-20 2026-10-08)."""
+    gold = str(row.get("gold_answer", "")).strip().upper()
+    pred = str(row.get("final_answer", "")).strip()
+    if not gold or not pred:
+        return 0.0
+    return 1.0 if _extract_mcq_letter(pred, choices="ABCD") == gold else 0.0
+
+
+def _extract_committed_integer(pred: str) -> int | None:
+    """I extract the single integer a prediction commits to as its AIME answer,
+    mirroring _extract_mcq_letter's 'commit, don't scan' rule for integer answers.
+    Order: \boxed{...} -> whole string is a bare integer -> integer right after an
+    answer cue -> last line is a bare integer -> integer after the last '='. I return
+    None when no integer is committed to, so a CoT blob that
+    merely mentions the gold integer mid-derivation scores wrong instead of matching by
+    luck (same false-positive class as the GPQA whole-text scan, fixed 2026-10-08)."""
+    p = pred.strip()
+    if not p:
+        return None
+
+    def _first_int(s: str) -> int | None:
+        m = re.search(r"-?\d+", s)
+        return int(m.group(0)) if m else None
+
+    def _last_int(s: str) -> int | None:
+        t = re.findall(r"-?\d+", s)
+        return int(t[-1]) if t else None
+
+    bare = r"[\s\(\[\{]*\$?\s*(-?\d+)\s*\$?[\s\)\]\}\.,]*"
+
+    m = _BOXED_RE.search(p)
+    if m:
+        v = _first_int(m.group(1))
+        if v is not None:
+            return v
+
+    m = re.fullmatch(bare, p)
+    if m:
+        return int(m.group(1))
+
+    m = re.search(
+        r"(?:answer|ans|result|value)\b(?:\s+(?:is|are|was|were))?\s*[:\-]?\s*\$?\(?(-?\d+)\)?(?!\d)(?!\.\d)",
+        p, re.IGNORECASE)
+    if m:
+        return int(m.group(1))
+
+    lines = [l.strip() for l in p.splitlines() if l.strip()]
+    if lines:
+        m = re.fullmatch(bare, lines[-1])
+        if m:
+            return int(m.group(1))
+        if "=" in lines[-1]:
+            v = _last_int(lines[-1].rsplit("=", 1)[1])
+            if v is not None:
+                return v
+
+    if "=" in p:
+        v = _last_int(p.rsplit("=", 1)[1])
+        if v is not None:
+            return v
+
+    return None
+
+
+def _extract_committed_number(pred: str) -> float | None:
+    """I extract the single number a prediction commits to as its final answer, the
+    real-valued sibling of _extract_committed_integer under the same 'commit, don't scan'
+    rule. Order: \boxed{...} -> whole string is a bare number -> number right after an
+    answer cue -> last line is a bare number -> number after the last '='. I return None
+    when no number is committed to, so a reasoning chain that merely passes through the
+    gold value mid-derivation (or whose *first* number is a sub-result) no longer scores
+    by luck. Used by BBH numeric targets (object_counting / multistep_arithmetic_two)."""
+    p = pred.strip()
+    if not p:
+        return None
+
+    num = r"-?\d+(?:\.\d+)?"
+
+    def _first_num(s: str) -> float | None:
+        m = re.search(num, s)
+        return float(m.group(0)) if m else None
+
+    def _last_num(s: str) -> float | None:
+        t = re.findall(num, s)
+        return float(t[-1]) if t else None
+
+    bare = r"[\s\(\[\{]*\$?\s*(-?\d+(?:\.\d+)?)\s*\$?[\s\)\]\}\.,]*"
+
+    m = _BOXED_RE.search(p)
+    if m:
+        v = _first_num(m.group(1))
+        if v is not None:
+            return v
+
+    m = re.fullmatch(bare, p)
+    if m:
+        return float(m.group(1))
+
+    m = re.search(
+        r"(?:answer|ans|result|value)\b(?:\s+(?:is|are|was|were))?\s*[:\-]?\s*\$?\(?(-?\d+(?:\.\d+)?)\)?(?!\d)(?!\.\d)",
+        p, re.IGNORECASE)
+    if m:
+        return float(m.group(1))
+
+    lines = [l.strip() for l in p.splitlines() if l.strip()]
+    if lines:
+        m = re.fullmatch(bare, lines[-1])
+        if m:
+            return float(m.group(1))
+        if "=" in lines[-1]:
+            v = _last_num(lines[-1].rsplit("=", 1)[1])
+            if v is not None:
+                return v
+
+    if "=" in p:
+        v = _last_num(p.rsplit("=", 1)[1])
+        if v is not None:
+            return v
+
+    return None
+
+
+def _extract_committed_text(pred: str, choices) -> str | None:
+    """I extract the single closed-set word a prediction commits to (e.g. Yes/No/True/
+    False), the text sibling of _extract_committed_integer under 'commit, don't scan'. I
+    accept (1) a bare word, (2) the word right after an explicit answer cue, (3) a final
+    line that is just the word. I deliberately do NOT substring-match inside prose: that
+    turned gold='No' into a hit on "I don't know" (which contains "no") and gold='Yes'
+    into a hit on "Yesterday" (which contains "yes"). I return None when no allowed word
+    is committed to, so such prose answers score wrong instead of matching by luck. Used
+    by BBH word targets (boolean_expressions / navigate / web_of_lies)."""
+    p = pred.strip()
+    if not p:
+        return None
+    low = {str(c).lower() for c in choices}
+
+    def _norm_token(t: str) -> str | None:
+        t = t.strip().strip(" \t\r\n\"'`*_().[]").rstrip(".!?,;:").strip().lower()
+        return t if t in low else None
+
+    tok = _norm_token(p)
+    if tok:
+        return tok
+
+    m = re.search(
+        r"(?:answer|choice|option|ans|result)\b(?:\s+(?:is|are|was|were))?\s*[:\-]?\s*([A-Za-z]+)",
+        p, re.IGNORECASE)
+    if m:
+        tok = _norm_token(m.group(1))
+        if tok:
+            return tok
+
+    lines = [l.strip() for l in p.splitlines() if l.strip()]
+    if lines:
+        tok = _norm_token(lines[-1])
+        if tok:
+            return tok
+
+    return None
+
+
+def _score_aime(row: dict) -> float:
+    """I grade AIME integer-answer (0-999) by exact match on the integer the model
+    actually committed to (see _extract_committed_integer), NOT by scanning the whole
+    text for the gold integer: a reasoning blob that merely passes through the gold
+    value scores wrong, closing the false-positive channel fixed for GPQA 2026-10-08."""
+    gold_raw = str(row.get("gold_answer", "")).strip()
+    pred_raw = str(row.get("final_answer", "")).strip()
+    if not gold_raw or not pred_raw:
+        return 0.0
+    g_nums = _extract_all_numbers(gold_raw)
+    if not g_nums:
+        return 0.0
+    gold = int(round(g_nums[0]))
+    pred_int = _extract_committed_integer(pred_raw)
+    return 1.0 if pred_int is not None and pred_int == gold else 0.0
+
+
+def _score_bbh(row: dict) -> float:
+    """I grade BIG-Bench Hard answers. In the sampled tasks the target is always one of
+    three forms: an '(X)' option letter, an integer, or a closed-set word
+    (Yes/No/True/False). I grade each with the matching 'commit, don't scan' extractor
+    (_extract_mcq_letter / _extract_committed_number / _extract_committed_text) instead of
+    scanning the whole text, so an answer that merely contains the gold value as a
+    substring (e.g. gold='No' inside "I don't know") or passes through it mid-derivation
+    no longer scores by luck (fixed 2026-10-08, same channel as the GPQA/AIME fixes)."""
+    gold = str(row.get("gold_answer", "")).strip()
+    pred = str(row.get("final_answer", "")).strip()
+    if not gold or not pred:
+        return 0.0
+
+    letter = re.fullmatch(r"\(?([A-Za-z])\)?", gold)
+    if letter:
+        want = letter.group(1).upper()
+        got = _extract_mcq_letter(pred, choices="ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        return 1.0 if got == want else 0.0
+
+    if re.fullmatch(r"-?\d+(\.\d+)?", gold):
+        g_nums = _extract_all_numbers(gold)
+        if not g_nums:
+            return 0.0
+        pred_num = _extract_committed_number(pred)
+        return 1.0 if pred_num is not None and abs(g_nums[0] - pred_num) < 1e-6 else 0.0
+
+    got = _extract_committed_text(pred, choices={"yes", "no", "true", "false"})
+    return 1.0 if got is not None and got == gold.strip().lower() else 0.0
 
 
 def _norm_math_expr(s: str) -> str:
@@ -971,6 +1224,44 @@ def _label_row_tiered(row: dict) -> dict:
         }
     if benchmark == "bfcl":
         t1 = _score_bfcl(row)
+        return {
+            "tier1_numeric": t1,
+            "tier2_llm_semantic": 0.0,
+            "dealbreaker_triggered": False,
+            "final_score": t1,
+            "is_correct": t1 >= config.FINAL_PASS_THRESHOLD,
+            "error_type": "correct" if t1 >= config.FINAL_PASS_THRESHOLD else "complete_failure",
+        }
+    if benchmark == "aime":
+        t1 = _score_aime(row)
+        return {
+            "tier1_numeric": t1,
+            "tier2_llm_semantic": 0.0,
+            "dealbreaker_triggered": False,
+            "final_score": t1,
+            "is_correct": t1 >= config.FINAL_PASS_THRESHOLD,
+            "error_type": "correct" if t1 >= config.FINAL_PASS_THRESHOLD else "numeric_error",
+        }
+    if benchmark == "gpqa":
+        t1 = _score_gpqa(row)
+        correct = t1 >= config.FINAL_PASS_THRESHOLD
+        if correct:
+            err = "correct"
+        else:
+            # Distinguish a committed-but-wrong option letter from "no commit at all",
+            # so the error distribution does not lump wrong picks into complete_failure.
+            committed = _extract_mcq_letter(str(row.get("final_answer", "")), choices="ABCD")
+            err = "wrong_option" if committed is not None else "complete_failure"
+        return {
+            "tier1_numeric": t1,
+            "tier2_llm_semantic": 0.0,
+            "dealbreaker_triggered": False,
+            "final_score": t1,
+            "is_correct": correct,
+            "error_type": err,
+        }
+    if benchmark == "bbh":
+        t1 = _score_bbh(row)
         return {
             "tier1_numeric": t1,
             "tier2_llm_semantic": 0.0,

@@ -615,7 +615,7 @@ class HuggingFaceAgent(BaseAgent):
             }})
         return tools
 
-    def _call_llm_with_tools(self, messages, tools, tool_choice="auto"):
+    def _call_llm_with_tools(self, messages, tools, tool_choice="auto", max_tokens=None):
         """I call the HF router with native function calling support.
         I retry on transient errors with exponential backoff."""
         import time as _time
@@ -628,7 +628,7 @@ class HuggingFaceAgent(BaseAgent):
                     "messages": messages,
                     "tools": tools,
                     "tool_choice": tool_choice,
-                    "max_tokens": self.max_tokens,
+                    "max_tokens": max_tokens if max_tokens is not None else self.max_tokens,
                     "temperature": self.temperature,
                 }
                 if self.seed is not None:
@@ -655,7 +655,7 @@ class HuggingFaceAgent(BaseAgent):
                 _time.sleep(wait)
         raise last_error
 
-    def _call_llm_text(self, messages):
+    def _call_llm_text(self, messages, max_tokens=None):
         """I call the HF router for text generation (no tools, for fallback).
         Used when max_steps is reached and we need to synthesize from context."""
         import time as _time
@@ -666,7 +666,7 @@ class HuggingFaceAgent(BaseAgent):
                 kwargs = {
                     "model": self.model,
                     "messages": messages,
-                    "max_tokens": self.max_tokens,
+                    "max_tokens": max_tokens if max_tokens is not None else self.max_tokens,
                     "temperature": self.temperature,
                 }
                 if self.seed is not None:
@@ -778,17 +778,45 @@ class HuggingFaceAgent(BaseAgent):
 
         fc_tools = self._build_fc_tools()
 
-        if task.metadata.get("benchmark") == "mmlu_pro":
-            # MMLU-Pro is a 10-option MCQ. The generic finance prompt ("respond with
-            # only the factual answer") actively nudges reasoning models to emit a
-            # computed value instead of selecting A-J, which broke option-letter
-            # scoring (INT-16). Align to the official MCQ harness: demand ONLY the
-            # option letter. Frozen verbatim across runs to keep re-score comparable.
+        benchmark = task.metadata.get("benchmark")
+        # Reasoning models (deepseek / qwen / glm) emit a hidden CoT into
+        # `reasoning_content` and the answer into `content`. At the default 1024-token
+        # budget the CoT alone exhausts the cap (finish_reason=length), `content` comes
+        # back empty and the agent falls back to the truncated CoT -> scored wrong even
+        # when the model solved it. Give the hard reasoning benchmarks room to finish.
+        # Budget frozen in config.REASONING_BENCH_MAX_TOKENS.
+        _mt = config.REASONING_BENCH_MAX_TOKENS if benchmark in ("aime", "gpqa") else self.max_tokens
+        if benchmark in ("mmlu_pro", "gpqa"):
+            # MMLU-Pro (10-option) and GPQA-Diamond (4-option) are MCQs. The generic
+            # finance prompt ("respond with only the factual answer") actively nudges
+            # reasoning models to emit a computed value instead of selecting a letter,
+            # which broke option-letter scoring (INT-16). Align to the official MCQ
+            # harness: demand ONLY the option letter. Frozen verbatim across runs.
             system_msg = (
                 "You are answering a multiple-choice question. Choose the single best "
                 "option from the provided list. Respond with ONLY the option letter of "
                 "your chosen answer (for example: \"A\"). Do not include any reasoning, "
                 "explanation, or the option text."
+            )
+        elif benchmark == "aime":
+            # AIME answers are a single integer in [0, 999]. The generic finance prompt
+            # nudged reasoning models to narrate a solution and drop the bare integer,
+            # which the aime scorer could not extract (smoke-20, 2026-10-08). Demand
+            # ONLY the integer -- no reasoning, no unit, no "ANSWER:" label.
+            system_msg = (
+                "You are answering an olympiad-style math problem whose answer is a single "
+                "integer between 0 and 999. Respond with ONLY the final integer (for "
+                "example: \"60\"). Do not include any reasoning, explanation, units, or "
+                "labels."
+            )
+        elif benchmark == "bbh":
+            # BIG-Bench Hard mixes '(X)' MCQ with free-form (number / Yes-No / True-False).
+            # Demand a bare short answer; the bbh scorer accepts either letter or token.
+            system_msg = (
+                "You are answering a reasoning question. Provide only the final answer: "
+                "if multiple-choice, respond with just the option letter; otherwise "
+                "respond with the short answer (a number or a single word). Do not "
+                "include any reasoning or explanation."
             )
         else:
             system_msg = (
@@ -820,7 +848,7 @@ class HuggingFaceAgent(BaseAgent):
 
         for iteration in range(max_steps):
             try:
-                resp = self._call_llm_with_tools(messages, fc_tools, tool_choice="auto")
+                resp = self._call_llm_with_tools(messages, fc_tools, tool_choice="auto", max_tokens=_mt)
                 _u = getattr(resp, "usage", None)
                 if _u is not None:
                     _pt += getattr(_u, "prompt_tokens", 0)
@@ -953,7 +981,7 @@ class HuggingFaceAgent(BaseAgent):
                 {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {task.prompt}\n\nAnswer:"},
             ]
             try:
-                answer, _resp = self._call_llm_text(fallback_msgs)
+                answer, _resp = self._call_llm_text(fallback_msgs, max_tokens=_mt)
                 _u = getattr(_resp, "usage", None)
                 if _u is not None:
                     _pt += getattr(_u, "prompt_tokens", 0)

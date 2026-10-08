@@ -1,0 +1,20 @@
+{
+  "n_tasks": 62,
+  "n_valid_tasks": 62,
+  "n_api_failures": 0,
+  "accuracy": 0.8064516129032258,
+  "accuracy_excl_api_failures": 0.8064516129032258,
+  "error_distribution": {
+    "correct": 50,
+    "numeric_error": 5,
+    "complete_failure": 7
+  },
+  "avg_latency_ms": 11801.7,
+  "total_cost_usd": 0.0,
+  "tier_breakdown": {
+    "t1_numeric_avg": 0.8065,
+    "t2_llm_semantic_avg": 0.0,
+    "final_score_avg": 0.8065,
+    "dealbreakers_triggered": 0
+  }
+}

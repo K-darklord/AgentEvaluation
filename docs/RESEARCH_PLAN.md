@@ -438,6 +438,15 @@ change the scoring decision and must be declared as interventions in every resul
 family (e.g. a direct-letter prompt for MMLU-Pro), and a format-enforcing prompt applied to the
 *generator* is itself an intervention — separate from, and not a substitute for, a sound evaluator.
 
+**Registered generator/config interventions (2026-10-08).** The hard-benchmark expansion adds
+three declared, non-evaluator interventions (docs/INTERFERENCE_CAUSAL_TABLE.md §1, INT-17/18/19):
+per-family answer-format prompts for AIME (integer-only) and BBH (short-answer), with GPQA reusing
+the INT-16 MCQ letter-only prompt; a reasoning-benchmark generation budget
+(`REASONING_BENCH_MAX_TOKENS`, 8192, aime/gpqa only); and a fixed-seed GPQA option shuffle that
+removes the "correct is always A" position bias. All three are frozen in src (agent.py / config.py /
+benchmark.py) and none alters a correct evaluator — they are declared so the new families are not
+silently incomparable to the finance baseline.
+
 ### 5.10 L3/L4 discrimination — round-dimension scheme
 
 **Scope rationale (2026-09-29).** L1/L2 are *a priori* (task-family split, §5.2) and not inverted (§5.4). L3 (meta-cognitive: recognise an error on the external signal) and L4 (correction: fix it once recognised) are *process* properties observable only across feedback rounds. Their operationalisation is **taxonomy-free** — it needs only two per-round events, not an error-type label, so it is immune to the block-diagonal projection that defeats the static matrix.

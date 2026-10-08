@@ -1,0 +1,13 @@
+run_id,task_id,category,difficulty,gold_answer,final_answer,is_correct,error_type,tier1_numeric,tier2_llm_semantic,dealbreaker_triggered,eval_tier,final_score,tool_calls,total_latency_ms,model_name
+deepseek-v4-flash,aime_001,Mathematical Reasoning,Hard,60,60,True,correct,1.0,0.0,False,T1,1.0,0,4644,deepseek-v4-flash-0731
+deepseek-v4-flash,aime_002,Mathematical Reasoning,Hard,15,15,True,correct,1.0,0.0,False,T1,1.0,0,4857,deepseek-v4-flash-0731
+deepseek-v4-flash,aime_003,Mathematical Reasoning,Hard,20,20,True,correct,1.0,0.0,False,T1,1.0,0,5630,deepseek-v4-flash-0731
+deepseek-v4-flash,gpqa_001,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,4817,deepseek-v4-flash-0731
+deepseek-v4-flash,gpqa_002,Knowledge Reasoning,Hard,D,"But let's double-check: Could the reagent be dimethyloxosulfonium methylide giving cyclopropane; carbon count 11. However need ensure ""product 3"" maybe ""product 2"" treated with... The text says ""3 was treated..."" maybe typo ""2 was treated..."" But product 3 likely formed from product 2, adding one carbon from ylide methylene. So 10 + 1 = 11. Option D.",True,correct,1.0,0.0,False,T1,1.0,0,12912,deepseek-v4-flash-0731
+deepseek-v4-flash,gpqa_003,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,4069,deepseek-v4-flash-0731
+deepseek-v4-flash,bbh_0001,Reasoning,Hard,(B),B,True,correct,1.0,0.0,False,T1,1.0,0,5176,deepseek-v4-flash-0731
+deepseek-v4-flash,bbh_0002,Reasoning,Hard,(A),A,True,correct,1.0,0.0,False,T1,1.0,0,1535,deepseek-v4-flash-0731
+deepseek-v4-flash,bbh_0003,Reasoning,Hard,8,8,True,correct,1.0,0.0,False,T1,1.0,0,1450,deepseek-v4-flash-0731
+deepseek-v4-flash,bbh_0004,Reasoning,Hard,(E),(E) James,True,correct,1.0,0.0,False,T1,1.0,0,1159,deepseek-v4-flash-0731
+deepseek-v4-flash,bbh_0005,Reasoning,Hard,(A),(A) Modifiers or Adjectives,True,correct,1.0,0.0,False,T1,1.0,0,1899,deepseek-v4-flash-0731
+deepseek-v4-flash,bbh_0006,Reasoning,Hard,(B),A,False,complete_failure,0.0,0.0,False,T1,0.0,0,5530,deepseek-v4-flash-0731

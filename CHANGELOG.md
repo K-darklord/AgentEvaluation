@@ -500,3 +500,185 @@ across experiments: 48% (v3 baseline) → 54% (INT-05) → 56% (INT-06).
   `src/phase1_baseline.py` + `config.py` `PHASE1_MODELS`); its only default config (`fab_baseline.yaml`) had
   already been removed.
 - `pyyaml` from `requirements.txt` — the sole `import yaml` lived in `experiment.py`.
+
+
+## 2026-10-08 — MCQ grading: stop scoring prose answers by luck (GPQA / BBH)
+
+### Context
+While smoke-validating the new hard benchmarks (AIME / GPQA-Diamond / BBH), the GPQA-20
+run on deepseek-v4-flash reported 90% (18/20). Reading the trajectories showed 2 of the 18
+"correct" rows were false positives: the model had emitted a whole paragraph of reasoning as
+`final_answer` and never committed to an option letter.
+
+- `gpqa_009` (gold=A): reasoning concludes *"So yes triisopropyl borate can be C3h"* ->
+  triisopropyl borate is **option B**, not A. The model was wrong; the scorer found the
+  letter "A" only because it appears inside ordinary prose.
+- `gpqa_016` (gold=A): reasoning ends *"...Not sure."* with no option at all. Also wrong.
+
+### Root cause
+`_score_gpqa` scanned the whole prediction with `re.findall(r"\b[A-D]\b", pred.upper())`.
+Calling `.upper()` first turned every English article "a" into "A", which then matched the
+`[A-D]` pattern; when gold happened to be "A" (both rows here) the row scored correct by luck.
+`_score_bbh`'s letter branch (`re.findall(r"\b[A-Za-z]\b", pred.upper())`) carried the same
+`.upper()` hazard.
+
+### Changed
+- `src/evaluator.py`: added `_extract_mcq_letter(pred, choices)` — a committed-answer
+  extractor that accepts (1) a bare letter (`A`, `A.`, `(A)`, `a`), (2) a letter after an
+  explicit cue (`answer is A`, `ANSWER: B`, `option b`), or (3) a final line that is just an
+  option letter; otherwise returns `None`. It **does not** upper-case the whole text.
+- `_score_gpqa` now grades via `_extract_mcq_letter(pred, "ABCD") == gold`.
+- `_score_bbh` letter branch now grades via `_extract_mcq_letter(pred, A-Z) == gold`.
+- Intentionally **not** changed: `_score_mmlu_pro` keeps its existing full-text scan so the
+  frozen MMLU-Pro baselines stay comparable. It shares the same latent `.upper()` hazard
+  (gold=A could be inflated by prose) — to be revisited in a separate pass with a re-baseline.
+
+### Scoring difference (GPQA-20, deepseek-v4-flash, 8192-token budget)
+- Before: 18/20 = **90%**  ->  After: 16/20 = **80%**.
+- Exactly two rows flipped correct -> wrong: `gpqa_009`, `gpqa_016`. No other row changed.
+- `experiments/smoke_gpqa_8192_20261008_102445/deepseek-v4-flash/` re-scored in place
+  (zero API cost); the pre-fix `error_report.json` / `results.csv` kept alongside as
+  `*.pre_mcq_fix.*` for traceability.
+- BBH: no run exists yet, so no measured diff; the stricter letter grading takes effect on
+  the first BBH run.
+
+### Remaining
+- [Medium] Decide whether to apply the same committed-answer grading to `_score_mmlu_pro`
+  (requires re-baselining all MMLU-Pro runs).
+
+
+## 2026-10-08 — AIME grading: stop scoring reasoning blobs by luck (committed integer)
+
+### Context
+Same review pass as the GPQA fix above, extended to the other new hard benchmark. `_score_aime`
+graded by scanning **all** integers in the prediction and returning 1.0 if the gold integer
+appeared anywhere (`gold in {int(n) for n in _extract_all_numbers(pred)}`). A model that never
+converged -- emitting a long chain-of-thought whose derivation happens to pass through the gold
+value -- would score correct by luck. This is the same false-positive class as the GPQA
+whole-text scan.
+
+### Changed
+- `src/evaluator.py`: added `_extract_committed_integer(pred)` -- the integer analogue of
+  `_extract_mcq_letter`. It returns the integer the model actually **committed** to
+  (`\boxed{...}` -> whole-string bare integer -> integer after an answer cue -> last line bare
+  integer -> integer after the last `=`), else `None`. It deliberately has **no** unbounded
+  whole-text fallback, so a prose blob that merely mentions the gold number scores wrong.
+- `_score_aime` now grades via `_extract_committed_integer(pred) == gold`.
+
+### Scoring difference (AIME-20, deepseek-v4-flash, 8192-token budget, smoke_aime_8192_20261008_101942)
+- Before (full-text scan): 19/20 = **95%**  ->  After (committed integer): 19/20 = **95%**.
+- **0 rows flipped** -- the hypothesized false positive did not materialise on this dataset:
+  19/20 `final_answer`s are clean bare integers; the one blob (`aime_015`, gold=175) does not
+  contain the gold and was genuinely wrong either way. The change is therefore
+  future-robustness (and closes an adversarial channel), not a retrofit of this run.
+- No AIME artifacts rewritten (score unchanged); recomputed offline, zero API cost.
+
+### Regression evidence (offline, zero API)
+- 3 synthetic false positives now score 0.0 under the new grader but scored 1.0 under the old
+  full-text scan (e.g. gold=175, pred="The computation yields 175 but that is not our final
+  result").
+- 6 committed-answer positives (`60`, `\boxed{175}`, "The final answer is 25", "... = 42",
+  last-line `7`, "6.") all score 1.0.
+
+### Remaining
+- [Medium] BBH free-form grading still has false positives (disclosed; run postponed): the word
+  branch uses substring match (`gold.lower() in pred.lower()`), so gold="no" scores 1.0 against
+  "I don't know"; the numeric branch reads the **first** integer in the text (false negative
+  when reasoning precedes the answer). To fix if BBH is un-postponed.
+
+## 2026-10-08 — BBH grading: "commit, don't scan" for word / number targets
+
+### Context
+Closes the BBH item left open in the AIME entry above ("BBH free-form grading still has false
+positives"). BBH targets come in three forms — an `(X)` option letter, an integer, or a closed-set
+word (Yes/No/True/False). The letter branch was already on `_extract_mcq_letter`, but the word and
+numeric branches still scanned the whole text.
+
+### Changed
+- `src/evaluator.py`: added `_extract_committed_number` (real-valued sibling of
+  `_extract_committed_integer`) and `_extract_committed_text` (closed-set word extractor).
+  Both follow the same order as the letter/integer extractors (`\boxed{}` -> bare -> answer cue ->
+  final line -> last `=`) and return `None` when nothing is committed.
+- `_score_bbh` rewired: letter -> `_extract_mcq_letter`; integer -> `_extract_committed_number`;
+  word -> `_extract_committed_text` (no prose substring match).
+- `_extract_mcq_letter` extended to accept a committed letter carrying a short label
+  (`(B) heptagon`, `B. heptagon`); the bracket/period separator prevents the bare article
+  `a`/`A` from matching. Guard in the numeric extractors tightened to `(?!\d)(?!\.\d)` so a
+  sentence-final period no longer blocks a cued number ("the answer is 24.").
+- `tests/test_evaluator_commit.py`: new stdlib regression suite (12 tests) freezing the whole
+  contract; run `python -m unittest tests.test_evaluator_commit -v`.
+
+### Scoring difference (offline rescore, zero API)
+The sampled BBH-22 exercises all three branches: 12 letter / 4 number / 6 word. Comparing three
+grader versions on the stored rows (`smoke_new20_20261008_090435`):
+
+| version | BBH-22 |
+|---|---|
+| V0 original (whole-text scan; word substring; first integer) | 21 |
+| V1 commit-only (no label acceptance) | 18 |
+| V2 commit + labeled-letter (current) | 21 |
+
+- Net vs the original grader: **0 rows flip** on this run — none of the 6 word / 4 number rows
+  hit the false-positive channel here, so like the AIME fix this is future-robustness (closes the
+  channel) rather than a retrofit. `bbh_0010` is a genuine letter error (gold A, pred D) and
+  correctly stays wrong.
+- The commit rule by itself (V1) *loses* 3 legitimate rows, because the model echoes the option
+  with its label: `bbh_0001` "(B) heptagon", `bbh_0002` "(J) triangle", `bbh_0009`
+  "(A) Modifiers or Adjectives". The labeled-letter branch restores all 3 (V1 18 -> V2 21).
+- GPQA (smoke_gpqa_8192_20261008_102445, n=20): 18 -> **16** (the 2 intended false positives
+  removed, matches the earlier GPQA entry); the letter extension adds no new GPQA flip.
+- Word/number false positives now score 0: gold `No` vs "I don't know", gold `Yes` vs
+  "Yesterday", gold `24` vs "First 3 times 5 is 15, then I am not sure."
+
+### Spec
+- Promoted the rule into `docs/EVALUATION_STANDARD.md` §3.3 (revision history row 3.1).
+
+### Remaining
+- [High, deferred] Unify T1 dispatch by answer *form* across subjects (currently a per-benchmark
+  `if benchmark == ...` chain). Recorded as `docs/EVALUATION_STANDARD.md` §3.4; postponed until the
+  new benchmark set's first full run, because further benchmarks are still being added. `_score_mmlu_pro`
+  and `_score_logic_exact` are the outstanding full-text-scan scorers to fold in at that point.
+
+## 2026-10-08 — GPQA grading: markdown-emphasis commits + `wrong_option` split
+
+### Context
+The new-set full run (144 items = AIME 50 + GPQA 50 + BBH 44; `experiments/new_set_20261008_full`)
+exposed a GPQA false-negative channel. The graded token on GPQA is a single option letter, but models
+frequently wrap it in markdown emphasis (`**B**`, `*C*`, `` `D` ``) or prefix it ("Answer: **B**").
+`_extract_mcq_letter` matched bare/labeled letters only, so an emphasised commit fell through and the
+row was labelled `complete_failure` — silently under-counting accuracy. Spot-check: `gpqa_001`
+gold=B pred='**B**' (a correct commit) was recorded as complete_failure.
+
+### Changed
+- `src/evaluator.py` `_extract_mcq_letter`: unwrap markdown emphasis/backticks around a *lone*
+  committed letter (`**B**`, `*b*`, `` `C` ``) before matching, then strip stray `*`/`` ` ``. The
+  `(?<![A-Za-z0-9])...(?![A-Za-z0-9])` guard leaves identifiers (`__init__`, `snake_case`) intact.
+  Prose sentences are still not a commit ("A triangle has three sides." scores 0).
+- `src/evaluator.py` `_label_row_tiered` (gpqa branch): split the failure mode — a committed but wrong
+  option letter is now `wrong_option`; only a genuinely missing commit stays `complete_failure`. The
+  error distribution no longer lumps wrong picks into failures.
+- `tests/test_evaluator_commit.py`: new `TestGpqaEmphasisRegression` (3 tests); suite 12 -> 15.
+- `src/run_new_set.py`: added `NEW_SET_RESCORE` zero-cost mode — re-run `Evaluator.score()` on stored
+  `trajectories.jsonl` (no API calls), for re-grading after an extractor fix.
+
+### Scoring difference (offline rescore, zero API)
+Re-scored the three stored runs (`NEW_SET_RESCORE=1`):
+
+| model | overall | GPQA | AIME | BBH |
+|---|---|---|---|---|
+| deepseek-v4-flash | 88.89% (unchanged) | 41/50 (unchanged) | 47/50 | 40/44 |
+| qwen3.8-flash | 78.47% -> **80.56%** | 27 -> **29** | 48/50 | 39/44 |
+| glm-5.3 | 77.08% -> **79.86%** | 26 -> **30** | 44/50 | 41/44 |
+
+- deepseek's GPQA commits were already bare/labeled, so no row flips (channel closed, no retrofit).
+- qwen +2 and glm +4 GPQA rows recovered; overall accuracies move up accordingly. Ranks stay
+  deepseek >> {qwen, glm}, with qwen and glm now nearly tied at ~80%.
+- Error distributions now carry `wrong_option` (deepseek 5, qwen 7, glm 5) alongside
+  `numeric_error` / `complete_failure` / `api_failure`.
+
+### Spec
+- Extends the `docs/EVALUATION_STANDARD.md` §3.3 "commit, don't scan" contract to markdown-emphasised
+  commits; no §3.4 change (form-based dispatch unification still deferred).
+
+### Remaining
+- (unchanged) [High, deferred] Unify T1 dispatch by answer *form* across subjects — §3.4.

@@ -36,6 +36,7 @@ import json
 import os
 import re
 import sys
+import threading
 from collections import Counter
 from datetime import datetime
 from pathlib import Path
@@ -59,6 +60,13 @@ from src.evaluator import (  # noqa: E402
 MAX_ROUNDS = 10        # feedback rounds (round 0 = baseline, rounds 1..R = feedback)
 EARLY_STOP_N = 3       # stop once answer unchanged for N consecutive rounds
 TIER = "C"             # critic feedback tier (C = type + prob + cause + attention)
+
+# ---- experimental arms (P2.1 control arms) ----
+#   A  = no-treatment: bare re-solve (feedback=None), only seed/temperature variance.
+#   A2 = form placebo: same scaffold, reviewer feedback ablated to a neutral sentence
+#        with NO direction and NO keep/change nudge.
+#   C  = treatment: weak-critic directional feedback (Phase-1, unchanged).
+A2_PLACEBO_FEEDBACK = "No confident error direction was found for this answer."
 
 
 def _force_no_proxy() -> None:
@@ -107,8 +115,15 @@ def _is_correct(family: str | None, row: dict) -> bool:
 
 
 def _norm_ans(s) -> str:
-    """Light answer normalization for early-stop comparison (case/whitespace only)."""
-    return re.sub(r"\s+", " ", str(s or "").strip().lower())
+    """Answer normalization for early-stop comparison.
+
+    case/whitespace, plus strip leading/trailing punctuation so surface
+    jitter (e.g. "3 bolts" vs "3 bolts.") is not treated as a revision.
+    Hosted models at temp=0 still emit trailing-period jitter; without this
+    the early stop never triggers and questions burn the full round budget.
+    """
+    t = re.sub(r"\s+", " ", str(s or "").strip().lower())
+    return t.strip(".,;:!?")
 
 
 def _feedback_message(prev_answer: str, critic_text: str) -> str:
@@ -124,9 +139,10 @@ def _feedback_message(prev_answer: str, critic_text: str) -> str:
 
 
 def _round_record(r: int, result, correct: bool, evidence, error, no_signal,
-                  top3) -> dict:
+                  top3, arm: str) -> dict:
     return {
         "round": r,
+        "arm": arm,
         "final_answer": result.final_answer,
         "is_correct": correct,
         "evidence": round(evidence, 4) if evidence is not None else None,
@@ -154,7 +170,35 @@ def _end_state(corrects: list[bool]) -> int:
     return 5 if any(corrects[1:]) else 6    # 5: L3 present / L4 deficit; 6: L3 absent
 
 
-def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n) -> dict:
+_write_lock = threading.Lock()
+
+
+def _load_completed(traj_path) -> set:
+    # Task ids already checkpointed on disk (token-outage / restart recovery).
+    done = set()
+    if traj_path.exists():
+        with traj_path.open("r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    done.add(json.loads(line)["task_id"])
+                except Exception:
+                    continue  # ignore torn/partial trailing line
+    return done
+
+
+def _append_record(traj_path, record: dict) -> None:
+    # Thread-safe append of one completed task (per-task resume checkpoint).
+    line = json.dumps(record, ensure_ascii=False) + "\n"
+    with _write_lock:
+        with traj_path.open("a", encoding="utf-8") as f:
+            f.write(line)
+
+
+def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
+                   arm: str) -> dict:
     family = _task_family(task.task_id)
     tool_cache: dict = {}
     records: list[dict] = []
@@ -171,30 +215,43 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n) -> dict:
     # round 0: baseline (no feedback)
     result = agent.solve(task, feedback=None, tool_cache=tool_cache)
     prev_answer = result.final_answer
-    records.append(_round_record(0, result, score(result), None, None, None, None))
+    records.append(_round_record(0, result, score(result), None, None, None, None, arm))
 
     streak = 1
     for r in range(1, max_rounds + 1):
-        if family is None:
-            break  # critic has no leaves for this family -> cannot give feedback
-        pred, evidence, error = critic._predict(
-            family, task.prompt, prev_answer,
-            exclude_task_ids={task.task_id}, k=TOP_K)
-        no_signal = (pred == [])
-        fb_text = critic.build_prompt(pred, tier, error_score=error)
-        result = agent.solve(task, feedback=_feedback_message(prev_answer, fb_text),
-                             tool_cache=tool_cache)
+        if arm == "A":
+            # no-treatment: bare re-solve, no reviewer message at all.
+            feedback = None
+            pred = evidence = error = no_signal = None
+        elif arm == "A2":
+            # form placebo: scaffold + fixed neutral feedback (no direction, no keep).
+            if family is None:
+                break
+            feedback = _feedback_message(prev_answer, A2_PLACEBO_FEEDBACK)
+            pred = evidence = error = no_signal = None
+        else:  # "C" (treatment)
+            if family is None:
+                break  # critic has no leaves for this family -> cannot give feedback
+            pred, evidence, error = critic._predict(
+                family, task.prompt, prev_answer,
+                exclude_task_ids={task.task_id}, k=TOP_K)
+            no_signal = (pred == [])
+            fb_text = critic.build_prompt(pred, tier, error_score=error)
+            feedback = _feedback_message(prev_answer, fb_text)
+        result = agent.solve(task, feedback=feedback, tool_cache=tool_cache)
         correct = score(result)
         new_answer = result.final_answer
         streak = streak + 1 if _norm_ans(new_answer) == _norm_ans(prev_answer) else 1
         prev_answer = new_answer
-        records.append(_round_record(r, result, correct, evidence, error, no_signal, pred))
+        records.append(_round_record(r, result, correct, evidence, error, no_signal,
+                                     pred, arm))
         if streak >= early_stop_n:
             break
 
     corrects = [rec["is_correct"] for rec in records]
     return {
         "task_id": task.task_id,
+        "arm": arm,
         "family": family,
         "gold_answer": task.gold_answer,
         "prompt": task.prompt,
@@ -208,9 +265,12 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n) -> dict:
 
 
 def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
-                      early_stop_n=EARLY_STOP_N, tier=TIER, concurrency=None) -> dict:
+                      early_stop_n=EARLY_STOP_N, tier=TIER, concurrency=None,
+                      arm="C", family=None, out_dir=None) -> dict:
     _force_no_proxy()
     tasks = load_phase1_tasks()
+    if family:
+        tasks = [t for t in tasks if _task_family(t.task_id) == family]
     if num_tasks:
         tasks = tasks[:num_tasks]
     if concurrency is None:
@@ -218,15 +278,21 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
 
     critic = WeakCritic(_load_bank(), base_rates=_family_base_rates())
 
-    run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
-    out_root = REPO_ROOT / "experiments" / f"feedback_loop_{run_id}"
+    if out_dir:
+        run_id = out_dir
+        out_root = REPO_ROOT / "experiments" / out_dir
+    else:
+        run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
+        out_root = REPO_ROOT / "experiments" / f"feedback_loop_{arm}_{run_id}"
     out_root.mkdir(parents=True, exist_ok=True)
 
     names = models or [m for m in config.PHASE1_MODELS if config.PHASE1_MODELS[m].get("api_key")]
     summary = {
-        "run_id": run_id, "max_rounds": max_rounds, "early_stop_n": early_stop_n,
-        "tier": tier, "temperature": 0.0, "seed": None, "n_tasks": len(tasks),
-        "concurrency": concurrency, "models": {},
+        "run_id": run_id, "arm": arm, "family_filter": family,
+        "max_rounds": max_rounds,
+        "early_stop_n": early_stop_n, "tier": tier, "temperature": 0.0,
+        "seed": None, "n_tasks": len(tasks), "concurrency": concurrency,
+        "models": {},
     }
 
     for name in names:
@@ -237,27 +303,37 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
             seed=None, enable_thinking=entry.get("enable_thinking"))
         model_dir = out_root / name
         model_dir.mkdir(parents=True, exist_ok=True)
-        print(f"\n=== feedback loop [{name}] model={entry['model']} "
-              f"tasks={len(tasks)} R={max_rounds} N={early_stop_n} tier={tier} ===")
-
-        per_task = [None] * len(tasks)
-        with concurrent.futures.ThreadPoolExecutor(max_workers=concurrency) as ex:
-            futs = {ex.submit(_run_task_loop, agent, critic, task, tier,
-                              max_rounds, early_stop_n): i
-                    for i, task in enumerate(tasks)}
-            done = 0
-            for fut in concurrent.futures.as_completed(futs):
-                per_task[futs[fut]] = fut.result()
-                done += 1
-                print(f"  [{name}] {done}/{len(tasks)} tasks done", flush=True)
-
-        # write loop trajectories (one JSON line per task)
         traj_path = model_dir / "loop_trajectories.jsonl"
-        with traj_path.open("w", encoding="utf-8") as f:
-            for t in per_task:
-                f.write(json.dumps(t, ensure_ascii=False) + "\n")
 
-        # aggregate
+        # resume support: reopen the checkpoint and skip already-finished tasks
+        # (token-outage recovery -> no re-billing of completed tasks).
+        done_ids = _load_completed(traj_path)
+        pending_tasks = [t for t in tasks if t.task_id not in done_ids]
+        print(f"\n=== feedback loop [{name}] model={entry['model']} "
+              f"tasks={len(tasks)} done={len(done_ids)} pending={len(pending_tasks)} "
+              f"R={max_rounds} N={early_stop_n} tier={tier} arm={arm} ===")
+
+        if pending_tasks:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=concurrency) as ex:
+                futs = {ex.submit(_run_task_loop, agent, critic, task, tier,
+                                  max_rounds, early_stop_n, arm): task
+                        for task in pending_tasks}
+                done = 0
+                for fut in concurrent.futures.as_completed(futs):
+                    _append_record(traj_path, fut.result())  # per-task checkpoint
+                    done += 1
+                    print(f"  [{name}] {done}/{len(pending_tasks)} tasks done", flush=True)
+        else:
+            print(f"  [{name}] all {len(done_ids)} tasks already completed; "
+                  f"re-aggregating from checkpoint.", flush=True)
+
+        # aggregate from disk (covers checkpointed + newly completed tasks)
+        per_task = []
+        with traj_path.open("r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    per_task.append(json.loads(line))
         n = len(per_task)
         init_correct = sum(1 for t in per_task if t["start_correct"])
         final_correct = sum(1 for t in per_task if t["final_correct"])
@@ -321,7 +397,13 @@ if __name__ == "__main__":
     ap.add_argument("--max-rounds", type=int, default=MAX_ROUNDS)
     ap.add_argument("--early-stop", type=int, default=EARLY_STOP_N)
     ap.add_argument("--tier", default=TIER, choices=["A", "B", "C"])
+    ap.add_argument("--arm", default="C", choices=["A", "A2", "C"],
+                    help="experimental arm: A=no-treatment, A2=form placebo, C=critic")
+    ap.add_argument("--family", default=None,
+                    help="restrict to one family: math/math500/mmlu_pro/bfcl/finance")
     ap.add_argument("--concurrency", type=int, default=0, help="0 = config default")
+    ap.add_argument("--out-dir", default=None,
+                    help="reuse an existing experiments dir (resume from checkpoint)")
     a = ap.parse_args()
 
     run_feedback_loop(
@@ -331,4 +413,7 @@ if __name__ == "__main__":
         early_stop_n=a.early_stop,
         tier=a.tier,
         concurrency=(a.concurrency or None),
+        arm=a.arm,
+        family=a.family,
+        out_dir=a.out_dir,
     )

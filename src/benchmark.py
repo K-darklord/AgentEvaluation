@@ -592,6 +592,172 @@ def load_phase1_tasks(n_per_bench: int | None = None) -> list[Task]:
     return tasks
 
 
+_GPQA_OPT_LETTERS = "ABCD"
+
+
+def load_aime_questions(
+    csv_path: str | Path | None = None,
+    download: bool = True,
+    limit: int | None = 50,
+) -> list[Task]:
+    """I load the first `limit` AIME 1983-2024 problems (integer-answer competition math).
+    Gold answer is the 0-999 integer. Category: Mathematical Reasoning; difficulty: Hard.
+    Reproducible: first `limit` rows of the CSV (deterministic row order)."""
+    from src.config import AIME_DATA_PATH, AIME_DATA_URL
+
+    if csv_path is None:
+        csv_path = AIME_DATA_PATH
+    p = Path(csv_path)
+    if not p.exists() and download:
+        _download_url(AIME_DATA_URL, p, "AIME")
+    if not p.exists():
+        print(f"[AIME] No file at {p}; returning empty list.")
+        return []
+
+    tasks: list[Task] = []
+    with p.open(encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for i, row in enumerate(reader, start=1):
+            if limit is not None and i > limit:
+                break
+            tasks.append(Task(
+                task_id=f"aime_{i:03d}",
+                category="Mathematical Reasoning",
+                difficulty="Hard",
+                prompt=str(row.get("Question", "")).strip(),
+                gold_answer=str(row.get("Answer", "")).strip(),
+                reasoning_steps=[],
+                rubric=["final_answer_is_the_correct_integer"],
+                evidence=[],
+                metadata={"source": "aime", "benchmark": "aime",
+                          "year": str(row.get("Year", "")).strip(),
+                          "problem_number": str(row.get("Problem Number", "")).strip()},
+            ))
+    return tasks
+
+
+def load_gpqa_questions(
+    csv_path: str | Path | None = None,
+    download: bool = True,
+    limit: int | None = 50,
+) -> list[Task]:
+    """I load the first `limit` GPQA-Diamond questions (4-option graduate-science MCQ).
+    I shuffle the 4 options with a fixed per-question seed (deterministic, reproducible)
+    so the correct letter is NOT always 'A'; gold_answer stores the correct letter.
+    Category: Knowledge Reasoning; difficulty: Hard."""
+    from src.config import GPQA_DATA_PATH, GPQA_DATA_URL
+
+    if csv_path is None:
+        csv_path = GPQA_DATA_PATH
+    p = Path(csv_path)
+    if not p.exists() and download:
+        _download_url(GPQA_DATA_URL, p, "GPQA")
+    if not p.exists():
+        print(f"[GPQA] No file at {p}; returning empty list.")
+        return []
+
+    tasks: list[Task] = []
+    with p.open(encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for i, row in enumerate(reader, start=1):
+            if limit is not None and i > limit:
+                break
+            correct = str(row.get("Correct Answer", "")).strip()
+            distractors = [
+                str(row.get("Incorrect Answer 1", "")).strip(),
+                str(row.get("Incorrect Answer 2", "")).strip(),
+                str(row.get("Incorrect Answer 3", "")).strip(),
+            ]
+            if not correct:
+                continue
+            options = [correct] + [d for d in distractors if d]
+            import random
+            rng = random.Random(i)          # fixed per-question seed -> reproducible letter order
+            order = list(range(len(options)))
+            rng.shuffle(order)
+            shuffled = [options[j] for j in order]
+            gold_letter = _GPQA_OPT_LETTERS[shuffled.index(correct)]
+            opt_lines = [f"{_GPQA_OPT_LETTERS[k]}. {opt}" for k, opt in enumerate(shuffled)]
+            prompt = str(row.get("Question", "")).strip() + "\n" + "\n".join(opt_lines)
+            tasks.append(Task(
+                task_id=f"gpqa_{i:03d}",
+                category="Knowledge Reasoning",
+                difficulty="Hard",
+                prompt=prompt,
+                gold_answer=gold_letter,
+                reasoning_steps=[],
+                rubric=["selects_the_correct_option_letter"],
+                evidence=[],
+                metadata={"source": "gpqa", "benchmark": "gpqa",
+                          "subject": str(row.get("Subdomain", "") or row.get("High-level domain", "")).strip()},
+            ))
+    return tasks
+
+
+def load_bbh_questions(
+    data_dir: str | Path | None = None,
+    task_names: list[str] | None = None,
+    download: bool = True,
+    limit_per_task: int | None = 10,
+) -> list[Task]:
+    """I load a curated subset of BIG-Bench Hard tasks. Each task file holds
+    examples=[{input, target}]; target is '(X)' for MCQ or a short free-form answer.
+    Reproducible: first `limit_per_task` examples of each task, in fixed task order."""
+    from src.config import BBH_DATA_DIR, BBH_TASKS
+
+    if data_dir is None:
+        data_dir = BBH_DATA_DIR
+    if task_names is None:
+        task_names = BBH_TASKS
+    d = Path(data_dir)
+
+    tasks: list[Task] = []
+    seq = 0
+    for tn in task_names:
+        fp = d / f"{tn}.json"
+        if not fp.exists() and download:
+            _download_url(
+                f"https://raw.githubusercontent.com/suzgunmiirc/BIG-Bench-Hard/main/bbh/{tn}.json",
+                fp, f"BBH:{tn}")
+        if not fp.exists():
+            print(f"[BBH] missing {fp}; skipping.")
+            continue
+        data = json.loads(fp.read_text(encoding="utf-8"))
+        examples = data.get("examples", [])
+        if limit_per_task is not None:
+            examples = examples[:limit_per_task]
+        for ex in examples:
+            seq += 1
+            tasks.append(Task(
+                task_id=f"bbh_{seq:04d}",
+                category="Reasoning",
+                difficulty="Hard",
+                prompt=str(ex.get("input", "")).strip(),
+                gold_answer=str(ex.get("target", "")).strip(),
+                reasoning_steps=[],
+                rubric=["answer_matches_target"],
+                evidence=[],
+                metadata={"source": "bbh", "benchmark": "bbh", "task": str(tn)},
+            ))
+    return tasks
+
+
+def load_new_discrimination_tasks(n_per_bench: int | None = None,
+                                  bbh_per_task: int | None = 4) -> list[Task]:
+    """Assemble the NEW non-FAB discrimination set: AIME (math) + GPQA-Diamond
+    (science knowledge) + BBH (reasoning). These are hard L1 questions added because
+    the existing non-FAB families (GSM8K / MATH-500 / MMLU-Pro / BFCL) saturate for
+    mid-tier models. Default n_per_bench each; BBH is sampled bbh_per_task per task."""
+    if n_per_bench is None:
+        from src.config import PHASE1_N_PER_BENCH
+        n_per_bench = PHASE1_N_PER_BENCH
+    tasks: list[Task] = []
+    tasks += load_aime_questions(limit=n_per_bench)
+    tasks += load_gpqa_questions(limit=n_per_bench)
+    tasks += load_bbh_questions(limit_per_task=bbh_per_task)
+    return tasks
+
+
 if __name__ == "__main__":
     # Show mini benchmark
     mini = load_tasks()

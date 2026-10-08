@@ -1,0 +1,151 @@
+run_id,task_id,category,difficulty,gold_answer,final_answer,is_correct,error_type,tier1_numeric,tier2_llm_semantic,dealbreaker_triggered,eval_tier,final_score,tool_calls,total_latency_ms,model_name
+glm-5.3,aime_001,Mathematical Reasoning,Hard,60,60,True,correct,1.0,0.0,False,T1,1.0,0,4123,glm-5.3
+glm-5.3,aime_002,Mathematical Reasoning,Hard,15,15,True,correct,1.0,0.0,False,T1,1.0,0,4532,glm-5.3
+glm-5.3,aime_003,Mathematical Reasoning,Hard,20,20,True,correct,1.0,0.0,False,T1,1.0,0,4152,glm-5.3
+glm-5.3,aime_004,Mathematical Reasoning,Hard,26,"Sub into (2): (3y - 10)² + y² = 50
+9y² - 60y + 100 + y² = 50
+10y² - 60y + 50 = 0
+y² - 6y + 5 = 0
+y = 1 or 5.
+y = 1: x = -5. OB² = 25 + 1 =",False,numeric_error,0.0,0.0,False,T1,0.0,0,90150,glm-5.3
+glm-5.3,aime_005,Mathematical Reasoning,Hard,4,4,True,correct,1.0,0.0,False,T1,1.0,0,5354,glm-5.3
+glm-5.3,aime_006,Mathematical Reasoning,Hard,35,35,True,correct,1.0,0.0,False,T1,1.0,0,11609,glm-5.3
+glm-5.3,aime_007,Mathematical Reasoning,Hard,57,57,True,correct,1.0,0.0,False,T1,1.0,0,2682,glm-5.3
+glm-5.3,aime_008,Mathematical Reasoning,Hard,61,61,True,correct,1.0,0.0,False,T1,1.0,0,8670,glm-5.3
+glm-5.3,aime_009,Mathematical Reasoning,Hard,12,12,True,correct,1.0,0.0,False,T1,1.0,0,3824,glm-5.3
+glm-5.3,aime_010,Mathematical Reasoning,Hard,432,432,True,correct,1.0,0.0,False,T1,1.0,0,4743,glm-5.3
+glm-5.3,aime_011,Mathematical Reasoning,Hard,288,**288**,False,numeric_error,0.0,0.0,False,T1,0.0,0,34443,glm-5.3
+glm-5.3,aime_012,Mathematical Reasoning,Hard,65,65,True,correct,1.0,0.0,False,T1,1.0,0,11639,glm-5.3
+glm-5.3,aime_013,Mathematical Reasoning,Hard,448,448,True,correct,1.0,0.0,False,T1,1.0,0,3971,glm-5.3
+glm-5.3,aime_014,Mathematical Reasoning,Hard,130,130,True,correct,1.0,0.0,False,T1,1.0,0,25252,glm-5.3
+glm-5.3,aime_015,Mathematical Reasoning,Hard,175,"Actually, I'm quite sure this chord problem is 1990 AIME Problem 15. And I believe the answer is 168. But my computation gives 175. Let me recheck very carefully. Maybe the tangency condition is not right, or maybe I need to reconsider.",False,numeric_error,0.0,0.0,False,T1,0.0,0,91080,glm-5.3
+glm-5.3,aime_016,Mathematical Reasoning,Hard,93,93,True,correct,1.0,0.0,False,T1,1.0,0,6491,glm-5.3
+glm-5.3,aime_017,Mathematical Reasoning,Hard,592,592,True,correct,1.0,0.0,False,T1,1.0,0,2606,glm-5.3
+glm-5.3,aime_018,Mathematical Reasoning,Hard,144,144,True,correct,1.0,0.0,False,T1,1.0,0,1815,glm-5.3
+glm-5.3,aime_019,Mathematical Reasoning,Hard,649,649,True,correct,1.0,0.0,False,T1,1.0,0,2288,glm-5.3
+glm-5.3,aime_020,Mathematical Reasoning,Hard,512,512,True,correct,1.0,0.0,False,T1,1.0,0,3925,glm-5.3
+glm-5.3,aime_021,Mathematical Reasoning,Hard,24,24,True,correct,1.0,0.0,False,T1,1.0,0,86749,glm-5.3
+glm-5.3,aime_022,Mathematical Reasoning,Hard,997,99,False,numeric_error,0.0,0.0,False,T1,0.0,0,82546,glm-5.3
+glm-5.3,aime_023,Mathematical Reasoning,Hard,160,160,True,correct,1.0,0.0,False,T1,1.0,0,3043,glm-5.3
+glm-5.3,aime_024,Mathematical Reasoning,Hard,20,20,True,correct,1.0,0.0,False,T1,1.0,0,2721,glm-5.3
+glm-5.3,aime_025,Mathematical Reasoning,Hard,119,119,True,correct,1.0,0.0,False,T1,1.0,0,29655,glm-5.3
+glm-5.3,aime_026,Mathematical Reasoning,Hard,106,106,True,correct,1.0,0.0,False,T1,1.0,0,3216,glm-5.3
+glm-5.3,aime_027,Mathematical Reasoning,Hard,401,401,True,correct,1.0,0.0,False,T1,1.0,0,6253,glm-5.3
+glm-5.3,aime_028,Mathematical Reasoning,Hard,15,15,True,correct,1.0,0.0,False,T1,1.0,0,5835,glm-5.3
+glm-5.3,aime_029,Mathematical Reasoning,Hard,38,38,True,correct,1.0,0.0,False,T1,1.0,0,24927,glm-5.3
+glm-5.3,aime_030,Mathematical Reasoning,Hard,384,384,True,correct,1.0,0.0,False,T1,1.0,0,4443,glm-5.3
+glm-5.3,aime_031,Mathematical Reasoning,Hard,26,26,True,correct,1.0,0.0,False,T1,1.0,0,2201,glm-5.3
+glm-5.3,aime_032,Mathematical Reasoning,Hard,198,198,True,correct,1.0,0.0,False,T1,1.0,0,4747,glm-5.3
+glm-5.3,aime_033,Mathematical Reasoning,Hard,32,"So $R = \left(\frac{n^2-n+1}{D}, \frac{(n-",False,numeric_error,0.0,0.0,False,T1,0.0,0,82744,glm-5.3
+glm-5.3,aime_034,Mathematical Reasoning,Hard,986,986,True,correct,1.0,0.0,False,T1,1.0,0,7203,glm-5.3
+glm-5.3,aime_035,Mathematical Reasoning,Hard,315,315,True,correct,1.0,0.0,False,T1,1.0,0,16455,glm-5.3
+glm-5.3,aime_036,Mathematical Reasoning,Hard,757,757,True,correct,1.0,0.0,False,T1,1.0,0,4521,glm-5.3
+glm-5.3,aime_037,Mathematical Reasoning,Hard,61,61,True,correct,1.0,0.0,False,T1,1.0,0,18146,glm-5.3
+glm-5.3,aime_038,Mathematical Reasoning,Hard,49,49,True,correct,1.0,0.0,False,T1,1.0,0,8966,glm-5.3
+glm-5.3,aime_039,Mathematical Reasoning,Hard,600,600,True,correct,1.0,0.0,False,T1,1.0,0,34102,glm-5.3
+glm-5.3,aime_040,Mathematical Reasoning,Hard,85,85,True,correct,1.0,0.0,False,T1,1.0,0,8707,glm-5.3
+glm-5.3,aime_041,Mathematical Reasoning,Hard,182,182,True,correct,1.0,0.0,False,T1,1.0,0,3784,glm-5.3
+glm-5.3,aime_042,Mathematical Reasoning,Hard,401,401,True,correct,1.0,0.0,False,T1,1.0,0,3723,glm-5.3
+glm-5.3,aime_043,Mathematical Reasoning,Hard,25,25,True,correct,1.0,0.0,False,T1,1.0,0,8072,glm-5.3
+glm-5.3,aime_044,Mathematical Reasoning,Hard,864,"Hmm. So alternating P,T around the hexagon doesn't work with all vertices being P-T meetings. Unless... the pentagon's 12-edge glues to another pentagon's 12-edge, meaning two pentagons are adjacent around the hexagon at some vertex. But pieces alternate P,T,P,T,P,T — every vertex is P-T. Contradiction. So the arrangement isn't alternating, OR the hexagon side isn't 6, OR the attachment edges are different.",False,numeric_error,0.0,0.0,False,T1,0.0,0,96094,glm-5.3
+glm-5.3,aime_045,Mathematical Reasoning,Hard,337,337,True,correct,1.0,0.0,False,T1,1.0,0,1767,glm-5.3
+glm-5.3,aime_046,Mathematical Reasoning,Hard,104,104,True,correct,1.0,0.0,False,T1,1.0,0,5102,glm-5.3
+glm-5.3,aime_047,Mathematical Reasoning,Hard,150,150,True,correct,1.0,0.0,False,T1,1.0,0,1851,glm-5.3
+glm-5.3,aime_048,Mathematical Reasoning,Hard,890,890,True,correct,1.0,0.0,False,T1,1.0,0,2961,glm-5.3
+glm-5.3,aime_049,Mathematical Reasoning,Hard,33,33,True,correct,1.0,0.0,False,T1,1.0,0,2127,glm-5.3
+glm-5.3,aime_050,Mathematical Reasoning,Hard,981,981,True,correct,1.0,0.0,False,T1,1.0,0,2342,glm-5.3
+glm-5.3,gpqa_001,Knowledge Reasoning,Hard,B,**B**,True,correct,1.0,0.0,False,T1,1.0,0,3814,glm-5.3
+glm-5.3,gpqa_002,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,9714,glm-5.3
+glm-5.3,gpqa_003,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,3103,glm-5.3
+glm-5.3,gpqa_004,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,6142,glm-5.3
+glm-5.3,gpqa_005,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,2206,glm-5.3
+glm-5.3,gpqa_006,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,3725,glm-5.3
+glm-5.3,gpqa_007,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,1,6110,glm-5.3
+glm-5.3,gpqa_008,Knowledge Reasoning,Hard,A,"Hmm, then in g1g3, the phenotype should look like g3 (50%) if G3 is upstream (epistatic downstream... wait no).",False,complete_failure,0.0,0.0,False,T1,0.0,0,94986,glm-5.3
+glm-5.3,gpqa_009,Knowledge Reasoning,Hard,A,3,False,complete_failure,0.0,0.0,False,T1,0.0,0,94807,glm-5.3
+glm-5.3,gpqa_010,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,3777,glm-5.3
+glm-5.3,gpqa_011,Knowledge Reasoning,Hard,A,"Hmm, actually I recall: ""nsp14-nsp10 complex degrades polyU and dsRNA"" - there's a 2022 paper in ""Nucleic Acids Research"" or ""PLoS Pathogens"": ""SARS-CoV-2 nsp14-nsp10 complex degrades dsRNA to antagonize innate immune response"" or similar.",False,complete_failure,0.0,0.0,False,T1,0.0,0,88165,glm-5.3
+glm-5.3,gpqa_012,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,4591,glm-5.3
+glm-5.3,gpqa_013,Knowledge Reasoning,Hard,B,C,False,wrong_option,0.0,0.0,False,T1,0.0,0,90660,glm-5.3
+glm-5.3,gpqa_014,Knowledge Reasoning,Hard,D,"Hmm, what about: ""NAR 2021: ChIP-seq artifacts"" by ""Ulahannan""?",False,complete_failure,0.0,0.0,False,T1,0.0,0,107684,glm-5.3
+glm-5.3,gpqa_015,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,3519,glm-5.3
+glm-5.3,gpqa_016,Knowledge Reasoning,Hard,A,"Yes, I'm confident: (R)-cyclohex-3-en-1-ol is optically active.",False,complete_failure,0.0,0.0,False,T1,0.0,0,89613,glm-5.3
+glm-5.3,gpqa_017,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,2282,glm-5.3
+glm-5.3,gpqa_018,Knowledge Reasoning,Hard,C,D,False,wrong_option,0.0,0.0,False,T1,0.0,1,11636,glm-5.3
+glm-5.3,gpqa_019,Knowledge Reasoning,Hard,D,"Hmm, one more consideration for reaction 1: could the enolate attack the sulfur (S-alkylation)? No, Michael addition to vinyl sulfoxides is well-established at",False,complete_failure,0.0,0.0,False,T1,0.0,0,88758,glm-5.3
+glm-5.3,gpqa_020,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,1886,glm-5.3
+glm-5.3,gpqa_021,Knowledge Reasoning,Hard,A,"""Among the given compounds (benzoquinone & cyclohexane-1,3,5-trione) the compound that does not show tautomerism"" — this phrasing suggests a specific source. I believe this is from a question bank where the answer is benzoquinone.",False,complete_failure,0.0,0.0,False,T1,0.0,0,96551,glm-5.3
+glm-5.3,gpqa_022,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,2999,glm-5.3
+glm-5.3,gpqa_023,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,94272,glm-5.3
+glm-5.3,gpqa_024,Knowledge Reasoning,Hard,B,**B**,True,correct,1.0,0.0,False,T1,1.0,0,21262,glm-5.3
+glm-5.3,gpqa_025,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,72113,glm-5.3
+glm-5.3,gpqa_026,Knowledge Reasoning,Hard,B,D,False,wrong_option,0.0,0.0,False,T1,0.0,1,13777,glm-5.3
+glm-5.3,gpqa_027,Knowledge Reasoning,Hard,A,**A**,True,correct,1.0,0.0,False,T1,1.0,0,9174,glm-5.3
+glm-5.3,gpqa_028,Knowledge Reasoning,Hard,D,6,False,complete_failure,0.0,0.0,False,T1,0.0,0,93925,glm-5.3
+glm-5.3,gpqa_029,Knowledge Reasoning,Hard,D,I,False,complete_failure,0.0,0.0,False,T1,0.0,0,75300,glm-5.3
+glm-5.3,gpqa_030,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,74462,glm-5.3
+glm-5.3,gpqa_031,Knowledge Reasoning,Hard,D,"So s-trans,s-trans: C(β1) at 180° from C(α1) at (-0.75, 1.3): C(β1) at (-0.75-1.34, 1.3) ≈ (-2.09, 1.3). Hmm wait, direction 180° means (-1, 0): C(β1) = C(α1) + 1.34×(-1,0) = (-2.09, 1.3). Similarly C(β2) = (-2.09, -1.3). Then the chains continue: at C(β1), the next bond (to CH of phenyl-vinyl... wait, no. The arm is CH=CH-Ph: C(α)=C(β), then C(β)-C(γ) where C(γ) is the ipso carbon of phenyl. At C(β1) (sp2), bonds: to C(α1) (pointing back at 0°... wait, from C(β1), the bond to C(α1) points in direction 0° (+x)), to H, to C(γ1). C(γ1) at 0°±120° = 120° or 240°. For the trans-configuration of the C(α)=C(β) double bond (trans-dibenzalacetone), H and the chain... the substituents on C(α1): C1 (carbonyl) and H; on C(β1): C(γ1) and H. Trans means C1 and C(γ1) on opposite sides. C1 is at direction... from C(β1), C1 is at direction: C1 - C(β1) = (0.75+2.09, -1.3) = (2.84, -1.3), angle ≈ -24.6°. Hmm, this is getting complicated. The bond from C(β1) to C(α1) points at 0° (+x direction, since C(α1) = C(β1) + 1.34×(1,0)). At C(β1), the three bonds: to C(α1) at 0°, to H, to C(γ1) at 120° or 240°. C1 (carbonyl carbon) relative to the C(α1)=C(β1) bond: C1 is at angle -24.6° from C(β1), which is ""below"" the C(α1)-C(β1) axis. For trans alkene, C(γ1) should be on the opposite",False,wrong_option,0.0,0.0,False,T1,0.0,0,91862,glm-5.3
+glm-5.3,gpqa_032,Knowledge Reasoning,Hard,D,"Hmm, whatever. The answer D = 20.132 GeV is consistent with E = γmc² using m ≈ 5.637 GeV (i.e., ~6 nucleon masses of ~0.9395 GeV). Given the options, D is clearly the intended answer.",True,correct,1.0,0.0,False,T1,1.0,0,89485,glm-5.3
+glm-5.3,gpqa_033,Knowledge Reasoning,Hard,B,"For bicyclo[2.2.1]heptane, bridgeheads C1 and C4. The one-carbon bridge C7 is above the plane of C1-C2-C3-C4? The two-carbon bridges C2-C3 and C5-C6 are on opposite sides? Hmm.",False,complete_failure,0.0,0.0,False,T1,0.0,22,274776,glm-5.3
+glm-5.3,gpqa_034,Knowledge Reasoning,Hard,B,"For ""benzopinacol"" Ph2C(OH)-C(OH)Ph2, phenyl migrates. Product Ph3C-COPh. If one side has p-methoxyphenyl, migratory aptitude p-anisyl > phenyl. Starting maybe (p-An)PhC(OH)-C(OH)(Ph)2? Product? The p-anisyl migrates, carbonyl retains phenyl on that carbon? Let's map: If p-An on C1 migrates to C2",False,complete_failure,0.0,0.0,False,T1,0.0,0,90145,glm-5.3
+glm-5.3,gpqa_035,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,9719,glm-5.3
+glm-5.3,gpqa_036,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,81915,glm-5.3
+glm-5.3,gpqa_037,Knowledge Reasoning,Hard,D,**D**,True,correct,1.0,0.0,False,T1,1.0,0,29401,glm-5.3
+glm-5.3,gpqa_038,Knowledge Reasoning,Hard,B,The starting material is the iminium ion from pentan-2-one + N-methylethylamine. The Stork enamine sequence is: (i) LDA in DME solvent deprotonates the iminium at the less hindered α-position to form the kinetic enamine; (ii) CH₃CH₂I alkylates the enamine at the α-carbon; (iii) H₃O⁺ hydrolyzes the iminium back to the ketone. Ethylation of the methyl side of pentan-2-one gives CH₃CH₂CH₂–CO–CH₂CH₂CH₃ = **heptan-4-one**.,False,complete_failure,0.0,0.0,False,T1,0.0,0,27602,glm-5.3
+glm-5.3,gpqa_039,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,2429,glm-5.3
+glm-5.3,gpqa_040,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,1808,glm-5.3
+glm-5.3,gpqa_041,Knowledge Reasoning,Hard,B,A,False,wrong_option,0.0,0.0,False,T1,0.0,0,2633,glm-5.3
+glm-5.3,gpqa_042,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,1,10119,glm-5.3
+glm-5.3,gpqa_043,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,86628,glm-5.3
+glm-5.3,gpqa_044,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,5472,glm-5.3
+glm-5.3,gpqa_045,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,6303,glm-5.3
+glm-5.3,gpqa_046,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,74513,glm-5.3
+glm-5.3,gpqa_047,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,7240,glm-5.3
+glm-5.3,gpqa_048,Knowledge Reasoning,Hard,C,Looking,False,complete_failure,0.0,0.0,False,T1,0.0,0,98218,glm-5.3
+glm-5.3,gpqa_049,Knowledge Reasoning,Hard,D,"Hmm, wait. Actually, I remember now: 1,5-diynes undergo the ""C2-C6 cyclization"" (a formal [2+2] cycloaddition) under thermal conditions to give cyclobutenes. This is actually a known reaction! For example, 1,5-hexadiyne → bicyclo... no wait, it's acyclic.",False,complete_failure,0.0,0.0,False,T1,0.0,0,92359,glm-5.3
+glm-5.3,gpqa_050,Knowledge Reasoning,Hard,A,"Hmm, wait. What about the paper by A. Czarnecki, B. Krause, W. J. Marciano, ""Electroweak corrections to the muon anomalous magnetic moment""? In that paper, they compute 2-loop electroweak corrections...",False,complete_failure,0.0,0.0,False,T1,0.0,0,100017,glm-5.3
+glm-5.3,bbh_0001,Reasoning,Hard,(B),B,True,correct,1.0,0.0,False,T1,1.0,0,5309,glm-5.3
+glm-5.3,bbh_0002,Reasoning,Hard,(J),(J),True,correct,1.0,0.0,False,T1,1.0,0,1387,glm-5.3
+glm-5.3,bbh_0003,Reasoning,Hard,(K),"P1 = (21.10, 97.94)
+P2",False,complete_failure,0.0,0.0,False,T1,0.0,0,11297,glm-5.3
+glm-5.3,bbh_0004,Reasoning,Hard,(E),(E),True,correct,1.0,0.0,False,T1,1.0,0,1294,glm-5.3
+glm-5.3,bbh_0005,Reasoning,Hard,(A),(A),True,correct,1.0,0.0,False,T1,1.0,0,760,glm-5.3
+glm-5.3,bbh_0006,Reasoning,Hard,(B),(B),True,correct,1.0,0.0,False,T1,1.0,0,968,glm-5.3
+glm-5.3,bbh_0007,Reasoning,Hard,(C),(C),True,correct,1.0,0.0,False,T1,1.0,0,763,glm-5.3
+glm-5.3,bbh_0008,Reasoning,Hard,(B),(B),True,correct,1.0,0.0,False,T1,1.0,0,974,glm-5.3
+glm-5.3,bbh_0009,Reasoning,Hard,8,8,True,correct,1.0,0.0,False,T1,1.0,0,1132,glm-5.3
+glm-5.3,bbh_0010,Reasoning,Hard,15,15,True,correct,1.0,0.0,False,T1,1.0,0,1213,glm-5.3
+glm-5.3,bbh_0011,Reasoning,Hard,3,3,True,correct,1.0,0.0,False,T1,1.0,0,914,glm-5.3
+glm-5.3,bbh_0012,Reasoning,Hard,14,14,True,correct,1.0,0.0,False,T1,1.0,0,1040,glm-5.3
+glm-5.3,bbh_0013,Reasoning,Hard,(E),(E) James,True,correct,1.0,0.0,False,T1,1.0,0,951,glm-5.3
+glm-5.3,bbh_0014,Reasoning,Hard,(C),(C) Vincent,True,correct,1.0,0.0,False,T1,1.0,0,698,glm-5.3
+glm-5.3,bbh_0015,Reasoning,Hard,(C),(C) 3,True,correct,1.0,0.0,False,T1,1.0,0,1386,glm-5.3
+glm-5.3,bbh_0016,Reasoning,Hard,(A),(A) 5,True,correct,1.0,0.0,False,T1,1.0,0,1347,glm-5.3
+glm-5.3,bbh_0017,Reasoning,Hard,(A),(A),True,correct,1.0,0.0,False,T1,1.0,0,1552,glm-5.3
+glm-5.3,bbh_0018,Reasoning,Hard,(A),(D),False,complete_failure,0.0,0.0,False,T1,0.0,0,1665,glm-5.3
+glm-5.3,bbh_0019,Reasoning,Hard,(F),(F),True,correct,1.0,0.0,False,T1,1.0,0,3498,glm-5.3
+glm-5.3,bbh_0020,Reasoning,Hard,(F),(D),False,complete_failure,0.0,0.0,False,T1,0.0,0,1819,glm-5.3
+glm-5.3,bbh_0021,Reasoning,Hard,(B),(B),True,correct,1.0,0.0,False,T1,1.0,0,1903,glm-5.3
+glm-5.3,bbh_0022,Reasoning,Hard,(A),(A),True,correct,1.0,0.0,False,T1,1.0,0,1688,glm-5.3
+glm-5.3,bbh_0023,Reasoning,Hard,(A),(A),True,correct,1.0,0.0,False,T1,1.0,0,1646,glm-5.3
+glm-5.3,bbh_0024,Reasoning,Hard,(B),(B),True,correct,1.0,0.0,False,T1,1.0,0,1038,glm-5.3
+glm-5.3,bbh_0025,Reasoning,Hard,(A),(A),True,correct,1.0,0.0,False,T1,1.0,0,1270,glm-5.3
+glm-5.3,bbh_0026,Reasoning,Hard,(C),(C),True,correct,1.0,0.0,False,T1,1.0,0,1231,glm-5.3
+glm-5.3,bbh_0027,Reasoning,Hard,(B),(B),True,correct,1.0,0.0,False,T1,1.0,0,2566,glm-5.3
+glm-5.3,bbh_0028,Reasoning,Hard,(D),(D) 3pm to 4pm,True,correct,1.0,0.0,False,T1,1.0,0,2059,glm-5.3
+glm-5.3,bbh_0029,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,2199,glm-5.3
+glm-5.3,bbh_0030,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,3610,glm-5.3
+glm-5.3,bbh_0031,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,2827,glm-5.3
+glm-5.3,bbh_0032,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,3250,glm-5.3
+glm-5.3,bbh_0033,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,2003,glm-5.3
+glm-5.3,bbh_0034,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,2172,glm-5.3
+glm-5.3,bbh_0035,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,2062,glm-5.3
+glm-5.3,bbh_0036,Reasoning,Hard,Yes,Yes,True,correct,1.0,0.0,False,T1,1.0,0,1514,glm-5.3
+glm-5.3,bbh_0037,Reasoning,Hard,24,24,True,correct,1.0,0.0,False,T1,1.0,0,1822,glm-5.3
+glm-5.3,bbh_0038,Reasoning,Hard,63,63,True,correct,1.0,0.0,False,T1,1.0,0,1594,glm-5.3
+glm-5.3,bbh_0039,Reasoning,Hard,-50,-50,True,correct,1.0,0.0,False,T1,1.0,0,1350,glm-5.3
+glm-5.3,bbh_0040,Reasoning,Hard,-11520,-11520,True,correct,1.0,0.0,False,T1,1.0,0,1877,glm-5.3
+glm-5.3,bbh_0041,Reasoning,Hard,False,False,True,correct,1.0,0.0,False,T1,1.0,0,1445,glm-5.3
+glm-5.3,bbh_0042,Reasoning,Hard,True,True,True,correct,1.0,0.0,False,T1,1.0,0,1583,glm-5.3
+glm-5.3,bbh_0043,Reasoning,Hard,False,False,True,correct,1.0,0.0,False,T1,1.0,0,1628,glm-5.3
+glm-5.3,bbh_0044,Reasoning,Hard,False,False,True,correct,1.0,0.0,False,T1,1.0,0,2678,glm-5.3
