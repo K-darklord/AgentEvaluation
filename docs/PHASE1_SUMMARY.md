@@ -229,14 +229,35 @@ to the discriminating cells (finance + a hard L1 anchor), arm C only, reduced su
 **Principle.** Minimum span along the capability axis that breaks the flat model axis — adding one
 clearly-weak model is the cheapest, highest-leverage move and does not wait on the strong tier.
 
-### 8.3 Control arms — prove the proxy raises the ceiling
+### 8.3 Control arms — prove the proxy raises the ceiling, and pin the RL correspondence
 
-- **arm A** (no-proxy self-loop, R rounds, no feedback); **arm A2** (random/placebo directions);
-  **arm C** (weak critic tier C — the Phase-1 run reused as-is, temperature = 0, no re-collect).
-- **Test.** `Δ_act = P(A)_C − P(A)_A` and `Δ_final = P(F)_C − P(F)_A` per family; Fisher exact on
-  counts + paired bootstrap on rates; one-sided p < 0.05.
-- **Go/stop.** Go if C beats both A and A2 on ≥ 1 family; stop if C ≈ A2 (confirms the §3 critic
-  limits as fatal to the present design and redirects to §8.4).
+**Guiding idea (2026-10-08).** The test-time feedback loop is the directional, sampling-time
+analogue of train-time RL (GRPO/RLVR): both **redistribute probability mass** over already-reachable
+paths via a relative signal (never an absolute gold), rather than create capability. Under this
+reading L3 is *meta-cognition* (re-activating the correct path under a possibly-noisy signal) and L4
+is *locking* = the robustness RL training is meant to buy. The control arms are therefore an ordered
+signal hierarchy (see `docs/L3L4_RL_REDISTRIBUTION.md`):
+
+| Arm | Signal | Measures |
+|---|---|---|
+| **A** | none (self-loop, R rounds, no feedback) | μ intercept |
+| **A2** | random/placebo directions | multi-round placebo |
+| **A3** | none — temperature sampling (T > 0, N samples) + best-of-N / majority vote | L3 **passive lower bound** (no signal use) |
+| **C** | noisy weak-critic direction | L3 meta-cognitive activation |
+| **C\*** | oracle verifier (gold-leak-free) | L3 **upper bound** |
+
+The key testable claim is **`C > A3`** — directional feedback (even noisy) beats non-directional
+sampling — the test-time instantiation of "advantage-guided redistribution > unguided sampling".
+`C − A3` = net value of a noisy direction; `C* − C` = the critic's signal-to-noise loss. `C*` must be
+**gold-leak-free** (math via sympy / formal verifier, code via a pass@k executor).
+
+- **Test.** `Δ_act = P(A)_C − P(A)_A` and `Δ_final = P(F)_C − P(F)_A` per family (Fisher exact on
+  counts + paired bootstrap on rates; one-sided p < 0.05); add `C > A3` and `C* ≥ C` as the second
+  hinge.
+- **A3 sampling parameters (open).** T and N must be set for statistical power and aligned with C's
+  round budget (≤ 11 rounds) for a fair compute comparison; the "hit" definition (best-of-N
+  reachability vs majority-vote stability) must be named separately.
+- **Go/stop.** Go if C beats A and A2 on ≥ 1 family; stop if C ≈ A2 (critic limits fatal → §8.4).
 
 ### 8.4 Weak-critic optimization (simple, effective)
 
@@ -306,15 +327,15 @@ twice.
 | Step | Work | Depends on | Blocks |
 |---|---|---|---|
 | P2.0 | Token metering (§8.6): per-model prompt/completion/reasoning token counts (no in-code pricing) | nothing | token cost axis for every run below |
-| P2.1 | Control arms A (no-feedback self-loop) + A2 (random-direction placebo) vs C (§8.3); `arm` written as a first-class field, schema forward-compatible with Phase 3 | P2.0 (costs captured) | critic verdict (§8.4), Phase-3 control baseline |
+| P2.1 | Control arms A (no-feedback self-loop) + A2 (random-direction placebo) + A3 (temperature sampling) vs C (§8.3); tests `Δ_act`/`Δ_final` plus the `C > A3` hinge; `arm` written as a first-class field, schema forward-compatible with Phase 3 | P2.0 (costs captured) | critic verdict (§8.4), Phase-3 control baseline |
 | P2.2 | Weak-critic optimization (§8.4) | P2.1 baseline | proxy quality |
 | P2.3 | Weak tier + FC-carrier ablation (§8.2) and task-set expansion (§8.5) | P2.0–P2.1 (reusable control data) | model-axis width, full matrix |
 | P2.4 | k/θ activation-curve fitting (§8.6) | P2.1–P2.3 (round-dimension data) | cost–reliability surface |
 | P2.5 | Strong tier (§8.2) | §8.8 channel decision | axis ceiling |
 
-**Phase-3 reuse contract.** The P2.1 control-arm trajectories (arms A / A2 / C over the core 5
+**Phase-3 reuse contract.** The P2.1 control-arm trajectories (arms A / A2 / A3 / C over the core 5
 families, 250 tasks) are not disposable probe artifacts — they are the control-arm slice of the
-Phase-3 matrix. To reuse them without re-running: (i) `arm ∈ {A, A2, C}` is written into every loop
+Phase-3 matrix. To reuse them without re-running: (i) `arm ∈ {A, A2, A3, C}` is written into every loop
 trajectory as a first-class field; (ii) the trajectory/summary schema stays backward-compatible with
 Phase-1 `loop_trajectories.jsonl` (new fields are additive; nothing is dropped or renamed);
 (iii) Phase-3 only adds model/task/arm cells on top, never re-collects a control cell already
@@ -330,12 +351,15 @@ feasibility gate and the Phase-3 full matrix.
 2. **FC-carrier convention.** Confirm `fc_carrier` is recorded as an intervention field so the
    native-vs-ReAct ablation is auditable.
 
-3. **Control-arm sampling regime (temperature) — decided: keep temperature = 0.** Arm C is the
-   Phase-1 run itself, reused as-is (no re-collect); Phase 2 only adds arms A and A2 at the same
-   temperature = 0. Under temperature = 0 arm A is a clean degenerate baseline (the round dimension
-   does not move without feedback), which is exactly the intended no-intervention reference.
-   Multi-seed (temperature > 0) sampling variance is deferred to the Phase-3 ablation matrix, not the
-   Phase-2 causal test.
+3. **Control-arm sampling regime (temperature) — decided: temperature = 0 for arms A / A2 / C,
+   with A3 as the one T > 0 sampling arm.** Arm C is the Phase-1 run itself, reused as-is (no
+   re-collect); Phase 2 adds arms A and A2 at the same temperature = 0. Under temperature = 0 arm A
+   is a clean degenerate baseline (the round dimension does not move without feedback), which is
+   exactly the intended no-intervention reference. Arm A3 is the deliberate exception: it is
+   *non-directional temperature sampling* (T > 0, N samples, best-of-N / majority vote), the L3
+   passive lower bound against which C is tested (§8.3, `C > A3`); its T and N are an open
+   sampling-parameter decision (§8.3), not a temperature = 0 arm. Multi-seed (temperature > 0)
+   sampling variance across *runs* remains deferred to the Phase-3 ablation matrix.
 
 ## 9. Provenance and caveats
 

@@ -7,7 +7,7 @@
 
 ## Abstract
 
-Current evaluation of LLM agents rests on a single static number — accuracy — which conceals two uncertainties: the *problem boundary* (a finite budget of steps, truncation, tool availability, and response time decides whether a task is "solved") and the *evaluation scale* (LLM-as-a-Judge introduces self-validation loops and homologous bias, while hyperparameters further perturb the score). We propose to redefine capability as a **cost–reliability curve** rather than a point estimate, and to measure it through an external **meta-cognitive proxy**: an error taxonomy, a Top-K feedback signal, a conservative (Bayesian-style) update, and a bounded feedback–self-correction loop. The central empirical question is whether, under repeated structured feedback, a model's combined capability **converges** — and, if so, at what cost. We formulate the problem distributionally (three candidate mathematical framings are held open), decouple three confounded notions (capability dimensions, activation vs. locking, recognizing vs. correcting errors), and structure the work into a tiered experiment over a **model × task × error-type** capability matrix, factorized to localize which capability a model lacks.
+Agent evaluation has moved toward reporting capability as a **cost–reliability curve** swept out by compute rather than a single static number (test-time / inference-scaling; see `docs/WORKMAP.md`). Yet the dominant headline figure — a single static accuracy — still conceals two uncertainties that a cost curve alone does not resolve: the *problem boundary* (a finite budget of steps, truncation, tool availability, and response time decides whether a task is "solved") and the *evaluation scale* (LLM-as-a-Judge introduces self-validation loops and homologous bias, while hyperparameters further perturb the score). What this line of work still lacks is a *measurement layer* that localises the missing capability; we add it through an external **meta-cognitive proxy** — an error taxonomy, a Top-K feedback signal, a conservative (Bayesian-style) update, and a bounded feedback–self-correction loop. The central empirical question is whether, under repeated structured feedback, a model's combined capability **converges** — and, if so, at what cost. We formulate the problem distributionally (three candidate mathematical framings are held open), decouple three confounded notions (capability dimensions, activation vs. locking, recognizing vs. correcting errors), and structure the work into a tiered experiment over a **model × task × error-type** capability matrix, factorized to localize which capability a model lacks.
 
 ---
 
@@ -15,18 +15,18 @@ Current evaluation of LLM agents rests on a single static number — accuracy �
 
 ### 1.1 The inadequacy of static accuracy
 
-A single accuracy number hides two fundamental uncertainties.
+A single accuracy number — still the default headline metric — hides two fundamental uncertainties.
 
 1. **Uncertainty in the problem boundary.** A finite budget — maximum steps, truncation, tool availability, response time — decides whether a task is solved. A wrong answer under a limited budget does not prove lack of capability, just as a human may fail under time pressure.
 2. **Uncertainty in the evaluation scale.** LLM-as-a-Judge introduces self-validation loops and homologous bias; hyperparameters (temperature, top-p, truncation) further perturb the score.
 
-The assumed mapping from *task* to *capability score* is therefore itself inaccurate. A pilot study within this program has quantified the effect in a finance-agent benchmark (FAB): evaluation-framework defects (tool design, format, prompting, hyperparameters, and judge bias) induced a measured **26 percentage-point spurious capability deficit** that is fully attributable to the framework rather than the model. This is the empirical warrant for replacing single-shot accuracy with a cost–reliability formulation.
+The assumed mapping from *task* to *capability score* is therefore itself inaccurate. A pilot study within this program has quantified the effect in a finance-agent benchmark (FAB): evaluation-framework defects (tool design, format, prompting, hyperparameters, and judge bias) induced a measured **26 percentage-point spurious capability deficit** that is fully attributable to the framework rather than the model. This is the empirical warrant for treating single-shot accuracy as an unreliable capability readout: the number confounds genuine capability with evaluation-framework artifacts, so the two must be separated by an explicit measurement layer rather than ignored.
 
 ### 1.2 The engineering thesis
 
-The historical analogy is deliberate: a four-engine aircraft is not a categorical leap over a single-engine one; it is redundancy bought with cost, raising reliability under extreme conditions. Likewise, a model scoring 48% in one shot may reach 90% through repeated sampling, self-correction, and aggregation — provided enough budget. As inference cost falls, the bottleneck shifts from raw capability to the cost of reaching a target reliability. The question is therefore reframed:
+The historical analogy is deliberate: a four-engine aircraft is not a categorical leap over a single-engine one; it is redundancy bought with cost, raising reliability under extreme conditions. Likewise, a model scoring 48% in one shot may reach 90% through repeated sampling, self-correction, and aggregation — provided enough budget. As inference cost falls, the bottleneck shifts from raw capability to the cost of reaching a target reliability. This cost–reliability reading is **not itself new** — agent-evaluation and test-time / inference-scaling work have independently converged on it (see `docs/WORKMAP.md`, esp. §6). What remains open is the *crossover* those two directions have not yet connected:
 
-> **Old question**: *What is the agent's accuracy?* → **New question**: *Given a target accuracy, what is the expected cost (steps / tokens / retries) to reach it?*
+> **Old question**: *What is the agent's accuracy?* → **New question**: *Given a target accuracy, what is the expected cost (steps / tokens / retries) to reach it, predicted from the early rounds — and which convergence class the trajectory falls into?*
 
 ### 1.3 Convergence as the central empirical question
 
@@ -670,6 +670,7 @@ The dominant cost driver is the number of API model × question × round cells p
 
 | Version | Date | Change |
 |---|---|---|
+| 0.18 | 2026-10-09 | Softened the motivation per advisor feedback: the field is no longer described as "resting on a single static accuracy"; cost–reliability is presented as the shared, already-published frontier conclusion (not a novel reframe); novelty narrowed to the *crossover* (early-round → cost extrapolation + convergence-class diagnosis) and the round-dimension measurement layer (Abstract, §1.1, §1.2). |
 | 0.17 | 2026-10-07 | §6.1 hardware/model-routing: local MLX/Ollama deprecated; weak tier via rented Aliyun instance. |
 | 0.16 | 2026-10-07 | Added §2 core positioning (new evaluation paradigm — round-dimension dynamic observables + cost–reliability/risk as centre of gravity; weak-critic existence proof as subordinate claim) and nearest-neighbour differentiation against Feedback Friction (arXiv:2506.11930), overthinking (arXiv:2604.10739), and activation-probe self-correction (arXiv:2606.03645). |
 | 0.15 | 2026-10-07 | Marked Phase 1 complete: per-family activation/locking results (math/math500/mmlu-pro/finance/bfcl, n=50 each, 3 mid models) and the Phase 2 plan are consolidated into `docs/PHASE1_SUMMARY.md` (weak-critic mechanism + limits §3, per-family + pooled tables §4–5, Phase 2 plan §8); `docs/PHASE2_PLAN.md` merged into it and removed. |
