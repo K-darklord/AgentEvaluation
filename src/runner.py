@@ -17,6 +17,9 @@ from datetime import datetime
 from pathlib import Path
 
 import concurrent.futures
+import concurrent.futures.thread as _cf_thread
+import threading
+import weakref
 
 from src import config
 from src.benchmark import (
@@ -49,6 +52,40 @@ def _cost_cny(model_name: str, prompt_tokens: int, completion_tokens: int) -> fl
         return None
     in_price, out_price = price
     return round(prompt_tokens / 1e6 * in_price + completion_tokens / 1e6 * out_price, 6)
+
+
+class _DaemonThreadPoolExecutor(concurrent.futures.ThreadPoolExecutor):
+    """ThreadPoolExecutor that starts daemon worker threads.
+
+    The stdlib pool starts *non*-daemon workers (Python 3.14), so a worker
+    blocked on a hung socket read (which httpx read_timeout cannot always
+    interrupt on reasoning endpoints) would otherwise block interpreter exit
+    after we abandon the batch. Daemon workers let the process exit cleanly.
+    """
+
+    def _adjust_thread_count(self) -> None:
+        if self._idle_semaphore.acquire(timeout=0):
+            return
+
+        def weakref_cb(_, q=self._work_queue):
+            q.put(None)
+
+        num_threads = len(self._threads)
+        if num_threads < self._max_workers:
+            thread_name = "%s_%d" % (self._thread_name_prefix or self, num_threads)
+            t = threading.Thread(
+                name=thread_name,
+                target=_cf_thread._worker,
+                args=(
+                    weakref.ref(self, weakref_cb),
+                    self._create_worker_context(),
+                    self._work_queue,
+                ),
+            )
+            t.daemon = True
+            t.start()
+            self._threads.add(t)
+            _cf_thread._threads_queues[t] = self._work_queue
 
 
 def run_evaluation(
@@ -93,7 +130,7 @@ def run_evaluation(
     # is abandoned (marked api_failure). Queued tasks are never mis-flagged because
     # their clock starts when they actually enter the in-flight batch.
     solve_timeout = float(os.getenv("AGENTEVALUATION_SOLVE_TIMEOUT", "180"))
-    ex = concurrent.futures.ThreadPoolExecutor(max_workers=concurrency)
+    ex = _DaemonThreadPoolExecutor(max_workers=concurrency)
     try:
         it = enumerate(tasks)
         in_flight = {}  # future -> idx
@@ -112,8 +149,12 @@ def run_evaluation(
                 in_flight, timeout=solve_timeout,
                 return_when=concurrent.futures.FIRST_COMPLETED)
             if not done:
-                # whole in-flight batch hung -> abandon it and stop
-                for fut, idx in list(in_flight.items()):
+                # Whole in-flight batch hung -> abandon it and stop. Mark the
+                # in-flight batch AND drain every not-yet-submitted queued task as
+                # api_failure so the write-out loop below never sees a None result.
+                abandoned = list(in_flight.items())  # (future, idx)
+                abandoned += [(None, idx) for idx, _ in it]  # queued, never run
+                for fut, idx in abandoned:
                     err = AgentResult(
                         task_id=getattr(tasks[idx], "task_id", f"task_{idx}"),
                         model_name=getattr(agent, "name", "unknown"),
@@ -122,7 +163,8 @@ def run_evaluation(
                     err.api_failure = True
                     err.error = f"solve exceeded {solve_timeout}s"
                     results[idx] = err
-                    fut.cancel()
+                    if fut is not None:
+                        fut.cancel()
                 in_flight.clear()
                 break
             for fut in done:
