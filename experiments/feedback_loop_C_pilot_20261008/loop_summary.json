@@ -1,0 +1,33 @@
+{
+  "run_id": "feedback_loop_C_pilot_20261008",
+  "arm": "C",
+  "family_filter": "bbh",
+  "task_set": "new",
+  "max_tokens": 8192,
+  "max_rounds": 1,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "seed": null,
+  "n_tasks": 3,
+  "concurrency": 6,
+  "models": {
+    "deepseek-v4-flash": {
+      "model_id": "deepseek-v4-flash-0731",
+      "init_accuracy": 0.9,
+      "final_accuracy": 0.9,
+      "end_state_distribution": {
+        "1": 9,
+        "6": 1
+      },
+      "l3_activation_rate": 0.9,
+      "l3_reversibility_rate": 0.0,
+      "l4_lock_rate": 1.0,
+      "l4_misled_rate": 0.0,
+      "avg_rounds": 2.0,
+      "total_prompt_tokens": 24050,
+      "total_completion_tokens": 17978,
+      "total_reasoning_tokens": 0
+    }
+  }
+}

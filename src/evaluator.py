@@ -865,6 +865,14 @@ def _extract_committed_integer(pred: str) -> int | None:
     if not p:
         return None
 
+    # Unwrap a markdown-emphasised lone integer ('**60**', '*7*', '`12`', '__8__'),
+    # the integer analog of _extract_mcq_letter's '**B**' false-negative fix. The
+    # fullmatch + matched-pair check means a bare multiplication like '3*5' is never
+    # touched, and only balanced delimiters wrapping the WHOLE answer are removed.
+    mw = re.fullmatch(r"([*_`]{1,3})\s*(-?\d+)\s*([*_`]{1,3})\s*[.,;:!?]*", p)
+    if mw and mw.group(1) == mw.group(3):
+        p = mw.group(2)
+
     def _first_int(s: str) -> int | None:
         m = re.search(r"-?\d+", s)
         return int(m.group(0)) if m else None
@@ -920,6 +928,12 @@ def _extract_committed_number(pred: str) -> float | None:
     p = pred.strip()
     if not p:
         return None
+
+    # Unwrap a markdown-emphasised lone number ('**3.14**', '*7*', '`12`', '__8__'),
+    # the real-valued analog of the integer fix above (same false-negative channel).
+    mw = re.fullmatch(r"([*_`]{1,3})\s*(-?\d+(?:\.\d+)?)\s*([*_`]{1,3})\s*[.,;:!?]*", p)
+    if mw and mw.group(1) == mw.group(3):
+        p = mw.group(2)
 
     num = r"-?\d+(?:\.\d+)?"
 
@@ -1262,13 +1276,32 @@ def _label_row_tiered(row: dict) -> dict:
         }
     if benchmark == "bbh":
         t1 = _score_bbh(row)
+        correct = t1 >= config.FINAL_PASS_THRESHOLD
+        if correct:
+            err = "correct"
+        else:
+            # BBH has three target forms; distinguish a committed-but-wrong answer from
+            # "no commit at all" so wrong picks are not lumped into complete_failure
+            # (mirrors the gpqa branch above). Letter -> wrong_option, integer ->
+            # numeric_error, closed-set word -> wrong_word / empty_or_unparseable.
+            gold = str(row.get("gold_answer", "")).strip()
+            pred = str(row.get("final_answer", "")).strip()
+            if re.fullmatch(r"\(?([A-Za-z])\)?", gold):
+                committed = _extract_mcq_letter(pred, choices="ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+                err = "wrong_option" if committed is not None else "complete_failure"
+            elif re.fullmatch(r"-?\d+(\.\d+)?", gold):
+                committed = _extract_committed_number(pred)
+                err = "numeric_error" if committed is not None else "complete_failure"
+            else:
+                committed = _extract_committed_text(pred, choices={"yes", "no", "true", "false"})
+                err = "wrong_word" if committed is not None else "empty_or_unparseable"
         return {
             "tier1_numeric": t1,
             "tier2_llm_semantic": 0.0,
             "dealbreaker_triggered": False,
             "final_score": t1,
-            "is_correct": t1 >= config.FINAL_PASS_THRESHOLD,
-            "error_type": "correct" if t1 >= config.FINAL_PASS_THRESHOLD else "complete_failure",
+            "is_correct": correct,
+            "error_type": err,
         }
 
     t1_score = _score_t1_numeric(row)

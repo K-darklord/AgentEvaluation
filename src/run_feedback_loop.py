@@ -45,14 +45,34 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
+
+def _load_dotenv() -> None:
+    """Load TOKEN_PLAN_API_KEY etc. from the repo .env (never committed).
+
+    Must run BEFORE `from src import config`: config reads the key at import time.
+    """
+    env = REPO_ROOT / ".env"
+    if not env.exists():
+        return
+    for line in env.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, v = line.split("=", 1)
+        os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+
+
+_load_dotenv()
+
 from src import config
 from src.agent import HuggingFaceAgent
-from src.benchmark import load_phase1_tasks
+from src.benchmark import load_new_discrimination_tasks, load_phase1_tasks
 from src.build_weak_critic import (  # noqa: E402
     TOP_K, WeakCritic, _family_base_rates, _task_family,
 )
 from src.evaluator import (  # noqa: E402
-    _rubric_coverage_normalized, _score_bfcl, _score_math500, _score_mmlu_pro,
+    _rubric_coverage_normalized, _score_aime, _score_bbh, _score_bfcl,
+    _score_gpqa, _score_math500, _score_mmlu_pro,
     _score_t1_numeric, _score_t2_llm_semantic,
 )
 
@@ -98,6 +118,12 @@ def _is_correct(family: str | None, row: dict) -> bool:
             return _score_math500(row) >= thresh
         if family == "mmlu_pro":
             return _score_mmlu_pro(row) >= thresh
+        if family == "aime":
+            return _score_aime(row) >= thresh
+        if family == "gpqa":
+            return _score_gpqa(row) >= thresh
+        if family == "bbh":
+            return _score_bbh(row) >= thresh
         if family == "bfcl":
             return _score_bfcl(row) >= thresh
         if family == "finance":
@@ -266,9 +292,20 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
 
 def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
                       early_stop_n=EARLY_STOP_N, tier=TIER, concurrency=None,
-                      arm="C", family=None, out_dir=None) -> dict:
+                      arm="C", family=None, out_dir=None,
+                      task_set="phase1", max_tokens=None) -> dict:
     _force_no_proxy()
-    tasks = load_phase1_tasks()
+    if task_set == "new":
+        tasks = load_new_discrimination_tasks()
+        # AIME / GPQA-Diamond are reasoning models whose hidden CoT truncates the
+        # visible answer at the default 1024 cap (see config.REASONING_BENCH_MAX_TOKENS);
+        # use the frozen reasoning budget for the whole discrimination set.
+        if max_tokens is None:
+            max_tokens = config.REASONING_BENCH_MAX_TOKENS
+    else:
+        tasks = load_phase1_tasks()
+        if max_tokens is None:
+            max_tokens = 1024
     if family:
         tasks = [t for t in tasks if _task_family(t.task_id) == family]
     if num_tasks:
@@ -289,6 +326,7 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
     names = models or [m for m in config.PHASE1_MODELS if config.PHASE1_MODELS[m].get("api_key")]
     summary = {
         "run_id": run_id, "arm": arm, "family_filter": family,
+        "task_set": task_set, "max_tokens": max_tokens,
         "max_rounds": max_rounds,
         "early_stop_n": early_stop_n, "tier": tier, "temperature": 0.0,
         "seed": None, "n_tasks": len(tasks), "concurrency": concurrency,
@@ -299,7 +337,7 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
         entry = config.PHASE1_MODELS[name]
         agent = HuggingFaceAgent(
             model=entry["model"], token=entry.get("api_key"),
-            base_url=entry["base_url"], max_tokens=1024, temperature=0.0,
+            base_url=entry["base_url"], max_tokens=max_tokens, temperature=0.0,
             seed=None, enable_thinking=entry.get("enable_thinking"))
         model_dir = out_root / name
         model_dir.mkdir(parents=True, exist_ok=True)
@@ -400,7 +438,11 @@ if __name__ == "__main__":
     ap.add_argument("--arm", default="C", choices=["A", "A2", "C"],
                     help="experimental arm: A=no-treatment, A2=form placebo, C=critic")
     ap.add_argument("--family", default=None,
-                    help="restrict to one family: math/math500/mmlu_pro/bfcl/finance")
+                    help="restrict to one family: math/math500/mmlu_pro/bfcl/finance/"
+                         "aime/gpqa/bbh")
+    ap.add_argument("--task-set", default="phase1", choices=["phase1", "new"],
+                    help="phase1 = the 5 baseline families; new = AIME+GPQA+BBH "
+                         "discrimination set")
     ap.add_argument("--concurrency", type=int, default=0, help="0 = config default")
     ap.add_argument("--out-dir", default=None,
                     help="reuse an existing experiments dir (resume from checkpoint)")
@@ -416,4 +458,5 @@ if __name__ == "__main__":
         arm=a.arm,
         family=a.family,
         out_dir=a.out_dir,
+        task_set=a.task_set,
     )

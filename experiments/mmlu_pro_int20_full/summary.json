@@ -1,0 +1,28 @@
+{
+  "n_tasks": 50,
+  "tool_policy": "closed-book (INT-20)",
+  "budget": "8192 (INT-18)",
+  "models": {
+    "deepseek-v4-flash": {
+      "model_id": "deepseek-v4-flash-0731",
+      "accuracy": 0.92,
+      "correct": 46,
+      "n": 50,
+      "n_api_failures": 0
+    },
+    "qwen3.8-flash": {
+      "model_id": "qwen3.8-flash",
+      "accuracy": 0.9,
+      "correct": 45,
+      "n": 50,
+      "n_api_failures": 1
+    },
+    "glm-5.3": {
+      "model_id": "glm-5.3",
+      "accuracy": 0.96,
+      "correct": 48,
+      "n": 50,
+      "n_api_failures": 0
+    }
+  }
+}

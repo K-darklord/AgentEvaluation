@@ -5,7 +5,7 @@ Phase 1 (probe) build-before-burn item 1c: the weak critic.
 
 The weak critic is the Layer-1 of the meta-cognitive proxy: it turns a
 (question, answer) pair into a Top-K ranked error-direction distribution over
-the fixed 19-leaf taxonomy, WITHOUT gold.
+the fixed 20-leaf taxonomy, WITHOUT gold.
 
 Architecture (rev 2, exemplar retrieval)
 ----------------------------------------
@@ -73,14 +73,21 @@ EVIDENCE_THRESHOLD = 0.1   # "test positive" bar on the retrieval evidence s (th
                            # critic stays silent (like a disease test turning positive
                            # only above a signal cut-off). Tune later.
 
-# The SAME fixed 19-leaf partition (docs/ERROR_TAXONOMY.md). Never edit the
+# The SAME fixed 20-leaf partition (docs/ERROR_TAXONOMY.md). Never edit the
 # leaf space itself.
 LEAVES_BY_FAMILY = {
     "math":     ["empty_or_unparseable", "sign_flip", "magnitude_error",
                  "factor_error", "near_miss", "wrong_symbolic"],
     "math500":  ["empty_or_unparseable", "sign_flip", "magnitude_error",
                  "factor_error", "near_miss", "wrong_symbolic"],
+    "aime":     ["empty_or_unparseable", "sign_flip", "magnitude_error",
+                 "factor_error", "near_miss", "wrong_symbolic"],
     "mmlu_pro": ["non_letter_output", "multiple_letters", "wrong_option"],
+    "gpqa":     ["non_letter_output", "multiple_letters", "wrong_option"],
+    "bbh":      ["empty_or_unparseable", "sign_flip", "magnitude_error",
+                 "factor_error", "near_miss", "wrong_symbolic",
+                 "non_letter_output", "multiple_letters", "wrong_option",
+                 "wrong_word"],
     "finance":  ["empty_pred", "tool_error", "retrieval_failure", "contradiction",
                  "complete_failure", "numeric_error", "coverage_incomplete"],
     "bfcl":     ["json_parse_error", "wrong_function_name", "wrong_argument",
@@ -99,6 +106,7 @@ LEAF_PHRASE = {
     "non_letter_output":    "no option letter given",
     "multiple_letters":     "multiple option letters given",
     "wrong_option":         "the wrong option selected",
+    "wrong_word":           "the wrong closed-set word selected",
     "empty_pred":           "no final answer",
     "tool_error":           "a tool-call error",
     "retrieval_failure":    "missing source evidence",
@@ -121,10 +129,10 @@ def _tokenize(family: str, text) -> list[str]:
     if not text:
         return []
     s = str(text).lower()
-    if family in ("math", "math500"):
+    if family in ("math", "math500", "aime"):
         s = re.sub(r"-?\d+\.?\d*(?:[eE][+-]?\d+)?", " NUM ", s)
     words = re.findall(r"[a-z][a-z0-9]*", s)
-    if family in ("math", "math500"):
+    if family in ("math", "math500", "aime"):
         ops = re.findall(r"[+\-*/=<>^()\[\]{}]", s)
     else:
         ops = []
@@ -176,9 +184,9 @@ def _sim_a_math(a: str, ai: str) -> float:
     return 1.0 if a.lower() == ai.lower() else 0.0
 
 
-def _sim_a_letter(a: str, ai: str) -> float:
-    la = set(re.findall(r"\b[A-J]\b", a.upper()))
-    lb = set(re.findall(r"\b[A-J]\b", ai.upper()))
+def _sim_a_letter(a: str, ai: str, choices: str = "ABCDEFGHIJ") -> float:
+    la = set(re.findall(rf"\b[{choices}]\b", a.upper()))
+    lb = set(re.findall(rf"\b[{choices}]\b", ai.upper()))
     if not la and not lb:
         return 1.0
     if not la or not lb:
@@ -221,13 +229,31 @@ def _sim_a_bfcl(a: str, ai: str) -> float:
     return min(score, 1.0)
 
 
+def _sim_a_bbh(a: str, ai: str) -> float:
+    """BIG-Bench Hard answers are letter / integer / number / closed-set word; compare
+    within form. Letter-looking answers -> letter similarity over A-Z; numeric answers ->
+    numeric closeness; otherwise token Jaccard (covers Yes/No/True/False). Mixed forms
+    (letter vs integer) fall to 0 by construction."""
+    def _is_letter(s: str) -> bool:
+        return re.fullmatch(r"\(?[A-Za-z]\)?\.?", s.strip()) is not None
+    if _is_letter(a) or _is_letter(ai):
+        return _sim_a_letter(a, ai, choices="ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    if _extract_numbers(a) or _extract_numbers(ai):
+        return _sim_a_math(a, ai)
+    return _sim_a_text(a, ai)
+
+
 def _sim_a(family: str, a, ai) -> float:
     a = "" if a is None else str(a).strip()
     ai = "" if ai is None else str(ai).strip()
-    if family in ("math", "math500"):
+    if family in ("math", "math500", "aime"):
         return _sim_a_math(a, ai)
     if family == "mmlu_pro":
         return _sim_a_letter(a, ai)
+    if family == "gpqa":
+        return _sim_a_letter(a, ai, choices="ABCD")
+    if family == "bbh":
+        return _sim_a_bbh(a, ai)
     if family == "finance":
         return _sim_a_text(a, ai)
     if family == "bfcl":
@@ -252,9 +278,13 @@ _BASE_RATE_SPECS = [
     ("d1_baseline_20260928_201128", "finance"),
     ("d1_baseline_20260928_201128", "bfcl"),
     ("mmlu_pro_int16_full", "mmlu_pro"),
+    ("new_set_20261008_full", "aime"),
+    ("new_set_20261008_full", "gpqa"),
+    ("new_set_20261008_full", "bbh"),
 ]
 _FAM_PREFIX = {"gsm8k": "math", "math500": "math500", "mmlu": "mmlu_pro",
-               "fab": "finance", "bfcl": "bfcl"}
+               "fab": "finance", "bfcl": "bfcl",
+               "aime": "aime", "gpqa": "gpqa", "bbh": "bbh"}
 
 
 def _task_family(task_id: str) -> str | None:
@@ -453,7 +483,8 @@ def main() -> None:
     base_rates = _family_base_rates()
     critic = WeakCritic(bank, base_rates=base_rates)
     print("family base error rates (prevalence / prior):")
-    for fam in ["math", "math500", "mmlu_pro", "finance", "bfcl"]:
+    for fam in ["math", "math500", "mmlu_pro", "finance", "bfcl",
+                "aime", "gpqa", "bbh"]:
         print(f"  {fam:<10} {base_rates.get(fam, 0.0):.1%}")
     print()
 
@@ -494,7 +525,8 @@ def main() -> None:
     print("Weak critic rev2 -- evidence-threshold flagger "
           f"EVIDENCE_THRESHOLD={EVIDENCE_THRESHOLD}")
     print("=" * 80)
-    order = ["math", "math500", "mmlu_pro", "finance", "bfcl"]
+    order = ["math", "math500", "mmlu_pro", "finance", "bfcl",
+             "aime", "gpqa", "bbh"]
     print(f"{'family':<10}{'n':>4}{'base':>7}{'no-sig':>7}{'sig':>4}"
           f"{'top1(sig)':>10}{'top3(sig)':>10}{'prior':>7}")
     for fam in order:

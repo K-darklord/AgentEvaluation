@@ -1,0 +1,57 @@
+run_id,task_id,category,difficulty,gold_answer,final_answer,is_correct,error_type,tier1_numeric,tier2_llm_semantic,dealbreaker_triggered,eval_tier,final_score,tool_calls,total_latency_ms,model_name
+deepseek-v4-flash,mmlu_pro_001,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,T1,1.0,0,3435,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_002,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,T1,1.0,0,8569,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_003,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,T1,1.0,0,17429,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_004,Logical Reasoning,Hard,C,H,False,complete_failure,0.0,0.0,False,T1,0.0,0,3478,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_005,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,T1,1.0,0,3319,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_006,Logical Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,1841,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_007,Logical Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,2175,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_008,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,T1,1.0,0,2213,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_009,Logical Reasoning,Hard,E,E,True,correct,1.0,0.0,False,T1,1.0,0,1583,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_010,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,T1,1.0,0,1946,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_011,Logical Reasoning,Hard,E,E,True,correct,1.0,0.0,False,T1,1.0,0,1435,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_012,Logical Reasoning,Hard,G,C,False,complete_failure,0.0,0.0,False,T1,0.0,0,1986,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_013,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,T1,1.0,0,1669,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_014,Logical Reasoning,Hard,D,B,False,complete_failure,0.0,0.0,False,T1,0.0,0,2055,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_015,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,T1,1.0,0,4659,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_016,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,T1,1.0,0,1410,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_017,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,T1,1.0,0,26358,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_018,Logical Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,6162,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_019,Logical Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,4686,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_020,Logical Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,2071,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_021,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,T1,1.0,0,9565,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_022,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,T1,1.0,0,2197,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_023,Logical Reasoning,Hard,E,E,True,correct,1.0,0.0,False,T1,1.0,0,6027,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_024,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,T1,1.0,0,3252,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_025,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,T1,1.0,0,4853,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_026,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,T1,1.0,0,2067,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_027,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,T1,1.0,0,2172,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_028,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,T1,1.0,0,1589,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_029,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,T1,1.0,0,4829,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_030,Logical Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,2939,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_031,Logical Reasoning,Hard,E,E,True,correct,1.0,0.0,False,T1,1.0,0,1539,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_032,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,T1,1.0,0,1879,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_033,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,T1,1.0,0,31384,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_034,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,T1,1.0,0,2629,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_035,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,T1,1.0,0,2709,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_036,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,T1,1.0,0,9830,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_037,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,T1,1.0,0,9811,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_038,Logical Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,1618,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_039,Logical Reasoning,Hard,H,H,True,correct,1.0,0.0,False,T1,1.0,0,1778,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_040,Logical Reasoning,Hard,J,"Let's compute correct using 10 HP=7.46 kW and efficiency difference gave H=533.7; option H=500 close.
+Correct using 10 HP=7.46 kW and input reciprocal gave H=373.3; option J=374.67 closest.
+Correct using 10 HP=10 kW and input reciprocal gave H=278.45; option F=275.5 close.
+Correct using 10 HP=10 kW and efficiency difference gave H=398.1; option B=400 close",True,correct,1.0,0.0,False,T1,1.0,0,83895,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_041,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,T1,1.0,0,2699,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_042,Logical Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,2314,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_043,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,T1,1.0,0,28076,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_044,Logical Reasoning,Hard,A,"Need find exact option maybe G $2,000 if rounded? But options precise $1,129.88 suggests exact computation not round. Let's search memory: 1949 Federal tax rates for corporations maybe: normal tax 23%? Wait could be 23% not 24? Let's check historical exact:
+Corporate normal tax in 1949: 24%? Surtax 14%? Hmm.
+Actually, the Revenue Act of 1945 reduced corporate normal tax from 40%? Wait:
+-",False,complete_failure,0.0,0.0,False,T1,0.0,0,88201,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_045,Logical Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,5021,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_046,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,T1,1.0,0,73831,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_047,Logical Reasoning,Hard,J,J,True,correct,1.0,0.0,False,T1,1.0,0,8990,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_048,Logical Reasoning,Hard,I,I,True,correct,1.0,0.0,False,T1,1.0,0,1476,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_049,Logical Reasoning,Hard,G,G,True,correct,1.0,0.0,False,T1,1.0,0,4867,deepseek-v4-flash-0731
+deepseek-v4-flash,mmlu_pro_050,Logical Reasoning,Hard,F,F,True,correct,1.0,0.0,False,T1,1.0,0,2056,deepseek-v4-flash-0731

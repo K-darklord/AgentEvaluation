@@ -13,13 +13,18 @@ taxonomy is a SEPARATE, inductively-built catalogue. This script derives it from
 raw signals (final_answer vs gold_answer, tool trajectory, structured rubric) using
 deterministic rules + hallucination signals -- no LLM, no manual labeling.
 
-Taxonomy (19 types over 5 families)
+Taxonomy (20 types over 8 families)
 -----------------------------------
   math500 (numeric/symbolic, signal = final vs gold):
     empty_or_unparseable, near_miss, factor_error, sign_flip,
     magnitude_error, wrong_symbolic
   mmlu_pro (letter MCQ, signal = A-J match):
     non_letter_output, wrong_option, multiple_letters
+  gpqa (letter MCQ, signal = A-D match): same leaf space as mmlu_pro
+  aime (integer-answer competition math): reuses math500 numeric rules
+  bbh (letter / integer / closed-set word targets):
+    letter -> mmlu leaves, integer -> math500 leaves,
+    closed-set word -> wrong_word (new leaf)
   finance (tool loop + rubric, signal = trajectory + rubric_structured):
     empty_pred, tool_error, retrieval_failure, contradiction,
     complete_failure, numeric_error, coverage_incomplete
@@ -37,6 +42,7 @@ Data sources
 ------------
 - math / math500 / finance / bfcl : experiments/d1_baseline_20260928_201128/
 - mmlu_pro (INT-16 rerun)         : experiments/mmlu_pro_int16_full/
+- aime / gpqa / bbh               : experiments/new_set_20261008_full/
 Wrong-ness is read from results.csv `is_correct` (already includes the offline
 gold-verdict, incl. T2 LLM-judge for finance). Trajectories.jsonl supplies the raw
 signals (prompt, final_answer, metadata.rubric_structured, trajectory steps).
@@ -52,6 +58,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 D1 = ROOT / "experiments" / "d1_baseline_20260928_201128"
 INT16 = ROOT / "experiments" / "mmlu_pro_int16_full"
+NEWSET = ROOT / "experiments" / "new_set_20261008_full"
 MODELS = ["deepseek-v4-flash", "glm-5.3", "qwen3.8-flash"]
 
 # ----------------------------------------------------------------------
@@ -71,6 +78,7 @@ SIMPLE_FACTORS = (2, 3, 4, 5, 6, 1 / 2, 1 / 3, 1 / 4, 1 / 5, 1 / 6,
 PREFIX2FAMILY = {
     "gsm8k": "math", "math500": "math500", "mmlu": "mmlu_pro",
     "fab": "finance", "bfcl": "bfcl",
+    "aime": "aime", "gpqa": "gpqa", "bbh": "bbh",
 }
 
 # ----------------------------------------------------------------------
@@ -93,6 +101,7 @@ ONTOLOGY = {
     "non_letter_output":   {"group": "instruction_following_error", "source": "PRISM"},
     "multiple_letters":    {"group": "instruction_following_error", "source": "PRISM"},
     "wrong_option":        {"group": "wrong_option", "source": "PRISM Reasoning Error"},
+    "wrong_word":          {"group": "wrong_option", "source": "PRISM Reasoning Error / BIG-Bench closed-set inference"},
     # finance (PRISM knowledge/reasoning + fine-grained hallucination)
     "empty_pred":          {"group": "invalid_output", "source": "n/a (not a reasoning class)"},
     "tool_error":          {"group": "tool_error", "source": "BFCL-adjacent (tool-use)"},
@@ -139,6 +148,7 @@ LEAF_CAUSE = {
     "non_letter_output":   "the response contains no single option letter",
     "multiple_letters":    "the response mentions more than one option letter",
     "wrong_option":        "the selected option is not the intended one",
+    "wrong_word":          "the committed closed-set word is not the intended one",
     # finance
     "empty_pred":          "no final answer was produced",
     "tool_error":          "a tool call returned an error",
@@ -165,6 +175,7 @@ LEAF_ATTENTION = {
     "non_letter_output":   "state only the option letter",
     "multiple_letters":    "commit to exactly one option letter",
     "wrong_option":        "re-read the stem and re-check the selected option",
+    "wrong_word":          "re-check the logical condition before committing a word",
     # finance
     "empty_pred":          "produce a final answer",
     "tool_error":          "retry the tool or fix its arguments",
@@ -276,6 +287,120 @@ def label_mmlu(final, gold):
     if gold_s in distinct:
         return "correct", sig            # defensive; should not appear in wrong set
     return "wrong_option", sig
+
+
+def label_gpqa(final, gold):
+    """GPQA-Diamond 4-option (A-D) letter MCQ — same leaf space as mmlu_pro, but scored
+    with the 'commit, don't scan' rule (mirrors evaluator._score_gpqa / _extract_mcq_letter),
+    so a prose answer that merely contains a stray option letter is NOT called correct."""
+    pred = str(final)
+    gold_s = str(gold).strip().upper()
+    got = _extract_committed_letter(pred, choices="ABCD")
+    sig = {"committed": got, "gold": gold_s}
+    if got is None:
+        return "non_letter_output", sig
+    if got == gold_s:
+        return "correct", sig            # defensive; should not appear in wrong set
+    return "wrong_option", sig
+
+
+def _extract_committed_word(final: str, choices=("yes", "no", "true", "false")) -> str | None:
+    """Closed-set word commit extraction (mirrors evaluator._extract_committed_text).
+    Only a BARE committed word (whole string / after an answer cue / last line) counts;
+    prose that merely contains the word as a substring does NOT (gold='No' inside
+    "I don't know" must not match)."""
+    p = str(final).strip()
+    if not p:
+        return None
+    low = {str(c).lower() for c in choices}
+
+    def _norm(t: str) -> str | None:
+        t = t.strip().strip(" \t\r\n\"'`*_().[]").rstrip(".!?,;:").strip().lower()
+        return t if t in low else None
+
+    tok = _norm(p)
+    if tok:
+        return tok
+    m = re.search(
+        r"(?:answer|choice|option|ans|result)\b(?:\s+(?:is|are|was|were))?\s*[:\-]?\s*([A-Za-z]+)",
+        p, re.IGNORECASE)
+    if m:
+        tok = _norm(m.group(1))
+        if tok:
+            return tok
+    lines = [l.strip() for l in p.splitlines() if l.strip()]
+    if lines:
+        tok = _norm(lines[-1])
+        if tok:
+            return tok
+    return None
+
+
+def _extract_committed_letter(final: str, choices: str = "ABCD") -> str | None:
+    """Commit, don't scan: extract the single option letter a prediction committed to
+    (mirrors evaluator._extract_mcq_letter). Accepts a bare answer -> explicit answer cue
+    -> final line -> labeled '(X) value'. Returns None when no single letter is committed,
+    so a prose answer that merely contains a stray option letter does NOT match."""
+    p = str(final).strip()
+    if not p:
+        return None
+    p = re.sub(r"(?<![A-Za-z0-9])_{1,2}([A-Za-z])_{1,2}(?![A-Za-z0-9])", r"\1", p)
+    p = re.sub(r"[*`]", "", p)
+    bare = r"[\s\(\[]*([A-Za-z])[\s\)\]]*[\.\:]?"
+    m = re.fullmatch(bare, p)
+    if m and m.group(1).upper() in choices:
+        return m.group(1).upper()
+    m = re.search(
+        r"(?:answer|choice|option|ans)\b(?:\s+(?:is|are|was|were))?\s*[:\-]?\s*\(?([A-Za-z])\)?(?![A-Za-z])",
+        p, re.IGNORECASE)
+    if m and m.group(1).upper() in choices:
+        return m.group(1).upper()
+    lines = [l.strip() for l in p.splitlines() if l.strip()]
+    if lines:
+        m = re.fullmatch(bare, lines[-1])
+        if m and m.group(1).upper() in choices:
+            return m.group(1).upper()
+    labeled = re.compile(r"\s*[\(\[]?([A-Za-z])(?:[\)\]]|[\.\:\-\u2013\u2014])(?!\w)")
+    for cand in ([lines[-1]] if lines else []) + [p]:
+        m = labeled.match(cand)
+        if m and m.group(1).upper() in choices:
+            return m.group(1).upper()
+    return None
+
+
+def label_bbh(final, gold):
+    """BIG-Bench Hard: three target forms (letter / integer / closed-set word).
+    Letter -> mmlu-style (A-Z range); integer -> math500 numeric-ratio typing;
+    closed-set word -> new `wrong_word` leaf (with invalid -> empty_or_unparseable)."""
+    pred = str(final).strip()
+    gold_s = str(gold).strip()
+    sig = {}
+
+    # (1) letter MCQ target: '(X)' or bare 'X'
+    letter = re.fullmatch(r"\(?([A-Za-z])\)?", gold_s)
+    if letter:
+        want = letter.group(1).upper()
+        got = _extract_committed_letter(pred, choices="ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        sig["committed"] = got
+        if got is None:
+            return "non_letter_output", sig
+        if got == want:
+            return "correct", sig
+        return "wrong_option", sig
+
+    # (2) integer / number target
+    if re.fullmatch(r"-?\d+(\.\d+)?", gold_s):
+        return label_math500(final, gold)
+
+    # (3) closed-set word target (Yes/No/True/False)
+    want = gold_s.strip().lower()
+    got = _extract_committed_word(pred)
+    sig["committed_word"] = got
+    if got is None:
+        return "empty_or_unparseable", sig
+    if got == want:
+        return "correct", sig
+    return "wrong_word", sig
 
 
 def label_finance(row, rubric_threshold=RUBRIC_COVERAGE_THRESHOLD):
@@ -399,6 +524,9 @@ FAMILY_LABELER = {
     "mmlu_pro": label_mmlu,
     "finance": label_finance,
     "bfcl": label_bfcl,
+    "aime": label_math500,       # AIME reuses math500 numeric-ratio typing
+    "gpqa": label_gpqa,          # 4-option letter MCQ (A-D)
+    "bbh": label_bbh,            # three target forms: letter / integer / word
 }
 
 # ----------------------------------------------------------------------
@@ -440,6 +568,21 @@ def load_records() -> list[dict]:
     # mmlu_pro from INT-16 rerun
     for model in MODELS:
         dir_ = INT16 / model
+        traj = _load_trajectories(dir_ / "trajectories.jsonl")
+        verdict = _load_verdicts(dir_ / "results.csv")
+        for tid, row in traj.items():
+            rec = dict(row)
+            rec["_model"] = model
+            v = verdict.get(tid, {})
+            rec["_correct"] = _looks_correct(v.get("is_correct", "True"))
+            rec["_stored_etype"] = v.get("error_type", "")
+            rec["_dealbreaker"] = v.get("dealbreaker_triggered", "False")
+            rec["_t1"] = v.get("tier1_numeric", "0")
+            rec["_t2"] = v.get("tier2_llm_semantic", "0")
+            records.append(rec)
+    # aime / gpqa / bbh from the new discrimination set
+    for model in MODELS:
+        dir_ = NEWSET / model
         traj = _load_trajectories(dir_ / "trajectories.jsonl")
         verdict = _load_verdicts(dir_ / "results.csv")
         for tid, row in traj.items():
@@ -505,7 +648,8 @@ def main() -> None:
     print("=" * 80)
     print("Error-taxonomy distribution (wrong instances only, per family x model)")
     print("=" * 80)
-    for fam in ["math", "math500", "mmlu_pro", "finance", "bfcl"]:
+    for fam in ["math", "math500", "mmlu_pro", "finance", "bfcl",
+                "aime", "gpqa", "bbh"]:
         print(f"\n[{fam}]")
         total = 0
         for model in MODELS:
@@ -528,6 +672,7 @@ def main() -> None:
         "data_sources": {
             "math_math500_finance_bfcl": str(D1.relative_to(ROOT)),
             "mmlu_pro": str(INT16.relative_to(ROOT)),
+            "aime_gpqa_bbh": str(NEWSET.relative_to(ROOT)),
         },
         "thresholds": {
             "RUBRIC_COVERAGE_THRESHOLD": RUBRIC_COVERAGE_THRESHOLD,
@@ -545,6 +690,9 @@ def main() -> None:
             "mmlu_pro": "label_mmlu",
             "finance": "label_finance",
             "bfcl": "label_bfcl",
+            "aime": "label_math500 (reused, numeric-ratio)",
+            "gpqa": "label_gpqa (A-D letter)",
+            "bbh": "label_bbh (letter/integer/word)",
         },
         "ontology": ONTOLOGY,
         "leaf_cause": LEAF_CAUSE,

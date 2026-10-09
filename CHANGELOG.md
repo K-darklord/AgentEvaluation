@@ -682,3 +682,37 @@ Re-scored the three stored runs (`NEW_SET_RESCORE=1`):
 
 ### Remaining
 - (unchanged) [High, deferred] Unify T1 dispatch by answer *form* across subjects — §3.4.
+
+## 2026-10-08 — Closed-book tool gating (INT-20) + reasoning budget (INT-18) + L3/L4 RL framing
+
+### Context
+The new discrimination set (AIME/GPQA/BBH) exposed that L1 (closed-book) benchmarks were still
+shipping the full tool schema to every model. GPQA-Diamond (a closed-book science MCQ) spontaneously
+called `fetch_url` against PubMed/Europe PMC, driving ~29M prompt tokens per run and contaminating the
+L1 base measurement with L2 tool ability. Gating tools off also revealed that mmlu_pro/bbh had been
+silently relying on the (now removed) tool schema to keep the model's chain-of-thought short — at 1024
+tokens the CoT truncated the answer.
+
+### Changed
+- **INT-20**: `config.py` `CLOSED_BOOK_BENCHMARKS` / `TOOL_NATIVE_BENCHMARKS`; `agent.py` routes
+  closed-book families to a single tool-free text generation (no tool loop). GPQA prompt tokens
+  ~29M -> ~0.2M per run; `tool_calls` 292 -> 0.
+- **INT-18 (extended)**: `REASONING_BENCH_MAX_TOKENS` now covers mmlu_pro/bbh (was aime/gpqa only).
+  mmlu_pro deepseek 82% -> 92% at 8192; un-truncates bbh geometric-shapes items.
+- `evaluator.py` bbh branch: split `wrong_option` / `numeric_error` / `wrong_word` /
+  `empty_or_unparseable` from `complete_failure` (was lumping wrong picks into complete_failure).
+- Error taxonomy 19 -> 20 leaves: added `wrong_word` (BBH closed-set word targets); families 5 -> 8
+  (aime/gpqa/bbh reuse the existing leaf space).
+
+### Added (docs)
+- `docs/TASK_FAMILY_TAXONOMY.md` — canonical task-family classification (L1 closed-book vs L2
+  tool-native) that operationalises the L1/L2 split as a code-enforced policy.
+- `docs/L3L4_RL_REDISTRIBUTION.md` — L3 = meta-cognition / L4 = locking, framed as probability
+  redistribution (not isomorphism) shared with train-time RL (GRPO/RLVR); arm ordering A3 ≤ C ≤ C*.
+- `docs/REPRODUCIBILITY.md` §3.4 — observed non-determinism under temperature = 0 (root cause
+  undetermined, Phase-2 follow-up).
+
+### Caveat
+- deepseek-v4-flash shows run-to-run variation under temperature = 0 on CoT-boundary families
+  (AIME 46/50 vs 42/50 across identical runs). Tracked, not yet root-caused; Phase-2 follow-up in
+  `docs/REPRODUCIBILITY.md` §3.4.

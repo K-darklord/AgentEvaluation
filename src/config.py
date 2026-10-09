@@ -194,3 +194,29 @@ PHASE1_MODELS = {
     # weak tier (qwen3.6-flash @ TokenPlan, glm-4.7-flash @ Zhipu) DEFERRED to Phase 2.
     # Kimi (4th family) pending Tencent Cloud TokenHub quota; add here when confirmed.
 }
+
+
+# ======================================================================
+# Tool policy (REGISTERED intervention INT-20)
+# ======================================================================
+# Which benchmarks expose external retrieval tools. This is a generation-side
+# intervention: it changes the agent's tool availability, so it is declared here
+# (not hard-coded in agent.py) and recorded in run metadata for reproducibility.
+#
+#   L1 Base (closed-book): the official harness for these benchmarks evaluates
+#       the model WITHOUT tools (GPQA-Diamond, AIME, GSM8K, MATH-500, MMLU-Pro,
+#       BIG-Bench Hard are all closed-book). Exposing tools here (a) violates the
+#       official protocol, (b) lets reasoning models drift into spontaneous web
+#       retrieval (GPQA-Diamond exploded to ~29M prompt tokens per run by calling
+#       fetch_url against PubMed/Europe PMC), and (c) contaminates the L1 base
+#       measurement with L2 tool ability.
+#   L2 Augmentation (tool-native): tools are the point of the benchmark.
+#       BFCL = function calling (the schema IS the task); finance/FAB = an
+#       open-book agent that must retrieve filings to answer.
+# Frozen 2026-10-08; see docs/TOOL_POLICY.md.
+CLOSED_BOOK_BENCHMARKS = frozenset({
+    "math", "math500", "mmlu_pro", "aime", "gpqa", "bbh",
+})
+TOOL_NATIVE_BENCHMARKS = frozenset({
+    "bfcl", "finance",
+})

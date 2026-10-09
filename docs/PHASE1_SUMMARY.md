@@ -1,6 +1,6 @@
 # Phase 1 Summary and Phase 2 Plan
 
-**Document type**: Phase 1 (probe) summary + Phase 2 plan · **Version**: 0.3 · **Date**: 2026-10-07
+**Document type**: Phase 1 (probe) summary + Phase 2 plan · **Version**: 0.4 · **Date**: 2026-10-08
 **Companion documents**: `RESEARCH_PLAN.md` (protocol §5), `REPRODUCIBILITY.md` (config provenance).
 
 ---
@@ -32,6 +32,14 @@ Four separable capabilities (RESEARCH_PLAN §3.1); the layer labels used through
 | L2 | Augmentation | Capability gained by embedding the model in an agent system (function/tool calling, retrieval, orchestration) — a property of model-plus-system, not the model alone. |
 | L3 | Meta-cognitive (activation) | Given an external error signal, activates the correct answer at least once across feedback rounds — the reachable ceiling. |
 | L4 | Correction (locking) | Locks onto the correct answer — resists a misleading signal, holds a correct answer, does not oscillate. |
+
+> **RL framing (2026-10-08).** L3/L4 admit a sharper reading developed in
+> `docs/L3L4_RL_REDISTRIBUTION.md`: the test-time feedback loop is the directional, sampling-time
+> analogue of train-time RL (GRPO/RLVR) — both **redistribute probability mass** over reachable
+> paths rather than create capability. L3 is then *meta-cognition* (re-activating the correct path
+> under a possibly-noisy signal), and L4 is *locking* = the robustness RL training is meant to buy.
+> The arm ordering `A3 (no-direction sampling) ≤ C (noisy critic) ≤ C* (oracle verifier)` frames the
+> testable claim **`C > A3`**. See RESEARCH_PLAN §5.13.
 
 ### 2.2 Observed quantities
 
@@ -172,10 +180,11 @@ Percentages are followed by raw counts in parentheses. `r0` = round-0 accuracy.
   deficit — while in finance it has the *lowest* activation (68%) and the most never-activated tasks
   (16/50) — an L2/L3 (reachability) deficit (§6.2–6.5). A single accuracy number cannot see that one
   model fails by *reaching-but-not-holding* on one family and by *never-reaching* on another; the
-  round dimension exposes both, direction-consistent and reproducible under temperature = 0.
+  round dimension exposes both, direction-consistent under temperature = 0 (subject to the §9
+  non-determinism caveat).
 
-- **This is hard to attribute to chance.** The profile is reproducible under one deterministic config
-  (temperature = 0), so models with near-identical pooled accuracy still carry structurally distinct
+- **This is hard to attribute to chance.** The profile is direction-consistent under temperature = 0
+  (subject to the §9 non-determinism caveat), so models with near-identical pooled accuracy still carry structurally distinct
   capability profiles. That itself is the non-triviality claim — it holds even if the weak critic were
   pure noise, because activation/locking is read off the round dimension, not off the feedback.
 
@@ -338,6 +347,10 @@ feasibility gate and the Phase-3 full matrix.
   locking loss is measured with uncertainty.
 - **Cost**: Phase-1 aggregated no per-round token usage (the run predates usage capture). Token metering
   is added in Phase 2 (P2.0, §8.6); Phase-1 itself carries no token data and is not backfillable.
+- **Non-determinism (open)**: deepseek-v4-flash shows run-to-run variation under temperature = 0 on
+  CoT-boundary families (AIME scored 46/50 and 42/50 across two identical batch runs). Root cause is
+  **undetermined** and deferred to Phase 2; see `REPRODUCIBILITY.md` §3.4. The "reproducible under
+  temperature = 0" phrasing in §7 is therefore retracted until the cause is settled.
 
 ---
 

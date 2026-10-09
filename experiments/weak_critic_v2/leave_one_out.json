@@ -39,6 +39,30 @@
       "top1_hits": 7,
       "top3_hits": 11,
       "prior_mode_hits": 12
+    },
+    "aime": {
+      "n": 11,
+      "n_signal": 11,
+      "no_signal": 0,
+      "top1_hits": 6,
+      "top3_hits": 11,
+      "prior_mode_hits": 6
+    },
+    "gpqa": {
+      "n": 49,
+      "n_signal": 42,
+      "no_signal": 7,
+      "top1_hits": 29,
+      "top3_hits": 42,
+      "prior_mode_hits": 32
+    },
+    "bbh": {
+      "n": 12,
+      "n_signal": 9,
+      "no_signal": 3,
+      "top1_hits": 7,
+      "top3_hits": 9,
+      "prior_mode_hits": 6
     }
   },
   "predictions": [
@@ -878,8 +902,8 @@
       "task_id": "gsm8k_013",
       "family": "math",
       "true": "wrong_symbolic",
-      "evidence": 0.1927,
-      "error_score": 0.0206,
+      "evidence": 0.0,
+      "error_score": 0.0,
       "no_signal": true,
       "top3": []
     },
@@ -2793,6 +2817,1460 @@
         {
           "leaf": "multiple_letters",
           "prob": 0.0911
+        }
+      ]
+    },
+    {
+      "task_id": "aime_008",
+      "family": "aime",
+      "true": "wrong_symbolic",
+      "evidence": 0.4524,
+      "error_score": 0.0332,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "magnitude_error",
+          "prob": 0.6493
+        },
+        {
+          "leaf": "near_miss",
+          "prob": 0.3507
+        },
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "aime_033",
+      "family": "aime",
+      "true": "magnitude_error",
+      "evidence": 0.3562,
+      "error_score": 0.0261,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "magnitude_error",
+          "prob": 0.5621
+        },
+        {
+          "leaf": "near_miss",
+          "prob": 0.3941
+        },
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.0437
+        }
+      ]
+    },
+    {
+      "task_id": "aime_039",
+      "family": "aime",
+      "true": "near_miss",
+      "evidence": 0.2153,
+      "error_score": 0.0158,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "magnitude_error",
+          "prob": 0.7062
+        },
+        {
+          "leaf": "near_miss",
+          "prob": 0.2593
+        },
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.0345
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_009",
+      "family": "gpqa",
+      "true": "wrong_option",
+      "evidence": 0.0676,
+      "error_score": 0.0225,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "gpqa_013",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.3186,
+      "error_score": 0.1062,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.9191
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.0809
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_018",
+      "family": "gpqa",
+      "true": "wrong_option",
+      "evidence": 0.0719,
+      "error_score": 0.024,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "gpqa_022",
+      "family": "gpqa",
+      "true": "wrong_option",
+      "evidence": 0.0543,
+      "error_score": 0.0181,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "gpqa_028",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.3186,
+      "error_score": 0.1062,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.732
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.268
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_031",
+      "family": "gpqa",
+      "true": "wrong_option",
+      "evidence": 0.2798,
+      "error_score": 0.0933,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.7488
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.2512
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_033",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.2424,
+      "error_score": 0.0808,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.8476
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.1524
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_043",
+      "family": "gpqa",
+      "true": "wrong_option",
+      "evidence": 0.1199,
+      "error_score": 0.04,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.5975
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.4025
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_049",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.4281,
+      "error_score": 0.1427,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.9375
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.0625
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "bbh_0003",
+      "family": "bbh",
+      "true": "non_letter_output",
+      "evidence": 0.0509,
+      "error_score": 0.0046,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "bbh_0018",
+      "family": "bbh",
+      "true": "wrong_option",
+      "evidence": 0.9263,
+      "error_score": 0.0842,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_option",
+          "prob": 0.8335
+        },
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.159
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.0075
+        }
+      ]
+    },
+    {
+      "task_id": "bbh_0019",
+      "family": "bbh",
+      "true": "non_letter_output",
+      "evidence": 0.6246,
+      "error_score": 0.0568,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_option",
+          "prob": 0.9676
+        },
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.0285
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.0038
+        }
+      ]
+    },
+    {
+      "task_id": "bbh_0020",
+      "family": "bbh",
+      "true": "wrong_option",
+      "evidence": 0.9263,
+      "error_score": 0.0842,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_option",
+          "prob": 0.8311
+        },
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.1619
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.007
+        }
+      ]
+    },
+    {
+      "task_id": "aime_004",
+      "family": "aime",
+      "true": "magnitude_error",
+      "evidence": 0.7568,
+      "error_score": 0.0555,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "magnitude_error",
+          "prob": 0.6559
+        },
+        {
+          "leaf": "near_miss",
+          "prob": 0.3188
+        },
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.0253
+        }
+      ]
+    },
+    {
+      "task_id": "aime_011",
+      "family": "aime",
+      "true": "near_miss",
+      "evidence": 0.661,
+      "error_score": 0.0485,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "magnitude_error",
+          "prob": 0.7917
+        },
+        {
+          "leaf": "near_miss",
+          "prob": 0.1785
+        },
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.0298
+        }
+      ]
+    },
+    {
+      "task_id": "aime_015",
+      "family": "aime",
+      "true": "magnitude_error",
+      "evidence": 0.7568,
+      "error_score": 0.0555,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "magnitude_error",
+          "prob": 0.6404
+        },
+        {
+          "leaf": "near_miss",
+          "prob": 0.3301
+        },
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.0295
+        }
+      ]
+    },
+    {
+      "task_id": "aime_022",
+      "family": "aime",
+      "true": "magnitude_error",
+      "evidence": 0.4661,
+      "error_score": 0.0342,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "magnitude_error",
+          "prob": 0.6078
+        },
+        {
+          "leaf": "near_miss",
+          "prob": 0.3582
+        },
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.034
+        }
+      ]
+    },
+    {
+      "task_id": "aime_033",
+      "family": "aime",
+      "true": "magnitude_error",
+      "evidence": 0.4058,
+      "error_score": 0.0298,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "magnitude_error",
+          "prob": 0.5943
+        },
+        {
+          "leaf": "near_miss",
+          "prob": 0.3654
+        },
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.0403
+        }
+      ]
+    },
+    {
+      "task_id": "aime_044",
+      "family": "aime",
+      "true": "magnitude_error",
+      "evidence": 0.3562,
+      "error_score": 0.0261,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "magnitude_error",
+          "prob": 0.654
+        },
+        {
+          "leaf": "near_miss",
+          "prob": 0.3166
+        },
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.0294
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_008",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.4053,
+      "error_score": 0.1351,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.9281
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.0719
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_009",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.0676,
+      "error_score": 0.0225,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "gpqa_011",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.1105,
+      "error_score": 0.0368,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.6999
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.3001
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_013",
+      "family": "gpqa",
+      "true": "wrong_option",
+      "evidence": 0.3186,
+      "error_score": 0.1062,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.782
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.218
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_014",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.4047,
+      "error_score": 0.1349,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.9643
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.0357
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_016",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.2424,
+      "error_score": 0.0808,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.8983
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.1017
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_018",
+      "family": "gpqa",
+      "true": "wrong_option",
+      "evidence": 0.0719,
+      "error_score": 0.024,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "gpqa_019",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.1119,
+      "error_score": 0.0373,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.9199
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.0801
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_021",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.1299,
+      "error_score": 0.0433,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.8693
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.1307
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_026",
+      "family": "gpqa",
+      "true": "wrong_option",
+      "evidence": 0.1385,
+      "error_score": 0.0462,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.9415
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.0585
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_028",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.6186,
+      "error_score": 0.2062,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.809
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.191
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_029",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.1232,
+      "error_score": 0.0411,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.9615
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.0385
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_031",
+      "family": "gpqa",
+      "true": "wrong_option",
+      "evidence": 0.2798,
+      "error_score": 0.0933,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.7488
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.2512
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_033",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.5424,
+      "error_score": 0.1808,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.9188
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.0812
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_034",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.1385,
+      "error_score": 0.0462,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.8405
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.1595
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_038",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.4393,
+      "error_score": 0.1464,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.9127
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.0873
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_041",
+      "family": "gpqa",
+      "true": "wrong_option",
+      "evidence": 0.2108,
+      "error_score": 0.0703,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.8791
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.1209
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_048",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.4258,
+      "error_score": 0.1419,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.8372
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.1628
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_049",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.1281,
+      "error_score": 0.0427,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.847
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.153
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_050",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.1461,
+      "error_score": 0.0487,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.9454
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.0546
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "bbh_0003",
+      "family": "bbh",
+      "true": "non_letter_output",
+      "evidence": 0.0509,
+      "error_score": 0.0046,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "bbh_0018",
+      "family": "bbh",
+      "true": "wrong_option",
+      "evidence": 0.9263,
+      "error_score": 0.0842,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_option",
+          "prob": 0.8335
+        },
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.159
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.0075
+        }
+      ]
+    },
+    {
+      "task_id": "bbh_0020",
+      "family": "bbh",
+      "true": "wrong_option",
+      "evidence": 0.9263,
+      "error_score": 0.0842,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_option",
+          "prob": 0.8311
+        },
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.1619
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.007
+        }
+      ]
+    },
+    {
+      "task_id": "aime_006",
+      "family": "aime",
+      "true": "near_miss",
+      "evidence": 0.4439,
+      "error_score": 0.0326,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "magnitude_error",
+          "prob": 0.7222
+        },
+        {
+          "leaf": "near_miss",
+          "prob": 0.2296
+        },
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.0482
+        }
+      ]
+    },
+    {
+      "task_id": "aime_031",
+      "family": "aime",
+      "true": "near_miss",
+      "evidence": 0.3282,
+      "error_score": 0.0241,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "magnitude_error",
+          "prob": 0.7351
+        },
+        {
+          "leaf": "near_miss",
+          "prob": 0.2246
+        },
+        {
+          "leaf": "wrong_symbolic",
+          "prob": 0.0403
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_001",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.0893,
+      "error_score": 0.0298,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "gpqa_002",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.4258,
+      "error_score": 0.1419,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.5994
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.4006
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_006",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.2108,
+      "error_score": 0.0703,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.8736
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.1264
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_011",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.1105,
+      "error_score": 0.0368,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.8811
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.1189
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_013",
+      "family": "gpqa",
+      "true": "wrong_option",
+      "evidence": 0.3186,
+      "error_score": 0.1062,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.8658
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.1342
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_016",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.5424,
+      "error_score": 0.1808,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.8034
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.1966
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_018",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.3719,
+      "error_score": 0.124,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.967
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.033
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_020",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.1121,
+      "error_score": 0.0374,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.8678
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.1322
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_022",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.0543,
+      "error_score": 0.0181,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "gpqa_024",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.1399,
+      "error_score": 0.0466,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.8813
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.1187
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_028",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.6186,
+      "error_score": 0.2062,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.809
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.191
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_029",
+      "family": "gpqa",
+      "true": "wrong_option",
+      "evidence": 0.1232,
+      "error_score": 0.0411,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.9086
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.0914
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_031",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.5798,
+      "error_score": 0.1933,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.8604
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.1396
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_032",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.1242,
+      "error_score": 0.0414,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.9183
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.0817
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_033",
+      "family": "gpqa",
+      "true": "wrong_option",
+      "evidence": 0.2424,
+      "error_score": 0.0808,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.8476
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.1524
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_037",
+      "family": "gpqa",
+      "true": "wrong_option",
+      "evidence": 0.1126,
+      "error_score": 0.0375,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.8107
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.1893
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_038",
+      "family": "gpqa",
+      "true": "wrong_option",
+      "evidence": 0.1393,
+      "error_score": 0.0464,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.6314
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.3686
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_043",
+      "family": "gpqa",
+      "true": "wrong_option",
+      "evidence": 0.1199,
+      "error_score": 0.04,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.5975
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.4025
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_044",
+      "family": "gpqa",
+      "true": "non_letter_output",
+      "evidence": 0.1461,
+      "error_score": 0.0487,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.9367
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.0633
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "gpqa_046",
+      "family": "gpqa",
+      "true": "wrong_option",
+      "evidence": 0.4232,
+      "error_score": 0.1411,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.5576
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.4424
+        },
+        {
+          "leaf": "multiple_letters",
+          "prob": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "bbh_0003",
+      "family": "bbh",
+      "true": "non_letter_output",
+      "evidence": 0.0509,
+      "error_score": 0.0046,
+      "no_signal": true,
+      "top3": []
+    },
+    {
+      "task_id": "bbh_0018",
+      "family": "bbh",
+      "true": "wrong_option",
+      "evidence": 0.9263,
+      "error_score": 0.0842,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_option",
+          "prob": 0.8335
+        },
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.159
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.0075
+        }
+      ]
+    },
+    {
+      "task_id": "bbh_0020",
+      "family": "bbh",
+      "true": "wrong_option",
+      "evidence": 0.9263,
+      "error_score": 0.0842,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "wrong_option",
+          "prob": 0.8311
+        },
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.1619
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.007
+        }
+      ]
+    },
+    {
+      "task_id": "bbh_0033",
+      "family": "bbh",
+      "true": "empty_or_unparseable",
+      "evidence": 0.5839,
+      "error_score": 0.0531,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.4421
+        },
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.3779
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.1799
+        }
+      ]
+    },
+    {
+      "task_id": "bbh_0036",
+      "family": "bbh",
+      "true": "empty_or_unparseable",
+      "evidence": 0.5839,
+      "error_score": 0.0531,
+      "no_signal": false,
+      "top3": [
+        {
+          "leaf": "empty_or_unparseable",
+          "prob": 0.5005
+        },
+        {
+          "leaf": "wrong_option",
+          "prob": 0.4414
+        },
+        {
+          "leaf": "non_letter_output",
+          "prob": 0.0581
         }
       ]
     }

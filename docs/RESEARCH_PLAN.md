@@ -572,6 +572,25 @@ The B-arm noise generator must match C in perturbation strength and message form
 
 **Data status (2026-10-06).** Arm C exists today (3 models × 250 tasks) and already yields μ-hat, P_act, r, P_lock, q_stay per model (§5.11 `loop_summary`). Δ remains unidentified until arm B is run against the same question set.
 
+### 5.13 RL probability-redistribution correspondence (L3/L4 framing)
+
+The round-dimension quantities admit a sharper theoretical reading, developed in
+`docs/L3L4_RL_REDISTRIBUTION.md`. In brief: the test-time feedback loop is the directional,
+sampling-time analogue of train-time RL (GRPO/RLVR) — both redistribute probability mass over
+already-reachable paths via a relative directional signal (never an absolute gold), so the correct
+term is **probability redistribution**, not isomorphism. Under this reading:
+
+- **L3 (meta-cognition)** = can the model, given a (possibly noisy) directional signal, reflect and
+  re-activate the correct path — `P_act` under arm C.
+- **L4 (locking)** = anti-interference robustness — `P_lock` / `q_stay` — which is precisely what RL
+  training is meant to buy; a low L4 reads as "under-trained / not yet robust on that dimension".
+
+The arm ordering `A3 (no-direction sampling) ≤ C (noisy critic) ≤ C* (oracle verifier)` frames the
+key testable claim **`C > A3`** (directional > non-directional); `C − A3` = net value of a noisy
+directional signal, `C* − C` = the critic's signal-to-noise loss. `C*` must be gold-leak-free (math
+formal verifier / code executor). Open sampling-parameter questions (A3 temperature / sample count,
+and the best-of-N vs majority-vote "hit" definition) are tracked in the note's §7.
+
 ---
 
 ## 6. Reproducibility and Implementation

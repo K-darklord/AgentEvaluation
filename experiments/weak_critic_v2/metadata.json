@@ -1,6 +1,6 @@
 {
   "critic_version": "v2.0",
-  "generated_at_utc": "2026-10-06T08:23:58.235258+00:00",
+  "generated_at_utc": "2026-10-08T11:43:54.722305+00:00",
   "hyperparameters": {
     "TOP_K": 3,
     "TOP_M": 10,
@@ -15,7 +15,10 @@
     "math500": 0.08666666666666667,
     "finance": 0.6,
     "bfcl": 0.10666666666666667,
-    "mmlu_pro": 0.15333333333333332
+    "mmlu_pro": 0.15333333333333332,
+    "aime": 0.07333333333333333,
+    "gpqa": 0.3333333333333333,
+    "bbh": 0.09090909090909091
   },
   "leaves_by_family": {
     "math": [
@@ -34,10 +37,35 @@
       "near_miss",
       "wrong_symbolic"
     ],
+    "aime": [
+      "empty_or_unparseable",
+      "sign_flip",
+      "magnitude_error",
+      "factor_error",
+      "near_miss",
+      "wrong_symbolic"
+    ],
     "mmlu_pro": [
       "non_letter_output",
       "multiple_letters",
       "wrong_option"
+    ],
+    "gpqa": [
+      "non_letter_output",
+      "multiple_letters",
+      "wrong_option"
+    ],
+    "bbh": [
+      "empty_or_unparseable",
+      "sign_flip",
+      "magnitude_error",
+      "factor_error",
+      "near_miss",
+      "wrong_symbolic",
+      "non_letter_output",
+      "multiple_letters",
+      "wrong_option",
+      "wrong_word"
     ],
     "finance": [
       "empty_pred",
@@ -65,6 +93,7 @@
     "non_letter_output": "no option letter given",
     "multiple_letters": "multiple option letters given",
     "wrong_option": "the wrong option selected",
+    "wrong_word": "the wrong closed-set word selected",
     "empty_pred": "no final answer",
     "tool_error": "a tool-call error",
     "retrieval_failure": "missing source evidence",
@@ -86,6 +115,7 @@
     "non_letter_output": "the response contains no single option letter",
     "multiple_letters": "the response mentions more than one option letter",
     "wrong_option": "the selected option is not the intended one",
+    "wrong_word": "the committed closed-set word is not the intended one",
     "empty_pred": "no final answer was produced",
     "tool_error": "a tool call returned an error",
     "retrieval_failure": "no grounding evidence was retrieved",
@@ -107,6 +137,7 @@
     "non_letter_output": "state only the option letter",
     "multiple_letters": "commit to exactly one option letter",
     "wrong_option": "re-read the stem and re-check the selected option",
+    "wrong_word": "re-check the logical condition before committing a word",
     "empty_pred": "produce a final answer",
     "tool_error": "retry the tool or fix its arguments",
     "retrieval_failure": "retrieve source evidence before answering",
@@ -154,6 +185,10 @@
     "wrong_option": {
       "group": "wrong_option",
       "source": "PRISM Reasoning Error"
+    },
+    "wrong_word": {
+      "group": "wrong_option",
+      "source": "PRISM Reasoning Error / BIG-Bench closed-set inference"
     },
     "empty_pred": {
       "group": "invalid_output",

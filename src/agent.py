@@ -779,13 +779,25 @@ class HuggingFaceAgent(BaseAgent):
         fc_tools = self._build_fc_tools()
 
         benchmark = task.metadata.get("benchmark")
+        # Registered intervention INT-20: closed-book L1 benchmarks must NOT expose
+        # external retrieval tools (see config.CLOSED_BOOK_BENCHMARKS). Exposing them
+        # lets reasoning models drift into spontaneous web retrieval (GPQA-Diamond
+        # exploded to ~29M prompt tokens by calling fetch_url against PubMed/Europe
+        # PMC) and contaminates the L1 base measurement with L2 tool ability.
+        closed_book = benchmark in config.CLOSED_BOOK_BENCHMARKS
+        if closed_book:
+            fc_tools = []
         # Reasoning models (deepseek / qwen / glm) emit a hidden CoT into
         # `reasoning_content` and the answer into `content`. At the default 1024-token
         # budget the CoT alone exhausts the cap (finish_reason=length), `content` comes
         # back empty and the agent falls back to the truncated CoT -> scored wrong even
         # when the model solved it. Give the hard reasoning benchmarks room to finish.
-        # Budget frozen in config.REASONING_BENCH_MAX_TOKENS.
-        _mt = config.REASONING_BENCH_MAX_TOKENS if benchmark in ("aime", "gpqa") else self.max_tokens
+        # Budget frozen in config.REASONING_BENCH_MAX_TOKENS. Applied to the CoT-heavy
+        # closed-book families: aime / gpqa (INT-18) and mmlu_pro / bbh (INT-18 extension,
+        # 2026-10-08: after INT-20 closed-book gating removed the tool schema, the
+        # model's hidden CoT grew past 1024 and truncated the answer — 8192 restores
+        # mmlu_pro 82% -> 92% and un-truncates bbh geometric-shapes items).
+        _mt = config.REASONING_BENCH_MAX_TOKENS if benchmark in ("aime", "gpqa", "mmlu_pro", "bbh") else self.max_tokens
         if benchmark in ("mmlu_pro", "gpqa"):
             # MMLU-Pro (10-option) and GPQA-Diamond (4-option) are MCQs. The generic
             # finance prompt ("respond with only the factual answer") actively nudges
@@ -838,6 +850,35 @@ class HuggingFaceAgent(BaseAgent):
         ]
         if feedback:
             messages.append({"role": "user", "content": feedback})
+
+        if closed_book:
+            # Single text generation, no tool schema (see INT-20). The tool loop
+            # below is skipped entirely: there is nothing to call.
+            try:
+                answer, resp = self._call_llm_text(messages, max_tokens=_mt)
+                _u = getattr(resp, "usage", None)
+                if _u is not None:
+                    _pt += getattr(_u, "prompt_tokens", 0)
+                    _ct += getattr(_u, "completion_tokens", 0)
+                    _rt += getattr(_u, "reasoning_tokens", 0)
+            except Exception as e:
+                result.api_failure = True
+                answer = f"LLM error: {e}"
+            answer = _strip_reasoning_prefix(answer)
+            result.final_answer = answer
+            steps.append(TrajectoryStep(
+                step=1,
+                thought="Closed-book single answer (no tools).",
+                observation=answer[:300],
+            ))
+            result.trajectory = [asdict(s) for s in steps]
+            result.tool_calls = 0
+            result.total_latency_ms = int((time.time() - t0) * 1000)
+            result.total_cost_usd = 0.0
+            result.total_prompt_tokens = _pt
+            result.total_completion_tokens = _ct
+            result.reasoning_tokens = _rt
+            return result
 
         context_parts = []
         step_num = 1

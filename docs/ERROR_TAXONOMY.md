@@ -1,6 +1,6 @@
 # Error Taxonomy & Capability-Matrix Mapping
 
-**Version**: 1.0 (2026-09-29)
+**Version**: 1.1 (2026-10-08)
 **Status**: authoritative (academic deliverable)
 **Scope**: the operational error taxonomy used by the meta-cognitive proxy (critique module) and the shared cross-domain axis of the capability-matrix tensor. Candidate for paper appendix / §3.2–§5.4 supporting content.
 
@@ -12,7 +12,7 @@ The error taxonomy serves two distinct roles that must not be conflated:
 
 | Layer | Granularity | Role | Fed back to the agent? |
 |---|---|---|---|
-| **leaf** | 19 fine-grained, domain-local error types | directional feedback signal (Top-N distribution, gold-free) | **yes** |
+| **leaf** | 20 fine-grained, domain-local error types | directional feedback signal (Top-N distribution, gold-free) | **yes** |
 | **middle axis** | 6 shared cross-domain failure modes | tensor `E`-axis for PARAFAC / Tucker / PCA decomposition | no |
 | **L1–L4** | latent capability axes (Base / Augmentation / Meta-cognitive / Correction) | post-hoc *naming* of the factorized axes; NOT a priori mapped | no |
 
@@ -33,13 +33,14 @@ All rules are deterministic (no LLM, no randomness) and operate on stored signal
 | `factor_error` | arithmetic_error / GSM-Ranges · NTT calculation | ratio ≈ simple factor `k ∈ {2,3,4,5,6,½,…,5⁄2,2⁄5}` within 5% | computation |
 | `near_miss` | arithmetic_error / GSM-Ranges · NTT calculation | `|ratio−1| ≤ 0.10` | computation |
 | `numeric_error` | reasoning_error / PRISM Reasoning Error | finance: stored coarse label `numeric_error` (numeric wrong, partial credit) | computation |
-| `wrong_symbolic` | symbolic_error / NTT symbolic manipulation | math/math500: gold is symbolic/text, or no clean ratio comparison | reasoning |
-| `wrong_option` | wrong_option / PRISM Reasoning Error | mmlu_pro: single A–J letter but ≠ gold letter | reasoning |
+| `wrong_symbolic` | symbolic_error / NTT symbolic manipulation | math/math500/aime/bbh(int): gold is symbolic/text, or no clean ratio comparison | reasoning |
+| `wrong_option` | wrong_option / PRISM Reasoning Error | mmlu_pro/gpqa/bbh(letter): committed single letter but ≠ gold letter | reasoning |
+| `wrong_word` | wrong_option / PRISM Reasoning Error · BIG-Bench closed-set inference | bbh(word): committed closed-set word (yes/no/true/false) ≠ gold word | reasoning |
 | `complete_failure` | reasoning_error / n/a (reasoning not finalized — truncated / non-convergent) | finance: `T1==0 AND T2==0` with stored `complete_failure` | reasoning |
 | `retrieval_failure` | knowledge_missing / PRISM Knowledge Missing | finance: zero tool calls | knowledge |
 | `contradiction` | knowledge_error / PRISM Knowledge Error · fine-grained hallucination | finance: dealbreaker triggered or stored `factual_contradiction` | knowledge |
-| `empty_or_unparseable` | invalid_output / n/a (not a reasoning class) | math/math500: prediction has no extractable number | instruction |
-| `non_letter_output` | instruction_following_error / PRISM | mmlu_pro: no A–J token in prediction | instruction |
+| `empty_or_unparseable` | invalid_output / n/a (not a reasoning class) | math/math500/aime: prediction has no extractable number; bbh(word): no valid committed word | instruction |
+| `non_letter_output` | instruction_following_error / PRISM | mmlu_pro/gpqa/bbh(letter): no committed option letter in prediction | instruction |
 | `multiple_letters` | instruction_following_error / PRISM | mmlu_pro: >1 distinct A–J token | instruction |
 | `empty_pred` | invalid_output / n/a (not a reasoning class) | finance/bfcl: empty final answer | instruction |
 | `json_parse_error` | malformed_output / BFCL | bfcl: prediction is not valid JSON | instruction |
@@ -48,7 +49,17 @@ All rules are deterministic (no LLM, no randomness) and operate on stored signal
 | `wrong_argument` | wrong_argument / BFCL component-level | bfcl: name matches but a parameter value is not in the accepted set | tool |
 | `coverage_incomplete` | reasoning_error / PRISM Reasoning Error | finance: stored `qualitative_incomplete` (answer complete but partial rubric coverage) | completeness |
 
-Count: 19 leaves over 5 families (math / math500 / mmlu_pro / finance / bfcl).
+Count: 20 leaves over 8 families (math / math500 / mmlu_pro / finance / bfcl / aime / gpqa / bbh).
+
+The three new discrimination-set families **reuse** the existing leaf space rather than add domain-specific types (except `wrong_word`, added for BBH's closed-set word targets):
+
+| new family | target form | leaf space reused |
+|---|---|---|
+| `aime` | integer (0–999) | math500 numeric/symbolic leaves (6) |
+| `gpqa` | 4-option letter (A–D) | mmlu_pro letter leaves (3) |
+| `bbh` | letter / integer / closed-set word | math500 (6) + mmlu_pro (3) + `wrong_word` (1) |
+
+`aime` maps to `label_math500` (numeric-ratio typing); `gpqa` to `label_gpqa` (4-option letter, "commit, don't scan"); `bbh` to `label_bbh` (three-way dispatch by gold form). See `build_error_taxonomy.py` `FAMILY_LABELER`.
 
 ---
 
@@ -58,10 +69,10 @@ The 6 shared axes above are the observable failure modes, not an a priori L1–L
 
 | middle axis | leaf members | shared across families |
 |---|---|---|
-| **computation** | sign_flip, magnitude_error, factor_error, near_miss, numeric_error | math, math500, finance |
-| **reasoning** | wrong_symbolic, wrong_option, complete_failure | math, math500, mmlu_pro, finance |
+| **computation** | sign_flip, magnitude_error, factor_error, near_miss, numeric_error | math, math500, finance, aime, bbh |
+| **reasoning** | wrong_symbolic, wrong_option, wrong_word, complete_failure | math, math500, mmlu_pro, finance, aime, gpqa, bbh |
 | **knowledge** | retrieval_failure, contradiction | finance |
-| **instruction** | empty_or_unparseable, non_letter_output, multiple_letters, json_parse_error, empty_pred | math, math500, mmlu_pro, finance, bfcl |
+| **instruction** | empty_or_unparseable, non_letter_output, multiple_letters, json_parse_error, empty_pred | math, math500, mmlu_pro, finance, bfcl, aime, gpqa, bbh |
 | **tool** | tool_error, wrong_function_name, wrong_argument | finance, bfcl |
 | **completeness** | coverage_incomplete | finance |
 
@@ -100,3 +111,4 @@ The following published classes require per-reasoning-step annotation and are st
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-09-29 | Initial master table (leaf → literature anchor → evaluation rule → middle axis). Re-classified `complete_failure` from `no_reasoning` to `reasoning` (non-convergence) with trajectory evidence. |
+| 1.1 | 2026-10-08 | Added `wrong_word` leaf (BBH closed-set word targets); extended the taxonomy from 19→20 leaves over 5→8 families (aime / gpqa / bbh). New families reuse the existing leaf space — aime→math500 numeric, gpqa→mmlu_pro letter, bbh→three-way dispatch — per `build_error_taxonomy.py` `FAMILY_LABELER`. |

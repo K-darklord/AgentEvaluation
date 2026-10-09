@@ -128,6 +128,40 @@ def set_seed(seed: int, deterministic: bool = True):
 - Use and record the API `seed` parameter when supported (e.g. OpenAI).
 - Every experiment run ≥ 3 times (different seeds); report mean and std.
 
+### 3.4 Observed non-determinism under temperature = 0 (Phase 1, open)
+
+**Status: tracked, root cause NOT yet determined.** Recorded 2026-10-08; to be investigated in
+Phase 2. The observations below are facts; the candidate causes are hypotheses only.
+
+**Observations (deepseek-v4-flash-0731, Aliyun Token Plan, temperature = 0, max_tokens = 8192):**
+
+1. Two batch runs of the AIME 50-question set under identical config scored 46/50 and 42/50 —
+   four items flipped between `correct` and `numeric_error` / `complete_failure`.
+2. Single-item probe (`aime_033`, a boundary item whose chain-of-thought sits near the 8192 cap):
+   the same fixed `seed = 42` produced `'32'` (correct, ~1977 completion tokens) on run 0, then a
+   truncated chain-of-thought (`content` empty, ~8192 tokens) on runs 1 and 2. Other seeds
+   (`None`, `7`) also produced truncated runs.
+3. Completion-token length for the same item varies widely across identical-config calls
+   (observed ~1616 / 1173 / 8192 / 5298 / 1977 / 8192 …), i.e. the hidden reasoning length is not
+   pinned by `temperature = 0`.
+
+**Candidate causes (unranked, not decided):**
+
+- the API `seed` parameter is not wired (`HuggingFaceAgent.seed = None` by default);
+- the serving endpoint does not honour `seed` / `temperature = 0` as strict greedy for the hidden
+  chain-of-thought (or MoE routing carries server-side randomness);
+- an intrinsic length fluctuation in reasoning-model CoT, exposed only where the CoT crosses the
+  `max_tokens` cap (8192) — the boundary flip is the *visible* symptom, not necessarily the cause.
+
+**Impact.** Single-pass accuracy numbers carry ± a few items of run-to-run noise on CoT-boundary
+families (AIME / GPQA); the "reproducible under temperature = 0" claim in PHASE1_SUMMARY is too
+strong and is retracted until Phase 2 settles the cause.
+
+**Phase-2 follow-up (required):** (a) fix and record `seed` per run; (b) test whether a fixed seed
+actually reproduces identical output (≥ 3 repeats of the same seed); (c) check whether qwen/glm show
+the same behaviour or it is deepseek-specific; (d) decide whether to raise `REASONING_BENCH_MAX_TOKENS`
+past 8192 to move CoT off the boundary.
+
 ---
 
 ## 4. Experiment configuration manifest (paper appendix)

@@ -1,6 +1,6 @@
 # Interference Causal Comparison Table
 
-**Last Updated**: 2026-10-08 (INT-17/18/19 registered: new-benchmark generation prompt / reasoning token budget / GPQA option shuffle)
+**Last Updated**: 2026-10-08 (INT-20 registered: closed-book tool gating for L1 benchmarks)
 **Prior update**: 2026-09-29 (INT-16 quantified: MMLU-Pro 74/44/44% → 86/88/80%)
 **Git Tag**: v3-interference-fix-60pct (5-task) → 50-task full run confirmed 48%
 
@@ -26,8 +26,9 @@
 | INT-15 | Retrieve: whole-doc re-injection + no cache dedup → chunk + top-k keyword + dedup | **INTERFERENCE** | Old: every tool result (≤15000 chars) re-appended even on cache hit → O(N²) token growth. New: chunk docs, return top-5 chunks; cache-hit replies a short marker. Lossy (changes model-visible info). Frozen: chunk_size=1500, top_k=5, keyword scoring, stable order. |
 | INT-16 | MMLU-Pro MCQ reuses generic finance prompt → model emits computed value, not option letter | **INTERFERENCE** | Code correct, but the "respond with ONLY the factual answer" finance prompt is wrong for a 10-option MCQ: reasoning models output a number instead of selecting A-J, so `\b[A-J]\b` finds no letter (69 wrong = 19 wrong-letter + 50 no-letter). Fix: benchmark-specific prompt demanding ONLY the option letter, frozen verbatim in src/agent.py. Lossless (does not change model-visible data, only instruction). |
 | INT-17 | New-benchmark answer-format prompts (AIME integer-only; BBH short-answer). GPQA reuses the INT-16 MCQ letter-only prompt | **INTERFERENCE** | Prompt code correct (does what it says). Demanding a bare integer / short token instead of the generic finance narrative changes the model-visible instruction per family, so it must be declared separately from the evaluator (EVALUATION_STANDARD §6). Frozen verbatim in src/agent.py (aime L806-811, bbh L815-820). Lossless w.r.t. data; an intervention w.r.t. instruction. |
-| INT-18 | Reasoning-benchmark generation budget 1024 → 8192 (`REASONING_BENCH_MAX_TOKENS`, aime/gpqa only) | **INTERFERENCE** | Code correct; parameter too restrictive (same class as INT-04). Reasoning models spend the CoT in `reasoning_content`; at 1024 the CoT alone hits finish_reason=length, `content` returns empty and the row scores wrong even when solved. Frozen in src/config.py:98 (default 8192), applied at src/agent.py:788. |
+| INT-18 | Reasoning-benchmark generation budget 1024 → 8192 (`REASONING_BENCH_MAX_TOKENS`, aime/gpqa/mmlu_pro/bbh) | **INTERFERENCE** | Code correct; parameter too restrictive (same class as INT-04). Reasoning models spend the CoT in `reasoning_content`; at 1024 the CoT alone hits finish_reason=length, `content` returns empty and the row scores wrong even when solved. Frozen in src/config.py:98 (default 8192), applied at src/agent.py:796. Extended to mmlu_pro/bbh on 2026-10-08 (INT-20 removed the tool schema that had been silently shortening the CoT; 8192 restores mmlu_pro 82% → 92% and un-truncates bbh geometric-shapes items). |
 | INT-19 | GPQA option shuffle (fixed per-question seed) removes the "correct is always A" position bias | **INTERFERENCE** | Code correct; design choice that reorders model-visible options. Removes a systematic position bias (net fairness-positive) but makes results non-comparable to the raw CSV order, so it must be declared. src/benchmark.py:645-679. |
+| INT-20 | Closed-book L1 benchmarks exposed external retrieval tools (fetch_url / edgar_search / parse_html / retrieve_information) | **INTERFERENCE** | Tool schema was exposed unconditionally to every benchmark (`_build_fc_tools()`). GPQA-Diamond (a closed-book science MCQ) spontaneously called `fetch_url` against PubMed/Europe PMC, driving O(N²) token growth (~29M prompt tokens per run) and contaminating the L1 base measurement with L2 tool ability. Fix: `CLOSED_BOOK_BENCHMARKS` gate in src/config.py; closed-book families now take a single tool-free text generation (src/agent.py). |
 
 ---
 
@@ -47,8 +48,9 @@
 | INT-15 | Retrieve chunking + cache-dedup | Mechanism | PLANNED (pre-run) | TBD | TBD | TBD | TBD | Registered 2026-09-28; frozen hyperparams in src/config.py (RETRIEVE_CHUNK_SIZE=1500, RETRIEVE_TOP_K=5). Quantify vs prior run after re-running FAB. |
 | INT-16 | MCQ answer-format prompt alignment | Prompt | v3-generic prompt (50 tasks) | 74% / 44% / 44% | INT-16 letter-only prompt (50 tasks) | 86% / 88% / 80% | **+12 / +44 / +36 pp** | deepseek-v4-flash / qwen3.8-flash / glm-5.3 (0 api_failure); ≈ official MMLU-Pro (86.4 / 88.6 / 86.77). Frozen prompt in src/agent.py. |
 | INT-17 | Answer-format prompt for new benchmarks | Prompt | generic finance prompt (ablation pending) | TBD | aime integer-only / bbh short-answer prompt | TBD | TBD | Frozen in src/agent.py; clean before/after ablation pending (the AIME smoke applied prompt + budget together). |
-| INT-18 | Reasoning budget 1024 → 8192 | Hyperparameter | 1024 (finish_reason=length, empty content) | TBD | 8192 (aime/gpqa) | TBD | TBD | Frozen in `REASONING_BENCH_MAX_TOKENS` (src/config.py:98). |
+| INT-18 | Reasoning budget 1024 → 8192 | Hyperparameter | 1024 (finish_reason=length, empty content) | TBD | 8192 (aime/gpqa/mmlu_pro/bbh) | TBD | TBD | Frozen in `REASONING_BENCH_MAX_TOKENS` (src/config.py:98); mmlu_pro/bbh added 2026-10-08 (mmlu_pro 82% → 92%). |
 | INT-19 | GPQA option shuffle | Design | raw CSV order (correct always A) | TBD | fixed per-question-seed shuffle | TBD | TBD | Position bias removed; non-comparable to raw-order runs. src/benchmark.py:645-679. |
+| INT-20 | Closed-book tool gating | Tool Design | tool schema exposed to all benchmarks | TBD | CLOSED_BOOK gate (tool-free single gen) | TBD | TBD | GPQA prompt tokens ~29M → ~0.2M per run; tool_calls 292 → 0. Accuracy delta quantified after clean re-run. |
 
 ---
 
@@ -105,9 +107,16 @@ the finance baseline, and so any future re-run reproduces the same model-visible
 - **INT-17** (Prompt): per-family answer-format prompts — AIME integer-only, BBH short-answer;
   GPQA reuses the INT-16 MCQ letter-only prompt. Frozen verbatim in src/agent.py.
 - **INT-18** (Hyperparameter): reasoning-benchmark generation budget 1024 → 8192
-  (`REASONING_BENCH_MAX_TOKENS`), applied to aime/gpqa only.
+  (`REASONING_BENCH_MAX_TOKENS`), applied to aime/gpqa/mmlu_pro/bbh (mmlu_pro/bbh added
+  2026-10-08 after INT-20 closed-book gating).
 - **INT-19** (Design): GPQA option shuffle with a fixed per-question seed, removing the
   "correct is always A" position bias at the cost of comparability with the raw CSV order.
+- **INT-20** (Tool Design): closed-book tool gating — L1 benchmarks (math / math500 /
+  mmlu_pro / aime / gpqa / bbh) no longer expose external retrieval tools. Declared in
+  `CLOSED_BOOK_BENCHMARKS` (src/config.py) and applied as a single tool-free text
+  generation in src/agent.py. Triggered by GPQA-Diamond spontaneously retrieving against
+  PubMed/Europe PMC (~29M prompt tokens/run), which also contaminated the L1 base
+  measurement with L2 tool ability.
 
 ---
 
@@ -115,9 +124,9 @@ the finance baseline, and so any future re-run reproduces the same model-visible
 
 | Metric | Value |
 |---|---|
-| Total issues identified | 16 (INT-01 to INT-19, incl. sub-labels) |
+| Total issues identified | 17 (INT-01 to INT-20, incl. sub-labels) |
 | Pure bugs | 3 |
-| True interferences | 14 |
+| True interferences | 15 |
 | Confirmed (with causal data) | 5 |
 | Suspected (needs experiment) | 7 |
 | Non-interference | 1 (INT-11: cache hit rate) |

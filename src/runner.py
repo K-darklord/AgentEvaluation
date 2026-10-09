@@ -31,6 +31,25 @@ from src.agent import BaseAgent, AgentResult, RuleBasedFinanceAgent
 
 OUTPUT_DIR = Path(__file__).resolve().parents[1] / "output"
 
+# Per-model list prices in CNY per 1M tokens: (input, output). Used for cost
+# accounting [P2.0]. Sources: Aliyun Bailian (阿里云百炼) list prices for
+# deepseek-v4-flash-0731 / qwen3.8-flash; glm-5.3 is not listed on Bailian, so
+# its documented upper-bound price (docs/RESEARCH_PLAN.md §5.2) is used.
+MODEL_PRICES_CNY = {
+    "deepseek-v4-flash-0731": (1.0, 2.0),
+    "qwen3.8-flash": (0.8, 2.7),
+    "glm-5.3": (8.0, 28.0),
+}
+
+
+def _cost_cny(model_name: str, prompt_tokens: int, completion_tokens: int) -> float | None:
+    """CNY cost from token usage; None when the model price is unknown."""
+    price = MODEL_PRICES_CNY.get(model_name)
+    if price is None:
+        return None
+    in_price, out_price = price
+    return round(prompt_tokens / 1e6 * in_price + completion_tokens / 1e6 * out_price, 6)
+
 
 def run_evaluation(
     agent: BaseAgent,
@@ -84,6 +103,10 @@ def run_evaluation(
                 "tool_calls": result.tool_calls,
                 "total_latency_ms": result.total_latency_ms,
                 "total_cost_usd": result.total_cost_usd,
+                "prompt_tokens": result.total_prompt_tokens,
+                "completion_tokens": result.total_completion_tokens,
+                "reasoning_tokens": result.reasoning_tokens,
+                "cost_cny": _cost_cny(result.model_name, result.total_prompt_tokens, result.total_completion_tokens),
                 "model_name": result.model_name,
                 "seed": result.seed,
                 "trajectory": result.trajectory,   # 完整轨迹：归因分析的原料
@@ -102,6 +125,10 @@ def run_evaluation(
                 "tool_calls": result.tool_calls,
                 "latency_ms": result.total_latency_ms,
                 "cost_usd": result.total_cost_usd,
+                "prompt_tokens": result.total_prompt_tokens,
+                "completion_tokens": result.total_completion_tokens,
+                "reasoning_tokens": result.reasoning_tokens,
+                "cost_cny": _cost_cny(result.model_name, result.total_prompt_tokens, result.total_completion_tokens),
                 "model": result.model_name,
                 "seed": result.seed,
                 "metadata": json.dumps(task.metadata, ensure_ascii=False),
@@ -113,10 +140,25 @@ def run_evaluation(
         writer.writeheader()
         writer.writerows(rows)
 
+    total_prompt = sum(r["prompt_tokens"] for r in rows)
+    total_completion = sum(r["completion_tokens"] for r in rows)
+    total_reasoning = sum(r["reasoning_tokens"] for r in rows)
+    total_cny = sum(r["cost_cny"] or 0.0 for r in rows)
     print(f"✅ Run {run_id} done. {len(rows)} tasks (concurrency={concurrency}).")
     print(f"   trajectories: {traj_path}")
     print(f"   summary:      {sum_path}")
-    return {"run_id": run_id, "n": len(rows), "traj_path": str(traj_path)}
+    print(f"   tokens:       prompt={total_prompt} completion={total_completion} "
+          f"reasoning={total_reasoning}")
+    print(f"   cost:         ¥{total_cny:.4f} (list prices)")
+    return {
+        "run_id": run_id,
+        "n": len(rows),
+        "traj_path": str(traj_path),
+        "prompt_tokens": total_prompt,
+        "completion_tokens": total_completion,
+        "reasoning_tokens": total_reasoning,
+        "cost_cny": round(total_cny, 6),
+    }
 
 
 if __name__ == "__main__":

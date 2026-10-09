@@ -1,11 +1,12 @@
 {
   "metadata": {
     "taxonomy_version": "v2.0",
-    "generated_at_utc": "2026-10-06T07:09:32.390082+00:00",
+    "generated_at_utc": "2026-10-08T11:43:42.046224+00:00",
     "script": "src/build_error_taxonomy.py",
     "data_sources": {
       "math_math500_finance_bfcl": "experiments/d1_baseline_20260928_201128",
-      "mmlu_pro": "experiments/mmlu_pro_int16_full"
+      "mmlu_pro": "experiments/mmlu_pro_int16_full",
+      "aime_gpqa_bbh": "experiments/new_set_20261008_full"
     },
     "thresholds": {
       "RUBRIC_COVERAGE_THRESHOLD": 0.6,
@@ -39,7 +40,10 @@
       "math500": "label_math500",
       "mmlu_pro": "label_mmlu",
       "finance": "label_finance",
-      "bfcl": "label_bfcl"
+      "bfcl": "label_bfcl",
+      "aime": "label_math500 (reused, numeric-ratio)",
+      "gpqa": "label_gpqa (A-D letter)",
+      "bbh": "label_bbh (letter/integer/word)"
     },
     "ontology": {
       "sign_flip": {
@@ -77,6 +81,10 @@
       "wrong_option": {
         "group": "wrong_option",
         "source": "PRISM Reasoning Error"
+      },
+      "wrong_word": {
+        "group": "wrong_option",
+        "source": "PRISM Reasoning Error / BIG-Bench closed-set inference"
       },
       "empty_pred": {
         "group": "invalid_output",
@@ -129,6 +137,7 @@
       "non_letter_output": "the response contains no single option letter",
       "multiple_letters": "the response mentions more than one option letter",
       "wrong_option": "the selected option is not the intended one",
+      "wrong_word": "the committed closed-set word is not the intended one",
       "empty_pred": "no final answer was produced",
       "tool_error": "a tool call returned an error",
       "retrieval_failure": "no grounding evidence was retrieved",
@@ -150,6 +159,7 @@
       "non_letter_output": "state only the option letter",
       "multiple_letters": "commit to exactly one option letter",
       "wrong_option": "re-read the stem and re-check the selected option",
+      "wrong_word": "re-check the logical condition before committing a word",
       "empty_pred": "produce a final answer",
       "tool_error": "retry the tool or fix its arguments",
       "retrieval_failure": "retrieve source evidence before answering",
@@ -245,6 +255,49 @@
         "multiple_letters": 1,
         "non_letter_output": 2
       }
+    },
+    "aime": {
+      "deepseek-v4-flash": {
+        "wrong_symbolic": 1,
+        "magnitude_error": 1,
+        "near_miss": 1
+      },
+      "glm-5.3": {
+        "magnitude_error": 5,
+        "near_miss": 1
+      },
+      "qwen3.8-flash": {
+        "near_miss": 2
+      }
+    },
+    "gpqa": {
+      "deepseek-v4-flash": {
+        "wrong_option": 5,
+        "non_letter_output": 4
+      },
+      "glm-5.3": {
+        "non_letter_output": 15,
+        "wrong_option": 5
+      },
+      "qwen3.8-flash": {
+        "non_letter_output": 13,
+        "wrong_option": 7
+      }
+    },
+    "bbh": {
+      "deepseek-v4-flash": {
+        "non_letter_output": 2,
+        "wrong_option": 2
+      },
+      "glm-5.3": {
+        "non_letter_output": 1,
+        "wrong_option": 2
+      },
+      "qwen3.8-flash": {
+        "non_letter_output": 1,
+        "wrong_option": 2,
+        "empty_or_unparseable": 2
+      }
     }
   },
   "group_distribution": {
@@ -299,6 +352,47 @@
       "qwen3.8-flash": {
         "wrong_option": 3,
         "instruction_following_error": 3
+      }
+    },
+    "aime": {
+      "deepseek-v4-flash": {
+        "symbolic_error": 1,
+        "arithmetic_error": 2
+      },
+      "glm-5.3": {
+        "arithmetic_error": 6
+      },
+      "qwen3.8-flash": {
+        "arithmetic_error": 2
+      }
+    },
+    "gpqa": {
+      "deepseek-v4-flash": {
+        "wrong_option": 5,
+        "instruction_following_error": 4
+      },
+      "glm-5.3": {
+        "instruction_following_error": 15,
+        "wrong_option": 5
+      },
+      "qwen3.8-flash": {
+        "instruction_following_error": 13,
+        "wrong_option": 7
+      }
+    },
+    "bbh": {
+      "deepseek-v4-flash": {
+        "instruction_following_error": 2,
+        "wrong_option": 2
+      },
+      "glm-5.3": {
+        "instruction_following_error": 1,
+        "wrong_option": 2
+      },
+      "qwen3.8-flash": {
+        "instruction_following_error": 1,
+        "wrong_option": 2,
+        "invalid_output": 2
       }
     }
   }
