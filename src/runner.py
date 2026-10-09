@@ -85,9 +85,61 @@ def run_evaluation(
             return idx, err
 
     results = [None] * len(tasks)
-    with concurrent.futures.ThreadPoolExecutor(max_workers=concurrency) as ex:
-        for idx, result in ex.map(_solve_one, enumerate(tasks)):
-            results[idx] = result
+    # Hard per-solve cap so a hung server request cannot stall the whole run.
+    # httpx read_timeout does NOT fire on some reasoning endpoints (the server
+    # holds the connection open), so an application-level cap is the only guard.
+    # We keep at most `concurrency` futures in flight and wait on the batch with a
+    # hard timeout; only a batch that makes NO progress for `solve_timeout` seconds
+    # is abandoned (marked api_failure). Queued tasks are never mis-flagged because
+    # their clock starts when they actually enter the in-flight batch.
+    solve_timeout = float(os.getenv("AGENTEVALUATION_SOLVE_TIMEOUT", "180"))
+    ex = concurrent.futures.ThreadPoolExecutor(max_workers=concurrency)
+    try:
+        it = enumerate(tasks)
+        in_flight = {}  # future -> idx
+
+        def _submit_next():
+            try:
+                idx, task = next(it)
+            except StopIteration:
+                return
+            in_flight[ex.submit(_solve_one, (idx, task))] = idx
+
+        for _ in range(concurrency):
+            _submit_next()
+        while in_flight:
+            done, _ = concurrent.futures.wait(
+                in_flight, timeout=solve_timeout,
+                return_when=concurrent.futures.FIRST_COMPLETED)
+            if not done:
+                # whole in-flight batch hung -> abandon it and stop
+                for fut, idx in list(in_flight.items()):
+                    err = AgentResult(
+                        task_id=getattr(tasks[idx], "task_id", f"task_{idx}"),
+                        model_name=getattr(agent, "name", "unknown"),
+                    )
+                    err.final_answer = "Timeout (hung server request)"
+                    err.api_failure = True
+                    err.error = f"solve exceeded {solve_timeout}s"
+                    results[idx] = err
+                    fut.cancel()
+                in_flight.clear()
+                break
+            for fut in done:
+                idx = in_flight.pop(fut)
+                try:
+                    _, result = fut.result()
+                except Exception as e:
+                    result = AgentResult(
+                        task_id=getattr(tasks[idx], "task_id", f"task_{idx}"),
+                        model_name=getattr(agent, "name", "unknown"),
+                    )
+                    result.final_answer = f"Error: {e}"
+                    result.error = str(e)
+                results[idx] = result
+                _submit_next()
+    finally:
+        ex.shutdown(wait=False, cancel_futures=True)
 
     rows = []
     with traj_path.open("w", encoding="utf-8") as ft:
