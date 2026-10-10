@@ -27,6 +27,7 @@ from __future__ import annotations
 import csv
 import json
 import os
+import shutil
 from datetime import datetime
 from pathlib import Path
 
@@ -80,8 +81,47 @@ def _domain_of(task_id: str) -> str:
     return "other"
 
 
+def _read_records(traj_path: Path) -> dict[str, dict]:
+    """Read a trajectories.jsonl into {task_id: record}, skipping blank lines."""
+    records: dict[str, dict] = {}
+    if not traj_path.exists():
+        return records
+    for line in traj_path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        rec = json.loads(line)
+        records[rec.get("task_id")] = rec
+    return records
+
+
+def _completed_ids(traj_path: Path) -> set[str]:
+    """Task ids that already have a real (non-api-failure) result on disk."""
+    return {tid for tid, rec in _read_records(traj_path).items() if not rec.get("api_failure")}
+
+
+def _merge_trajectories(orig_tasks, old_path: Path, new_path: Path, out_path: Path) -> None:
+    """Merge an existing run (old) with a fresh partial run (new) into one file.
+
+    Keeps every old record that already completed cleanly (non-api_failure) and lets
+    the fresh partial run override the rest (the tasks that previously failed / hung).
+    Writes the merged records in `orig_tasks` order so the evaluator sees a complete,
+    deterministic 144-row run. This is what makes interrupted qwen/glm runs resumeable
+    without re-billing the tasks that already finished.
+    """
+    merged = {tid: rec for tid, rec in _read_records(old_path).items() if not rec.get("api_failure")}
+    for tid, rec in _read_records(new_path).items():
+        merged[tid] = rec
+    with out_path.open("w", encoding="utf-8") as f:
+        for t in orig_tasks:
+            rec = merged.get(t.task_id)
+            if rec is not None:
+                f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+
+
 def run_new_set(models=None, n_per_bench=None, bbh_per_task=None,
-                concurrency=None, skip_empty_key=True, rescore=False) -> dict:
+                concurrency=None, skip_empty_key=True, rescore=False,
+                resume=False) -> dict:
     _load_dotenv()
     _force_no_proxy()
 
@@ -152,7 +192,24 @@ def run_new_set(models=None, n_per_bench=None, bbh_per_task=None,
                 enable_thinking=entry.get("enable_thinking"),
             )
             print(f"\n=== [{tier}] {name} model_id={entry['model']} base_url={entry['base_url']} ===")
-            run_evaluation(agent, tasks=tasks, output_dir=model_dir, run_id=name, concurrency=concurrency)
+            if resume:
+                # Resume: skip tasks that already have a clean (non-api-failure)
+                # result on disk, run only the pending (previously hung/failed) ones
+                # to a temp dir, then merge back into a complete ordered trajectory.
+                done_ids = _completed_ids(traj_path)
+                pending = [t for t in tasks if t.task_id not in done_ids]
+                print(f"[resume] {name}: {len(done_ids)} done, {len(pending)} pending")
+                if pending:
+                    partial_dir = model_dir / "_resume_partial"
+                    partial_dir.mkdir(parents=True, exist_ok=True)
+                    run_evaluation(agent, tasks=pending, output_dir=partial_dir,
+                                   run_id=name, concurrency=concurrency)
+                    _merge_trajectories(tasks, traj_path, partial_dir / "trajectories.jsonl",
+                                        traj_path)
+                    shutil.rmtree(partial_dir, ignore_errors=True)
+            else:
+                run_evaluation(agent, tasks=tasks, output_dir=model_dir,
+                               run_id=name, concurrency=concurrency)
 
         report = Evaluator(output_dir=model_dir).score(traj_path=traj_path)
 
@@ -199,4 +256,5 @@ if __name__ == "__main__":
     sel = os.getenv("NEW_SET_MODELS", "").strip()
     models = [m.strip() for m in sel.split(",") if m.strip()] or None
     rescore = os.getenv("NEW_SET_RESCORE", "").strip().lower() not in ("", "0", "false")
-    run_new_set(models=models, rescore=rescore)
+    resume = os.getenv("NEW_SET_RESUME", "").strip().lower() not in ("", "0", "false")
+    run_new_set(models=models, rescore=rescore, resume=resume)

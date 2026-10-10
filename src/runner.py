@@ -13,6 +13,7 @@ from __future__ import annotations
 import csv
 import json
 import os
+import time
 from datetime import datetime
 from pathlib import Path
 
@@ -125,50 +126,66 @@ def run_evaluation(
     # Hard per-solve cap so a hung server request cannot stall the whole run.
     # httpx read_timeout does NOT fire on some reasoning endpoints (the server
     # holds the connection open), so an application-level cap is the only guard.
-    # We keep at most `concurrency` futures in flight and wait on the batch with a
-    # hard timeout; only a batch that makes NO progress for `solve_timeout` seconds
-    # is abandoned (marked api_failure). Queued tasks are never mis-flagged because
-    # their clock starts when they actually enter the in-flight batch.
+    # Each task gets its OWN deadline (recorded when it enters the in-flight batch);
+    # a task whose request hangs past `solve_timeout` seconds is failed ALONE as
+    # api_failure and the loop moves on to the next queued task. This replaces the
+    # earlier batch-level abandon, which — on a single hung task — also drained every
+    # not-yet-submitted (queued) task that would otherwise have completed fine.
     solve_timeout = float(os.getenv("AGENTEVALUATION_SOLVE_TIMEOUT", "180"))
     ex = _DaemonThreadPoolExecutor(max_workers=concurrency)
     try:
         it = enumerate(tasks)
-        in_flight = {}  # future -> idx
+        in_flight = {}   # future -> idx
+        deadline = {}    # future -> monotonic per-task deadline
 
         def _submit_next():
             try:
                 idx, task = next(it)
             except StopIteration:
                 return
-            in_flight[ex.submit(_solve_one, (idx, task))] = idx
+            fut = ex.submit(_solve_one, (idx, task))
+            in_flight[fut] = idx
+            deadline[fut] = time.monotonic() + solve_timeout
+
+        def _fail_timeout(fut):
+            # A single task hung: mark it api_failure, drop it from the in-flight
+            # set, and immediately backfill the vacated slot with the next task.
+            idx = in_flight.pop(fut)
+            deadline.pop(fut, None)
+            fut.cancel()
+            err = AgentResult(
+                task_id=getattr(tasks[idx], "task_id", f"task_{idx}"),
+                model_name=getattr(agent, "name", "unknown"),
+            )
+            err.final_answer = "Timeout (hung server request)"
+            err.api_failure = True
+            err.error = f"solve exceeded {solve_timeout}s"
+            err.total_latency_ms = int(solve_timeout * 1000)
+            results[idx] = err
+            _submit_next()
 
         for _ in range(concurrency):
             _submit_next()
         while in_flight:
+            _now = time.monotonic()
+            timed_out = [fut for fut, d in deadline.items() if d <= _now]
+            if timed_out:
+                for fut in timed_out:
+                    _fail_timeout(fut)
+                continue
+            # Wait until either the next task completes or the earliest deadline
+            # elapses (i.e. its task is hung); whichever comes first.
+            wait_for = min(deadline.values()) - _now
             done, _ = concurrent.futures.wait(
-                in_flight, timeout=solve_timeout,
+                in_flight, timeout=wait_for,
                 return_when=concurrent.futures.FIRST_COMPLETED)
             if not done:
-                # Whole in-flight batch hung -> abandon it and stop. Mark the
-                # in-flight batch AND drain every not-yet-submitted queued task as
-                # api_failure so the write-out loop below never sees a None result.
-                abandoned = list(in_flight.items())  # (future, idx)
-                abandoned += [(None, idx) for idx, _ in it]  # queued, never run
-                for fut, idx in abandoned:
-                    err = AgentResult(
-                        task_id=getattr(tasks[idx], "task_id", f"task_{idx}"),
-                        model_name=getattr(agent, "name", "unknown"),
-                    )
-                    err.final_answer = "Timeout (hung server request)"
-                    err.api_failure = True
-                    err.error = f"solve exceeded {solve_timeout}s"
-                    results[idx] = err
-                    if fut is not None:
-                        fut.cancel()
-                in_flight.clear()
-                break
+                # The earliest deadline is now due; the timed_out branch on the next
+                # iteration will drop exactly that hung task (never the whole batch).
+                continue
             for fut in done:
                 idx = in_flight.pop(fut)
+                deadline.pop(fut, None)
                 try:
                     _, result = fut.result()
                 except Exception as e:
