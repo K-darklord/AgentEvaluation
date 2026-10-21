@@ -598,7 +598,7 @@ Both tunable from measured results.
 
 ---
 
-## 13. Related work & positioning: the error-guided PRM (2026-10-21)
+## 13. Related work & positioning: Error-Guided Test-Time Elimination (EGTE, 2026-10-21)
 
 ### 13.1 Framing (this project's contribution)
 
@@ -617,19 +617,19 @@ uses them to **EXCLUDE** at evaluation time. The asymmetry is the point:
   benchmark families, and does **not** go obsolete — new errors from new questions/models keep
   feeding the bank, sharpening the same mechanisms instead of accumulating instance memory.
 
-This is the "**error-guided PRM**" (错题集泛化): analogous to a student who derives, from
-gold-marked mistakes, a short list of *"for this class of problem, here are the moves to rule
-out"* — the wrong answer is excluded, not the right one selected.
+This is **Error-Guided Test-Time Elimination (EGTE)** (错题集泛化): analogous to a student who
+derives, from gold-marked mistakes, a short list of *"for this class of problem, here are the
+moves to rule out"* — the wrong answer is excluded, not the right one selected.
 
-### 13.2 Three-stage closed loop (mechanism / check_procedure / evidence)
+### 13.2 Three-role closed loop — distill / check / review (mechanism / check_procedure / trigger / evidence)
 
-| Stage | When | Gold? | Produces | Consumes |
+| Role | When | Gold? | Produces | Consumes |
 |---|---|---|---|---|
-| **L0 build** | offline, over the error bank | yes | `mechanism` + `check_procedure` (class-level, answer-free) | gold answer + wrong answer + prompt |
-| **L1 execute** | online, per task | no | cheap trigger signature (question-type + committed answer) | `trigger_hint` |
-| **L2 review** | after an answer **transition** only | no | CUT / UNSURE / ANSWER lock (rubric judge, evidence-anchored) | `mechanism` + `check_procedure` over the transition's hidden CoT |
+| **distill** (build) | offline, over the error bank | yes | `mechanism` + `check_procedure` (class-level, answer-free) | gold answer + wrong answer + prompt |
+| **check** (execute) | online, per task | no | cheap `trigger` signature (question-type + committed answer) | `trigger` |
+| **review** (post-transition) | after an answer **transition** only | no | CUT / UNSURE / ANSWER lock (rubric judge, evidence-anchored) | `mechanism` + `check_procedure` + `evidence` over the transition's hidden CoT |
 
-Errors green-lit at L2 re-enter the bank, closing the loop. The evaluator only wakes on
+Errors green-lit at review re-enter the bank, closing the loop. The evaluator only wakes on
 transition (the cheap-path decision) — it never reads the target round's CoT at rest.
 
 ### 13.3 Related work (closest → farthest to the error-exclusion idea)
@@ -647,19 +647,71 @@ transition (the cheap-path decision) — it never reads the target round's CoT a
 
 ### 13.4 Position: what is (to our knowledge) not yet done
 
-Every ingredient above exists in isolation, but the **synthesis** we are building — *an
-error-guided PRM framed explicitly as lower-bound optimization via answer-free
-mechanism+check_procedure distillation, closed over a transition-triggered, evidence-anchored
-self-review verifier (weak critic → rubric judge → activation+locking)* — is not, to our
-knowledge, published as a single system. Three claims carry the novelty:
+Every ingredient above exists in isolation, but the **synthesis** we are building — *EGTE, i.e.
+lower-bound optimization via answer-free mechanism+check_procedure distillation, closed over a
+transition-triggered, evidence-anchored self-review verifier (weak critic → rubric judge →
+activation+locking), with the solver and the three evaluator roles as SEPARATE calls* — is not,
+to our knowledge, published as a single system. Three claims carry the novelty:
 
 1. **Asymmetry as an objective**, not just an RM-metric detail (PRISM stops at FP reduction).
 2. **Answer-free, cross-benchmark exclusion rules** as the durable memory (vs instance-anchored
    reflection in SCoRe/R3/Agent-R, and vs in-context notes in MNL/LANPO).
-3. **The three-field build/execute/review closure** (`mechanism` / `check_procedure` /
-   `evidence`) with the evaluator consuming only distilled checks at transition time — the
-   explicit "robust, non-obsolete check memory" the RSI loop accumulates.
+3. **The three-role distill / check / review closure** (`mechanism` / `check_procedure` /
+   `trigger` / `evidence`) with the evaluator consuming only distilled checks at transition time
+   — the explicit "robust, non-obsolete check memory" the RSI loop accumulates.
 
 **Open question to verify against the literature before claiming:** whether any 2025-2026 work
 explicitly phrases process supervision as "minimize the *error* bound via elimination" rather
 than "maximize correct-step probability". This is the market-separator to cite (or to occupy).
+
+---
+
+## 14. Re-anchored experiment path (EGTE, 2026-10-21)
+
+> Supersedes §7 next-steps. One decisive change after the A2 forensics (§4/§5): **C (and A3) must
+> be re-run with the content-margin truncation fix before any C-vs-A2/A3 comparison is valid.**
+> The ladder is then **deepseek-first → glm/qwen replication → more task types**.
+
+### 14.1 Fix C first — recover the true round-0 accuracy
+
+- **Finding** (A2 forensics): A2 gpqa init (84.46%, post-fix) vs C (76.35%, pre-fix) is confounded.
+  C's round-0 `committed_answer` was a length-truncated raw CoT (`completion_tokens=8192`,
+  `finish_reason=length`) scored wrong, while A2 emitted a clean letter (`stop`). 84.46% is the real
+  round-0 precision; C and every pre-2026-10-18 baseline were suppressed by the truncation bug.
+- **Action**: re-run C (and A3, for the T>0 comparison) on the same 148-gpqa slice
+  (gpqa_051–198) with the `REASONING_CONTENT_MARGIN` fix; then re-derive the hard layer
+  `init ∈ [35%, 70%]` from TRUE (post-fix) init — the old difficulty screening was built on
+  truncated init and is itself contaminated.
+
+### 14.2 deepseek-first EGTE ladder — close the loop on ONE model
+
+Get the full distill → check → review mechanism working end-to-end on deepseek before any
+cross-model / cross-type expansion:
+
+1. **distill** — gpqa error bank → `mechanism` + `check_procedure` (v3.0 three-role prompt; smoke
+   3 first, then the full 49 gpqa entries).
+2. **check** — wire `trigger` into the cheap path; wake the evaluator only when the answer starts
+   to transition (the A-plan: never read the round's CoT at rest).
+3. **review** — rubric judge (disconnection/contradiction/error) consumes `check_procedure` +
+   `evidence` over the transition's hidden CoT → CUT / UNSURE.
+4. **Gate**: EGTE must show a train-free test-time gain over the strong selectors (mode / A3-vote)
+   on the deepseek hard slice *before* replication is attempted.
+
+### 14.3 Replicate on glm / qwen
+
+- After deepseek EGTE is green end-to-end, port the same distill → check → review to glm and qwen
+  (fix glm `twostage` rationale fragment first, item 16; unify the rationale protocol, item 5).
+- Explicitly test **cross-model transfer** of the distilled mechanisms: answer-free mechanisms should
+  transfer; the check is whether a glm/qwen-specific error bank is even needed, or whether deepseek's
+  mechanisms already carry.
+
+### 14.4 Breadth — more task types
+
+- Extend the error bank beyond gpqa to mmlu_pro / bbh (MCQ) and aime (numeric) to test the
+  "cross-benchmark exclusion rules" claim (§13.4 novelty #2). This is where answer-free mechanisms
+  are pushed past a single family.
+
+### 14.5 Ordering rationale
+
+- deepseek-first: single-model closure de-risks the mechanism before the cross-model × cross-type
+  matrix explodes cost. Same discipline as §9.1: **run in segments, callback on failure.**

@@ -19,6 +19,14 @@ the pipeline does not need a second rewrite when the full matrix scales up.
 - The **experiment design** (what to run) is authoritative in `docs/RESEARCH_PLAN.md`; this document
   is authoritative for **how the runs are executed and stored**.
 
+> **Alignment note (2026-10-21).** The experiment design has re-anchored to **Error-Guided Test-Time
+> Elimination (EGTE)** — a train-free, three-role evaluator (distill / check / review) that eliminates wrong
+> moves rather than scoring the correct path (see `docs/WORKMAP.md` §0.4, `docs/PHASE2_SUMMARY.md` §13–14).
+> For the execution layer this only refines *what the arms are named*: the ablation arms in §4.1 are now the
+> EGTE contrast set **A / A2 / A3 / C** (bare / placebo / i.i.d. T=0.7 N=10 / weak-critic), and the evaluator
+> side spawns three separated call roles (`distill` at build-time, `check` at execution-time, `review`
+> post-transition). The scheduler / queue / artifact machinery below is unchanged.
+
 ---
 
 ## 2. Design drivers (workload)
@@ -96,7 +104,7 @@ models:
     tier: local
 task_families: [finance, math, commonsense, code, fact_qa, multi_hop, translation]
 rounds: { baseline: 1, feedback: 10 }
-ablation_arms: [main, no_proxy, random_feedback, uniform_prior, no_voting]
+ablation_arms: [A, A2, A3, C]  # EGTE contrast set (bare / placebo / i.i.d. T=0.7 / weak-critic)
 seeds: 3
 budget: { max_usd: 8000, hard_stop: true }
 rate: { global_rps: null, per_provider_max_concurrency: 8 }
@@ -297,3 +305,4 @@ scheduling and the Phase-3 analysis layer described in §3–§7.
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-09-27 | Initial architecture design (design only; no implementation). Sized to Phase-3 workload; SQLite queue; provider routing; phased landing plan. |
+| 0.2 | 2026-10-21 | Alignment note: re-anchored experiment design to EGTE (arms A/A2/A3/C; three evaluator roles distill/check/review). |

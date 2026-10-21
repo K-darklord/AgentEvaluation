@@ -1,8 +1,8 @@
 # Metacognitive Agent Evaluation — Academic Frontier Work Map
 
-> Report type: literature frontier map · Generated 2026-09-26 · Anchored to draft 2026-09-19 · **Re-anchored 2026-10-10 (see §0) · 40 sources**
+> Report type: literature frontier map · Generated 2026-09-26 · Anchored to draft 2026-09-19 · **Re-anchored 2026-10-10 (RSI, §0) · 2026-10-21 (EGTE, §0.4) · 52 sources**
 >
-> Anchored to the proposal *Can You Teach an Agent to Know What It Doesn't Know?* — mapping the 2022–2026 frontier along four dimensions: **Agent Evaluation / Verification / Optimization / Inference Scaling**. As of 2026-10-10 the anchor has shifted from pure diagnosis to **recursive self-improvement (RSI)** driven by error-set feedback — see §0.
+> Anchored to the proposal *Can You Teach an Agent to Know What It Doesn't Know?* — mapping the 2022–2026 frontier along four dimensions: **Agent Evaluation / Verification / Optimization / Inference Scaling**. As of 2026-10-10 the anchor shifted from pure diagnosis to **recursive self-improvement (RSI)** driven by error-set feedback (see §0); as of 2026-10-21 it sharpened further into **Error-Guided Test-Time Elimination (EGTE)** — a train-free, lower-bound regime that *eliminates* wrong moves instead of scoring the correct path (see §0.4).
 
 The four dimensions have each converged, over 2024–2026, onto the same language — **"capability is a curve swept out by cost/compute, not a single score."** But the *crossover question* — "predict from early rounds the cost required to reach a target accuracy + diagnose the convergence class" — has not yet been systematically covered by anyone. This is precisely the gap where the proposal lands and can make an original contribution.
 
@@ -44,6 +44,47 @@ The headline claim becomes: **an error set is an effective RSI information sourc
 ### 0.3 Where this lands relative to the map below
 
 The four dimensions and the "crossover gap" (sections 1–8) remain valid as the *measurement* substrate. The change is the arrow: instead of ending at "diagnose the convergence class," the roadmap (§9) now continues into "exploit the diagnosis inside a self-improvement loop." The nearest neighbours of §8.3 (Feedback Friction [34], Overthinking [35], Activation-probe self-correction [36]) stay as differentiation targets, augmented by the EIR/ECR feedback-control line [37] as a direct methodological ancestor.
+
+### 0.4 Re-anchoring to Error-Guided Test-Time Elimination (EGTE) — added 2026-10-21
+
+The 2026-10-10 RSI anchor ("an error set is an effective RSI information source") is sharpened
+into a named, differentially-positioned regime: **Error-Guided Test-Time Elimination (EGTE)**.
+EGTE is deliberately **not a PRM** and **not a self-correction trainer**. The distinctions:
+
+1. **PRM scores the correct direction; EGTE eliminates the wrong direction.** A process reward
+   model assigns positive credit to the correct path [7][8]. EGTE instead distills, from
+   gold-annotated errors, a finite set of answer-free *wrong execution behaviors* (`mechanism`)
+   plus a `check_procedure`, and uses them at test time to ELIMINATE a suspect move (CUT /
+   abstain) — never to score the correct one. Correct and incorrect are **asymmetric
+   information**: the reachable error space is small and checkable while the correct space is
+   dense, so EGTE optimizes the *lower bound* of error rather than the objective.
+
+2. **EGTE is test-time and train-free — three SEPARATE roles, no weight updates.** The solver
+   and three evaluator roles — *distill* (build, gold → `mechanism`+`check_procedure`),
+   *check* (execute, gold-free, `trigger` signature), *review* (post-transition,
+   evidence-anchored CUT/UNSURE) — are all separate calls. Capability rises by *mechanism*
+   (answer-free, cross-question, cross-benchmark checks), not by memorizing instance answers;
+   the distilled memory never goes stale because new errors keep sharpening the same mechanisms.
+
+The closest neighbours — i.e. evidence the "learn-from-mistakes" family is already occupied
+(notably **Mistake Notebook Learning [41]**, which already does the "错题集/abstracted error
+patterns" move), and the exact points where EGTE departs — are:
+
+| Work | What it already does | EGTE's departure |
+|---|---|---|
+| Mistake Notebook Learning [41] | training-free persistent KB of *abstracted* error patterns, batch abstraction | EGTE is an evaluator-side check_procedure + evidence closed over a transition-triggered verifier, not in-context/RAG guidance |
+| PRISM [42] | PRMs are biased by step-label imbalance; false positives steer Best-of-N toward flawed reasoning, false negatives only slow it | EGTE moves the FP-asymmetry from *how to train the RM* into *what to learn* (named exclusion rules) |
+| Cliff [43] | negative advantage after the first mistake ("cliff") | EGTE's exclusion is a named, reusable check, not numeric reward shaping |
+| LANPO [44] | "relevant abstraction" distills generalizable lessons | LANPO feeds policy optimization; EGTE feeds a frozen evaluator for exclusion |
+| Agent-R [45] | MCTS recovers correct trajectories from the first-error step | EGTE distills only the exclusion rule, no answer/CoT replay |
+| TAPO [46] | micro-reflective trajectories (keep erroneous prefix, insert diagnosis) | EGTE builds a check procedure for lock/abstain, not a corrective trajectory |
+| LEMMA [47] | error-type grounded mistake augmentation (wrong+reflection+correct) | EGTE is taxonomy-free, class-level behavior, cross-benchmark |
+| ThinkPRM [48] / SCoRe [49] / R3 [50] / VSI [51] / Double-Checker [52] | generative/scalar PRM, self-correction RL, reward-the-reflection, verify-reasoning-not-answer | all optimize a *positive* correctness signal; the elimination regime is the missing frame |
+
+Net effect: §8.2's "gap" (and the paper's novelty claim) is re-expressed. The contribution is
+no longer "diagnose convergence" alone but **"an error set, distilled as *answer-free exclusion
+mechanisms*, is a train-free test-time engine that raises accuracy by reducing errors — a
+lower-bound optimization the correctness-only PRM line does not target."**
 
 ---
 
@@ -296,3 +337,16 @@ There are three real opportunities remaining for the proposal, all concentrated 
 38. Chen, M. et al. (2021). *Evaluating Large Language Models Trained on Code* — https://arxiv.org/abs/2107.03374
 39. Setlur, A. et al. (2025). *Scaling Test-Time Compute Without Verification or RL is Suboptimal* — https://arxiv.org/abs/2502.12118
 40. Zelikman, E. et al. (2022). *STaR: Bootstrapping Reasoning With Reasoning* — https://arxiv.org/abs/2203.14465
+
+41. (2025). *Mistake Notebook Learning: Training-free Improvement of LLMs with Abstracted Mistakes* — https://arxiv.org/abs/2512.11485
+42. (2025). *PRISM: The Hidden Bias of Process Reward Models.* — https://arxiv.org/abs/2606.09078
+43. (2025). *Cliff: Learning Process Rewards from the First Mistake.* — https://arxiv.org/abs/2609.02817
+44. (2025). *LANPO: Learning via Adaptive Principles with Language-guided and Numerical-grounded Feedback.* — https://arxiv.org/abs/2510.16552
+45. (2025). *Agent-R: Training Language Model Agents to Reflect via Iterative Self-Training* — https://arxiv.org/abs/2501.11425
+46. (2025). *TAPO.* — https://arxiv.org/abs/2606.18844
+47. (2025). *LEMMA: Learning from Errors for Mathematic Advancement.* — https://arxiv.org/abs/2503.17439
+48. (2025). *ThinkPRM.* — https://arxiv.org/abs/2504.16828
+49. Kumar, A. et al. (2024). *Training Language Models to Self-Correct via Reinforcement Learning (SCoRe)* — https://arxiv.org/abs/2409.12917
+50. (2025). *Reflect, Retry, Reward.* — https://arxiv.org/abs/2505.24726
+51. (2025). *VSI: Verified Self-Improvement.* — https://arxiv.org/abs/2603.21558
+52. (2025). *Double-Checker: Self-Critical Fine-Tuning.* — https://arxiv.org/abs/2506.21285

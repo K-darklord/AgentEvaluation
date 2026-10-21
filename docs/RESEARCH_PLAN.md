@@ -1,15 +1,23 @@
 # Error-Set Feedback for Recursive Self-Improvement in LLM Agents
 
-**Document type**: Research plan (experiment protocol) · **Version**: 0.19 (Draft) · **Date**: 2026-10-10
+**Document type**: Research plan (experiment protocol) · **Version**: 0.22 (Draft) · **Date**: 2026-10-21
 **Target venues**: Nature Machine Intelligence / IEEE TPAMI / NeurIPS (primary); ACL / EMNLP workshop (early checkpoint).
 
 > **Re-anchored 2026-10-10.** Formerly *A Proxy-Based Meta-Cognitive Evaluation Framework* — a pure measurement contribution. The anchor has moved to **recursive self-improvement (RSI)**: the error-set prior + weak critic is no longer the terminus of the study but the information source an agent loop exploits to raise accuracy. The diagnostic layer (§3–§5) is retained as the *measurement substrate*, not the deliverable.
+>
+> **Sharpened 2026-10-21 → Error-Guided Test-Time Elimination (EGTE).** The RSI anchor is now given a
+> precise, differentially-positioned name. EGTE is deliberately **not a PRM** and **not a self-correction
+> trainer**: a train-free, three-role evaluator — *distill* (build, gold → `mechanism` + `check_procedure`),
+> *check* (execute, gold-free `trigger`), *review* (post-transition, evidence-anchored CUT / UNSURE) —
+> **eliminates** wrong moves distilled from gold-annotated errors instead of scoring the correct path. The
+> solver and the three evaluator roles are **separate calls**. See `docs/WORKMAP.md` §0.4 and
+> `docs/PHASE2_SUMMARY.md` §13–14.
 
 ---
 
 ## Abstract
 
-Agent evaluation has moved toward reporting capability as a **cost–reliability curve** swept out by compute rather than a single static number, and self-correction is increasingly treated as a control loop whose per-round error dynamics — the Error Introduction Rate (EIR) and Error Correction Rate (ECR) — decide whether iteration helps or hurts. We turn that *diagnosis* into the *engine* of **recursive self-improvement (RSI)**: the error-set prior and gold-free weak critic already built as a measurement layer are re-purposed as the information source of an agent loop that raises accuracy. Two levels of measurement are kept distinct — the **per-round** pair EIR/ECR versus the **whole-loop** observables activation rate `P_act` (feedback-guided reachability) and lock-in rate — and bound algebraically (`r = 1 − ∏(1−ECR)`; a lock-in deficit is exactly EIR>0). The improvement is hypothesised as a **two-stage strategy**: Stage A raises `P_act` by error-set-guided sampling (no training); Stage B raises the lock-in rate via a train-free evaluator that reads each round's transition rationale and emits an answer / abstain verdict, moving the loop into the stable region `ECR/EIR > Acc/(1−Acc)`. Across three mid-tier models and multiple benchmarks we report the per-model activation / locking / correction profile as the intermediate product, and test the central claim: **an error set is an effective RSI information source**.
+Agent evaluation has moved toward reporting capability as a **cost–reliability curve** swept out by compute rather than a single static number, and self-correction is increasingly treated as a control loop whose per-round error dynamics — the Error Introduction Rate (EIR) and Error Correction Rate (ECR) — decide whether iteration helps or hurts. We turn that *diagnosis* into the *engine* of **recursive self-improvement (RSI)**: the error-set prior and gold-free weak critic already built as a measurement layer are re-purposed as the information source of an agent loop that raises accuracy. Two levels of measurement are kept distinct — the **per-round** pair EIR/ECR versus the **whole-loop** observables activation rate `P_act` (feedback-guided reachability) and lock-in rate — and bound algebraically (`r = 1 − ∏(1−ECR)`; a lock-in deficit is exactly EIR>0). The improvement is hypothesised as a **two-stage strategy**: Stage A raises `P_act` by error-set-guided sampling (no training); Stage B raises the lock-in rate via a train-free evaluator that reads each round's transition rationale and emits an answer / abstain verdict, moving the loop into the stable region `ECR/EIR > Acc/(1−Acc)`. Across three mid-tier models and multiple benchmarks we report the per-model activation / locking / correction profile as the intermediate product, and test the central claim: **an error set is an effective RSI information source**. We name this train-free, test-time mechanism **Error-Guided Test-Time Elimination (EGTE)**: a three-role evaluator (distill / check / review) that eliminates wrong moves from gold-annotated errors — optimising the *lower bound* of error rather than scoring the correct path — with no weight update.
 
 ---
 
@@ -77,6 +85,14 @@ observables, (ii) a gold-free proxy driving them, and (iii) a causal arm design 
 risk-factor model of locking.
 
 **EIR/ECR feedback-control ancestor (added 2026-10-10).** Liu & Meng 2026 ("Self-Correction as Feedback Control", arXiv:2604.22273) models the same loop as a two-state Markov chain parameterised by EIR/ECR and derives the stability threshold ECR/EIR > Acc/(1−Acc). It is the direct methodological ancestor of §3.7: we keep EIR/ECR as *per-round* micro quantities while reporting `P_act` / `P_lock` as *whole-loop* macro observables, and we turn their diagnostic into a two-stage improvement claim (Stage A reachability / Stage B locking).
+
+**EGTE positioning (added 2026-10-21).** The "learn-from-mistakes" family the two-stage claim sits inside is
+already occupied — most directly by **Mistake Notebook Learning** (a training-free persistent KB of
+*abstracted* error patterns) — so the novelty must be drawn against it. EGTE's departure: it distills not
+instance guidance but an **answer-free `mechanism` + differential `check_procedure`**, enforced by a
+**transition-triggered, gold-free verifier** with **evidence-anchored CUT / UNSURE**, and improves capability by
+*mechanism* (cross-question, cross-benchmark) rather than by memorising answers. The full neighbour/contrast
+table is `docs/WORKMAP.md` §0.4 and §13.3 of `docs/PHASE2_SUMMARY.md`.
 
 ---
 
@@ -177,6 +193,13 @@ Their model yields a **stability threshold** (iterate only while ECR/EIR > Acc/(
 2. **Stage B — raise the lock-in rate via a train-free transition evaluator (no training).** An external evaluator reads each round's self-reported transition rationale, prunes the state chain, and emits an answer / abstain verdict, suppressing EIR-driven flips; this is where beyond-restoration gains live.
 
 The headline claim: **an error set is an effective RSI information source** — first as a sampling prior, then as the transition signal an evaluator reads to lock the answer, raising `P_act` while keeping ECR high and EIR low (moving the loop into `ECR/EIR > Acc/(1−Acc)`).
+
+**EGTE reframe (2026-10-21).** The two-stage decomposition is the macro read; EGTE is the *test-time* read of
+the same loop: the "train-free transition evaluator" (Stage B) is realised as **three separated roles** —
+*distill* (build-time, gold → `mechanism` + `check_procedure`), *check* (execution-time, gold-free `trigger`),
+*review* (post-transition, evidence-anchored CUT / UNSURE). EGTE optimises the **lower bound** (eliminate wrong
+moves) rather than the objective (select the correct one), exploiting the asymmetry that the reachable error
+space is small and checkable while the correct space is dense.
 
 ---
 
@@ -749,7 +772,7 @@ The dominant cost driver is the number of API model × question × round cells p
 ### 8.1 Three contributions (layered)
 
 1. **Error-set-driven RSI (headline).** An error set is an effective recursive-self-improvement information source: error-set-guided feedback produces a significant, attributable accuracy gain over directionless noise. Answers *"can a cheap, gold-free error signal actually improve the model?"*
-2. **Two-stage decomposition (mechanism).** The gain decomposes into a reachability stage (Stage A, `P_act`, no training) and a locking stage (Stage B, lock-in rate, no training — a train-free transition evaluator), bound to the per-round EIR/ECR dynamics and the stability threshold `ECR/EIR > Acc/(1−Acc)`. Answers *"where does the gain come from, and how do we push it further?"*
+2. **Error-Guided Test-Time Elimination (mechanism).** The gain decomposes into a reachability lever (Stage A, `P_act`, no training) and a test-time **elimination** lever realised as a three-role evaluator (*distill* / *check* / *review*) that removes wrong moves rather than scoring the correct path — bound to the per-round EIR/ECR dynamics and the stability threshold `ECR/EIR > Acc/(1−Acc)`. Answers *"where does the gain come from, and how do we push it further?"*
 3. **Round-dimension measurement layer (enabling).** The activation / locking / correction observables (`μ, P_act, r, P_lock, q_stay, cost(R)`) and the diagnostic cost–reliability model are retained as the *intermediate product* that makes (1) and (2) measurable and reproducible. Answers *"how do we read the improvement, at what cost?"*
 
 ### 8.2 Risks and the informative negative result
@@ -830,10 +853,10 @@ Stage-B keys on a *stability* signal (concentration), not critic P(wrong).
    or a light outcome-RM trained on the wrong bank, P(correct | question, answer).
  - Abstain: sharp-wrong (or flat without any activation) -> conformal abstention.
 
-PRM (step-level process reward) is deferred: the signal is concentrated in the final
-answer and the correct value is already in the candidate set, so process granularity
-does not buy reachability at this stage; it is the Phase-2 refinement, not the
-bottleneck.
+**Naming (2026-10-21): not a PRM.** EGTE is explicitly **not** a process reward model — it assigns no scalar
+credit to the correct path and performs no weight update; it only *eliminates* pristine wrong moves via the
+distill / check / review roles (§3.7). Step-level process reward remains deferred for the same reason: the
+signal concentrates in the final answer and the correct value is already in the candidate set.
 
 ---
 
@@ -841,6 +864,7 @@ bottleneck.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.22 | 2026-10-21 | Sharpened the mechanism naming to **Error-Guided Test-Time Elimination (EGTE)** — a train-free, three-role evaluator (distill / check / review) that eliminates wrong moves, explicitly not a PRM (no scalar reward, no weight update). Re-anchored Abstract / §2 (learn-from-mistakes family already occupied: Mistake Notebook Learning) / §3.7 / §5.16 / §8.1; experiment path per `docs/PHASE2_SUMMARY.md` §14 (fix C → deepseek-first → glm/qwen replication + more families). |
 | 0.21 | 2026-10-10 | Added §5.16 causal contrast (A/A2/A3 vs C): four-arm design with A3 as self-consistency (Wang 2022, T=0.7 n=10; pass@k <-> correct_appeared), FTR literature anchor (arXiv:2509.07676) motivating A2 as a directionless control; recorded the offline low-confidence profiling (flat-vs-sharp wrong, 60-78% activation-without-lock) and the critic error_score anti-correlation negative result; Stage-B B1/B2 mechanism (stability gate + verifier escalation + abstention, PRM deferred). Implemented arm A3 + --temperature + --skip-finance in run_feedback_loop.py (bfcl kept; only finance/FAB excluded). |
 | 0.20 | 2026-10-10 | Added §5.15 directional hypothesis H2 (Stage B stability-based selection) with offline anchors: mode/self-loop/stationary selectors beat the last-round lock-in (mode 86–98%; +0.5–4.3pp over `last`), the correct value is the frequency mode, mode failure is partly bimodal (correct = 2nd mode in 33–57%), and mode concentration is a ~6–14× lock-in signature. Added `src/stable_state_estimator.py` and `src/mode_bimodality.py`. |
 | 0.19 | 2026-10-10 | Re-anchored from pure diagnosis to recursive self-improvement (RSI): error-set prior + weak critic re-purposed as the RSI information source; two-stage strategy (Stage A reachability / Stage B locking) bound to the EIR/ECR dynamics of Liu & Meng 2026. Added §3.7 (two-level error dynamics + two-stage strategy), revised Abstract / §1 / §2 positioning / RQ5-6 / §8.1; added §5.12 EIR/ECR bridge, §5.13 RSI reading, and §5.14 RSI stages (R0–R3). |

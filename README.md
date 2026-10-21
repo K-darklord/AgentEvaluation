@@ -11,6 +11,13 @@
 1. **The evaluation pipeline** — real benchmark data across five task families (GSM8K, MATH-500, MMLU-Pro, FAB, BFCL) + tool-calling agents + trajectory recording + three-tier scoring (T1 rule / T2 LLM rescue / T3 multi-judge).
 2. **The home of the research program** — single end-to-end paper whose core contribution is a *new evaluation paradigm*: an external meta-cognitive (weak-critic) proxy redefines capability from static single-shot accuracy into round-dimension dynamic observables — activation ceiling `P(A)`, locking `P(F | A)`, locking loss — and a cost–reliability + risk relationship; a model × task × error-type tensor decomposition localizes which of four capability layers (L1–L4) a model lacks. The evaluation-framework-interference study (26pp spurious deficit) motivates "static accuracy is a bad metric".
 
+> **Re-anchored 2026-10-21 → Error-Guided Test-Time Elimination (EGTE).** The program's active mechanism is
+> EGTE: a **train-free, three-role evaluator** (*distill* → `mechanism` + `check_procedure`, *check* → gold-free
+> `trigger`, *review* → evidence-anchored CUT / UNSURE) that **eliminates** wrong moves distilled from
+> gold-annotated errors, instead of scoring the correct path. It is deliberately **not a PRM** (no scalar reward,
+> no weight update — the solver and the three evaluator roles are separate calls). See `docs/WORKMAP.md` §0.4 and
+> `docs/PHASE2_SUMMARY.md` §13–14.
+
 ---
 
 ## Repository structure
@@ -71,7 +78,7 @@ AgentEvaluation/
 | [docs/DECISION_LOG.md](docs/DECISION_LOG.md) | Decisions, open questions, working notes (not a deliverable) |
 | [docs/HISTORY.md](docs/HISTORY.md) | Project stage history (finance pipeline → interference → metacognition) + continuity rules |
 | [docs/FILE_AUDIT.md](docs/FILE_AUDIT.md) | File-audit & doc-sync playbook (sync-on-push habit, periodic scan checklist) |
-| [docs/WORKMAP.md](docs/WORKMAP.md) | 4-dimension academic frontier map (36 sources): evaluation / verification / optimization / inference scaling → proposal positioning |
+| [docs/WORKMAP.md](docs/WORKMAP.md) | 4-dimension academic frontier map (52 sources): evaluation / verification / optimization / inference scaling → proposal positioning → EGTE |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Implementation blueprint for the experiment-execution layer (SQLite task queue, provider routing, phased landing plan) |
 | [PROTOCOL.md](PROTOCOL.md) | How every change propagates to all dependent documents |
 
@@ -122,6 +129,7 @@ Correctness is dispatched into three tiers by answer form: **T1** deterministic 
 
 | Version | Date | Change |
 |---|---|---|
+| 2.8 | 2026-10-21 | Re-anchored to Error-Guided Test-Time Elimination (EGTE): three-role evaluator (distill / check / review), not a PRM; WORKMAP 52 sources. |
 | — | 2026-09-16 | Prior evaluation pipeline README. |
 | 2.7 | 2026-10-07 | File-audit cleanup: added FILE_AUDIT.md playbook; removed legacy FinGPT local-inference dead code and superseded configs/fab_baseline.yaml; completed CHANGELOG. |
 | 2.6 | 2026-10-07 | Phase 1 complete: 4-layer capability framing (activation/locking), weak critic, PHASE1_SUMMARY.md as authoritative summary+plan; WORKMAP 36 sources. |
