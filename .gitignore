@@ -90,9 +90,8 @@ cache/
 *.7z
 
 # ===========================
-# Research evidence & drafts (not tracked, local only)
+# Research evidence & drafts
 # ===========================
 # experiments/  (un-ignored 2026-09-26: experiment logs/results are the paper's evidence chain)
-paper_outline.md
-paper/
+# paper/  (un-ignored 2026-10-21: paper_outline.md is the manuscript skeleton under version control)
 

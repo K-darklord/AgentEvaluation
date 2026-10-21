@@ -1,8 +1,14 @@
 # Change-Propagation Protocol
 
-> Living document · v1.2 · 2026-10-07
+> Living document · v1.3 · 2026-10-21
 >
 > This protocol governs how the repository stays internally consistent when the research direction changes or new experimental conclusions revise prior views. It is **normative**: every change must follow it.
+>
+> **Active direction (2026-10-21).** The program has re-anchored from plain recursive self-improvement (RSI)
+> to **Error-Guided Test-Time Elimination (EGTE)** — a train-free, three-role evaluator (distill / check /
+> review) that *eliminates* wrong moves instead of scoring the correct path (§0.4 of `docs/WORKMAP.md`, §13–14
+> of `docs/PHASE2_SUMMARY.md`). Outstanding propagation debt from that re-anchor is tracked below and closed
+> incrementally.
 
 ---
 
@@ -33,12 +39,13 @@
 |---|---|---|
 | `docs/RESEARCH_PLAN.md` | research questions, method, experimental design, contributions, risks | — |
 | `docs/PHASE1_SUMMARY.md` | Phase 1 results + Phase 2 plan (authoritative summary) | RESEARCH_PLAN, `experiments/` |
+| `docs/PHASE2_SUMMARY.md` | Phase 2 (RSI) live summary: EGTE re-anchoring (§13) + experiment path (§14) | RESEARCH_PLAN, PHASE1_SUMMARY, `experiments/` |
 | `docs/REPRODUCIBILITY.md` | reproducibility standard (seeds, configs, layout, checklists) | — |
 | `docs/EVALUATION_STANDARD.md` | scoring methodology (3-tier T1/T2/T3) | — |
 | `docs/ERROR_TAXONOMY.md` | 19-leaf error taxonomy | EVALUATION_STANDARD |
 | `docs/INTERFERENCE_CAUSAL_TABLE.md` | interference evidence (INT-01…16 causal status) | `experiments/` |
 | `docs/TIMELINE.md` | phases, milestones, budget | RESEARCH_PLAN |
-| `docs/WORKMAP.md` | frontier literature map | — |
+| `docs/WORKMAP.md` | frontier literature map (52 sources; EGTE positioning §0.4) | — |
 | `docs/EXPERIMENT_LOG.md` | per-run evidence index | `experiments/`, `configs/` |
 | `docs/DECISION_LOG.md` | decisions, open questions, working notes | — |
 | `docs/DOCS_FRAMEWORK.md` | the document system itself | — |
@@ -95,6 +102,7 @@ A change to any claim invalidates downstream artifacts that depend on it. On any
 
 | Version | Date | Change |
 |---|---|---|
+| 1.3 | 2026-10-21 | Document graph: added PHASE2_SUMMARY.md (EGTE re-anchoring §13 + experiment path §14); WORKMAP responsibility noted as 52 sources with EGTE positioning; recorded the active EGTE direction. |
 | 1.2 | 2026-10-07 | Document graph: added FILE_AUDIT.md (file-audit & doc-sync playbook). |
 | 1.1 | 2026-10-07 | Document graph: added PHASE1_SUMMARY.md + ERROR_TAXONOMY.md; EVALUATION_STANDARD corrected to 3-tier; INTERFERENCE range to INT-16. |
 | 1.0 | 2026-09-26 | Initial protocol. |
