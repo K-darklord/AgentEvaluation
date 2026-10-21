@@ -39,7 +39,7 @@ Four separable capabilities (RESEARCH_PLAN §3.1); the layer labels used through
 > paths rather than create capability. L3 is then *meta-cognition* (re-activating the correct path
 > under a possibly-noisy signal), and L4 is *locking* = the robustness RL training is meant to buy.
 > The arm ordering `A3 (no-direction sampling) ≤ C (noisy critic) ≤ C* (oracle verifier)` frames the
-> testable claim **`C > A3`**. See RESEARCH_PLAN §5.13.
+> testable claim **`C > A3`**. See `docs/L3L4_RL_REDISTRIBUTION.md`.
 
 ### 2.2 Observed quantities
 
@@ -141,7 +141,7 @@ Percentages are followed by raw counts in parentheses. `r0` = round-0 accuracy.
    glm has the *highest* activation (94%) yet the *lowest* final (76%) → locking 80.9%,
    18 pp loss: glm reaches the answer but cannot hold it. qwen is the mirror image —
    lowest activation (90%) but near-perfect locking (97.8%, 2 pp loss). deepseek sits
-   between. This is the activation–vs–locking decoupling (§3.6.2) the framework exists to
+   between. This is the activation–vs–locking decoupling (§3.7) the framework exists to
    see, invisible in any single pooled statistic.
 
 3. **finance is the L2 pivot and the sole reachability deficit.** Activation drops for all
@@ -161,15 +161,14 @@ Percentages are followed by raw counts in parentheses. `r0` = round-0 accuracy.
 6. **The model × family interaction now discriminates where the pooled number did not.** The
    ordering of models is not conserved across families (glm leads math500 activation but
    trails finance; qwen leads locking while lagging activation). This is precisely the
-   capability-matrix cell structure §5.4 predicts.
+   capability-matrix cell structure §5.10 predicts.
 
 ## 7. Conclusions
 
 **What Phase 1 can claim.**
 
 - **The instrument discriminates where accuracy cannot.** Split by family, the activation/locking
-  decomposition separates models that a single pooled number hides; the signal lives entirely on the
-  round dimension — the only place the plan (§5.4) argued inversion is possible.
+  decomposition separates models that a single pooled number hides; the signal lives entirely on the round dimension — the only place the plan (§5.10) argued inversion is possible.
 - **The dominant deficit *type* differs by model.** glm = locking (math500: 94% activation vs 81%
   locking) + reachability (finance: 68% activation); qwen = locking (bfcl: 100% activation vs 88%
   locking) with otherwise high activation; deepseek = nearest to balanced. Locking-loss is a

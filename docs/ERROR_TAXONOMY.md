@@ -18,7 +18,7 @@ The error taxonomy serves two distinct roles that must not be conflated:
 
 - The **leaf** is the only signal returned to the model during self-correction loops. It is *directional* (an instance-similarity vote says "your error looks like X with probability p").
 - The **middle axis** exists solely so the error-type dimension is shared across task families (breaking the block-diagonal structure that otherwise prevents factorization).
-- **L1–L4** are hypotheses named after the fact, never preset (see §3.6.1 of RESEARCH_PLAN).
+- **L1–L4** are hypotheses named after the fact, never preset (see §3.1 of RESEARCH_PLAN).
 
 ---
 
@@ -76,7 +76,7 @@ The 6 shared axes above are the observable failure modes, not an a priori L1–L
 | **tool** | tool_error, wrong_function_name, wrong_argument | finance, bfcl |
 | **completeness** | coverage_incomplete | finance |
 
-Block-diagonality is broken where a single axis spans ≥2 families; `knowledge` and `completeness` remain single-family (finance only) and are expected to under-anchor the factorization until Phase 2 adds ≥2 tool families with error signal (see §5.4 of RESEARCH_PLAN).
+Block-diagonality is broken where a single axis spans ≥2 families; `knowledge` and `completeness` remain single-family (finance only) and are expected to under-anchor the factorization until Phase 2 adds ≥2 tool families with error signal (see §5.10 of RESEARCH_PLAN).
 
 ---
 

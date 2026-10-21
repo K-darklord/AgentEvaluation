@@ -16,7 +16,7 @@ Two consequences:
 
 2. **L2 tools are the point.** BFCL is *function calling* (the schema IS the task); finance/FAB is an *open-book agent* (it must retrieve filings). Removing tools here would destroy the benchmark.
 
-This is the same L1/L2 split already used for capability-matrix inversion in `docs/RESEARCH_PLAN.md` §5.2/§5.4 — here it is stated as an explicit, code-enforced policy rather than an implicit assumption.
+This is the same L1/L2 split already used for capability-matrix inversion in `docs/RESEARCH_PLAN.md` §5.1/§5.10 — here it is stated as an explicit, code-enforced policy rather than an implicit assumption.
 
 ---
 

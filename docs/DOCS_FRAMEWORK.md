@@ -25,7 +25,7 @@ Information was scattered across two places and has now been unified into this r
 
 | Document | Register | Responsibility | Location |
 |---|---|---|---|
-| **RESEARCH_PLAN.md** | academic | experiment protocol (sole authority for design, budget, timeline, phases) | `docs/RESEARCH_PLAN.md` |
+| **RESEARCH_PLAN.md** | academic | experiment protocol (authoritative for research questions, method, experimental design, contributions, risks) | `docs/RESEARCH_PLAN.md` |
 | **PHASE1_SUMMARY.md** | academic | Phase 1 (probe) results + Phase 2 plan (weak critic, six end-states, activation/locking, cost–reliability + risk) | `docs/PHASE1_SUMMARY.md` |
 | **PHASE2_SUMMARY.md** | academic | Phase 2 (RSI) live summary — EGTE re-anchoring (§13), experiment path (§14: fix C → deepseek-first → glm/qwen + more families) | `docs/PHASE2_SUMMARY.md` |
 | **PROTOCOL.md** | academic (governance) | change-propagation rules (which documents change when) | `PROTOCOL.md` |

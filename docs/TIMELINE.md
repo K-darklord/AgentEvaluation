@@ -23,7 +23,7 @@ Writing & submission           (4–6 weeks)
 **Budget**: < $200. **Models**: 3 mid-tier via Aliyun Token Plan — deepseek-v4-flash-0731, qwen3.8-flash, glm-5.3; **no local model loading**; strong tier deferred to Phase 2/3. **Tasks**: 250 Qs — GSM8K 50 + MATH-500 50 + MMLU-Pro 50 + FAB 50 + BFCL 50 (L1:L2 = 3:2).
 
 The authoritative Phase-1 plan (four feasibility checks, build-before-burn order, N=10 in 3-round
-segments, no-human-labelling validation) is `docs/RESEARCH_PLAN.md` §5.7. Milestones:
+segments, no-human-labelling validation) is `docs/PHASE1_SUMMARY.md` (Phase-1 go/no-go plan). Milestones:
 
 - **Foundations (no API cost)** — capability-matrix definition + decomposition check against d1_baseline; per-domain error taxonomy + Top-K signal generator + prior-weighted update; validated by deterministic rules and outcome-based next-round improvement, not human labelling.
 - **Multi-round feedback (N=10, 3-round segments)** — advance the loop in ~3-round segments; after each segment inspect activation/locking for signal-driven change before spending the next.
