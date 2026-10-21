@@ -1,0 +1,36 @@
+{
+  "run_id": "a3_gpqa_full_qwen_20261013",
+  "arm": "A3",
+  "family_filter": null,
+  "task_set": "gpqa",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.7,
+  "skip_finance": false,
+  "rationale_mode": "off",
+  "seed": null,
+  "n_tasks": 148,
+  "concurrency": 6,
+  "models": {
+    "qwen3.8-flash": {
+      "model_id": "qwen3.8-flash",
+      "init_accuracy": 0.178,
+      "final_accuracy": 0.178,
+      "end_state_distribution": {
+        "1": 20,
+        "3": 1,
+        "6": 97
+      },
+      "l3_activation_rate": 0.178,
+      "l3_reversibility_rate": 0.0,
+      "l4_lock_rate": 0.9524,
+      "l4_misled_rate": 0.0,
+      "avg_rounds": 10.0,
+      "total_prompt_tokens": 59760,
+      "total_completion_tokens": 533894,
+      "total_reasoning_tokens": 0
+    }
+  }
+}

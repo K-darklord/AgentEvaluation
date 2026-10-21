@@ -1,0 +1,38 @@
+{
+  "run_id": "stageb_non_settle_deepseek_phase1_20261018",
+  "arm": "C",
+  "family_filter": null,
+  "task_set": "phase1",
+  "max_tokens": 1024,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "reason_line",
+  "seed": null,
+  "n_tasks": 10,
+  "concurrency": 6,
+  "models": {
+    "deepseek-v4-flash": {
+      "model_id": "deepseek-v4-flash-0731",
+      "init_accuracy": 0.3,
+      "final_accuracy": 0.3,
+      "end_state_distribution": {
+        "1": 1,
+        "2": 2,
+        "4": 2,
+        "5": 2,
+        "6": 3
+      },
+      "l3_activation_rate": 0.7,
+      "l3_reversibility_rate": 0.5714,
+      "l4_lock_rate": 0.3333,
+      "l4_misled_rate": 0.6667,
+      "avg_rounds": 9.4,
+      "total_prompt_tokens": 85927,
+      "total_completion_tokens": 111527,
+      "total_reasoning_tokens": 111118
+    }
+  }
+}

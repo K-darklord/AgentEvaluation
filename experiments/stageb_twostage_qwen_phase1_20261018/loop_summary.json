@@ -1,0 +1,36 @@
+{
+  "run_id": "stageb_twostage_qwen_phase1_20261018",
+  "arm": "C",
+  "family_filter": null,
+  "task_set": "phase1",
+  "max_tokens": 1024,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "twostage",
+  "seed": null,
+  "n_tasks": 11,
+  "concurrency": 6,
+  "models": {
+    "qwen3.8-flash": {
+      "model_id": "qwen3.8-flash",
+      "init_accuracy": 0.9091,
+      "final_accuracy": 0.9091,
+      "end_state_distribution": {
+        "1": 9,
+        "2": 1,
+        "4": 1
+      },
+      "l3_activation_rate": 1.0,
+      "l3_reversibility_rate": 1.0,
+      "l4_lock_rate": 0.9,
+      "l4_misled_rate": 0.1,
+      "avg_rounds": 8.73,
+      "total_prompt_tokens": 103951,
+      "total_completion_tokens": 268801,
+      "total_reasoning_tokens": 266208
+    }
+  }
+}

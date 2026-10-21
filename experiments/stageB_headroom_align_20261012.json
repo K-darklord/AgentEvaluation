@@ -1,0 +1,974 @@
+{
+  "glm-5.3|mmlu_pro": {
+    "model": "glm-5.3",
+    "dataset": "phase1",
+    "family": "mmlu_pro",
+    "headroom": [
+      {
+        "task_id": "mmlu_pro_023",
+        "value_sequence": [
+          "E",
+          "E",
+          "",
+          "A",
+          "A",
+          "A",
+          "A",
+          "A",
+          "E",
+          "A",
+          "A"
+        ],
+        "transitions": [
+          "E->E",
+          "E->",
+          "->A",
+          "A->A",
+          "A->A",
+          "A->A",
+          "A->A",
+          "A->E",
+          "E->A",
+          "A->A"
+        ]
+      },
+      {
+        "task_id": "mmlu_pro_033",
+        "value_sequence": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "J",
+          "",
+          "",
+          "",
+          "J",
+          ""
+        ],
+        "transitions": [
+          "->",
+          "->",
+          "->",
+          "->",
+          "->J",
+          "J->",
+          "->",
+          "->",
+          "->J",
+          "J->"
+        ]
+      }
+    ]
+  },
+  "glm-5.3|aime": {
+    "model": "glm-5.3",
+    "dataset": "new",
+    "family": "aime",
+    "headroom": [
+      {
+        "task_id": "aime_044",
+        "value_sequence": [
+          "864",
+          "",
+          "8",
+          "864",
+          "864",
+          "",
+          "8",
+          "8",
+          "8"
+        ],
+        "transitions": [
+          "864->",
+          "->8",
+          "8->864",
+          "864->864",
+          "864->",
+          "->8",
+          "8->8",
+          "8->8"
+        ]
+      }
+    ]
+  },
+  "glm-5.3|bbh": {
+    "model": "glm-5.3",
+    "dataset": "new",
+    "family": "bbh",
+    "headroom": [
+      {
+        "task_id": "bbh_0005",
+        "value_sequence": [
+          "A",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "transitions": [
+          "A->",
+          "->",
+          "->",
+          "->"
+        ]
+      },
+      {
+        "task_id": "bbh_0006",
+        "value_sequence": [
+          "B",
+          "",
+          "",
+          "B",
+          "",
+          "B",
+          "",
+          "B",
+          "",
+          "B",
+          ""
+        ],
+        "transitions": [
+          "B->",
+          "->",
+          "->B",
+          "B->",
+          "->B",
+          "B->",
+          "->B",
+          "B->",
+          "->B",
+          "B->"
+        ]
+      },
+      {
+        "task_id": "bbh_0013",
+        "value_sequence": [
+          "E",
+          "",
+          "",
+          ""
+        ],
+        "transitions": [
+          "E->",
+          "->",
+          "->"
+        ]
+      },
+      {
+        "task_id": "bbh_0016",
+        "value_sequence": [
+          "A",
+          "",
+          "A",
+          "A",
+          "A",
+          "",
+          "",
+          "A",
+          "A",
+          "",
+          ""
+        ],
+        "transitions": [
+          "A->",
+          "->A",
+          "A->A",
+          "A->A",
+          "A->",
+          "->",
+          "->A",
+          "A->A",
+          "A->",
+          "->"
+        ]
+      },
+      {
+        "task_id": "bbh_0026",
+        "value_sequence": [
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "transitions": [
+          "C->C",
+          "C->C",
+          "C->C",
+          "C->C",
+          "C->C",
+          "C->C",
+          "C->",
+          "->",
+          "->",
+          "->"
+        ]
+      },
+      {
+        "task_id": "bbh_0027",
+        "value_sequence": [
+          "B",
+          "",
+          "",
+          "B",
+          "B",
+          "B",
+          "B",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "transitions": [
+          "B->",
+          "->",
+          "->B",
+          "B->B",
+          "B->B",
+          "B->B",
+          "B->",
+          "->",
+          "->",
+          "->"
+        ]
+      },
+      {
+        "task_id": "bbh_0031",
+        "value_sequence": [
+          "no",
+          "",
+          "",
+          ""
+        ],
+        "transitions": [
+          "no->",
+          "->",
+          "->"
+        ]
+      },
+      {
+        "task_id": "bbh_0020",
+        "value_sequence": [
+          "D",
+          "F",
+          "",
+          "D",
+          "",
+          "",
+          "D",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "transitions": [
+          "D->F",
+          "F->",
+          "->D",
+          "D->",
+          "->",
+          "->D",
+          "D->",
+          "->",
+          "->",
+          "->"
+        ]
+      },
+      {
+        "task_id": "bbh_0019",
+        "value_sequence": [
+          "F",
+          "D",
+          "F",
+          "",
+          "",
+          "F",
+          "",
+          "F",
+          "D",
+          "F",
+          "D"
+        ],
+        "transitions": [
+          "F->D",
+          "D->F",
+          "F->",
+          "->",
+          "->F",
+          "F->",
+          "->F",
+          "F->D",
+          "D->F",
+          "F->D"
+        ]
+      }
+    ]
+  },
+  "glm-5.3|gpqa": {
+    "model": "glm-5.3",
+    "dataset": "new",
+    "family": "gpqa",
+    "headroom": [
+      {
+        "task_id": "gpqa_001",
+        "value_sequence": [
+          "B",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "transitions": [
+          "B->",
+          "->",
+          "->",
+          "->",
+          "->"
+        ]
+      },
+      {
+        "task_id": "gpqa_002",
+        "value_sequence": [
+          "D",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "D",
+          "",
+          ""
+        ],
+        "transitions": [
+          "D->",
+          "->",
+          "->",
+          "->",
+          "->",
+          "->",
+          "->",
+          "->D",
+          "D->",
+          "->"
+        ]
+      },
+      {
+        "task_id": "gpqa_015",
+        "value_sequence": [
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          ""
+        ],
+        "transitions": [
+          "C->C",
+          "C->C",
+          "C->C",
+          "C->C",
+          "C->C",
+          "C->C",
+          "C->C",
+          "C->C",
+          "C->C",
+          "C->"
+        ]
+      },
+      {
+        "task_id": "gpqa_016",
+        "value_sequence": [
+          "A",
+          "B",
+          "B",
+          "B"
+        ],
+        "transitions": [
+          "A->B",
+          "B->B",
+          "B->B"
+        ]
+      },
+      {
+        "task_id": "gpqa_029",
+        "value_sequence": [
+          "D",
+          "A",
+          "",
+          "A",
+          "A",
+          "A"
+        ],
+        "transitions": [
+          "D->A",
+          "A->",
+          "->A",
+          "A->A",
+          "A->A"
+        ]
+      },
+      {
+        "task_id": "gpqa_028",
+        "value_sequence": [
+          "D",
+          "",
+          "B",
+          "B",
+          "B"
+        ],
+        "transitions": [
+          "D->",
+          "->B",
+          "B->B",
+          "B->B"
+        ]
+      },
+      {
+        "task_id": "gpqa_022",
+        "value_sequence": [
+          "C",
+          "",
+          "C",
+          "",
+          "",
+          "C",
+          "",
+          "C",
+          "",
+          "C",
+          ""
+        ],
+        "transitions": [
+          "C->",
+          "->C",
+          "C->",
+          "->",
+          "->C",
+          "C->",
+          "->C",
+          "C->",
+          "->C",
+          "C->"
+        ]
+      },
+      {
+        "task_id": "gpqa_040",
+        "value_sequence": [
+          "B",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "transitions": [
+          "B->",
+          "->",
+          "->",
+          "->"
+        ]
+      },
+      {
+        "task_id": "gpqa_037",
+        "value_sequence": [
+          "D",
+          "",
+          "",
+          "",
+          "D",
+          "D",
+          "D",
+          "D",
+          "D",
+          "",
+          ""
+        ],
+        "transitions": [
+          "D->",
+          "->",
+          "->",
+          "->D",
+          "D->D",
+          "D->D",
+          "D->D",
+          "D->D",
+          "D->",
+          "->"
+        ]
+      },
+      {
+        "task_id": "gpqa_044",
+        "value_sequence": [
+          "B",
+          "",
+          "B",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "transitions": [
+          "B->",
+          "->B",
+          "B->",
+          "->",
+          "->",
+          "->",
+          "->",
+          "->"
+        ]
+      },
+      {
+        "task_id": "gpqa_043",
+        "value_sequence": [
+          "D",
+          "",
+          "B",
+          "D",
+          "",
+          "D",
+          "D",
+          "D",
+          "D",
+          "D",
+          ""
+        ],
+        "transitions": [
+          "D->",
+          "->B",
+          "B->D",
+          "D->",
+          "->D",
+          "D->D",
+          "D->D",
+          "D->D",
+          "D->D",
+          "D->"
+        ]
+      }
+    ]
+  },
+  "qwen3.8-flash|mmlu_pro": {
+    "model": "qwen3.8-flash",
+    "dataset": "phase1",
+    "family": "mmlu_pro",
+    "headroom": [
+      {
+        "task_id": "mmlu_pro_046",
+        "value_sequence": [
+          "J",
+          "F",
+          "F",
+          "F"
+        ],
+        "transitions": [
+          "J->F",
+          "F->F",
+          "F->F"
+        ]
+      }
+    ]
+  },
+  "qwen3.8-flash|aime": {
+    "model": "qwen3.8-flash",
+    "dataset": "new",
+    "family": "aime",
+    "headroom": []
+  },
+  "qwen3.8-flash|bbh": {
+    "model": "qwen3.8-flash",
+    "dataset": "new",
+    "family": "bbh",
+    "headroom": [
+      {
+        "task_id": "bbh_0019",
+        "value_sequence": [
+          "D",
+          "F",
+          "D",
+          "F",
+          "D",
+          "F",
+          "D",
+          "F",
+          "D",
+          "F",
+          "D"
+        ],
+        "transitions": [
+          "D->F",
+          "F->D",
+          "D->F",
+          "F->D",
+          "D->F",
+          "F->D",
+          "D->F",
+          "F->D",
+          "D->F",
+          "F->D"
+        ]
+      }
+    ]
+  },
+  "qwen3.8-flash|gpqa": {
+    "model": "qwen3.8-flash",
+    "dataset": "new",
+    "family": "gpqa",
+    "headroom": [
+      {
+        "task_id": "gpqa_028",
+        "value_sequence": [
+          "",
+          "D",
+          "",
+          "",
+          ""
+        ],
+        "transitions": [
+          "->D",
+          "D->",
+          "->",
+          "->"
+        ]
+      },
+      {
+        "task_id": "gpqa_009",
+        "value_sequence": [
+          "",
+          "A",
+          "",
+          "A",
+          "",
+          "A",
+          "",
+          "",
+          ""
+        ],
+        "transitions": [
+          "->A",
+          "A->",
+          "->A",
+          "A->",
+          "->A",
+          "A->",
+          "->",
+          "->"
+        ]
+      }
+    ]
+  },
+  "deepseek-v4-flash|mmlu_pro": {
+    "model": "deepseek-v4-flash",
+    "dataset": "phase1",
+    "family": "mmlu_pro",
+    "headroom": [
+      {
+        "task_id": "mmlu_pro_003",
+        "value_sequence": [
+          "",
+          "",
+          "J",
+          "J",
+          "J",
+          "",
+          "J",
+          "J",
+          "",
+          "",
+          ""
+        ],
+        "transitions": [
+          "->",
+          "->J",
+          "J->J",
+          "J->J",
+          "J->",
+          "->J",
+          "J->J",
+          "J->",
+          "->",
+          "->"
+        ]
+      },
+      {
+        "task_id": "mmlu_pro_033",
+        "value_sequence": [
+          "",
+          "J",
+          "J",
+          "",
+          "",
+          "",
+          "",
+          "B",
+          "E",
+          "J",
+          ""
+        ],
+        "transitions": [
+          "->J",
+          "J->J",
+          "J->",
+          "->",
+          "->",
+          "->",
+          "->B",
+          "B->E",
+          "E->J",
+          "J->"
+        ]
+      },
+      {
+        "task_id": "mmlu_pro_047",
+        "value_sequence": [
+          "J",
+          "J",
+          "I",
+          "E",
+          "",
+          "J",
+          "J",
+          "J",
+          "J",
+          "J",
+          ""
+        ],
+        "transitions": [
+          "J->J",
+          "J->I",
+          "I->E",
+          "E->",
+          "->J",
+          "J->J",
+          "J->J",
+          "J->J",
+          "J->J",
+          "J->"
+        ]
+      }
+    ]
+  },
+  "deepseek-v4-flash|aime": {
+    "model": "deepseek-v4-flash",
+    "dataset": "new",
+    "family": "aime",
+    "headroom": [
+      {
+        "task_id": "aime_018",
+        "value_sequence": [
+          "167",
+          "167",
+          "144",
+          "144",
+          "4",
+          "4",
+          "144",
+          "917",
+          "144",
+          "144",
+          "1"
+        ],
+        "transitions": [
+          "167->167",
+          "167->144",
+          "144->144",
+          "144->4",
+          "4->4",
+          "4->144",
+          "144->917",
+          "917->144",
+          "144->144",
+          "144->1"
+        ]
+      },
+      {
+        "task_id": "aime_021",
+        "value_sequence": [
+          "24",
+          "24",
+          "37",
+          "24",
+          "24",
+          "3",
+          "3",
+          "24",
+          "24",
+          "0",
+          "0"
+        ],
+        "transitions": [
+          "24->24",
+          "24->37",
+          "37->24",
+          "24->24",
+          "24->3",
+          "3->3",
+          "3->24",
+          "24->24",
+          "24->0",
+          "0->0"
+        ]
+      },
+      {
+        "task_id": "aime_044",
+        "value_sequence": [
+          "",
+          "0",
+          "90",
+          "",
+          "864",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6"
+        ],
+        "transitions": [
+          "->0",
+          "0->90",
+          "90->",
+          "->864",
+          "864->6",
+          "6->6",
+          "6->6",
+          "6->6",
+          "6->6",
+          "6->6"
+        ]
+      }
+    ]
+  },
+  "deepseek-v4-flash|bbh": {
+    "model": "deepseek-v4-flash",
+    "dataset": "new",
+    "family": "bbh",
+    "headroom": []
+  },
+  "deepseek-v4-flash|gpqa": {
+    "model": "deepseek-v4-flash",
+    "dataset": "new",
+    "family": "gpqa",
+    "headroom": [
+      {
+        "task_id": "gpqa_009",
+        "value_sequence": [
+          "",
+          "A",
+          "",
+          "",
+          "A",
+          "",
+          "B",
+          "B",
+          "B",
+          "A",
+          ""
+        ],
+        "transitions": [
+          "->A",
+          "A->",
+          "->",
+          "->A",
+          "A->",
+          "->B",
+          "B->B",
+          "B->B",
+          "B->A",
+          "A->"
+        ]
+      },
+      {
+        "task_id": "gpqa_031",
+        "value_sequence": [
+          "D",
+          "C",
+          "D",
+          "C",
+          "C",
+          "C"
+        ],
+        "transitions": [
+          "D->C",
+          "C->D",
+          "D->C",
+          "C->C",
+          "C->C"
+        ]
+      },
+      {
+        "task_id": "gpqa_049",
+        "value_sequence": [
+          "",
+          "",
+          "",
+          "D",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "transitions": [
+          "->",
+          "->",
+          "->D",
+          "D->",
+          "->",
+          "->",
+          "->",
+          "->",
+          "->",
+          "->"
+        ]
+      },
+      {
+        "task_id": "gpqa_028",
+        "value_sequence": [
+          "",
+          "D",
+          "D",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "transitions": [
+          "->D",
+          "D->D",
+          "D->",
+          "->",
+          "->",
+          "->",
+          "->",
+          "->",
+          "->",
+          "->"
+        ]
+      }
+    ]
+  }
+}

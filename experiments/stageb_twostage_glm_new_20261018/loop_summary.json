@@ -1,0 +1,36 @@
+{
+  "run_id": "stageb_twostage_glm_new_20261018",
+  "arm": "C",
+  "family_filter": null,
+  "task_set": "new",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "twostage",
+  "seed": null,
+  "n_tasks": 16,
+  "concurrency": 6,
+  "models": {
+    "glm-5.3": {
+      "model_id": "glm-5.3",
+      "init_accuracy": 0.875,
+      "final_accuracy": 0.875,
+      "end_state_distribution": {
+        "1": 12,
+        "3": 2,
+        "6": 2
+      },
+      "l3_activation_rate": 0.875,
+      "l3_reversibility_rate": 0.0,
+      "l4_lock_rate": 0.8571,
+      "l4_misled_rate": 0.0,
+      "avg_rounds": 3.62,
+      "total_prompt_tokens": 33003,
+      "total_completion_tokens": 73588,
+      "total_reasoning_tokens": 72117
+    }
+  }
+}

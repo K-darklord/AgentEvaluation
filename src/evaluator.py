@@ -614,6 +614,11 @@ _MATH_UNITS = [
     "calories", "calorie", "dollars", "dollar", "cents", "feet", "foot",
     "units", "unit", "meters", "meter", "metres", "metre", "pounds", "pound",
     "minutes", "minute", "seconds", "second", "percent",
+    "cm", "km", "mm", "bolts", "marbles", "balls", "candies", "coins",
+    "pennies", "nickels", "dimes", "quarters", "bottles", "eggs", "apples",
+    "oranges", "peaches", "bananas", "books", "cards", "people", "students",
+    "children", "miles", "gallons", "liters", "litres", "hours", "days",
+    "weeks", "years", "games", "problems", "questions", "pages", "points",
 ]
 
 
@@ -790,6 +795,141 @@ def _score_math500(row: dict) -> float:
     return 0.0
 
 
+def _fold_subscript_digits(s: str) -> str:
+    """Fold Unicode subscript digits (0x2080-0x2089, e.g. '52₈') to ASCII '_<digit>'
+    ('52_8') so base-subscript notation parses on the same path as LaTeX '52_8'."""
+    out: list[str] = []
+    for ch in s:
+        o = ord(ch)
+        if 0x2080 <= o <= 0x2089:
+            out.append("_" + str(o - 0x2080))
+        else:
+            out.append(ch)
+    return "".join(out)
+
+
+def _fallback_key(s: str) -> str | None:
+    """Rescue a stable commit identity for answer shapes ``_score_math500`` can still
+    grade but the numeric ``_math500_key`` path cannot: thousand-separator numerics,
+    tuple/coordinate answers, prose-with-trailing-number, and symbolic/text answers.
+    Aligns settle/transition identity with scorer equivalence (INT-23a follow-up)."""
+    s2 = re.sub(r"(?<=\d),(?=\d{3}\b)", "", s)
+    parts = _split_top_level_commas(_strip_outer_delims(s2))
+    if len(parts) > 1:
+        keys = [_math500_key(p) for p in parts]
+        if all(k is not None for k in keys):
+            # Order-insensitive numeric multiset (mirrors order-insensitive multiset
+            # rescore in _score_math500: '(1,-2)' == '(-2,1)'). Sort numerically only
+            # when every key is numeric so symbolic tuples keep their committed order.
+            try:
+                keys = [k for _, k in sorted((float(k), k) for k in keys)]
+            except ValueError:
+                pass
+            return "(" + ",".join(keys) + ")"
+    nums = _extract_all_numbers(s2)
+    if nums:
+        f = float(nums[-1])
+        return str(int(f)) if f.is_integer() else str(f)
+    return _normalize_answer(s2) or None
+
+
+def _math500_key(s: str) -> str | None:
+    """Generic canonical identity key for a MATH-500 answer.
+
+    Converts a math answer string -- plain real, LaTeX (fractions, radicals, pi),
+    unicode math glyphs, or base-subscript notation ('52_8' / '52₈') -- into a single
+    canonical decimal string so mathematically equal values collide. This is the
+    *identity* twin of _score_math500 (which already proves equality via sympy): here
+    we only need a stable string so Stage-B candidate/settle identity resolves the
+    same way for gold and for a committed answer.
+
+    Returns the canonical string (e.g. '42', '3.14159265358979', '0.0535714285714286',
+    '98.9949493661167') or None when the string carries no parseable arithmetic value.
+    """
+    s = _fold_subscript_digits(str(s or ""))
+    s = _norm_unicode_math(s)
+    s = _strip_math_noise(s)
+    if not s:
+        return _fallback_key(s)
+
+    # Pure-text answers (MATH-500 \text{...}) are graded by string match in
+    # _score_math500; mirror that here so identity and scorer agree.
+    t_ans = _extract_text_answer(s)
+    if t_ans is not None:
+        return _normalize_answer(t_ans)
+
+    # Base-subscript: '52_8' -> 42. A digit string with a numeric base subscript is a
+    # standard positional-numeral convention, not a per-task rule.
+    m = re.fullmatch(r"([0-9]+)_([0-9]+)", s)
+    if m:
+        try:
+            return str(int(m.group(1), int(m.group(2))))
+        except ValueError:
+            return _fallback_key(s)
+
+    # Plain real fast path (also normalizes 42.0 -> 42, matching _extract_committed_number
+    # output for the common numeric case).
+    if re.fullmatch(r"-?\d+(?:\.\d+)?", s):
+        f = float(s)
+        return str(int(f)) if f.is_integer() else str(f)
+
+    # Symbolic path mirrors _score_math500._parse so the same value space is hashed.
+    try:
+        import sympy
+        from sympy.parsing.latex import parse_latex
+    except Exception:
+        return _fallback_key(s)
+
+    t = s
+    while True:
+        b = _BOXED_RE.search(t)
+        if not b:
+            break
+        t = b.group(1)
+    t = re.sub(r"\\sqrt([0-9]+)", r"\\sqrt{\1}", t)
+    expr = None
+    if re.search(r"\\[a-zA-Z]+", t):
+        try:
+            expr = parse_latex(t)
+        except Exception:
+            expr = None
+    else:
+        try:
+            expr = sympy.sympify(t)
+        except Exception:
+            expr = None
+    if expr is None:
+        return _fallback_key(s)
+
+    consts = {sympy.Symbol("pi"): sympy.pi, sympy.Symbol("e"): sympy.E, sympy.Symbol("i"): sympy.I}
+    try:
+        val = sympy.N(expr.subs(consts), 15)
+    except Exception:
+        return _fallback_key(s)
+    # A concrete *number* only: reject free-symbol / Boolean crud that the prose
+    # fallback can produce ('Let', 'Eq(...)', '63.1*I*T*a*b*...'), which must NOT
+    # become candidates.
+    try:
+        if not val.is_number:
+            return _fallback_key(s)
+    except Exception:
+        return _fallback_key(s)
+    # Collapse every real value through the SAME float-shortest-repr as the plain-real
+    # fast path above, so a LaTeX value and its decimal re-statement collide ('13535'
+    # == '\boxed{13535}', '\frac{3}{56}' == '0.05357142857142857').
+    # Real-valued keys only: MATH-500 gold answers are real numbers, so a non-real
+    # sympy result (the imaginary unit 'I' from a prose-leaked first-person pronoun,
+    # or any complex value) collapses to garbage like '1.0*I' that can never match a
+    # real gold. Reject it outright rather than emit it as a candidate (INT-22).
+    try:
+        if val.is_real:
+            f = float(val)
+            return str(int(f)) if f.is_integer() else str(f)
+    except Exception:
+        pass
+    return _fallback_key(s)
+
+
 def _extract_mcq_letter(pred: str, choices: str = "ABCD") -> str | None:
     """I extract the single option letter a prediction actually committed to, for MCQ
     benchmarks. I accept (1) a bare answer ('A', 'A.', '(A)', 'a'), (2) the letter right
@@ -814,6 +954,15 @@ requiring a bracket/punctuation separator so the bare article 'a'/'A' cannot mat
     if m and m.group(1).upper() in choices:
         return m.group(1).upper()
     m = re.search(r"(?:answer|choice|option|ans)\b(?:\s+(?:is|are|was|were))?\s*[:\-]?\s*\(?([A-Za-z])\)?(?![A-Za-z])",
+                  p, re.IGNORECASE)
+    if m and m.group(1).upper() in choices:
+        return m.group(1).upper()
+    # Commit cue 'letter' glued to the option (e.g. 'final answer only option
+    # letter.C') is missed above because the literal word 'letter' sits between
+    # the cue and the committed letter. Accept 'letter' only as a FINAL-token
+    # commit (never mid-prose), so a reasoning sentence ending in 'letter X'
+    # still commits to X.
+    m = re.search(r"\bletter\b\s*[\.\:\-]?\s*[\(\[]?([A-Za-z])(?:[\)\]]|[\.\:\-])?\s*$",
                   p, re.IGNORECASE)
     if m and m.group(1).upper() in choices:
         return m.group(1).upper()
@@ -850,7 +999,11 @@ def _score_gpqa(row: dict) -> float:
     pred = str(row.get("final_answer", "")).strip()
     if not gold or not pred:
         return 0.0
-    return 1.0 if _extract_mcq_letter(pred, choices="ABCD") == gold else 0.0
+    reasoning = str(row.get("reasoning_content", "") or "")
+    truncated = (row.get("finish_reason") == "length")
+    got, _src = resolve_commit(pred, reasoning, kind="letter", choices="ABCD",
+                               truncated=truncated)
+    return 1.0 if got == gold else 0.0
 
 
 def _extract_committed_integer(pred: str) -> int | None:
@@ -862,6 +1015,10 @@ def _extract_committed_integer(pred: str) -> int | None:
     merely mentions the gold integer mid-derivation scores wrong instead of matching by
     luck (same false-positive class as the GPQA whole-text scan, fixed 2026-10-08)."""
     p = pred.strip()
+    # glm emits the unicode minus sign (U+2212) in feedback-round prose; normalize
+    # it to ASCII '-' so a negative committed value ("-50") is not misread as its
+    # positive ("+50") by the -?\d+ scans below (bbh_0039, 2026-10-12).
+    p = p.replace("\u2212", "-")
     if not p:
         return None
 
@@ -926,6 +1083,8 @@ def _extract_committed_number(pred: str) -> float | None:
     gold value mid-derivation (or whose *first* number is a sub-result) no longer scores
     by luck. Used by BBH numeric targets (object_counting / multistep_arithmetic_two)."""
     p = pred.strip()
+    # Same unicode-minus normalization as _extract_committed_integer (bbh_0039).
+    p = p.replace("\u2212", "-")
     if not p:
         return None
 
@@ -1020,6 +1179,103 @@ def _extract_committed_text(pred: str, choices) -> str | None:
     return None
 
 
+def _cot_tail(reasoning: str, max_chars: int = 400) -> str:
+    """Return the concluding tail of a hidden reasoning chain.
+
+    Reasoning models emit their final commit ('Option X' / '\\boxed{}' / 'answer is X')
+    at the END of the hidden CoT. Slicing the tail (rather than scanning the full chain)
+    is what keeps fragment recovery from matching a mid-derivation value."""
+    r = (reasoning or "").strip()
+    return r[-max_chars:] if len(r) > max_chars else r
+
+
+def _cot_tail_letter(reasoning: str, choices: str):
+    """Extract a committed option letter from the CoT tail, strict signals only.
+
+    The LAST conclusion marker wins (a derivation may pass through several options
+    mid-way; only the final 'Option X' / 'answer is X' is a commit), then a single
+    boxed letter, then a trailing bare letter on the final line."""
+    tail = _cot_tail(reasoning, 240)
+    if not tail:
+        return None
+    pat = re.compile(
+        r"(?:option|answer|choice|ans)\b(?:\s+(?:is|are|was|were))?\s*[:=]?\s*\(?\s*([A-Za-z])(?![A-Za-z])",
+        re.IGNORECASE)
+    hits = list(pat.finditer(tail))
+    if hits:
+        cand = hits[-1].group(1).upper()
+        if cand in choices:
+            return cand
+    m = _BOXED_RE.search(tail)
+    if m:
+        boxed = m.group(1).strip()
+        if re.fullmatch(r"[A-Za-z]", boxed) and boxed.upper() in choices:
+            return boxed.upper()
+    lines = [l.strip() for l in tail.splitlines() if l.strip()]
+    if lines:
+        mm = re.fullmatch(r"[\s\(\[]*([A-Za-z])[\s\)\]]*[\.:\:]?", lines[-1])
+        if mm and mm.group(1).upper() in choices:
+            return mm.group(1).upper()
+    return None
+
+
+def resolve_commit(pred, reasoning="", kind="letter", choices=None, truncated: bool = False):
+    """Resolve a task's committed answer with a hidden-CoT fallback, and tag its source.
+
+    [INTERFERENCE_CAUSAL_TABLE item 21] Reasoning models (glm-5.3, thinking locked on) can
+    spend the whole completion budget in hidden CoT and leave a truncated FRAGMENT in
+    visible ``content`` ('Looking' / '=N' / 'H'), so the strict 'commit, don't scan'
+    extractor finds no commit even though the answer sits at the end of the CoT. We commit
+    from the visible text first ('content'); only when that yields nothing do we read the
+    concluding CoT tail ('cot'). Pure rule, zero LLM.
+
+    Returns ``(value, source)``; ``source`` is 'content', 'cot', or None (no commit).
+    """
+    if truncated:
+        # finish_reason == "length": the visible content was cut by the max_tokens
+        # budget, so ``pred`` is a FRAGMENT, not a commit. A bare single letter here
+        # is usually the head of a longer would-be answer (e.g. 'C' from "C. Stuck..."),
+        # never a clean commit -- so recover from the concluded CoT tail ONLY, never
+        # trust the fragment itself.
+        if kind == "letter":
+            v = _cot_tail_letter(reasoning, choices)
+            return (v, "cot") if v is not None else (None, None)
+        if kind == "integer":
+            v = _extract_committed_integer(_cot_tail(reasoning))
+            return (v, "cot") if v is not None else (None, None)
+        if kind == "number":
+            v = _extract_committed_number(_cot_tail(reasoning))
+            return (v, "cot") if v is not None else (None, None)
+        if kind == "text":
+            v = _extract_committed_text(_cot_tail(reasoning), choices)
+            return (v, "cot") if v is not None else (None, None)
+    if kind == "letter":
+        v = _extract_mcq_letter(pred, choices)
+        if v is not None:
+            return v, "content"
+        v = _cot_tail_letter(reasoning, choices)
+        return (v, "cot") if v is not None else (None, None)
+    if kind == "integer":
+        v = _extract_committed_integer(pred)
+        if v is not None:
+            return v, "content"
+        v = _extract_committed_integer(_cot_tail(reasoning))
+        return (v, "cot") if v is not None else (None, None)
+    if kind == "number":
+        v = _extract_committed_number(pred)
+        if v is not None:
+            return v, "content"
+        v = _extract_committed_number(_cot_tail(reasoning))
+        return (v, "cot") if v is not None else (None, None)
+    if kind == "text":
+        v = _extract_committed_text(pred, choices)
+        if v is not None:
+            return v, "content"
+        v = _extract_committed_text(_cot_tail(reasoning), choices)
+        return (v, "cot") if v is not None else (None, None)
+    raise ValueError(f"resolve_commit: unknown kind {kind!r}")
+
+
 def _score_aime(row: dict) -> float:
     """I grade AIME integer-answer (0-999) by exact match on the integer the model
     actually committed to (see _extract_committed_integer), NOT by scanning the whole
@@ -1033,7 +1289,10 @@ def _score_aime(row: dict) -> float:
     if not g_nums:
         return 0.0
     gold = int(round(g_nums[0]))
-    pred_int = _extract_committed_integer(pred_raw)
+    reasoning = str(row.get("reasoning_content", "") or "")
+    truncated = (row.get("finish_reason") == "length")
+    pred_int, _src = resolve_commit(pred_raw, reasoning, kind="integer",
+                                    truncated=truncated)
     return 1.0 if pred_int is not None and pred_int == gold else 0.0
 
 
@@ -1051,19 +1310,25 @@ def _score_bbh(row: dict) -> float:
         return 0.0
 
     letter = re.fullmatch(r"\(?([A-Za-z])\)?", gold)
+    reasoning = str(row.get("reasoning_content", "") or "")
+    truncated = (row.get("finish_reason") == "length")
     if letter:
         want = letter.group(1).upper()
-        got = _extract_mcq_letter(pred, choices="ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        got, _src = resolve_commit(pred, reasoning, kind="letter",
+                                   choices="ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                                   truncated=truncated)
         return 1.0 if got == want else 0.0
 
     if re.fullmatch(r"-?\d+(\.\d+)?", gold):
         g_nums = _extract_all_numbers(gold)
         if not g_nums:
             return 0.0
-        pred_num = _extract_committed_number(pred)
+        pred_num, _src = resolve_commit(pred, reasoning, kind="number", truncated=truncated)
         return 1.0 if pred_num is not None and abs(g_nums[0] - pred_num) < 1e-6 else 0.0
 
-    got = _extract_committed_text(pred, choices={"yes", "no", "true", "false"})
+    got, _src = resolve_commit(pred, reasoning, kind="text",
+                               choices={"yes", "no", "true", "false"},
+                               truncated=truncated)
     return 1.0 if got is not None and got == gold.strip().lower() else 0.0
 
 

@@ -1,0 +1,1195 @@
+{
+  "n": 198,
+  "source": "data/raw/gpqa_diamond.csv",
+  "order": "csv-row-order-first-198 (deterministic; option shuffle seed = row index)",
+  "tasks": [
+    {
+      "task_id": "gpqa_001",
+      "subject": "Physics (general)",
+      "gold": "B",
+      "prompt_sha256": "c3f05e916e9c4f696953bc7d3125735aa4f204038874086cbaeb792cb61df1e2"
+    },
+    {
+      "task_id": "gpqa_002",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "12b2c2624661e2c5cc1284f96af6c11f202910aebad35367b0ef4bd133b47d6e"
+    },
+    {
+      "task_id": "gpqa_003",
+      "subject": "Quantum Mechanics",
+      "gold": "B",
+      "prompt_sha256": "ff2bf06480804146966260d38f7cfca3d23eac62f2f38aa21e1fcde9090aaf63"
+    },
+    {
+      "task_id": "gpqa_004",
+      "subject": "Electromagnetism and Photonics",
+      "gold": "B",
+      "prompt_sha256": "b74332073412f4e3a46dc62d2a388222ed8b1868283e50e7752e49c563549773"
+    },
+    {
+      "task_id": "gpqa_005",
+      "subject": "Quantum Mechanics",
+      "gold": "A",
+      "prompt_sha256": "8676c5f98a74b489f74f9fdba0aad523b4b605b0ee8a82d64e67c590e5b6f792"
+    },
+    {
+      "task_id": "gpqa_006",
+      "subject": "Quantum Mechanics",
+      "gold": "D",
+      "prompt_sha256": "ca584df9b89584060027ea49c024b253bc03b4bd3079c6aaec565ca95fd5d023"
+    },
+    {
+      "task_id": "gpqa_007",
+      "subject": "High-energy particle physics",
+      "gold": "C",
+      "prompt_sha256": "57de7f92e9a47e350eea1af1caac4cfeef2dec5bee4d239bd15a327248bac84c"
+    },
+    {
+      "task_id": "gpqa_008",
+      "subject": "Genetics",
+      "gold": "A",
+      "prompt_sha256": "422264cda29f899637aadfe70d8f85e860a545ad1e4aa394435ca6bfa1dd9ed1"
+    },
+    {
+      "task_id": "gpqa_009",
+      "subject": "Organic Chemistry",
+      "gold": "A",
+      "prompt_sha256": "eed71e983bc6adbf29beeb2395429aaaf8806aea24ec7eefc8b4cdc5e28d6bf4"
+    },
+    {
+      "task_id": "gpqa_010",
+      "subject": "Astrophysics",
+      "gold": "D",
+      "prompt_sha256": "75817b21fd8c5ef666c0db6c3d093628227d185d18d53f9eeb47fb0b7711bd37"
+    },
+    {
+      "task_id": "gpqa_011",
+      "subject": "Molecular Biology",
+      "gold": "A",
+      "prompt_sha256": "86c7f2e67c74444537199d3a600c9971396ffe8754559e538936e46ad95633bf"
+    },
+    {
+      "task_id": "gpqa_012",
+      "subject": "High-energy particle physics",
+      "gold": "A",
+      "prompt_sha256": "2357bb882b2f067fb823910211d9a6d5f6dae537537ce0021fab4657c1b396cb"
+    },
+    {
+      "task_id": "gpqa_013",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "fb9bffa1ab48bb56d9ad05e7aa03b2068b1656462428613e2c9b79f8b636419d"
+    },
+    {
+      "task_id": "gpqa_014",
+      "subject": "Molecular Biology",
+      "gold": "D",
+      "prompt_sha256": "21e87be3e1e843120684dea417687252e5667315614ed0893b40434b639b3ac2"
+    },
+    {
+      "task_id": "gpqa_015",
+      "subject": "Physics (general)",
+      "gold": "C",
+      "prompt_sha256": "1b48ffc31a0fac952b71e8a4337aa192ba6b4bf865479c33f6f80fc56cc8d412"
+    },
+    {
+      "task_id": "gpqa_016",
+      "subject": "Organic Chemistry",
+      "gold": "A",
+      "prompt_sha256": "9920be41c7032aca7b2e4c80c90ba5fa04c5a25f8419d2e13b452a26273b99a8"
+    },
+    {
+      "task_id": "gpqa_017",
+      "subject": "Chemistry (general)",
+      "gold": "A",
+      "prompt_sha256": "15bd5f8fa640b9dcd0b996c435e5d54b55a752c00ca26a6091e4c9020c10129a"
+    },
+    {
+      "task_id": "gpqa_018",
+      "subject": "Physics (general)",
+      "gold": "C",
+      "prompt_sha256": "45d31fa1d646a6cb622bf6da4fd1552d2ca8b8e9441d78bed2f07d54d4e06dbd"
+    },
+    {
+      "task_id": "gpqa_019",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "53400689ea0825a5d1b23a1ed6f5fcbb1548d3384c46bda0edda54d6cc74c1b1"
+    },
+    {
+      "task_id": "gpqa_020",
+      "subject": "Quantum Mechanics",
+      "gold": "B",
+      "prompt_sha256": "c4dea1de7718288e4ad0cf52df78045a07dfbf4c7c37166f56befcfe80fc8669"
+    },
+    {
+      "task_id": "gpqa_021",
+      "subject": "Organic Chemistry",
+      "gold": "A",
+      "prompt_sha256": "d3a6546f9a12c6f3b32f9a19773384b7a8b85f33992b8267971f568d97ae17f3"
+    },
+    {
+      "task_id": "gpqa_022",
+      "subject": "Chemistry (general)",
+      "gold": "C",
+      "prompt_sha256": "17260d306d8042ce3bf01e3b480fdc98a5ac3dffa0c2035ba4fabe69ae8b0467"
+    },
+    {
+      "task_id": "gpqa_023",
+      "subject": "Organic Chemistry",
+      "gold": "C",
+      "prompt_sha256": "3829619a5db5960a6cbf92479e75bf60f5abc168b7cc8ee256b5d9601f740e69"
+    },
+    {
+      "task_id": "gpqa_024",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "445705f92b7fe2e1021e566f18f4e0c8af7396cf3d5a40248d3122bab05a8e4a"
+    },
+    {
+      "task_id": "gpqa_025",
+      "subject": "Organic Chemistry",
+      "gold": "C",
+      "prompt_sha256": "761c1b7b4de0040dba06e6dd9485c4416c964eb584939d4440a9f23a119fbd3b"
+    },
+    {
+      "task_id": "gpqa_026",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "0254ad6bd2d776022bfe565783f731544d0938f61000668b162a27cbcaa4310d"
+    },
+    {
+      "task_id": "gpqa_027",
+      "subject": "Molecular Biology",
+      "gold": "A",
+      "prompt_sha256": "c7f32b6f0e3048bd33d60fcf06b0fccf0765cf5185041aee4d50b324bc2c46dc"
+    },
+    {
+      "task_id": "gpqa_028",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "6b5623c94be501cc1859dad4eccb87117b2d0a6c9056ab440ab817f2ef5e13b0"
+    },
+    {
+      "task_id": "gpqa_029",
+      "subject": "Genetics",
+      "gold": "D",
+      "prompt_sha256": "d2851198be6ed8656452f265b855c84855b7722763ed340703574ddbd9eec20d"
+    },
+    {
+      "task_id": "gpqa_030",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "f219911ddecd77cb908a99b204534cc743f5b75f245211daaee4e57af5ff30aa"
+    },
+    {
+      "task_id": "gpqa_031",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "98ba7ac14f2a331eec9736847409b70460d01cc8e03ee6e3a43d8fc52a43f96c"
+    },
+    {
+      "task_id": "gpqa_032",
+      "subject": "High-energy particle physics",
+      "gold": "D",
+      "prompt_sha256": "ec4d0b1ccd65696ac63b664a1ade04445f040bb8abfece6b353035cc1bd85bc4"
+    },
+    {
+      "task_id": "gpqa_033",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "8c88da72895f66ac421a1b89acaa0a357ef905297bb9b2ea36406346b8f7292e"
+    },
+    {
+      "task_id": "gpqa_034",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "c998a73dd2cb3319c8de0c7c741f5b2c7941d5474fa680e2c2245aa2f12cc292"
+    },
+    {
+      "task_id": "gpqa_035",
+      "subject": "Physics (general)",
+      "gold": "C",
+      "prompt_sha256": "6212d8edb68b41e2a1d3f3f4514b04061a7bebd85904e2f20fcd76ac132fe991"
+    },
+    {
+      "task_id": "gpqa_036",
+      "subject": "Astrophysics",
+      "gold": "C",
+      "prompt_sha256": "ef192e969628857704f4b8ffa2bed13061f0c7861beac327d017497540f207ae"
+    },
+    {
+      "task_id": "gpqa_037",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "911201fa76ab2268c4e644d67fccda514fa8e939b177c0b3a34a6ab0550c8f93"
+    },
+    {
+      "task_id": "gpqa_038",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "b6a880b22bae64c937e26e1410e7feacc1879dc21252ac987487faf7a9586e2c"
+    },
+    {
+      "task_id": "gpqa_039",
+      "subject": "Quantum Mechanics",
+      "gold": "A",
+      "prompt_sha256": "02d064ce14e039c34bc8eb0e637fd30a61f8e6caf5c610e22aaa5ad0d3f457d6"
+    },
+    {
+      "task_id": "gpqa_040",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "9b1e15421a1f70638bd40a12cce08bc5e8d692ec48802ae6cf3d736b22491fb3"
+    },
+    {
+      "task_id": "gpqa_041",
+      "subject": "Relativistic Mechanics",
+      "gold": "B",
+      "prompt_sha256": "b72ec42a8c3fa8f48a3720e1daea8d2260393f4391a8d358bf97f02c269a2d06"
+    },
+    {
+      "task_id": "gpqa_042",
+      "subject": "Astrophysics",
+      "gold": "D",
+      "prompt_sha256": "a02c8202878e7c415ba413a79c389e7a83d49ffd188efe304be5399b1b34ac02"
+    },
+    {
+      "task_id": "gpqa_043",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "23a3e7ed34db49a3c99c63dd2331e2b548a90a4e37a726937a47bb8303890db9"
+    },
+    {
+      "task_id": "gpqa_044",
+      "subject": "Molecular Biology",
+      "gold": "B",
+      "prompt_sha256": "8345eeea2fa71bd0096afcd79e8cf55d7cc203db2d14e44fd9eb990d89c1119a"
+    },
+    {
+      "task_id": "gpqa_045",
+      "subject": "Quantum Mechanics",
+      "gold": "A",
+      "prompt_sha256": "aed9890f9249bbfc2229949efe744e1614ae149699479d31895e38d3bed99296"
+    },
+    {
+      "task_id": "gpqa_046",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "8afd72b568dd58a8320dbd91cf49525f755b81c409f96de900b2bbc3ee631552"
+    },
+    {
+      "task_id": "gpqa_047",
+      "subject": "Organic Chemistry",
+      "gold": "C",
+      "prompt_sha256": "627c9050c4bea71df002d2853cce9f88958070befac1e0980ae9619b52f694b2"
+    },
+    {
+      "task_id": "gpqa_048",
+      "subject": "Organic Chemistry",
+      "gold": "C",
+      "prompt_sha256": "70b0b99f637e69f7cefd9ff9200b2ba68994ee12d656ee64b688b20404ebc904"
+    },
+    {
+      "task_id": "gpqa_049",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "0a5951e62fba3cc49f4073956460d5e46b04f34ede59f36f367a85255cc44fa2"
+    },
+    {
+      "task_id": "gpqa_050",
+      "subject": "High-energy particle physics",
+      "gold": "A",
+      "prompt_sha256": "feb6bab0a8d236eca392412cf199397de2ad79742b3069aa2bd9037efd37f66c"
+    },
+    {
+      "task_id": "gpqa_051",
+      "subject": "Electromagnetism and Photonics",
+      "gold": "B",
+      "prompt_sha256": "a266c635c1aa5763d237985a2a73cce8d2f1370a3a545d623a5535cd115a7b9e"
+    },
+    {
+      "task_id": "gpqa_052",
+      "subject": "Astrophysics",
+      "gold": "C",
+      "prompt_sha256": "fe9e8fb3b88ce3056d8ca7b88ec943af32af8020e4a620b013d0066614e5b5da"
+    },
+    {
+      "task_id": "gpqa_053",
+      "subject": "Chemistry (general)",
+      "gold": "A",
+      "prompt_sha256": "f94c45913cf66c24b4207f77a0aefe34b3f75d15b9e9634188bf6ea3b9893d76"
+    },
+    {
+      "task_id": "gpqa_054",
+      "subject": "Organic Chemistry",
+      "gold": "A",
+      "prompt_sha256": "560b4efa0cf461e6a3412be756c2da384555476212898036b521fcb2691d0119"
+    },
+    {
+      "task_id": "gpqa_055",
+      "subject": "Chemistry (general)",
+      "gold": "D",
+      "prompt_sha256": "4c02d2beb10f550b848dabcd876ea3b69c0432c509200580af61e245c27f337a"
+    },
+    {
+      "task_id": "gpqa_056",
+      "subject": "Quantum Mechanics",
+      "gold": "D",
+      "prompt_sha256": "bbcace6e0ee15b278ad952c3e8c19b53436654006a5f9de79b82406431d37104"
+    },
+    {
+      "task_id": "gpqa_057",
+      "subject": "Quantum Mechanics",
+      "gold": "D",
+      "prompt_sha256": "ed39241742c7b2a3ad44c74ee6abd8b38b5447115663efb85233f83800b1f26d"
+    },
+    {
+      "task_id": "gpqa_058",
+      "subject": "High-energy particle physics",
+      "gold": "C",
+      "prompt_sha256": "44fe506d685690f2e14cbe636a09a6639cfd38eadb96756adc62251ac8e8a7bb"
+    },
+    {
+      "task_id": "gpqa_059",
+      "subject": "Chemistry (general)",
+      "gold": "C",
+      "prompt_sha256": "92767e3e5571f8d21836311d75fac19b9775ae21d7e4adb7bab93c221b34e416"
+    },
+    {
+      "task_id": "gpqa_060",
+      "subject": "Relativistic Mechanics",
+      "gold": "B",
+      "prompt_sha256": "21c19d36754443febd1d1bfb9ce319744e08f258cc52ce2ac663f904cf2d88d7"
+    },
+    {
+      "task_id": "gpqa_061",
+      "subject": "Organic Chemistry",
+      "gold": "C",
+      "prompt_sha256": "63c0f13945f53ebdedad0cc54a16ed8ab77dba125ce515a1c3be75ebc49d7edb"
+    },
+    {
+      "task_id": "gpqa_062",
+      "subject": "Organic Chemistry",
+      "gold": "C",
+      "prompt_sha256": "7b21af4aab81ad1ce36c6c6853068d6b43426a974b9ef767cd6e30cc8f034b0b"
+    },
+    {
+      "task_id": "gpqa_063",
+      "subject": "Quantum Mechanics",
+      "gold": "A",
+      "prompt_sha256": "e34782dfbaf3849de726f03667f5e6fb1e1794e0d57f6708d444c91f2c58ee9a"
+    },
+    {
+      "task_id": "gpqa_064",
+      "subject": "Inorganic Chemistry",
+      "gold": "C",
+      "prompt_sha256": "17e3b3bc77949d9ac5a03cdaffdf8e59119328be6dd49c09657c5b3f072fc72f"
+    },
+    {
+      "task_id": "gpqa_065",
+      "subject": "Organic Chemistry",
+      "gold": "A",
+      "prompt_sha256": "8fe648e47af2a575afe040f20e828bfd7bb6a9359d4705fc0a2da58e2cb5158d"
+    },
+    {
+      "task_id": "gpqa_066",
+      "subject": "High-energy particle physics",
+      "gold": "D",
+      "prompt_sha256": "b0b30d91f056baaaf19ad3f06990ca93f6dfdf9babd1ee369adc8b276f8ff8c8"
+    },
+    {
+      "task_id": "gpqa_067",
+      "subject": "Quantum Mechanics",
+      "gold": "D",
+      "prompt_sha256": "063449479270ff5ea4d8b66021719fd3158a27531c7a7995bc397bfab7d9f080"
+    },
+    {
+      "task_id": "gpqa_068",
+      "subject": "Quantum Mechanics",
+      "gold": "B",
+      "prompt_sha256": "73d469c5d4e46cc7bc785e546d0a4f1b326321860580bc2bbd5df2a22c48c8ab"
+    },
+    {
+      "task_id": "gpqa_069",
+      "subject": "High-energy particle physics",
+      "gold": "D",
+      "prompt_sha256": "376b72a1b1cae7bd212281806cede1b4ce01c7f971ddbd9f3715a0c0481ccec7"
+    },
+    {
+      "task_id": "gpqa_070",
+      "subject": "Chemistry (general)",
+      "gold": "D",
+      "prompt_sha256": "828c8d771ede5358c473da03cbfc215db9a75c2da8f1b049b1d219395cac0c13"
+    },
+    {
+      "task_id": "gpqa_071",
+      "subject": "Physics (general)",
+      "gold": "B",
+      "prompt_sha256": "5b34b0bbc9b8aa5e66d7d8f6b00b1e9b90959373047ef2edf4c8479ce396cc92"
+    },
+    {
+      "task_id": "gpqa_072",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "763a630c3efc1a941d9a58d50545d8703628054842383e1eed25b109febe62b5"
+    },
+    {
+      "task_id": "gpqa_073",
+      "subject": "Relativistic Mechanics",
+      "gold": "C",
+      "prompt_sha256": "44b0b8fda76f5a943c63604c8e76fdaabac71c4d546b5c762eedfd1e3b3760d4"
+    },
+    {
+      "task_id": "gpqa_074",
+      "subject": "Physics (general)",
+      "gold": "D",
+      "prompt_sha256": "598be247acf4578224afc865b2a6ff96b4adf3f7937c82851be9fdbf031dd3fd"
+    },
+    {
+      "task_id": "gpqa_075",
+      "subject": "Molecular Biology",
+      "gold": "A",
+      "prompt_sha256": "8891b4d3c365a47dae2a78ab9d32ca52a7591a9fe642282e82cef926e701a281"
+    },
+    {
+      "task_id": "gpqa_076",
+      "subject": "Molecular Biology",
+      "gold": "A",
+      "prompt_sha256": "fed0d60fae3d5e29ebeb62f1cb2b868a8712e9eca4de239011b33aae87b9a903"
+    },
+    {
+      "task_id": "gpqa_077",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "f06967ee05b9539cba81668673f94fd95a0b406b04472c6b37cefaf9d45dbc72"
+    },
+    {
+      "task_id": "gpqa_078",
+      "subject": "Electromagnetism and Photonics",
+      "gold": "C",
+      "prompt_sha256": "44893f01def00582c77c73f72624c5c7c1b0de2c66c23811d3dfeda4685b3cbe"
+    },
+    {
+      "task_id": "gpqa_079",
+      "subject": "Organic Chemistry",
+      "gold": "A",
+      "prompt_sha256": "4ddd98646df761c44bbef515543cd084bdae65b2ef0f8d69e76ac13b3e32d927"
+    },
+    {
+      "task_id": "gpqa_080",
+      "subject": "Molecular Biology",
+      "gold": "A",
+      "prompt_sha256": "da4cc465a7b058ade88f3cb003bcea30eafbf210a5e56f756f8f5f9c55d9a319"
+    },
+    {
+      "task_id": "gpqa_081",
+      "subject": "Organic Chemistry",
+      "gold": "A",
+      "prompt_sha256": "05a47951d0d23454a9fab33c5139eb5519dbddd8f31adc1ce5dc4ded3c2cfbf7"
+    },
+    {
+      "task_id": "gpqa_082",
+      "subject": "Organic Chemistry",
+      "gold": "A",
+      "prompt_sha256": "ec1206a727f1a8c4b28428049177ff333485955d35d93bd13f6580685e030715"
+    },
+    {
+      "task_id": "gpqa_083",
+      "subject": "Chemistry (general)",
+      "gold": "B",
+      "prompt_sha256": "9b571b32bfeb97dd7f7c68b0c26d25fea596533fa4d4d1b9d6c1f15ab6264cdc"
+    },
+    {
+      "task_id": "gpqa_084",
+      "subject": "Physics (general)",
+      "gold": "C",
+      "prompt_sha256": "977928dfcc82fe4fb9f1d12d77e3f4da381334a315d908e3e76ba982d640c1fc"
+    },
+    {
+      "task_id": "gpqa_085",
+      "subject": "Astrophysics",
+      "gold": "B",
+      "prompt_sha256": "c16cf7ed6a68c67e7fa6dae7b712dde54dda74d223f90819886125ca251004c7"
+    },
+    {
+      "task_id": "gpqa_086",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "a20c1c476e83ae4162191d25cef4acf8a2fdea18495b01fa5349c58b039d16af"
+    },
+    {
+      "task_id": "gpqa_087",
+      "subject": "Chemistry (general)",
+      "gold": "B",
+      "prompt_sha256": "fbb9fbb65c083eda12be87ddc700c576a192272f1346b927e4d8e5a2c2212c0b"
+    },
+    {
+      "task_id": "gpqa_088",
+      "subject": "Molecular Biology",
+      "gold": "C",
+      "prompt_sha256": "dd89209d151d49c8ed0a9e2de7eff0c50bcdbe90e3d32affaab20f5b45c85915"
+    },
+    {
+      "task_id": "gpqa_089",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "343ca7caf5d3f707ce3705d6c11de21b0c7041f91f12431c57777a9961b26707"
+    },
+    {
+      "task_id": "gpqa_090",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "a5b244718c401128e49ac6de764b31f7784eba4b105c415791c12e098f490c36"
+    },
+    {
+      "task_id": "gpqa_091",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "bb9a865ff42a6a5eae428360047c7bffdb94c30f2a71806b336ce7f45e09ce02"
+    },
+    {
+      "task_id": "gpqa_092",
+      "subject": "Chemistry (general)",
+      "gold": "A",
+      "prompt_sha256": "6c7c4a9fa3102bcb41219c2cc6f827dc9a02d34615136d75ad496b2912bb8063"
+    },
+    {
+      "task_id": "gpqa_093",
+      "subject": "Molecular Biology",
+      "gold": "A",
+      "prompt_sha256": "5abd57c59bf820884b1ea97a0672775f3d68c00bf65d08bb4911dab470658992"
+    },
+    {
+      "task_id": "gpqa_094",
+      "subject": "Organic Chemistry",
+      "gold": "C",
+      "prompt_sha256": "492cd9f6a3bcf761fa6044ed361676d4d6ee646413b62f83c6358a3d50b6f779"
+    },
+    {
+      "task_id": "gpqa_095",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "ca7b3d75247ad17f73926697e3085f8dd9213fca5cf342b86b95046951104ebe"
+    },
+    {
+      "task_id": "gpqa_096",
+      "subject": "Physics (general)",
+      "gold": "A",
+      "prompt_sha256": "b519bf5220c0f360e729852d839235a884a9f4fd41d0dc06eda204b068ea5f57"
+    },
+    {
+      "task_id": "gpqa_097",
+      "subject": "Molecular Biology",
+      "gold": "A",
+      "prompt_sha256": "a1036fc6c0e675b26e136d52c91c9acf69315d0bdea6f53c07de9cb86f5eb76d"
+    },
+    {
+      "task_id": "gpqa_098",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "94f169e47fd8f357cc35f9abc9c9db45390139071923039c358d368713b970f8"
+    },
+    {
+      "task_id": "gpqa_099",
+      "subject": "Chemistry (general)",
+      "gold": "B",
+      "prompt_sha256": "e3cd4bc5e56fa006dbb16756a0ad667685fa4728f2cca4508162aad7ba5624c4"
+    },
+    {
+      "task_id": "gpqa_100",
+      "subject": "Organic Chemistry",
+      "gold": "A",
+      "prompt_sha256": "08b84ee86b3fc8d97b99e5d64e47f839eee7779ba0978ebc7821270e3bcf8b49"
+    },
+    {
+      "task_id": "gpqa_101",
+      "subject": "Organic Chemistry",
+      "gold": "A",
+      "prompt_sha256": "e136a00fdfbfc93bb8603e406237f291dea87ceb3a617221e398f20690055258"
+    },
+    {
+      "task_id": "gpqa_102",
+      "subject": "Molecular Biology",
+      "gold": "A",
+      "prompt_sha256": "a9558e36f76caa182ede7ae3da855ae6ada1ac77f24735e1be16269a7ff4a4db"
+    },
+    {
+      "task_id": "gpqa_103",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "92640aeb46b66af1a112f8700b867850c6d510742ecd57ec15807145bec82eb9"
+    },
+    {
+      "task_id": "gpqa_104",
+      "subject": "Physics (general)",
+      "gold": "D",
+      "prompt_sha256": "5ef018eaddf08327b96e21b3adca81e848b3a0fd4a6155d1cceca5fa7eab6794"
+    },
+    {
+      "task_id": "gpqa_105",
+      "subject": "Astrophysics",
+      "gold": "B",
+      "prompt_sha256": "a29d7e3159b4eee04dbbb74db09bb813c6e3b9e2f955f9c66a4f3e7e716a83f1"
+    },
+    {
+      "task_id": "gpqa_106",
+      "subject": "Organic Chemistry",
+      "gold": "C",
+      "prompt_sha256": "117816805aa86c7e55ccb4df2526841abc94cc96ff57fd38a0a50ead3bf06a5b"
+    },
+    {
+      "task_id": "gpqa_107",
+      "subject": "Molecular Biology",
+      "gold": "A",
+      "prompt_sha256": "32800af7159537ca8e5dcd3e556022fe1546ae0ed57cf4373a43a8a9c00612f6"
+    },
+    {
+      "task_id": "gpqa_108",
+      "subject": "Quantum Mechanics",
+      "gold": "B",
+      "prompt_sha256": "fbc272f3a424aa6366afd14a841a5610a7755dfa9e5d8da8f1b58a5823d885bf"
+    },
+    {
+      "task_id": "gpqa_109",
+      "subject": "Quantum Mechanics",
+      "gold": "C",
+      "prompt_sha256": "ef9ce48fe918e6f867d40e62a6ce5ae4a030a707a2c9126040039971138e4a94"
+    },
+    {
+      "task_id": "gpqa_110",
+      "subject": "Astrophysics",
+      "gold": "B",
+      "prompt_sha256": "affd61e93176039ee9682b22453aa94393e4dc375ec95fd9cd34b532a1eb9afc"
+    },
+    {
+      "task_id": "gpqa_111",
+      "subject": "Organic Chemistry",
+      "gold": "A",
+      "prompt_sha256": "b96ce4b286a34a4bb0c5649e3dcd2936b61f2a762d3684808c46edea44e89272"
+    },
+    {
+      "task_id": "gpqa_112",
+      "subject": "Quantum Mechanics",
+      "gold": "A",
+      "prompt_sha256": "6c9941b48785fa5b4186e633cebf4d99c513354a1ba2b267ed270d767f53fe31"
+    },
+    {
+      "task_id": "gpqa_113",
+      "subject": "Chemistry (general)",
+      "gold": "D",
+      "prompt_sha256": "c6d311e15f672b17d2f7b7ddf669b6e2ef0dbebdb487a81bba7fb7053ced9935"
+    },
+    {
+      "task_id": "gpqa_114",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "1809ae07c676249d3b5981c5d4142fa3de27e8b724625e55209d3a086c29faef"
+    },
+    {
+      "task_id": "gpqa_115",
+      "subject": "Physics (general)",
+      "gold": "C",
+      "prompt_sha256": "a085e6e55e5456554d19315400d9358b82898ecdc5c2aacd0da955072cc80214"
+    },
+    {
+      "task_id": "gpqa_116",
+      "subject": "Organic Chemistry",
+      "gold": "C",
+      "prompt_sha256": "43075cfc7c85219d3736ec6bc9b7159d3bfd11e50e6e2acd76c1c99cfb6b3cbd"
+    },
+    {
+      "task_id": "gpqa_117",
+      "subject": "Organic Chemistry",
+      "gold": "C",
+      "prompt_sha256": "6bbeb21ba425e6b468fa8b50e8b7aef2000a29a780e88e0a732c07a479486ded"
+    },
+    {
+      "task_id": "gpqa_118",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "f1ee1f340d095ff02141d03d5cc6cd597fbbde691ca2cb4abe3b1d6b62f417e7"
+    },
+    {
+      "task_id": "gpqa_119",
+      "subject": "Organic Chemistry",
+      "gold": "C",
+      "prompt_sha256": "bc29269446b842778b1ac4aac687a94174785b7b335adb483a2c9633135e41d1"
+    },
+    {
+      "task_id": "gpqa_120",
+      "subject": "Physics (general)",
+      "gold": "C",
+      "prompt_sha256": "adef9d8e773c6d2c65e7900694352447272e647a6efa495528c5b04488e4f699"
+    },
+    {
+      "task_id": "gpqa_121",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "edb534775487bce160c5351f847eba01689475d40cd5f1964ce4e3541d28e8da"
+    },
+    {
+      "task_id": "gpqa_122",
+      "subject": "Organic Chemistry",
+      "gold": "A",
+      "prompt_sha256": "48e911308cb8e0b532c50f47d683f4d4ad05fa8a753c2bbfda215f3bc6bd1048"
+    },
+    {
+      "task_id": "gpqa_123",
+      "subject": "Relativistic Mechanics",
+      "gold": "D",
+      "prompt_sha256": "37b194dceb67928d2dc63f886f08d9bcb28c011071e4270ebd0a5b4f5abe1d43"
+    },
+    {
+      "task_id": "gpqa_124",
+      "subject": "Relativistic Mechanics",
+      "gold": "B",
+      "prompt_sha256": "71d4cedef5026fd59352101236c3a2de1e6c9d01dcf5a969e6284da52cecf66a"
+    },
+    {
+      "task_id": "gpqa_125",
+      "subject": "Quantum Mechanics",
+      "gold": "C",
+      "prompt_sha256": "801c39449857612a28896b61ec43a523bc02a60f6a4c3299e3d50801ee75b5ca"
+    },
+    {
+      "task_id": "gpqa_126",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "70243441ace2e203606bc135ee9c050f33870e7e843ebc573ca5891c35a27fd4"
+    },
+    {
+      "task_id": "gpqa_127",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "dc7df7294564b2da720356f9fe6fd39d0ad64daa862d64fafbcfe4b86a07d956"
+    },
+    {
+      "task_id": "gpqa_128",
+      "subject": "Molecular Biology",
+      "gold": "A",
+      "prompt_sha256": "85746ed569f8a9b3dcf46c2949fb03cec18a2483cee2161ccdbaa14e34ba12d2"
+    },
+    {
+      "task_id": "gpqa_129",
+      "subject": "Organic Chemistry",
+      "gold": "C",
+      "prompt_sha256": "d9e388b96f6aaa6c341d7a5d6d8ca7ec0fff9d0efd7f778f8d8d64b91aa0616b"
+    },
+    {
+      "task_id": "gpqa_130",
+      "subject": "Physics (general)",
+      "gold": "A",
+      "prompt_sha256": "abdeb4cee1e71273a0602d20b956a04480dcc095855e8a9805b43c408b61f36a"
+    },
+    {
+      "task_id": "gpqa_131",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "1cfa2834dd77fb06319cef4c1861c5619b5b48d1ca5d6c0cc75bc316b58fd3e8"
+    },
+    {
+      "task_id": "gpqa_132",
+      "subject": "Chemistry (general)",
+      "gold": "C",
+      "prompt_sha256": "747d011bda48d4e84c9450c860d8c33b70ac7c31f9cdebe7f9c90fd411543c18"
+    },
+    {
+      "task_id": "gpqa_133",
+      "subject": "Chemistry (general)",
+      "gold": "A",
+      "prompt_sha256": "db989b3ef730dd80ea342d517987866d0fa70784a41bc5c69f9b4195cf6be023"
+    },
+    {
+      "task_id": "gpqa_134",
+      "subject": "Chemistry (general)",
+      "gold": "B",
+      "prompt_sha256": "df88802c54aaa128fff2801ec64b56217275263c11c42e4c34474eeca9b70465"
+    },
+    {
+      "task_id": "gpqa_135",
+      "subject": "High-energy particle physics",
+      "gold": "A",
+      "prompt_sha256": "8725240479026d1df9f0e04500f2c77b2c1eb3bcfaea3ae5d78cec12ebc2209b"
+    },
+    {
+      "task_id": "gpqa_136",
+      "subject": "Electromagnetism and Photonics",
+      "gold": "B",
+      "prompt_sha256": "18e2979087e34c277243b3e0480fea4c4c6684ee7f4d47b0955e42fb67f4b129"
+    },
+    {
+      "task_id": "gpqa_137",
+      "subject": "High-energy particle physics",
+      "gold": "D",
+      "prompt_sha256": "097828328a9b17fa5a59f505cbeab8835bdeb7f6a507ab81ca81422f5916063f"
+    },
+    {
+      "task_id": "gpqa_138",
+      "subject": "Chemistry (general)",
+      "gold": "A",
+      "prompt_sha256": "8cb376254c4b8624e0c46701c54bbf8f71b92b07436748d9ad82e1876686346c"
+    },
+    {
+      "task_id": "gpqa_139",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "6f2a32faa8525015b503fa0e95576734c6915c989e648bf15aca204395723c93"
+    },
+    {
+      "task_id": "gpqa_140",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "95c060ca22afce478b682aa2af91ec588edff02270cde7e2235b2f58b0f75f00"
+    },
+    {
+      "task_id": "gpqa_141",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "e4cb2d7fa842fe38bbd11c8d29e3e87622757c81e3c29a1ae7e8433bc9be0108"
+    },
+    {
+      "task_id": "gpqa_142",
+      "subject": "Quantum Mechanics",
+      "gold": "C",
+      "prompt_sha256": "f98208a4140547f05c80d23c68fb29c54e55e7e516a919350ca248624ca4766f"
+    },
+    {
+      "task_id": "gpqa_143",
+      "subject": "Organic Chemistry",
+      "gold": "C",
+      "prompt_sha256": "3d453384a307f62793d4a92aa7848992a8590dcc59dad06b6d51cf0a992e2907"
+    },
+    {
+      "task_id": "gpqa_144",
+      "subject": "High-energy particle physics",
+      "gold": "C",
+      "prompt_sha256": "44af83a067a9e088e488053b90f2beef84aa5c1335e6c86f4a88ae890a523fb3"
+    },
+    {
+      "task_id": "gpqa_145",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "040ec800b4985ed3b81240e203bfc63573b0dd2fa488fffbfe5ef569a4e6cca8"
+    },
+    {
+      "task_id": "gpqa_146",
+      "subject": "Organic Chemistry",
+      "gold": "C",
+      "prompt_sha256": "5f78c9caac66c785eb90a1068138472488300a646652f3dfee7b8af9e192f6bf"
+    },
+    {
+      "task_id": "gpqa_147",
+      "subject": "High-energy particle physics",
+      "gold": "A",
+      "prompt_sha256": "0b4a4364a52e1962fc2b43438c8838fc68de67ce56579a2f3dec2211a8a50827"
+    },
+    {
+      "task_id": "gpqa_148",
+      "subject": "Chemistry (general)",
+      "gold": "B",
+      "prompt_sha256": "b28bbde72fc3ffcc69cc39e9bf0277d82185112961d1e67ff9b773b9ab210090"
+    },
+    {
+      "task_id": "gpqa_149",
+      "subject": "Chemistry (general)",
+      "gold": "D",
+      "prompt_sha256": "7ed2e2dd8cabb3c8d2cf3273d199ee19af56391422126a565432d4d67428ff35"
+    },
+    {
+      "task_id": "gpqa_150",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "916cef357b9e2795dcae9c46c4be778d7f4df3222625b164bd07d8a116e404c5"
+    },
+    {
+      "task_id": "gpqa_151",
+      "subject": "Quantum Mechanics",
+      "gold": "B",
+      "prompt_sha256": "52d0d4916fd911ed8dd54332c280b9ff33edbed90ef4013b282ce376d9f796da"
+    },
+    {
+      "task_id": "gpqa_152",
+      "subject": "Molecular Biology",
+      "gold": "B",
+      "prompt_sha256": "f2fb7e7d9d0827e4b11a1f64b45fe00e4b4f03bcac2761f1b098875b573f41ac"
+    },
+    {
+      "task_id": "gpqa_153",
+      "subject": "Organic Chemistry",
+      "gold": "C",
+      "prompt_sha256": "b2d06383b13afcf47e565cdcea9e0b5aa2442b866655ab7c2dedce132642e84d"
+    },
+    {
+      "task_id": "gpqa_154",
+      "subject": "Organic Chemistry",
+      "gold": "A",
+      "prompt_sha256": "4ba2ff8cefe3241289abada6f38dd486532f5859ed2d8fd8bc98d93a31a79f67"
+    },
+    {
+      "task_id": "gpqa_155",
+      "subject": "Quantum Mechanics",
+      "gold": "A",
+      "prompt_sha256": "7e99c57ef384797193ac67c8f23830326d880fcb713906c8f90aeb7a45923c14"
+    },
+    {
+      "task_id": "gpqa_156",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "ebad7790c30c4af92484c797b383be0b91c42bfff88d4d204fd44ecbdba26007"
+    },
+    {
+      "task_id": "gpqa_157",
+      "subject": "Molecular Biology",
+      "gold": "C",
+      "prompt_sha256": "451e300222fedd22924b0b019a08e0b01d46296b54763ed085b0fde5737ea8b0"
+    },
+    {
+      "task_id": "gpqa_158",
+      "subject": "Genetics",
+      "gold": "C",
+      "prompt_sha256": "b86ab975164b4a7e018f701c64095aa25491fe2957cc08389dad53a44d3134c9"
+    },
+    {
+      "task_id": "gpqa_159",
+      "subject": "Astrophysics",
+      "gold": "C",
+      "prompt_sha256": "539b4b66c81a6a2f97ee9c652f9d8fc19e242da3ef6f6b78f0a7603fc11d31ca"
+    },
+    {
+      "task_id": "gpqa_160",
+      "subject": "Optics and Acoustics",
+      "gold": "D",
+      "prompt_sha256": "7c4b0b6a912135c71129c42b5bdf21d483f103d64c381402f1cb68d1db1dd9e0"
+    },
+    {
+      "task_id": "gpqa_161",
+      "subject": "Relativistic Mechanics",
+      "gold": "B",
+      "prompt_sha256": "06984c4febade29116ba558d67cb84d6eb23e6e85ab9552ab45e0bd96296dc12"
+    },
+    {
+      "task_id": "gpqa_162",
+      "subject": "Relativistic Mechanics",
+      "gold": "D",
+      "prompt_sha256": "e882164abf2eb4aa9ed655e8ef9c2b65852feef3ae3a4cce82a94262c5f1f606"
+    },
+    {
+      "task_id": "gpqa_163",
+      "subject": "Chemistry (general)",
+      "gold": "B",
+      "prompt_sha256": "882d92a756fcd178fa02c08b854c8b27a810353aedd5ddb7782daf2a41ec7c46"
+    },
+    {
+      "task_id": "gpqa_164",
+      "subject": "Astrophysics",
+      "gold": "D",
+      "prompt_sha256": "ec04e0dc53a63eed70187e1a4e223b3bc8b3ea49342866ddd13a7dd393b73c51"
+    },
+    {
+      "task_id": "gpqa_165",
+      "subject": "Chemistry (general)",
+      "gold": "D",
+      "prompt_sha256": "886b89a89823cf3f92e6ff51e4b5b1efe5e2874726f8371212431c36374b1c99"
+    },
+    {
+      "task_id": "gpqa_166",
+      "subject": "High-energy particle physics",
+      "gold": "A",
+      "prompt_sha256": "a2d8213f93a03c1bd8dc165f3d8d1711d05621c34cf3e0582dc5e8abb708736b"
+    },
+    {
+      "task_id": "gpqa_167",
+      "subject": "Quantum Mechanics",
+      "gold": "C",
+      "prompt_sha256": "9182ab1db128ba8d6f0c42c4c7478939693b47b4aa867f8516bc29ff1a68f4f4"
+    },
+    {
+      "task_id": "gpqa_168",
+      "subject": "Genetics",
+      "gold": "D",
+      "prompt_sha256": "e085fcfeb1553a5ef5677c74199979af0c8119e9d154c6c9a14e2d60f82022db"
+    },
+    {
+      "task_id": "gpqa_169",
+      "subject": "Quantum Mechanics",
+      "gold": "B",
+      "prompt_sha256": "71db9ef4b157027c7c57edb66c810295430ba41d482d5df6bcc7fc59babe03eb"
+    },
+    {
+      "task_id": "gpqa_170",
+      "subject": "Quantum Mechanics",
+      "gold": "A",
+      "prompt_sha256": "eacf0f37814120ee7d4ba0cafbb83a30f5fc97e9d5d9794f63ff9f9b8089e0a7"
+    },
+    {
+      "task_id": "gpqa_171",
+      "subject": "Organic Chemistry",
+      "gold": "B",
+      "prompt_sha256": "572e882fb50cf162b409d4b48b2504abda64272d2235718aa83bdb037a743ee8"
+    },
+    {
+      "task_id": "gpqa_172",
+      "subject": "Physics (general)",
+      "gold": "C",
+      "prompt_sha256": "d749b0ba7803a9eac3dcab7237cc30c0199b834412c282452ad285a2bc0590b7"
+    },
+    {
+      "task_id": "gpqa_173",
+      "subject": "Quantum Mechanics",
+      "gold": "A",
+      "prompt_sha256": "a74e1a4234842fedcd98e3331a82d65b9995bb33256c80378979881f52f23847"
+    },
+    {
+      "task_id": "gpqa_174",
+      "subject": "Physics (general)",
+      "gold": "D",
+      "prompt_sha256": "9fa3a46c6429903f0ffe71458fc25926316ea7d9cf2e4f24b3f0098d1bf40bab"
+    },
+    {
+      "task_id": "gpqa_175",
+      "subject": "Electromagnetism and Photonics",
+      "gold": "C",
+      "prompt_sha256": "0b807aa370e5c9bfac206d1081a31c4048fc23a7e3d0a7ede0e6f6170fbbe568"
+    },
+    {
+      "task_id": "gpqa_176",
+      "subject": "Quantum Mechanics",
+      "gold": "D",
+      "prompt_sha256": "0ad55b30c66d22139440e2567a98929b680ae0a01f6ce6697dda759535573b83"
+    },
+    {
+      "task_id": "gpqa_177",
+      "subject": "Physics (general)",
+      "gold": "A",
+      "prompt_sha256": "9cda52e925c91b647d8459ae387cc8a127c5f41f556a2e2bd9c0713aeed23251"
+    },
+    {
+      "task_id": "gpqa_178",
+      "subject": "High-energy particle physics",
+      "gold": "D",
+      "prompt_sha256": "378dbee2b04bbae0aafd1e4ff375b13eda3834bfa21c1642c08c6f9f05d795ef"
+    },
+    {
+      "task_id": "gpqa_179",
+      "subject": "Quantum Mechanics",
+      "gold": "C",
+      "prompt_sha256": "8de20a00be86fa560f3ecf4aa32759bebd5ad11ad6548fc594aaf342e5175b94"
+    },
+    {
+      "task_id": "gpqa_180",
+      "subject": "Physics (general)",
+      "gold": "C",
+      "prompt_sha256": "b69fea9415dac0a51311b8e8a8e0ccbcc932253fc39050e3a3b86f51b53ea303"
+    },
+    {
+      "task_id": "gpqa_181",
+      "subject": "Astrophysics",
+      "gold": "D",
+      "prompt_sha256": "7a9e2ada234814f58bb05267f96d75f71d8c643afa169a062b51a348467d0c84"
+    },
+    {
+      "task_id": "gpqa_182",
+      "subject": "Condensed Matter Physics",
+      "gold": "B",
+      "prompt_sha256": "d7238f98ecf00eee90c7b823fc7332f13415008662bdd7f8e1c5507ef176a82a"
+    },
+    {
+      "task_id": "gpqa_183",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "35c8e77a12b7725055cc47634bd0036c4cdd0dd00bc6df6c3ec507b99e88d10f"
+    },
+    {
+      "task_id": "gpqa_184",
+      "subject": "Organic Chemistry",
+      "gold": "C",
+      "prompt_sha256": "c0e8020e14a59085e7ce70a9a221e77db53718fa633884b54903008b40865ecb"
+    },
+    {
+      "task_id": "gpqa_185",
+      "subject": "Quantum Mechanics",
+      "gold": "D",
+      "prompt_sha256": "1bd3f1494133ba3247f8d302fd08b53c9e42b0b1c84cb2c4701a61844811974f"
+    },
+    {
+      "task_id": "gpqa_186",
+      "subject": "Organic Chemistry",
+      "gold": "A",
+      "prompt_sha256": "3744775a3ebaded6920fb301f1323074d5a28278c24a4747c471f0e2b342f2d4"
+    },
+    {
+      "task_id": "gpqa_187",
+      "subject": "Astrophysics",
+      "gold": "B",
+      "prompt_sha256": "e41747310d37e1b1d04ec180abf5166db32757b8df5a35d3b8d54847aa9279f3"
+    },
+    {
+      "task_id": "gpqa_188",
+      "subject": "Physics (general)",
+      "gold": "B",
+      "prompt_sha256": "25c2c1a2a0d3a3f8cf261ea06fe17ffcb21022561aafb37f9a362a0f9f3db26f"
+    },
+    {
+      "task_id": "gpqa_189",
+      "subject": "High-energy particle physics",
+      "gold": "A",
+      "prompt_sha256": "8d8dd88a8e8871d9192a1f4588d0554dd2294f50ddf45339048d13bda7131525"
+    },
+    {
+      "task_id": "gpqa_190",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "07b5f41dfa7e338e8585212308a59f0584af99dea160b0c6c387dba7804e3dad"
+    },
+    {
+      "task_id": "gpqa_191",
+      "subject": "Organic Chemistry",
+      "gold": "A",
+      "prompt_sha256": "460784771c43f39fa58910f61c389076bf9642cf9e696e578cd314822466818a"
+    },
+    {
+      "task_id": "gpqa_192",
+      "subject": "Electromagnetism and Photonics",
+      "gold": "B",
+      "prompt_sha256": "1b71e17cde1b7d2e9abf9d41e9739f02b1bab1272c22fc6990a0ab9f41d7d39d"
+    },
+    {
+      "task_id": "gpqa_193",
+      "subject": "Astrophysics",
+      "gold": "C",
+      "prompt_sha256": "9d1473e833a1b57f5eaa86236917dcb4aa99cfde6a718b3ea94f01037d4822df"
+    },
+    {
+      "task_id": "gpqa_194",
+      "subject": "Physics (general)",
+      "gold": "D",
+      "prompt_sha256": "684ac56f736ffcaa530f1da13ccbbf50ac15b46cd273e2ade7f8558af5d6638d"
+    },
+    {
+      "task_id": "gpqa_195",
+      "subject": "Astrophysics",
+      "gold": "C",
+      "prompt_sha256": "10e01f3fb610e35e412c087604cafff0acffee90b9d901ba60871ca5be446fd3"
+    },
+    {
+      "task_id": "gpqa_196",
+      "subject": "Physics (general)",
+      "gold": "D",
+      "prompt_sha256": "16783cdc91ddd82c82cc7de71d9e61248e0657544d2df35d72cc51ca1971ccb9"
+    },
+    {
+      "task_id": "gpqa_197",
+      "subject": "Organic Chemistry",
+      "gold": "D",
+      "prompt_sha256": "d4b71c8f96428f0c0e731fe1f8edd9c1e6e37299e765ad597f87b032fb60279b"
+    },
+    {
+      "task_id": "gpqa_198",
+      "subject": "Chemistry (general)",
+      "gold": "D",
+      "prompt_sha256": "85faebd4f9c0d89f1f2885542d34b688bb2a892ecd324e176cf4676151b8eebe"
+    }
+  ]
+}

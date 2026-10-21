@@ -1,0 +1,80 @@
+{
+  "run_id": "experiments/a3_phase1_20261010_t0.7",
+  "arm": "A3",
+  "family_filter": null,
+  "task_set": "phase1",
+  "max_tokens": 1024,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.7,
+  "skip_finance": true,
+  "seed": null,
+  "n_tasks": 200,
+  "concurrency": 6,
+  "models": {
+    "deepseek-v4-flash": {
+      "model_id": "deepseek-v4-flash-0731",
+      "init_accuracy": 0.955,
+      "final_accuracy": 0.945,
+      "end_state_distribution": {
+        "1": 175,
+        "2": 3,
+        "3": 13,
+        "4": 1,
+        "5": 3,
+        "6": 5
+      },
+      "l3_activation_rate": 0.975,
+      "l3_reversibility_rate": 0.4444,
+      "l4_lock_rate": 0.9162,
+      "l4_misled_rate": 0.0157,
+      "avg_rounds": 10.0,
+      "total_prompt_tokens": 895400,
+      "total_completion_tokens": 691278,
+      "total_reasoning_tokens": 0
+    },
+    "qwen3.8-flash": {
+      "model_id": "qwen3.8-flash",
+      "init_accuracy": 0.92,
+      "final_accuracy": 0.94,
+      "end_state_distribution": {
+        "1": 168,
+        "2": 1,
+        "3": 15,
+        "4": 5,
+        "5": 5,
+        "6": 6
+      },
+      "l3_activation_rate": 0.97,
+      "l3_reversibility_rate": 0.625,
+      "l4_lock_rate": 0.913,
+      "l4_misled_rate": 0.0054,
+      "avg_rounds": 10.0,
+      "total_prompt_tokens": 858912,
+      "total_completion_tokens": 882012,
+      "total_reasoning_tokens": 0
+    },
+    "glm-5.3": {
+      "model_id": "glm-5.3",
+      "init_accuracy": 0.88,
+      "final_accuracy": 0.895,
+      "end_state_distribution": {
+        "1": 163,
+        "2": 4,
+        "3": 9,
+        "4": 7,
+        "5": 11,
+        "6": 6
+      },
+      "l3_activation_rate": 0.97,
+      "l3_reversibility_rate": 0.75,
+      "l4_lock_rate": 0.9261,
+      "l4_misled_rate": 0.0227,
+      "avg_rounds": 10.0,
+      "total_prompt_tokens": 689920,
+      "total_completion_tokens": 708542,
+      "total_reasoning_tokens": 0
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "run_id": "stageb_rerun_ds_c_gpqa051_198_transition_20261019",
+  "arm": "C",
+  "family_filter": null,
+  "task_set": "gpqa",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "transition",
+  "seed": null,
+  "n_tasks": 24,
+  "concurrency": 6,
+  "models": {
+    "deepseek-v4-flash": {
+      "model_id": "deepseek-v4-flash-0731",
+      "init_accuracy": 0.4167,
+      "final_accuracy": 0.4583,
+      "end_state_distribution": {
+        "1": 7,
+        "2": 2,
+        "3": 1,
+        "4": 3,
+        "5": 2,
+        "6": 9
+      },
+      "l3_activation_rate": 0.625,
+      "l3_reversibility_rate": 0.3571,
+      "l4_lock_rate": 0.7,
+      "l4_misled_rate": 0.2,
+      "avg_rounds": 4.54,
+      "total_prompt_tokens": 63388,
+      "total_completion_tokens": 882082,
+      "total_reasoning_tokens": 881239,
+      "total_rationale_prompt_tokens": 15821,
+      "total_rationale_completion_tokens": 110678,
+      "total_rationale_reasoning_tokens": 108554
+    }
+  }
+}

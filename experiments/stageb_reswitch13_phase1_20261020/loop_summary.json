@@ -1,0 +1,38 @@
+{
+  "run_id": "stageb_reswitch13_phase1_20261020",
+  "arm": "C",
+  "family_filter": null,
+  "task_set": "phase1",
+  "max_tokens": 1024,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "transition",
+  "seed": null,
+  "n_tasks": 2,
+  "concurrency": 4,
+  "models": {
+    "deepseek-v4-flash": {
+      "model_id": "deepseek-v4-flash-0731",
+      "init_accuracy": 0.5,
+      "final_accuracy": 0.5,
+      "end_state_distribution": {
+        "1": 1,
+        "6": 1
+      },
+      "l3_activation_rate": 0.5,
+      "l3_reversibility_rate": 0.0,
+      "l4_lock_rate": 1.0,
+      "l4_misled_rate": 0.0,
+      "avg_rounds": 3.0,
+      "total_prompt_tokens": 2266,
+      "total_completion_tokens": 21796,
+      "total_reasoning_tokens": 21784,
+      "total_rationale_prompt_tokens": 0,
+      "total_rationale_completion_tokens": 0,
+      "total_rationale_reasoning_tokens": 0
+    }
+  }
+}

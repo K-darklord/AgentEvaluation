@@ -1,0 +1,17 @@
+{
+  "n_questions": 2,
+  "n_parse_fail_treatment": 0,
+  "n_parse_fail_bare": 0,
+  "treatment": {
+    "n": 2,
+    "precision": 0.5,
+    "baseline": 0.875,
+    "rescue": 0
+  },
+  "bare": {
+    "n": 2,
+    "precision": 1.0,
+    "baseline": 0.875,
+    "rescue": 0
+  }
+}

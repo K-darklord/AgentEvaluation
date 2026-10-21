@@ -1,0 +1,37 @@
+{
+  "run_id": "feedback_loop_C_mmlu_pro_rerun_20261012",
+  "arm": "C",
+  "family_filter": "mmlu_pro",
+  "task_set": "phase1",
+  "max_tokens": 1024,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "emit_rationale": false,
+  "seed": null,
+  "n_tasks": 50,
+  "concurrency": 6,
+  "models": {
+    "deepseek-v4-flash": {
+      "model_id": "deepseek-v4-flash-0731",
+      "init_accuracy": 0.92,
+      "final_accuracy": 0.94,
+      "end_state_distribution": {
+        "1": 45,
+        "3": 1,
+        "4": 1,
+        "6": 3
+      },
+      "l3_activation_rate": 0.94,
+      "l3_reversibility_rate": 0.25,
+      "l4_lock_rate": 0.9783,
+      "l4_misled_rate": 0.0,
+      "avg_rounds": 3.28,
+      "total_prompt_tokens": 70271,
+      "total_completion_tokens": 189643,
+      "total_reasoning_tokens": 0
+    }
+  }
+}

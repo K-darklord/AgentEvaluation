@@ -1,0 +1,25 @@
+{
+  "n_tasks": 22,
+  "a3_mode_acc": 0.45454545454545453,
+  "random_survivor_baseline": 0.14745670995670995,
+  "per_k": {
+    "2": {
+      "final_survivor_acc": 0.09090909090909091,
+      "round1_retain": 0.40909090909090906,
+      "baseline_retain": 0.5,
+      "n_valid": 22
+    },
+    "3": {
+      "final_survivor_acc": 0.0,
+      "round1_retain": 0.5,
+      "baseline_retain": 0.6666666666666666,
+      "n_valid": 8
+    },
+    "4": {
+      "final_survivor_acc": 0.2,
+      "round1_retain": 0.7,
+      "baseline_retain": 0.75,
+      "n_valid": 10
+    }
+  }
+}

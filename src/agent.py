@@ -445,6 +445,20 @@ def _strip_reasoning_prefix(text: str) -> str:
     return text
 
 
+# Transition self-report question for --rationale-mode twostage (two-call decoupling).
+# Asked AFTER the answer is committed, so reasoning models cannot fold the answer into
+# "Reason:" prose (the no-commit failure). The reason is a side channel: it never enters
+# the next round's context (each round re-solves with a fresh context anyway).
+TWOSTAGE_RATIONALE_SYSTEM = (
+    "You are explaining the decision behind your own answer on a question. "
+    "Write one short, plain sentence explaining why you chose that answer "
+    "(whether you changed or kept your previous answer). Do not restate the "
+    "question, and do not output any option letter or answer choice."
+)
+TWOSTAGE_RATIONALE_MAX_TOKENS = 1024
+# INT-25: the reason call no longer receives the original question (see the
+# rationale_msgs build below) -- that question was what made glm re-derive.
+
 
 # ------------------------- Trajectory / AgentResult -------------------------
 @dataclass
@@ -469,6 +483,9 @@ class AgentResult:
     total_prompt_tokens: int = 0      # accumulated usage.prompt_tokens
     total_completion_tokens: int = 0  # accumulated usage.completion_tokens
     reasoning_tokens: int = 0         # accumulated usage.reasoning_tokens (thinking CoT)
+    rationale: str = ""               # transition self-report (twostage), side channel
+    reasoning_content: str = ""       # hidden-CoT text (for fragment -> CoT-tail answer recovery)
+    finish_reason: str = ""           # OpenAI finish_reason on final completion ("length" => budget-truncated)
     error: str = ""
     model_name: str = "rule-based-local"
     seed: int | None = None
@@ -571,7 +588,9 @@ class HuggingFaceAgent(BaseAgent):
     def __init__(self, model: str = None, token: str = None, base_url: str = None,
                  max_tokens: int = 1024, temperature: float = 0.0,
                  seed: int | None = None, max_steps: int | None = None,
-                 enable_thinking: bool | None = None):
+                 enable_thinking: bool | None = None,
+                 thinking_budget: int | None = None,
+                 content_margin: int | None = None):
         self.model = model or os.getenv("HF_MODEL", "deepseek-ai/DeepSeek-V4-Flash")
         self.token = token or os.getenv("HF_TOKEN") or os.getenv("HUGGING_FACE_HUB_TOKEN")
         self.base_url = base_url or os.getenv("HF_BASE_URL", "https://router.huggingface.co/v1")
@@ -579,11 +598,32 @@ class HuggingFaceAgent(BaseAgent):
         self.temperature = temperature
         self.seed = seed
         self.enable_thinking = enable_thinking
+        self.thinking_budget = thinking_budget
+        # Per-agent override of the visible-content window AFTER the thinking_budget cap.
+        # The default (config.REASONING_CONTENT_MARGIN) fits ONE option letter; a rubric
+        # judge that must emit N per-switch score lines needs a larger window.
+        self.content_margin = content_margin
         self.max_steps = max_steps or config.MAX_TOOL_CALLS_PER_TASK
         self._client = None
+        self._stream_client = None
 
-    def _get_client(self):
-        """I lazily create the OpenAI client pointed at self.base_url (HF router by default)."""
+    def _get_client(self, read_timeout=None):
+        """I lazily create the OpenAI client pointed at self.base_url (HF router by default).
+
+        ``read_timeout`` selects a separate short-timeout client used by STREAMING. The
+        per-request ``timeout=`` kwarg on ``chat.completions.create`` does NOT propagate
+        to the stream iterator's socket reads, so a zero-output hang is only bounded when
+        the short timeout is baked into the client at construction time. (2026-10-14)"""
+        if read_timeout is not None:
+            if self._stream_client is None:
+                from openai import OpenAI
+                import httpx
+                self._stream_client = OpenAI(
+                    base_url=self.base_url,
+                    api_key=self.token,
+                    timeout=httpx.Timeout(read_timeout, connect=config.LLM_CONNECT_TIMEOUT),
+                )
+            return self._stream_client
         if self._client is None:
             from openai import OpenAI
             import httpx
@@ -656,25 +696,84 @@ class HuggingFaceAgent(BaseAgent):
         raise last_error
 
     def _call_llm_text(self, messages, max_tokens=None):
-        """I call the HF router for text generation (no tools, for fallback).
-        Used when max_steps is reached and we need to synthesize from context."""
+        """I call the token-plan endpoint for text generation via STREAMING.
+
+        Streaming is required (not merely preferred) for the reasoning endpoints: on
+        non-streaming requests a handful of hard items make qwen3.8-flash hang
+        server-side with zero output, and httpx read-timeout never fires, so the request
+        blocks until the runner's coarse deadline freezes the whole arm. Streaming with a
+        short per-chunk read timeout detects that hang in seconds and raises an exception
+        the runner already maps to api_failure. (2026-10-14)"""
         import time as _time
-        client = self._get_client()
+        from types import SimpleNamespace
+        client = self._get_client(read_timeout=config.LLM_STREAM_READ_TIMEOUT)
         last_error = None
         for attempt in range(3):
             try:
+                # thinking_budget forces a reasoning model to stop hidden CoT at a hard
+                # cap instead of reasoning until finish_reason=length. Reserve a small
+                # content window (REASONING_CONTENT_MARGIN) AFTER the cap so the visible
+                # option letter has room (deepseek GPQA fix, 2026-10-18).
+                if self.thinking_budget is not None:
+                    margin = self.content_margin if self.content_margin is not None \
+                        else config.REASONING_CONTENT_MARGIN
+                    max_tokens = self.thinking_budget + margin
                 kwargs = {
                     "model": self.model,
                     "messages": messages,
                     "max_tokens": max_tokens if max_tokens is not None else self.max_tokens,
                     "temperature": self.temperature,
+                    "stream": True,
+                    "stream_options": {"include_usage": True},
                 }
                 if self.seed is not None:
                     kwargs["seed"] = self.seed
-                if self.enable_thinking is not None:
-                    kwargs["extra_body"] = {"enable_thinking": self.enable_thinking}
-                resp = client.chat.completions.create(**kwargs)
-                return _extract_content(resp.choices[0].message), resp
+                if self.enable_thinking is not None or self.thinking_budget is not None:
+                    kwargs["extra_body"] = {}
+                    if self.enable_thinking is not None:
+                        kwargs["extra_body"]["enable_thinking"] = self.enable_thinking
+                    if self.thinking_budget is not None:
+                        kwargs["extra_body"]["thinking_budget"] = self.thinking_budget
+                chunks = client.chat.completions.create(**kwargs)
+                content_parts = []
+                reasoning_parts = []
+                usage = None
+                finish_reason = None
+                for chunk in chunks:
+                    if getattr(chunk, "usage", None) is not None:
+                        usage = chunk.usage
+                    for choice in getattr(chunk, "choices", []) or []:
+                        fr = getattr(choice, "finish_reason", None)
+                        if fr:
+                            finish_reason = fr
+                        delta = getattr(choice, "delta", None)
+                        if delta is None:
+                            continue
+                        c = getattr(delta, "content", None)
+                        if c:
+                            content_parts.append(c)
+                        rc = getattr(delta, "reasoning_content", None)
+                        if rc is None:
+                            rc = (getattr(delta, "model_extra", None) or {}).get("reasoning_content")
+                        if rc:
+                            reasoning_parts.append(rc)
+                content = "".join(content_parts)
+                reasoning = "".join(reasoning_parts)
+                # Streaming usage nests reasoning_tokens under completion_tokens_details,
+                # unlike the non-streaming response which exposes it at the top level.
+                # Normalize to a flat namespace so the token-accounting call site reads
+                # prompt/completion/reasoning_tokens uniformly.
+                if usage is not None:
+                    rt = getattr(usage, "reasoning_tokens", None)
+                    if rt is None:
+                        details = getattr(usage, "completion_tokens_details", None)
+                        rt = getattr(details, "reasoning_tokens", 0) if details is not None else 0
+                    usage = SimpleNamespace(
+                        prompt_tokens=getattr(usage, "prompt_tokens", 0),
+                        completion_tokens=getattr(usage, "completion_tokens", 0),
+                        reasoning_tokens=rt,
+                    )
+                return content, reasoning, SimpleNamespace(usage=usage, finish_reason=finish_reason)
             except Exception as e:
                 last_error = e
                 err_str = str(e).lower()
@@ -762,7 +861,8 @@ class HuggingFaceAgent(BaseAgent):
 
 
     def solve(self, task, feedback: str | None = None,
-              tool_cache: dict | None = None) -> AgentResult:
+              tool_cache: dict | None = None,
+              rationale_mode: str = "off") -> AgentResult:
         reset_document_cache()
         result = AgentResult(task_id=task.task_id, model_name=self.model,
                              seed=self.seed, temperature=self.temperature)
@@ -855,17 +955,59 @@ class HuggingFaceAgent(BaseAgent):
             # Single text generation, no tool schema (see INT-20). The tool loop
             # below is skipped entirely: there is nothing to call.
             try:
-                answer, resp = self._call_llm_text(messages, max_tokens=_mt)
+                content, reasoning, resp = self._call_llm_text(messages, max_tokens=_mt)
                 _u = getattr(resp, "usage", None)
                 if _u is not None:
                     _pt += getattr(_u, "prompt_tokens", 0)
                     _ct += getattr(_u, "completion_tokens", 0)
                     _rt += getattr(_u, "reasoning_tokens", 0)
+                result.finish_reason = getattr(resp, "finish_reason", None) or ""
             except Exception as e:
                 result.api_failure = True
-                answer = f"LLM error: {e}"
-            answer = _strip_reasoning_prefix(answer)
+                content, reasoning = f"LLM error: {e}", ""
+                result.finish_reason = ""
+            # T0: a reasoning model may emit the answer only into reasoning_content and
+            # leave content empty; keep that fallback, but ALSO stash the hidden CoT so the
+            # scorer can recover a fragment-truncated answer from the CoT tail (item 21).
+            visible = content if (content or "").strip() else reasoning
+            answer = _strip_reasoning_prefix(visible)
             result.final_answer = answer
+            result.reasoning_content = (reasoning or "").strip()
+            # twostage: decouple the transition self-report from the committed answer.
+            # Generation 1 above commits ONLY the answer; generation 2 asks for the
+            # reason in a side channel so reasoning models cannot fold the answer into
+            # "Reason:" prose (glm no-commit). The reason never enters the next round.
+            if rationale_mode == "twostage" and feedback is not None and not result.api_failure:
+                # Explanation call runs under its OWN system prompt, not the MCQ
+                # "ONLY the letter" prompt -- otherwise glm, still told to emit a bare
+                # letter, folds the reason into a one-character fragment ("I", "Wait").
+                # A tight budget forces a concise sentence instead of an 8192-token ramble.
+                # INT-25: do NOT pass the original question to the reason call. glm-5.3
+                # (enable_thinking locked True) re-derives the WHOLE problem in hidden
+                # CoT whenever it sees the question, burning ~1.5k reasoning tokens and
+                # truncating the visible rationale to one char ("I"/"The"). The
+                # prev/curr answer + reviewer feedback already carry enough context.
+                rationale_msgs = [
+                    {"role": "system", "content": TWOSTAGE_RATIONALE_SYSTEM},
+                ]
+                if feedback:
+                    rationale_msgs.append({"role": "user", "content": feedback})
+                rationale_msgs.append({"role": "user", "content": (
+                    f"Your current answer is: {answer!r}. In one short sentence, "
+                    "explain why you chose this answer (whether you changed or kept "
+                    "your previous answer). Respond with ONLY that sentence."
+                )})
+                try:
+                    reason, _reason2, resp2 = self._call_llm_text(
+                        rationale_msgs, max_tokens=TWOSTAGE_RATIONALE_MAX_TOKENS)
+                    _u2 = getattr(resp2, "usage", None)
+                    if _u2 is not None:
+                        _pt += getattr(_u2, "prompt_tokens", 0)
+                        _ct += getattr(_u2, "completion_tokens", 0)
+                        _rt += getattr(_u2, "reasoning_tokens", 0)
+                except Exception:
+                    reason = ""
+                result.rationale = (reason or "").strip()
             steps.append(TrajectoryStep(
                 step=1,
                 thought="Closed-book single answer (no tools).",
@@ -1022,7 +1164,7 @@ class HuggingFaceAgent(BaseAgent):
                 {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {task.prompt}\n\nAnswer:"},
             ]
             try:
-                answer, _resp = self._call_llm_text(fallback_msgs, max_tokens=_mt)
+                answer, _reasoning, _resp = self._call_llm_text(fallback_msgs, max_tokens=_mt)
                 _u = getattr(_resp, "usage", None)
                 if _u is not None:
                     _pt += getattr(_u, "prompt_tokens", 0)

@@ -1,0 +1,425 @@
+{
+  "distill_version": "v2.0",
+  "family": "gpqa",
+  "model": "deepseek-v4-flash-0731",
+  "generated_at_utc": "2026-10-20T16:00:42.298488+00:00",
+  "n_total": 49,
+  "n_parsed": 45,
+  "distribution": {
+    "(unparsed)": {
+      "count": 4,
+      "task_class": [],
+      "task_ids": [
+        "gpqa_001",
+        "gpqa_002",
+        "gpqa_022",
+        "gpqa_034"
+      ]
+    },
+    "applies_the_relativistic_velocity_addition_formula_but_writes_the_denominator_with_a_minus_sign_1_v1_v2_instead_of_a_plus_sign_1_v1_v2_effectively_treating_two_same_direction_velocities_as_oppositely_directed_and_overestimating_the_resultant_speed": {
+      "count": 1,
+      "task_class": [
+        "Relativistic velocity addition / speed of light in a moving medium (or any same-direction velocity composition) MCQ"
+      ],
+      "task_ids": [
+        "gpqa_041"
+      ]
+    },
+    "approximates_the_nucleus_rest_energy_by_summing_constituent_nucleon_rest_masses_and_then_rounds_the_resulting_total_energy_to_one_or_two_decimals_ignoring_the_stated_precision_and_the_exact_nuclear_mass": {
+      "count": 1,
+      "task_class": [
+        "relativistic nuclear energy calculation MCQ with stated precision requirement"
+      ],
+      "task_ids": [
+        "gpqa_032"
+      ]
+    },
+    "assigns_cis_trans_relationships_between_adjacent_cyclohexane_stereocenters_by_comparing_matching_cip_configurational_labels_e_g_assuming_two_s_labels_imply_a_particular_face_relationship_instead_of_drawing_the_chair_conformation_and_inspecting_whether_the_substituents_actually_point_to_opposite_faces": {
+      "count": 1,
+      "task_class": [
+        "multistep reaction stereochemistry prediction MCQ on substituted cyclohexene intermediates"
+      ],
+      "task_ids": [
+        "gpqa_013"
+      ]
+    },
+    "assigns_r_s_at_a_ring_stereocenter_by_comparing_the_remote_substitution_e_g_which_ring_path_contains_a_bulkier_side_chain_instead_of_comparing_the_first_differing_atoms_along_the_two_ring_paths_according_to_cip_priority_thereby_swapping_the_priorities_of_the_two_ring_routes_and_inverting_the_assigned_configuration_at_that_carbon": {
+      "count": 1,
+      "task_class": [
+        "stereochemical configuration assignment for a newly formed ring stereocenter in a multi-step synthesis MCQ"
+      ],
+      "task_ids": [
+        "gpqa_013"
+      ]
+    },
+    "assigns_ring_position_and_degree_of_unsaturation_in_the_rearrangement_product_by_directly_mapping_the_starting_material_s_substituent_bearing_carbons_into_adjacent_ring_atoms_with_a_saturated_ring_ignoring_the_formation_of_a_new_ring_c_c_bond_and_the_relocation_of_the_exocyclic_groups_to_the_opposite_ring_positions": {
+      "count": 1,
+      "task_class": [
+        "pericyclic rearrangement product prediction MCQ"
+      ],
+      "task_ids": [
+        "gpqa_049"
+      ]
+    },
+    "assigns_the_point_group_by_constructing_explicit_3d_coordinates_for_a_particular_conformational_arrangement_e_g_s_cis_s_trans_and_inspecting_for_symmetry_operations_rather_than_recognizing_the_ideal_planar_conjugated_framework_s_inherent_symmetry_elements": {
+      "count": 1,
+      "task_class": [
+        "molecular point-group identification for organic reaction products"
+      ],
+      "task_ids": [
+        "gpqa_031"
+      ]
+    },
+    "assigns_the_relative_stereochemistry_of_each_new_substituent_by_assuming_every_addition_alkylation_occurs_on_the_face_opposite_the_substituent_introduced_in_the_immediately_preceding_step_and_then_directly_equates_opposite_ring_faces_with_trans_for_adjacent_carbons_without_considering_enolate_geometry_or_chair_conformation_orientation": {
+      "count": 1,
+      "task_class": [
+        "stereochemical outcome prediction for multi-step enone conjugate addition/alkylation sequences"
+      ],
+      "task_ids": [
+        "gpqa_028"
+      ]
+    },
+    "assumes_that_in_a_double_mutant_the_phenotype_must_equal_one_of_the_single_mutant_phenotypes_if_one_gene_is_upstream_epistatic_when_the_double_mutant_is_more_severe_than_either_single_mutant_fails_to_recognize_this_as_evidence_of_gene_redundancy_or_synergy_and_instead_misassigns_or_doubts_the_gene_order_conclusion": {
+      "count": 1,
+      "task_class": [
+        "genetic pathway/epistasis inference from knockout mutant phenotypes MCQ"
+      ],
+      "task_ids": [
+        "gpqa_008"
+      ]
+    },
+    "attempts_to_solve_step_by_step_but_aborts_reasoning_and_outputs_a_vague_non_answer_instead_of_performing_atom_counting_on_the_final_product": {
+      "count": 1,
+      "task_class": [
+        "organic reaction sequence / number of distinct proton environments MCQ"
+      ],
+      "task_ids": [
+        "gpqa_048"
+      ]
+    },
+    "cancels_the_solar_normalization_abundance_algebraically_as_a_common_factor_when_comparing_two_stars_instead_of_anchoring_both_stars_element_of_interest_abundances_to_the_provided_solar_reference_abundances": {
+      "count": 1,
+      "task_class": [
+        "stellar abundance ratio calculation from bracket notation (MCQ)"
+      ],
+      "task_ids": [
+        "gpqa_018"
+      ]
+    },
+    "cancels_the_solar_reference_abundances_and_computes_the_requested_elemental_ratio_directly_as_10_element1_ref1_element2_ref2_ignoring_that_the_two_stars_reference_element_solar_abundances_must_be_converted_through_the_given_absolute_solar_fe_h_and_mg_h_values": {
+      "count": 1,
+      "task_class": [
+        "stellar abundance ratio calculation from [X/Y] and [Y/H] dex values"
+      ],
+      "task_ids": [
+        "gpqa_018"
+      ]
+    },
+    "computes_the_ratio_of_element_abundances_between_two_stars_by_algebraically_combining_reported_a_b_and_b_h_values_in_a_naive_additive_manner_ignoring_the_proper_chain_of_ratios_conversion_that_relates_each_star_s_absolute_abundance_to_the_sun_and_then_takes_the_quotient_in_particular_treats_the_relative_dex_offsets_as_direct_multiplicative_factors_against_each_other_without_converting_through_a_common_solar_reference_point": {
+      "count": 1,
+      "task_class": [
+        "stellar abundance-ratio-to-element-ratio conversion MCQ"
+      ],
+      "task_ids": [
+        "gpqa_018"
+      ]
+    },
+    "converts_the_given_polar_coordinate_separable_potential_into_a_cartesian_anisotropic_oscillator_and_then_assigns_the_integer_frequency_ratios_to_the_quantum_number_coefficients_while_incorrectly_handling_the_zero_point_offset_by_merging_the_half_quanta_into_a_single_additive_constant": {
+      "count": 1,
+      "task_class": [
+        "anisotropic 2D harmonic oscillator energy spectrum MCQ"
+      ],
+      "task_ids": [
+        "gpqa_006"
+      ]
+    },
+    "counts_every_carbon_atom_as_a_unique_nmr_signal_ignoring_symmetry_equivalent_carbons_and_identical_chemical_environments": {
+      "count": 1,
+      "task_class": [
+        "13C-NMR signal count prediction from molecular structure"
+      ],
+      "task_ids": [
+        "gpqa_037"
+      ]
+    },
+    "counts_only_the_enantiomers_implied_by_the_racemic_label_two_and_ignores_additional_stereochemical_degrees_of_freedom_from_the_newly_formed_alkene_and_from_all_pairwise_combinations_of_chiral_centers_in_the_metathesis_product": {
+      "count": 1,
+      "task_class": [
+        "counting possible stereoisomeric products in an alkene metathesis reaction from a racemic chiral substrate MCQ"
+      ],
+      "task_ids": [
+        "gpqa_046"
+      ]
+    },
+    "determines_exo_endo_by_analyzing_the_relative_positions_of_bridgehead_and_bridge_carbons_in_the_bicyclic_framework_instead_of_comparing_the_orientation_of_the_dienophile_s_substituent_s_to_the_newly_formed_diene_bridge": {
+      "count": 1,
+      "task_class": [
+        "Diels-Alder exo/endo product stereochemistry MCQ"
+      ],
+      "task_ids": [
+        "gpqa_033"
+      ]
+    },
+    "identifies_a_reactant_in_a_cycloaddition_by_matching_the_product_s_ring_system_and_functional_groups_directly_to_one_option_without_checking_atom_count_balance_sum_of_reactant_carbons_vs_product_carbons_or_the_mechanism_e_g_ketene_2_2_vs_enone_cycloaddition": {
+      "count": 1,
+      "task_class": [
+        "pericyclic reaction reactant identification MCQ"
+      ],
+      "task_ids": [
+        "gpqa_026"
+      ]
+    },
+    "identifies_the_point_group_by_checking_only_for_a_mirror_plane_and_assigns_cs_whenever_the_molecule_is_planar_without_testing_for_a_c2_rotation_axis_perpendicular_to_that_plane_or_an_inversion_center_that_would_raise_the_symmetry_to_c2h": {
+      "count": 1,
+      "task_class": [
+        "molecular point-group identification MCQ"
+      ],
+      "task_ids": [
+        "gpqa_031"
+      ]
+    },
+    "infers_kinetic_reaction_rate_from_thermodynamic_stability_or_from_a_generic_assumption_that_acidic_conditions_accelerate_redox_processes_without_considering_activation_energy_or_overpotential": {
+      "count": 1,
+      "task_class": [
+        "electrochemical oxidant strength and kinetics comparison in different pH media"
+      ],
+      "task_ids": [
+        "gpqa_022"
+      ]
+    },
+    "infers_the_products_of_disproportionation_and_the_identity_of_the_saturated_hydrocarbon_without_verifying_that_the_proposed_equimolar_reaction_stoichiometry_actually_conserves_atoms_and_matches_the_given_hydrogen_mass_fraction": {
+      "count": 1,
+      "task_class": [
+        "hydrocarbon mixture stoichiometry/disproportionation MCQ"
+      ],
+      "task_ids": [
+        "gpqa_024"
+      ]
+    },
+    "judges_the_c3h_point_group_by_the_presence_of_a_c3_axis_and_a_horizontal_mirror_plane_without_checking_whether_additional_symmetry_elements_c2_axes_or_vertical_mirror_planes_raise_the_actual_point_group_to_d3h": {
+      "count": 1,
+      "task_class": [
+        "molecular point-group symmetry identification in multiple-choice questions"
+      ],
+      "task_ids": [
+        "gpqa_009"
+      ]
+    },
+    "marks_a_candidate_statement_as_correct_whenever_a_related_factual_fragment_about_an_entity_in_the_statement_is_recalled_without_verifying_the_statement_s_full_mechanistic_claim_and_causal_direction_against_that_fragment": {
+      "count": 1,
+      "task_class": [
+        "identify-the-false-statement molecular biology MCQ"
+      ],
+      "task_ids": [
+        "gpqa_011"
+      ]
+    },
+    "no_incorrect_operation_the_model_selects_the_same_assumption_set_as_the_gold_answer_and_excludes_the_irrelevant_internal_constituent_condition": {
+      "count": 1,
+      "task_class": [
+        "multi-condition physics assumption selection MCQ"
+      ],
+      "task_ids": [
+        "gpqa_020"
+      ]
+    },
+    "numbers_the_benzene_ring_by_the_sequence_in_which_substituents_are_described_in_the_problem_rather_than_by_iupac_s_lowest_locant_first_alphabetical_tie_breaking_rule_causing_the_alphabetical_ordering_of_substituents_to_be_ignored_when_two_possible_locant_assignments_are_tied": {
+      "count": 1,
+      "task_class": [
+        "IUPAC nomenclature of polysubstituted benzene derivatives with a principal functional group"
+      ],
+      "task_ids": [
+        "gpqa_043"
+      ]
+    },
+    "replaces_the_loop_counting_procedure_derive_loop_order_from_powers_of_coupling_constants_and_factors_of_4_with_associative_recall_of_a_memorized_publication_then_omits_an_actual_loop_count": {
+      "count": 1,
+      "task_class": [
+        "loop-count estimation from a Feynman-diagram coupling-constant expression"
+      ],
+      "task_ids": [
+        "gpqa_050"
+      ]
+    },
+    "resolves_ambiguous_substituent_placements_by_accepting_any_arrangement_that_satisfies_the_stated_ortho_meta_para_relationships_without_applying_the_iupac_tie_breaking_rule_of_comparing_locant_sequences_in_alphabetical_substituent_order": {
+      "count": 1,
+      "task_class": [
+        "IUPAC naming of substituted aromatic rings from positional relationship clues"
+      ],
+      "task_ids": [
+        "gpqa_043"
+      ]
+    },
+    "responds_with_a_memorized_literature_citation_about_artifacts_instead_of_selecting_from_the_provided_options_and_reasoning_about_which_chromatin_feature_is_affected_by_the_experimental_condition": {
+      "count": 1,
+      "task_class": [
+        "epigenomics experimental artifact source identification MCQ"
+      ],
+      "task_ids": [
+        "gpqa_014"
+      ]
+    },
+    "selects_a_molecule_that_has_a_c3_rotation_axis_but_lacks_a_horizontal_mirror_plane_h_treating_a_c3_axis_as_sufficient_for_c3h_symmetry": {
+      "count": 1,
+      "task_class": [
+        "molecular point-group symmetry identification MCQ"
+      ],
+      "task_ids": [
+        "gpqa_009"
+      ]
+    },
+    "selects_the_best_mutation_by_the_name_symbol_of_a_favored_mutation_category_e_g_insertion_rather_than_by_mapping_that_category_to_the_supplied_mutant_labels_and_checking_the_resulting_codon_reading_frame": {
+      "count": 1,
+      "task_class": [
+        "genetic mutation consequence MCQ with sequence data and labeled options"
+      ],
+      "task_ids": [
+        "gpqa_029"
+      ]
+    },
+    "selects_the_compound_that_exhibits_geometrical_cis_trans_isomerism_due_to_restricted_rotation_as_the_one_showing_optical_isomerism_instead_of_checking_for_a_chiral_center_or_overall_non_superimposable_mirror_image": {
+      "count": 1,
+      "task_class": [
+        "organic chemistry MCQ on identifying optical isomerism among given compounds"
+      ],
+      "task_ids": [
+        "gpqa_021"
+      ]
+    },
+    "selects_the_endo_product_dienophile_electron_withdrawing_groups_oriented_toward_the_diene_as_the_answer_even_when_the_question_explicitly_asks_for_the_exo_product_by_failing_to_rotate_the_dienophile_to_the_opposite_face_during_the_cycloaddition_step": {
+      "count": 1,
+      "task_class": [
+        "Diels-Alder endo/exo stereoisomer identification MCQ"
+      ],
+      "task_ids": [
+        "gpqa_033"
+      ]
+    },
+    "selects_the_mutation_with_the_largest_visually_altered_sequence_or_presumed_frameshift_instead_of_identifying_a_mutation_that_directly_creates_a_premature_stop_codon_in_the_reading_frame": {
+      "count": 1,
+      "task_class": [
+        "mutation effect prediction in a coding gene sequence MCQ"
+      ],
+      "task_ids": [
+        "gpqa_029"
+      ]
+    },
+    "selects_the_option_that_it_argues_is_ineffective_as_the_answer_but_does_not_recognize_that_the_question_requires_selecting_the_effective_non_mitochondrial_control_and_instead_misidentifies_the_truly_mitochondrial_specific_assay_as_ineffective": {
+      "count": 1,
+      "task_class": [
+        "mitochondrial-function experimental assay selection MCQ"
+      ],
+      "task_ids": [
+        "gpqa_044"
+      ]
+    },
+    "selects_the_option_that_matches_the_correct_product_and_the_overall_reaction_logic_but_misassigns_the_letter_answer_by_conflating_the_reagent_order_notation_in_the_options_specifically_choosing_an_option_where_the_solvent_dme_is_incorrectly_placed_with_the_alkylation_hydrolysis_step_rather_than_with_the_lda_deprotonation_step": {
+      "count": 1,
+      "task_class": [
+        "Stork enamine alkylation reagent sequence and product prediction MCQ"
+      ],
+      "task_ids": [
+        "gpqa_038"
+      ]
+    },
+    "selects_the_regioisomer_based_solely_on_which_alpha_carbon_is_alkylated_at_the_enolate_step_without_tracking_absolute_configuration_changes_and_matching_all_substituent_positions_to_the_iupac_name": {
+      "count": 1,
+      "task_class": [
+        "multi-step stereoselective synthesis product prediction MCQ"
+      ],
+      "task_ids": [
+        "gpqa_028"
+      ]
+    },
+    "selects_the_regioisomer_formed_by_deprotonating_the_less_substituted_monofunctionalized_alpha_carbon_site_rather_than_the_doubly_activated_bridgehead_like_alpha_carbon_of_a_beta_dicarbonyl_ester_system_then_applies_the_same_flawed_regiochemical_choice_to_the_second_addition": {
+      "count": 1,
+      "task_class": [
+        "Michael addition product regio/stereochemistry determination for enolate additions"
+      ],
+      "task_ids": [
+        "gpqa_019"
+      ]
+    },
+    "settles_on_a_product_by_recalling_one_reaction_mechanism_keyword_and_then_forces_every_reaction_in_the_set_to_fit_a_single_remembered_pattern_while_ignoring_functional_group_specific_rearrangement_rules_for_the_other_reactions": {
+      "count": 1,
+      "task_class": [
+        "pericyclic reaction product prediction MCQ"
+      ],
+      "task_ids": [
+        "gpqa_049"
+      ]
+    },
+    "stops_after_a_single_condensation_step_and_then_assigns_the_point_group_using_the_symmetry_of_the_para_substituted_benzene_ring_alone_ignoring_that_the_final_product_may_be_a_di_adduct_and_that_the_overall_molecular_symmetry_depends_on_the_equivalence_of_the_two_ends_of_the_conjugated_system": {
+      "count": 1,
+      "task_class": [
+        "reaction-sequence prediction followed by molecular point-group assignment"
+      ],
+      "task_ids": [
+        "gpqa_031"
+      ]
+    },
+    "substitutes_a_selection_task_for_a_counting_task_naming_one_qualifying_option_instead_of_tallying_all_qualifying_options": {
+      "count": 1,
+      "task_class": [
+        "counting the number of compounds in a list that exhibit a property"
+      ],
+      "task_ids": [
+        "gpqa_016"
+      ]
+    },
+    "treats_any_molecule_with_paired_r_and_s_stereocenters_as_meso_achiral_based_only_on_their_opposite_configurational_descriptors_without_verifying_that_a_real_mirror_plane_maps_all_substituents_and_any_double_bond_geometry_to_identical_counterparts": {
+      "count": 1,
+      "task_class": [
+        "optical activity/stereochemical chirality counting MCQ"
+      ],
+      "task_ids": [
+        "gpqa_016"
+      ]
+    },
+    "treats_the_iminium_enamine_intermediate_as_a_protected_carbonyl_that_simply_hydrolyzes_back_to_the_starting_ketone_and_amine_ignores_that_the_base_deprotonates_to_the_enamine_and_that_the_alkyl_halide_alkylates_the_alpha_carbon_before_hydrolysis": {
+      "count": 1,
+      "task_class": [
+        "Stork enamine (iminium) alkylation reagent sequence and product prediction MCQ"
+      ],
+      "task_ids": [
+        "gpqa_038"
+      ]
+    },
+    "treats_the_problem_as_an_exact_document_retrieval_lookup_and_reports_not_found_when_no_retrieved_passage_precisely_matches_the_requested_product_instead_of_performing_the_stepwise_synthetic_reasoning": {
+      "count": 1,
+      "task_class": [
+        "multi-step organic synthesis stereochemistry MCQ"
+      ],
+      "task_ids": [
+        "gpqa_013"
+      ]
+    },
+    "when_identifying_the_exo_endo_stereoisomer_of_a_diels_alder_product_checks_for_an_internal_symmetry_plane_and_uses_it_to_deduce_that_paired_stereocenters_must_have_opposite_r_s_descriptors_but_fails_to_map_the_exo_endo_spatial_orientation_of_the_diene_substituents_to_the_correct_cahn_ingold_prelog_configurations_leading_to_an_inversion_of_the_assigned_descriptors_at_the_substituted_bridge_carbons": {
+      "count": 1,
+      "task_class": [
+        "Diels-Alder cycloaddition stereochemistry (exo/endo product identification) MCQ"
+      ],
+      "task_ids": [
+        "gpqa_033"
+      ]
+    },
+    "when_the_final_product_is_a_saturated_carbocycle_answers_with_just_the_ring_size_integer_a_structural_count_instead_of_selecting_the_full_iupac_name_option": {
+      "count": 1,
+      "task_class": [
+        "multi-step organic synthesis final-product identification MCQ"
+      ],
+      "task_ids": [
+        "gpqa_028"
+      ]
+    },
+    "when_the_retrieval_step_returns_no_supporting_document_for_the_stem_outputs_a_generic_not_found_in_retrieved_documents_message_instead_of_selecting_among_the_answer_choices_using_prior_domain_knowledge_or_flagging_inability_to_answer": {
+      "count": 1,
+      "task_class": [
+        "retrieval-based multiple-choice science question"
+      ],
+      "task_ids": [
+        "gpqa_011"
+      ]
+    }
+  }
+}

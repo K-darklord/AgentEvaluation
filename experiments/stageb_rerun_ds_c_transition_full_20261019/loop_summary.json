@@ -1,0 +1,32 @@
+{
+  "run_id": "stageb_rerun_ds_c_transition_full_20261019",
+  "_note": "consolidated from 6 transition fragments (dedup by task_id, latest wins)",
+  "arm": "C",
+  "family_filter": null,
+  "task_set": "gpqa+aime+phase1(non-settle)",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "transition",
+  "seed": null,
+  "n_tasks": 52,
+  "concurrency": 6,
+  "models": {
+    "deepseek-v4-flash": {
+      "init_accuracy": 0.5385,
+      "final_accuracy": 0.6346,
+      "end_state_distribution": {
+        "1": 21,
+        "2": 4,
+        "3": 3,
+        "4": 9,
+        "5": 2,
+        "6": 13
+      },
+      "n_tasks": 52
+    }
+  }
+}

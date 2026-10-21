@@ -1,0 +1,145 @@
+run_id,task_id,category,difficulty,gold_answer,final_answer,is_correct,error_type,tier1_numeric,tier2_llm_semantic,dealbreaker_triggered,eval_tier,final_score,tool_calls,total_latency_ms,model_name
+qwen3.8-flash,aime_001,Mathematical Reasoning,Hard,60,60,True,correct,1.0,0.0,False,T1,1.0,0,7734,qwen3.8-flash
+qwen3.8-flash,aime_002,Mathematical Reasoning,Hard,15,15,True,correct,1.0,0.0,False,T1,1.0,0,11067,qwen3.8-flash
+qwen3.8-flash,aime_003,Mathematical Reasoning,Hard,20,20,True,correct,1.0,0.0,False,T1,1.0,0,4414,qwen3.8-flash
+qwen3.8-flash,aime_004,Mathematical Reasoning,Hard,26,26,True,correct,1.0,0.0,False,T1,1.0,0,92820,qwen3.8-flash
+qwen3.8-flash,aime_005,Mathematical Reasoning,Hard,4,4,True,correct,1.0,0.0,False,T1,1.0,0,8153,qwen3.8-flash
+qwen3.8-flash,aime_006,Mathematical Reasoning,Hard,35,35,True,correct,1.0,0.0,False,T1,1.0,0,6538,qwen3.8-flash
+qwen3.8-flash,aime_007,Mathematical Reasoning,Hard,57,57,True,correct,1.0,0.0,False,T1,1.0,0,11678,qwen3.8-flash
+qwen3.8-flash,aime_008,Mathematical Reasoning,Hard,61,61,True,correct,1.0,0.0,False,T1,1.0,0,16407,qwen3.8-flash
+qwen3.8-flash,aime_009,Mathematical Reasoning,Hard,12,12,True,correct,1.0,0.0,False,T1,1.0,0,7116,qwen3.8-flash
+qwen3.8-flash,aime_010,Mathematical Reasoning,Hard,432,432,True,correct,1.0,0.0,False,T1,1.0,0,18351,qwen3.8-flash
+qwen3.8-flash,aime_011,Mathematical Reasoning,Hard,288,288,True,correct,1.0,0.0,False,T1,1.0,0,66953,qwen3.8-flash
+qwen3.8-flash,aime_012,Mathematical Reasoning,Hard,65,65,True,correct,1.0,0.0,False,T1,1.0,0,37265,qwen3.8-flash
+qwen3.8-flash,aime_013,Mathematical Reasoning,Hard,448,448,True,correct,1.0,0.0,False,T1,1.0,0,12644,qwen3.8-flash
+qwen3.8-flash,aime_014,Mathematical Reasoning,Hard,130,130,True,correct,1.0,0.0,False,T1,1.0,0,68570,qwen3.8-flash
+qwen3.8-flash,aime_015,Mathematical Reasoning,Hard,175,175,True,correct,1.0,0.0,False,T1,1.0,0,324852,qwen3.8-flash
+qwen3.8-flash,aime_016,Mathematical Reasoning,Hard,93,93,True,correct,1.0,0.0,False,T1,1.0,0,5257,qwen3.8-flash
+qwen3.8-flash,aime_017,Mathematical Reasoning,Hard,592,592,True,correct,1.0,0.0,False,T1,1.0,0,12606,qwen3.8-flash
+qwen3.8-flash,aime_018,Mathematical Reasoning,Hard,144,144,True,correct,1.0,0.0,False,T1,1.0,0,165504,qwen3.8-flash
+qwen3.8-flash,aime_019,Mathematical Reasoning,Hard,649,649,True,correct,1.0,0.0,False,T1,1.0,0,23267,qwen3.8-flash
+qwen3.8-flash,aime_020,Mathematical Reasoning,Hard,512,512,True,correct,1.0,0.0,False,T1,1.0,0,6815,qwen3.8-flash
+qwen3.8-flash,aime_021,Mathematical Reasoning,Hard,24,24,True,correct,1.0,0.0,False,T1,1.0,0,154317,qwen3.8-flash
+qwen3.8-flash,aime_022,Mathematical Reasoning,Hard,997,997,True,correct,1.0,0.0,False,T1,1.0,0,49441,qwen3.8-flash
+qwen3.8-flash,aime_023,Mathematical Reasoning,Hard,160,160,True,correct,1.0,0.0,False,T1,1.0,0,3882,qwen3.8-flash
+qwen3.8-flash,aime_024,Mathematical Reasoning,Hard,20,20,True,correct,1.0,0.0,False,T1,1.0,0,9034,qwen3.8-flash
+qwen3.8-flash,aime_025,Mathematical Reasoning,Hard,119,119,True,correct,1.0,0.0,False,T1,1.0,0,67614,qwen3.8-flash
+qwen3.8-flash,aime_026,Mathematical Reasoning,Hard,106,106,True,correct,1.0,0.0,False,T1,1.0,0,12963,qwen3.8-flash
+qwen3.8-flash,aime_027,Mathematical Reasoning,Hard,401,401,True,correct,1.0,0.0,False,T1,1.0,0,36211,qwen3.8-flash
+qwen3.8-flash,aime_028,Mathematical Reasoning,Hard,15,15,True,correct,1.0,0.0,False,T1,1.0,0,9644,qwen3.8-flash
+qwen3.8-flash,aime_029,Mathematical Reasoning,Hard,38,38,True,correct,1.0,0.0,False,T1,1.0,0,74605,qwen3.8-flash
+qwen3.8-flash,aime_030,Mathematical Reasoning,Hard,384,384,True,correct,1.0,0.0,False,T1,1.0,0,5942,qwen3.8-flash
+qwen3.8-flash,aime_031,Mathematical Reasoning,Hard,26,26,True,correct,1.0,0.0,False,T1,1.0,0,12716,qwen3.8-flash
+qwen3.8-flash,aime_032,Mathematical Reasoning,Hard,198,198,True,correct,1.0,0.0,False,T1,1.0,0,7665,qwen3.8-flash
+qwen3.8-flash,aime_033,Mathematical Reasoning,Hard,32,32,True,correct,1.0,0.0,False,T1,1.0,0,52158,qwen3.8-flash
+qwen3.8-flash,aime_034,Mathematical Reasoning,Hard,986,986,True,correct,1.0,0.0,False,T1,1.0,0,12771,qwen3.8-flash
+qwen3.8-flash,aime_035,Mathematical Reasoning,Hard,315,315,True,correct,1.0,0.0,False,T1,1.0,0,157547,qwen3.8-flash
+qwen3.8-flash,aime_036,Mathematical Reasoning,Hard,757,757,True,correct,1.0,0.0,False,T1,1.0,0,8441,qwen3.8-flash
+qwen3.8-flash,aime_037,Mathematical Reasoning,Hard,61,61,True,correct,1.0,0.0,False,T1,1.0,0,32618,qwen3.8-flash
+qwen3.8-flash,aime_038,Mathematical Reasoning,Hard,49,49,True,correct,1.0,0.0,False,T1,1.0,0,43202,qwen3.8-flash
+qwen3.8-flash,aime_039,Mathematical Reasoning,Hard,600,600,True,correct,1.0,0.0,False,T1,1.0,0,25236,qwen3.8-flash
+qwen3.8-flash,aime_040,Mathematical Reasoning,Hard,85,85,True,correct,1.0,0.0,False,T1,1.0,0,21039,qwen3.8-flash
+qwen3.8-flash,aime_041,Mathematical Reasoning,Hard,182,182,True,correct,1.0,0.0,False,T1,1.0,0,7811,qwen3.8-flash
+qwen3.8-flash,aime_042,Mathematical Reasoning,Hard,401,401,True,correct,1.0,0.0,False,T1,1.0,0,11717,qwen3.8-flash
+qwen3.8-flash,aime_043,Mathematical Reasoning,Hard,25,25,True,correct,1.0,0.0,False,T1,1.0,0,98175,qwen3.8-flash
+qwen3.8-flash,aime_044,Mathematical Reasoning,Hard,864,864,True,correct,1.0,0.0,False,T1,1.0,0,125832,qwen3.8-flash
+qwen3.8-flash,aime_045,Mathematical Reasoning,Hard,337,337,True,correct,1.0,0.0,False,T1,1.0,0,2626,qwen3.8-flash
+qwen3.8-flash,aime_046,Mathematical Reasoning,Hard,104,104,True,correct,1.0,0.0,False,T1,1.0,0,6570,qwen3.8-flash
+qwen3.8-flash,aime_047,Mathematical Reasoning,Hard,150,150,True,correct,1.0,0.0,False,T1,1.0,0,2327,qwen3.8-flash
+qwen3.8-flash,aime_048,Mathematical Reasoning,Hard,890,890,True,correct,1.0,0.0,False,T1,1.0,0,6726,qwen3.8-flash
+qwen3.8-flash,aime_049,Mathematical Reasoning,Hard,33,33,True,correct,1.0,0.0,False,T1,1.0,0,7303,qwen3.8-flash
+qwen3.8-flash,aime_050,Mathematical Reasoning,Hard,981,981,True,correct,1.0,0.0,False,T1,1.0,0,14309,qwen3.8-flash
+qwen3.8-flash,gpqa_001,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,2741,qwen3.8-flash
+qwen3.8-flash,gpqa_002,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,80216,qwen3.8-flash
+qwen3.8-flash,gpqa_003,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,3434,qwen3.8-flash
+qwen3.8-flash,gpqa_004,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,5493,qwen3.8-flash
+qwen3.8-flash,gpqa_005,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,9714,qwen3.8-flash
+qwen3.8-flash,gpqa_006,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,6476,qwen3.8-flash
+qwen3.8-flash,gpqa_007,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,13544,qwen3.8-flash
+qwen3.8-flash,gpqa_008,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,92086,qwen3.8-flash
+qwen3.8-flash,gpqa_009,Knowledge Reasoning,Hard,A,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_010,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,7666,qwen3.8-flash
+qwen3.8-flash,gpqa_011,Knowledge Reasoning,Hard,A,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_012,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,9815,qwen3.8-flash
+qwen3.8-flash,gpqa_013,Knowledge Reasoning,Hard,B,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_014,Knowledge Reasoning,Hard,D,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_015,Knowledge Reasoning,Hard,C,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_016,Knowledge Reasoning,Hard,A,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_017,Knowledge Reasoning,Hard,A,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_018,Knowledge Reasoning,Hard,C,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_019,Knowledge Reasoning,Hard,D,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_020,Knowledge Reasoning,Hard,B,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_021,Knowledge Reasoning,Hard,A,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_022,Knowledge Reasoning,Hard,C,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_023,Knowledge Reasoning,Hard,C,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_024,Knowledge Reasoning,Hard,B,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_025,Knowledge Reasoning,Hard,C,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_026,Knowledge Reasoning,Hard,B,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_027,Knowledge Reasoning,Hard,A,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_028,Knowledge Reasoning,Hard,D,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_029,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,97075,qwen3.8-flash
+qwen3.8-flash,gpqa_030,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,17890,qwen3.8-flash
+qwen3.8-flash,gpqa_031,Knowledge Reasoning,Hard,D,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_032,Knowledge Reasoning,Hard,D,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_033,Knowledge Reasoning,Hard,B,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_034,Knowledge Reasoning,Hard,B,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_035,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,17945,qwen3.8-flash
+qwen3.8-flash,gpqa_036,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,21511,qwen3.8-flash
+qwen3.8-flash,gpqa_037,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,84373,qwen3.8-flash
+qwen3.8-flash,gpqa_038,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,104264,qwen3.8-flash
+qwen3.8-flash,gpqa_039,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,11978,qwen3.8-flash
+qwen3.8-flash,gpqa_040,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,3130,qwen3.8-flash
+qwen3.8-flash,gpqa_041,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,5282,qwen3.8-flash
+qwen3.8-flash,gpqa_042,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,17658,qwen3.8-flash
+qwen3.8-flash,gpqa_043,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,229811,qwen3.8-flash
+qwen3.8-flash,gpqa_044,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,32369,qwen3.8-flash
+qwen3.8-flash,gpqa_045,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,5872,qwen3.8-flash
+qwen3.8-flash,gpqa_046,Knowledge Reasoning,Hard,D,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_047,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,4287,qwen3.8-flash
+qwen3.8-flash,gpqa_048,Knowledge Reasoning,Hard,C,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_049,Knowledge Reasoning,Hard,D,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,gpqa_050,Knowledge Reasoning,Hard,A,Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,bbh_0001,Reasoning,Hard,(B),Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,bbh_0002,Reasoning,Hard,(J),Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,bbh_0003,Reasoning,Hard,(K),Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,bbh_0004,Reasoning,Hard,(E),Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,bbh_0005,Reasoning,Hard,(A),Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,bbh_0006,Reasoning,Hard,(B),Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,bbh_0007,Reasoning,Hard,(C),Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,bbh_0008,Reasoning,Hard,(B),Timeout (hung server request),False,api_failure,0.0,0.0,False,T1,0.0,0,600000,hf-agent
+qwen3.8-flash,bbh_0009,Reasoning,Hard,8,8,True,correct,1.0,0.0,False,T1,1.0,0,1703,qwen3.8-flash
+qwen3.8-flash,bbh_0010,Reasoning,Hard,15,15,True,correct,1.0,0.0,False,T1,1.0,0,2160,qwen3.8-flash
+qwen3.8-flash,bbh_0011,Reasoning,Hard,3,3,True,correct,1.0,0.0,False,T1,1.0,0,2718,qwen3.8-flash
+qwen3.8-flash,bbh_0012,Reasoning,Hard,14,14,True,correct,1.0,0.0,False,T1,1.0,0,2658,qwen3.8-flash
+qwen3.8-flash,bbh_0013,Reasoning,Hard,(E),(E),True,correct,1.0,0.0,False,T1,1.0,0,1860,qwen3.8-flash
+qwen3.8-flash,bbh_0014,Reasoning,Hard,(C),C,True,correct,1.0,0.0,False,T1,1.0,0,1532,qwen3.8-flash
+qwen3.8-flash,bbh_0015,Reasoning,Hard,(C),C,True,correct,1.0,0.0,False,T1,1.0,0,1363,qwen3.8-flash
+qwen3.8-flash,bbh_0016,Reasoning,Hard,(A),A,True,correct,1.0,0.0,False,T1,1.0,0,1758,qwen3.8-flash
+qwen3.8-flash,bbh_0017,Reasoning,Hard,(A),(A),True,correct,1.0,0.0,False,T1,1.0,0,6102,qwen3.8-flash
+qwen3.8-flash,bbh_0018,Reasoning,Hard,(A),D,False,wrong_option,0.0,0.0,False,T1,0.0,0,2879,qwen3.8-flash
+qwen3.8-flash,bbh_0019,Reasoning,Hard,(F),D,False,wrong_option,0.0,0.0,False,T1,0.0,0,3263,qwen3.8-flash
+qwen3.8-flash,bbh_0020,Reasoning,Hard,(F),D,False,wrong_option,0.0,0.0,False,T1,0.0,0,2502,qwen3.8-flash
+qwen3.8-flash,bbh_0021,Reasoning,Hard,(B),B,True,correct,1.0,0.0,False,T1,1.0,0,3895,qwen3.8-flash
+qwen3.8-flash,bbh_0022,Reasoning,Hard,(A),A,True,correct,1.0,0.0,False,T1,1.0,0,1857,qwen3.8-flash
+qwen3.8-flash,bbh_0023,Reasoning,Hard,(A),A,True,correct,1.0,0.0,False,T1,1.0,0,2307,qwen3.8-flash
+qwen3.8-flash,bbh_0024,Reasoning,Hard,(B),B,True,correct,1.0,0.0,False,T1,1.0,0,1855,qwen3.8-flash
+qwen3.8-flash,bbh_0025,Reasoning,Hard,(A),(A),True,correct,1.0,0.0,False,T1,1.0,0,2058,qwen3.8-flash
+qwen3.8-flash,bbh_0026,Reasoning,Hard,(C),C,True,correct,1.0,0.0,False,T1,1.0,0,1805,qwen3.8-flash
+qwen3.8-flash,bbh_0027,Reasoning,Hard,(B),B,True,correct,1.0,0.0,False,T1,1.0,0,2673,qwen3.8-flash
+qwen3.8-flash,bbh_0028,Reasoning,Hard,(D),(D),True,correct,1.0,0.0,False,T1,1.0,0,2856,qwen3.8-flash
+qwen3.8-flash,bbh_0029,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,2918,qwen3.8-flash
+qwen3.8-flash,bbh_0030,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,2791,qwen3.8-flash
+qwen3.8-flash,bbh_0031,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,1520,qwen3.8-flash
+qwen3.8-flash,bbh_0032,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,2481,qwen3.8-flash
+qwen3.8-flash,bbh_0033,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,4375,qwen3.8-flash
+qwen3.8-flash,bbh_0034,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,2511,qwen3.8-flash
+qwen3.8-flash,bbh_0035,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,4316,qwen3.8-flash
+qwen3.8-flash,bbh_0036,Reasoning,Hard,Yes,Yes,True,correct,1.0,0.0,False,T1,1.0,0,2588,qwen3.8-flash
+qwen3.8-flash,bbh_0037,Reasoning,Hard,24,24,True,correct,1.0,0.0,False,T1,1.0,0,2267,qwen3.8-flash
+qwen3.8-flash,bbh_0038,Reasoning,Hard,63,63,True,correct,1.0,0.0,False,T1,1.0,0,5170,qwen3.8-flash
+qwen3.8-flash,bbh_0039,Reasoning,Hard,-50,-50,True,correct,1.0,0.0,False,T1,1.0,0,3176,qwen3.8-flash
+qwen3.8-flash,bbh_0040,Reasoning,Hard,-11520,-11520,True,correct,1.0,0.0,False,T1,1.0,0,1892,qwen3.8-flash
+qwen3.8-flash,bbh_0041,Reasoning,Hard,False,False,True,correct,1.0,0.0,False,T1,1.0,0,1757,qwen3.8-flash
+qwen3.8-flash,bbh_0042,Reasoning,Hard,True,True,True,correct,1.0,0.0,False,T1,1.0,0,11068,qwen3.8-flash
+qwen3.8-flash,bbh_0043,Reasoning,Hard,False,False,True,correct,1.0,0.0,False,T1,1.0,0,3010,qwen3.8-flash
+qwen3.8-flash,bbh_0044,Reasoning,Hard,False,False,True,correct,1.0,0.0,False,T1,1.0,0,4742,qwen3.8-flash

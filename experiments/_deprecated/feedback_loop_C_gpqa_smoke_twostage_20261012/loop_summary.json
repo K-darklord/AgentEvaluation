@@ -1,0 +1,38 @@
+{
+  "run_id": "feedback_loop_C_gpqa_smoke_twostage_20261012",
+  "arm": "C",
+  "family_filter": "gpqa",
+  "task_set": "new",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "twostage",
+  "seed": null,
+  "n_tasks": 20,
+  "concurrency": 4,
+  "models": {
+    "glm-5.3": {
+      "model_id": "glm-5.3",
+      "init_accuracy": 0.75,
+      "final_accuracy": 0.85,
+      "end_state_distribution": {
+        "1": 14,
+        "2": 1,
+        "4": 3,
+        "5": 1,
+        "6": 1
+      },
+      "l3_activation_rate": 0.95,
+      "l3_reversibility_rate": 0.8,
+      "l4_lock_rate": 0.9333,
+      "l4_misled_rate": 0.0667,
+      "avg_rounds": 4.05,
+      "total_prompt_tokens": 64785,
+      "total_completion_tokens": 639019,
+      "total_reasoning_tokens": 0
+    }
+  }
+}

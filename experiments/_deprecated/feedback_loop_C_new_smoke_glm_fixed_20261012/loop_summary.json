@@ -1,0 +1,37 @@
+{
+  "run_id": "feedback_loop_C_new_smoke_glm_fixed_20261012",
+  "arm": "C",
+  "family_filter": null,
+  "task_set": "new",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "emit_rationale": true,
+  "seed": null,
+  "n_tasks": 20,
+  "concurrency": 6,
+  "models": {
+    "glm-5.3": {
+      "model_id": "glm-5.3",
+      "init_accuracy": 0.9,
+      "final_accuracy": 0.85,
+      "end_state_distribution": {
+        "1": 13,
+        "2": 3,
+        "3": 2,
+        "4": 2
+      },
+      "l3_activation_rate": 1.0,
+      "l3_reversibility_rate": 1.0,
+      "l4_lock_rate": 0.7222,
+      "l4_misled_rate": 0.1667,
+      "avg_rounds": 4.4,
+      "total_prompt_tokens": 37400,
+      "total_completion_tokens": 196933,
+      "total_reasoning_tokens": 0
+    }
+  }
+}

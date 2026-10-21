@@ -1,10 +1,49 @@
 # Metacognitive Agent Evaluation — Academic Frontier Work Map
 
-> Report type: literature frontier map · Generated 2026-09-26 · Anchored to draft 2026-09-19 · 33 sources
+> Report type: literature frontier map · Generated 2026-09-26 · Anchored to draft 2026-09-19 · **Re-anchored 2026-10-10 (see §0) · 40 sources**
 >
-> Anchored to the proposal *Can You Teach an Agent to Know What It Doesn't Know?* — mapping the 2022–2026 frontier along four dimensions: **Agent Evaluation / Verification / Optimization / Inference Scaling**.
+> Anchored to the proposal *Can You Teach an Agent to Know What It Doesn't Know?* — mapping the 2022–2026 frontier along four dimensions: **Agent Evaluation / Verification / Optimization / Inference Scaling**. As of 2026-10-10 the anchor has shifted from pure diagnosis to **recursive self-improvement (RSI)** driven by error-set feedback — see §0.
 
 The four dimensions have each converged, over 2024–2026, onto the same language — **"capability is a curve swept out by cost/compute, not a single score."** But the *crossover question* — "predict from early rounds the cost required to reach a target accuracy + diagnose the convergence class" — has not yet been systematically covered by anyone. This is precisely the gap where the proposal lands and can make an original contribution.
+
+---
+
+## 0. Re-anchoring to recursive self-improvement (RSI) — added 2026-10-10
+
+> Why this section exists: after a supervisor meeting (2026-10-10), the proposal's center of gravity moved from "diagnosis as the deliverable" to "diagnosis + a self-improvement loop that converts the diagnosis into measurable gains." This section records the new anchor so the rest of this map (written 2026-09-26) can still be read as **support**, not as the final word.
+
+The meeting's verdict on the original framing is worth stating plainly: a *pure* diagnostic study — error taxonomies, activation / locking curves, cost extrapolation — is judged insufficient to stand alone as a top-venue contribution. The diagnosis is retained, but repositioned as the **measurement layer of a recursive self-improvement (RSI) story**: the same error-set prior that we already use as a weak critic becomes, one step further, the *information source* that a train-free evaluator exploits to drive real accuracy gains.
+
+### 0.1 A two-level metric system (EIR/ECR are per-round; ours are whole-loop)
+
+We adopt the error-dynamics vocabulary from Liu & Meng 2026 ("Self-Correction as Feedback Control", arXiv:2604.22273) but, critically, **do not conflate the two levels of measurement** — both are kept, and each answers a different question.
+
+**Per-round (micro) — the borrowed pair.** Over a single self-correction round, on the two-state chain {Correct, Incorrect}:
+
+- **EIR (Error Introduction Rate)** = P(c_{k+1}=wrong | c_k=correct) — the probability a *correct* answer is flipped to wrong in one round.
+- **ECR (Error Correction Rate)** = P(c_{k+1}=correct | c_k=wrong) — the probability a *wrong* answer is corrected in one round.
+
+Their theory yields three quantities we reuse: the **stability threshold** (iterate only while ECR/EIR > Acc/(1−Acc)), the **steady state** π* = ECR/(EIR+ECR), and the **convergence rate** 1−EIR−ECR [37]. The paper's headline result — a near-zero EIR boundary (≲0.5%) separating beneficial from harmful self-correction — is our "locking" concern, re-derived from the direction of degradation rather than accumulation.
+
+**Whole-loop (macro) — our pair.** Over an entire ≤10-round feedback loop, aggregated across questions:
+
+- **P_act (activation / reachability rate)** = P(correct appears in ≥1 round) — the ceiling of what the loop can reach with bounded feedback; our "activation rate", a feedback-guided form of pass@k [38].
+- **lock-in rate** = P(final answer is correct | correct appeared at some round) — the probability the loop *keeps* the correct answer once reached.
+
+The bridge between the two levels is algebraic, not identical: the macro `r` (reversibility, = P(appears correct | first answer wrong)) is the *cumulative* consequence of per-round ECR, `r = 1 − ∏(1−ECR)`, and the lock-in deficit is, at a single step, exactly EIR>0. **We report both levels and never merge them**: EIR/ECR answer "how does one round behave," while P_act / lock-in answer "how much does the whole loop reach and hold."
+
+### 0.2 The two-stage RSI strategy
+
+The new positioning turns the metric system into a two-stage improvement claim, mirroring the paper's own "two-tier capability" conclusion — prompt-level EIR suppression prevents degradation, whereas ECR enhancement (plausibly training-level) is required for genuine gains [37]:
+
+1. **Stage A — raise the activation rate via error-set sampling (no training).** Use the existing error-set prior + weak critic to steer the loop toward regions where the correct answer is *reachable*, lifting P_act. This is the "reachability" stage; it works on the ECR side of accumulation before the loop begins to degrade.
+2. **Stage B — raise the locking rate via a train-free transition evaluator (no training).** Introduce an external evaluator that reads each round's self-reported transition rationale, prunes the state chain, and emits a single `ANSWER` / `UNSURE` verdict, suppressing the EIR-driven flips that cause activation-without-locking. This is the "lock-in" stage, where genuine beyond-restoration gains live. Note the shift: "recursive" here means *self-referential evaluation* (the model judges its own transitions), not self-training.
+
+The headline claim becomes: **an error set is an effective RSI information source** — reusing it first as a sampling prior, then as the transition signal an evaluator reads to lock the final answer, raises feedback-guided reachability (P_act) while keeping ECR high and EIR low, i.e. it moves the loop into the stable region ECR/EIR > Acc/(1−Acc) and holds the final answer [39][40]. The diagnostic outputs (error taxonomy, activation / locking curves, cost / token accounting) are retained as the *intermediate products* of this story rather than its terminus.
+
+### 0.3 Where this lands relative to the map below
+
+The four dimensions and the "crossover gap" (sections 1–8) remain valid as the *measurement* substrate. The change is the arrow: instead of ending at "diagnose the convergence class," the roadmap (§9) now continues into "exploit the diagnosis inside a self-improvement loop." The nearest neighbours of §8.3 (Feedback Friction [34], Overthinking [35], Activation-probe self-correction [36]) stay as differentiation targets, augmented by the EIR/ECR feedback-control line [37] as a direct methodological ancestor.
 
 ---
 
@@ -191,6 +230,21 @@ Binding the proposal's four experimental phases to the frontier, forming a "lite
 
 > **Priority note** — proceed in the order "first align infrastructure, then validate, then train": **Phase 1 is the foundation** — if the validity of the error classifier and Top-K feedback cannot be established first, the subsequent convergence and cost-prediction lose their measurement object; this is consistent with the proposal's ordering of "signal validity first."
 
+### 9.1 Revised roadmap — the RSI arc (added 2026-10-10)
+
+The four phases of Table 3 remain the *measurement* spine; the re-anchoring adds a self-improvement arc on top of it, mapping each step to its RSI role.
+
+**Table 4 · From measurement to self-improvement**
+
+| # | RSI moment | What we build / run | Success criterion |
+|---|---|---|---|
+| R0 | Error-set prior (information source) | existing weak critic + taxonomy, gold-free | P_act measurable and above single-sample accuracy |
+| R1 | Stage A — reachability | error-set sampling inside the feedback loop | P_act ↑ over the bare loop; EIR suppressed |
+| R2 | Stage B — locking | a train-free evaluator reads each round's rationale → ANSWER / UNSURE | lock-in rate ↑; ECR/EIR > Acc/(1−Acc) |
+| R3 | Claim | error set as an effective RSI source | gains, with cost / token accounting as intermediate products |
+
+The ordering is deliberate and mirrors Table 3's priority note ("infrastructure → validate → lock"): **R0/R1/R2 are all no-training and reversible** — Stage B is a train-free transition evaluator, not a trained controller — so every stage can be aborted and re-run cheaply to bound cost — consistent with the project's "run in segments, callback on failure" discipline.
+
 ## 10. Conclusion
 
 The conclusions that the four dimensions reach independently ultimately flow into the same sentence: **capability is not a single-point score, but a curve swept out by cost/compute.** The proposal's "cost–reliability" reframe is therefore **with the current**, not against it — its adversary is not any single paper, but the crossover patch that everyone has seen and everyone has only half-finished.
@@ -237,3 +291,8 @@ There are three real opportunities remaining for the proposal, all concentrated 
 34. Jiang, D. et al. (2025). *Feedback Friction: LLMs Struggle to Fully Incorporate External Feedback* — https://arxiv.org/abs/2506.11930
 35. Zhou, S. et al. (2026). *When More Thinking Hurts: Overthinking in LLM Test-Time Compute Scaling* — https://arxiv.org/abs/2604.10739
 36. (2026). *The Shape of Addition: Geometric Structures of Arithmetic in Large Language Models* — https://arxiv.org/abs/2606.03645
+
+37. Liu, A. & Meng, J. (2026). *Self-Correction as Feedback Control: Error Dynamics, Stability Thresholds, and Prompt Interventions in LLMs* — https://arxiv.org/abs/2604.22273
+38. Chen, M. et al. (2021). *Evaluating Large Language Models Trained on Code* — https://arxiv.org/abs/2107.03374
+39. Setlur, A. et al. (2025). *Scaling Test-Time Compute Without Verification or RL is Suboptimal* — https://arxiv.org/abs/2502.12118
+40. Zelikman, E. et al. (2022). *STaR: Bootstrapping Reasoning With Reasoning* — https://arxiv.org/abs/2203.14465

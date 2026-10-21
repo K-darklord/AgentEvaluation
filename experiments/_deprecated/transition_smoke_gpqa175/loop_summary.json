@@ -1,0 +1,34 @@
+{
+  "run_id": "transition_smoke_gpqa175",
+  "arm": "C",
+  "family_filter": "gpqa",
+  "task_set": "gpqa",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "transition",
+  "seed": null,
+  "n_tasks": 1,
+  "concurrency": 6,
+  "models": {
+    "deepseek-v4-flash": {
+      "model_id": "deepseek-v4-flash-0731",
+      "init_accuracy": 1.0,
+      "final_accuracy": 1.0,
+      "end_state_distribution": {
+        "1": 1
+      },
+      "l3_activation_rate": 1.0,
+      "l3_reversibility_rate": 0.0,
+      "l4_lock_rate": 1.0,
+      "l4_misled_rate": 0.0,
+      "avg_rounds": 3.0,
+      "total_prompt_tokens": 1304,
+      "total_completion_tokens": 7657,
+      "total_reasoning_tokens": 7651
+    }
+  }
+}

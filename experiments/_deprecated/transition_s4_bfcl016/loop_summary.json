@@ -1,0 +1,66 @@
+{
+  "run_id": "transition_s4_bfcl016",
+  "arm": "C",
+  "family_filter": "bfcl",
+  "task_set": "phase1",
+  "max_tokens": 1024,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "transition",
+  "seed": null,
+  "n_tasks": 1,
+  "concurrency": 6,
+  "models": {
+    "deepseek-v4-flash": {
+      "model_id": "deepseek-v4-flash-0731",
+      "init_accuracy": 1.0,
+      "final_accuracy": 1.0,
+      "end_state_distribution": {
+        "1": 1
+      },
+      "l3_activation_rate": 1.0,
+      "l3_reversibility_rate": 0.0,
+      "l4_lock_rate": 1.0,
+      "l4_misled_rate": 0.0,
+      "avg_rounds": 3.0,
+      "total_prompt_tokens": 2131,
+      "total_completion_tokens": 790,
+      "total_reasoning_tokens": 0
+    },
+    "qwen3.8-flash": {
+      "model_id": "qwen3.8-flash",
+      "init_accuracy": 1.0,
+      "final_accuracy": 1.0,
+      "end_state_distribution": {
+        "1": 1
+      },
+      "l3_activation_rate": 1.0,
+      "l3_reversibility_rate": 0.0,
+      "l4_lock_rate": 1.0,
+      "l4_misled_rate": 0.0,
+      "avg_rounds": 8.0,
+      "total_prompt_tokens": 5804,
+      "total_completion_tokens": 10488,
+      "total_reasoning_tokens": 0
+    },
+    "glm-5.3": {
+      "model_id": "glm-5.3",
+      "init_accuracy": 1.0,
+      "final_accuracy": 1.0,
+      "end_state_distribution": {
+        "1": 1
+      },
+      "l3_activation_rate": 1.0,
+      "l3_reversibility_rate": 0.0,
+      "l4_lock_rate": 1.0,
+      "l4_misled_rate": 0.0,
+      "avg_rounds": 3.0,
+      "total_prompt_tokens": 1544,
+      "total_completion_tokens": 1629,
+      "total_reasoning_tokens": 0
+    }
+  }
+}

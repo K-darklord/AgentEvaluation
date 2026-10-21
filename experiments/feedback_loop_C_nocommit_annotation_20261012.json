@@ -1,0 +1,729 @@
+{
+  "deepseek-v4-flash|aime": {
+    "model": "deepseek-v4-flash",
+    "dataset": "new",
+    "family": "aime",
+    "r0_noc": 2,
+    "fb_noc": 9,
+    "fb_total": 153,
+    "fb_noc_rate": 0.0588,
+    "induced_questions": 3,
+    "detail": {
+      "aime_039": [
+        1
+      ],
+      "aime_021": [
+        10
+      ],
+      "aime_043": [
+        2
+      ],
+      "aime_044": [
+        3,
+        6,
+        8,
+        10
+      ],
+      "aime_035": [
+        5,
+        7
+      ]
+    }
+  },
+  "deepseek-v4-flash|bbh": {
+    "model": "deepseek-v4-flash",
+    "dataset": "new",
+    "family": "bbh",
+    "r0_noc": 0,
+    "fb_noc": 0,
+    "fb_total": 101,
+    "fb_noc_rate": 0.0,
+    "induced_questions": 0,
+    "detail": {}
+  },
+  "deepseek-v4-flash|gpqa": {
+    "model": "deepseek-v4-flash",
+    "dataset": "new",
+    "family": "gpqa",
+    "r0_noc": 9,
+    "fb_noc": 72,
+    "fb_total": 190,
+    "fb_noc_rate": 0.3789,
+    "induced_questions": 3,
+    "detail": {
+      "gpqa_026": [
+        1,
+        3
+      ],
+      "gpqa_023": [
+        2,
+        3,
+        4,
+        7
+      ],
+      "gpqa_013": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "gpqa_016": [
+        1,
+        3,
+        4,
+        5,
+        7,
+        9,
+        10
+      ],
+      "gpqa_009": [
+        2,
+        3,
+        5,
+        7,
+        8,
+        10
+      ],
+      "gpqa_034": [
+        2,
+        4,
+        5,
+        7,
+        9
+      ],
+      "gpqa_043": [
+        2,
+        3,
+        4,
+        6,
+        8
+      ],
+      "gpqa_048": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8
+      ],
+      "gpqa_049": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "gpqa_033": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "gpqa_028": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    }
+  },
+  "glm-5.3|aime": {
+    "model": "glm-5.3",
+    "dataset": "new",
+    "family": "aime",
+    "r0_noc": 0,
+    "fb_noc": 11,
+    "fb_total": 368,
+    "fb_noc_rate": 0.0299,
+    "induced_questions": 6,
+    "detail": {
+      "aime_008": [
+        1
+      ],
+      "aime_029": [
+        1,
+        2,
+        3
+      ],
+      "aime_011": [
+        1,
+        2
+      ],
+      "aime_035": [
+        2,
+        3
+      ],
+      "aime_039": [
+        6
+      ],
+      "aime_044": [
+        1,
+        5
+      ]
+    }
+  },
+  "glm-5.3|bbh": {
+    "model": "glm-5.3",
+    "dataset": "new",
+    "family": "bbh",
+    "r0_noc": 0,
+    "fb_noc": 100,
+    "fb_total": 256,
+    "fb_noc_rate": 0.3906,
+    "induced_questions": 23,
+    "detail": {
+      "bbh_0001": [
+        4,
+        5
+      ],
+      "bbh_0005": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "bbh_0006": [
+        1,
+        2,
+        4,
+        6,
+        8,
+        10
+      ],
+      "bbh_0007": [
+        1,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9
+      ],
+      "bbh_0009": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "bbh_0008": [
+        3,
+        4,
+        6,
+        7
+      ],
+      "bbh_0010": [
+        1,
+        2,
+        3
+      ],
+      "bbh_0012": [
+        1,
+        2,
+        3
+      ],
+      "bbh_0013": [
+        1,
+        2,
+        3
+      ],
+      "bbh_0016": [
+        1,
+        5,
+        6,
+        9,
+        10
+      ],
+      "bbh_0003": [
+        2
+      ],
+      "bbh_0021": [
+        1,
+        2,
+        3,
+        5,
+        7,
+        8,
+        9
+      ],
+      "bbh_0023": [
+        2,
+        3,
+        4
+      ],
+      "bbh_0024": [
+        7,
+        8,
+        9
+      ],
+      "bbh_0026": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "bbh_0027": [
+        1,
+        2,
+        7,
+        8,
+        9,
+        10
+      ],
+      "bbh_0017": [
+        1,
+        4,
+        5,
+        6,
+        7
+      ],
+      "bbh_0028": [
+        1
+      ],
+      "bbh_0031": [
+        1,
+        2,
+        3
+      ],
+      "bbh_0033": [
+        1,
+        3,
+        4,
+        6,
+        7,
+        9
+      ],
+      "bbh_0018": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        9,
+        10
+      ],
+      "bbh_0020": [
+        2,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10
+      ],
+      "bbh_0019": [
+        3,
+        4,
+        6
+      ]
+    }
+  },
+  "glm-5.3|gpqa": {
+    "model": "glm-5.3",
+    "dataset": "new",
+    "family": "gpqa",
+    "r0_noc": 0,
+    "fb_noc": 75,
+    "fb_total": 248,
+    "fb_noc_rate": 0.3024,
+    "induced_questions": 18,
+    "detail": {
+      "gpqa_001": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "gpqa_002": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10
+      ],
+      "gpqa_015": [
+        10
+      ],
+      "gpqa_020": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        9
+      ],
+      "gpqa_018": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9
+      ],
+      "gpqa_013": [
+        2
+      ],
+      "gpqa_024": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "gpqa_025": [
+        5,
+        7
+      ],
+      "gpqa_029": [
+        2
+      ],
+      "gpqa_028": [
+        1
+      ],
+      "gpqa_022": [
+        1,
+        3,
+        4,
+        6,
+        8,
+        10
+      ],
+      "gpqa_039": [
+        3,
+        5
+      ],
+      "gpqa_040": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "gpqa_037": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        9,
+        10
+      ],
+      "gpqa_044": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "gpqa_042": [
+        1,
+        3
+      ],
+      "gpqa_047": [
+        2,
+        3,
+        6,
+        7,
+        10
+      ],
+      "gpqa_043": [
+        1,
+        4,
+        10
+      ]
+    }
+  },
+  "qwen3.8-flash|aime": {
+    "model": "qwen3.8-flash",
+    "dataset": "new",
+    "family": "aime",
+    "r0_noc": 0,
+    "fb_noc": 1,
+    "fb_total": 103,
+    "fb_noc_rate": 0.0097,
+    "induced_questions": 1,
+    "detail": {
+      "aime_035": [
+        2
+      ]
+    }
+  },
+  "qwen3.8-flash|bbh": {
+    "model": "qwen3.8-flash",
+    "dataset": "new",
+    "family": "bbh",
+    "r0_noc": 0,
+    "fb_noc": 0,
+    "fb_total": 105,
+    "fb_noc_rate": 0.0,
+    "induced_questions": 0,
+    "detail": {}
+  },
+  "qwen3.8-flash|gpqa": {
+    "model": "qwen3.8-flash",
+    "dataset": "new",
+    "family": "gpqa",
+    "r0_noc": 9,
+    "fb_noc": 23,
+    "fb_total": 117,
+    "fb_noc_rate": 0.1966,
+    "induced_questions": 0,
+    "detail": {
+      "gpqa_011": [
+        1,
+        2
+      ],
+      "gpqa_013": [
+        1,
+        2
+      ],
+      "gpqa_016": [
+        1,
+        2
+      ],
+      "gpqa_033": [
+        1,
+        2
+      ],
+      "gpqa_028": [
+        2,
+        3,
+        4
+      ],
+      "gpqa_009": [
+        2,
+        4,
+        6,
+        7,
+        8
+      ],
+      "gpqa_049": [
+        1,
+        2
+      ],
+      "gpqa_048": [
+        2,
+        3,
+        5,
+        7,
+        9
+      ]
+    }
+  },
+  "deepseek-v4-flash|mmlu_pro": {
+    "model": "deepseek-v4-flash",
+    "dataset": "phase1",
+    "family": "mmlu_pro",
+    "r0_noc": 6,
+    "fb_noc": 47,
+    "fb_total": 171,
+    "fb_noc_rate": 0.2749,
+    "induced_questions": 4,
+    "detail": {
+      "mmlu_pro_003": [
+        1,
+        5,
+        8,
+        9,
+        10
+      ],
+      "mmlu_pro_017": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mmlu_pro_023": [
+        2
+      ],
+      "mmlu_pro_024": [
+        2
+      ],
+      "mmlu_pro_033": [
+        3,
+        4,
+        5,
+        6,
+        10
+      ],
+      "mmlu_pro_036": [
+        1,
+        4,
+        5,
+        8
+      ],
+      "mmlu_pro_040": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7
+      ],
+      "mmlu_pro_044": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mmlu_pro_046": [
+        3,
+        9
+      ],
+      "mmlu_pro_047": [
+        4,
+        7,
+        10
+      ]
+    }
+  },
+  "glm-5.3|mmlu_pro": {
+    "model": "glm-5.3",
+    "dataset": "phase1",
+    "family": "mmlu_pro",
+    "r0_noc": 5,
+    "fb_noc": 54,
+    "fb_total": 168,
+    "fb_noc_rate": 0.3214,
+    "induced_questions": 3,
+    "detail": {
+      "mmlu_pro_003": [
+        1,
+        2,
+        5,
+        6,
+        7
+      ],
+      "mmlu_pro_015": [
+        1,
+        3,
+        4,
+        6,
+        7,
+        8
+      ],
+      "mmlu_pro_017": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mmlu_pro_023": [
+        2,
+        5,
+        7
+      ],
+      "mmlu_pro_033": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        10
+      ],
+      "mmlu_pro_036": [
+        1,
+        4,
+        6
+      ],
+      "mmlu_pro_040": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mmlu_pro_044": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    }
+  },
+  "qwen3.8-flash|mmlu_pro": {
+    "model": "qwen3.8-flash",
+    "dataset": "phase1",
+    "family": "mmlu_pro",
+    "r0_noc": 2,
+    "fb_noc": 5,
+    "fb_total": 124,
+    "fb_noc_rate": 0.0403,
+    "induced_questions": 4,
+    "detail": {
+      "mmlu_pro_019": [
+        2
+      ],
+      "mmlu_pro_022": [
+        1
+      ],
+      "mmlu_pro_024": [
+        3
+      ],
+      "mmlu_pro_044": [
+        1,
+        4
+      ]
+    }
+  }
+}

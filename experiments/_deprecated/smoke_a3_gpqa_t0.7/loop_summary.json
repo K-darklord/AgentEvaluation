@@ -1,0 +1,35 @@
+{
+  "run_id": "smoke_a3_gpqa_t0.7",
+  "arm": "A3",
+  "family_filter": "gpqa",
+  "task_set": "new",
+  "max_tokens": 8192,
+  "max_rounds": 5,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.7,
+  "skip_finance": false,
+  "seed": null,
+  "n_tasks": 10,
+  "concurrency": 5,
+  "models": {
+    "deepseek-v4-flash": {
+      "model_id": "deepseek-v4-flash-0731",
+      "init_accuracy": 0.8,
+      "final_accuracy": 0.8,
+      "end_state_distribution": {
+        "1": 7,
+        "3": 1,
+        "6": 2
+      },
+      "l3_activation_rate": 0.8,
+      "l3_reversibility_rate": 0.0,
+      "l4_lock_rate": 0.875,
+      "l4_misled_rate": 0.0,
+      "avg_rounds": 5.0,
+      "total_prompt_tokens": 15030,
+      "total_completion_tokens": 104014,
+      "total_reasoning_tokens": 0
+    }
+  }
+}

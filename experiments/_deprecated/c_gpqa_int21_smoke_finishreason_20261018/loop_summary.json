@@ -1,0 +1,36 @@
+{
+  "run_id": "c_gpqa_int21_smoke_finishreason_20261018",
+  "arm": "C",
+  "family_filter": null,
+  "task_set": "gpqa",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "twostage",
+  "seed": null,
+  "n_tasks": 3,
+  "concurrency": 6,
+  "models": {
+    "glm-5.3": {
+      "model_id": "glm-5.3",
+      "init_accuracy": 0.3333,
+      "final_accuracy": 0.3333,
+      "end_state_distribution": {
+        "1": 1,
+        "5": 1,
+        "6": 1
+      },
+      "l3_activation_rate": 0.6667,
+      "l3_reversibility_rate": 0.5,
+      "l4_lock_rate": 1.0,
+      "l4_misled_rate": 0.0,
+      "avg_rounds": 3.33,
+      "total_prompt_tokens": 8592,
+      "total_completion_tokens": 74992,
+      "total_reasoning_tokens": 74400
+    }
+  }
+}

@@ -1,13 +1,15 @@
-# A Proxy-Based Meta-Cognitive Evaluation Framework for LLM Agents
+# Error-Set Feedback for Recursive Self-Improvement in LLM Agents
 
-**Document type**: Research plan (experiment protocol) · **Version**: 0.9 (Draft) · **Date**: 2026-10-05
+**Document type**: Research plan (experiment protocol) · **Version**: 0.19 (Draft) · **Date**: 2026-10-10
 **Target venues**: Nature Machine Intelligence / IEEE TPAMI / NeurIPS (primary); ACL / EMNLP workshop (early checkpoint).
+
+> **Re-anchored 2026-10-10.** Formerly *A Proxy-Based Meta-Cognitive Evaluation Framework* — a pure measurement contribution. The anchor has moved to **recursive self-improvement (RSI)**: the error-set prior + weak critic is no longer the terminus of the study but the information source an agent loop exploits to raise accuracy. The diagnostic layer (§3–§5) is retained as the *measurement substrate*, not the deliverable.
 
 ---
 
 ## Abstract
 
-Agent evaluation has moved toward reporting capability as a **cost–reliability curve** swept out by compute rather than a single static number (test-time / inference-scaling; see `docs/WORKMAP.md`). Yet the dominant headline figure — a single static accuracy — still conceals two uncertainties that a cost curve alone does not resolve: the *problem boundary* (a finite budget of steps, truncation, tool availability, and response time decides whether a task is "solved") and the *evaluation scale* (LLM-as-a-Judge introduces self-validation loops and homologous bias, while hyperparameters further perturb the score). What this line of work still lacks is a *measurement layer* that localises the missing capability; we add it through an external **meta-cognitive proxy** — an error taxonomy, a Top-K feedback signal, a conservative (Bayesian-style) update, and a bounded feedback–self-correction loop. The central empirical question is whether, under repeated structured feedback, a model's combined capability **converges** — and, if so, at what cost. We formulate the problem distributionally (three candidate mathematical framings are held open), decouple three confounded notions (capability dimensions, activation vs. locking, recognizing vs. correcting errors), and structure the work into a tiered experiment over a **model × task × error-type** capability matrix, factorized to localize which capability a model lacks.
+Agent evaluation has moved toward reporting capability as a **cost–reliability curve** swept out by compute rather than a single static number, and self-correction is increasingly treated as a control loop whose per-round error dynamics — the Error Introduction Rate (EIR) and Error Correction Rate (ECR) — decide whether iteration helps or hurts. We turn that *diagnosis* into the *engine* of **recursive self-improvement (RSI)**: the error-set prior and gold-free weak critic already built as a measurement layer are re-purposed as the information source of an agent loop that raises accuracy. Two levels of measurement are kept distinct — the **per-round** pair EIR/ECR versus the **whole-loop** observables activation rate `P_act` (feedback-guided reachability) and lock-in rate — and bound algebraically (`r = 1 − ∏(1−ECR)`; a lock-in deficit is exactly EIR>0). The improvement is hypothesised as a **two-stage strategy**: Stage A raises `P_act` by error-set-guided sampling (no training); Stage B raises the lock-in rate via a train-free evaluator that reads each round's transition rationale and emits an answer / abstain verdict, moving the loop into the stable region `ECR/EIR > Acc/(1−Acc)`. Across three mid-tier models and multiple benchmarks we report the per-model activation / locking / correction profile as the intermediate product, and test the central claim: **an error set is an effective RSI information source**.
 
 ---
 
@@ -20,17 +22,17 @@ A single accuracy number — still the default headline metric — hides two fun
 1. **Uncertainty in the problem boundary.** A finite budget — maximum steps, truncation, tool availability, response time — decides whether a task is solved. A wrong answer under a limited budget does not prove lack of capability, just as a human may fail under time pressure.
 2. **Uncertainty in the evaluation scale.** LLM-as-a-Judge introduces self-validation loops and homologous bias; hyperparameters (temperature, top-p, truncation) further perturb the score.
 
-The assumed mapping from *task* to *capability score* is therefore itself inaccurate. A pilot study within this program has quantified the effect in a finance-agent benchmark (FAB): evaluation-framework defects (tool design, format, prompting, hyperparameters, and judge bias) induced a measured **26 percentage-point spurious capability deficit** that is fully attributable to the framework rather than the model. This is the empirical warrant for treating single-shot accuracy as an unreliable capability readout: the number confounds genuine capability with evaluation-framework artifacts, so the two must be separated by an explicit measurement layer rather than ignored.
+The assumed mapping from *task* to *capability score* is therefore itself inaccurate. A pilot study within this program has quantified the effect in a finance-agent benchmark (FAB): evaluation-framework defects (tool design, format, prompting, hyperparameters, and judge bias) induced a measured **26 percentage-point spurious capability deficit** that is fully attributable to the framework rather than the model. This is the empirical warrant for treating single-shot accuracy as an unreliable capability readout: the number confounds genuine capability with evaluation-framework artifacts, so the two must be separated by an explicit measurement layer rather than ignored. The same measurement layer — once built — is exactly the error-set signal that later drives the RSI loop (§1.2): the diagnostic and the improvement are one instrument, used twice.
 
-### 1.2 The engineering thesis
+### 1.2 The engineering thesis: from cost–reliability to self-improvement
 
-The historical analogy is deliberate: a four-engine aircraft is not a categorical leap over a single-engine one; it is redundancy bought with cost, raising reliability under extreme conditions. Likewise, a model scoring 48% in one shot may reach 90% through repeated sampling, self-correction, and aggregation — provided enough budget. As inference cost falls, the bottleneck shifts from raw capability to the cost of reaching a target reliability. This cost–reliability reading is **not itself new** — agent-evaluation and test-time / inference-scaling work have independently converged on it (see `docs/WORKMAP.md`, esp. §6). What remains open is the *crossover* those two directions have not yet connected:
+The historical analogy is deliberate: a four-engine aircraft is not a categorical leap over a single-engine one; it is redundancy bought with cost, raising reliability under extreme conditions. Likewise, a model scoring 48% in one shot may reach 90% through repeated sampling, self-correction, and aggregation — provided enough budget. Our earlier framing stopped at the *cost–reliability* reading of that curve (see `docs/WORKMAP.md`, esp. §6). The re-anchoring moves one step further: the same feedback that draws the curve can, if it carries the right *directional* signal, be turned from a *measurement* into an *engine* of **recursive self-improvement (RSI)**.
 
-> **Old question**: *What is the agent's accuracy?* → **New question**: *Given a target accuracy, what is the expected cost (steps / tokens / retries) to reach it, predicted from the early rounds — and which convergence class the trajectory falls into?*
+The shift is motivated by a falsifiable claim. A model's single-shot accuracy hides two separable deficits — a **reachability** deficit (the correct answer is not even produced under budget) and a **locking** deficit (it is produced but not held). An error set is exactly the information source that can attack both: first as a sampling prior that raises reachability, then as the transition signal an evaluator reads to raise locking. The diagnostic tools already built in this program (error taxonomy, weak critic, round-dimension observables) are therefore not discarded but re-purposed as the measurement layer of that claim.
 
-### 1.3 Convergence as the central empirical question
+### 1.3 The central empirical question
 
-Convergence is **not assumed a priori**. The object of study is whether, under repeated structured feedback, a model's behaviour converges toward correctness. The inspiration is related in spirit to ensemble methods and the Central Limit Theorem — aggregate many weak signals and the mean may converge — but LLM outputs are correlated and systematically biased, so convergence is not guaranteed. Whether it holds, and for which models, is the research question.
+The central empirical question is no longer "does the loop converge, and at what cost" — that is now the *measurement* layer (§3–§5). The question is **whether an error set is an effective RSI information source**: does error-set-guided feedback produce a significant, attributable accuracy gain over directionless noise, and does the gain decompose into the predicted two stages (reachability first, then locking)? Convergence, cost, and the round-dimension observables remain the instruments with which we read the answer — not the answer itself.
 
 ---
 
@@ -43,13 +45,16 @@ Four frontier threads frame this work; the complete literature map with citation
 - **Optimization** — test-time search, best-of-N, verifier-guided decoding.
 - **Inference scaling** — test-time compute scaling laws and the cost–accuracy trade-off.
 
-**Core positioning (2026-10-07).** The centre of gravity is a **new evaluation paradigm**: replace static
-single-shot accuracy with round-dimension dynamic observables — activation ceiling `P(A)`, locking rate
-`P(F | A)`, locking loss, reversibility — and quantify the **cost–reliability** and **risk** relationship that
-follows. This is a measurement contribution, not a capability-improvement one (we deliberately do not optimise
-L1/L2). The subordinate claim is an **existence proof**: a cheap, gold-free *weak critic* acting as a
-metacognition proxy can still raise the activation ceiling, establishing metacognition — and its locking/correction
-half — as a separable, optimisable axis of its own rather than a by-product of raw ability (§3.1).
+**Core positioning (2026-10-10).** The centre of gravity has moved from **diagnosis** to **recursive
+self-improvement (RSI)**. The round-dimension observables — activation ceiling `P_act`, locking rate `P_lock`,
+locking loss, reversibility `r` — are no longer the deliverable but the **measurement layer** of a
+self-improvement claim: the error-set prior + weak critic is the *information source* that an agent loop
+exploits to raise accuracy (§3.7). The headline claim is that **an error set is an effective RSI information
+source**, decomposed into a two-stage strategy — Stage A raises `P_act` by error-set sampling (no training),
+Stage B raises the lock-in rate via a train-free evaluator that reads transition rationale — bound to the per-round EIR/ECR dynamics of Liu & Meng
+2026. A subordinate claim (retained) is the **existence proof**: a cheap, gold-free *weak critic* can itself
+raise the activation ceiling, establishing metacognition — and its locking/correction half — as a separable,
+optimisable axis of its own rather than a by-product of raw ability (§3.1).
 
 **Nearest-neighbour works to differentiate against.** Three lines already observe the same phenomena from other
 angles; the novelty claim must be drawn against them explicitly.
@@ -70,6 +75,8 @@ Together these confirm the *phenomena* are real and independently observed. What
 synthesis unique to this program: (i) a protocol that promotes activation/locking to first-class round-dimension
 observables, (ii) a gold-free proxy driving them, and (iii) a causal arm design (A/A2/C) plus a survival-hazard
 risk-factor model of locking.
+
+**EIR/ECR feedback-control ancestor (added 2026-10-10).** Liu & Meng 2026 ("Self-Correction as Feedback Control", arXiv:2604.22273) models the same loop as a two-state Markov chain parameterised by EIR/ECR and derives the stability threshold ECR/EIR > Acc/(1−Acc). It is the direct methodological ancestor of §3.7: we keep EIR/ECR as *per-round* micro quantities while reporting `P_act` / `P_lock` as *whole-loop* macro observables, and we turn their diagnostic into a two-stage improvement claim (Stage A reachability / Stage B locking).
 
 ---
 
@@ -147,7 +154,29 @@ Three framings are held open; pilot data will be used to compare them for fit an
 
 1. **Capability-dimensional decoupling (revised 2026-09-29).** L1 (base, no-tool) and L2 (augmentation, tool) are *a priori* design partitions — fixed by the task-family split — so a static tensor cannot "recover" them: factorizing model × family × error-type merely projects the imposed taxonomy back (rank-1, PCs aligned one-to-one with families; verified empirically). L1/L2 are therefore **not inverted** from a static matrix. Only **L3/L4** are open process properties, living on the *round* dimension (presence vs. selection of the correct candidate across feedback rounds), not on static error labels (§5.10).
 2. **Activation vs. locking.** *Activation* (event A): the correct answer appears at least once within N rounds — measures **proxy** effectiveness. *Locking* (event B): the final round is correct — measures **model** capability. Activation without locking diagnoses the model, not the proxy.
-3. **Recognizing vs. correcting errors.** *Recognizing* (metacognitive) is the object of proof; *correcting* is an engineering concern outside the current scope. The proxy needs only to raise the probability that the correct answer appears, not to guarantee it is locked.
+3. **Recognizing vs. correcting errors.** *Recognizing* (metacognitive) is the object of proof in the *measurement* phase; *correcting* is deferred to Stage B of the RSI loop (§3.7). The proxy needs only to raise the probability that the correct answer appears, not to guarantee it is locked — the controller later re-opens correction as its own target.
+
+---
+
+### 3.7 Two-level error dynamics and the two-stage RSI claim
+
+The re-anchoring adds a self-improvement theory on top of the measurement framework. It borrows the error-dynamics vocabulary of Liu & Meng 2026 ("Self-Correction as Feedback Control", arXiv:2604.22273) and, crucially, keeps the **two levels of measurement separate**.
+
+**Per-round (micro) — EIR/ECR.** Over one self-correction round on the two-state chain {Correct, Incorrect}:
+
+- **EIR** = P(c_{k+1}=wrong | c_k=correct) — introduce an error into a correct answer.
+- **ECR** = P(c_{k+1}=correct | c_k=wrong) — correct a wrong answer.
+
+Their model yields a **stability threshold** (iterate only while ECR/EIR > Acc/(1−Acc)), a **steady state** π* = ECR/(EIR+ECR), and a **convergence rate** 1−EIR−ECR. The sharp near-zero EIR boundary (≲0.5%) that separates beneficial from harmful self-correction is our *locking* concern viewed from the degradation direction.
+
+**Whole-loop (macro) — our observables.** Over an entire ≤10-round loop, aggregated across questions, §5.12's `P_act` (activation / reachability) and `P_lock` / `q_stay` (locking) are whole-loop quantities. The bridge is algebraic, not identical: the macro reversibility `r = P(A | ¬S)` is the cumulative consequence of per-round ECR, `r = 1 − ∏(1−ECR)`, and a single-step lock-in deficit is exactly EIR > 0. **We report both levels and never merge them** — EIR/ECR answer "how one round behaves", while `P_act` / lock-in answer "how much the whole loop reaches and holds".
+
+**Two-stage RSI strategy.** The two levels separate two improvement levers, mirroring the paper's two-tier conclusion (prompt-level EIR suppression prevents degradation; ECR enhancement — plausibly training-level — is required for genuine gains):
+
+1. **Stage A — raise `P_act` via error-set sampling (no training).** The error-set prior + weak critic steer the loop toward reachable regions, lifting `P_act` before the loop degrades.
+2. **Stage B — raise the lock-in rate via a train-free transition evaluator (no training).** An external evaluator reads each round's self-reported transition rationale, prunes the state chain, and emits an answer / abstain verdict, suppressing EIR-driven flips; this is where beyond-restoration gains live.
+
+The headline claim: **an error set is an effective RSI information source** — first as a sampling prior, then as the transition signal an evaluator reads to lock the answer, raising `P_act` while keeping ECR high and EIR low (moving the loop into `ECR/EIR > Acc/(1−Acc)`).
 
 ---
 
@@ -159,8 +188,10 @@ Three framings are held open; pilot data will be used to compare them for fit an
 | **RQ2** | Which (if any) of the three mathematical framings best describes the observed convergence process? |
 | **RQ3** | When convergence occurs, what is the expected cost (rounds / tokens) to reach a target accuracy, and how accurately can it be predicted from early rounds? |
 | **RQ4** | When convergence does not occur, what trajectory features diagnose the underlying meta-cognitive deficit? |
+| **RQ5** | Does error-set feedback (the weak critic) produce a significant RSI gain over directionless noise — i.e. is the error set an effective RSI information source? |
+| **RQ6** | Does the two-stage strategy decompose as predicted — Stage A lifting `P_act` and Stage B lifting lock-in — and does the loop enter the stable region ECR/EIR > Acc/(1−Acc)? |
 
-Convergence is classified into four classes: **convergent**, **oscillating**, **divergent**, **stagnant**.
+RQ1–RQ4 constitute the measurement layer; RQ5–RQ6 constitute the RSI claim (§3.7). Convergence is classified into four classes: **convergent**, **oscillating**, **divergent**, **stagnant**.
 
 ---
 
@@ -572,6 +603,8 @@ The B-arm noise generator must match C in perturbation strength and message form
 
 **Data status (2026-10-06).** Arm C exists today (3 models × 250 tasks) and already yields μ-hat, P_act, r, P_lock, q_stay per model (§5.11 `loop_summary`). Δ remains unidentified until arm B is run against the same question set.
 
+**EIR/ECR bridge (2026-10-10).** The whole-loop quantities above are the cumulative form of the per-round error dynamics of §3.7: reversibility `r = 1 − ∏(1−ECR)` is accumulated ECR, and the misled rate `1 − q_stay` is the observable trace of EIR. The two-stage RSI strategy reads directly off this bridge — Stage A works the ECR/reachability side (raise `P_act`), Stage B the EIR/locking side (raise `q_stay` / `P_lock`).
+
 ### 5.13 RL probability-redistribution correspondence (L3/L4 framing)
 
 The round-dimension quantities admit a sharper theoretical reading, developed in
@@ -590,6 +623,75 @@ key testable claim **`C > A3`** (directional > non-directional); `C − A3` = ne
 directional signal, `C* − C` = the critic's signal-to-noise loss. `C*` must be gold-leak-free (math
 formal verifier / code executor). Open sampling-parameter questions (A3 temperature / sample count,
 and the best-of-N vs majority-vote "hit" definition) are tracked in the note's §7.
+
+**RSI reading (2026-10-10; Stage B revised train-free 2026-10-17).** This correspondence is the theoretical bridge to the two-stage strategy of §3.7: the test-time loop (Stage A) is the sampling-time analogue of probability redistribution toward reachable paths (`P_act`), while a **train-free transition evaluator** (Stage B) is the inference-time analogue that buys anti-interference robustness (`P_lock` / `q_stay`) by reading each round's transition rationale — the EIR suppression that §3.7 makes explicit. The arm ordering `A3 ≤ C ≤ C*` therefore also orders the RSI levers: C raises reachability, and a train-free evaluator pushes the loop past the C* ceiling into `ECR/EIR > Acc/(1−Acc)` without any parameter update.
+
+---
+
+### 5.14 RSI loop stages (R0–R3)
+
+The re-anchoring appends a self-improvement arc to the measurement stages of §5.3. The mapping mirrors `docs/WORKMAP.md` Table 4:
+
+| # | RSI moment | What we build / run | Success criterion |
+|---|---|---|---|
+| R0 | Error-set prior (information source) | existing weak critic + taxonomy, gold-free (§5.8) | `P_act` measurable and above single-sample μ |
+| R1 | Stage A — reachability | error-set-guarded sampling inside the feedback loop (§5.11) | `P_act` ↑ over the bare loop; EIR suppressed |
+| R2 | Stage B — locking | a train-free evaluator reads each round's rationale → answer / abstain | lock-in rate ↑; ECR/EIR > Acc/(1−Acc) |
+| R3 | Claim | error set as an effective RSI source | gains, with cost/token accounting as intermediate products |
+
+The ordering obeys the "build before burn" discipline of §5.7: **R0/R1/R2 are no-training and reversible** (Stage B is a train-free evaluator, not a trained controller), so every stage can be aborted and re-run cheaply to bound cost.
+
+### 5.15 Stage B evaluator — stability-based selection (H2)
+
+**Directional hypothesis (H2).** After a bounded `n`-round feedback budget, the
+sequence of answer values forms a near-reversible Markov chain in which the
+correct value is a high-self-loop *metastable attractor*. A **zero-gold** Stage B
+evaluator can therefore recover the answer by selecting the most stable value of
+the `n` answers — and this beats the naive "take the last round" lock-in, with
+the gain concentrated on tasks where the correct value *appeared but was not
+locked* (activated-but-unlocked).
+
+- **H2a (direct vs. simulate).** Read-off from existing data (the mode, or max
+  self-loop) suffices; explicit stationary extrapolation (power iteration) adds
+  nothing and is marginally worse. No future-process simulation is required.
+- **H2b (lock-in correlation).** Mode concentration (top-1 share) or the argmax
+  stationary mass is a strong lock-in signature: ~6–14× higher on locked-correct
+  than on unlocked tasks, so it doubles as a confidence / abstention signal.
+
+**Offline anchors (2026-10-10; gold-free; conditional on the correct value having
+appeared at least once).** Four C-arm feedback trajectories (deepseek new-set 144;
+deepseek/glm/qwen Phase-1 250 each), via `src/stable_state_estimator.py` and
+`src/mode_bimodality.py`:
+
+| selector accuracy | deepseek-new | deepseek-p1 | glm-p1 | qwen-p1 |
+|---|---:|---:|---:|---:|
+| first | 88.4% | 90.8% | 87.3% | 85.3% |
+| last (= lock-in) | 93.5% | 91.3% | 86.0% | 89.2% |
+| mode (freq) | **97.8%** | **93.0%** | **86.4%** | 90.1% |
+| max self-loop | 95.7% | 92.1% | 86.0% | 89.7% |
+| stationary argmax | 97.1% | 92.1% | 85.5% | **91.4%** |
+
+- **The correct value is the frequency mode in 86–98% of tasks** (deepseek-new
+  97.8%, glm 86.4%) — observational support for "the over-guided critic reshapes
+  the sampling distribution and the correct answer sits at its mode."
+- **When the mode selector fails, the correct value is the competing second mode
+  (bimodal) in 33–57% of those failures** (deepseek 33%, glm 57%): the wrong peak
+  edges out the correct one. The remainder is a flat or low-ranked correct value.
+- **Mode concentration separates outcome**: top-1 share 0.72–0.95 when locked
+  correct vs. 0.15–0.31 when wrong (the same signature as the stationary mass,
+  H2b). `freq-argmax` and `stationary-argmax` agree 80–97% (the frequency and
+  stationary views are positively correlated).
+
+**Open question.** All four files are C-arm (critic present), so the causal claim
+"the critic *forms* the new distribution" is not yet separated from the model's
+own confidence. Clean test: recompute mode concentration under A / A2 (no /
+placebo feedback) and compare peakedness — a critic-driven redistribution should
+show higher mode concentration only under C.
+
+**Prior negative anchor.** Selecting by the weak critic's `P(wrong)` (argmin inside
+the group) was already shown *ineffective* (below the last-round baseline); the
+stability signal (mode / stationary argmax) is the superior gold-free selector.
+
 
 ---
 
@@ -646,9 +748,9 @@ The dominant cost driver is the number of API model × question × round cells p
 
 ### 8.1 Three contributions (layered)
 
-1. **Existence (empirical).** A clean external meta-cognitive proxy induces a systematic, statistically significant, attributable change in model output. Answers *"is metacognitive intervention effective?"*
-2. **Cost–reliability model (theoretical).** The cost–reliability relationship is described by a unified extreme-value distribution (§3.4), redefining the accuracy paradigm from a static number to a curve family. Answers *"how large is the effect, at what cost?"*
-3. **Capability diagnosis (diagnostic).** Curve shape and capability-axis decomposition localize *which* capability a model lacks and what to strengthen, validated by an independent intervention (treatment-verifies-diagnosis). Answers *"why, and how to improve?"*
+1. **Error-set-driven RSI (headline).** An error set is an effective recursive-self-improvement information source: error-set-guided feedback produces a significant, attributable accuracy gain over directionless noise. Answers *"can a cheap, gold-free error signal actually improve the model?"*
+2. **Two-stage decomposition (mechanism).** The gain decomposes into a reachability stage (Stage A, `P_act`, no training) and a locking stage (Stage B, lock-in rate, no training — a train-free transition evaluator), bound to the per-round EIR/ECR dynamics and the stability threshold `ECR/EIR > Acc/(1−Acc)`. Answers *"where does the gain come from, and how do we push it further?"*
+3. **Round-dimension measurement layer (enabling).** The activation / locking / correction observables (`μ, P_act, r, P_lock, q_stay, cost(R)`) and the diagnostic cost–reliability model are retained as the *intermediate product* that makes (1) and (2) measurable and reproducible. Answers *"how do we read the improvement, at what cost?"*
 
 ### 8.2 Risks and the informative negative result
 
@@ -664,12 +766,84 @@ The dominant cost driver is the number of API model × question × round cells p
 
 **Methodological stance.** Negative results are informative: if feedback makes a model increasingly wrong, that reveals an absent or broken meta-cognitive loop — the more consequential diagnosis. The framework is robust to either outcome.
 
+### 5.16 Causal contrast (A/A2/A3 vs C) and Stage-B selection mechanism
+
+**Question.** Does the weak critic's *directional* interference (arm C) concentrate
+probability mass on the correct answer more cheaply than *i.i.d. sampling*
+(self-consistency)? Two pre-registered claims, at equal per-question sample budget `n`:
+
+ 1. `acc(C.freq-vote) > acc(A3.majority-vote)` — directed interference beats i.i.d. sampling (the core novelty, if true).
+ 2. `acc(C.freq-vote) > acc(C.last)` — voting beats the final-round lock-in.
+
+**Four arms.** Same question set, same models, same `n`; the only free variable is the
+*perturbation source* that shapes the answer distribution:
+
+| arm | perturbation source | sampling | aggregate | isolates |
+|-----|---------------------|----------|-----------|----------|
+| A   | none (bare re-solve) | T=0 | single answer (init acc) | zero-intervention floor |
+| A2  | fixed neutral placebo | T=0 | single answer | scaffold inertia (expected ~ A) |
+| A3  | i.i.d. temperature | T=0.7, n=10 | majority-vote | sampling diversity (self-consistency) |
+| C   | weak-critic directional | T=0 | freq-vote | directed interference on top of sampling |
+
+**A3 academic alignment.** A3 is **self-consistency** (Wang et al. 2022,
+arXiv:2203.11171): sample `n=10` independent CoT decodes at `T=0.7`, then majority-vote.
+We also report **pass@k** (Chen et al. 2021, arXiv:2107.03374): any-of-k correct. The
+cross-arm mapping is majority-vote <-> freq-vote, and pass@k <-> `correct_appeared`
+(P_act). All arms record prompt/completion/reasoning tokens so the comparison is
+budget-tightened (report both vote accuracy and token cost).
+
+**FTR literature anchor** (Li et al. 2025, arXiv:2509.07676, "Unleashing the True
+Potential of LLMs"). FTR shows prompt-based *directional* self-correction frequently
+converts correct->incorrect, and instead uses *external negative feedback as a binary
+regeneration trigger* (no localization). This is a direct precedent for the C arm's
+risk (measured via `l4_misled_rate`) and motivates A2 (directionless scaffold) as an
+explicit control. A related self-checking training route is "Learning to Check"
+(Zhang et al. 2024, arXiv:2402.13035).
+
+**Offline profiling of low-confidence errors (arm C, 4 trajectory files).**
+Concentration (modal-share of the answer sequence) separates correct from wrong by 2-3x:
+
+| metric | deepseek-250 | glm-250 | qwen-250 | deepseek-144 |
+|--------|--------------|---------|----------|--------------|
+| conc. when FINAL correct | 0.907 | 0.801 | 0.724 | 0.947 |
+| conc. when FINAL wrong   | 0.321 | 0.411 | 0.338 | 0.429 |
+| wrong = flat (no mode)   | 78% | 72% | 74% | 60% |
+| flat-wrong w/ correct-ever-appeared | 63% | 63% | 69% | 78% |
+| sharp-wrong w/ correct-ever-appeared | 0% | 25% | 11% | 20% |
+
+The wrong answers are overwhelmingly *flat* (no dominant mode) — the model is genuinely
+uncertain, not confidently wrong — yet the correct answer had already appeared in
+60-78% of them (activation without lock-in). These are pure *selection* failures. The
+sharp-wrong tail is a competence wall (correct value never sampled) that re-sampling
+cannot fix.
+
+**Negative result (recorded).** The weak critic's `error_score` is *anti*-correlated
+with actual error (mean ~0.33 on final-correct vs ~0.08 on final-wrong). It is therefore
+unusable as a selection/confidence signal — reinforcing the earlier argmin failure.
+Stage-B keys on a *stability* signal (concentration), not critic P(wrong).
+
+**Stage-B mechanism: stability gate + verifier escalation (B1/B2).**
+
+ - B1 (stability gate, zero-API): concentration >= tau -> output the mode.
+ - B2 (escalation, flat cases only): a verifier scores the n already-sampled candidates
+   and returns argmax — LLM-as-judge (reuse `_score_t2_llm_semantic`, deepseek-v4-pro)
+   or a light outcome-RM trained on the wrong bank, P(correct | question, answer).
+ - Abstain: sharp-wrong (or flat without any activation) -> conformal abstention.
+
+PRM (step-level process reward) is deferred: the signal is concentrated in the final
+answer and the correct value is already in the candidate set, so process granularity
+does not buy reachability at this stage; it is the Phase-2 refinement, not the
+bottleneck.
+
 ---
 
 ## Revision History
 
 | Version | Date | Change |
 |---|---|---|
+| 0.21 | 2026-10-10 | Added §5.16 causal contrast (A/A2/A3 vs C): four-arm design with A3 as self-consistency (Wang 2022, T=0.7 n=10; pass@k <-> correct_appeared), FTR literature anchor (arXiv:2509.07676) motivating A2 as a directionless control; recorded the offline low-confidence profiling (flat-vs-sharp wrong, 60-78% activation-without-lock) and the critic error_score anti-correlation negative result; Stage-B B1/B2 mechanism (stability gate + verifier escalation + abstention, PRM deferred). Implemented arm A3 + --temperature + --skip-finance in run_feedback_loop.py (bfcl kept; only finance/FAB excluded). |
+| 0.20 | 2026-10-10 | Added §5.15 directional hypothesis H2 (Stage B stability-based selection) with offline anchors: mode/self-loop/stationary selectors beat the last-round lock-in (mode 86–98%; +0.5–4.3pp over `last`), the correct value is the frequency mode, mode failure is partly bimodal (correct = 2nd mode in 33–57%), and mode concentration is a ~6–14× lock-in signature. Added `src/stable_state_estimator.py` and `src/mode_bimodality.py`. |
+| 0.19 | 2026-10-10 | Re-anchored from pure diagnosis to recursive self-improvement (RSI): error-set prior + weak critic re-purposed as the RSI information source; two-stage strategy (Stage A reachability / Stage B locking) bound to the EIR/ECR dynamics of Liu & Meng 2026. Added §3.7 (two-level error dynamics + two-stage strategy), revised Abstract / §1 / §2 positioning / RQ5-6 / §8.1; added §5.12 EIR/ECR bridge, §5.13 RSI reading, and §5.14 RSI stages (R0–R3). |
 | 0.18 | 2026-10-09 | Softened the motivation per advisor feedback: the field is no longer described as "resting on a single static accuracy"; cost–reliability is presented as the shared, already-published frontier conclusion (not a novel reframe); novelty narrowed to the *crossover* (early-round → cost extrapolation + convergence-class diagnosis) and the round-dimension measurement layer (Abstract, §1.1, §1.2). |
 | 0.17 | 2026-10-07 | §6.1 hardware/model-routing: local MLX/Ollama deprecated; weak tier via rented Aliyun instance. |
 | 0.16 | 2026-10-07 | Added §2 core positioning (new evaluation paradigm — round-dimension dynamic observables + cost–reliability/risk as centre of gravity; weak-critic existence proof as subordinate claim) and nearest-neighbour differentiation against Feedback Friction (arXiv:2506.11930), overthinking (arXiv:2604.10739), and activation-probe self-correction (arXiv:2606.03645). |

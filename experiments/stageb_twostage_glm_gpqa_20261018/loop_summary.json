@@ -1,0 +1,36 @@
+{
+  "run_id": "stageb_twostage_glm_gpqa_20261018",
+  "arm": "C",
+  "family_filter": null,
+  "task_set": "gpqa",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "twostage",
+  "seed": null,
+  "n_tasks": 10,
+  "concurrency": 6,
+  "models": {
+    "glm-5.3": {
+      "model_id": "glm-5.3",
+      "init_accuracy": 0.9,
+      "final_accuracy": 0.8,
+      "end_state_distribution": {
+        "1": 8,
+        "2": 1,
+        "6": 1
+      },
+      "l3_activation_rate": 0.9,
+      "l3_reversibility_rate": 0.0,
+      "l4_lock_rate": 0.8889,
+      "l4_misled_rate": 0.1111,
+      "avg_rounds": 3.0,
+      "total_prompt_tokens": 14998,
+      "total_completion_tokens": 55035,
+      "total_reasoning_tokens": 54376
+    }
+  }
+}

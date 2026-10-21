@@ -1,6 +1,6 @@
 # L3/L4 and RL: Probability-Redistribution Correspondence
 
-**Version**: 1.0 (2026-10-08)
+**Version**: 1.1 (2026-10-10)
 **Status**: theoretical note (working, pre-paper)
 **Scope**: fixes the conceptual frame that separates L3 (meta-cognition) from L4 (locking), links the test-time feedback loop to train-time RL via *probability redistribution* (not isomorphism), and specifies the experimental arms needed to test the resulting propositions. Feeds `docs/RESEARCH_PLAN.md` §5.10–§5.12.
 
@@ -93,15 +93,75 @@ So **L4 is a slope parameter of the cost curve** — the cleaner the L3/L4 numbe
 
 ## 7. Open design questions
 
-1. **A3 sampling parameters** — what temperature T and sample count N give statistical power, and how to align A3's compute budget (N samples) with C's round budget (≤ 11 rounds) for a fair comparison.
+1. **A3 sampling parameters — DECIDED 2026-10-10.** temperature T = 0.7 (self-consistency consensus, Wang et al. 2022; diversity verified on GPQA smoke: n_uniq spans 1→5), sample count N = 10 (aligned to C's ≤10-round budget, `--max-rounds 10`). Full A3 run launched: new set (aime/gpqa/bbh, 144) + phase1 `--skip-finance` (200), 3 models, out-dir `experiments/a3_{new,phase1}_20261010_t0.7`.
 2. **A3 "hit" definition** — best-of-N (reachability) vs majority-vote (stability): these measure different things and must be named separately.
 3. **C\* oracle implementation** — which verifiable tasks can supply a gold-leak-free perfect signal (math formal verifier, code executor), and whether a strong learned verifier is an acceptable approximation.
 4. **Scale regularity** — does `C > A3` hold uniformly from small to frontier models, or does the gap shrink as base capability grows.
 
 ---
 
+## 8. Verifier-guided best-of-N as external ceiling (hypothesis, pre-data)
+
+**Status**: hypothesis / conjecture — to be backed formally only after the A3/C data is in. This section records the variational / KL-projection intuition and pins an external gold ceiling against which the weak critic is measured. It deliberately does **not** claim a proof.
+
+**Principal claim (intervention, not diagnostic-only).** The weak critic earns its place only if its gold-free directional perturbation produces a measurable lift over the isotropic baseline A3 — higher *activation* and higher *locking*, hence higher final accuracy. Diagnosis (the L3/L4 capability map) is a by-product, not the claim.
+
+    Δ_act  = P_act(C) − P_hit(A3)   →  Stage A lift (directional sampling reaches the correct value more often)
+    Δ_lock = Acc(C) − Acc_freq(A3)  →  Stage B lift (reached answer is locked more stably)
+    Δ      = Acc(C) − Acc(A3)       →  net RSI contribution
+
+Two guards: (i) A2 ≈ A3 — the neutral placebo must contribute nothing, isolating the directional signal from the mere presence of feedback text; (ii) both lifts must exceed sampling variance. If Δ_act and Δ_lock are not both positive and significant, the weak critic is falsified and should be dropped, not defended as a diagnostic.
+
+### 8.1 weak-critic-guided best-of-N vs verifier-guided best-of-N
+
+The test-time compute-scaling line (verifier-guided / RM-guided **best-of-N**, cf. Cobbe et al. 2021; Snell et al. 2024) is structurally close to what we want, with one decisive difference in the *selection operator*.
+
+| | verifier-guided best-of-N | weak-critic-guided best-of-N |
+|---|---|---|
+| scorer | reward model (RM), gold-supervised | weak critic, gold-free (error-branch prior) |
+| scorer output | reward ≈ monotone in P(correct\|a) → rankable scalar | direction d(a) ∈ Δ^n (n = 19 error leaves) |
+| selection operator | `argmax_a RM(a)` (score + select) | **cannot argmax** (scalar anti-correlates with correctness, empirically) → steer + reshape + take mode |
+| mechanism | rejection sampling / importance reweighting | directional KL-projection |
+| ceiling | N→∞ converges to highest-reward path (true optimum when RM is correct) | bounded by I(d; a*) < I(reward; a*), so ρ < 1 |
+
+**Core claim.** The efficacy of any best-of-N scheme is set by the monotone correlation between its scorer's reward and ground-truth correctness. A gold-trained verifier guarantees this correlation, hence `argmax` works. The weak critic is gold-free and *empirically anti-correlated* as a scalar, hence the same "score-and-pick-max" fails and must be downgraded to "steer the distribution, then take its mode". Same outer sampling shell (test-time scaling), different inner operator.
+
+### 8.2 KL-projection formalisation (conjecture, not yet proven)
+
+The directional perturbation is written as a single minimum-discrimination-information (I-projection) step:
+
+    p_{t+1}(a) ∝ p_t(a) · exp(−⟨w, d(a)⟩),   w ∈ R^n
+
+Equivalently `p_{t+1} = argmin_p KL[p ‖ p_t]  s.t.  E_p[⟨w, d(a)⟩] ≤ τ`. The error-set supplies the direction d(a); the KL-projection is the operator that injects that information into the sampling distribution. One round of the feedback loop (round n → n+1) is one such step.
+
+**Degeneracy boundary.** If d(a) carries no information about correctness (I(d; a*) = 0), then exp(−⟨w, d(a)⟩) is constant in the relevant direction and p_{t+1} = p_t — the loop collapses to plain pass@k / self-consistency. This is exactly the null to be falsified.
+
+### 8.3 Three-layer axis and the ceiling fraction ρ
+
+| layer | directional signal | gold | distribution moved | role |
+|---|---|---|---|---|
+| lower | none (isotropic T sampling) | no | no (re-sample only) | pass@k / self-consistency |
+| middle (our hypothesis) | weak critic d(a) | no | yes (KL projection) | the RSI claim to test |
+| ceiling | verifier / PRM scoring | **yes (absolute gold)** | yes, direction exact | gold upper bound |
+
+The ceiling exceeds activation P_act: gold carries absolute information, so a verifier need not wait for the model to sample the correct value; it can reject wrong branches and keep steering. P_act is bounded by "does the model ever sample it", the verifier is not.
+
+Whole-programme metric:
+
+    ρ = (M_weakCritic − M_pass@k) / (M_goldVerifier − M_pass@k)
+
+ρ = 0 → the weak critic is uninformative (falsified). ρ → 1 → gold-free directional steering approaches gold-supervised steering.
+
+### 8.4 To verify after data (do not formalise now)
+
+1. Scalar anti-correlation does **not** preclude directional value — error_score ordering failed, but steering may still work; this must be tested, not assumed.
+2. Which dimension carries the mutual information (feature selection over the 19 leaves), and whether n must shrink before the projection is estimable.
+3. A2 (neutral placebo) must sit at A3, isolating "feedback token text" from "direction". Only if C moves the mode beyond A2/A3 does the KL-projection claim survive.
+4. Effect size is distribution displacement (mode hit, concentration, top-k hit, argmax π* mass), not terminal accuracy.
+
 ## Revision History
 
 | Version | Date | Change |
 |---|---|---|
+| 1.1 | 2026-10-10 | Added §8: verifier-guided best-of-N as external ceiling; KL-projection as conjecture; three-layer axis + ceiling fraction ρ. Marked pre-data (no formal proof yet). |
 | 1.0 | 2026-10-08 | Initial note. Reframed L3/L4 as signal-aware meta-cognition / locking; replaced "isomorphism" with "probability redistribution"; introduced A3 ≤ C ≤ C* hierarchy and the `C − A3` / `C* − C` decompositions; tied L4 to RL robustness and to the cost-curve slope. |

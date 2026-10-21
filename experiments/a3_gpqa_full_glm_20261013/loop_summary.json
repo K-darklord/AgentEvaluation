@@ -1,0 +1,39 @@
+{
+  "run_id": "a3_gpqa_full_glm_20261013",
+  "arm": "A3",
+  "family_filter": null,
+  "task_set": "gpqa",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.7,
+  "skip_finance": false,
+  "rationale_mode": "off",
+  "seed": null,
+  "n_tasks": 148,
+  "concurrency": 6,
+  "models": {
+    "glm-5.3": {
+      "model_id": "glm-5.3",
+      "init_accuracy": 0.6486,
+      "final_accuracy": 0.6081,
+      "end_state_distribution": {
+        "1": 71,
+        "2": 10,
+        "3": 15,
+        "4": 4,
+        "5": 8,
+        "6": 40
+      },
+      "l3_activation_rate": 0.7297,
+      "l3_reversibility_rate": 0.2308,
+      "l4_lock_rate": 0.7396,
+      "l4_misled_rate": 0.1042,
+      "avg_rounds": 10.0,
+      "total_prompt_tokens": 306770,
+      "total_completion_tokens": 5178130,
+      "total_reasoning_tokens": 0
+    }
+  }
+}

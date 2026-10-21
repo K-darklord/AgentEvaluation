@@ -1,0 +1,34 @@
+{
+  "run_id": "smoke_stageb_glm_gpqa_20261018",
+  "arm": "C",
+  "family_filter": null,
+  "task_set": "gpqa",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "twostage",
+  "seed": null,
+  "n_tasks": 1,
+  "concurrency": 6,
+  "models": {
+    "glm-5.3": {
+      "model_id": "glm-5.3",
+      "init_accuracy": 1.0,
+      "final_accuracy": 1.0,
+      "end_state_distribution": {
+        "1": 1
+      },
+      "l3_activation_rate": 1.0,
+      "l3_reversibility_rate": 0.0,
+      "l4_lock_rate": 1.0,
+      "l4_misled_rate": 0.0,
+      "avg_rounds": 3.0,
+      "total_prompt_tokens": 1115,
+      "total_completion_tokens": 1636,
+      "total_reasoning_tokens": 1534
+    }
+  }
+}

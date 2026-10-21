@@ -1,0 +1,145 @@
+run_id,task_id,category,difficulty,gold_answer,final_answer,is_correct,error_type,tier1_numeric,tier2_llm_semantic,dealbreaker_triggered,eval_tier,final_score,tool_calls,total_latency_ms,model_name
+glm-5.3,aime_001,Mathematical Reasoning,Hard,60,60,True,correct,1.0,0.0,False,T1,1.0,0,3338,glm-5.3
+glm-5.3,aime_002,Mathematical Reasoning,Hard,15,15,True,correct,1.0,0.0,False,T1,1.0,0,3561,glm-5.3
+glm-5.3,aime_003,Mathematical Reasoning,Hard,20,20,True,correct,1.0,0.0,False,T1,1.0,0,3938,glm-5.3
+glm-5.3,aime_004,Mathematical Reasoning,Hard,26,74,False,numeric_error,0.0,0.0,False,T1,0.0,0,7336,glm-5.3
+glm-5.3,aime_005,Mathematical Reasoning,Hard,4,4,True,correct,1.0,0.0,False,T1,1.0,0,4735,glm-5.3
+glm-5.3,aime_006,Mathematical Reasoning,Hard,35,35,True,correct,1.0,0.0,False,T1,1.0,0,8147,glm-5.3
+glm-5.3,aime_007,Mathematical Reasoning,Hard,57,57,True,correct,1.0,0.0,False,T1,1.0,0,2634,glm-5.3
+glm-5.3,aime_008,Mathematical Reasoning,Hard,61,61,True,correct,1.0,0.0,False,T1,1.0,0,14472,glm-5.3
+glm-5.3,aime_009,Mathematical Reasoning,Hard,12,12,True,correct,1.0,0.0,False,T1,1.0,0,4344,glm-5.3
+glm-5.3,aime_010,Mathematical Reasoning,Hard,432,432,True,correct,1.0,0.0,False,T1,1.0,0,5047,glm-5.3
+glm-5.3,aime_011,Mathematical Reasoning,Hard,288,288,True,correct,1.0,0.0,False,T1,1.0,0,27495,glm-5.3
+glm-5.3,aime_012,Mathematical Reasoning,Hard,65,65,True,correct,1.0,0.0,False,T1,1.0,0,11588,glm-5.3
+glm-5.3,aime_013,Mathematical Reasoning,Hard,448,64,False,numeric_error,0.0,0.0,False,T1,0.0,0,4456,glm-5.3
+glm-5.3,aime_014,Mathematical Reasoning,Hard,130,130,True,correct,1.0,0.0,False,T1,1.0,0,10267,glm-5.3
+glm-5.3,aime_015,Mathematical Reasoning,Hard,175,175,True,correct,1.0,0.0,False,T1,1.0,0,92057,glm-5.3
+glm-5.3,aime_016,Mathematical Reasoning,Hard,93,93,True,correct,1.0,0.0,False,T1,1.0,0,8935,glm-5.3
+glm-5.3,aime_017,Mathematical Reasoning,Hard,592,592,True,correct,1.0,0.0,False,T1,1.0,0,3495,glm-5.3
+glm-5.3,aime_018,Mathematical Reasoning,Hard,144,144,True,correct,1.0,0.0,False,T1,1.0,0,5980,glm-5.3
+glm-5.3,aime_019,Mathematical Reasoning,Hard,649,649,True,correct,1.0,0.0,False,T1,1.0,0,5404,glm-5.3
+glm-5.3,aime_020,Mathematical Reasoning,Hard,512,512,True,correct,1.0,0.0,False,T1,1.0,0,5284,glm-5.3
+glm-5.3,aime_021,Mathematical Reasoning,Hard,24,24,True,correct,1.0,0.0,False,T1,1.0,0,24996,glm-5.3
+glm-5.3,aime_022,Mathematical Reasoning,Hard,997,997,True,correct,1.0,0.0,False,T1,1.0,0,67019,glm-5.3
+glm-5.3,aime_023,Mathematical Reasoning,Hard,160,160,True,correct,1.0,0.0,False,T1,1.0,0,4536,glm-5.3
+glm-5.3,aime_024,Mathematical Reasoning,Hard,20,20,True,correct,1.0,0.0,False,T1,1.0,0,7327,glm-5.3
+glm-5.3,aime_025,Mathematical Reasoning,Hard,119,119,True,correct,1.0,0.0,False,T1,1.0,0,27308,glm-5.3
+glm-5.3,aime_026,Mathematical Reasoning,Hard,106,106,True,correct,1.0,0.0,False,T1,1.0,0,5313,glm-5.3
+glm-5.3,aime_027,Mathematical Reasoning,Hard,401,401,True,correct,1.0,0.0,False,T1,1.0,0,7588,glm-5.3
+glm-5.3,aime_028,Mathematical Reasoning,Hard,15,15,True,correct,1.0,0.0,False,T1,1.0,0,8852,glm-5.3
+glm-5.3,aime_029,Mathematical Reasoning,Hard,38,38,True,correct,1.0,0.0,False,T1,1.0,0,14666,glm-5.3
+glm-5.3,aime_030,Mathematical Reasoning,Hard,384,384,True,correct,1.0,0.0,False,T1,1.0,0,5817,glm-5.3
+glm-5.3,aime_031,Mathematical Reasoning,Hard,26,26,True,correct,1.0,0.0,False,T1,1.0,0,2999,glm-5.3
+glm-5.3,aime_032,Mathematical Reasoning,Hard,198,198,True,correct,1.0,0.0,False,T1,1.0,0,5130,glm-5.3
+glm-5.3,aime_033,Mathematical Reasoning,Hard,32,32,True,correct,1.0,0.0,False,T1,1.0,0,85604,glm-5.3
+glm-5.3,aime_034,Mathematical Reasoning,Hard,986,986,True,correct,1.0,0.0,False,T1,1.0,0,5052,glm-5.3
+glm-5.3,aime_035,Mathematical Reasoning,Hard,315,315,True,correct,1.0,0.0,False,T1,1.0,0,99780,glm-5.3
+glm-5.3,aime_036,Mathematical Reasoning,Hard,757,757,True,correct,1.0,0.0,False,T1,1.0,0,2387,glm-5.3
+glm-5.3,aime_037,Mathematical Reasoning,Hard,61,61,True,correct,1.0,0.0,False,T1,1.0,0,14763,glm-5.3
+glm-5.3,aime_038,Mathematical Reasoning,Hard,49,49,True,correct,1.0,0.0,False,T1,1.0,0,11952,glm-5.3
+glm-5.3,aime_039,Mathematical Reasoning,Hard,600,600,True,correct,1.0,0.0,False,T1,1.0,0,74154,glm-5.3
+glm-5.3,aime_040,Mathematical Reasoning,Hard,85,85,True,correct,1.0,0.0,False,T1,1.0,0,6074,glm-5.3
+glm-5.3,aime_041,Mathematical Reasoning,Hard,182,182,True,correct,1.0,0.0,False,T1,1.0,0,6412,glm-5.3
+glm-5.3,aime_042,Mathematical Reasoning,Hard,401,401,True,correct,1.0,0.0,False,T1,1.0,0,6637,glm-5.3
+glm-5.3,aime_043,Mathematical Reasoning,Hard,25,25,True,correct,1.0,0.0,False,T1,1.0,0,35097,glm-5.3
+glm-5.3,aime_044,Mathematical Reasoning,Hard,864,8,False,numeric_error,0.0,0.0,False,T1,0.0,0,97013,glm-5.3
+glm-5.3,aime_045,Mathematical Reasoning,Hard,337,337,True,correct,1.0,0.0,False,T1,1.0,0,2997,glm-5.3
+glm-5.3,aime_046,Mathematical Reasoning,Hard,104,104,True,correct,1.0,0.0,False,T1,1.0,0,2763,glm-5.3
+glm-5.3,aime_047,Mathematical Reasoning,Hard,150,150,True,correct,1.0,0.0,False,T1,1.0,0,1889,glm-5.3
+glm-5.3,aime_048,Mathematical Reasoning,Hard,890,890,True,correct,1.0,0.0,False,T1,1.0,0,2977,glm-5.3
+glm-5.3,aime_049,Mathematical Reasoning,Hard,33,33,True,correct,1.0,0.0,False,T1,1.0,0,2916,glm-5.3
+glm-5.3,aime_050,Mathematical Reasoning,Hard,981,981,True,correct,1.0,0.0,False,T1,1.0,0,2035,glm-5.3
+glm-5.3,gpqa_001,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,4584,glm-5.3
+glm-5.3,gpqa_002,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,74624,glm-5.3
+glm-5.3,gpqa_003,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,3496,glm-5.3
+glm-5.3,gpqa_004,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,24908,glm-5.3
+glm-5.3,gpqa_005,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,2353,glm-5.3
+glm-5.3,gpqa_006,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,3803,glm-5.3
+glm-5.3,gpqa_007,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,2894,glm-5.3
+glm-5.3,gpqa_008,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,82181,glm-5.3
+glm-5.3,gpqa_009,Knowledge Reasoning,Hard,A,B,False,wrong_option,0.0,0.0,False,T1,0.0,0,96108,glm-5.3
+glm-5.3,gpqa_010,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,8581,glm-5.3
+glm-5.3,gpqa_011,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,75578,glm-5.3
+glm-5.3,gpqa_012,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,4516,glm-5.3
+glm-5.3,gpqa_013,Knowledge Reasoning,Hard,B,A,False,wrong_option,0.0,0.0,False,T1,0.0,0,102736,glm-5.3
+glm-5.3,gpqa_014,Knowledge Reasoning,Hard,D,C,False,wrong_option,0.0,0.0,False,T1,0.0,0,96643,glm-5.3
+glm-5.3,gpqa_015,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,14034,glm-5.3
+glm-5.3,gpqa_016,Knowledge Reasoning,Hard,A,D,False,wrong_option,0.0,0.0,False,T1,0.0,0,71749,glm-5.3
+glm-5.3,gpqa_017,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,2479,glm-5.3
+glm-5.3,gpqa_018,Knowledge Reasoning,Hard,C,D,False,wrong_option,0.0,0.0,False,T1,0.0,0,14922,glm-5.3
+glm-5.3,gpqa_019,Knowledge Reasoning,Hard,D,A,False,wrong_option,0.0,0.0,False,T1,0.0,0,73669,glm-5.3
+glm-5.3,gpqa_020,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,1843,glm-5.3
+glm-5.3,gpqa_021,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,74587,glm-5.3
+glm-5.3,gpqa_022,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,105698,glm-5.3
+glm-5.3,gpqa_023,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,100317,glm-5.3
+glm-5.3,gpqa_024,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,14824,glm-5.3
+glm-5.3,gpqa_025,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,92418,glm-5.3
+glm-5.3,gpqa_026,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,92385,glm-5.3
+glm-5.3,gpqa_027,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,8695,glm-5.3
+glm-5.3,gpqa_028,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,79108,glm-5.3
+glm-5.3,gpqa_029,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,68649,glm-5.3
+glm-5.3,gpqa_030,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,74952,glm-5.3
+glm-5.3,gpqa_031,Knowledge Reasoning,Hard,D,C,False,wrong_option,0.0,0.0,False,T1,0.0,0,97706,glm-5.3
+glm-5.3,gpqa_032,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,91968,glm-5.3
+glm-5.3,gpqa_033,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,104674,glm-5.3
+glm-5.3,gpqa_034,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,91496,glm-5.3
+glm-5.3,gpqa_035,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,61744,glm-5.3
+glm-5.3,gpqa_036,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,16485,glm-5.3
+glm-5.3,gpqa_037,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,102870,glm-5.3
+glm-5.3,gpqa_038,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,91472,glm-5.3
+glm-5.3,gpqa_039,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,3271,glm-5.3
+glm-5.3,gpqa_040,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,1839,glm-5.3
+glm-5.3,gpqa_041,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,5812,glm-5.3
+glm-5.3,gpqa_042,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,93555,glm-5.3
+glm-5.3,gpqa_043,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,94650,glm-5.3
+glm-5.3,gpqa_044,Knowledge Reasoning,Hard,B,B,True,correct,1.0,0.0,False,T1,1.0,0,6778,glm-5.3
+glm-5.3,gpqa_045,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,6825,glm-5.3
+glm-5.3,gpqa_046,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,102580,glm-5.3
+glm-5.3,gpqa_047,Knowledge Reasoning,Hard,C,C,True,correct,1.0,0.0,False,T1,1.0,0,4466,glm-5.3
+glm-5.3,gpqa_048,Knowledge Reasoning,Hard,C,A,False,wrong_option,0.0,0.0,False,T1,0.0,0,70495,glm-5.3
+glm-5.3,gpqa_049,Knowledge Reasoning,Hard,D,D,True,correct,1.0,0.0,False,T1,1.0,0,96186,glm-5.3
+glm-5.3,gpqa_050,Knowledge Reasoning,Hard,A,A,True,correct,1.0,0.0,False,T1,1.0,0,73252,glm-5.3
+glm-5.3,bbh_0001,Reasoning,Hard,(B),B,True,correct,1.0,0.0,False,T1,1.0,0,9030,glm-5.3
+glm-5.3,bbh_0002,Reasoning,Hard,(J),J,True,correct,1.0,0.0,False,T1,1.0,0,2070,glm-5.3
+glm-5.3,bbh_0003,Reasoning,Hard,(K),H,False,wrong_option,0.0,0.0,False,T1,0.0,0,5746,glm-5.3
+glm-5.3,bbh_0004,Reasoning,Hard,(E),E,True,correct,1.0,0.0,False,T1,1.0,0,1260,glm-5.3
+glm-5.3,bbh_0005,Reasoning,Hard,(A),A,True,correct,1.0,0.0,False,T1,1.0,0,1485,glm-5.3
+glm-5.3,bbh_0006,Reasoning,Hard,(B),(B),True,correct,1.0,0.0,False,T1,1.0,0,2015,glm-5.3
+glm-5.3,bbh_0007,Reasoning,Hard,(C),C,True,correct,1.0,0.0,False,T1,1.0,0,1542,glm-5.3
+glm-5.3,bbh_0008,Reasoning,Hard,(B),B,True,correct,1.0,0.0,False,T1,1.0,0,1186,glm-5.3
+glm-5.3,bbh_0009,Reasoning,Hard,8,8,True,correct,1.0,0.0,False,T1,1.0,0,1553,glm-5.3
+glm-5.3,bbh_0010,Reasoning,Hard,15,15,True,correct,1.0,0.0,False,T1,1.0,0,1437,glm-5.3
+glm-5.3,bbh_0011,Reasoning,Hard,3,3,True,correct,1.0,0.0,False,T1,1.0,0,1137,glm-5.3
+glm-5.3,bbh_0012,Reasoning,Hard,14,14,True,correct,1.0,0.0,False,T1,1.0,0,1586,glm-5.3
+glm-5.3,bbh_0013,Reasoning,Hard,(E),E,True,correct,1.0,0.0,False,T1,1.0,0,1451,glm-5.3
+glm-5.3,bbh_0014,Reasoning,Hard,(C),C,True,correct,1.0,0.0,False,T1,1.0,0,1094,glm-5.3
+glm-5.3,bbh_0015,Reasoning,Hard,(C),C,True,correct,1.0,0.0,False,T1,1.0,0,1341,glm-5.3
+glm-5.3,bbh_0016,Reasoning,Hard,(A),A,True,correct,1.0,0.0,False,T1,1.0,0,1619,glm-5.3
+glm-5.3,bbh_0017,Reasoning,Hard,(A),(A),True,correct,1.0,0.0,False,T1,1.0,0,1299,glm-5.3
+glm-5.3,bbh_0018,Reasoning,Hard,(A),(D),False,wrong_option,0.0,0.0,False,T1,0.0,0,2192,glm-5.3
+glm-5.3,bbh_0019,Reasoning,Hard,(F),(F),True,correct,1.0,0.0,False,T1,1.0,0,10386,glm-5.3
+glm-5.3,bbh_0020,Reasoning,Hard,(F),(D),False,wrong_option,0.0,0.0,False,T1,0.0,0,1926,glm-5.3
+glm-5.3,bbh_0021,Reasoning,Hard,(B),B,True,correct,1.0,0.0,False,T1,1.0,0,1683,glm-5.3
+glm-5.3,bbh_0022,Reasoning,Hard,(A),(A),True,correct,1.0,0.0,False,T1,1.0,0,2379,glm-5.3
+glm-5.3,bbh_0023,Reasoning,Hard,(A),(A),True,correct,1.0,0.0,False,T1,1.0,0,1961,glm-5.3
+glm-5.3,bbh_0024,Reasoning,Hard,(B),B,True,correct,1.0,0.0,False,T1,1.0,0,1243,glm-5.3
+glm-5.3,bbh_0025,Reasoning,Hard,(A),(A),True,correct,1.0,0.0,False,T1,1.0,0,1398,glm-5.3
+glm-5.3,bbh_0026,Reasoning,Hard,(C),C,True,correct,1.0,0.0,False,T1,1.0,0,1492,glm-5.3
+glm-5.3,bbh_0027,Reasoning,Hard,(B),(B),True,correct,1.0,0.0,False,T1,1.0,0,1862,glm-5.3
+glm-5.3,bbh_0028,Reasoning,Hard,(D),(D),True,correct,1.0,0.0,False,T1,1.0,0,1944,glm-5.3
+glm-5.3,bbh_0029,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,2321,glm-5.3
+glm-5.3,bbh_0030,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,2169,glm-5.3
+glm-5.3,bbh_0031,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,1939,glm-5.3
+glm-5.3,bbh_0032,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,2093,glm-5.3
+glm-5.3,bbh_0033,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,4410,glm-5.3
+glm-5.3,bbh_0034,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,1343,glm-5.3
+glm-5.3,bbh_0035,Reasoning,Hard,No,No,True,correct,1.0,0.0,False,T1,1.0,0,3439,glm-5.3
+glm-5.3,bbh_0036,Reasoning,Hard,Yes,Yes,True,correct,1.0,0.0,False,T1,1.0,0,1183,glm-5.3
+glm-5.3,bbh_0037,Reasoning,Hard,24,24,True,correct,1.0,0.0,False,T1,1.0,0,1408,glm-5.3
+glm-5.3,bbh_0038,Reasoning,Hard,63,63,True,correct,1.0,0.0,False,T1,1.0,0,1911,glm-5.3
+glm-5.3,bbh_0039,Reasoning,Hard,-50,-50,True,correct,1.0,0.0,False,T1,1.0,0,2005,glm-5.3
+glm-5.3,bbh_0040,Reasoning,Hard,-11520,-11520,True,correct,1.0,0.0,False,T1,1.0,0,1421,glm-5.3
+glm-5.3,bbh_0041,Reasoning,Hard,False,False,True,correct,1.0,0.0,False,T1,1.0,0,1050,glm-5.3
+glm-5.3,bbh_0042,Reasoning,Hard,True,True,True,correct,1.0,0.0,False,T1,1.0,0,1442,glm-5.3
+glm-5.3,bbh_0043,Reasoning,Hard,False,False,True,correct,1.0,0.0,False,T1,1.0,0,1429,glm-5.3
+glm-5.3,bbh_0044,Reasoning,Hard,False,False,True,correct,1.0,0.0,False,T1,1.0,0,1308,glm-5.3

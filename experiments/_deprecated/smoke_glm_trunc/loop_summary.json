@@ -1,0 +1,35 @@
+{
+  "run_id": "smoke_glm_trunc",
+  "arm": "C",
+  "family_filter": null,
+  "task_set": "gpqa",
+  "max_tokens": 8192,
+  "max_rounds": 4,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "twostage",
+  "seed": null,
+  "n_tasks": 2,
+  "concurrency": 6,
+  "models": {
+    "glm-5.3": {
+      "model_id": "glm-5.3",
+      "init_accuracy": 0.5,
+      "final_accuracy": 0.5,
+      "end_state_distribution": {
+        "2": 1,
+        "4": 1
+      },
+      "l3_activation_rate": 1.0,
+      "l3_reversibility_rate": 1.0,
+      "l4_lock_rate": 0.0,
+      "l4_misled_rate": 1.0,
+      "avg_rounds": 5.0,
+      "total_prompt_tokens": 9062,
+      "total_completion_tokens": 84047,
+      "total_reasoning_tokens": 83789
+    }
+  }
+}

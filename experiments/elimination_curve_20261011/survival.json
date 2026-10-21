@@ -1,0 +1,266 @@
+{
+  "n_questions": 22,
+  "n_aborted": 11,
+  "final_survivor_accuracy": 0.36363636363636365,
+  "a3_mode_baseline": 0.455,
+  "survival_semantic": [
+    [
+      0,
+      1.0,
+      22
+    ],
+    [
+      1,
+      1.0,
+      22
+    ],
+    [
+      2,
+      0.9545454545454546,
+      22
+    ],
+    [
+      3,
+      0.9473684210526315,
+      19
+    ],
+    [
+      4,
+      0.9444444444444444,
+      18
+    ],
+    [
+      5,
+      0.8888888888888888,
+      18
+    ],
+    [
+      6,
+      0.8888888888888888,
+      18
+    ],
+    [
+      7,
+      0.875,
+      16
+    ],
+    [
+      8,
+      0.8461538461538461,
+      13
+    ],
+    [
+      9,
+      0.8,
+      10
+    ]
+  ],
+  "survival_random": [
+    [
+      0,
+      1.0,
+      22
+    ],
+    [
+      1,
+      0.85254329004329,
+      22
+    ],
+    [
+      2,
+      0.7050865800865801,
+      22
+    ],
+    [
+      3,
+      0.6456766917293233,
+      19
+    ],
+    [
+      4,
+      0.5568783068783069,
+      18
+    ],
+    [
+      5,
+      0.4460978835978836,
+      18
+    ],
+    [
+      6,
+      0.3353174603174603,
+      18
+    ],
+    [
+      7,
+      0.25260416666666663,
+      16
+    ],
+    [
+      8,
+      0.1794871794871795,
+      13
+    ],
+    [
+      9,
+      0.1,
+      10
+    ]
+  ],
+  "per_question": [
+    {
+      "task_id": "aime_018",
+      "n_orig": 8,
+      "kill_step": null,
+      "final_correct": true,
+      "aborted": true
+    },
+    {
+      "task_id": "aime_015",
+      "n_orig": 8,
+      "kill_step": null,
+      "final_correct": true,
+      "aborted": false
+    },
+    {
+      "task_id": "aime_035",
+      "n_orig": 10,
+      "kill_step": null,
+      "final_correct": false,
+      "aborted": true
+    },
+    {
+      "task_id": "aime_043",
+      "n_orig": 9,
+      "kill_step": null,
+      "final_correct": true,
+      "aborted": true
+    },
+    {
+      "task_id": "aime_044",
+      "n_orig": 10,
+      "kill_step": null,
+      "final_correct": false,
+      "aborted": true
+    },
+    {
+      "task_id": "gpqa_008",
+      "n_orig": 9,
+      "kill_step": null,
+      "final_correct": true,
+      "aborted": true
+    },
+    {
+      "task_id": "gpqa_009",
+      "n_orig": 10,
+      "kill_step": 2,
+      "final_correct": false,
+      "aborted": true
+    },
+    {
+      "task_id": "gpqa_011",
+      "n_orig": 8,
+      "kill_step": null,
+      "final_correct": true,
+      "aborted": false
+    },
+    {
+      "task_id": "gpqa_013",
+      "n_orig": 10,
+      "kill_step": null,
+      "final_correct": false,
+      "aborted": false
+    },
+    {
+      "task_id": "gpqa_016",
+      "n_orig": 10,
+      "kill_step": null,
+      "final_correct": false,
+      "aborted": false
+    },
+    {
+      "task_id": "gpqa_019",
+      "n_orig": 7,
+      "kill_step": 0,
+      "final_correct": false,
+      "aborted": false
+    },
+    {
+      "task_id": "gpqa_023",
+      "n_orig": 10,
+      "kill_step": null,
+      "final_correct": true,
+      "aborted": true
+    },
+    {
+      "task_id": "gpqa_028",
+      "n_orig": 10,
+      "kill_step": 0,
+      "final_correct": false,
+      "aborted": true
+    },
+    {
+      "task_id": "gpqa_031",
+      "n_orig": 9,
+      "kill_step": null,
+      "final_correct": false,
+      "aborted": false
+    },
+    {
+      "task_id": "gpqa_033",
+      "n_orig": 10,
+      "kill_step": null,
+      "final_correct": false,
+      "aborted": true
+    },
+    {
+      "task_id": "bbh_0003",
+      "n_orig": 3,
+      "kill_step": 0,
+      "final_correct": false,
+      "aborted": true
+    },
+    {
+      "task_id": "bbh_0018",
+      "n_orig": 3,
+      "kill_step": null,
+      "final_correct": false,
+      "aborted": false
+    },
+    {
+      "task_id": "bbh_0019",
+      "n_orig": 4,
+      "kill_step": null,
+      "final_correct": true,
+      "aborted": true
+    },
+    {
+      "task_id": "gpqa_043",
+      "n_orig": 7,
+      "kill_step": 0,
+      "final_correct": true,
+      "aborted": false
+    },
+    {
+      "task_id": "bbh_0020",
+      "n_orig": 3,
+      "kill_step": null,
+      "final_correct": false,
+      "aborted": false
+    },
+    {
+      "task_id": "gpqa_048",
+      "n_orig": 10,
+      "kill_step": 5,
+      "final_correct": false,
+      "aborted": false
+    },
+    {
+      "task_id": "gpqa_049",
+      "n_orig": 10,
+      "kill_step": null,
+      "final_correct": false,
+      "aborted": false
+    }
+  ]
+}

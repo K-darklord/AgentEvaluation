@@ -1,0 +1,37 @@
+{
+  "run_id": "stageb_gpqa_qwen_20261019",
+  "arm": "C",
+  "family_filter": null,
+  "task_set": "gpqa",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "reason_line",
+  "seed": null,
+  "n_tasks": 50,
+  "concurrency": 6,
+  "models": {
+    "qwen3.8-flash": {
+      "model_id": "qwen3.8-flash",
+      "init_accuracy": 0.9565,
+      "final_accuracy": 0.9348,
+      "end_state_distribution": {
+        "1": 42,
+        "2": 1,
+        "3": 1,
+        "6": 2
+      },
+      "l3_activation_rate": 0.9565,
+      "l3_reversibility_rate": 0.0,
+      "l4_lock_rate": 0.9545,
+      "l4_misled_rate": 0.0227,
+      "avg_rounds": 3.07,
+      "total_prompt_tokens": 65688,
+      "total_completion_tokens": 956601,
+      "total_reasoning_tokens": 953035
+    }
+  }
+}

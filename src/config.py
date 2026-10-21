@@ -19,6 +19,12 @@ REQUEST_TIMEOUT = 15
 # read 用较大值：qwen3.8-flash 等 reasoning 模型单次推理可能 >60s，避免误杀长推理。
 LLM_CONNECT_TIMEOUT = float(os.getenv("LLM_CONNECT_TIMEOUT", "15"))
 LLM_READ_TIMEOUT = float(os.getenv("LLM_READ_TIMEOUT", "180"))
+# Streaming read timeout (seconds) for reasoning endpoints. Non-streaming requests to
+# these endpoints never fire httpx read-timeout on a server-side hang (qwen3.8-flash on
+# a few hard GPQA items emits zero output and blocks until the runner's coarse deadline),
+# so closed-book text generation streams and uses this short per-chunk read timeout to
+# detect the hang in seconds and mark the item api_failure instead of freezing the arm.
+LLM_STREAM_READ_TIMEOUT = float(os.getenv("LLM_STREAM_READ_TIMEOUT", "30"))
 
 
 
@@ -98,6 +104,21 @@ BBH_TASKS = [
 # hardest AIME items; frozen so the baseline stays comparable across runs.
 REASONING_BENCH_MAX_TOKENS = int(os.getenv("REASONING_BENCH_MAX_TOKENS", "8192"))
 
+# Content window reserved AFTER the thinking_budget cap is exhausted, so a reasoning
+# model that would otherwise keep writing hidden CoT until finish_reason=length is
+# forced to floor a clean visible answer instead (deepseek GPQA fix, 2026-10-18).
+REASONING_CONTENT_MARGIN = int(os.getenv("REASONING_CONTENT_MARGIN", "64"))
+
+# Transition self-report budget (rationale_mode="transition"). The "why did you
+# change" two-stage collection is a side channel that runs under its OWN prompt; it
+# needs an independent budget that leaves room for the visible rationale AFTER the
+# reasoning model's hidden CoT. 8192 mirrors REASONING_BENCH_MAX_TOKENS. NOTE: the
+# budget alone does NOT fix glm-5.3 -- given the full hard question it reasons until
+# ANY cap (8190 @8192 / 32766 @32768) and truncates the rationale to "**". The actual
+# fix is truncating the question to a short stem in _collect_transition_rationale
+# (run_feedback_loop._RATIONALE_QUESTION_MAX_CHARS), item 16.
+TRANSITION_RATIONALE_MAX_TOKENS = int(os.getenv("TRANSITION_RATIONALE_MAX_TOKENS", "8192"))
+
 
 # ======================================================================
 # Scoring tolerance / robustness config
@@ -173,6 +194,11 @@ PHASE1_MODELS = {
         "model": "deepseek-v4-flash-0731",
         "base_url": TOKEN_PLAN_BASE_URL,
         "api_key": os.getenv("TOKEN_PLAN_API_KEY", ""),
+        # Fix deepseek GPQA thinking non-convergence (2026-10-18): at model-default
+        # thinking ON the hard items reason until ANY cap (length, content empty).
+        # thinking_budget forces the CoT to stop-and-commit at 8192; the +64 content
+        # window (REASONING_CONTENT_MARGIN) then floors a clean option letter.
+        "thinking_budget": 8192,
         # Moved off HF router (TCP timeout / HTTP 000) to Alibaba Token Plan
         # origin-supply on 2026-09-28. Same DeepSeek-V4-Flash-0731 model.
     },

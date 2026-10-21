@@ -1,0 +1,917 @@
+[
+  {
+    "task_id": "aime_018",
+    "family": "aime",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "aime_021",
+    "family": "aime",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "aime_029",
+    "family": "aime",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "aime_035",
+    "family": "aime",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "aime_044",
+    "family": "aime",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "bbh_0005",
+    "family": "bbh",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "bbh_0006",
+    "family": "bbh",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "bbh_0007",
+    "family": "bbh",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "bbh_0009",
+    "family": "bbh",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "bbh_0010",
+    "family": "bbh",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "bbh_0012",
+    "family": "bbh",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "bbh_0013",
+    "family": "bbh",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "bbh_0017",
+    "family": "bbh",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "bbh_0018",
+    "family": "bbh",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "bbh_0019",
+    "family": "bbh",
+    "non_settled_in": [
+      "glm",
+      "qwen3.8"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "bbh_0020",
+    "family": "bbh",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "bbh_0021",
+    "family": "bbh",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "bbh_0023",
+    "family": "bbh",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "bbh_0031",
+    "family": "bbh",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "bbh_0033",
+    "family": "bbh",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_001",
+    "family": "gpqa",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_002",
+    "family": "gpqa",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_009",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek",
+      "qwen3.8"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_011",
+    "family": "gpqa",
+    "non_settled_in": [
+      "qwen3.8"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_013",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek",
+      "qwen3.8"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_016",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek",
+      "qwen3.8"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_018",
+    "family": "gpqa",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_020",
+    "family": "gpqa",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_022",
+    "family": "gpqa",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_024",
+    "family": "gpqa",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_028",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek",
+      "qwen3.8"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_033",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek",
+      "qwen3.8"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_034",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_037",
+    "family": "gpqa",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_040",
+    "family": "gpqa",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_043",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_044",
+    "family": "gpqa",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_047",
+    "family": "gpqa",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_048",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek",
+      "qwen3.8"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_049",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek",
+      "qwen3.8"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_054",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_065",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_070",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_072",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_077",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_080",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_082",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_089",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_090",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_091",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_094",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_095",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_103",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_109",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_116",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_119",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_121",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_122",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_127",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_128",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_131",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_132",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_146",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_148",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_156",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_163",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_167",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gpqa_186",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gpqa_187",
+    "family": "gpqa",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "gsm8k_003",
+    "family": "math",
+    "non_settled_in": [
+      "qwen3.8"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gsm8k_010",
+    "family": "math",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gsm8k_014",
+    "family": "math",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gsm8k_018",
+    "family": "math",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gsm8k_021",
+    "family": "math",
+    "non_settled_in": [
+      "qwen3.8"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gsm8k_026",
+    "family": "math",
+    "non_settled_in": [
+      "qwen3.8"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gsm8k_030",
+    "family": "math",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gsm8k_032",
+    "family": "math",
+    "non_settled_in": [
+      "glm",
+      "qwen3.8"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gsm8k_037",
+    "family": "math",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gsm8k_040",
+    "family": "math",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gsm8k_041",
+    "family": "math",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gsm8k_042",
+    "family": "math",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gsm8k_043",
+    "family": "math",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gsm8k_044",
+    "family": "math",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gsm8k_045",
+    "family": "math",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "gsm8k_048",
+    "family": "math",
+    "non_settled_in": [
+      "glm",
+      "qwen3.8"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_002",
+    "family": "math500",
+    "non_settled_in": [
+      "qwen3.8"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "math500_005",
+    "family": "math500",
+    "non_settled_in": [
+      "qwen3.8"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_008",
+    "family": "math500",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_010",
+    "family": "math500",
+    "non_settled_in": [
+      "deepseek",
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_012",
+    "family": "math500",
+    "non_settled_in": [
+      "deepseek",
+      "glm"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "math500_016",
+    "family": "math500",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_018",
+    "family": "math500",
+    "non_settled_in": [
+      "deepseek",
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_019",
+    "family": "math500",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "math500_020",
+    "family": "math500",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_021",
+    "family": "math500",
+    "non_settled_in": [
+      "deepseek",
+      "qwen3.8"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_022",
+    "family": "math500",
+    "non_settled_in": [
+      "deepseek",
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_024",
+    "family": "math500",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_027",
+    "family": "math500",
+    "non_settled_in": [
+      "deepseek"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_031",
+    "family": "math500",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_034",
+    "family": "math500",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_036",
+    "family": "math500",
+    "non_settled_in": [
+      "qwen3.8"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_041",
+    "family": "math500",
+    "non_settled_in": [
+      "glm",
+      "qwen3.8"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_042",
+    "family": "math500",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_044",
+    "family": "math500",
+    "non_settled_in": [
+      "deepseek",
+      "glm",
+      "qwen3.8"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_045",
+    "family": "math500",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "math500_048",
+    "family": "math500",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "mmlu_pro_015",
+    "family": "mmlu_pro",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "mmlu_pro_017",
+    "family": "mmlu_pro",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": false
+  },
+  {
+    "task_id": "mmlu_pro_023",
+    "family": "mmlu_pro",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "mmlu_pro_033",
+    "family": "mmlu_pro",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "mmlu_pro_040",
+    "family": "mmlu_pro",
+    "non_settled_in": [
+      "glm"
+    ],
+    "correct_appeared": true
+  },
+  {
+    "task_id": "mmlu_pro_044",
+    "family": "mmlu_pro",
+    "non_settled_in": [
+      "deepseek",
+      "glm"
+    ],
+    "correct_appeared": false
+  }
+]

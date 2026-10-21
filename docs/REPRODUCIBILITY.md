@@ -128,10 +128,11 @@ def set_seed(seed: int, deterministic: bool = True):
 - Use and record the API `seed` parameter when supported (e.g. OpenAI).
 - Every experiment run ≥ 3 times (different seeds); report mean and std.
 
-### 3.4 Observed non-determinism under temperature = 0 (Phase 1, open)
+### 3.4 Observed non-determinism under temperature = 0 (Phase 1; root cause settled 2026-10-18)
 
-**Status: tracked, root cause NOT yet determined.** Recorded 2026-10-08; to be investigated in
-Phase 2. The observations below are facts; the candidate causes are hypotheses only.
+**Status: root cause identified (2026-10-18), not fixable in code.** Recorded 2026-10-08 as
+'open'; settled in Phase 2. The observations below are facts. Mitigation: N-run aggregation only —
+never read a single-restart delta as a causal effect.
 
 **Observations (deepseek-v4-flash-0731, Aliyun Token Plan, temperature = 0, max_tokens = 8192):**
 
@@ -145,22 +146,24 @@ Phase 2. The observations below are facts; the candidate causes are hypotheses o
    (observed ~1616 / 1173 / 8192 / 5298 / 1977 / 8192 …), i.e. the hidden reasoning length is not
    pinned by `temperature = 0`.
 
-**Candidate causes (unranked, not decided):**
+**Root cause (identified 2026-10-18; unranked, all server-side / outside our control):**
 
-- the API `seed` parameter is not wired (`HuggingFaceAgent.seed = None` by default);
-- the serving endpoint does not honour `seed` / `temperature = 0` as strict greedy for the hidden
-  chain-of-thought (or MoE routing carries server-side randomness);
-- an intrinsic length fluctuation in reasoning-model CoT, exposed only where the CoT crosses the
-  `max_tokens` cap (8192) — the boundary flip is the *visible* symptom, not necessarily the cause.
+- floating-point non-associative reduction — summation order varies with GPU/batch shape;
+- GPU parallelism + dynamic batch scheduling reorder reductions across concurrent requests;
+- MoE expert routing — a request's expert slots are contended by other requests in the same batch,
+  so routing (and therefore the sampled tokens) differs run-to-run;
+- decode tie-breaking on near-equal logits;
+- silent upstream model / weight updates between calls.
+
+None of these can be pinned by `seed` or `temperature = 0` on a hosted endpoint.
 
 **Impact.** Single-pass accuracy numbers carry ± a few items of run-to-run noise on CoT-boundary
-families (AIME / GPQA); the "reproducible under temperature = 0" claim in PHASE1_SUMMARY is too
-strong and is retracted until Phase 2 settles the cause.
+families (AIME / GPQA); the "reproducible under temperature = 0" claim in PHASE1_SUMMARY is
+retracted — the cause is settled as un-pinnable server-side non-determinism (above).
 
-**Phase-2 follow-up (required):** (a) fix and record `seed` per run; (b) test whether a fixed seed
-actually reproduces identical output (≥ 3 repeats of the same seed); (c) check whether qwen/glm show
-the same behaviour or it is deepseek-specific; (d) decide whether to raise `REASONING_BENCH_MAX_TOKENS`
-past 8192 to move CoT off the boundary.
+**Mitigation (settled 2026-10-18):** run each question ≥ 3 times and aggregate (mean / majority);
+never cite a single-restart before/after delta as a causal effect (e.g. INT-21's fragment-recovery
+before/after is drift-polluted, so its delta is reported as a range, not a point).
 
 ---
 

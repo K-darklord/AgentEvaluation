@@ -1,0 +1,19 @@
+{
+  "n_tasks": 2,
+  "a3_mode_acc": 1.0,
+  "random_survivor_baseline": 0.125,
+  "per_k": {
+    "2": {
+      "final_survivor_acc": 1.0,
+      "round1_retain": 1.0,
+      "baseline_retain": 0.5,
+      "n_valid": 2
+    },
+    "3": {
+      "final_survivor_acc": 1.0,
+      "round1_retain": 1.0,
+      "baseline_retain": 0.6666666666666666,
+      "n_valid": 2
+    }
+  }
+}
