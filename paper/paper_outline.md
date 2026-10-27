@@ -82,14 +82,14 @@ Nature Machine Intelligence / IEEE TPAMI / NeurIPS (primary); ACL / EMNLP worksh
 - Intervention controls (H2): vary only the rationale/signal; key-change delta must exceed
   irrelevant-change delta.
 
-## 6. Main Results / Decision Evaluation · [stage 6 — decision]  ⚠ after experiments
+## 6. Main Results / Decision Evaluation · [stage 6 — decision]
 
 - Three-axis comparison on the hard slice (low-confidence / activated-but-unlocked tasks;
   definition in `PHASE2_SUMMARY §13`): `Δ_act`, settle vs vote, net final.
 - Fixed-denominator comparison (headroom buckets exclude `never`); same-coverage risk vs
   strong baselines (settle / mode / A3).
 
-## 7. Robustness & Limitations · [stage 7 — boundary]  ⚠ after Phase 3
+## 7. Robustness & Limitations · [stage 7 — boundary]
 
 - Cross-model (12–15) / cross-task-family reproduction; cost–benefit (settle free vs Stage B
   cost); explicit failure-case list (settle-locked-wrong, no-commit, inconsistent transitions).

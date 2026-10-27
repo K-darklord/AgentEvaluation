@@ -162,6 +162,10 @@ Here `directional` = on a surviving-mode tie, lock whichever tied answer the jud
 The elimination → mode lock carries three further knobs (wired in `_elimination_mode_lock`, rev 8),
 ablating *how* the per-run survive-scores fold into a locked answer:
 
+> **Errata (2026-10-27)** — `keep` is listed below among the three "knobs" but is **not** an ablation
+> knob: it is a correctness fix to the verdict semantics (a clean transition, all three dims 0, should
+> read `KEEP`, not stay `UNSURE`). The genuine ablation knobs below are `vote_mode` and `weight_by`.
+
 1. **KEEP vote (`keep`, rubric strategies only).** A clean transition — all three dims 0 — reads as
    `KEEP` (new side survives, old side drops) when `keep` is on; off, it stays `UNSURE`.
    (`rubric_v5` has its own conclusion-mismatch `KEEP`, so `keep` is N/A there.)
