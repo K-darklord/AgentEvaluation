@@ -11,6 +11,33 @@
 
 ---
 
+## 0. Role separation — solver / critic / evaluator / scorer
+
+Correctness lives in exactly one of four **runtime roles**, all of which are **separate calls**. The
+distinction matters because three of them steer or select an answer but never score it; only one returns a
+truth-conditional verdict.
+
+| Role | When | Reads | Gold? | Produces |
+|---|---|---|---|---|
+| **solver** | generation | prompt | no | candidate answer + CoT |
+| **critic** | feedback loop | solver answer + CoT | no | directional feedback (weak = diagnosis / strong = correction) |
+| **evaluator** | lock-in (offline) | critic trajectory + candidate pool | no (build uses gold) | locked answer / abstain |
+| **scorer** | final grading (all arms) | committed final answer only | yes | correctness verdict |
+
+The scorer is **`scorer_LLM_rescue`** — the final, cross-arm grader, and the only role that reads the gold
+at grade time. Three tiers, dispatched on a T1 miss:
+
+- **T1 — deterministic match** (primary, token-free, intervention-free; exact-match routed by answer form).
+- **T2 — LLM one-way FN rescue** (judge re-reads only the committed final answer, never the CoT; runs only
+  on T1-missed rows; never overturns a correct T1).
+- **T3 — multi-LLM voting or human review** (contested rows: a small manual re-check, not an automated
+  override).
+
+The tiers are fleshed out in §2–§5 below; here the point is only that **scoring is a separate role from
+solving, critiquing, and evaluating**.
+
+---
+
 ## 1. Design goals
 
 1. **Dispatch by answer form.** A single scoring path cannot serve numeric, symbolic, multiple-choice,
@@ -165,11 +192,11 @@ registered intervention, distinct from T1.
 
 ---
 
-## 5. T3 — multi-LLM voting (registered intervention)
+## 5. T3 — multi-LLM voting / human review (registered intervention)
 
 **Role.** Open / qualitative answers whose gold is not exhaustively expressible by a rule are judged by
-multiple LLMs with majority vote. This tier is reserved for domains where neither T1 nor a single-judge
-T2 suffices.
+multiple LLMs with majority vote, or by manual human re-review of a small number of contested rows. This
+tier is reserved for domains where neither T1 nor a single-judge T2 suffices.
 
 **Current status.** The finance family uses `max(T1, T2)` rubric coverage as an **interim** stand-in for a
 multi-judge setup; a true multi-judge T3 is deferred. T3 is a registered intervention wherever applied.
@@ -239,3 +266,4 @@ The legacy 6-label finance error set (`retrieval_failure`, `numeric_error`, `cit
 | 3.0 | 2026-10-05 | Re-architected to a three-tier scoring framework (T1 deterministic / T2 LLM rescue / T3 multi-judge); T2 judge moved to `deepseek-v4-pro` with `T2_JUDGE_MAX_TOKENS`; cross-domain scope (5 families); taxonomy delegated to `docs/ERROR_TAXONOMY.md`; finance-path detail (dealbreaker) retained in §7. |
 | 3.1 | 2026-10-08 | Added §3.3 "commit, don't scan" extractor contract for single-token answer forms (letter / integer / number / closed-set word); fixed the BBH word and numeric branches; added `_extract_committed_number` + `_extract_committed_text`; frozen by `tests/test_evaluator_commit.py`; MMLU-Pro full-text scan kept as a deliberate exception. |
 | 3.2 | 2026-10-08 | Registered the deferred task §3.4: unify T1 dispatch by answer *form* (`letter`/`integer`/`number`/`word`/`expression`/`tool_call`) instead of per-benchmark code. Postponed until the new benchmark set's first full run, since more subjects are still being added. |
+| 3.3 | 2026-10-26 | Added §0 role separation (solver / critic / evaluator / scorer); named the scorer `scorer_LLM_rescue` and unified T3 as multi-LLM voting / human review (also reflected in §5). |

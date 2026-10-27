@@ -1,0 +1,41 @@
+{
+  "run_id": "hle150_A2",
+  "arm": "A2",
+  "family_filter": null,
+  "task_set": "hle",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "off",
+  "seed": null,
+  "n_tasks": 150,
+  "concurrency": 6,
+  "models": {
+    "deepseek-v4-flash": {
+      "model_id": "deepseek-v4-flash-0731",
+      "init_accuracy": 0.06,
+      "final_accuracy": 0.0733,
+      "end_state_distribution": {
+        "1": 8,
+        "3": 1,
+        "4": 2,
+        "5": 1,
+        "6": 138
+      },
+      "l3_activation_rate": 0.08,
+      "l3_reversibility_rate": 0.0213,
+      "l4_lock_rate": 0.8889,
+      "l4_misled_rate": 0.0,
+      "avg_rounds": 8.81,
+      "total_prompt_tokens": 120306,
+      "total_completion_tokens": 1855426,
+      "total_reasoning_tokens": 1850530,
+      "total_rationale_prompt_tokens": 0,
+      "total_rationale_completion_tokens": 0,
+      "total_rationale_reasoning_tokens": 0
+    }
+  }
+}

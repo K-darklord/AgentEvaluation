@@ -1,0 +1,60 @@
+{
+  "version": "l2_l3_pilot_v2",
+  "family": "bbh",
+  "solver_model": "deepseek-v4-flash",
+  "merge_model": "deepseek-v4-flash-0731",
+  "n_instances": 4,
+  "dropped_contamination": [],
+  "n_classes": 2,
+  "archetypes": {
+    "constraint_blind": "constraint-blind decimation",
+    "descriptor_conflation": "descriptor/label conflation",
+    "memory_substitution": "memorized-fact substitution",
+    "procedure_truncation": "procedure truncation / omission",
+    "sign_normalization_slip": "sign / normalization slip",
+    "retrieval_abort": "retrieval-abort",
+    "format_nonconformance": "format / precision non-conformance"
+  },
+  "classes": [
+    {
+      "class_label": "surface_feature_error_labeling",
+      "mechanism": "labels an error category based on surface token features such as capitalization, part-of-speech, or term type, rather than determining the semantic role of the changed word in context",
+      "check_procedure": "Ask whether the source and target tokens differ in their actual referent or only in grammatical modification; if the changed token is an attributive modifier, a general class/rank designation, or a semantically unrelated but valid word, reclassify based on the resulting factual/class meaning, not the token's surface appearance",
+      "trigger": "question requires classifying a translation or entity error; committed answer picks a category that matches the changed token's surface type (e.g., proper-noun entity, geographical term, taxon-like capitalized term) without checking semantic function",
+      "members": [
+        "M2",
+        "M3",
+        "M4"
+      ],
+      "member_tasks": [
+        "bbh_0018",
+        "bbh_0019",
+        "bbh_0020"
+      ],
+      "level3": {
+        "archetype_id": "descriptor_conflation",
+        "archetype_name": "descriptor/label conflation",
+        "rationale": "Uses surface token features (capitalization, POS, term type) to assign an error label instead of the word's semantic role, conflating surface descriptors with the correct semantic category.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "partial_geometric_verification",
+      "mechanism": "verifies a geometric classification by checking only one local property, such as perpendicularity, without validating all required structural conditions like opposite-side parallelism and full angle closure",
+      "check_procedure": "Compare the chosen shape's defining conditions against the full path: verify that every required side relationship and angle condition is independently satisfied, rather than inferred from a single dot product or adjacent edge pair",
+      "trigger": "question presents a closed SVG path and asks to identify or prove a quadrilateral type; committed answer selects a perpendicular-based shape without demonstrating complete structural verification",
+      "members": [
+        "M1"
+      ],
+      "member_tasks": [
+        "bbh_0003"
+      ],
+      "level3": {
+        "archetype_id": "constraint_blind",
+        "archetype_name": "constraint-blind decimation",
+        "rationale": "Checks only one local property (perpendicularity) and omits the full set of conditions (parallelism, angle closure) needed for the geometric classification.",
+        "parse_ok": true
+      }
+    }
+  ]
+}

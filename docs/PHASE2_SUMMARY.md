@@ -101,42 +101,40 @@ Phase 2 is the first phase with a token/cost axis (Phase 1 predates the metering
 `configs/model_prices.csv` + `data/processed/model_token_usage.csv` + `src/cost_table.py`.
 The k/θ cost curve (sampling budget vs gain) is a Phase-2 planning input.
 
-### 2.7 Three claims (headline) + proof direction + sample size (2026-10-19)
+### 2.7 Two claims (headline) + proof direction + sample size (2026-10-19; revised 2026-10-26)
 
-The whole Phase-2 question reduces to three claims, one per comparison dimension (§2.3). Do **not**
+The whole Phase-2 question reduces to two claims, one per comparison dimension (§2.3). Do **not**
 collapse them — different effect sizes, different sample needs. The reachability chain is
-**A < C ≤ A3** (A = T=0 single no-feedback; C = critic-perturbed T=0; A3 = T=0.7, N=10 i.i.d.).
+**A < C3 ≤ A3** (A = T=0 single no-feedback; C3 = strong-critic-perturbed T=0; A3 = T=0.7, N=10 i.i.d.;
+the weak-critic arm C is deprecated, §6).
 
 | # | Claim | Dimension | Direction |
 |---|---|---|---|
-| 1 | C activation > A activation, but ≤ A3 activation | `P_act` | A < C ≤ A3 |
-| 2 | C settle (Stage A) > A3 vote | settle acc vs vote acc | superiority |
-| 3 | C Stage B abstains more on non-activated answers | meta (`UNSURE`) | superiority |
+| 1 | C3 (strong critic) activation > A activation, but ≤ A3 activation | `P_act` | A < C3 ≤ A3 |
+| 2 | C3 settle / Stage-B lock > A3 vote | settle-lock acc vs vote acc | superiority |
 
-**Claim-1 strategic corollary (deferred to Phase 3).** Because C `≤` A3 on activation (A3 samples
-more widely), the optimal pipeline is **A3's majority vote as the round-0 answer, then continue C's
-feedback loop from there** — the weak critic refines an already-strong seed instead of re-deriving
+**Claim-1 strategic corollary (deferred to Phase 3).** Because C3 `≤` A3 on activation (A3 samples
+more widely), the optimal pipeline is **A3's majority vote as the round-0 answer, then continue C3's
+feedback loop from there** — the strong critic refines an already-strong seed instead of re-deriving
 from T=0. Phase 3 tests whether this hybrid reaches the highest final accuracy.
 
-**Claim-3 is Stage B's meta-cognition, not a third accuracy mechanism.** The only additive value
-Stage B holds over Stage A is the *abstain* channel: where the correct answer never activated (the
-`never` slab, §2.4), C can emit `UNSURE` instead of committing a guess — A3's majority vote must
-always commit to one option. It is graded orthogonally to accuracy (§7 item 15): `ANSWER:` accuracy
-vs `UNSURE` metacognition.
+> **Claim-3 (abstention metacognition) dropped — 2026-10-26.** The honest-`UNSURE` channel carries no
+> measured value yet, so the metacognition dimension (§7 item 15) is no longer a claim; accuracy is
+> the single graded dimension.
 
 Sample sizes will be recomputed against these new directions before the next collection pass.
 
-### 2.8 假设三元组（支持证据 / 失败判据，2026-10-19）
+### 2.8 Hypothesis pair (support evidence / failure criteria, 2026-10-19; revised 2026-10-26)
 
-把 §2.7 的三 claim 映射到七阶段框架的阶段 4「H1 可识别 / H2 机制敏感 / H3 决策价值」三层可证伪假设，每条配失败判据，避免确认偏误：
+Maps the §2.7 claims onto the seven-stage framework's stage 4 (H1 activation / H2 mechanism), each
+with a failure criterion to avoid confirmation bias. The metacognition hypothesis **H3 (decision
+value of abstention)** is dropped (2026-10-26) — the honest-`UNSURE` channel carries no measured value
+yet, so accuracy is the single graded dimension.
 
-| 假设 | 支持证据（什么结果支持它） | 失败判据（什么结果削弱它） | 对应 claim |
+| Hypothesis | Support evidence | Failure criterion | Claim |
 |---|---|---|---|
-| **H1 可识别**：弱 critic 能在 A 与 A3 之间提升可达性 | 硬层上 `P_act(A) < P_act(C) ≤ P_act(A3)`，且非饱和层 | `P_act(C) ≤ P_act(A)`（C 无增益）；或 `P_act(C) > P_act(A3)`（推翻 A3 上限）；或只在饱和层（init > 70%）有差 | Claim 1 |
-| **H2 机制敏感**：settle 锁定优于投票 | `settleAcc(C) > voteAcc(A3)`，且分差随 Stage-A 关键改动而变 | `settleAcc(C) ≤ voteAcc(A3)`；或改无关项也产生同等分差 | Claim 2 |
-| **H3 决策价值**：Stage-B abstain 有决策价值 | 未激活答案上 `UNSURE(C)` 的覆盖率 / 正确率 > A3 的强制 commit | abstain 不带来净收益；或成本 > 收益 | Claim 3 |
-
-H3（abstain）作用在未激活 slab 上，是 Claim 1 可达性的补集；它独立于 H1/H2 记分，但只有 H1 的激活边界先定下来，H3 的决策价值（何时该 abstain）才可定义。
+| **H1 activation** — the strong critic lifts reachability between A and A3 | `P_act(A) < P_act(C3) ≤ P_act(A3)` on the hard layer, and on a non-saturated slice | `P_act(C3) ≤ P_act(A)` (no gain); or `P_act(C3) > P_act(A3)` (breaches the A3 ceiling); or a difference only on saturated slices (init > 70%) | Claim 1 |
+| **H2 mechanism** — settle / Stage-B lock beats voting | `settle-lock acc(C3) > voteAcc(A3)`, and the gap moves with a Stage-A key change | `settle-lock acc(C3) ≤ voteAcc(A3)`; or an irrelevant change produces the same gap | Claim 2 |
 
 ---
 
@@ -333,21 +331,14 @@ non-robustness, not drift.
     transition evaluation 的职责。因此 Stage-B 目标切片**严格定义为非 settle 的余集** (item 13 的 112 题),
     settle-wrong 不退入 Stage B。之前 'activated ∩ Stage-A 错题' 的新口径作废。
 
-15. **Stage B 的双输出与两套正交评分 (2026-10-16).** Stage-B evaluator 的合法结论只有两类:
+15. **Stage B 的双输出与单一评分 (2026-10-16; revised 2026-10-26).** Stage-B evaluator 的合法结论只有两类:
     - `ANSWER: <X>` —— 从 transition 修剪中锁定一个候选答案;
     - `UNSURE` (abstain) —— 判定模型无法可靠锁定, 承认 '不会'.
-    相对 gold 的评分是**两个互不混算的正交维度** (仅离线, 用于验证 evaluator 是否带来增量价值):
+    相对 gold 的评分是**单一维度** (仅离线, 用于验证 evaluator 是否带来增量价值):
 
-    **维度 1 — 正常判分 (accuracy).** 与普通打分器一致, 只问对错: `ANSWER == gold` → correct;
+    **正常判分 (accuracy).** 与普通打分器一致, 只问对错: `ANSWER == gold` → correct;
     答错 或 abstain (未作答) 都记为 not-correct。
-
-    **维度 2 — metacognition (额外评估).** 独立于 accuracy, 评估 evaluator 能否从 activation 状态
-    识别出「模型 (在本题轨迹上) 没有正确答案」的元认知能力, 判据是 answer/abstain 行为是否匹配激活真值:
-    - **activated** (gold 出现过, 存在可锁的正确答案) → 期望输出 ANSWER (而非 UNSURE);
-    - **never** (gold 从未出现, 轨迹里没有正确答案) → 期望诚实输出 UNSURE (承认不会, 避免幻觉)。
-
-    两个维度单独报告: accuracy 反映锁答案的对错; metacognition 反映「是否识别出模型没答案」的能力,
-    后者正是纯 sampling (A3) 完全不具备、而 Stage B 独有的增量价值所在。
+    (metacognition 维度已删除 2026-10-26 — 诚实 UNSURE 暂无测量价值，见 §2.7。)
 
     Evaluator 架构 (两层, RSI 递归):
     1. **Evaluator 重构 prompt** (程序侧): 把 transition 视图 (candidates + commit 时间线 + rationale)
@@ -452,19 +443,19 @@ non-robustness, not drift.
 ### 8.2 阶段 6｜决策验证（对应 H3：锁定收益在同等条件下优于强基线）
 
 1. **固定分母公平对比**：在非 settle 余集（item 13 的 112 题，headroom 桶已排除 never）上，比 Stage-B 锁定 vs settle / mode / A3 强基线的 accuracy。
-2. **两套正交评分同时报告**（item 15）：accuracy（ANSWER 对错）+ metacognition（never 是否诚实 abstain）；后者是 A3 完全不具备、Stage B 独有的增量——这是 H3 决策价值的核心。
+2. **单一 accuracy 评分报告**（item 15）：accuracy（ANSWER 对错）。metacognition 维度已删除（2026-10-26，见 §2.7）。
 3. **以「beat mode」为验收判据**（item 7）：Stage B 只在非 mode 切片上运行，必须 beat 零成本 mode 才值得额外成本；同时报告样本量、不确定区间、token 成本。
 
 ### 8.3 阶段 7｜稳健性（边界）
 
-1. **跨条件复现**：12–15 模型、跨题型（启发自 §9 四方向题库），验证 H1–H3 是否仍成立。
+1. **跨条件复现**：12–15 模型、跨题型（启发自 §9 四方向题库），验证 H1–H2 是否仍成立。
 2. **成本-收益对照**：settle（零成本）vs Stage B（额外推理成本）的开销-收益曲线，确认「收益覆盖成本」。
 3. **失败案例清单**：主动搜集「settle-locked-wrong」「no-commit」「不一致 transition」最差分组的典型样本；明确结论对哪些模型 / 题型失效。
 4. **协议豁免**：glm 若无完整 rationale，先按 deepseek / qwen 推进，glm 修复的 token 需求以 Stage-B 对 rationale 的实际消费为准（item 16）。
 
-### 8.4 待定（候选，非本期提交）：confidence-only 对照臂
+### 8.4 待定（候选，非本期提交）：confidence-only 对照臂 — superseded 2026-10-26
 
-「仅自报置信度」这条简单解释（框架阶段 5.3 排他表一行）不进入 Claim 1–3（已由 A3 采样基线覆盖），只作为**元认知维度**（Stage B 的 answer / abstain 评分）的对照——需等 metacognition 评分定型后再设计，故留待 Phase 3 后半段另行拍板。
+「仅自报置信度」这条简单解释（框架阶段 5.3 排他表一行）原只作为**元认知维度**（Stage B 的 answer / abstain 评分）的对照。metacognition 维度已删除（2026-10-26，§2.7），故此臂随之一并作废。
 
 ---
 
@@ -561,6 +552,11 @@ The glm/qwen CoT-cap strategy (budget vs stem-truncation vs early-commit) needs 
 before generalization. deepseek non-settle is the first target, then glm/qwen.
 
 
+> **SUPERSEDED (2026-10-26).** The consistency-survival-chain lock below (c-weighted survival,
+> absorbing-chain lock rule) is the *earlier* Stage-B design, now replaced by the three-rubric judge +
+> elimination/mode lock (`rubric_cut` / `rubric_ce` / `rubric_v5`, PAPER_DRAFT §2.5, this doc §16).
+> Kept as historical record.
+
 **Consistency = probability (refinement, 2026-10-19).** The Stage-B consistency check is an
 LLM-judged probability c in [0,1] (not binary), matching the MC self-review's probabilistic framing.
 c weights each transition in the lock decision: c=1 reproduces today's mechanism (the self-report
@@ -631,6 +627,13 @@ moves to rule out"* — the wrong answer is excluded, not the right one selected
 
 Errors green-lit at review re-enter the bank, closing the loop. The evaluator only wakes on
 transition (the cheap-path decision) — it never reads the target round's CoT at rest.
+
+The three roles above are *evaluator-internal*. Distinct from them — and from the **solver** (generates
+candidates) and the **critic** (feedback: weak = diagnosis / strong = correction) — is the **scorer**, the
+final cross-arm grader `scorer_LLM_rescue` (T1 deterministic match → T2 LLM one-way FN rescue → T3 multi-LLM /
+human review). The scorer is the only runtime role that reads the gold at grade time and returns a
+truth-conditional correctness verdict; it reads only the committed final answer, never the CoT. Four separate
+calls: the solver generates, the critic feeds back, the evaluator locks, the scorer grades.
 
 ### 13.3 Related work (closest → farthest to the error-exclusion idea)
 
@@ -715,3 +718,248 @@ cross-model / cross-type expansion:
 
 - deepseek-first: single-model closure de-risks the mechanism before the cross-model × cross-type
   matrix explodes cost. Same discipline as §9.1: **run in segments, callback on failure.**
+
+## 15. Optimization direction — two levers on the EIR/ECR loop (2026-10-24)
+
+> Set 2026-10-24 (advisor discussion). The current-stage optimization objective is stated as **two
+> levers on the borrowed EIR/ECR feedback-control loop** (Liu & Meng 2026, arXiv:2604.22273, [37]),
+> read through the two-stage strategy (§2.1, §13.2). It is the metric-binding form of §14: each of
+> the two stages gets exactly one quantitative knob, and the two knobs target the two halves of the
+> single-account relation below.
+
+The one relation everything below optimizes is
+
+```
+final = init + corrected(ECR) − flipped(EIR),
+```
+
+read per-round on the two-state chain {Correct, Incorrect}. Iterating is beneficial only while
+`ECR/EIR > Acc/(1−Acc)`, with steady state `π* = ECR/(EIR+ECR)` and convergence `1−EIR−ECR` (§2.5).
+
+### 15.1 Lever 1 — lower EIR (contain the strong critic's misdirection)
+
+`strong critic` buys **activation** (it lifts `P_act` by perturbing the answer into regions where the
+correct answer becomes reachable), but that same perturbation is the direct source of **EIR** — it
+flips correct answers to wrong. The lever is therefore **not** "keep the critic weak" (which would
+shrink activation alongside), but **contain the EIR the critic introduces while preserving
+activation**:
+
+- allow non-zero EIR in the *front* (exploration) stage, then drive it toward the near-zero boundary
+  (≲0.5%, Liu & Meng's sharp degradation edge) by the *back* stage;
+- the target is the **conditional** EIR induced on correct rounds — the exact quantity that decides
+  the stability threshold — not the average flip rate.
+
+### 15.2 Lever 2 — suppress EIR (the evaluator reverts misdirection and locks activation)
+
+The evaluator (§13.2 review role) does **not** raise ECR — ECR is introduced by the critic alongside
+EIR (§2.3). The evaluator acts only on the EIR side of the chain, with two jobs:
+
+1. **Revert** — consume the critic's `check_procedure` + `evidence` over a transition's hidden CoT and
+   run a CUT re-verification, reverting a misdirected (wrong) transition to the prior correct answer.
+   This directly removes an EIR flip (the `flipped(EIR)` term).
+2. **Lock activation** — when the correct answer *has* already activated, lock it via CUT instead of
+   letting a later EIR event flip it again. Locking suppresses the EIR flip that would otherwise
+   discard a transient activation, turning it into a *held* one (lock-in, §2.4).
+
+### 15.3 How the two levers compose
+
+| Stage | Role | Knob | Target |
+|---|---|---|---|
+| front — strong critic | activate | introduce EIR + ECR at fixed activation | `P_act` ↑ (EIR contained) |
+| back — evaluator | suppress EIR | revert + lock | `ECR/EIR > Acc/(1−Acc)`, lock-in ↑ |
+
+The net gain is `final − init = corrected − flipped`; the objective is to make it **positive and
+stable** — to drive the loop into the stability region — rather than to maximize either stage in
+isolation. This is the direction against which the §14 deepseek-first EGTE ladder is evaluated.
+
+
+## 16. Stage-2 conclusion (2026-10-24) — evaluator combination space
+
+> The evaluator (§13.2 review role = Lever 2, §15.2) is not one strategy but a product of four
+> orthogonal decisions. Recorded here as the stage-2 conclusion: **keep every strategy variant,
+> optimize over the combination space later.** No strategy is discarded; each is pinned to its slot
+> in the four-way product below.
+
+| Dim | Decision | Options | Tested so far |
+|---|---|---|---|
+| 1 | **verdict signal** — what the judge outputs per transition | (a) 3-way judge `CUT/UNSURE/KEEP`; (b) conclusion-mismatch (`rubric_v5`); (c) pure-rationale `KEEP/CUT` | (a)=`rubric_cut`, (b)=`rubric_v5`; (c)=`rationale_cut` **dropped 2026-10-20** (too aggressive) |
+| 2 | **elimination direction** — which node a cut deletes | `CUT` = keep old / delete new; `KEEP` = keep new / delete old | direction bit wired in `_elimination_mode_lock` |
+| 3 | **final tally** — how surviving fragments vote | fragment-count `mode`; `directional` (endorse); `final`; `settle` | baseline = `mode`; rule B = `directional` (only one with a gain) |
+| 4 | **all-UNSURE fallback** — nothing survives | `mode` / `final` / `abstain` | `mode`/`final` wired; `abstain` = rule A (no gain) |
+
+### 16.1 Four-rule offline test (flip19, 2026-10-24)
+
+Rules A/B/C/D were replayed offline over the 19-task trajectory set (`/tmp/eval19/*_cotfix_*`), with
+the evaluator internals imported directly (`_elimination_mode_lock`, `_downgrade_revisits`,
+`_mode_answer`, `_switch_edges`, `_ans_fragments`) so the baseline reproduces exactly:
+
+| Rule | Change | Outcome |
+|---|---|---|
+| **A** | all-UNSURE → `abstain` | no gain |
+| **B** | `directional` tie-break promoted to primary tally (endorse) | **only gain** — C3 6/8 → 7/8 (repairs gpqa_163) |
+| **C** | null 口径 on the judge | wording-only, no score change |
+| **D** | `rubric_v5` relax backlink | **worse** — A3C3 6/7 → 5/7 |
+
+### 16.2 What rule B actually is
+
+Rule B is **not** a new deletion mechanism. Its CUT node-deletion logic is byte-identical to the
+baseline (a cut deletes the same node either way). The difference is only in **dim 3 (final tally)**:
+after cuts, the survivor is chosen by endorsement votes (`directional`) instead of fragment count
+(`mode`). This confirms the diagnosis that the gain lives in the *tally* dimension, not the
+*deletion* dimension — and it is a thin, single-question gain, so §16's combination space remains the
+binding optimization frontier rather than any single rule.
+
+
+## 17. Scale plan & answer-form generalization (2026-10-25)
+
+> Set 2026-10-25. Consolidates the question-count plan derived from the A/A2/A3/A3C3 ablation
+> contrast (this doc §2.2 / §5 / §16) into the stage-7 boundary decision, and states the
+> answer-form coverage needed to lift the EGTE claim above "MCQ letter trickery". Supersedes
+> §6.3's "≥ 100 hard questions" floor with a bucket-decomposed scale plan.
+
+### 17.1 The binding constraint is bucket size, not total count
+
+Stage B acts only on the `headroom` bucket (§2.4); `locked` never flips and `never` has no
+correct answer to lock. The ablation contrast shows the current bank is headroom-starved:
+
+- aime / bbh / mmlu_pro are saturated (`init > 80%`, `act ≈ fin`, §5.f3);
+- GPQA is the only discriminative set (`init ~76%`) and is itself half-saturated;
+- true Stage-B headroom ≈ 2–3 questions after the glm decontamination (§5.f4);
+- C-vs-A3 separation on deepseek×GPQA is 2–3 pp at n≈148 (sub-significant); rule B/D on
+  flip19 are ±1 question (noise at n=7/8, §16.1).
+
+Therefore stacking more saturated questions cannot raise discrimination: the plan must move the
+questions into a **non-saturated hard layer (`init` 30–50%)** so all three buckets have mass.
+
+### 17.2 Scale plan (three tiers)
+
+| Tier | Serves | Size | Rationale |
+|---|---|---|---|
+| mechanism / rule layer | rule A/B/C/D offline replay (offline smoke, §16) | 30–50 hard questions | enough to disambiguate `6/8→7/8`-grade rule changes |
+| decision / claim layer | Claims 1–3 paired contrasts (C vs A3; Stage-B before/after) | **300–500 per arm**, non-saturated hard layer | McNemar power (§17.3) |
+| robustness layer | cross-model × cross-type matrix | 3 models × 3–5 families × ≥100 | §14.3 / §14.4 replication |
+
+### 17.3 Power chain (paired McNemar)
+
+- detecting a `δ ≈ 5 pp` net gain needs ≈ 20–25 discordant pairs (α=0.05, power=0.8);
+- discordant pairs can only come from `headroom` (locked never flips; never is unreachable);
+- so `headroom` must reach ≥ 100–150 questions → at `init` 30–50% with headroom ≈ 15–25% the
+  non-saturated hard layer is **≥ 400–600 questions total**.
+
+Per §2.7 the final n is locked only after a 50-question pilot estimates bucket shares and the
+two-arm effect sizes (C vs A3; EIR pre-critic vs ECR post-evaluator) — not asserted a priori.
+
+### 17.4 Answer-form generalization (anti-"MCQ trickery")
+
+The EGTE claim must hold across answer forms, not exploit letter-answer structure. Coverage:
+
+| Answer form | Existing probe | Needed / planned |
+|---|---|---|
+| letter MCQ | gpqa / mmlu_pro / bbh-letter | HLE MC slice (~24%) |
+| integer / numeric | gsm8k / aime / math500 | retain |
+| symbolic / short-string exact-match | math500 (LaTeX) | **HLE exact-match (~76%) — the new discriminative axis** |
+| multi-step reasoning | aime / bbh chains | HLE math-heavy (~41%) |
+| free-form text / qualitative | FAB (deferred, §7.11) | Phase 3 |
+| code | HumanEval → SWE-bench | Phase 2 |
+| function-calling (JSON/AST) | bfcl | retained (non-text answer form) |
+| multimodal | — | HLE ~14% image subset — deferred (VLM rework) |
+
+The symbolic / short-string exact-match form is where the two discriminative rubric dimensions
+(`contradiction` +0.78, `error` +0.71) carry the strongest signal — structure-level errors
+(dropped term, wrong sign, wrong exponent) — so the generalization test is expected to
+*strengthen* rather than dilute the `rubric_ce` gate (score = max(contradiction, error)).
+
+> **Scoring caveat — fuzzy / partially-correct answers (flagged for future analysis).** The
+> exact-match scorer systematically *under-counts* semantically-correct free-form answers that are
+> not a verbatim string match to `gold` (already observed on HLE, e.g. set-valued / unordered
+> `gold` such as `'2, 4, 5'` vs a candidate `'1,2,4,5'` or `'4,5'`, or `(r,t)`-style tuples), so
+> open-form acc is a lower bound on true correctness. This — and the broader
+> **partially-correct** grading question for complex text — is a **future-analysis problem to
+> resolve**, *not* a Phase-2 deliverable: keep exact match here, and defer a
+> fuzzy / partially-correct rubric to the complex-text slice.
+
+### 17.5 Token constraint (no FAB-style blowup)
+
+FAB's token blowup (50–80K/question; and the INT-20 GPQA tool-leak ~29M/run, see
+`TASK_FAMILY_TAXONOMY.md`) is an **L2 open-book agent artifact** (tool calls + retrieval +
+multi-round), NOT a difficulty artifact. HLE and the existing L1 sets are closed-book
+single-call QA; they stay within `REASONING_BENCH_MAX_TOKENS = 8192` per question. Two residual
+risks to meter before scaling:
+
+1. **deep-reasoning CoT length on HLE** — hard symbolic questions may outgrow 8192 (the same
+   length-truncation class that suppressed C pre-fix, §14.1); raise the cap only where proven,
+   not globally.
+2. **multimodal image tokens** — excluded in the first text-only pass (§17.4).
+
+The true next-scale blowup sources are code (SWE-bench ~150K) and web (30–100K), which are
+tool-native and remain Phase-2/3 — they must not leak into the closed-book L1 slice (INT-20).
+
+---
+
+## 18. Running plan: fixed strong-critic + evaluator stack on HLE (2026-10-25)
+
+> Set 2026-10-25. Freezes the operational strategy and pins the next slice to a
+> *non-saturated hard layer* sourced from HLE, so the EGTE claim is validated on open answer
+> forms rather than letter-option structure. This is the execution guide that follows from §17;
+> it does not re-open the scale question already settled there.
+
+### 18.1 Frozen stack (what is NOT varied in this slice)
+
+The next slice fixes everything except the treatment contrast, so any residual gain is
+attributable to EGTE and not to hyperparameter drift:
+
+- **Front (in-loop) = strong critic.** Diverges the EIR source by activation; no gold, and it
+  necessarily activates *both* correct and wrong candidates (the meta-doubt posture). Temperature
+  / sampling follow the frozen A3 spec for the vote baseline only.
+- **Back (offline) = evaluator, fixed on `rubric_ce`** — `score = max(contradiction, error)`;
+  `rubric_cut` frozen as the reference gate (§7 item 15 abstain metacognition). The evaluator is
+  **never run in-loop** (offline lock, per the standing constraint).
+- **No rule search, no arm sweep** in this slice. Rule A/B/C/D replay (§16) stays an offline
+  smoke test; the decision layer answers Claims 1–3 (§2.7) with the fixed stack only.
+
+### 18.2 Generalization argument (why this is NOT "MCQ letter trickery")
+
+Three points, to be stated explicitly in the paper rather than left implicit:
+
+1. **The mechanism is semantic, not format-level.** The two high-signal rubric dimensions
+   `contradiction` (+0.78) and `error` (+0.71) detect **structure-level** errors — dropped term,
+   wrong sign, wrong exponent/unit, reasoning jump. These are the *same* inspectable evidence
+   across letter-MCQ / integer / symbolic short-string; none of them depends on guessing a letter.
+2. **Open forms are required to isolate attribution.** A3 (self-consistency majority vote) is
+   naturally effective on discrete options. If EGTE only beats the baseline on MCQ, a reviewer can
+   attribute the win to voting, not to the mechanism. AIME integer, MATH-500 / HLE exact-match,
+   and code pass@k have **no options to guess and majority vote collapses**; there, any residual
+   gain must come from the critic/evaluator evidence chain — that is the attribution control.
+3. **The cross-type matrix is the robustness layer (§17.2).** 3 models × 3–5 families × ≥100
+   proves the gain is not bound to a single answer form.
+
+Consequence: the generalization test is expected to **strengthen** `rubric_ce`, not dilute it,
+because open forms load more mass onto the exactly-two diagnostic dimensions (§17.4).
+
+### 18.3 Answer-form → experiment map
+
+| Answer form | What it isolates | Priority (this slice) | Source |
+|---|---|---|---|
+| symbolic / short-string exact-match | structure errors independent of options | **P0 — new discriminative axis** | HLE exact-match (~76%) + MATH-500 |
+| integer / numeric | open form, vote collapse | P1 | AIME (retain as validation) |
+| multi-step reasoning (math-heavy) | chain-level contradiction / error | P1 | HLE (~41% math) + BBH chains |
+| letter MCQ | baseline / cross-check vs A3 vote | P2 | GPQA + HLE MC (~24%) |
+| function-calling JSON/AST | non-text answer form | P3 (non-goal now) | BFCL |
+| free-form text / code / multimodal | deferred | Phase 2–3 | FAB / SWE-bench / HLE-image |
+
+The P0/P1 rows are the only ones that can move the headroom-bucket needle (§17.1); P2 cross-checks
+against the voting explanation, P3 is out of scope for this slice.
+
+### 18.4 HLE validation — immediate next steps
+
+1. **Obtain / authorise `cais/hle` text-only slice**; defer the ~14% image subset (VLM rework).
+2. **Write the exact-match normalisation scorer** for symbolic / short-string answers (whitespace,
+   symbol, unit, LaTeX-canonicalisation; no LLM in the loop).
+3. **50-question stratified pilot** sampled per answer form; measure per-question `init` to confirm
+   the bank lands in the non-saturated hard layer (`init` 30–50%, §17.1) — not saturated like
+   aime / bbh / mmlu_pro (§5.f3).
+4. **Run the fixed stack** (strong critic → `rubric_ce` offline evaluator) on the pilot; report
+   headroom share and the two-arm effect sizes (C vs A3; EIR pre-critic vs ECR post-evaluator)
+   *before* locking the final n (§17.3).
+5. **Meter the two residual token risks** (§17.5): monitor `finish_reason=length` on hard symbolic
+   CoT vs 8192, and keep image tokens excluded.

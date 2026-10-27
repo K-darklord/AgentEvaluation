@@ -1,0 +1,40 @@
+{
+  "run_id": "feedback_loop_C3_flip19_new_20261022",
+  "arm": "C3",
+  "family_filter": null,
+  "task_set": "new",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "transition",
+  "seed": null,
+  "n_tasks": 9,
+  "concurrency": 2,
+  "models": {
+    "deepseek-v4-flash": {
+      "model_id": "deepseek-v4-flash-0731",
+      "init_accuracy": 0.6667,
+      "final_accuracy": 0.7778,
+      "end_state_distribution": {
+        "1": 2,
+        "2": 2,
+        "3": 2,
+        "4": 3
+      },
+      "l3_activation_rate": 1.0,
+      "l3_reversibility_rate": 1.0,
+      "l4_lock_rate": 0.3333,
+      "l4_misled_rate": 0.3333,
+      "avg_rounds": 5.22,
+      "total_prompt_tokens": 26720,
+      "total_completion_tokens": 376983,
+      "total_reasoning_tokens": 376466,
+      "total_rationale_prompt_tokens": 10081,
+      "total_rationale_completion_tokens": 39438,
+      "total_rationale_reasoning_tokens": 38066
+    }
+  }
+}

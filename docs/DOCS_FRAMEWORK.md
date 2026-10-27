@@ -1,4 +1,4 @@
-# Document System (Version 0.7)
+# Document System (Version 0.9)
 
 > **Scope**: defines *which* documents exist, their register, how they are versioned, and how they map to the paper and code. It is itself part of the living-document system.
 >
@@ -36,7 +36,9 @@ Information was scattered across two places and has now been unified into this r
 | **INTERFERENCE_CAUSAL_TABLE.md** | academic (evidence) | INT-01…16 interference causal status | `docs/INTERFERENCE_CAUSAL_TABLE.md` |
 | **EXPERIMENT_LOG.md** | academic (evidence) | per-run evidence index (config/seed/model/status/commit) | `docs/EXPERIMENT_LOG.md` |
 | **WORKMAP.md** | academic | frontier literature map + proposal gap (52 sources; EGTE re-anchored) | `docs/WORKMAP.md` |
+| **manuscript draft** | academic | full manuscript draft (EGTE definition, roles, objective, arms, scoring standard, results, research questions) | `docs/PAPER_DRAFT.md` |
 | **paper skeleton** | academic | manuscript skeleton + three contribution claims + figure/table placeholders | `paper/paper_outline.md` |
+| **paper deck** | academic | slide content & layout (P1–P8), aligned to the outline + draft | `paper/paper_ppt.md` |
 | **data registry** | academic | dataset version / source / sha256 / license | `data/README.md` (to create) |
 | **ARCHITECTURE.md** | academic (implementation) | code-architecture blueprint for the experiment-execution layer, sized to the Phase-3 workload | `docs/ARCHITECTURE.md` |
 | **ablation matrix** | academic | ablations (rule out alternative explanations) | `configs/ablation/` (to create) |
@@ -117,3 +119,4 @@ claim (paper) → experiment-log record → config + seed → raw trajectories �
 | 0.5 | 2026-10-05 | EVALUATION_STANDARD re-scoped to 3-tier; added ERROR_TAXONOMY.md to the inventory; INTERFERENCE_CAUSAL_TABLE range extended to INT-16. |
 | 0.7 | 2026-10-07 | Registered FILE_AUDIT.md (file-audit & doc-sync playbook) in the process-logs register. |
 | 0.8 | 2026-10-21 | Re-anchored WORKMAP (52 sources) and registered PHASE2_SUMMARY.md; named the mechanism Error-Guided Test-Time Elimination (EGTE). |
+| 0.9 | 2026-10-27 | Registered `docs/PAPER_DRAFT.md` (manuscript draft) and `paper/paper_ppt.md` (slide deck); fixed stale header version (0.7 → 0.9). |

@@ -1,0 +1,74 @@
+{
+  "version": "l2_l3_pilot_v2",
+  "family": "aime",
+  "solver_model": "deepseek-v4-flash",
+  "merge_model": "deepseek-v4-flash-0731",
+  "n_instances": 3,
+  "dropped_contamination": [],
+  "n_classes": 3,
+  "archetypes": {
+    "constraint_blind": "constraint-blind decimation",
+    "descriptor_conflation": "descriptor/label conflation",
+    "memory_substitution": "memorized-fact substitution",
+    "procedure_truncation": "procedure truncation / omission",
+    "sign_normalization_slip": "sign / normalization slip",
+    "retrieval_abort": "retrieval-abort",
+    "format_nonconformance": "format / precision non-conformance"
+  },
+  "classes": [
+    {
+      "class_label": "endpoint_mislabeling",
+      "mechanism": "constructing auxiliary lines by connecting each vertex to division points on the wrong sides (those adjacent to the vertex) rather than the opposite sides, then deriving the target shape from those misdrawn lines",
+      "check_procedure": "verify for each vertex that the connecting line terminates on the side directly opposite the vertex, not an adjacent side, by re-parameterizing the division points and recomputing all intersections; a mismatch in the resulting enclosed shape signals the mislabeling",
+      "trigger": "question type: geometric construction involving division points on a square; committed answer: a square whose boundary lines come from near-side connections",
+      "members": [
+        "M2"
+      ],
+      "member_tasks": [
+        "aime_033"
+      ],
+      "level3": {
+        "archetype_id": "descriptor_conflation",
+        "archetype_name": "descriptor/label conflation",
+        "rationale": "Swaps the required opposite-side division points for adjacent-side division points when constructing auxiliary lines, conflating two distinct geometric relationships.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "fractional_part_zero_omission",
+      "mechanism": "decomposing the variable into integer and fractional parts and enumerating floor-sum values only for strictly fractional parts, thereby omitting the boundary case where the fractional part is zero and the variable is an integer",
+      "check_procedure": "split the domain into the strictly fractional case and the integer case, compute the floor-sum separately for each, and verify the union of all produced values; if any value class appears only in the integer case, the original enumeration was incomplete",
+      "trigger": "question type: sum of floor expressions over a real variable decomposed into integer and fractional parts; committed answer: a value set derived without the integer-x case",
+      "members": [
+        "M3"
+      ],
+      "member_tasks": [
+        "aime_039"
+      ],
+      "level3": {
+        "archetype_id": "procedure_truncation",
+        "archetype_name": "procedure truncation / omission",
+        "rationale": "Omits the integer boundary case (fractional part zero) from the floor-sum enumeration, truncating the required all-cases procedure.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "superficial_prime_divisibility",
+      "mechanism": "determining prime divisibility of a binomial coefficient by inspecting factorial factors at face value and selecting the largest prime whose multiples appear not fully canceled, instead of applying the correct p-adic valuation rule to compute actual exponents",
+      "check_procedure": "recompute the divisibility using the standard valuation formula for each prime in the factorial range, then compare the resulting set of dividing primes against the primes identified by the face-value inspection; any discrepancy indicates the superficial method was used",
+      "trigger": "question type: prime divisibility of a binomial coefficient; committed answer: a largest prime selected by superficial factor cancellation",
+      "members": [
+        "M1"
+      ],
+      "member_tasks": [
+        "aime_008"
+      ],
+      "level3": {
+        "archetype_id": "procedure_truncation",
+        "archetype_name": "procedure truncation / omission",
+        "rationale": "It omits the required p-adic valuation exponent calculation and substitutes a superficial factorial-multiple inspection.",
+        "parse_ok": true
+      }
+    }
+  ]
+}

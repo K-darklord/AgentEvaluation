@@ -1,0 +1,272 @@
+{
+  "version": "level3_bank_v2",
+  "family": "cross",
+  "solver_model": "deepseek-v4-flash",
+  "n_entries": 24,
+  "entries": [
+    {
+      "id": "constraint_blind",
+      "name": "constraint-blind decimation",
+      "definition": "assigned a high-symmetry or stereochemical descriptor from 2D connectivity constraints while discounting non-planar conformers, chelation, and approach-geometry effects",
+      "trigger": "Question asks to assign a point group or relative stereochemistry to a product; committed answer is a high-symmetry assignment or a trans/anti relationship justified only by internal mirror-plane pairing or a face-opposite assumption.",
+      "check_procedure": "For the same connectivity, mentally test at least one non-planar conformer or opposite approach geometry; if the point group or descriptor set changes between conformers/trajectories, the symmetry-only reasoning is invalid; also flag any trans/anti assignment justified solely by face-opposite additions without conformational evaluation.",
+      "examples": [
+        "A product's point group or relative configuration was inferred solely from a drawn planar skeleton's internal mirror-plane pairing, without testing a non-planar conformer or an opposite attacking trajectory that would have switched the descriptor."
+      ],
+      "family": "gpqa"
+    },
+    {
+      "id": "descriptor_conflation",
+      "name": "descriptor/label conflation",
+      "definition": "conflated square-bracket abundance notation with a reference-normalized absolute scale, subtracting reference absolute abundances instead of applying the logarithmic definition of the bracket ratio",
+      "trigger": "Question gives bracketed [X/Y] abundances and absolute hydrogen-normalized solar abundances; committed answer cancels solar values to obtain a solar-relative result.",
+      "check_procedure": "Write out the bracket notation definition: [X/Y] equals log10 of the ratio of X-abundance to Y-abundance normalized to solar ratio; apply that definition algebraically to convert given bracket values into absolute abundances without canceling the solar values; compare with the answer produced by subtraction.",
+      "examples": [
+        "Given a stellar abundance table with values in square-bracket notation relative to a reference standard, and a listing of the reference standard's absolute abundances, the solver erroneously subtracts the reference absolute abundances from the bracket values, rather than applying the logarithmic definition of square-bracket notation to recover the star's true absolute abundances."
+      ],
+      "family": "gpqa"
+    },
+    {
+      "id": "procedure_truncation",
+      "name": "procedure truncation / omission",
+      "definition": "assigned locants to symmetry-equivalent substituents without applying the standard tie-breaking rules",
+      "trigger": "Question requires naming or interpreting a ring structure with multiple identical substituents whose positions could be permuted; committed answer fixes one arbitrary arrangement and does not mention ambiguity or apply tie-breaking.",
+      "check_procedure": "When two or more substituent sets are symmetry-equivalent, apply the standard locant rules (lowest set of locants, lowest locant at first point of difference, alphabetical order) to the complete set of substituent names; reorder the entire name and see if the arbitrary assignment violates these rules.",
+      "examples": [
+        "A question asks for the name of a ring bearing several identical groups; the solver selects one arrangement by personal preference and neglects to check whether a lower locant set exists, thus omitting the required lowest-locant convention."
+      ],
+      "family": "gpqa"
+    },
+    {
+      "id": "retrieval_abort",
+      "name": "retrieval-abort",
+      "definition": "abandoned the stepwise derivation and emitted a retrieval-miss statement in response to a multi-step synthesis query",
+      "trigger": "Question presents a multi-step synthesis or reaction sequence; committed answer is a refusal or retrieval-miss statement rather than a derived product.",
+      "check_procedure": "If retrieval yields no exact match, re-derive the product or property from the given reactants and elementary reaction rules; verify that every step is a legitimate transformation, rather than outputting a statement about missing documents.",
+      "examples": [
+        "Given a multi-step reaction sequence, the model stated that no matching document was found in its memory instead of deriving the final product from the given reactants and standard reaction rules."
+      ],
+      "family": "gpqa"
+    },
+    {
+      "id": "constraint_blind",
+      "name": "constraint-blind decimation",
+      "definition": "mistaken the mono-addition product for the final condensation product, discounting additional equivalent reactive sites that yield a symmetric higher-symmetry species",
+      "trigger": "Question asks for the point group of a condensation/alkylation product from a reagent with multiple equivalent alpha or nucleophilic sites; committed answer gives the mono-adduct point group with only one mirror plane.",
+      "check_procedure": "List all equivalent reactive positions in the starting material; for each possible number of additions, predict the product and its point group; if a symmetric multi-adduct is accessible, compare its symmetry to the mono-adduct and check which one the question's conditions (stoichiometry/base) favor.",
+      "examples": [
+        "A question asks for the point group of the product formed when a symmetric reagent with two equivalent nucleophilic centers reacts with a dihalide under conditions that favor exhaustive alkylation. The solver identified only the mono-alkylated adduct, which has a single mirror plane, and chose that point group, ignoring the di-adduct with additional symmetry elements."
+      ],
+      "family": "gpqa"
+    },
+    {
+      "id": "descriptor_conflation",
+      "name": "descriptor/label conflation",
+      "definition": "conflated thermodynamic favorability with kinetic rate",
+      "trigger": "Question compares reaction rates in two media with different pH or redox potentials; committed answer selects the medium with more favorable thermodynamics/acidity as faster.",
+      "check_procedure": "Separate thermodynamic from kinetic reasoning for the compared media: ask whether the rate-determining step's barrier is actually lower in the medium with the more favorable potential/acidity; if not, the faster medium may differ; check known kinetic effects such as overpotential and activation energy rather than only equilibrium potentials.",
+      "examples": [
+        "A question compares reaction rates in two media, one having a more favorable redox potential or acidity. The committed answer selects that medium as faster solely because of its thermodynamics, ignoring that the rate-determining step's activation barrier may be higher there and that kinetic overpotential or other kinetic factors can reverse the order."
+      ],
+      "family": "gpqa"
+    },
+    {
+      "id": "procedure_truncation",
+      "name": "procedure truncation / omission",
+      "definition": "violated the conservation of unsaturation by assigning all residual π-bonds to exocyclic alkylidene substituents on a saturated new ring",
+      "trigger": "Question asks for the product structure of a thermally initiated cyclization of a diyne or conjugated diyne; committed answer shows a saturated new ring with all double bonds outside the ring.",
+      "check_procedure": "Count the number of degrees of unsaturation in the reactant (sum of rings + pi bonds) and in the proposed product; for a cyclization that consumes pi bonds to form a sigma bond, the remaining pi bonds should appear as a ring endocyclic double bond or appropriate unsaturation; verify that the product's degree-of-unsaturation equals the reactant's minus one for each new ring or is otherwise conserved.",
+      "examples": [
+        "In a thermally initiated cyclization of a conjugated polyyne, the proposed product showed a newly formed saturated ring with every remaining double bond placed as an external alkylidene group, while the reactant's total unsaturation was not accounted for in the ring structure."
+      ],
+      "family": "gpqa"
+    },
+    {
+      "id": "descriptor_conflation",
+      "name": "descriptor/label conflation",
+      "definition": "constructed the target shape from auxiliary lines drawn to adjacent division points instead of opposite ones",
+      "trigger": "question type: geometric construction involving division points on a square; committed answer: a square whose boundary lines come from near-side connections",
+      "check_procedure": "verify for each vertex that the connecting line terminates on the side directly opposite the vertex, not an adjacent side, by re-parameterizing the division points and recomputing all intersections; a mismatch in the resulting enclosed shape signals the mislabeling",
+      "examples": [
+        "In a geometric problem involving division points on a regular quadrilateral, drew connecting lines from each vertex to the division points on the neighboring sides rather than the far side, then derived the enclosed figure from those incorrect lines."
+      ],
+      "family": "aime"
+    },
+    {
+      "id": "procedure_truncation",
+      "name": "procedure truncation / omission",
+      "definition": "omitted the integer-domain boundary case when decomposing a real variable into integer and fractional parts for a floor-sum enumeration",
+      "trigger": "question type: sum of floor expressions over a real variable decomposed into integer and fractional parts; committed answer: a value set derived without the integer-x case",
+      "check_procedure": "split the domain into the strictly fractional case and the integer case, compute the floor-sum separately for each, and verify the union of all produced values; if any value class appears only in the integer case, the original enumeration was incomplete",
+      "examples": [
+        "summing floor expressions over a real variable decomposed into integer and fractional parts, then enumerating only the strictly fractional case while omitting the case where the fractional part is zero"
+      ],
+      "family": "aime"
+    },
+    {
+      "id": "procedure_truncation",
+      "name": "procedure truncation / omission",
+      "definition": "truncated the divisibility determination by relying on superficial factorial-factor cancellation instead of computing complete prime exponents via the standard valuation rule",
+      "trigger": "question type: prime divisibility of a binomial coefficient; committed answer: a largest prime selected by superficial factor cancellation",
+      "check_procedure": "recompute the divisibility using the standard valuation formula for each prime in the factorial range, then compare the resulting set of dividing primes against the primes identified by the face-value inspection; any discrepancy indicates the superficial method was used",
+      "examples": [
+        "For a question about prime divisibility of a binomial coefficient, identified the largest prime whose contributing multiples seemed incompletely canceled and concluded it divides the coefficient, omitting the exact exponent calculation for every prime in the relevant factorial range."
+      ],
+      "family": "aime"
+    },
+    {
+      "id": "descriptor_conflation",
+      "name": "descriptor/label conflation",
+      "definition": "conflated the surface label of a changed token with its semantic role in context",
+      "trigger": "question requires classifying a translation or entity error; committed answer picks a category that matches the changed token's surface type (e.g., proper-noun entity, geographical term, taxon-like capitalized term) without checking semantic function",
+      "check_procedure": "Ask whether the source and target tokens differ in their actual referent or only in grammatical modification; if the changed token is an attributive modifier, a general class/rank designation, or a semantically unrelated but valid word, reclassify based on the resulting factual/class meaning, not the token's surface appearance",
+      "examples": [
+        "A sentence contains a word that functions as an attributive modifier but appears capitalized like a proper noun; when the word is mistranslated, the error is labeled as an entity-name substitution, not as a descriptor error, because the category was chosen from the token's appearance rather than its grammatical role."
+      ],
+      "family": "bbh"
+    },
+    {
+      "id": "constraint_blind",
+      "name": "constraint-blind decimation",
+      "definition": "validated the target category using only a single local property, omitting the full set of required structural conditions",
+      "trigger": "question presents a closed SVG path and asks to identify or prove a quadrilateral type; committed answer selects a perpendicular-based shape without demonstrating complete structural verification",
+      "check_procedure": "Compare the chosen shape's defining conditions against the full path: verify that every required side relationship and angle condition is independently satisfied, rather than inferred from a single dot product or adjacent edge pair",
+      "examples": [
+        "A question provides a closed polygonal path and asks to identify its type; the response selects a perpendicular-driven category while failing to verify the remaining edge relationships and angle closures required for that category."
+      ],
+      "family": "bbh"
+    },
+    {
+      "id": "procedure_truncation",
+      "name": "procedure truncation / omission",
+      "definition": "omitted required composite parameters from the invoked computational utility, substituting a rewritten expression and scalar values instead",
+      "trigger": "question type: mathematical computation utility call with multiple required parameters; committed answer: call contains only a rewritten expression plus a few scalars and leaves out other required fields.",
+      "check_procedure": "Enumerate every required parameter in the schema and verify each is present and has the required composite type (e.g., dual representations or list-wrapped values); flag any syntactic rewriting of expressions or omitted numeric parameters.",
+      "examples": [
+        "A question requiring a multi-parameter computational lookup was answered with a call that passed only a rephrased argument and a couple of numeric scalars, leaving out mandatory structured fields such as evaluation points and dual representations."
+      ],
+      "family": "bfcl"
+    },
+    {
+      "id": "descriptor_conflation",
+      "name": "descriptor/label conflation",
+      "definition": "conflated the dot-separated namespace with an underscore character",
+      "trigger": "question type: any tool/function call whose target name is namespaced with dots; committed answer: emitted call uses an underscore-joined name while the payload arguments are otherwise unchanged.",
+      "check_procedure": "Inspect every emitted tool/function name against the schema's dotted namespace pattern; verify whether any underscore appears where a dot separator is declared and whether the canonical dotted name would match a registered function, without comparing to any answer choice.",
+      "examples": [
+        "Invoked the target operation using an underscore-joined identifier instead of the registered dot-separated name, with the parameter list otherwise intact."
+      ],
+      "family": "bfcl"
+    },
+    {
+      "id": "format_nonconformance",
+      "name": "format / precision non-conformance",
+      "definition": "formatted the tool call as a generic envelope containing a stringified argument payload instead of exposing the schema-required structured argument object keyed by parameter names",
+      "trigger": "question type: function calling with nested structured arguments; committed answer: a single envelope containing a stringified JSON payload.",
+      "check_procedure": "Parse the emitted call's top-level structure; confirm whether each schema-required parameter appears as its own field in an object, or whether all arguments are collapsed into a single serialized string inside a generic envelope; no correct choice is referenced.",
+      "examples": [
+        "When a tool expected separate arguments for location and unit, the assistant emitted a single call with a serialized JSON blob inside a generic wrapper, leaving no parseable parameter fields."
+      ],
+      "family": "bfcl"
+    },
+    {
+      "id": "procedure_truncation",
+      "name": "procedure truncation / omission",
+      "definition": "omitted the preliminary degree comparison and applied the leading-coefficient ratio to a rational function with a lower-degree numerator",
+      "trigger": "Question type: finding the horizontal asymptote of a rational function with numerator degree lower than denominator. Committed answer: a non-zero value based on leading coefficient ratio plus denominator root sum.",
+      "check_procedure": "Compare the degrees of the numerator and denominator; if the numerator degree is lower, state the asymptote as zero; if equal, use the leading coefficient ratio; if higher, there is no finite horizontal asymptote.",
+      "examples": [
+        "On a rational function question asking for the horizontal asymptote, the numerator's degree was lower than the denominator's, yet the reported asymptote was a nonzero constant derived from the leading coefficients plus the denominator's root sum."
+      ],
+      "family": "math500"
+    },
+    {
+      "id": "procedure_truncation",
+      "name": "procedure truncation / omission",
+      "definition": "performed fraction subtractions without common denominators and extrapolated from non-constant finite differences",
+      "trigger": "Question type: recovering a missing term from a sequence of rational numbers via finite differences. Committed answer: a value derived from non-constant or incorrectly computed differences.",
+      "check_procedure": "Recompute every fractional subtraction with a common denominator, verify that the first, second, and higher-order differences are constant, and only then extrapolate to the requested value.",
+      "examples": [
+        "Given a sequence of rational numbers, constructed a finite-difference table by subtracting fractions without finding common denominators, then used the resulting differences to estimate a missing term without confirming that higher-order differences remain constant."
+      ],
+      "family": "math500"
+    },
+    {
+      "id": "procedure_truncation",
+      "name": "procedure truncation / omission",
+      "definition": "omitted the required halving of the supplement by ignoring the isosceles equal-base-angle condition",
+      "trigger": "Question type: triangle angle problem involving an isosceles triangle and an exterior angle. Committed answer: the raw supplement of the exterior angle rather than the half-supplement base angle.",
+      "check_procedure": "Identify which sides are equal, determine which angle is the base angle, and derive the requested angle from the fact that the base angles are equal and sum to the supplement, not by taking the supplement directly.",
+      "examples": [
+        "In a triangle with two equal sides, an exterior angle is given, and the task is to find one of the base angles. The response presented the supplement of the exterior angle directly, without dividing by two to account for the equal base angles."
+      ],
+      "family": "math500"
+    },
+    {
+      "id": "procedure_truncation",
+      "name": "procedure truncation / omission",
+      "definition": "truncated the enumeration of possible parenthesizations of an arithmetic expression by relying on a single default operator precedence order, thereby omitting alternative groupings that yield other values.",
+      "trigger": "Question type: counting distinct results of an arithmetic expression with insertable parentheses. Committed answer: a single value (count of 1) instead of a set of possible values.",
+      "check_procedure": "For the given set of numbers and operations, enumerate every possible parenthesization and compute the resulting value; if multiple distinct values are obtained, report the count, not a single value.",
+      "examples": [
+        "For an arithmetic task that asks how many different results can be produced by inserting parentheses in any positions, the solution returned a single value based on the conventional order of operations rather than exploring all valid group arrangements and counting the unique outcomes."
+      ],
+      "family": "math500"
+    },
+    {
+      "id": "constraint_blind",
+      "name": "constraint-blind decimation",
+      "definition": "misaligned the constructed vector components with the corresponding radical terms prior to applying the triangle inequality",
+      "trigger": "Question type: bounding the sum of radicals by interpreting them as Euclidean norms. Committed answer: a bound obtained from a vector sum whose components are inconsistent with the radicals.",
+      "check_procedure": "Complete the square for each radical to obtain the correct vector components, explicitly verify that the constructed vectors sum to the fixed point, and only then apply the triangle inequality to that true sum.",
+      "examples": [
+        "In an exercise requiring a bound on the sum of two radical expressions by interpreting each as a vector norm, one vector was built incorrectly: a component extracted from a different radical replaced the correct affine component obtained from completing the square, so the vector sum no longer equaled the target expression, yet the triangle inequality was applied to the untrue sum."
+      ],
+      "family": "math500"
+    },
+    {
+      "id": "constraint_blind",
+      "name": "constraint-blind decimation",
+      "definition": "selected by one salient keyword or intuitive category feeling, ignoring the full explicit constraint list",
+      "trigger": "question type: categorical or exception-selection multiple-choice; committed answer: one whose justification refers to a single salient phrase or to an intuitive 'belongs/doesn't belong' feeling",
+      "check_procedure": "List all criteria explicitly given in the prompt and check each option item against that full list; if the choice was defended by one salient word or by personal intuition about category membership, test the remaining options against every stated qualifier.",
+      "examples": [
+        "In a multiple-choice question requiring selection of all items that satisfy several explicit conditions, a solver picked the first item that matched an obvious phrase and stopped, without checking the remaining options against all qualifiers."
+      ],
+      "family": "mmlu_pro"
+    },
+    {
+      "id": "procedure_truncation",
+      "name": "procedure truncation / omission",
+      "definition": "omitted a fixed additive component or an intermediate transformation stage when computing a multi-component annual cost or pass-through income",
+      "trigger": "question type: multi-component cost/tax computation with several figures; committed answer: a numeric result obtained from a formula that contains only the percentage-of-difference term or only the final-stage rate",
+      "check_procedure": "Rewrite the calculation as an explicit model with every input component named; confirm that all additive constants and all intermediate transformation stages from the problem statement appear in the formula before solving.",
+      "examples": [
+        "In a multi-stage tax computation where income passes through several brackets with a base amount added at each stage, the solver wrote an equation using only the final marginal rate and excluded the base amounts and prior rates, then produced a result from that incomplete formula."
+      ],
+      "family": "mmlu_pro"
+    },
+    {
+      "id": "descriptor_conflation",
+      "name": "descriptor/label conflation",
+      "definition": "conflated the relevant short-run cost floor with a broader cost measure that includes sunk or unavoidable overhead",
+      "trigger": "question type: short-run pricing or shutdown decision; committed answer: a minimum output price equal to the sum of direct and overhead costs",
+      "check_procedure": "For any minimum-price or cost-coverage condition, ask whether the problem specifies a short-run horizon; if so, test whether the computed threshold would change when only variable/avoidable costs are counted, and verify whether fixed overhead is sunk.",
+      "examples": [
+        "Set a minimum acceptable price for a special, one-time order by summing variable production expenses with a fixed overhead allocation, without recognizing that the overhead would persist regardless of whether the order is accepted."
+      ],
+      "family": "mmlu_pro"
+    },
+    {
+      "id": "format_nonconformance",
+      "name": "format / precision non-conformance",
+      "definition": "substituted a description of the blanks' semantic roles for an explicit selection among the offered complete option tuples",
+      "trigger": "question type: multiple-choice with fill-in-the-blank option tuples; committed answer: a textual description of blank roles rather than a tuple selection",
+      "check_procedure": "After drafting the answer, verify whether it actually selects among the presented tuples; ask whether a checkbox or an option indicator is explicitly chosen, rather than merely describing the blanks' meanings.",
+      "examples": [
+        "In a multiple-choice fill-in-the-blank item, the response explained what type of word each blank should contain (e.g., 'first blank is the subject, second blank is the predicate') instead of choosing one of the provided complete option tuples."
+      ],
+      "family": "mmlu_pro"
+    }
+  ]
+}

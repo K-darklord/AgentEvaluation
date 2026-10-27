@@ -40,7 +40,7 @@ from src.evaluator import (  # noqa: E402
     _strip_math_noise,
     resolve_commit,
 )
-from src.run_feedback_loop import _transition_committed_integer  # noqa: E402
+from src.run_feedback_loop import _transition_committed_integer, _norm_ans  # noqa: E402
 from src.build_weak_critic import LEAF_PHRASE  # noqa: E402
 
 EARLY_STOP_N = 3  # same trigger as run_feedback_loop
@@ -105,6 +105,21 @@ def _family_key(family, gold, answer, reasoning="", finish_reason=""):
     if family == "mmlu_pro":
         v, src = resolve_commit(a, reasoning, "letter", "ABCDEFGHIJ", truncated=truncated)
         return ("letter", v), src
+    if family == "hle":
+        # Mirror run_feedback_loop._early_stop_key hle branch EXACTLY so the transition
+        # view reproduces the runtime committed keys. multipleChoice -> option letter;
+        # integer gold -> clean integer commit; symbol/word/text -> normalized raw string.
+        g = str(gold or "").strip()
+        if re.fullmatch(r"\(?([A-E])\)?", g):
+            v, src = resolve_commit(a, reasoning, "letter", "ABCDE", truncated=truncated)
+            return (("letter", v), src) if v is not None else (None, None)
+        if re.fullmatch(r"-?\d+", g):
+            i = _transition_committed_integer(a)
+            if i is not None:
+                return ("int", i), "content"
+            i = _transition_committed_integer(_cot_tail(reasoning))
+            return (("int", i), "cot") if i is not None else (None, None)
+        return ("raw", _norm_ans(a)), "content"
     return None, None
 
 
@@ -222,6 +237,11 @@ def extract_task(rec):
             "reasoning": rounds[i].get("reasoning_content", ""),
             "weak_top3": weak_top3,
             "weak_error_score": rounds[i].get("error_score"),
+            # strong critic's error directions for the OLD (from) answer -- carries the
+            # concrete gold-free ``check`` the critic generated, so stage_b can backlink
+            # its CUT veredict to the SAME error archetype the critic flagged (the critic/
+            # evaluator shared anchor, 2026-10-24).
+            "critic_direction": rounds[i].get("critic_direction"),
         })
 
     # settle: trailing run of >= EARLY_STOP_N identical committed answers
@@ -254,6 +274,7 @@ def extract_task(rec):
                 "reasoning": r.get("reasoning_content", ""),
                 "top3": r.get("top3") or [],
                 "error_score": r.get("error_score"),
+                "critic_direction": r.get("critic_direction"),
             }
             for i, r in enumerate(rounds)
         ],

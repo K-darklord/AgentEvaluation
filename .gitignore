@@ -85,6 +85,7 @@ desktop.ini
 models/
 checkpoints/
 cache/
+.cache/
 *.tar.gz
 *.zip
 *.7z
@@ -94,4 +95,7 @@ cache/
 # ===========================
 # experiments/  (un-ignored 2026-09-26: experiment logs/results are the paper's evidence chain)
 # paper/  (un-ignored 2026-10-21: paper_outline.md is the manuscript skeleton under version control)
+
+# Reference dataset clone (Humanity's Last Exam official repo) — external clone, not this repo's content
+data/hle_repo/
 

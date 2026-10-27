@@ -873,6 +873,25 @@ def _math500_key(s: str) -> str | None:
         f = float(s)
         return str(int(f)) if f.is_integer() else str(f)
 
+    # Complex 'a+bi' / 'a-bi' / 'bi' fast path. sympy.sympify cannot parse the implicit
+    # multiplication in '9i' (it needs '9*I'), so a complex MATH-500 answer previously
+    # failed sympify and fell through to _fallback_key, which kept only the LAST number
+    # and collapsed '6+9i' with '12+9i' into one candidate (math500_021, 2026-10-23).
+    cm = re.fullmatch(r"([+-]?\d+(?:\.\d+)?)\s*([+-])\s*(\d+(?:\.\d+)?)\s*i", s, re.IGNORECASE)
+    if cm:
+        re_f = float(cm.group(1))
+        im_f = float(cm.group(3)) * (-1.0 if cm.group(2) == "-" else 1.0)
+        re_s = str(int(re_f)) if re_f.is_integer() else str(re_f)
+        im_a = abs(im_f)
+        im_s = str(int(im_a)) if im_a.is_integer() else str(im_a)
+        return f"{re_s}+{im_s}i" if im_f >= 0 else f"{re_s}-{im_s}i"
+    cm = re.fullmatch(r"([+-]?\d+(?:\.\d+)?)\s*i", s, re.IGNORECASE)
+    if cm:
+        im_f = float(cm.group(1))
+        im_a = abs(im_f)
+        im_s = str(int(im_a)) if im_a.is_integer() else str(im_a)
+        return f"{im_s}i" if im_f >= 0 else f"-{im_s}i"
+
     # Symbolic path mirrors _score_math500._parse so the same value space is hashed.
     try:
         import sympy
@@ -917,14 +936,28 @@ def _math500_key(s: str) -> str | None:
     # Collapse every real value through the SAME float-shortest-repr as the plain-real
     # fast path above, so a LaTeX value and its decimal re-statement collide ('13535'
     # == '\boxed{13535}', '\frac{3}{56}' == '0.05357142857142857').
-    # Real-valued keys only: MATH-500 gold answers are real numbers, so a non-real
-    # sympy result (the imaginary unit 'I' from a prose-leaked first-person pronoun,
-    # or any complex value) collapses to garbage like '1.0*I' that can never match a
-    # real gold. Reject it outright rather than emit it as a candidate (INT-22).
+    # Real-valued keys use the shared float-shortest-repr so a LaTeX value and its
+    # decimal restatement collide. A genuinely complex value ('6+9i') is kept with
+    # BOTH parts below so distinct complex answers stay distinct (and match the
+    # complex gold in _score_math500). A prose-leaked imaginary unit surviving the
+    # guards above would only emit a distinct wrong candidate, never a false real
+    # match, so it is harmless (supersedes the blanket INT-22 rejection).
     try:
         if val.is_real:
             f = float(val)
             return str(int(f)) if f.is_integer() else str(f)
+        # Complex-valued answers ('6+9i') are legitimate MATH-500 golds whose identity
+        # must keep BOTH parts. Previously a non-real value fell through to this
+        # fallback, whose _extract_all_numbers kept only the LAST number (the imaginary
+        # coefficient), colliding '6+9i' with '12+9i' into one candidate and hiding the
+        # procedure_truncation flip in math500_021 (2026-10-23). Here val.is_number
+        # already passed the guard above, so not-is_real means complex: keep re+im.
+        re_part, im_part = val.as_real_imag()
+        re_f = float(re_part); im_f = float(im_part)
+        re_s = str(int(re_f)) if re_f.is_integer() else str(re_f)
+        im_a = abs(im_f)
+        im_s = str(int(im_a)) if im_a.is_integer() else str(im_a)
+        return f"{re_s}+{im_s}i" if im_f >= 0 else f"{re_s}-{im_s}i"
     except Exception:
         pass
     return _fallback_key(s)

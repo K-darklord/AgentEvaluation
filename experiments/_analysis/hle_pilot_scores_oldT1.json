@@ -1,0 +1,39 @@
+{
+  "n": 50,
+  "a3": {
+    "init": {
+      "n": 50,
+      "accuracy": 0.16,
+      "t1_accuracy": 0.16,
+      "judge_n": 42,
+      "fn_rescued": 0
+    },
+    "vote": {
+      "n": 50,
+      "accuracy": 0.18,
+      "t1_accuracy": 0.18,
+      "judge_n": 41,
+      "fn_rescued": 0
+    }
+  },
+  "c3": {
+    "init": {
+      "n": 50,
+      "accuracy": 0.18,
+      "t1_accuracy": 0.12,
+      "judge_n": 44,
+      "fn_rescued": 3
+    },
+    "final": {
+      "n": 50,
+      "accuracy": 0.2,
+      "t1_accuracy": 0.18,
+      "judge_n": 41,
+      "fn_rescued": 1
+    }
+  },
+  "headroom": {
+    "a3_vote_minus_init": 0.02,
+    "c3_final_minus_init": 0.02
+  }
+}

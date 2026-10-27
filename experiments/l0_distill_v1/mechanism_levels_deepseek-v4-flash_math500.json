@@ -1,0 +1,110 @@
+{
+  "version": "l2_l3_pilot_v2",
+  "family": "math500",
+  "solver_model": "deepseek-v4-flash",
+  "merge_model": "deepseek-v4-flash-0731",
+  "n_instances": 5,
+  "dropped_contamination": [],
+  "n_classes": 5,
+  "archetypes": {
+    "constraint_blind": "constraint-blind decimation",
+    "descriptor_conflation": "descriptor/label conflation",
+    "memory_substitution": "memorized-fact substitution",
+    "procedure_truncation": "procedure truncation / omission",
+    "sign_normalization_slip": "sign / normalization slip",
+    "retrieval_abort": "retrieval-abort",
+    "format_nonconformance": "format / precision non-conformance"
+  },
+  "classes": [
+    {
+      "class_label": "asymptote_rule_misapplication",
+      "mechanism": "Computes the horizontal asymptote as the ratio of leading coefficients of numerator and denominator and adds the sum of the denominator roots, without first comparing degrees to recognize that a numerator of lower degree yields a zero asymptote.",
+      "check_procedure": "Compare the degrees of the numerator and denominator; if the numerator degree is lower, state the asymptote as zero; if equal, use the leading coefficient ratio; if higher, there is no finite horizontal asymptote.",
+      "trigger": "Question type: finding the horizontal asymptote of a rational function with numerator degree lower than denominator. Committed answer: a non-zero value based on leading coefficient ratio plus denominator root sum.",
+      "members": [
+        "M5"
+      ],
+      "member_tasks": [
+        "math500_048"
+      ],
+      "level3": {
+        "archetype_id": "procedure_truncation",
+        "archetype_name": "procedure truncation / omission",
+        "rationale": "Omits the mandatory degree-comparison step required before applying the leading-coefficient ratio rule, so it fails to detect the lower-degree numerator that forces a zero asymptote.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "fraction_difference_extrapolation_error",
+      "mechanism": "Builds a finite-difference table from rational data points but performs fraction subtractions without proper common denominators, then extrapolates using the resulting erroneous differences and does not check that higher-order differences are constant.",
+      "check_procedure": "Recompute every fractional subtraction with a common denominator, verify that the first, second, and higher-order differences are constant, and only then extrapolate to the requested value.",
+      "trigger": "Question type: recovering a missing term from a sequence of rational numbers via finite differences. Committed answer: a value derived from non-constant or incorrectly computed differences.",
+      "members": [
+        "M2"
+      ],
+      "member_tasks": [
+        "math500_012"
+      ],
+      "level3": {
+        "archetype_id": "procedure_truncation",
+        "archetype_name": "procedure truncation / omission",
+        "rationale": "Omits the required common-denominator step in fraction subtraction and skips the higher-order-difference constancy check, truncating the finite-difference procedure.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "geometric_supplement_misapplication",
+      "mechanism": "Computes the requested angle as the supplement of a given exterior angle without applying the isosceles equal-side condition, thereby omitting the required halving of that supplement.",
+      "check_procedure": "Identify which sides are equal, determine which angle is the base angle, and derive the requested angle from the fact that the base angles are equal and sum to the supplement, not by taking the supplement directly.",
+      "trigger": "Question type: triangle angle problem involving an isosceles triangle and an exterior angle. Committed answer: the raw supplement of the exterior angle rather than the half-supplement base angle.",
+      "members": [
+        "M3"
+      ],
+      "member_tasks": [
+        "math500_019"
+      ],
+      "level3": {
+        "archetype_id": "procedure_truncation",
+        "archetype_name": "procedure truncation / omission",
+        "rationale": "Omits the required halving step that follows from the isosceles equal-side condition, truncating the procedure after computing only the supplement.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "precedence_reassociation_oversight",
+      "mechanism": "Evaluates an arithmetic expression using a single default operator precedence ordering without exploring how alternative parenthesizations can reassociate operations and yield different values.",
+      "check_procedure": "For the given set of numbers and operations, enumerate every possible parenthesization and compute the resulting value; if multiple distinct values are obtained, report the count, not a single value.",
+      "trigger": "Question type: counting distinct results of an arithmetic expression with insertable parentheses. Committed answer: a single value (count of 1) instead of a set of possible values.",
+      "members": [
+        "M1"
+      ],
+      "member_tasks": [
+        "math500_010"
+      ],
+      "level3": {
+        "archetype_id": "procedure_truncation",
+        "archetype_name": "procedure truncation / omission",
+        "rationale": "Fixes a single precedence and omits the required enumeration of alternative parenthesizations to find all possible values.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "vector_component_misassignment",
+      "mechanism": "Constructs vectors intended to sum to a fixed point by expressing them as Euclidean norms, but assigns one vector component a constant extracted from a different radical instead of the affine expression obtained by completing the square, then applies the triangle inequality to a resultant that does not equal the true sum.",
+      "check_procedure": "Complete the square for each radical to obtain the correct vector components, explicitly verify that the constructed vectors sum to the fixed point, and only then apply the triangle inequality to that true sum.",
+      "trigger": "Question type: bounding the sum of radicals by interpreting them as Euclidean norms. Committed answer: a bound obtained from a vector sum whose components are inconsistent with the radicals.",
+      "members": [
+        "M4"
+      ],
+      "member_tasks": [
+        "math500_044"
+      ],
+      "level3": {
+        "archetype_id": "constraint_blind",
+        "archetype_name": "constraint-blind decimation",
+        "rationale": "Uses a wrongly assigned vector component so the resultant sum no longer equals the fixed point, then applies triangle inequality without enforcing the hidden sum constraint.",
+        "parse_ok": true
+      }
+    }
+  ]
+}

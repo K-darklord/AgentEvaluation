@@ -1,0 +1,98 @@
+{
+  "version": "level3_bank_v1",
+  "family": "gpqa",
+  "solver_model": "qwen3.8-flash",
+  "n_entries": 9,
+  "entries": [
+    {
+      "id": "constraint_blind",
+      "name": "constraint-blind decimation",
+      "definition": "overlooked the cumulative stereochemical constraints from multiple reaction steps, predicting the product from a single stereocontrol element while ignoring other stereocenters and face-approach requirements",
+      "trigger": "questions about product stereochemistry from reactions with multiple stereodetermining steps, with committed answer based on only one site or one alkene geometry",
+      "check_procedure": "enumerate all stereogenic elements and transition-state approach modes; verify the proposed product matches the complete set of constraints from every step",
+      "examples": [
+        "A multi-step synthesis introduced several new stereocenters with distinct stereochemical preferences, but the predicted final configuration was derived solely from the first step's selectivity, neglecting the later steps' face-approach constraints and existing stereocenters' influence."
+      ]
+    },
+    {
+      "id": "constraint_blind",
+      "name": "constraint-blind decimation",
+      "definition": "assumed the target category from a local structural cue without performing the complete three-dimensional symmetry operation",
+      "trigger": "questions about chirality, meso compounds, molecular symmetry groups, or carbon equivalence, with committed answer based only on a drawn local plane or double-bond side",
+      "check_procedure": "construct the complete 3D conformation and explicitly check mirror-image superimposability or all symmetry operations before assigning chirality or equivalence",
+      "examples": [
+        "The response declared a molecule achiral because a single drawn representation showed a plane of symmetry, but it never constructed the full three-dimensional conformation to test mirror-image superimposability."
+      ]
+    },
+    {
+      "id": "procedure_truncation",
+      "name": "procedure truncation / omission",
+      "definition": "omitted the required intermediate steps by selecting a product assembled from a single reagent or one functional-group change, without tracing the fate of atoms through the full ordered sequence",
+      "trigger": "questions asking for a final product from a multi-step procedure, with committed answer that is a simple aggregate of all reagents or a single functional-group transformation",
+      "check_procedure": "trace each reagent atom through every elementary step and verify the proposed product's connectivity and stereochemistry are consistent with the full ordered mechanism",
+      "examples": [
+        "When asked to identify the final substance produced by a multi-step synthetic route, selected the structure obtained by adding only the last reagent to the starting material, thereby discarding the contributions of all earlier transformations and the atoms they introduced."
+      ]
+    },
+    {
+      "id": "format_nonconformance",
+      "name": "format / precision non-conformance",
+      "definition": "misrepresented the chemically derived result as an answer of the wrong option identifier or numeric precision",
+      "trigger": "multiple-choice questions requiring a final stereo-descriptor or numeric value, with committed answer that is a standalone number or an option letter inconsistent with the derived result",
+      "check_procedure": "after deriving the result, explicitly match it to the option whose textual content equals the derived structure or value, and check the requested precision/tolerance",
+      "examples": [
+        "In a multiple-choice item requiring a numeric value to a specified number of decimal places, the solver derives the correct value but selects the option containing that value rounded to a different precision, or writes the bare number without mapping it to the corresponding option identifier."
+      ]
+    },
+    {
+      "id": "constraint_blind",
+      "name": "constraint-blind decimation",
+      "definition": "overlooked the alphabetical tie-break rule when assigning locants to ring substituents, relying solely on their positional relationships",
+      "trigger": "questions asking for the correct IUPAC name of a substituted ring, with committed answer based only on ortho/meta/para arrangement and no alphabetical numbering check",
+      "check_procedure": "once a locant set is chosen, re-evaluate alternative numbering directions and apply IUPAC tie-break rules, giving the lower locant to the alphabetically prior substituent",
+      "examples": [
+        "a ring system bearing two distinct substituents positioned such that either of two numbering schemes is permissible, and the selected locants are derived from their relative positions instead of the alphabetical order of substituent names"
+      ]
+    },
+    {
+      "id": "descriptor_conflation",
+      "name": "descriptor/label conflation",
+      "definition": "conflated an organelle-associated assay label with proven subcellular localization of the measured process",
+      "trigger": "questions asking which process or entity is mitochondria-associated, with committed answer chosen from an organelle-named assay without mechanistic localization check",
+      "check_procedure": "look up the specific enzyme or pathway measured and confirm its established subcellular localization before attributing mitochondrial relevance",
+      "examples": [
+        "Selected an organelle-specific response for an item measuring an enzymatic activity, without verifying that the enzyme's established pathway operates within that organelle."
+      ]
+    },
+    {
+      "id": "sign_normalization_slip",
+      "name": "sign / normalization slip",
+      "definition": "cancelled the common reference abundance when computing a ratio, rather than normalizing each quantity to that reference first",
+      "trigger": "questions comparing element abundance ratios between two astronomical objects, with committed answer obtained by exponentiating log differences or bracketed ratios directly",
+      "check_procedure": "rewrite each star's element abundance as a ratio to hydrogen using the provided solar absolute abundances, then take the ratio of those normalized values; check that no reference term is cancelled prematurely",
+      "examples": [
+        "When comparing the relative abundance of a trace component between two sources, the solver directly exponentiated the difference of composite log ratios, thereby eliminating the shared reference species from the calculation, instead of expressing the trace component relative to the reference for each source before taking the ratio."
+      ]
+    },
+    {
+      "id": "retrieval_abort",
+      "name": "retrieval-abort",
+      "definition": "withheld evaluation of statements when exact supporting text was absent from retrieved passages, treating retrieval absence as grounds for abstention instead of applying domain knowledge to judge each claim independently",
+      "trigger": "questions asking to identify an exception or false statement from a set of retrieved passages, with committed answer of abstention or 'not enough information'",
+      "check_procedure": "for each statement, independently reason from known principles and only use retrieval as supplementary evidence, not as a necessary prerequisite",
+      "examples": [
+        "When asked to identify the false statement among several options, the model responded with 'not enough information' because no retrieved passage explicitly contradicted the incorrect option, despite the option clearly violating a basic principle the model knew."
+      ]
+    },
+    {
+      "id": "constraint_blind",
+      "name": "constraint-blind decimation",
+      "definition": "classified any deletion as gene-disrupting without translating the mutant sequence to check for a premature stop codon or frameshift",
+      "trigger": "questions asking for the most disruptive mutation in a coding sequence, with committed answer that is any deletion or lost codon without sequence translation",
+      "check_procedure": "translate the proposed mutant sequence and confirm that an early stop codon or shift in the reading frame actually occurs before the full protein product",
+      "examples": [
+        "When asked to choose the mutation most likely to abolish protein function, the answer selected a deletion solely because it removed a nucleotide, without verifying whether the remaining coding sequence preserved the reading frame and had no early stop codon."
+      ]
+    }
+  ]
+}

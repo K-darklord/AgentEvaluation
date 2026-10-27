@@ -1,0 +1,149 @@
+{
+  "version": "l2_l3_pilot_v2",
+  "family": "gpqa",
+  "solver_model": "deepseek-v4-flash",
+  "merge_model": "deepseek-v4-flash-0731",
+  "n_instances": 9,
+  "n_classes": 7,
+  "archetypes": {
+    "constraint_blind": "constraint-blind decimation",
+    "descriptor_conflation": "descriptor/label conflation",
+    "memory_substitution": "memorized-fact substitution",
+    "procedure_truncation": "procedure truncation / omission",
+    "sign_normalization_slip": "sign / normalization slip",
+    "retrieval_abort": "retrieval-abort",
+    "format_nonconformance": "format / precision non-conformance"
+  },
+  "classes": [
+    {
+      "class_label": "3D_conformation_ignored",
+      "mechanism": "derives point-group or stereochemical descriptors from 2D connectivity or internal symmetry constraints, ignoring conformational non-planarity, chelation, and reaction-trajectory/approach geometry",
+      "check_procedure": "For the same connectivity, mentally test at least one non-planar conformer or opposite approach geometry; if the point group or descriptor set changes between conformers/trajectories, the symmetry-only reasoning is invalid; also flag any trans/anti assignment justified solely by face-opposite additions without conformational evaluation.",
+      "trigger": "Question asks to assign a point group or relative stereochemistry to a product; committed answer is a high-symmetry assignment or a trans/anti relationship justified only by internal mirror-plane pairing or a face-opposite assumption.",
+      "members": [
+        "M1",
+        "M5",
+        "M7"
+      ],
+      "member_tasks": [
+        "gpqa_009",
+        "gpqa_028",
+        "gpqa_033"
+      ],
+      "level3": {
+        "archetype_id": "constraint_blind",
+        "archetype_name": "constraint-blind decimation",
+        "rationale": "Derives descriptors from 2D/local symmetry while ignoring decisive 3D conformational, chelation, and approach-geometry constraints.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "bracket_notation_misread",
+      "mechanism": "interprets bracketed abundance ratios as solar-normalized and subtracts solar reference values, instead of treating them as direct logarithmic abundance ratios relative to the star's hydrogen-normalized absolute abundances",
+      "check_procedure": "Write out the bracket notation definition: [X/Y] equals log10 of the ratio of X-abundance to Y-abundance normalized to solar ratio; apply that definition algebraically to convert given bracket values into absolute abundances without canceling the solar values; compare with the answer produced by subtraction.",
+      "trigger": "Question gives bracketed [X/Y] abundances and absolute hydrogen-normalized solar abundances; committed answer cancels solar values to obtain a solar-relative result.",
+      "members": [
+        "M3"
+      ],
+      "member_tasks": [
+        "gpqa_018"
+      ],
+      "level3": {
+        "archetype_id": "descriptor_conflation",
+        "archetype_name": "descriptor/label conflation",
+        "rationale": "Swaps the notion of solar-normalized abundance ratios with direct logarithmic ratios, incorrectly subtracting solar reference values.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "locant_arbitrary",
+      "mechanism": "arbitrarily assigns locants to interchangeable substituents on a ring without applying the IUPAC tie-breaking / lowest-locant convention",
+      "check_procedure": "When two or more substituent sets are symmetry-equivalent, apply the standard locant rules (lowest set of locants, lowest locant at first point of difference, alphabetical order) to the complete set of substituent names; reorder the entire name and see if the arbitrary assignment violates these rules.",
+      "trigger": "Question requires naming or interpreting a ring structure with multiple identical substituents whose positions could be permuted; committed answer fixes one arbitrary arrangement and does not mention ambiguity or apply tie-breaking.",
+      "members": [
+        "M8"
+      ],
+      "member_tasks": [
+        "gpqa_043"
+      ],
+      "level3": {
+        "archetype_id": "procedure_truncation",
+        "archetype_name": "procedure truncation / omission",
+        "rationale": "Omits the IUPAC lowest-locant/tie-breaking step in the naming procedure and assigns locants arbitrarily.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "retrieval_abandonment",
+      "mechanism": "abandons stepwise chemical derivation and emits a retrieval-miss statement when an exact matching document is absent from memory",
+      "check_procedure": "If retrieval yields no exact match, re-derive the product or property from the given reactants and elementary reaction rules; verify that every step is a legitimate transformation, rather than outputting a statement about missing documents.",
+      "trigger": "Question presents a multi-step synthesis or reaction sequence; committed answer is a refusal or retrieval-miss statement rather than a derived product.",
+      "members": [
+        "M2"
+      ],
+      "member_tasks": [
+        "gpqa_013"
+      ],
+      "level3": {
+        "archetype_id": "retrieval_abort",
+        "archetype_name": "retrieval-abort",
+        "rationale": "Stops first-principles derivation and emits a retrieval-miss statement when no exact matching document is found.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "symmetric_polyaddition_ignored",
+      "mechanism": "treats a condensation or alkylation as a mono-addition, ignoring additional equivalent reactive sites that can produce a symmetric higher-symmetry product",
+      "check_procedure": "List all equivalent reactive positions in the starting material; for each possible number of additions, predict the product and its point group; if a symmetric multi-adduct is accessible, compare its symmetry to the mono-adduct and check which one the question's conditions (stoichiometry/base) favor.",
+      "trigger": "Question asks for the point group of a condensation/alkylation product from a reagent with multiple equivalent alpha or nucleophilic sites; committed answer gives the mono-adduct point group with only one mirror plane.",
+      "members": [
+        "M6"
+      ],
+      "member_tasks": [
+        "gpqa_031"
+      ],
+      "level3": {
+        "archetype_id": "constraint_blind",
+        "archetype_name": "constraint-blind decimation",
+        "rationale": "ignores equivalent reactive sites, dropping the equivalence-class constraint that would yield a higher-symmetry product.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "thermo_as_kinetic",
+      "mechanism": "equates a more favorable thermodynamic redox potential or stronger acidity with a faster reaction, ignoring activation barriers and kinetic overpotential",
+      "check_procedure": "Separate thermodynamic from kinetic reasoning for the compared media: ask whether the rate-determining step's barrier is actually lower in the medium with the more favorable potential/acidity; if not, the faster medium may differ; check known kinetic effects such as overpotential and activation energy rather than only equilibrium potentials.",
+      "trigger": "Question compares reaction rates in two media with different pH or redox potentials; committed answer selects the medium with more favorable thermodynamics/acidity as faster.",
+      "members": [
+        "M4"
+      ],
+      "member_tasks": [
+        "gpqa_022"
+      ],
+      "level3": {
+        "archetype_id": "descriptor_conflation",
+        "archetype_name": "descriptor/label conflation",
+        "rationale": "Swaps thermodynamic favorability (redox potential/acidity) for kinetic rate, ignoring barriers and overpotential.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "unsaturation_conservation_violated",
+      "mechanism": "draws a cyclization product with all unsaturation placed in exocyclic alkylidene groups, leaving the newly formed ring saturated and violating π-bond/degree-of-unsaturation conservation",
+      "check_procedure": "Count the number of degrees of unsaturation in the reactant (sum of rings + pi bonds) and in the proposed product; for a cyclization that consumes pi bonds to form a sigma bond, the remaining pi bonds should appear as a ring endocyclic double bond or appropriate unsaturation; verify that the product's degree-of-unsaturation equals the reactant's minus one for each new ring or is otherwise conserved.",
+      "trigger": "Question asks for the product structure of a thermally initiated cyclization of a diyne or conjugated diyne; committed answer shows a saturated new ring with all double bonds outside the ring.",
+      "members": [
+        "M9"
+      ],
+      "member_tasks": [
+        "gpqa_049"
+      ],
+      "level3": {
+        "archetype_id": "procedure_truncation",
+        "archetype_name": "procedure truncation / omission",
+        "rationale": "Omits the Degree-of-Unsaturation conservation constraint by placing all unsaturation exocyclically and leaving the new ring saturated.",
+        "parse_ok": true
+      }
+    }
+  ]
+}

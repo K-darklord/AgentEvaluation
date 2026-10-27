@@ -930,6 +930,16 @@ class HuggingFaceAgent(BaseAgent):
                 "respond with the short answer (a number or a single word). Do not "
                 "include any reasoning or explanation."
             )
+        elif benchmark == "hle":
+            # HLE is open-form (integer / symbolic LaTeX / word / short text). Ask for
+            # the final answer verbatim so the exact-match scorer sees a clean commit;
+            # an answer buried in CoT is the T2-judge rescue case, not the contract.
+            system_msg = (
+                "You are answering a difficult knowledge question. Provide ONLY the "
+                "final answer in the form the question requests (a number, a symbolic "
+                "or LaTeX expression, a word, or a short phrase). Do not include any "
+                "reasoning, explanation, or preamble."
+            )
         else:
             system_msg = (
                 "You are a financial research agent. You have access to tools:\n"

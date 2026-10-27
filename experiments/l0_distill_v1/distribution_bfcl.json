@@ -1,0 +1,55 @@
+{
+  "distill_version": "v3.0",
+  "family": "bfcl",
+  "model": "deepseek-v4-flash-0731",
+  "generated_at_utc": "2026-10-21T05:22:50.087664+00:00",
+  "n_total": 5,
+  "n_parsed": 5,
+  "distribution": {
+    "emits_the_integration_request_with_only_a_single_string_representation_of_the_integrand_and_with_scalar_values_for_the_start_end_and_method_parameters_instead_of_providing_the_integrand_in_both_required_forms_symbolic_expression_and_callable_lambda_and_wrapping_expected_parameters_as_lists": {
+      "count": 1,
+      "problem_class": [
+        "tool-call generation for numerical definite integration"
+      ],
+      "task_ids": [
+        "bfcl_016"
+      ]
+    },
+    "formats_the_tool_call_as_a_generic_name_arguments_envelope_with_stringified_json_arguments_instead_of_the_expected_structured_function_name_keyed_argument_object": {
+      "count": 1,
+      "problem_class": [
+        "tool-call/function-calling response generation for computational tasks"
+      ],
+      "task_ids": [
+        "bfcl_014"
+      ]
+    },
+    "formats_the_tool_function_name_with_underscores_where_the_reference_schema_uses_dot_separated_namespace_segments_producing_a_valid_looking_but_unregistered_incorrect_function_name_while_keeping_the_numerical_arguments_unchanged": {
+      "count": 1,
+      "problem_class": [
+        "physics kinematics tool-call generation (selecting a function for an unknown final velocity)"
+      ],
+      "task_ids": [
+        "bfcl_031"
+      ]
+    },
+    "invokes_the_derivative_calculator_through_a_non_canonical_tool_name_built_with_an_underscore_instead_of_the_required_dot_namespaced_function_name_so_the_call_is_malformed_and_the_actual_derivative_is_never_computed": {
+      "count": 1,
+      "problem_class": [
+        "calculus derivative evaluation via tool-call API"
+      ],
+      "task_ids": [
+        "bfcl_017"
+      ]
+    },
+    "invokes_the_requested_utility_with_a_partial_argument_set_it_copies_the_expression_from_the_prompt_rewrites_it_into_an_invented_programming_language_syntax_with_explicit_operators_and_omits_the_other_schema_required_parameters_notably_the_numeric_evaluation_point": {
+      "count": 1,
+      "problem_class": [
+        "math function-calling tasks that require emitting a utility call whose argument set includes both a function expression and an evaluation point"
+      ],
+      "task_ids": [
+        "bfcl_015"
+      ]
+    }
+  }
+}

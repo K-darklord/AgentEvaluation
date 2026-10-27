@@ -69,10 +69,11 @@ _load_dotenv()
 
 from src import config
 from src.agent import HuggingFaceAgent
-from src.benchmark import load_gpqa_questions, load_new_discrimination_tasks, load_phase1_tasks
-from src.build_weak_critic import (  # noqa: E402
-    TOP_K, WeakCritic, _family_base_rates, _task_family,
-)
+from src.benchmark import load_gpqa_questions, load_hle_questions, load_new_discrimination_tasks, load_phase1_tasks
+from src.hle_scorer import score_t1 as _score_hle_t1
+from src.build_weak_critic import _task_family  # noqa: E402
+from src.egte_critic import Level3Critic  # noqa: E402
+from src.strong_critic import StrongCritic  # noqa: E402
 from src.evaluator import (  # noqa: E402
     _extract_committed_integer, _extract_committed_number,
     _extract_committed_text, _extract_mcq_letter,
@@ -84,8 +85,16 @@ from src.evaluator import (  # noqa: E402
 
 # ---- loop hyperparameters (reproducibility) ----
 MAX_ROUNDS = 10        # feedback rounds (round 0 = baseline, rounds 1..R = feedback)
+A3_SAMPLE_K = 10       # A3C3 round-0 self-consistency sample count (T>0), matches A3
 EARLY_STOP_N = 3       # stop once answer unchanged for N consecutive rounds
 TIER = "C"             # critic feedback tier (C = type + prob + cause + attention)
+
+# Direction-memory HOLD gate (env toggle, off by default = baseline). When on, the
+# C3/A3C3 critic suppresses re-issuing an archetype it already emitted this task
+# (HOLD: feedback=None, no_signal=True), so a recurring same-direction perturbation
+# cannot drive A->B->A oscillation. New (unseen) directions still perturb -> activation
+# is preserved; only the cyclic repeat is cut.
+CRITIC_HOLD_ON_REPEAT = os.environ.get("CRITIC_HOLD_ON_REPEAT", "0") == "1"
 
 # ---- experimental arms (P2.1 control arms) ----
 #   A  = no-treatment: bare re-solve (feedback=None), only seed/temperature variance.
@@ -102,12 +111,6 @@ def _force_no_proxy() -> None:
         os.environ.pop(k, None)
     os.environ["NO_PROXY"] = "*"
     os.environ["no_proxy"] = "*"
-
-
-def _load_bank() -> list[dict]:
-    bank_path = REPO_ROOT / "experiments" / "error_taxonomy_v2" / "wrong_bank.jsonl"
-    with open(bank_path, encoding="utf-8") as f:
-        return [json.loads(line) for line in f]
 
 
 def _is_correct(family: str | None, row: dict) -> bool:
@@ -132,6 +135,16 @@ def _is_correct(family: str | None, row: dict) -> bool:
             return _score_bbh(row) >= thresh
         if family == "bfcl":
             return _score_bfcl(row) >= thresh
+        if family == "hle":
+            # Deterministic T1 exact-match only (the evaluator stays offline). The
+            # LLM judge cross-validation runs OUT of loop on the recorded trajectories.
+            md = row.get("metadata") or {}
+            return _score_hle_t1(
+                row.get("gold_answer", ""),
+                md.get("answer_type", ""),
+                md.get("shape", ""),
+                row.get("final_answer", ""),
+            )
         if family == "finance":
             # quantitative (T1 numeric) or rubric-covered -> zero-LLM pass
             if _score_t1_numeric(row) >= thresh or _rubric_coverage_normalized(row):
@@ -178,6 +191,21 @@ def _early_stop_key(family, gold: str, answer: str, reasoning: str = "", finish_
     if not a:
         return None, None
     truncated = (finish_reason == "length")
+    if family == "hle":
+        g = str(gold or "").strip()
+        # multipleChoice -> option letter; else dispatch on the gold's form so the
+        # committed value stays canonical (prose jitter can't defeat early stop).
+        if re.fullmatch(r"\(?([A-E])\)?", g):
+            v, src = resolve_commit(a, reasoning, "letter", "ABCDE", truncated=truncated)
+            return (("letter", v), src) if v is not None else (None, None)
+        if re.fullmatch(r"-?\d+", g):
+            v = _transition_committed_integer(a)
+            if v is not None:
+                return ("int", v), "content"
+            v = _transition_committed_integer(_cot_tail(reasoning))
+            return (("int", v), "cot") if v is not None else (None, None)
+        # symbol / word / text: canonical normalized final-answer string
+        return ("raw", _norm_ans(a)), "content"
     if family == "aime":
         # Keep the CLEAN-commit-only extractor for the transition mask (no 'last ='
         # scan), but still recover a boxed/bare final integer from the CoT tail.
@@ -521,7 +549,7 @@ def _collect_transition_rationale(agent, task, feedback: str,
 def _round_record(r: int, result, correct: bool, evidence, error, no_signal,
                   top3, arm: str, rationale: str = "", rat_toks=(0, 0, 0),
                   committed_answer=None, carried: bool = False,
-                  commit_source: str = None) -> dict:
+                  commit_source: str = None, critic_direction=None) -> dict:
     return {
         "round": r,
         "arm": arm,
@@ -537,6 +565,7 @@ def _round_record(r: int, result, correct: bool, evidence, error, no_signal,
         "error_score": round(error, 4) if error is not None else None,
         "no_signal": no_signal,
         "top3": [{"leaf": l, "prob": round(p, 4)} for l, p in (top3 or [])],
+        "critic_direction": critic_direction or None,
         "tool_calls": result.tool_calls,
         "latency_ms": result.total_latency_ms,
         "api_failure": result.api_failure,
@@ -621,7 +650,8 @@ def _append_record(traj_path, record: dict) -> None:
 
 
 def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
-                   arm: str, rationale_mode: str = "off") -> dict:
+                   arm: str, rationale_mode: str = "off",
+                   feedback_agent=None) -> dict:
     family = _task_family(task.task_id)
     tool_cache: dict = {}
     records: list[dict] = []
@@ -638,14 +668,41 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
         }
         return _is_correct(family, row)
 
-    # round 0: baseline (no feedback)
-    result = agent.solve(task, feedback=None, tool_cache=tool_cache)
-    prev_answer = result.final_answer
-    prev_key, prev_source = _early_stop_key(family, task.gold_answer, prev_answer,
-                                             result.reasoning_content,
-                                             result.finish_reason)
-    records.append(_round_record(0, result, score(result), None, None, None, None, arm,
-                                 commit_source=prev_source))
+    # round 0: baseline (no feedback). A3C3 replaces the single baseline solve with
+    # K independent temperature samples (T>0) majority-voted on the committed key; the
+    # voted answer becomes round 0's committed answer and the C3 feedback loop (rounds
+    # 1..R) then runs at T=0 (feedback_agent) to isolate the round-0 gain.
+    round0_sample_corrects = None
+    if arm == "A3C3":
+        samples = []  # (result, committed_key, commit_source, correct)
+        for _ in range(A3_SAMPLE_K):
+            sres = agent.solve(task, feedback=None, tool_cache=tool_cache)
+            skey, ssrc = _early_stop_key(family, task.gold_answer, sres.final_answer,
+                                         sres.reasoning_content, sres.finish_reason)
+            samples.append((sres, skey, ssrc, score(sres)))
+        # Majority vote over committed keys (ties -> first-encountered, consistent with
+        # Counter.most_common insertion order). None (no-commit) samples are excluded.
+        key_counts = Counter(k for _, k, _, _ in samples if k is not None)
+        voted_key = key_counts.most_common(1)[0][0] if key_counts else None
+        winner = next((s for s in samples if s[1] == voted_key),
+                      samples[0] if samples else None)
+        voted_result, _, voted_source, voted_correct = winner
+        prev_answer = voted_result.final_answer
+        prev_key = voted_key
+        prev_source = voted_source
+        prev_reasoning = voted_result.reasoning_content or ""
+        records.append(_round_record(0, voted_result, voted_correct, None, None, None,
+                                     None, arm, commit_source=voted_source))
+        round0_sample_corrects = [s[3] for s in samples]
+    else:
+        result = agent.solve(task, feedback=None, tool_cache=tool_cache)
+        prev_answer = result.final_answer
+        prev_key, prev_source = _early_stop_key(family, task.gold_answer, prev_answer,
+                                                 result.reasoning_content,
+                                                 result.finish_reason)
+        prev_reasoning = result.reasoning_content or ""
+        records.append(_round_record(0, result, score(result), None, None, None, None,
+                                     arm, commit_source=prev_source))
 
     if arm == "A3":
         # Self-consistency control: fixed K independent samples at T>0, no feedback,
@@ -664,7 +721,12 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
             "correct_appeared": any(corrects), "end_state": _end_state(corrects),
         }
 
+    critic_direction = None
     streak = 1
+    issued_archetypes = set()   # direction memory for CRITIC_HOLD_ON_REPEAT
+    # A3C3 feedback rounds run on the deterministic (T=0) agent to match C3; only the
+    # round-0 self-consistency sampling used the T>0 `agent` above.
+    solver = feedback_agent if (arm == "A3C3" and feedback_agent is not None) else agent
     for r in range(1, max_rounds + 1):
         if arm == "A":
             # no-treatment: bare re-solve, no reviewer message at all.
@@ -676,16 +738,44 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
                 break
             feedback = _feedback_message(prev_answer, A2_PLACEBO_FEEDBACK, rationale_mode)
             pred = evidence = error = no_signal = None
-        else:  # "C" (treatment)
+        else:  # C (single) / C2 (top-3) / C3 (strong LLM critic)
             if family is None:
-                break  # critic has no leaves for this family -> cannot give feedback
-            pred, evidence, error = critic._predict(
-                family, task.prompt, prev_answer,
-                exclude_task_ids={task.task_id}, k=TOP_K)
-            no_signal = (pred == [])
-            fb_text = critic.build_prompt(pred, tier, error_score=error)
+                break
+            evidence = None
+            if arm == "C2":
+                pairs = critic.topk(task.prompt, prev_answer, family, k=3)
+                fb_text, critic_direction = critic.render_topk(pairs)
+            else:  # "C" / "C3" / "A3C3": strong LLM critic feeds the solver CoT
+                if arm in ("C3", "A3C3"):
+                    # lever-1: both C3 and A3C3 ground the critic's check in the
+                    # solver's hidden CoT. A3C3 was previously missing reasoning here
+                    # (arm == "C3" guard), so its critic silently degraded to the old
+                    # no-CoT behaviour while C3-v2 fed CoT -- fixed 2026-10-24.
+                    fb_text, critic_direction, evidence = critic.feedback(
+                        task.prompt, prev_answer, family, reasoning=prev_reasoning)
+                else:
+                    fb_text, critic_direction, evidence = critic.feedback(
+                        task.prompt, prev_answer, family)
+            error = None
+            pred = None
             feedback = _feedback_message(prev_answer, fb_text, rationale_mode)
-        result = agent.solve(task, feedback=feedback, tool_cache=tool_cache,
+            no_signal = False
+            if CRITIC_HOLD_ON_REPEAT and arm in ("C3", "A3C3"):
+                # Direction-memory HOLD gate: if the critic re-proposes an archetype it
+                # already emitted this task, suppress the perturbation (feedback=None) so
+                # a recurring same-direction push cannot drive A->B->A oscillation.
+                cur_names = set()
+                for _d in (critic_direction or []):
+                    if isinstance(_d, dict):
+                        _nm = _d.get("archetype_name") or _d.get("id") or _d.get("archetype_id")
+                        if _nm:
+                            cur_names.add(str(_nm).strip())
+                if cur_names and (cur_names & issued_archetypes):
+                    feedback = None
+                    no_signal = True
+                else:
+                    issued_archetypes |= cur_names
+        result = solver.solve(task, feedback=feedback, tool_cache=tool_cache,
                              rationale_mode=rationale_mode)
         rationale = ""
         rat_toks = (0, 0, 0)
@@ -728,7 +818,7 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
             is_switch = (not prev_none and not new_none and new_label != prev_label)
             if is_switch or prev_none or new_none:
                 rationale, rat_toks = _collect_transition_rationale(
-                    agent, task, feedback, prev_label, new_label)
+                    solver, task, feedback, prev_label, new_label)
         score_answer = new_answer if committed_key == raw_key else _canonical_commit_str(committed_key)
         correct = score(result, answer=score_answer)
         # A round with NO commit (committed_key is None) must reset the streak,
@@ -737,14 +827,22 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
         streak = streak + 1 if (committed_key is not None and committed_key == prev_key) else 1
         prev_key = committed_key
         prev_answer = new_answer
+        prev_reasoning = result.reasoning_content or ""
         records.append(_round_record(r, result, correct, evidence, error, no_signal,
                                      pred, arm, rationale, rat_toks,
                                      committed_answer=(score_answer if carried else None),
-                                     carried=carried, commit_source=commit_source))
+                                     carried=carried, commit_source=commit_source,
+                                     critic_direction=critic_direction))
         if streak >= early_stop_n:
             break
 
     corrects = [rec["is_correct"] for rec in records]
+    # A3C3 activation spans BOTH the round-0 self-consistency samples (pass@k) and
+    # the feedback rounds, not just the voted round-0 answer.
+    if arm == "A3C3" and round0_sample_corrects is not None:
+        appeared = any(round0_sample_corrects) or any(corrects[1:])
+    else:
+        appeared = any(corrects)
     return {
         "task_id": task.task_id,
         "arm": arm,
@@ -756,8 +854,9 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
         "n_rounds": len(records),
         "start_correct": corrects[0],
         "final_correct": corrects[-1],
-        "correct_appeared": any(corrects),
+        "correct_appeared": appeared,
         "end_state": _end_state(corrects),
+        "round0_sample_corrects": round0_sample_corrects,
     }
 
 
@@ -783,6 +882,12 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
         # use the frozen reasoning budget for the whole discrimination set.
         if max_tokens is None:
             max_tokens = config.REASONING_BENCH_MAX_TOKENS
+    elif task_set == "hle":
+        tasks = load_hle_questions()
+        # HLE hard symbolic questions can outgrow 8192 (same CoT-truncation risk as
+        # AIME/GPQA); use the frozen reasoning budget.
+        if max_tokens is None:
+            max_tokens = config.REASONING_BENCH_MAX_TOKENS
     else:
         tasks = load_phase1_tasks()
         if max_tokens is None:
@@ -800,8 +905,6 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
         tasks = tasks[:num_tasks]
     if concurrency is None:
         concurrency = config.RUNNER_CONCURRENCY
-
-    critic = WeakCritic(_load_bank(), base_rates=_family_base_rates())
 
     if out_dir:
         run_id = out_dir
@@ -832,6 +935,22 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
                                         if enable_thinking is not None
                                         else entry.get("enable_thinking")),
             thinking_budget=entry.get("thinking_budget"))
+        # A3C3: round-0 self-consistency samples run at T>0 (this `agent`); the C3
+        # feedback rounds run on a second deterministic (T=0) agent for a fair C3 match.
+        feedback_agent = None
+        if arm == "A3C3":
+            feedback_agent = HuggingFaceAgent(
+                model=entry["model"], token=entry.get("api_key"),
+                base_url=entry["base_url"], max_tokens=max_tokens, temperature=0.0,
+                seed=None, enable_thinking=(enable_thinking
+                                            if enable_thinking is not None
+                                            else entry.get("enable_thinking")),
+                thinking_budget=entry.get("thinking_budget"))
+        critic = None
+        if arm in ("C", "C2"):
+            critic = Level3Critic.load(name)
+        elif arm in ("C3", "A3C3"):
+            critic = StrongCritic.load(name)
         model_dir = out_root / name
         model_dir.mkdir(parents=True, exist_ok=True)
         traj_path = model_dir / "loop_trajectories.jsonl"
@@ -862,7 +981,8 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
                 except StopIteration:
                     return
                 fut = ex.submit(_run_task_loop, agent, critic, task, tier,
-                                max_rounds, early_stop_n, arm, rationale_mode)
+                                max_rounds, early_stop_n, arm, rationale_mode,
+                                feedback_agent)
                 in_flight[fut] = task
                 deadline[fut] = time.monotonic() + solve_timeout * (max_rounds + 1)
 
@@ -979,15 +1099,18 @@ if __name__ == "__main__":
     ap.add_argument("--max-rounds", type=int, default=MAX_ROUNDS)
     ap.add_argument("--early-stop", type=int, default=EARLY_STOP_N)
     ap.add_argument("--tier", default=TIER, choices=["A", "B", "C"])
-    ap.add_argument("--arm", default="C", choices=["A", "A2", "A3", "C"],
+    ap.add_argument("--arm", default="C", choices=["A", "A2", "A3", "A3C3", "C", "C2", "C3"],
                     help="experimental arm: A=no-treatment, A2=form placebo, "
-                         "A3=i.i.d. temperature sampling (self-consistency), C=critic")
+                         "A3=i.i.d. temperature sampling (self-consistency), "
+                         "A3C3=self-consistency round0 + C3 strong-critic loop, "
+                         "C=critic(single), C2=critic(top-3), C3=strong LLM critic")
     ap.add_argument("--family", default=None,
                     help="restrict to one family: math/math500/mmlu_pro/bfcl/finance/"
-                         "aime/gpqa/bbh")
-    ap.add_argument("--task-set", default="phase1", choices=["phase1", "new", "gpqa"],
+                         "aime/gpqa/bbh/hle")
+    ap.add_argument("--task-set", default="phase1", choices=["phase1", "new", "gpqa", "hle"],
                     help="phase1 = the 5 baseline families; new = AIME+GPQA+BBH "
-                         "discrimination set; gpqa = full 198 GPQA-Diamond")
+                         "discrimination set; gpqa = full 198 GPQA-Diamond; "
+                         "hle = 50-question HLE stratified pilot")
     ap.add_argument("--tasks", default=None,
                     help="comma-separated task ids to run (exact filter, overrides "
                          "num/offset)")

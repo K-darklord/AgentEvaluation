@@ -1,0 +1,91 @@
+{
+  "version": "l2_l3_pilot_v1",
+  "family": "gpqa",
+  "merge_model": "deepseek-v4-flash-0731",
+  "target_tasks": [
+    "gpqa_033"
+  ],
+  "archetypes": {
+    "constraint_blind": "constraint-blind decimation",
+    "descriptor_conflation": "descriptor/label conflation",
+    "memory_substitution": "memorized-fact substitution",
+    "procedure_truncation": "procedure truncation / omission",
+    "sign_normalization_slip": "sign / normalization slip",
+    "retrieval_abort": "retrieval-abort",
+    "format_nonconformance": "format / precision non-conformance"
+  },
+  "results": [
+    {
+      "model": "deepseek-v4-flash",
+      "family": "gpqa",
+      "task_id": "gpqa_033",
+      "n_instances": 1,
+      "level": 2,
+      "instance_mechanisms": [
+        {
+          "mechanism": "Decides stereochemistry by checking whether candidate R/S descriptor sets are compatible with an internal mirror plane (paired stereocenters must have opposite configurations), treating any symmetry-consistent descriptor set as the product; this ignores the exo/endo approach geometry of the dienophile that actually determines which symmetry-consistent set is formed.",
+          "problem_class": "Predicting the single exo/endo stereoisomer product of a Diels-Alder cycloaddition from a list of R/S-descriptor options"
+        }
+      ],
+      "mechanism": "Selects the product stereoisomer by requiring that the R/S descriptor set be internally mirror-symmetric, with paired stereocenters assigned opposite configurations, and treats any symmetry-compatible descriptor set as the product while ignoring the exo/endo approach geometry of the dienophile that uniquely determines which symmetry-compatible set is formed.",
+      "check_procedure": "For the committed descriptor set, reconstruct the implied dienophile approach geometry from the relative configurations of newly formed stereocenters, then check whether this geometry matches the approach demanded by the dienophile substitution pattern and diene conformation; also test whether at least one alternative symmetry-compatible descriptor set also passes the symmetry filter but fails the approach-geometry requirement, which would indicate that pure symmetry was used instead of the geometry-defining step.",
+      "trigger": "The question type is a single-product Diels-Alder prediction from R/S descriptor options, and the committed answer is a descriptor set in which stereocenters occur as opposite-configuration pairs, exhibiting mirror symmetry, yet the reasoning does not explicitly derive or justify the exo/endo approach geometry that would distinguish it from other symmetry-compatible sets.",
+      "parse_ok": true,
+      "finish_reason": "stop",
+      "level3": {
+        "archetype_id": "constraint_blind",
+        "archetype_name": "constraint-blind decimation",
+        "rationale": "Forecasts the product from a partial symmetry constraint (mirror-symmetric R/S assignment) while dropping the decisive exo/endo approach geometry that uniquely determines which symmetry-compatible set forms.",
+        "parse_ok": true
+      }
+    },
+    {
+      "model": "glm-5.3",
+      "family": "gpqa",
+      "task_id": "gpqa_033",
+      "n_instances": 1,
+      "level": 2,
+      "instance_mechanisms": [
+        {
+          "mechanism": "determines exo/endo by analyzing the geometric orientation of the bridged bicyclic skeleton itself (e.g., which side a one-carbon bridge lies relative to two-carbon bridges) instead of by tracing whether the incoming dienophile substituents approach on the same face as or opposite to the diene's own bridge",
+          "problem_class": "Diels-Alder [4+2] cycloaddition product stereochemistry MCQ (endo/exo product selection)"
+        }
+      ],
+      "mechanism": "determine the endo/exo product stereochemistry by analyzing the geometric orientation of the bridged bicyclic skeleton itself (e.g., which side a one-carbon bridge lies relative to two-carbon bridges) instead of by tracing whether the incoming dienophile substituents approach on the same face as or opposite to the diene's own bridge",
+      "check_procedure": "Re-derive the endo/exo assignment by tracing the approach trajectory of the dienophile's substituents relative to the diene's own bridge during the [4+2] cycloaddition, rather than by inspecting the product's bridged bicyclic skeleton; confirm that the committed answer's endo/exo label is consistent with the face of approach, and flag the answer if it was justified solely by the relative positions of the carbon bridges in the product.",
+      "trigger": "For a Diels-Alder [4+2] product stereochemistry MCQ, the committed answer is an endo/exo designation (e.g., 'endo' or 'exo') for a product with a bridged bicyclic skeleton, and the answer appears to be derived by comparing the geometric orientation of the one-carbon and two-carbon bridges in the product rather than by tracing the stereochemical approach of the dienophile to the diene.",
+      "parse_ok": true,
+      "finish_reason": "stop",
+      "level3": {
+        "archetype_id": "constraint_blind",
+        "archetype_name": "constraint-blind decimation",
+        "rationale": "Uses the bicyclic skeleton's own geometry instead of tracing the dienophile approach face relative to the diene bridge, dropping the decisive face-orientation constraint.",
+        "parse_ok": true
+      }
+    },
+    {
+      "model": "qwen3.8-flash",
+      "family": "gpqa",
+      "task_id": "gpqa_033",
+      "n_instances": 1,
+      "level": 2,
+      "instance_mechanisms": [
+        {
+          "mechanism": "selects the stereoisomer by drawing the dienophile approaching the diene from the same face as the bridge/diene substituents, ignoring the exo/endo transition-state orientation of the dienophile relative to those substituents",
+          "problem_class": "Diels-Alder [4+2] cycloaddition product stereochemistry MCQ with exo/endo options"
+        }
+      ],
+      "mechanism": "selects the cycloadduct by placing the dienophile on the same face as the diene's existing substituents or bridge, thereby bypassing the exo/endo transition-state preference dictated by those substituents",
+      "check_procedure": "Reconstruct the transition state from the diene and dienophile, then confirm that the committed product's relative facial orientation matches the sterically/electronically favored exo or endo approach; if the product instead reflects only a same-face alignment with the diene's substituents, the mechanism has fired.",
+      "trigger": "Diels-Alder [4+2] stereochemistry MCQ with exo/endo options where the committed answer shows the dienophile attached to the same face as the diene's bridge or substituents, and no exo/endo preference based on the diene's substituent orientation is evident in the product.",
+      "parse_ok": true,
+      "finish_reason": "stop",
+      "level3": {
+        "archetype_id": "constraint_blind",
+        "archetype_name": "constraint-blind decimation",
+        "rationale": "Uses the local face-placement heuristic while dropping the decisive exo/endo transition-state constraint.",
+        "parse_ok": true
+      }
+    }
+  ]
+}

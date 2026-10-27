@@ -1,13 +1,13 @@
 # Change-Propagation Protocol
 
-> Living document · v1.3 · 2026-10-21
+> Living document · v1.4 · 2026-10-27
 >
 > This protocol governs how the repository stays internally consistent when the research direction changes or new experimental conclusions revise prior views. It is **normative**: every change must follow it.
 >
 > **Active direction (2026-10-21).** The program has re-anchored from plain recursive self-improvement (RSI)
-> to **Error-Guided Test-Time Elimination (EGTE)** — a train-free, three-role evaluator (distill / check /
-> review) that *eliminates* wrong moves instead of scoring the correct path (§0.4 of `docs/WORKMAP.md`, §13–14
-> of `docs/PHASE2_SUMMARY.md`). Outstanding propagation debt from that re-anchor is tracked below and closed
+> to **Error-Guided Test-Time Elimination (EGTE)** — a train-free, three-role pipeline (distiller / critic /
+> evaluator) that *eliminates* wrong moves instead of scoring the correct path (§0.4 of `docs/WORKMAP.md`, §13–14
+> of `docs/PHASE2_SUMMARY.md`, `docs/PAPER_DRAFT.md`). Outstanding propagation debt from that re-anchor is tracked below and closed
 > incrementally.
 
 ---
@@ -51,6 +51,7 @@
 | `docs/DOCS_FRAMEWORK.md` | the document system itself | — |
 | `docs/FILE_AUDIT.md` | file-audit & doc-sync workflow (sync-on-push, periodic scan) | DOCS_FRAMEWORK |
 | `docs/HISTORY.md` | project stage history + continuity rules | — |
+| `docs/PAPER_DRAFT.md` | manuscript draft (EGTE definition, roles, objective, arms, results, research questions) | all of the above |
 | `paper/` | manuscript (downstream of all) | all of the above |
 | `CHANGELOG.md` | engineering changes | git |
 | `README.md` | index / reproduction guide | all of the above |
@@ -102,6 +103,7 @@ A change to any claim invalidates downstream artifacts that depend on it. On any
 
 | Version | Date | Change |
 |---|---|---|
+| 1.4 | 2026-10-27 | Document graph: added `docs/PAPER_DRAFT.md` (manuscript draft) + `paper/paper_ppt.md`; aligned active-direction term to distiller / critic / evaluator. |
 | 1.3 | 2026-10-21 | Document graph: added PHASE2_SUMMARY.md (EGTE re-anchoring §13 + experiment path §14); WORKMAP responsibility noted as 52 sources with EGTE positioning; recorded the active EGTE direction. |
 | 1.2 | 2026-10-07 | Document graph: added FILE_AUDIT.md (file-audit & doc-sync playbook). |
 | 1.1 | 2026-10-07 | Document graph: added PHASE1_SUMMARY.md + ERROR_TAXONOMY.md; EVALUATION_STANDARD corrected to 3-tier; INTERFERENCE range to INT-16. |

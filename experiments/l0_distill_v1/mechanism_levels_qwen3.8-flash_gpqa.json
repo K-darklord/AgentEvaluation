@@ -1,0 +1,197 @@
+{
+  "version": "l2_l3_pilot_v2",
+  "family": "gpqa",
+  "solver_model": "qwen3.8-flash",
+  "merge_model": "deepseek-v4-flash-0731",
+  "n_instances": 15,
+  "dropped_contamination": [
+    "gpqa_001",
+    "gpqa_022"
+  ],
+  "n_classes": 9,
+  "archetypes": {
+    "constraint_blind": "constraint-blind decimation",
+    "descriptor_conflation": "descriptor/label conflation",
+    "memory_substitution": "memorized-fact substitution",
+    "procedure_truncation": "procedure truncation / omission",
+    "sign_normalization_slip": "sign / normalization slip",
+    "retrieval_abort": "retrieval-abort",
+    "format_nonconformance": "format / precision non-conformance"
+  },
+  "classes": [
+    {
+      "class_label": "single_cue_stereochemical_selection",
+      "mechanism": "predicts the full stereochemical outcome from one stereocontrol element while ignoring other stereocenters, face approach constraints, or prior step configurations",
+      "check_procedure": "enumerate all stereogenic elements and transition-state approach modes; verify the proposed product matches the complete set of constraints from every step",
+      "trigger": "questions about product stereochemistry from reactions with multiple stereodetermining steps, with committed answer based on only one site or one alkene geometry",
+      "members": [
+        "M6",
+        "M10",
+        "M15"
+      ],
+      "member_tasks": [
+        "gpqa_028",
+        "gpqa_033",
+        "gpqa_046"
+      ],
+      "level3": {
+        "archetype_id": "constraint_blind",
+        "archetype_name": "constraint-blind decimation",
+        "rationale": "Predicts stereochemistry from a single stereocontrol element, dropping other decisive constraints (other stereocenters, face approach, prior steps).",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "substitute_superficial_symmetry_heuristic",
+      "mechanism": "infers symmetry equivalence or achirality from a local structural cue without performing the full three-dimensional symmetry operation",
+      "check_procedure": "construct the complete 3D conformation and explicitly check mirror-image superimposability or all symmetry operations before assigning chirality or equivalence",
+      "trigger": "questions about chirality, meso compounds, molecular symmetry groups, or carbon equivalence, with committed answer based only on a drawn local plane or double-bond side",
+      "members": [
+        "M4",
+        "M8",
+        "M11"
+      ],
+      "member_tasks": [
+        "gpqa_016",
+        "gpqa_031",
+        "gpqa_037"
+      ],
+      "level3": {
+        "archetype_id": "constraint_blind",
+        "archetype_name": "constraint-blind decimation",
+        "rationale": "Infers symmetry/achirality from a local cue while dropping the decisive full 3D symmetry check.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "collapse_reaction_to_global_aggregate",
+      "mechanism": "collapses a multi-step reaction sequence into a single global operation, ignoring which atoms survive and which intermediate steps occur",
+      "check_procedure": "trace each reagent atom through every elementary step and verify the proposed product's connectivity and stereochemistry are consistent with the full ordered mechanism",
+      "trigger": "questions asking for a final product from a multi-step procedure, with committed answer that is a simple aggregate of all reagents or a single functional-group transformation",
+      "members": [
+        "M1",
+        "M12"
+      ],
+      "member_tasks": [
+        "gpqa_002",
+        "gpqa_038"
+      ],
+      "level3": {
+        "archetype_id": "procedure_truncation",
+        "archetype_name": "procedure truncation / omission",
+        "rationale": "Collapsing a multi-step sequence into one global operation omits intermediate steps and atom-survival details, matching procedure truncation/omission.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "mismap_answer_to_option_format",
+      "mechanism": "fails to translate a derived chemical result into the requested option identifier or numeric precision, either assigning the wrong letter or leaving the result uncommitted",
+      "check_procedure": "after deriving the result, explicitly match it to the option whose textual content equals the derived structure or value, and check the requested precision/tolerance",
+      "trigger": "multiple-choice questions requiring a final stereo-descriptor or numeric value, with committed answer that is a standalone number or an option letter inconsistent with the derived result",
+      "members": [
+        "M3",
+        "M9"
+      ],
+      "member_tasks": [
+        "gpqa_013",
+        "gpqa_032"
+      ],
+      "level3": {
+        "archetype_id": "format_nonconformance",
+        "archetype_name": "format / precision non-conformance",
+        "rationale": "The failure is about not translating the derived result into the requested option letter or numeric precision, i.e., format non-conformance.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "nomenclature_ring_relationship_shortcut",
+      "mechanism": "selects the locant set from ring substituent relationships alone, without applying the alphabetical tie-break that assigns the lowest locant to the first-cited substituent",
+      "check_procedure": "once a locant set is chosen, re-evaluate alternative numbering directions and apply IUPAC tie-break rules, giving the lower locant to the alphabetically prior substituent",
+      "trigger": "questions asking for the correct IUPAC name of a substituted ring, with committed answer based only on ortho/meta/para arrangement and no alphabetical numbering check",
+      "members": [
+        "M13"
+      ],
+      "member_tasks": [
+        "gpqa_043"
+      ],
+      "level3": {
+        "archetype_id": "constraint_blind",
+        "archetype_name": "constraint-blind decimation",
+        "rationale": "Selects locants from substituent relationships alone, dropping the decisive alphabetical tie-break constraint.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "organelle_name_proxy",
+      "mechanism": "treats any assay bearing an organelle or metabolic name as automatically localized to that organelle, without verifying the molecular process actually occurs there",
+      "check_procedure": "look up the specific enzyme or pathway measured and confirm its established subcellular localization before attributing mitochondrial relevance",
+      "trigger": "questions asking which process or entity is mitochondria-associated, with committed answer chosen from an organelle-named assay without mechanistic localization check",
+      "members": [
+        "M14"
+      ],
+      "member_tasks": [
+        "gpqa_044"
+      ],
+      "level3": {
+        "archetype_id": "descriptor_conflation",
+        "archetype_name": "descriptor/label conflation",
+        "rationale": "Assumes an organelle/metabolic label automatically implies localization, conflating the label with the actual process.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "ratio_shortcut_with_reference_cancellation",
+      "mechanism": "computes an abundance ratio by exponentiating difference of composite ratios and canceling reference abundances, rather than expressing each element abundance relative to hydrogen before taking the ratio",
+      "check_procedure": "rewrite each star's element abundance as a ratio to hydrogen using the provided solar absolute abundances, then take the ratio of those normalized values; check that no reference term is cancelled prematurely",
+      "trigger": "questions comparing element abundance ratios between two astronomical objects, with committed answer obtained by exponentiating log differences or bracketed ratios directly",
+      "members": [
+        "M5"
+      ],
+      "member_tasks": [
+        "gpqa_018"
+      ],
+      "level3": {
+        "archetype_id": "sign_normalization_slip",
+        "archetype_name": "sign / normalization slip",
+        "rationale": "Cancels the hydrogen reference abundances that must remain in the ratio, instead of normalizing each element to hydrogen first.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "require_retrieved_text_instead_of_reasoning",
+      "mechanism": "withholds judgment when exact supporting text is absent from retrieved documents, refusing to apply domain knowledge to evaluate statements",
+      "check_procedure": "for each statement, independently reason from known principles and only use retrieval as supplementary evidence, not as a necessary prerequisite",
+      "trigger": "questions asking to identify an exception or false statement from a set of retrieved passages, with committed answer of abstention or 'not enough information'",
+      "members": [
+        "M2"
+      ],
+      "member_tasks": [
+        "gpqa_011"
+      ],
+      "level3": {
+        "archetype_id": "retrieval_abort",
+        "archetype_name": "retrieval-abort",
+        "rationale": "Abandons reasoning when exact supporting text is absent, refusing to apply domain knowledge.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "superficial_mutation_disruption",
+      "mechanism": "selects a mutation as gene-disrupting based solely on the presence of a deletion, without translating the mutant sequence to check for a premature stop or frameshift",
+      "check_procedure": "translate the proposed mutant sequence and confirm that an early stop codon or shift in the reading frame actually occurs before the full protein product",
+      "trigger": "questions asking for the most disruptive mutation in a coding sequence, with committed answer that is any deletion or lost codon without sequence translation",
+      "members": [
+        "M7"
+      ],
+      "member_tasks": [
+        "gpqa_029"
+      ],
+      "level3": {
+        "archetype_id": "constraint_blind",
+        "archetype_name": "constraint-blind decimation",
+        "rationale": "Decides gene disruption from deletion presence alone, ignoring the decisive translation check for frameshift/premature stop.",
+        "parse_ok": true
+      }
+    }
+  ]
+}

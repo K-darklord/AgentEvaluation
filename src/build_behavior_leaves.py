@@ -196,13 +196,21 @@ def _norm(name: str) -> str:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--family", default="gpqa")
+    ap.add_argument("--bank", default=str(BANK_PATH),
+                    help="wrong-bank JSONL to read (default: the error_taxonomy_v2 bank)")
+    ap.add_argument("--model", default=None,
+                    help="restrict to ONE solver model's wrong rows (default: all "
+                         "models in the family)")
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--workers", type=int, default=config.RUNNER_CONCURRENCY)
     args = ap.parse_args()
 
-    bank = [json.loads(l) for l in open(BANK_PATH, encoding="utf-8")]
+    bank = [json.loads(l) for l in open(args.bank, encoding="utf-8")]
     rows = [r for r in bank if r.get("family") == args.family]
-    print(f"[load] {len(rows)} {args.family} wrong instances from {BANK_PATH.name}")
+    if args.model:
+        rows = [r for r in rows if r.get("model") == args.model]
+    print(f"[load] {len(rows)} {args.family} wrong instances from {Path(args.bank).name}"
+          + (f" (model={args.model})" if args.model else ""))
     if args.limit:
         rows = rows[: args.limit]
         print(f"[limit] running on first {len(rows)}")

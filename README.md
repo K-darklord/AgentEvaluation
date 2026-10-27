@@ -1,6 +1,6 @@
 # AgentEvaluation — Metacognitive Evaluation of Agent Capability
 
-> Living document · 2026-10-07
+> Living document · 2026-10-27
 >
 > A financial-agent evaluation pipeline, now reorganized as the single source of truth for the metacognition research program. All research documents, the reproducibility standard, and the change-propagation protocol live alongside the code.
 
@@ -12,11 +12,11 @@
 2. **The home of the research program** — single end-to-end paper whose core contribution is a *new evaluation paradigm*: an external meta-cognitive (weak-critic) proxy redefines capability from static single-shot accuracy into round-dimension dynamic observables — activation ceiling `P(A)`, locking `P(F | A)`, locking loss — and a cost–reliability + risk relationship; a model × task × error-type tensor decomposition localizes which of four capability layers (L1–L4) a model lacks. The evaluation-framework-interference study (26pp spurious deficit) motivates "static accuracy is a bad metric".
 
 > **Re-anchored 2026-10-21 → Error-Guided Test-Time Elimination (EGTE).** The program's active mechanism is
-> EGTE: a **train-free, three-role evaluator** (*distill* → `mechanism` + `check_procedure`, *check* → gold-free
-> `trigger`, *review* → evidence-anchored CUT / UNSURE) that **eliminates** wrong moves distilled from
+> EGTE: a **train-free, three-role pipeline** — **distiller** → `mechanism` + `check_procedure`, **critic** → gold-free
+> `trigger`, **evaluator** → evidence-anchored CUT / KEEP / UNSURE — that **eliminates** wrong moves distilled from
 > gold-annotated errors, instead of scoring the correct path. It is deliberately **not a PRM** (no scalar reward,
-> no weight update — the solver and the three evaluator roles are separate calls). See `docs/WORKMAP.md` §0.4 and
-> `docs/PHASE2_SUMMARY.md` §13–14.
+> no weight update — the solver and the three EGTE roles are separate calls). See `docs/WORKMAP.md` §0.4,
+> `docs/PHASE2_SUMMARY.md` §13–14, and the manuscript draft `docs/PAPER_DRAFT.md`.
 
 ---
 
@@ -80,6 +80,9 @@ AgentEvaluation/
 | [docs/FILE_AUDIT.md](docs/FILE_AUDIT.md) | File-audit & doc-sync playbook (sync-on-push habit, periodic scan checklist) |
 | [docs/WORKMAP.md](docs/WORKMAP.md) | 4-dimension academic frontier map (52 sources): evaluation / verification / optimization / inference scaling → proposal positioning → EGTE |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Implementation blueprint for the experiment-execution layer (SQLite task queue, provider routing, phased landing plan) |
+| [docs/PAPER_DRAFT.md](docs/PAPER_DRAFT.md) | Manuscript draft — EGTE definition, roles (distiller / critic / evaluator), objective (EIR/ECR), arms, frozen scoring standard, results, research questions |
+| [paper/paper_outline.md](paper/paper_outline.md) | Manuscript skeleton — seven-stage evidence chain, contribution claims, figure/table placeholders |
+| [paper/paper_ppt.md](paper/paper_ppt.md) | Slide content & layout (P1–P8), aligned to the outline + draft |
 | [PROTOCOL.md](PROTOCOL.md) | How every change propagates to all dependent documents |
 
 ---
@@ -129,6 +132,7 @@ Correctness is dispatched into three tiers by answer form: **T1** deterministic 
 
 | Version | Date | Change |
 |---|---|---|
+| 2.9 | 2026-10-27 | Registered `docs/PAPER_DRAFT.md` + `paper/paper_ppt.md` as academic deliverables; aligned three-role terminology to distiller / critic / evaluator (was distill / check / review). |
 | 2.8 | 2026-10-21 | Re-anchored to Error-Guided Test-Time Elimination (EGTE): three-role evaluator (distill / check / review), not a PRM; WORKMAP 52 sources. |
 | — | 2026-09-16 | Prior evaluation pipeline README. |
 | 2.7 | 2026-10-07 | File-audit cleanup: added FILE_AUDIT.md playbook; removed legacy FinGPT local-inference dead code and superseded configs/fab_baseline.yaml; completed CHANGELOG. |

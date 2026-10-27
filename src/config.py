@@ -79,6 +79,12 @@ AIME_DATA_PATH = os.getenv("AIME_DATA_PATH", "data/raw/aime_1983_2024.csv")
 GPQA_DATA_URL = "https://modelscope.cn/datasets/modelscope/gpqa/resolve/master/gpqa_diamond.csv"
 GPQA_DATA_PATH = os.getenv("GPQA_DATA_PATH", "data/raw/gpqa_diamond.csv")
 
+# Humanity's Last Exam (HLE) text-only slice - mirrors cais/hle. The ~14% image subset
+# is deferred (VLM rework). We use a stratified 50-question pilot (hle_50_pilot.jsonl:
+# answer_type/answer/shape/question + hle_id) to validate the exact-match scorer on open
+# answer forms (symbolic / integer / word / text), the new non-saturated discriminative axis.
+HLE_DATA_PATH = os.getenv("HLE_DATA_PATH", "data/raw/hle/hle_50_pilot.jsonl")
+
 # BIG-Bench Hard (curated reasoning tasks) - mirrors suzgunmiirc/BIG-Bench-Hard (GitHub raw).
 # Curated subset of cheap, clearly scoreable tasks (letter MCQ + short free-form).
 BBH_DATA_DIR = os.getenv("BBH_DATA_DIR", "data/raw/bbh")
@@ -241,7 +247,7 @@ PHASE1_MODELS = {
 #       open-book agent that must retrieve filings to answer.
 # Frozen 2026-10-08; see docs/TOOL_POLICY.md.
 CLOSED_BOOK_BENCHMARKS = frozenset({
-    "math", "math500", "mmlu_pro", "aime", "gpqa", "bbh",
+    "math", "math500", "mmlu_pro", "aime", "gpqa", "bbh", "hle",
 })
 TOOL_NATIVE_BENCHMARKS = frozenset({
     "bfcl", "finance",

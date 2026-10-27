@@ -1,0 +1,46 @@
+{
+  "distill_version": "v3.0",
+  "family": "bbh",
+  "model": "deepseek-v4-flash-0731",
+  "generated_at_utc": "2026-10-21T05:21:55.887435+00:00",
+  "n_total": 4,
+  "n_parsed": 4,
+  "distribution": {
+    "classifies_a_closed_four_sided_svg_path_by_computing_only_two_adjacent_edge_vectors_treating_a_near_zero_dot_product_as_proof_of_a_right_angle_and_selecting_a_perpendicular_based_quadrilateral_option_without_checking_opposite_side_parallelism_or_full_angle_closure": {
+      "count": 1,
+      "problem_class": [
+        "SVG path polygon shape classification MCQ"
+      ],
+      "task_ids": [
+        "bbh_0003"
+      ]
+    },
+    "classifies_an_error_as_an_entity_change_whenever_a_capitalized_proper_noun_token_in_the_source_is_altered_without_checking_whether_the_target_word_is_actually_another_entity_this_over_triggers_when_the_proper_noun_acts_as_an_attributive_modifier_of_a_head_noun_and_is_rendered_as_a_common_noun_adjective_causing_a_modifier_adjective_error_to_be_mislabeled_as_an_entity_error": {
+      "count": 1,
+      "problem_class": [
+        "German-to-English translation error-type classification with a fixed error taxonomy"
+      ],
+      "task_ids": [
+        "bbh_0018"
+      ]
+    },
+    "classifies_the_error_as_named_entities_whenever_a_capitalized_taxon_like_term_is_replaced_by_another_capitalized_taxon_like_term_without_checking_whether_the_source_term_is_actually_a_general_class_rank_designation_whose_mistranslation_changes_biological_classification": {
+      "count": 1,
+      "problem_class": [
+        "German-to-English translation error category MCQ"
+      ],
+      "task_ids": [
+        "bbh_0020"
+      ]
+    },
+    "when_a_single_word_mistranslation_replaces_a_word_with_another_valid_but_semantically_unrelated_target_language_word_the_model_categorizes_the_error_by_the_part_of_speech_or_semantic_type_of_the_changed_word_e_g_as_named_entities_for_geographical_terms_or_modifiers_adjectives_for_descriptive_words_instead_of_checking_whether_the_substitution_introduces_a_factual_inaccuracy_about_the_subject": {
+      "count": 1,
+      "problem_class": [
+        "German-to-English translation error categorization MCQ"
+      ],
+      "task_ids": [
+        "bbh_0019"
+      ]
+    }
+  }
+}

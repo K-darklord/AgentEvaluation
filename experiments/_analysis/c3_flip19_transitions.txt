@@ -1,0 +1,88 @@
+task	gold	arm	i	from	to	kind	critic_arch	held	rationale_attr
+aime_018	144	B	0	'144'	'36'	DERAIL	—	False	True
+aime_018	144	B	2	'36'	'144'	REPAIR	procedure truncation / omission	False	True
+aime_018	144	G	0	'36'	'144'	REPAIR	—	False	True
+aime_018	144	G	1	'144'	'36'	DERAIL	constraint-blind decimation	True	None
+aime_018	144	G	2	'36'	'144'	REPAIR	constraint-blind decimation	True	None
+aime_018	144	G	3	'144'	'36'	DERAIL	descriptor/label conflation	True	None
+aime_018	144	G	4	'36'	'144'	REPAIR	procedure truncation / omission	True	None
+aime_021	24	B	0	'24'	'with ONLY final inte'	SWAP	—	False	None
+aime_021	24	B	1	'with ONLY final inte'	'24'	SWAP	procedure truncation / omission	False	None
+aime_044	864	B	0	'We need know polyhed'	'288'	FLAIL	—	False	True
+aime_044	864	B	2	'288'	'864'	REPAIR	constraint-blind decimation	False	False
+gpqa_016	A	B	0	'A'	'D'	DERAIL	—	False	True
+gpqa_016	A	B	2	'D'	'List:\n1 (Z)-1-chloro'	FLAIL	constraint-blind decimation	False	True
+gpqa_016	A	B	3	'List:\n1 (Z)-1-chloro'	'D'	FLAIL	constraint-blind decimation	False	True
+gpqa_016	A	G	0	'D'	'A'	REPAIR	—	False	True
+gpqa_016	A	G	2	'A'	'D'	DERAIL	constraint-blind decimation	True	None
+gpqa_016	A	G	3	'D'	'A'	REPAIR	constraint-blind decimation	True	None
+gpqa_016	A	G	5	'A'	'C'	DERAIL	retrieval-abort	True	None
+gpqa_016	A	G	6	'C'	'D'	FLAIL	constraint-blind decimation	True	None
+gpqa_016	A	G	8	'D'	'A'	REPAIR	constraint-blind decimation	True	None
+gpqa_016	A	G	9	'A'	"Let's not rely solel"	DERAIL	constraint-blind decimation	True	None
+gpqa_028	D	B	1	'D'	'The final product is'	FLAIL	constraint-blind decimation	False	True
+gpqa_028	D	B	2	'The final product is'	'D'	REPAIR	constraint-blind decimation	False	True
+gpqa_028	D	G	1	'D'	"But let's be extreme"	DERAIL	constraint-blind decimation	True	None
+gpqa_028	D	G	2	"But let's be extreme"	'D'	REPAIR	constraint-blind decimation	True	None
+gpqa_028	D	G	3	'D'	'**D. (2S,3R,4S,6S)-2'	SWAP	constraint-blind decimation	True	None
+gpqa_028	D	G	4	'**D. (2S,3R,4S,6S)-2'	'D'	SWAP	constraint-blind decimation	True	None
+gpqa_048	C	B	0	'C'	'? Could be reduction'	DERAIL	—	False	True
+gpqa_048	C	B	1	'? Could be reduction'	'B'	FLAIL	constraint-blind decimation	False	False
+gpqa_048	C	B	2	'B'	'A'	FLAIL	retrieval-abort	False	True
+gpqa_048	C	B	3	'A'	'The correct answer i'	FLAIL	constraint-blind decimation	False	None
+gpqa_048	C	B	4	'The correct answer i'	'C'	REPAIR	constraint-blind decimation	False	True
+gpqa_048	C	B	6	'C'	'容器. Wait mirror imag'	DERAIL	constraint-blind decimation	False	True
+gpqa_048	C	B	7	'容器. Wait mirror imag'	'But "chemically dist'	REPAIR	constraint-blind decimation	False	True
+gpqa_048	C	B	8	'But "chemically dist'	'5? Actually an atom '	DERAIL	retrieval-abort	False	True
+gpqa_048	C	B	9	'5? Actually an atom '	'C'	REPAIR	constraint-blind decimation	False	True
+gpqa_048	C	G	0	'C'	'D'	DERAIL	—	False	True
+gpqa_048	C	G	1	'D'	'C'	REPAIR	constraint-blind decimation	True	None
+gpqa_048	C	G	3	'C'	'The answer is C. 6.'	SWAP	constraint-blind decimation	True	None
+gpqa_049	D	B	0	'D'	'A'	DERAIL	—	False	True
+gpqa_049	D	G	0	'D'	'A'	DERAIL	—	False	True
+gpqa_049	D	G	1	'A'	'C'	FLAIL	procedure truncation / omission	True	None
+gpqa_049	D	G	2	'C'	'A'	FLAIL	procedure truncation / omission	True	None
+gpqa_049	D	G	3	'A'	'D'	REPAIR	constraint-blind decimation	True	None
+gpqa_049	D	G	4	'D'	'A'	DERAIL	constraint-blind decimation	True	None
+gpqa_049	D	G	6	'A'	'The correct option i'	FLAIL	constraint-blind decimation	True	None
+gpqa_095	B	G	0	'A'	'Question: Starting c'	FLAIL	—	False	True
+gpqa_095	B	G	1	'Question: Starting c'	'D'	FLAIL	procedure truncation / omission	True	None
+gpqa_095	B	G	2	'D'	'B'	REPAIR	retrieval-abort	True	None
+gpqa_095	B	G	3	'B'	'A'	DERAIL	procedure truncation / omission	True	None
+gpqa_095	B	G	4	'A'	"Let's search memory "	FLAIL	procedure truncation / omission	True	None
+gpqa_095	B	G	5	"Let's search memory "	'B'	REPAIR	constraint-blind decimation	False	False
+gpqa_095	B	G	6	'B'	'D'	DERAIL	retrieval-abort	True	None
+gpqa_095	B	G	7	'D'	'A'	FLAIL	procedure truncation / omission	True	None
+gpqa_095	B	G	9	'A'	'Substrate: 3,3,6-tri'	FLAIL	constraint-blind decimation	True	None
+gpqa_103	B	B	0	'A'	'Desired: 1-(3-bromo-'	FLAIL	—	False	True
+gpqa_103	B	B	1	'Desired: 1-(3-bromo-'	'D'	FLAIL	retrieval-abort	False	True
+gpqa_103	B	B	2	'D'	'to substituents:\n- A'	FLAIL	retrieval-abort	False	True
+gpqa_103	B	B	3	'to substituents:\n- A'	'D'	FLAIL	procedure truncation / omission	False	False
+gpqa_103	B	B	5	'D'	'A'	FLAIL	retrieval-abort	False	True
+gpqa_103	B	B	6	'A'	'Option D starts with'	FLAIL	procedure truncation / omission	False	True
+gpqa_103	B	B	7	'Option D starts with'	'The correct sequence'	FLAIL	procedure truncation / omission	False	True
+gpqa_103	B	B	8	'The correct sequence'	'A'	FLAIL	procedure truncation / omission	False	True
+gpqa_103	B	B	9	'A'	'D'	FLAIL	retrieval-abort	False	False
+gpqa_109	C	B	1	'D'	'C'	REPAIR	procedure truncation / omission	False	True
+gpqa_109	C	B	2	'C'	'A.'	DERAIL	procedure truncation / omission	False	True
+gpqa_109	C	B	3	'A.'	'D'	FLAIL	procedure truncation / omission	False	False
+gpqa_109	C	G	0	'C'	'D'	DERAIL	—	False	True
+gpqa_109	C	G	1	'D'	'C'	REPAIR	constraint-blind decimation	True	None
+gpqa_163	B	G	0	'B'	'Given: dissolve 0.1 '	DERAIL	—	False	True
+gpqa_163	B	G	1	'Given: dissolve 0.1 '	'The correct answer i'	REPAIR	procedure truncation / omission	True	None
+gpqa_163	B	G	2	'The correct answer i'	'B'	SWAP	descriptor/label conflation	True	None
+gpqa_167	C	B	0	'C'	'A'	DERAIL	—	False	True
+gpqa_167	C	B	1	'A'	'C'	REPAIR	procedure truncation / omission	False	True
+gpqa_167	C	G	0	'C'	'B'	DERAIL	—	False	True
+gpqa_167	C	G	1	'B'	'C'	REPAIR	procedure truncation / omission	True	None
+gpqa_167	C	G	2	'C'	'B'	DERAIL	procedure truncation / omission	True	None
+gpqa_167	C	G	3	'B'	'C'	REPAIR	procedure truncation / omission	True	None
+gpqa_167	C	G	4	'C'	'S(ν)= (ν+0.5) ln(ν+0'	DERAIL	procedure truncation / omission	True	None
+gpqa_167	C	G	5	'S(ν)= (ν+0.5) ln(ν+0'	'C. 1.38'	REPAIR	procedure truncation / omission	True	None
+gpqa_167	C	G	6	'C. 1.38'	'B'	DERAIL	constraint-blind decimation	False	True
+gpqa_167	C	G	7	'B'	'C. 1.38'	REPAIR	descriptor/label conflation	True	None
+gpqa_167	C	G	8	'C. 1.38'	'C'	SWAP	procedure truncation / omission	True	None
+gpqa_167	C	G	9	'C'	'Question asks calcul'	DERAIL	procedure truncation / omission	True	None
+math500_021	6+9i	G	1	'6 + 9i'	'6+9i'	SWAP	procedure truncation / omission	True	None
+mmlu_pro_047	J	G	0	'J'	'E'	DERAIL	—	False	False
+mmlu_pro_047	J	G	1	'E'	'J'	REPAIR	procedure truncation / omission	True	None

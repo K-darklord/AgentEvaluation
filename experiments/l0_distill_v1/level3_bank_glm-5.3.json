@@ -1,0 +1,68 @@
+{
+  "version": "level3_bank_v1",
+  "family": "gpqa",
+  "solver_model": "glm-5.3",
+  "n_entries": 6,
+  "entries": [
+    {
+      "id": "descriptor_conflation",
+      "name": "descriptor/label conflation",
+      "definition": "conflated the target category with a related but distinct descriptor, treating a neighboring property as sufficient evidence for the category in question",
+      "trigger": "Question asks whether a relationship or category holds (epistasis, optical activity, frameshift, reactive intermediate); committed answer invokes a related but distinct property or criterion.",
+      "check_procedure": "Define the target category independently and test whether the evidence satisfies that definition; do not accept a similarly named or related property, such as geometric isomerism for optical activity, as sufficient.",
+      "examples": [
+        "When asked whether a given transformation proceeds through a particular reactive intermediate, the answer invoked the mere presence of a corresponding structural isomer as proof, without examining whether the intermediate's defining electronic arrangement actually formed."
+      ]
+    },
+    {
+      "id": "constraint_blind",
+      "name": "constraint-blind decimation",
+      "definition": "assumed retention of connectivity, stereochemistry, or regiochemistry without tracing the mechanistic trajectory of bond formation or migration",
+      "trigger": "Question asks for product configuration, regiochemistry, exo/endo, or carbonyl placement; committed answer follows an apparently fixed structural feature rather than the mechanism or approach trajectory.",
+      "check_procedure": "Identify the key mechanistic step (backside attack, enolate formation, migration donor/recipient, cycloaddition approach) and trace the positions of bond formation, migration, or attack before assigning configuration, connectivity, or exo/endo outcome.",
+      "examples": [
+        "A question asks for the stereochemical outcome at a carbon undergoing substitution, and the answer assigns the configuration based on the starting material's fixed geometry, ignoring the backside approach of the nucleophile."
+      ]
+    },
+    {
+      "id": "constraint_blind",
+      "name": "constraint-blind decimation",
+      "definition": "mistaken a single conspicuous instance or visual fragment for the complete enumerated set or full symmetry class",
+      "trigger": "Question asks for a global count, point group, or complete set; committed answer is based on one axis, one conspicuous compound, one drawn conformer, or visually distinct-looking positions without exhaustive synthesis.",
+      "check_procedure": "List all candidate instances, hydrogens, or symmetry elements; test each one on the complete object, not on the most visible representative; verify that no additional instances or symmetry requirements remain before finalizing the global answer.",
+      "examples": [
+        "Asked to identify all equivalent positions in a drawn structure, selected the one most visually prominent location and declared it the sole representative, without checking whether other positions satisfy the same symmetry requirements."
+      ]
+    },
+    {
+      "id": "memory_substitution",
+      "name": "memorized-fact substitution",
+      "definition": "substituted a recognized fragment or remembered statement for the required full derivation or option mapping, accepting any option containing a familiar entity as sufficient without verifying the exact relationship, direction, or bookkeeping.",
+      "trigger": "Question asks for a choice or derivation among listed options; committed answer names a memorized/recognized item or fragment rather than showing the computed relationship, full mapping, or bookkeeping.",
+      "check_procedure": "For each selected option, ask what exact computation or mapping was performed; re-derive the required quantity from the question data and verify that no option was accepted merely because it contained a recognized phrase, fragment, citation, or fragmentary structural motif.",
+      "examples": [
+        "On a multiple-choice question requiring a multi-step calculation, selected the option that contained a term from a previously seen formula, without performing the intervening steps or verifying the units."
+      ]
+    },
+    {
+      "id": "sign_normalization_slip",
+      "name": "sign / normalization slip",
+      "definition": "misapplied the sign or normalization convention when combining quantities on non-linear scales, dropping common offsets or reversing directionality",
+      "trigger": "Question provides scaled/ratio abundances or velocities with relative direction; committed answer directly multiplies/divides logarithmic values or uses a minus-sign denominator for co-moving quantities.",
+      "check_procedure": "Before combining values, identify whether each quantity is linear or logarithmic and whether the formula's sign matches the physical direction (same vs opposite, ratio vs difference); restore any common offset before arithmetic.",
+      "examples": [
+        "A scenario presents two quantities expressed on a multiplicative scale with a common reference point and asks for a combined measure; the solver multiplies the raw scale values directly and applies a subtraction for same-direction changes, neglecting the requirement to first convert to linear differences and restore the shared baseline."
+      ]
+    },
+    {
+      "id": "constraint_blind",
+      "name": "constraint-blind decimation",
+      "definition": "added a reduction step to the product absent from the stated reagents and conditions",
+      "trigger": "Question asks for the product of a rearrangement or activation under non-reductive conditions; committed answer contains a more reduced functional group than the reaction conditions can produce.",
+      "check_procedure": "List every reagent and condition provided; after each named rearrangement or activation, track oxidation-state changes and only introduce transformations explicitly supported by the conditions; do not infer unlisted reducing agents.",
+      "examples": [
+        "A reaction sequence specified only an activation and a rearrangement, with no reducing agent; the committed answer converted a carbonyl to an alcohol without any hydride source present."
+      ]
+    }
+  ]
+}

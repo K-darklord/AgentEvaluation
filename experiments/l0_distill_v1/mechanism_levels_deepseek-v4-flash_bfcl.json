@@ -1,0 +1,78 @@
+{
+  "version": "l2_l3_pilot_v2",
+  "family": "bfcl",
+  "solver_model": "deepseek-v4-flash",
+  "merge_model": "deepseek-v4-flash-0731",
+  "n_instances": 5,
+  "dropped_contamination": [],
+  "n_classes": 3,
+  "archetypes": {
+    "constraint_blind": "constraint-blind decimation",
+    "descriptor_conflation": "descriptor/label conflation",
+    "memory_substitution": "memorized-fact substitution",
+    "procedure_truncation": "procedure truncation / omission",
+    "sign_normalization_slip": "sign / normalization slip",
+    "retrieval_abort": "retrieval-abort",
+    "format_nonconformance": "format / precision non-conformance"
+  },
+  "classes": [
+    {
+      "class_label": "incomplete_or_misshapen_required_arguments",
+      "mechanism": "constructs the invocation with a partial argument set or with scalar/string values in place of the schema-required composite forms, omitting required parameters such as evaluation points",
+      "check_procedure": "Enumerate every required parameter in the schema and verify each is present and has the required composite type (e.g., dual representations or list-wrapped values); flag any syntactic rewriting of expressions or omitted numeric parameters.",
+      "trigger": "question type: mathematical computation utility call with multiple required parameters; committed answer: call contains only a rewritten expression plus a few scalars and leaves out other required fields.",
+      "members": [
+        "M2",
+        "M3"
+      ],
+      "member_tasks": [
+        "bfcl_015",
+        "bfcl_016"
+      ],
+      "level3": {
+        "archetype_id": "procedure_truncation",
+        "archetype_name": "procedure truncation / omission",
+        "rationale": "Omitting required parameters such as evaluation points or using scalar/string placeholders truncates the schema-required procedure step.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "wrong_tool_name_namespacing",
+      "mechanism": "invokes the intended operation through a non-canonical tool name by using underscores in place of dot-separated namespace segments",
+      "check_procedure": "Inspect every emitted tool/function name against the schema's dotted namespace pattern; verify whether any underscore appears where a dot separator is declared and whether the canonical dotted name would match a registered function, without comparing to any answer choice.",
+      "trigger": "question type: any tool/function call whose target name is namespaced with dots; committed answer: emitted call uses an underscore-joined name while the payload arguments are otherwise unchanged.",
+      "members": [
+        "M4",
+        "M5"
+      ],
+      "member_tasks": [
+        "bfcl_017",
+        "bfcl_031"
+      ],
+      "level3": {
+        "archetype_id": "descriptor_conflation",
+        "archetype_name": "descriptor/label conflation",
+        "rationale": "The correct operation is mapped onto a wrong tool name (underscores vs dot separators), a label mismatch for the same intended structure.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "generic_envelope_for_structured_call",
+      "mechanism": "formats the tool call as a generic name/arguments wrapper with stringified arguments instead of exposing the schema-required structured argument object keyed by parameter names",
+      "check_procedure": "Parse the emitted call's top-level structure; confirm whether each schema-required parameter appears as its own field in an object, or whether all arguments are collapsed into a single serialized string inside a generic envelope; no correct choice is referenced.",
+      "trigger": "question type: function calling with nested structured arguments; committed answer: a single envelope containing a stringified JSON payload.",
+      "members": [
+        "M1"
+      ],
+      "member_tasks": [
+        "bfcl_014"
+      ],
+      "level3": {
+        "archetype_id": "format_nonconformance",
+        "archetype_name": "format / precision non-conformance",
+        "rationale": "The tool call uses a generic stringified wrapper instead of the required structured argument object, violating the requested format schema.",
+        "parse_ok": true
+      }
+    }
+  ]
+}

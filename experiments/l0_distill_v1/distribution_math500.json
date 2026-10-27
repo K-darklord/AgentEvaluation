@@ -1,0 +1,55 @@
+{
+  "distill_version": "v3.0",
+  "family": "math500",
+  "model": "deepseek-v4-flash-0731",
+  "generated_at_utc": "2026-10-21T05:23:39.770839+00:00",
+  "n_total": 5,
+  "n_parsed": 5,
+  "distribution": {
+    "computes_the_horizontal_asymptote_as_the_ratio_of_the_leading_coefficients_of_the_numerator_and_denominator_and_adds_it_to_the_sum_of_the_denominator_roots_instead_of_comparing_degrees_and_using_y_0_when_the_numerator_degree_is_lower": {
+      "count": 1,
+      "problem_class": [
+        "rational function asymptote sum from vertical asymptotes (denominator roots) and horizontal asymptote"
+      ],
+      "task_ids": [
+        "math500_048"
+      ]
+    },
+    "computes_the_missing_polynomial_value_by_building_a_finite_difference_table_from_the_given_rational_data_points_but_performs_fraction_subtractions_incorrectly_e_g_without_a_proper_common_denominator_and_then_extrapolates_using_the_erroneous_differences_without_checking_that_the_highest_order_differences_are_constant": {
+      "count": 1,
+      "problem_class": [
+        "Polynomial extrapolation from equally-spaced rational function values using finite differences"
+      ],
+      "task_ids": [
+        "math500_012"
+      ]
+    },
+    "expresses_each_radical_as_a_euclidean_norm_but_when_constructing_two_vectors_intended_to_add_to_a_fixed_point_assigns_the_third_radical_s_second_component_the_constant_extracted_from_a_different_radical_instead_of_the_affine_expression_obtained_by_completing_the_square_then_applies_the_triangle_inequality_to_a_resultant_that_does_not_equal_the_true_sum_of_the_vectors": {
+      "count": 1,
+      "problem_class": [
+        "minimizing a sum of square-root quadratic forms (distance sums) over a rectangle via vector triangle inequality"
+      ],
+      "task_ids": [
+        "math500_044"
+      ]
+    },
+    "reports_a_count_of_1_because_it_evaluates_the_expression_only_under_the_default_precedence_ordering_and_overlooks_that_inserting_parentheses_can_reassociate_a_trailing_addition_into_the_multiplication_chain_to_produce_different_values": {
+      "count": 1,
+      "problem_class": [
+        "counting distinct values obtainable by inserting parentheses into an arithmetic expression"
+      ],
+      "task_ids": [
+        "math500_010"
+      ]
+    },
+    "subtracts_the_given_exterior_angle_from_180_and_takes_that_supplement_directly_as_the_requested_angle_failing_to_apply_the_equal_side_condition_that_the_requested_angle_is_a_base_angle_of_the_isosceles_triangle_and_therefore_equals_half_of_that_supplement": {
+      "count": 1,
+      "problem_class": [
+        "Geometry angle chasing with parallel lines and an isosceles triangle where an unknown angle is marked between a slanted segment and the parallel line"
+      ],
+      "task_ids": [
+        "math500_019"
+      ]
+    }
+  }
+}

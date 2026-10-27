@@ -1,0 +1,153 @@
+{
+  "version": "l2_l3_pilot_v2",
+  "family": "gpqa",
+  "solver_model": "glm-5.3",
+  "merge_model": "deepseek-v4-flash-0731",
+  "n_instances": 19,
+  "n_classes": 6,
+  "archetypes": {
+    "constraint_blind": "constraint-blind decimation",
+    "descriptor_conflation": "descriptor/label conflation",
+    "memory_substitution": "memorized-fact substitution",
+    "procedure_truncation": "procedure truncation / omission",
+    "sign_normalization_slip": "sign / normalization slip",
+    "retrieval_abort": "retrieval-abort",
+    "format_nonconformance": "format / precision non-conformance"
+  },
+  "classes": [
+    {
+      "class_label": "categorical_conflation",
+      "mechanism": "treats distinct categorical concepts as interchangeable, using one related criterion (exact equality, any stereoisomerism, any length change, or an intermediate name) as proof of a different category.",
+      "check_procedure": "Define the target category independently and test whether the evidence satisfies that definition; do not accept a similarly named or related property, such as geometric isomerism for optical activity, as sufficient.",
+      "trigger": "Question asks whether a relationship or category holds (epistasis, optical activity, frameshift, reactive intermediate); committed answer invokes a related but distinct property or criterion.",
+      "members": [
+        "M1",
+        "M9",
+        "M11",
+        "M15"
+      ],
+      "member_tasks": [
+        "gpqa_008",
+        "gpqa_021",
+        "gpqa_029",
+        "gpqa_038"
+      ],
+      "level3": {
+        "archetype_id": "descriptor_conflation",
+        "archetype_name": "descriptor/label conflation",
+        "rationale": "Uses one related criterion as proof of a different categorical concept, conflating distinct descriptors/labels.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "mechanistic_product_assignment",
+      "mechanism": "determines product connectivity, stereochemistry, or regiochemistry by reading a static skeleton or assuming retention, rather than by tracing the reaction trajectory, nucleophilic approach, enolate position, or migration direction.",
+      "check_procedure": "Identify the key mechanistic step (backside attack, enolate formation, migration donor/recipient, cycloaddition approach) and trace the positions of bond formation, migration, or attack before assigning configuration, connectivity, or exo/endo outcome.",
+      "trigger": "Question asks for product configuration, regiochemistry, exo/endo, or carbonyl placement; committed answer follows an apparently fixed structural feature rather than the mechanism or approach trajectory.",
+      "members": [
+        "M4",
+        "M8",
+        "M13",
+        "M14"
+      ],
+      "member_tasks": [
+        "gpqa_013",
+        "gpqa_019",
+        "gpqa_033",
+        "gpqa_034"
+      ],
+      "level3": {
+        "archetype_id": "constraint_blind",
+        "archetype_name": "constraint-blind decimation",
+        "rationale": "Predicts product from static skeleton/retention instead of tracing reaction trajectory, dropping the decisive dynamic constraint.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "partial_evidence_inference",
+      "mechanism": "infers a global property, set, or point group from a single obvious feature, one explicit conformer, or a visual fragment, omitting exhaustive enumeration and full symmetry-element analysis.",
+      "check_procedure": "List all candidate instances, hydrogens, or symmetry elements; test each one on the complete object, not on the most visible representative; verify that no additional instances or symmetry requirements remain before finalizing the global answer.",
+      "trigger": "Question asks for a global count, point group, or complete set; committed answer is based on one axis, one conspicuous compound, one drawn conformer, or visually distinct-looking positions without exhaustive synthesis.",
+      "members": [
+        "M2",
+        "M6",
+        "M12",
+        "M17"
+      ],
+      "member_tasks": [
+        "gpqa_009",
+        "gpqa_016",
+        "gpqa_031",
+        "gpqa_048"
+      ],
+      "level3": {
+        "archetype_id": "constraint_blind",
+        "archetype_name": "constraint-blind decimation",
+        "rationale": "Infers global point group/set from a single conformer or fragment, omitting exhaustive symmetry-element analysis and full 3D equivalence constraints.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "recognition_substitution",
+      "mechanism": "substitutes recognized fragments, statements, or recalled results for the required full derivation or option mapping, accepting any option containing a familiar entity as sufficient without verifying the exact relationship, direction, or bookkeeping.",
+      "check_procedure": "For each selected option, ask what exact computation or mapping was performed; re-derive the required quantity from the question data and verify that no option was accepted merely because it contained a recognized phrase, fragment, citation, or fragmentary structural motif.",
+      "trigger": "Question asks for a choice or derivation among listed options; committed answer names a memorized/recognized item or fragment rather than showing the computed relationship, full mapping, or bookkeeping.",
+      "members": [
+        "M3",
+        "M5",
+        "M10",
+        "M19"
+      ],
+      "member_tasks": [
+        "gpqa_011",
+        "gpqa_014",
+        "gpqa_026",
+        "gpqa_050"
+      ],
+      "level3": {
+        "archetype_id": "memory_substitution",
+        "archetype_name": "memorized-fact substitution",
+        "rationale": "Substitutes recognized fragments or recalled results for the required full derivation, accepting familiar entities without verifying exact relationships.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "quantitative_composition_error",
+      "mechanism": "composes quantitative quantities by treating non-linear scales as linear or applying the wrong directional sign in a formula, dropping zero-points or using the opposite sign convention for same-direction motion.",
+      "check_procedure": "Before combining values, identify whether each quantity is linear or logarithmic and whether the formula's sign matches the physical direction (same vs opposite, ratio vs difference); restore any common offset before arithmetic.",
+      "trigger": "Question provides scaled/ratio abundances or velocities with relative direction; committed answer directly multiplies/divides logarithmic values or uses a minus-sign denominator for co-moving quantities.",
+      "members": [
+        "M7",
+        "M16"
+      ],
+      "member_tasks": [
+        "gpqa_018",
+        "gpqa_041"
+      ],
+      "level3": {
+        "archetype_id": "sign_normalization_slip",
+        "archetype_name": "sign / normalization slip",
+        "rationale": "Mentions wrong sign, zero-points, and non-linear scale composition, matching the sign/normalization slip archetype.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "extraneous_reduction",
+      "mechanism": "adds a reduction or other transformation not present in the stated conditions when converting an intermediate to the final product, changing the oxidation state of a functional group without any supplied reducing agent.",
+      "check_procedure": "List every reagent and condition provided; after each named rearrangement or activation, track oxidation-state changes and only introduce transformations explicitly supported by the conditions; do not infer unlisted reducing agents.",
+      "trigger": "Question asks for the product of a rearrangement or activation under non-reductive conditions; committed answer contains a more reduced functional group than the reaction conditions can produce.",
+      "members": [
+        "M18"
+      ],
+      "member_tasks": [
+        "gpqa_049"
+      ],
+      "level3": {
+        "archetype_id": "constraint_blind",
+        "archetype_name": "constraint-blind decimation",
+        "rationale": "Adds a reduction step despite no reducing agent being supplied, violating the stated condition constraint.",
+        "parse_ok": true
+      }
+    }
+  ]
+}

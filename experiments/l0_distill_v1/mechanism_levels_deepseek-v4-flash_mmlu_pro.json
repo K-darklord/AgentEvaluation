@@ -1,0 +1,96 @@
+{
+  "version": "l2_l3_pilot_v2",
+  "family": "mmlu_pro",
+  "solver_model": "deepseek-v4-flash",
+  "merge_model": "deepseek-v4-flash-0731",
+  "n_instances": 6,
+  "dropped_contamination": [],
+  "n_classes": 4,
+  "archetypes": {
+    "constraint_blind": "constraint-blind decimation",
+    "descriptor_conflation": "descriptor/label conflation",
+    "memory_substitution": "memorized-fact substitution",
+    "procedure_truncation": "procedure truncation / omission",
+    "sign_normalization_slip": "sign / normalization slip",
+    "retrieval_abort": "retrieval-abort",
+    "format_nonconformance": "format / precision non-conformance"
+  },
+  "classes": [
+    {
+      "class_label": "heuristic_surface_selection",
+      "mechanism": "selecting by a surface-level heuristic (a salient keyword or an intuitive face-value screen) rather than exhaustively applying all formally defined criteria of the framework",
+      "check_procedure": "List all criteria explicitly given in the prompt and check each option item against that full list; if the choice was defended by one salient word or by personal intuition about category membership, test the remaining options against every stated qualifier.",
+      "trigger": "question type: categorical or exception-selection multiple-choice; committed answer: one whose justification refers to a single salient phrase or to an intuitive 'belongs/doesn't belong' feeling",
+      "members": [
+        "M2",
+        "M3"
+      ],
+      "member_tasks": [
+        "mmlu_pro_004",
+        "mmlu_pro_012"
+      ],
+      "level3": {
+        "archetype_id": "constraint_blind",
+        "archetype_name": "constraint-blind decimation",
+        "rationale": "Selects by a salient keyword/face-value heuristic, dropping the full set of formally defined criteria.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "omitted_component_in_computation",
+      "mechanism": "omitting a fixed addend or an intermediate tax tier when writing the equality for a multi-component annual cost or pass-through income calculation",
+      "check_procedure": "Rewrite the calculation as an explicit model with every input component named; confirm that all additive constants and all intermediate transformation stages from the problem statement appear in the formula before solving.",
+      "trigger": "question type: multi-component cost/tax computation with several figures; committed answer: a numeric result obtained from a formula that contains only the percentage-of-difference term or only the final-stage rate",
+      "members": [
+        "M4",
+        "M5"
+      ],
+      "member_tasks": [
+        "mmlu_pro_040",
+        "mmlu_pro_044"
+      ],
+      "level3": {
+        "archetype_id": "procedure_truncation",
+        "archetype_name": "procedure truncation / omission",
+        "rationale": "Omitting a fixed addend or tax tier is an omitted component/step in the calculation procedure.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "full_cost_substitution",
+      "mechanism": "using total (full) cost as the relevant floor in a short-run decision rule instead of the avoidable direct cost alone",
+      "check_procedure": "For any minimum-price or cost-coverage condition, ask whether the problem specifies a short-run horizon; if so, test whether the computed threshold would change when only variable/avoidable costs are counted, and verify whether fixed overhead is sunk.",
+      "trigger": "question type: short-run pricing or shutdown decision; committed answer: a minimum output price equal to the sum of direct and overhead costs",
+      "members": [
+        "M6"
+      ],
+      "member_tasks": [
+        "mmlu_pro_046"
+      ],
+      "level3": {
+        "archetype_id": "descriptor_conflation",
+        "archetype_name": "descriptor/label conflation",
+        "rationale": "Swaps the distinct notions of total full cost and avoidable direct cost when setting the short-run decision floor.",
+        "parse_ok": true
+      }
+    },
+    {
+      "class_label": "paraphrase_instead_of_choice",
+      "mechanism": "restating each blank's semantic role as a bracketed placeholder label instead of committing to one of the offered complete option tuples",
+      "check_procedure": "After drafting the answer, verify whether it actually selects among the presented tuples; ask whether a checkbox or an option indicator is explicitly chosen, rather than merely describing the blanks' meanings.",
+      "trigger": "question type: multiple-choice with fill-in-the-blank option tuples; committed answer: a textual description of blank roles rather than a tuple selection",
+      "members": [
+        "M1"
+      ],
+      "member_tasks": [
+        "mmlu_pro_003"
+      ],
+      "level3": {
+        "archetype_id": "format_nonconformance",
+        "archetype_name": "format / precision non-conformance",
+        "rationale": "Produces bracketed semantic placeholders instead of selecting a complete option tuple, refusing to commit to an answer in the requested format.",
+        "parse_ok": true
+      }
+    }
+  ]
+}

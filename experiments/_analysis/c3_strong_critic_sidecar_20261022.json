@@ -1,0 +1,445 @@
+{
+ "math500_021": {
+  "1": {
+   "archetype_id": "procedure_truncation",
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "violated the conservation of unsaturation by assigning all residual π-bonds to exocyclic alkylidene substituents on a saturated new ring"
+  },
+  "2": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "possibly omitted a cross-term that contributes to the real part when expanding the product"
+  }
+ },
+ "math500_010": {
+  "1": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "truncated the enumeration of legal parenthesizations after a small set of groupings, possibly omitting further groupings that would each need to be evaluated and counted"
+  },
+  "2": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "enumerated only a subset of the parenthesization forms and treated the resulting partial list as complete"
+  }
+ },
+ "math500_027": {
+  "1": {
+   "archetype_id": "procedure_truncation",
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "truncated the enumeration of possible parenthesizations of an arithmetic expression by relying on a single default operator precedence order, thereby omitting alternative groupings that yield other values"
+  },
+  "2": {
+   "archetype_id": "procedure_truncation",
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "truncated the enumeration of possible parenthesizations of an arithmetic expression by relying on a single default operator precedence order, thereby omitting alternative groupings that yield other values"
+  },
+  "3": {
+   "archetype_id": "procedure_truncation",
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "truncated the enumeration of possible parenthesizations of an arithmetic expression by relying on a single default operator precedence order, thereby omitting alternative groupings that yield other values"
+  }
+ },
+ "mmlu_pro_033": {
+  "1": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "omitted one or more of the listed charges or credits when reducing the itemized total to a periodic payment"
+  },
+  "2": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "computed the monthly payment from a financed balance that omitted the cash deposit or used-car allowance before applying the two-year 9.5% financing charge"
+  },
+  "3": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "omitted one or more of the itemized price components, tax, deposit, allowance, or financing term before reducing the result to a single monthly figure"
+  }
+ },
+ "mmlu_pro_047": {
+  "1": {
+   "archetype_id": null,
+   "archetype_name": "format / precision non-conformance",
+   "suspicion": "answered with an option label that does not appear in the original enumerated choices, violating the expected response format"
+  },
+  "2": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "selected the highest nominal coupon rate without applying the required after-tax and penalty adjustments to each security"
+  },
+  "3": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "truncated the multi-option comparison by committing directly from a single tax-exempt label without computing and comparing after-tax returns for the full set of listed instruments"
+  },
+  "4": {
+   "archetype_id": null,
+   "archetype_name": "descriptor/label conflation",
+   "suspicion": "conflated the appended A–J option-list labels with the prompt's original A–E choice labels when committing the response"
+  },
+  "5": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "selected the option with the largest stated coupon while omitting the required net-return adjustments for the tax bracket and the early-withdrawal penalty before comparing"
+  },
+  "6": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "truncated at a single tax-exempt-status comparison without applying the stated corporate tax bracket to every listed taxable alternative"
+  },
+  "7": {
+   "archetype_id": "procedure_truncation",
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "violated the conservation of unsaturation by assigning all residual π-bonds to exocyclic alkylidene substituents on a saturated new ring"
+  }
+ },
+ "aime_018": {
+  "1": {
+   "archetype_id": "constraint_blind",
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned a high-symmetry or stereochemical descriptor from 2D connectivity constraints while discounting non-planar conformers, chelation, and approach-geometry effects"
+  },
+  "2": {
+   "archetype_id": "constraint_blind",
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned a high-symmetry or stereochemical descriptor from 2D connectivity constraints while discounting non-planar conformers, chelation, and approach-geometry effects"
+  }
+ },
+ "aime_021": {
+  "1": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "truncated the stepwise derivation at a subsidiary containment inequality about one object's full-side condition, omitting the defining total-area balance constraint"
+  },
+  "2": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "omitted the step of checking both the interior-distance branch and the exterior-distance branch of the area-balance condition, so the slope was selected without confirming uniqueness"
+  },
+  "3": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "derived from a centroid-slope shortcut without explicitly validating that the candidate line satisfies the equal-area condition through the actual circular-segment area contributions of the two off-center circles"
+  }
+ },
+ "aime_044": {
+  "1": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "treated the folded solid as a simple half-cube or a symmetric volume reducible to 12^3/2 without accounting for the three-dimensional gluing constraints of the six cut pieces around the hexagon"
+  },
+  "2": {
+   "archetype_id": "constraint_blind",
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "misaligned the constructed vector components with the corresponding radical terms prior to applying the triangle inequality"
+  }
+ },
+ "gpqa_009": {
+  "1": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned C3h to this planar fused polycyclic from its drawn connectivity while overlooking that the same planar skeleton also carries additional in-plane symmetry elements incompatible with an exact C3h point group"
+  },
+  "2": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned C3h by accepting the planar 2D skeleton of the triphenylene-fused anhydride without testing whether the in-plane C2/mirror elements survive the full three-dimensional conformation of the three anhydride units"
+  },
+  "3": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned C3h from a planar fused-arene skeleton while neglecting that the chosen trianhydride core has additional in-plane C2 axes and vertical mirror planes, so its point group is higher than C3h"
+  },
+  "4": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned a high-symmetry point group to the chosen fused-hexaone candidate from its planar 2D connectivity alone, without testing whether additional symmetry operations beyond C3h are present in the rigid 3D framework"
+  },
+  "5": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned the triphenylene-fused anhydride point group from the planar triangular framework while discounting the three-dimensional conformational flexibility of the fused anhydride rings and the resulting loss of a horizontal mirror plane"
+  }
+ },
+ "gpqa_016": {
+  "1": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned optical activity from stereochemical descriptors on the 2D drawn skeletons while discounting the conformational and internal-symmetry suppression of chirality in cyclic and meso-type candidates"
+  },
+  "2": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "counted stereocenters as individually optically active without testing whether internal symmetry planes or non-planar chair conformers render the whole molecule achiral"
+  },
+  "3": {
+   "archetype_id": "procedure_truncation",
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "violated the conservation of unsaturation by assigning all residual π-bonds to exocyclic alkylidene substituents on a saturated new ring"
+  },
+  "4": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "counted the (2R,3S) and (2R,3R) dimethylsuccinic acid pair, or the conformationally mobile cyclohexanetriol, using only the 2D substituent descriptors without evaluating a non-planar conformer or the internal symmetry plane of the meso form"
+  }
+ },
+ "gpqa_031": {
+  "1": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "point-group symmetry assigned from the planar heavy-atom skeleton without testing non-planar conformers or substituent orientations"
+  },
+  "2": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned the point group from a flattened 2D enone/arene drawing while discounting that the non-planar conformer or opposite E/Z geometry would change the symmetry descriptor"
+  },
+  "3": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "derived the point group from a flattened 2D depiction while discounting the non-planar conformations of the alkene and carbonyl segments"
+  }
+ },
+ "gpqa_028": {
+  "1": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "reduced the final product to a planar 2D connectivity map by selecting a methylation site from substitution counts and omitting any conformer- or approach-geometry-dependent stereochemical descriptors required for the deprotected cyclohexanone"
+  },
+  "2": {
+   "archetype_id": "constraint_blind",
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "mistaken the mono-addition product for the final condensation product, discounting additional equivalent reactive sites that yield a symmetric higher-symmetry species"
+  },
+  "3": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned the C2/C3 relative configuration from a face-opposite addition rule without checking whether the low-temperature enolate alkylation trajectory and the conformation of the cyclohexanone ring preserve that anti relationship"
+  },
+  "4": {
+   "archetype_id": null,
+   "archetype_name": "retrieval-abort",
+   "suspicion": "abandoned the stepwise derivation after the initial protection step and emitted only that fragment instead of deriving the final product"
+  },
+  "5": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned the 6-methyl stereodescriptor from a 2D retrosynthetic skeleton while discounting the conformational and approach-geometry effects of the enolate alkylation face"
+  },
+  "6": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned the final (2S,3R,4S,6S) stereocluster from a planar enone template by pairing the cuprate and enolate alkylations as opposite-face events, without testing non-planar half-chair conformers and chelated lithium-enolate approach geometries"
+  }
+ },
+ "gpqa_048": {
+  "1": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "counted each hydrogen in the molecular formula as a separate chemical environment while neglecting the symmetry-equivalence that a planar or rapidly interconverting conformer of the substituted cyclopentane ring would impose"
+  },
+  "2": {
+   "archetype_id": "constraint_blind",
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "mistaken the mono-addition product for the final condensation product, discounting additional equivalent reactive sites that yield a symmetric higher-symmetry species"
+  },
+  "3": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned a single symmetry-equivalence count from a planar 2D ring picture while discounting the conformational averaging and possible enantiotopic/diastereotopic environment distinctions that could raise the number of chemically distinct hydrogens"
+  }
+ },
+ "gpqa_049": {
+  "1": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "terminated the reaction sequence at an early enol-ether/enamine stage for A and at the pre-carbonyl alcohol stage for C, omitting the subsequent sigmatropic rearrangement steps that would form the ring-closed aminal and the aldehyde"
+  },
+  "2": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned the (Z)/(E) descriptors in the diethylidenecyclobutene product from a planarized ring drawing without evaluating the puckered non-planar conformers of the cyclobutene ring"
+  },
+  "3": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned an E/Z descriptor to a ring- or chain-embedded alkene from connectivity alone, without testing the non-planar conformer or approach geometry that governs the thermal pericyclic step"
+  },
+  "4": {
+   "archetype_id": "procedure_truncation",
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "violated the conservation of unsaturation by assigning all residual π-bonds to exocyclic alkylidene substituents on a saturated new ring"
+  },
+  "5": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned the Z/E stereochemical descriptors for the cyclobutene product directly from a planar 2D drawing without checking whether the conrotatory/disrotatory path and non-planar transition-state conformers would invert one of the descriptors or interconvert the double-bond geometries"
+  },
+  "6": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned the Z/E descriptors of the 1,2-diethylidenecyclobutane product from a planar 2D ring drawing without evaluating possible non-planar cyclobutane conformers or the full CIP priority paths around both exocyclic alkenes"
+  },
+  "7": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned a stereochemical descriptor from connectivity-only reasoning while discounting conformational and approach-geometry effects in the pericyclic product"
+  },
+  "8": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "left the transformation incomplete after naming the reaction type, stopping at the allylic alcohol exchange stage without carrying the mechanism through to a final product and without addressing the second and third reactions"
+  },
+  "9": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned a (Z/E) descriptor to the cyclobutane product from a planar or 2D connectivity reading without checking whether the ring conformation and the substituent disposition actually fix that descriptor in the heated product"
+  },
+  "10": {
+   "archetype_id": null,
+   "archetype_name": "retrieval-abort",
+   "suspicion": "abandoned the stepwise derivation after a preliminary sentence, leaving the committed product(s) unreported"
+  }
+ },
+ "gpqa_103": {
+  "1": {
+   "archetype_id": null,
+   "archetype_name": "retrieval-abort",
+   "suspicion": "substituted a memorized diazotization/deamination motif for the stepwise verification of whether each appended transformation preserves the substituent pattern required in the product"
+  },
+  "2": {
+   "archetype_id": null,
+   "archetype_name": "retrieval-abort",
+   "suspicion": "abandoned the stepwise derivation after recognizing an early familiar route and did not verify that the remaining steps preserve the required substituent pattern"
+  }
+ },
+ "gpqa_095": {
+  "1": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "assigned the locants and substituent pattern in the named product without applying the standard tie-breaking rules to the complete set of symmetry-equivalent substituents after the epoxide-opening step"
+  },
+  "2": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "selected the product by reasoning from the flat 2D connectivity of the epoxide while discounting chelation and approach-geometry effects that determine the regiochemistry of cuprate opening"
+  },
+  "3": {
+   "archetype_id": "constraint_blind",
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "mistaken the mono-addition product for the final condensation product, discounting additional equivalent reactive sites that yield a symmetric higher-symmetry species"
+  },
+  "4": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "selected a hydroxy-ketone product whose locant set may not have been checked against the full IUPAC tie-breaking rules after the epoxide-opening and conjugate-addition steps"
+  },
+  "5": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "assigned the final product from only one of the two epoxidation pathways while neglecting the regioisomeric product mixture produced by mCPBA"
+  }
+ },
+ "gpqa_109": {
+  "1": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "selected the Pauli-forbidden partial wave without demonstrating the full angular-momentum and parity conservation checks required by the problem"
+  },
+  "2": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "selected a final partial wave after applying only parity and angular-momentum matching but omitted the spin-addition bound for a two-nucleon system"
+  },
+  "3": {
+   "archetype_id": "procedure_truncation",
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "violated the conservation of unsaturation by assigning all residual π-bonds to exocyclic alkylidene substituents on a saturated new ring"
+  },
+  "4": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "selected a partial-wave option while applying only the supplied isospin/Pauli parity condition, discounting the additional two-nucleon spin-vector constraint that the term-symbol total spin cannot exceed the sum of two spin-1/2 nucleons"
+  },
+  "5": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "selected a final NN partial wave after dropping the +1 term in the stated Pauli relation, effectively testing T=0 as if it required S+L even rather than S+L odd"
+  },
+  "6": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "selected the disallowed partial wave by applying the isospin–spin–orbital Pauli relation while omitting the additional spin-1/2 addition constraint that excludes a term symbol with S=3"
+  },
+  "7": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "truncated the solution after parsing the prompt, before performing the angular-momentum and parity selection-rule checks needed to eliminate the impermissible partial wave"
+  },
+  "8": {
+   "archetype_id": null,
+   "archetype_name": "retrieval-abort",
+   "suspicion": "abandoned the stepwise selection after listing two apparent vetoes and ended with an unresolved 'Maybe' instead of committing to one disallowed partial wave"
+  },
+  "9": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "selected a final NN term whose spin multiplicity (S=3) is impossible for a two-nucleon system, while applying the written Pauli congruence mechanically and not checking the fundamental spin-composition constraint"
+  },
+  "10": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "selected the option that violates an additional implicit spin-composition constraint while overlooking that another listed state is already excluded by the stated Pauli condition"
+  }
+ },
+ "gpqa_163": {
+  "1": {
+   "archetype_id": null,
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "committed to the stoichiometric acid volume while disregarding the equilibrium constraint that the final hydronium activity must actually keep all dissolved iron in solution"
+  },
+  "2": {
+   "archetype_id": null,
+   "archetype_name": "descriptor/label conflation",
+   "suspicion": "conflated the equilibrium free-acid concentration with an additional external acid aliquot, so the reported volume appears to include a separately added amount equal to the final hydrogen-ion concentration on top of the stoichiometric neutralization requirement"
+  },
+  "3": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "omitted the post-stoichiometric equilibrium check and presented a volume/pH pair whose pH is inconsistent with the amount of unconsumed strong acid"
+  },
+  "4": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "omitted the metal-ion hydrolysis step after the stoichiometric neutralization and reported a pH based only on the residual strong-acid concentration, leaving the final acidity calculation incomplete"
+  },
+  "5": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "omitted a final consistency check tying the reported pH to the free acid remaining after the chosen acid volume is consumed by the hydroxide precipitate"
+  },
+  "6": {
+   "archetype_id": "descriptor_conflation",
+   "archetype_name": "descriptor/label conflation",
+   "suspicion": "conflated thermodynamic favorability with kinetic rate"
+  },
+  "7": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "omitted the dissolution-equilibrium conditioning step and instead reported a pH that corresponds to a leftover excess-acid state after a non-minimal acid addition"
+  }
+ },
+ "gpqa_167": {
+  "1": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "truncated the evaluation of the reference Gaussian entropy at the dominant single-photon-like contribution without fully verifying the covariance-matching condition for the exact cat state at the specified alpha and phi"
+  },
+  "2": {
+   "archetype_id": null,
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "possible omission of the covariance-matching step when selecting the reference Gaussian state, truncating the relative-entropy evaluation to a symmetry-only argument"
+  }
+ }
+}

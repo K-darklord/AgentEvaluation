@@ -284,7 +284,7 @@ _BASE_RATE_SPECS = [
 ]
 _FAM_PREFIX = {"gsm8k": "math", "math500": "math500", "mmlu": "mmlu_pro",
                "fab": "finance", "bfcl": "bfcl",
-               "aime": "aime", "gpqa": "gpqa", "bbh": "bbh"}
+               "aime": "aime", "gpqa": "gpqa", "bbh": "bbh", "hle": "hle"}
 
 
 def _task_family(task_id: str) -> str | None:

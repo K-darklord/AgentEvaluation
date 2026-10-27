@@ -1,0 +1,52 @@
+{
+  "n": 150,
+  "A": {
+    "n": 150,
+    "accuracy": 0.12,
+    "t1_accuracy": 0.12,
+    "judge_n": 0,
+    "fn_rescued": 0
+  },
+  "A2": {
+    "n": 150,
+    "accuracy": 0.0667,
+    "t1_accuracy": 0.0667,
+    "judge_n": 0,
+    "fn_rescued": 0
+  },
+  "A3_vote": {
+    "n": 150,
+    "accuracy": 0.0733,
+    "t1_accuracy": 0.0733,
+    "judge_n": 0,
+    "fn_rescued": 0
+  },
+  "C3_strong": {
+    "n": 150,
+    "accuracy": 0.0533,
+    "t1_accuracy": 0.0533,
+    "judge_n": 0,
+    "fn_rescued": 0
+  },
+  "C3_eval": {
+    "n": 150,
+    "accuracy": 0.0467,
+    "t1_accuracy": 0.0467,
+    "judge_n": 0,
+    "fn_rescued": 0
+  },
+  "A3C3_strong": {
+    "n": 150,
+    "accuracy": 0.0267,
+    "t1_accuracy": 0.0267,
+    "judge_n": 0,
+    "fn_rescued": 0
+  },
+  "A3C3_eval": {
+    "n": 150,
+    "accuracy": 0.0133,
+    "t1_accuracy": 0.0133,
+    "judge_n": 0,
+    "fn_rescued": 0
+  }
+}

@@ -1,0 +1,368 @@
+{
+ "math500_048": {
+  "1": {
+   "archetype_name": "descriptor/label conflation",
+   "suspicion": "conflated square-bracket abundance notation with a reference-normalized absolute scale, subtracting reference absolute abundances instead of applying the logarithmic definition of the bracket ratio"
+  },
+  "2": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "possibly produced by summing the two vertical-asymptote locations and omitting an explicit evaluation of the horizontal-asymptote term before adding it to the total"
+  }
+ },
+ "mmlu_pro_004": {
+  "1": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "truncated the selection process after latching onto the emotionally charged phrase in the stem, without systematically applying the full predicate to all other candidates that also center other-directed emotion"
+  },
+  "2": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "selected on the basis of a single resonating phrase and omitted the standard tie-breaking step that tests each competing framework against the complete defining condition"
+  }
+ },
+ "mmlu_pro_003": {
+  "1": {
+   "archetype_name": "descriptor/label conflation",
+   "suspicion": "conflated two near-synonymous descriptors for the layoff-related package into adjacent blanks, treating them as interchangeable labels rather than as distinct slots constrained by the sentence's collocation"
+  },
+  "2": {
+   "archetype_name": "descriptor/label conflation",
+   "suspicion": "treated two pay-related fill terms as interchangeable labels, using one where the other was demanded by the clause"
+  }
+ },
+ "math500_012": {
+  "1": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "omitted the preliminary degree comparison and applied the leading-coefficient ratio to a rational function with a lower-degree numerator"
+  },
+  "2": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "omitted the stepwise construction of the degree-five interpolant and supplied only a final fraction"
+  }
+ },
+ "math500_044": {
+  "1": {
+   "archetype_name": "descriptor/label conflation",
+   "suspicion": "conflated square-bracket abundance notation with a reference-normalized absolute scale, subtracting reference absolute abundances instead of applying the logarithmic definition of the bracket ratio"
+  },
+  "2": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "committed only the final scalar result without demonstrating how the three radical terms were combined or optimized over the feasible rectangle"
+  }
+ },
+ "math500_010": {
+  "1": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "possible enumeration of only the root-level grouping cases while omitting the full recursive enumeration of all binary parenthesizations before taking the union"
+  },
+  "2": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "enumerated only the four choices for which contiguous block ending at 5 is grouped with the +1, without checking whether additional partial parenthesizations of the remaining product could produce further distinct values"
+  }
+ },
+ "mmlu_pro_012": {
+  "1": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "stopped at the first intuitively internal-sounding option without systematically comparing every listed candidate against the standard external-environment dimension framework"
+  },
+  "2": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "violated the conservation of unsaturation by assigning all residual π-bonds to exocyclic alkylidene substituents on a saturated new ring"
+  }
+ },
+ "bfcl_014": {
+  "1": {
+   "archetype_name": "format / precision non-conformance",
+   "suspicion": "emitted as a tool-call envelope with all parameters collapsed into a single stringified arguments payload instead of exposing the requested structured answer fields"
+  },
+  "2": {
+   "archetype_name": "format / precision non-conformance",
+   "suspicion": "emitted a tool call whose arguments are collapsed into a single serialized string inside a generic envelope instead of exposing the schema-required structured argument object keyed by parameter names"
+  }
+ },
+ "bfcl_015": {
+  "1": {
+   "archetype_name": "format / precision non-conformance",
+   "suspicion": "formatted the output as a generic tool-call envelope with arguments collapsed into a single stringified payload, rather than exposing a schema-required structured argument object keyed by parameter names"
+  },
+  "2": {
+   "archetype_name": "format / precision non-conformance",
+   "suspicion": "collapsed the schema-required arguments into a single serialized string inside a generic tool-call envelope, so the structured parameter object keyed by parameter names was not exposed"
+  }
+ },
+ "bfcl_016": {
+  "1": {
+   "archetype_name": "format / precision non-conformance",
+   "suspicion": "possibly emitted a tool call whose arguments are collapsed into a single serialized string inside a generic envelope instead of exposing the schema-required structured argument object keyed by parameter names"
+  },
+  "2": {
+   "archetype_name": "format / precision non-conformance",
+   "suspicion": "formatted the tool call as a generic envelope containing a stringified argument payload instead of exposing the schema-required structured argument object keyed by parameter names"
+  }
+ },
+ "bfcl_017": {
+  "1": {
+   "archetype_name": "format / precision non-conformance",
+   "suspicion": "formatted as a generic envelope containing a stringified argument payload instead of exposing the schema-required structured argument object keyed by parameter names"
+  },
+  "2": {
+   "archetype_name": "format / precision non-conformance",
+   "suspicion": "formatted the tool call as a generic envelope containing a stringified argument payload instead of exposing the schema-required structured argument object keyed by parameter names"
+  }
+ },
+ "bfcl_031": {
+  "1": {
+   "archetype_name": "format / precision non-conformance",
+   "suspicion": "serialized the tool arguments into a single stringified payload inside a generic envelope rather than exposing the schema-required structured argument object keyed by parameter names"
+  },
+  "2": {
+   "archetype_name": "format / precision non-conformance",
+   "suspicion": "formatted the tool call as a generic envelope containing a stringified argument payload, with all parameters collapsed into a single serialized string, instead of exposing the schema-required structured argument object keyed by parameter names"
+  }
+ },
+ "mmlu_pro_017": {
+  "1": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "truncated the multi-step binomial backward induction before completing the final discounting/expectation pass"
+  },
+  "2": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "the lattice construction or option-pricing steps were cut short after reaching a rounded or plausible terminal value, leaving the binomial recurrence incomplete"
+  }
+ },
+ "mmlu_pro_040": {
+  "1": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "omitted one of the cost components from the annual-cost balance before isolating the break-even hours"
+  },
+  "2": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "omitted or truncated a required factor in the annual-cost comparison when equating the two motors"
+  }
+ },
+ "math500_019": {
+  "1": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "omitted the intermediate angle-chasing steps that connect the given 124° angle to the triangle's vertex angle before applying the isosceles relation"
+  },
+  "2": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "possible assigned the requested angle from an isosceles symmetry shortcut using the labeled angle as the triangle vertex without first deriving that vertex from the parallel-line geometry"
+  },
+  "3": {
+   "archetype_name": "descriptor/label conflation",
+   "suspicion": "conflated the 124° mark with an interior angle of the isosceles triangle rather than treating it as the angle formed with the parallel-line extension, then substituted that conflated value into the angle-sum relation"
+  },
+  "4": {
+   "archetype_name": "descriptor/label conflation",
+   "suspicion": "conflated the surface label of a changed token with its semantic role in context"
+  },
+  "5": {
+   "archetype_name": "descriptor/label conflation",
+   "suspicion": "treated the 124° mark as an interior angle of the isosceles triangle rather than as an exterior angle formed with the parallel ray, then applied the base-angle equality to that misidentified angle"
+  }
+ },
+ "mmlu_pro_044": {
+  "1": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "truncated the stepwise calculation at the corporate-tax layer and omitted the shareholders' individual income-tax layer on the incremental dividends"
+  },
+  "2": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "omitted part of the required tax-flow calculation by treating the extra corporate profit as flowing to stockholders without applying the sequential corporate-level and personal-level tax steps"
+  },
+  "3": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "violated the conservation of unsaturation by assigning all residual π-bonds to exocyclic alkylidene substituents on a saturated new ring"
+  }
+ },
+ "gpqa_018": {
+  "1": {
+   "archetype_name": "descriptor/label conflation",
+   "suspicion": "conflated square-bracket abundance notation with a reference-normalized absolute scale, subtracting reference absolute abundances instead of applying the logarithmic definition of the bracket ratio"
+  },
+  "2": {
+   "archetype_name": "descriptor/label conflation",
+   "suspicion": "treating the bracket abundance values as if they directly gave absolute abundance ratios and then combining them with the solar Fe/Mg scale, rather than applying the logarithmic bracket definition to cancel the reference scale"
+  }
+ },
+ "aime_008": {
+  "1": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "the candidate-prime check was halted at the first two-digit prime divisor found, omitting the required valuation check over all remaining higher-valued two-digit prime candidates"
+  },
+  "2": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "truncated the divisibility screening at the reported factor without explicitly testing all larger two-digit primes"
+  },
+  "3": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "omitted the final verification that every two-digit prime larger than the committed one has zero p-adic valuation in n"
+  }
+ },
+ "aime_039": {
+  "1": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "treated the count as a uniform periodic block count across every complete block without verifying the partial first block and the upper boundary behavior, thereby discounting boundary-condition effects on the total"
+  },
+  "2": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "omitted the integer-domain boundary case when decomposing a real variable into integer and fractional parts for a floor-sum enumeration"
+  }
+ },
+ "gpqa_022": {
+  "1": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "committed to the selected qualitative pair without first applying the independent comparison criteria to both the thermodynamic and kinetic dimensions under each solution condition"
+  },
+  "2": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "committed to the weaker-slower pair while omitting the standard derivational step of separately evaluating the thermodynamic reduction-potential comparison and the kinetic barrier before combining the two descriptors"
+  }
+ },
+ "gpqa_013": {
+  "1": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "selected a regioisomeric ring-opened framework by assigning the methoxy and propionate positions from a flat 2D epoxide drawing, while discounting the approach-geometry and conformer-based regioselectivity of the epoxide opening"
+  },
+  "2": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned the epoxide-opening product as the regioisomer with methoxy at the more substituted epoxide carbon and propionate at the adjacent carbon, relying on a flattened 2D connectivity and without evaluating the anti chair approach trajectory of methoxide"
+  }
+ },
+ "gpqa_028": {
+  "1": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "having assigned the methyl group to the 6-position based on a partial locant set without completing the standard lowest-locant/tie-breaking comparison across all substituents"
+  },
+  "2": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned the final ring stereochemical relationships directly from planar 2D connectivity and face-opposite cuprate/enolate addition assumptions, without evaluating non-planar conformers or chelation/approach-geometry effects"
+  }
+ },
+ "gpqa_031": {
+  "1": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "possibly assigned Cs to the condensation product from a planar 2D drawing while discounting non-planar conformations that would remove the mirror plane"
+  },
+  "2": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned a symmetry label from a planar 2D drawing of the aldol product while discounting the out-of-plane conformations available to the methyl and nitro substituents"
+  }
+ },
+ "gpqa_043": {
+  "1": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "chosen a numbering direction that gives one of two symmetry-equivalent locant sets but did not verify which direction assigns the lowest locant to the substituent cited first alphabetically"
+  },
+  "2": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "locants assigned to the substituent set without applying the full lowest-locant and first-point-of-difference tie-breaking rules to the complete name"
+  }
+ },
+ "aime_033": {
+  "1": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "arrived at a final integer without demonstrating the stepwise construction-to-equation derivation, so the result is not tied to the stated geometric relations"
+  },
+  "2": {
+   "archetype_name": "descriptor/label conflation",
+   "suspicion": "conflated the index label of the division point with the count of equal subdivisions of the side, shifting the consecutive-integer pair in the area denominator by one"
+  },
+  "3": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "terminated the quadratic solution after extracting the discriminant's square root, omitting the complete quadratic-formula arithmetic that yields the requested integer"
+  },
+  "4": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "committed a numeric final value while suppressing the intermediate derivation, so any symmetry-based step or locant-like ordering rule that produced that value is left unchecked"
+  },
+  "5": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned the central square a high-symmetry coordinate derivation while discounting the asymmetric slope constraints produced by the actual division-point connections"
+  }
+ },
+ "gpqa_033": {
+  "1": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned the 4,7-dimethyl stereochemical descriptors from a planar 2D drawing of the epithioisobenzofuran skeleton without weighing the non-planar 7-thianorbornane conformer or the two possible dienophile approach trajectories that define the exo/endo disposition"
+  },
+  "2": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "selected the bridged-ring stereochemical descriptors from a flat, symmetry-implied drawing while discounting the non-planar exo approach geometry of the dienophile"
+  }
+ },
+ "bbh_0018": {
+  "1": {
+   "archetype_name": "descriptor/label conflation",
+   "suspicion": "conflated the surface form of a label with its literal descriptive gloss when assigning the error to the selected class"
+  },
+  "2": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "selected the named-entity category while omitting the stepwise elimination of the other option classes, leaving the classification without demonstrated tie-breaking reasoning"
+  }
+ },
+ "bbh_0020": {
+  "1": {
+   "archetype_name": "descriptor/label conflation",
+   "suspicion": "conflated the surface label of a changed token with its semantic role in context"
+  },
+  "2": {
+   "archetype_name": "descriptor/label conflation",
+   "suspicion": "classified the altered family designation as a named-entity substitution while conflating the taxonomic rank descriptor with the genus label, so the rank-level change was absorbed into the entity-swap category"
+  }
+ },
+ "bbh_0019": {
+  "1": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "selected the catch-all factual category without first applying the more specific category-checking procedure for entity changes"
+  },
+  "2": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "truncated the stepwise category comparison and selected the catch-all Facts label after spotting a single lexical substitution, without applying the exclusion tests for the earlier entity, modifier, numerical, negation, and dropped-content categories"
+  }
+ },
+ "gpqa_009": {
+  "1": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned a high-symmetry point-group descriptor from 2D connectivity while discounting the in-plane conformational and axis details that distinguish C3h from a higher-symmetry planar group"
+  },
+  "2": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "chosen a fused polycyclic system on the strength of its planar 2D connectivity alone, without testing whether non-planar conformers preserve or destroy the claimed C3h symmetry"
+  },
+  "3": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned C3h symmetry to the selected trialkyl borate from its planar 2D boron/oxygen connectivity while discounting non-planar conformers of the alkoxy arms"
+  },
+  "4": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned C3h to a fused polycyclic system based on 2D connectivity while not fully testing whether the symmetric planar skeleton actually retains only a C3 axes and horizontal plane or inherits additional symmetry elements from the unsubstituted triphenylene core"
+  },
+  "5": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "selected a planar fused-arene framework as C3h based on its 2D connectivity, while overlooking the additional in-plane C2 axes and vertical mirror planes that elevate the actual point group above C3h"
+  }
+ },
+ "bbh_0003": {
+  "1": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "possibly assigned a high-symmetry shape label from the four-segment closed path without verifying the perpendicularity of adjacent segments"
+  },
+  "2": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "possibly assigned a high-symmetry quadrilateral descriptor from the closed four-point path while discounting the need to verify perpendicularity and parallel-side constraints"
+  },
+  "3": {
+   "archetype_name": "procedure truncation / omission",
+   "suspicion": "cut short the quadrilateral classification by testing only one pair of side relationships and not applying the full set of side/angle checks before emitting the committed label"
+  },
+  "4": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned a high-symmetry quadrilateral label from the four closed path segments while discounting the coordinate-derived side-length and angle constraints that distinguish a rectangle from a general parallelogram"
+  },
+  "5": {
+   "archetype_name": "constraint-blind decimation",
+   "suspicion": "assigned a high-symmetry quadrilateral label from the plotted coordinate constraints without verifying the full set of parallel and perpendicular conditions beyond visual resemblance"
+  }
+ }
+}

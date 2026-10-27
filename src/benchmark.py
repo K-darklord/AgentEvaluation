@@ -758,6 +758,59 @@ def load_new_discrimination_tasks(n_per_bench: int | None = None,
     return tasks
 
 
+def load_hle_questions(
+    jsonl_path: str | Path | None = None,
+    limit: int | None = None,
+) -> list[Task]:
+    """Load the HLE stratified pilot (text-only slice).
+
+    Each row is a pre-sampled pilot item with fields ``id / answer_type / category /
+    raw_subject / shape / answer / question``. The ``question`` field already embeds the
+    "Answer Choices:" block for multipleChoice items, so it is used verbatim as the prompt.
+    task_id is a deterministic sequential ``hle_{i:03d}`` (jsonl order); the original HLE
+    object id is kept in metadata for auditable linkage. ``answer_type`` and ``shape`` are
+    carried in metadata so the HLE scorer can dispatch (mc / int / symbol / word / text).
+    """
+    from src.config import HLE_DATA_PATH
+
+    if jsonl_path is None:
+        jsonl_path = HLE_DATA_PATH
+    p = Path(jsonl_path)
+    if not p.exists():
+        print(f"[HLE] No file at {p}; returning empty list.")
+        return []
+
+    tasks: list[Task] = []
+    with p.open(encoding="utf-8") as f:
+        for i, line in enumerate(f, start=1):
+            line = line.strip()
+            if not line:
+                continue
+            if limit is not None and i > limit:
+                break
+            d = json.loads(line)
+            answer_type = str(d.get("answer_type", "")).strip()
+            shape = str(d.get("shape", "")).strip()
+            tasks.append(Task(
+                task_id=f"hle_{i:03d}",
+                category=str(d.get("raw_subject", "") or "Unknown"),
+                difficulty="Hard",
+                prompt=str(d.get("question", "")).strip(),
+                gold_answer=str(d.get("answer", "")).strip(),
+                reasoning_steps=[],
+                rubric=["final_answer_matches_gold"],
+                evidence=[],
+                metadata={
+                    "source": "hle", "benchmark": "hle",
+                    "answer_type": answer_type, "shape": shape,
+                    "category": str(d.get("category", "")),
+                    "raw_subject": str(d.get("raw_subject", "")),
+                    "hle_id": str(d.get("id", "")),
+                },
+            ))
+    return tasks
+
+
 if __name__ == "__main__":
     # Show mini benchmark
     mini = load_tasks()

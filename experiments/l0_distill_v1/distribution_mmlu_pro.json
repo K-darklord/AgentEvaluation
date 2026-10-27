@@ -1,0 +1,71 @@
+{
+  "distill_version": "v3.0",
+  "family": "mmlu_pro",
+  "model": "deepseek-v4-flash-0731",
+  "generated_at_utc": "2026-10-21T05:25:34.661778+00:00",
+  "n_total": 7,
+  "n_parsed": 6,
+  "distribution": {
+    "(unparsed)": {
+      "count": 1,
+      "problem_class": [],
+      "task_ids": [
+        "mmlu_pro_017"
+      ]
+    },
+    "answers_the_multiple_choice_question_by_restating_the_semantic_role_of_each_blank_as_a_bracketed_placeholder_label_instead_of_selecting_one_of_the_supplied_complete_option_tuples_thereby_never_committing_to_an_actual_choice": {
+      "count": 1,
+      "problem_class": [
+        "multi-blank vocabulary insertion MCQ with options as complete word tuples"
+      ],
+      "task_ids": [
+        "mmlu_pro_003"
+      ]
+    },
+    "attempts_to_compute_the_incremental_stockholder_after_tax_income_using_only_the_individual_income_tax_rate_schedule_on_the_full_corporate_before_tax_increase_while_skipping_the_corporate_level_income_tax_and_the_dividend_pass_through_step": {
+      "count": 1,
+      "problem_class": [
+        "corporate dividend tax-incidence calculation error on incremental income"
+      ],
+      "task_ids": [
+        "mmlu_pro_044"
+      ]
+    },
+    "selects_the_ethical_theory_by_surface_matching_a_salient_emotional_noun_e_g_moral_impulse_toward_others_to_a_familiar_relationship_based_theory_while_ignoring_the_qualifier_that_locates_morality_outside_rationality": {
+      "count": 1,
+      "problem_class": [
+        "ethics-theory definitional fill-in-the-blank MCQ"
+      ],
+      "task_ids": [
+        "mmlu_pro_004"
+      ]
+    },
+    "selects_the_exception_by_applying_an_intuitive_face_value_screen_e_g_this_item_is_internal_or_subjective_so_it_cannot_belong_instead_of_checking_every_option_against_the_exact_canonical_list_of_factors_defined_by_the_framework": {
+      "count": 1,
+      "problem_class": [
+        "exception identification in a named multi-factor framework MCQ"
+      ],
+      "task_ids": [
+        "mmlu_pro_012"
+      ]
+    },
+    "sets_the_annual_maintenance_cost_equal_to_14_5_of_the_price_difference_only_then_divides_by_the_per_hour_energy_cost_savings_but_omits_the_fixed_maintenance_amount_carried_by_each_motor_when_writing_the_equality_of_total_annual_costs": {
+      "count": 1,
+      "problem_class": [
+        "two-purchase annual-cost break-even hour calculation with efficiency and maintenance percentages"
+      ],
+      "task_ids": [
+        "mmlu_pro_040"
+      ]
+    },
+    "treats_the_short_term_no_loss_condition_as_requiring_price_to_cover_both_direct_costs_and_overhead_indirect_costs_summing_them_to_set_the_minimum_price_instead_of_covering_only_the_avoidable_direct_cost_that_matters_in_the_short_run": {
+      "count": 1,
+      "problem_class": [
+        "short-run minimum-pricing/shutdown decision with direct variable costs and overhead/indirect costs"
+      ],
+      "task_ids": [
+        "mmlu_pro_046"
+      ]
+    }
+  }
+}

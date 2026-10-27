@@ -1,0 +1,37 @@
+{
+  "distill_version": "v3.0",
+  "family": "aime",
+  "model": "deepseek-v4-flash-0731",
+  "generated_at_utc": "2026-10-21T05:21:07.868170+00:00",
+  "n_total": 3,
+  "n_parsed": 3,
+  "distribution": {
+    "checks_prime_divisibility_of_the_binomial_coefficient_only_by_inspecting_the_factorial_factors_at_face_value_and_selecting_the_largest_prime_whose_multiples_are_not_fully_canceled_instead_of_applying_kummer_s_carry_rule_or_legendre_s_p_adic_valuation_to_determine_which_primes_actually_divide_the_coefficient": {
+      "count": 1,
+      "problem_class": [
+        "finding the largest k-digit prime factor of a binomial coefficient (factorial ratio)"
+      ],
+      "task_ids": [
+        "aime_008"
+      ]
+    },
+    "decomposes_x_n_r_and_enumerates_possible_values_of_the_floor_sum_using_only_fractional_parts_r_in_0_1_omitting_r_0_this_drops_the_entire_residue_class_of_values_produced_when_x_is_an_integer": {
+      "count": 1,
+      "problem_class": [
+        "counting attainable integer values of a sum of scaled floor functions over real x"
+      ],
+      "task_ids": [
+        "aime_039"
+      ]
+    },
+    "mislabels_the_division_points_used_as_endpoints_of_the_construction_lines_connecting_each_vertex_to_the_division_points_nearest_the_wrong_vertices_closest_to_the_near_rather_than_the_opposite_vertices_then_computes_the_inner_square_from_the_resulting_incorrect_boundary_lines": {
+      "count": 1,
+      "problem_class": [
+        "geometry construction of an inner square from equal subdivisions of a unit square"
+      ],
+      "task_ids": [
+        "aime_033"
+      ]
+    }
+  }
+}
