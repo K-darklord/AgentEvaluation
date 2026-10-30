@@ -1,13 +1,13 @@
 # Error-Guided Test-Time Elimination (EGTE): Research Plan
 
-**Document type**: Research plan (experiment protocol) · **Version**: 0.24 (Draft) · **Date**: 2026-10-26
+**Document type**: Research plan (experiment protocol) · **Version**: 0.26 (Draft) · **Date**: 2026-10-27
 **Target venues**: Nature Machine Intelligence / IEEE TPAMI / NeurIPS (primary); ACL / EMNLP workshop (early checkpoint).
 
 > **Re-anchored 2026-10-10 → recursive self-improvement (RSI); sharpened 2026-10-21 → Error-Guided Test-Time
-> Elimination (EGTE).** The program has moved from a pure measurement contribution (a metacognitive evaluation
+> Search (EGTE).** The program has moved from a pure measurement contribution (a metacognitive evaluation
 > framework) to a self-improvement claim, now given a precise, differentially-positioned name. **EGTE is deliberately
-> not a PRM and not a self-correction trainer**: a train-free, three-role evaluator — *distill* (build-time, gold →
-> answer-free `mechanism` + `check_procedure`), *check* (execution-time, gold-free `trigger`), *review*
+> not a PRM and not a self-correction trainer**: a train-free, three-role pipeline — *distiller* (build-time, gold →
+> answer-free `mechanism` + `check_procedure`), *critic* (execution-time, gold-free `trigger`), *evaluator*
 > (post-transition, evidence-anchored CUT / KEEP / UNSURE) — **eliminates** wrong moves distilled from gold-annotated
 > errors instead of scoring the correct path. Solver and the three evaluator roles are **separate calls**; capability
 > rises by *mechanism*, never by memorisation. See `docs/WORKMAP.md` §0.4 and `docs/PHASE2_SUMMARY.md` §13–14.
@@ -23,17 +23,16 @@
 Agent evaluation has moved toward reporting capability as a **cost–reliability curve** swept out by compute rather
 than a single static number, and self-correction is increasingly treated as a control loop whose per-round error
 dynamics — the Error Introduction Rate (EIR) and Error Correction Rate (ECR) — decide whether iteration helps or
-hurts. We turn that *diagnosis* into the *engine* of **recursive self-improvement (RSI)**: the error-set prior and
-gold-free strong critic already built as a measurement layer are re-purposed as the information source of an agent loop
+hurts. We turn that *diagnosis* into the *engine* of **a test-time elimination loop**: the error-set prior and
+gold-free strong critic already built as a measurement layer are re-purposed as the information source of a test-time elimination loop
 that raises accuracy. We keep two levels of measurement distinct — the **per-round** pair EIR/ECR versus the
 **whole-loop** observables activation rate `P_act` (reachability) and lock-in rate — bound algebraically
 (`r = 1 − ∏(1−ECR)`; a lock-in deficit is exactly `EIR > 0`). The improvement is a **two-stage strategy** read at two
 resolutions: Stage A raises `P_act` by error-set-guided sampling (no training); Stage B raises the lock-in rate via a
-train-free evaluator. The train-free test-time mechanism is named **Error-Guided Test-Time Elimination (EGTE)**: a
-three-role evaluator (distill / check / review) that eliminates wrong moves from gold-annotated errors — optimising
+train-free evaluator. The train-free test-time mechanism is named **Error-Guided Test-Time Elimination (EGTE)** with a recursive error-bank outer loop (see `docs/PAPER_DRAFT.md` §1.3): a three-role pipeline (distiller / critic / evaluator) that eliminates wrong moves from gold-annotated errors — optimising
 the *lower bound* of error rather than scoring the correct path — with no weight update. Across three mid-tier models
 and multiple task families we report the per-model activation / locking / correction profile as the intermediate
-product and test the central claim: **an error set is an effective RSI information source**.
+product and test the central claim: **an error bank is an effective test-time information source** — surfacing correctness that self-consistency alone cannot reach, then recursively refining the bank into reusable memory.
 
 ---
 
@@ -52,7 +51,7 @@ The assumed mapping from *task* to *capability score* is therefore itself inaccu
 program quantified this on a finance-agent benchmark (FAB): evaluation-framework defects induced a measured **26
 percentage-point spurious capability deficit** fully attributable to the framework rather than the model. That is the
 empirical warrant for treating single-shot accuracy as an unreliable readout. The measurement layer built to separate
-the two is exactly the error-set signal that later drives the RSI loop (§1.2): *the diagnostic and the improvement are
+the two is exactly the error-set signal that later drives the loop (§1.2): *the diagnostic and the improvement are
 one instrument, used twice.*
 
 ### 1.2 From measurement to self-improvement
@@ -66,7 +65,7 @@ as the transition signal an evaluator reads to raise locking.
 
 ### 1.3 The central empirical question
 
-The question is whether **an error set is an effective RSI information source**: does error-set-guided feedback produce
+The question is whether **an error bank is an effective test-time information source**: does error-set-guided feedback produce
 a significant, attributable accuracy gain over directionless noise, and does the gain decompose into the predicted
 two stages (reachability first, then locking)? Convergence, cost, and the round-dimension observables remain the
 instruments with which we read the answer — not the answer itself.
@@ -80,10 +79,10 @@ Four frontier threads frame this work; the complete literature map with citation
 - **Agent evaluation** — static accuracy → capability curve; evaluation-framework bias and interference.
 - **Verification & self-correction** — the negative result that LLMs often cannot self-correct without external
   signal; this motivates the *external* proxy.
-- **Optimization** — test-time search, best-of-N, verifier-guided decoding.
+- **Optimization** — test-time elimination, best-of-N, verifier-guided decoding.
 - **Inference scaling** — test-time compute scaling laws and the cost–accuracy trade-off.
 
-**Core positioning.** The centre of gravity has moved from **diagnosis** to **recursive self-improvement (RSI)**. The
+**Core positioning.** The centre of gravity has moved from **diagnosis** to **test-time elimination**. The
 round-dimension observables — activation ceiling `P_act`, locking rate `P_lock`, reversibility `r` — are no longer the deliverable but the **measurement layer** of a self-improvement claim: the error-set prior + strong critic (C3)
 is the *information source* an agent loop exploits to raise accuracy (§3.7). A subordinate claim (retained) is the
 **existence proof**: a cheap, gold-free *error signal* can itself raise the activation ceiling, establishing
@@ -148,7 +147,7 @@ present, the framework answers *how many rounds to reach a target accuracy*; whe
 
 *(§3.4–§3.6 retired — see "Retired sections".)*
 
-### 3.7 Two-level error dynamics and the two-stage RSI claim
+### 3.7 Two-level error dynamics and the two-stage search claim
 
 The self-improvement theory sits on top of the measurement framework, borrowing the error-dynamics vocabulary of Liu &
 Meng 2026 while keeping two levels of measurement separate.
@@ -164,7 +163,7 @@ beneficial from harmful self-correction is our *locking* concern viewed from the
 reversibility `r = P(A | ¬S)` is the cumulative consequence of per-round ECR, `r = 1 − ∏(1−ECR)`, and a single-step
 lock-in deficit is exactly `EIR > 0`. **We report both levels and never merge them.**
 
-**Two-stage RSI strategy.** The two levels separate two improvement levers:
+**Two-stage search strategy.** The two levels separate two improvement levers:
 
 1. **Stage A — raise `P_act` via error-set sampling (no training).** The error-set prior + strong critic (C3) steer
    the loop toward reachable regions before it degrades.
@@ -173,8 +172,8 @@ lock-in deficit is exactly `EIR > 0`. **We report both levels and never merge th
    (elimination + mode), suppressing EIR-driven flips.
 
 **EGTE reframe.** The two-stage decomposition is the *macro* read; EGTE is the *test-time* read of the same loop. The
-"train-free transition evaluator" (Stage B) is realised as **three separated roles** — *distill* (build, gold →
-`mechanism` + `check_procedure`), *check* (execute, gold-free `trigger`), *review* (post-transition,
+"train-free transition evaluator" (Stage B) is realised as **three separated roles** — *distiller* (build, gold →
+`mechanism` + `check_procedure`), *critic* (execute, gold-free `trigger`), *evaluator* (post-transition,
 evidence-anchored CUT / KEEP / UNSURE). EGTE optimises the **lower bound** (eliminate wrong moves) rather than the objective
 (select the correct one), exploiting the asymmetry that the reachable error space is small and checkable while the
 correct space is dense.
@@ -189,10 +188,19 @@ correct space is dense.
 | **RQ2** | Which trajectory features separate the convergence classes (convergent / oscillating / divergent / stagnant)? |
 | **RQ3** | When convergence occurs, what is the expected cost (rounds / tokens) to reach a target accuracy, and how early can it be predicted? |
 | **RQ4** | When convergence does not occur, what trajectory features diagnose the underlying meta-cognitive deficit? |
-| **RQ5** | Does error-set feedback (the weak critic) produce a significant RSI gain over directionless noise — i.e. is the error set an effective RSI information source? |
-| **RQ6** | Does the two-stage strategy decompose as predicted — Stage A lifting `P_act`, Stage B (EGTE three-role evaluator) lifting lock-in — and does the loop enter `ECR/EIR > Acc/(1−Acc)`? |
+| **RQ5** | Does error-set feedback (the weak critic) produce a significant test-time gain over directionless noise — i.e. is the error bank an effective test-time information source? |
+| **RQ6** | Does the two-stage strategy decompose as predicted — Stage A lifting `P_act`, Stage B (EGTE three-role pipeline) lifting lock-in — and does the loop enter `ECR/EIR > Acc/(1−Acc)`? |
 
-RQ1–RQ4 constitute the measurement layer; RQ5–RQ6 constitute the RSI/EGTE claim (§3.7).
+RQ1–RQ4 constitute the measurement layer; RQ5–RQ6 constitute the EGTE claim (§3.7). The RQ set maps onto the paper's five core questions (Q1–Q5, `paper/paper_outline.md` §4) without dropping any RQ row:
+
+| RQ | Paper Q | Alignment |
+|---|---|---|
+| RQ1 | Q5 | population convergence / activation read as A3-vs-C3 by question type |
+| RQ2 | Q4 | trajectory features → selection mechanism evidenced per question |
+| RQ3 | — | cost-to-target prediction (measurement layer only; not a headline Q) |
+| RQ4 | Q3 | no-convergence deficit diagnosis → exclusion & abstention |
+| RQ5 | Q1 | error bank as effective signal source → distiller→critic signal generalization |
+| RQ6 | Q2, Q3 | Stage A activation (Q2) + Stage B lock-in (Q3) |
 
 ---
 
@@ -229,7 +237,7 @@ The core contrast set is the four-arm causal design (detailed in §5.16):
 
 A3 is **self-consistency** (Wang et al. 2022), with **pass@k** (Chen et al. 2021) reported alongside. The earlier
 proxy-ablation arms A1–A6 (uniform prior, signal strength, temperature sweep) remain valid secondary controls and are
-recorded in `configs/ablation/`.
+recorded in `configs/ablation/`. A strong-model control (`gpt-6-astra`) is wired as a **transit / plumbing smoke test only** — it produces no formal numbers for the paper (§5.1). The exclusion selector's Stage-B contribution is isolated by an **eliminator switch** inside C3 (`off` = strong critic + mode, activation only; `on` = evaluator elimination + mode, full EGTE), replacing the earlier A3+Selector arm.
 
 ### 5.6 Metrics and statistics
 
@@ -349,18 +357,18 @@ locking_loss = P_act − final_acc
 not locked). The evaluation target is the layered profile `model_score = (μ, P_act, r, P_lock, q_stay, cost(R))`.
 (self-consistency numbers on existing arm-C data are in `docs/PHASE2_SUMMARY.md`.)
 
-### 5.14 RSI loop stages (R0–R3)
+### 5.14 Test-time search loop stages (R0–R3)
 
-| # | RSI moment | What we build / run | Success criterion |
+| # | Search moment | What we build / run | Success criterion |
 |---|---|---|---|
 | R0 | Error-set prior (information source) | existing strong critic (C3) + taxonomy, gold-free (§5.8) | `P_act` measurable and above single-sample μ |
 | R1 | Stage A — reachability | error-set-guarded sampling inside the loop (§5.11) | `P_act` ↑ over the bare loop; EIR suppressed |
-| R2 | Stage B — locking (EGTE) | three-role train-free evaluator reads each round's rationale → CUT / KEEP / UNSURE (elimination + mode) | lock-in rate ↑; `ECR/EIR > Acc/(1−Acc)` |
-| R3 | Claim | error set as an effective RSI source | gains, with cost/token accounting as intermediate products |
+| R2 | Stage B — locking (EGTE) | three-role train-free pipeline reads each round's rationale → CUT / KEEP / UNSURE (elimination + mode) | lock-in rate ↑; `ECR/EIR > Acc/(1−Acc)` |
+| R3 | Claim | error bank as an effective test-time source | gains, with cost/token accounting as intermediate products |
 
 R0/R1/R2 are **no-training and reversible**, so every stage can be aborted and re-run cheaply to bound cost.
 
-### 5.15 Stage B evaluator — stability-based selection (superseded — the review role now keys on the disconnection/contradiction/error rubric → CUT/KEEP/UNSURE; see PAPER_DRAFT §2.5)
+### 5.15 Stage B evaluator — stability-based selection (superseded — the evaluator role now keys on the disconnection/contradiction/error rubric → CUT/KEEP/UNSURE; see PAPER_DRAFT §2.5)
 
 **Directional hypothesis (H2).** After a bounded `n`-round budget, the answer sequence forms a near-reversible Markov
 chain in which the correct value is a high-self-loop metastable attractor; a zero-gold Stage B evaluator selects the
@@ -394,15 +402,15 @@ sharp-wrong tail is a competence wall re-sampling cannot fix. **Negative result 
 `error_score` is anti-correlated with actual error, unusable as a selection signal — Stage B keys on a *stability*
 signal instead.
 
-**Stage-B / EGTE mechanism: stability gate + verifier escalation. (superseded — replaced by the review-role rubric judge; see PAPER_DRAFT §2.5)**
+**Stage-B / EGTE mechanism: stability gate + verifier escalation. (superseded — replaced by the evaluator-role rubric judge; see PAPER_DRAFT §2.5)**
 
 - **B1 (stability gate, zero-API):** concentration ≥ τ → output the mode.
 - **B2 (escalation, flat cases only):** a verifier scores the n already-sampled candidates and returns argmax
   (LLM-as-judge, or a light outcome-RM trained on the wrong bank).
 - **Abstain:** sharp-wrong (or flat without activation) → conformal abstention.
 
-**EGTE realisation (2026-10-21).** The Stage-B evaluator is realised as the **three separated evaluator roles**: *distill*
-(build-time, gold → `mechanism` + `check_procedure`), *check* (execution-time, gold-free `trigger`), *review*
+**EGTE realisation (2026-10-21).** The Stage-B evaluator is realised as the **three separated roles**: *distiller*
+(build-time, gold → `mechanism` + `check_procedure`), *critic* (execution-time, gold-free `trigger`), *evaluator*
 (post-transition, evidence-anchored CUT / KEEP / UNSURE). This is **not a PRM** — it assigns no scalar credit to the correct
 path and performs no weight update; it only *eliminates* wrong moves. Step-level process reward remains deferred: the
 signal concentrates in the final answer and the correct value is already in the candidate set.
@@ -438,12 +446,12 @@ free tiers → spot GPUs → budget API.
 
 ### 8.1 Three contributions (layered)
 
-1. **Error-set-driven RSI (headline).** An error set is an effective recursive-self-improvement information source:
+1. **Error-set-driven test-time elimination (headline).** An error bank is an effective test-time information source:
    error-set-guided feedback produces a significant, attributable accuracy gain over directionless noise. Answers *"can
    a cheap, gold-free error signal actually improve the model?"*
 2. **Error-Guided Test-Time Elimination (mechanism).** The gain decomposes into a reachability lever (Stage A, `P_act`,
-   no training) and a test-time **elimination** lever realised as a three-role evaluator (*distill* / *check* /
-   *review*) that removes wrong moves rather than scoring the correct path — bound to the per-round EIR/ECR dynamics
+   no training) and a test-time **elimination** lever realised as a three-role pipeline (*distiller* / *critic* /
+   *evaluator*) that removes wrong moves rather than scoring the correct path — bound to the per-round EIR/ECR dynamics
    and `ECR/EIR > Acc/(1−Acc)`. Answers *"where does the gain come from, and how do we push it further?"*
 3. **Round-dimension measurement layer (enabling).** The activation / locking / correction observables
    (`μ, P_act, r, P_lock, q_stay, cost(R)`) are retained as the intermediate product that makes (1) and (2)
@@ -470,6 +478,7 @@ outcome.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.26 | 2026-10-27 | Renamed **EGTE → EGTE (Error-Guided Test-Time Elimination)** with a **Recursive Error-Bank Refinement** outer loop; terminology migration distill/check/review → distiller/critic/evaluator (three-role pipeline); RSI re-scoped to test-time elimination / bounded agent loop; added the A3+Selector ablation arm and a `gpt-6-astra` strong-model smoke note; added the RQ↔paper-Q1–Q5 mapping and two propositions (one-sided error control, convergence saturation); corrected EIR/ECR to full-sample transfer-opportunity denominators. |
 | 0.25 | 2026-10-27 | Aligned to the locked paper state: C weak-critic arm marked deprecated (C3 strong critic + evaluator is the treatment); weak critic → strong critic throughout; `CUT/UNSURE/ANSWER` → `CUT/KEEP/UNSURE`; metacognition framing → activation; stability-gate Stage-B (§5.15) and B1/B2 (§5.16) marked superseded by the rubric review role. |
 | 0.24 | 2026-10-26 | Named the scorer `scorer_LLM_rescue` in §5.9 and stated the role boundary vs solver / critic / evaluator; T3 unified as multi-LLM voting / human review. |
 | 0.23 | 2026-10-21 | **Condensed to the EGTE backbone.** Retired §3.4 (cost–reliability prediction), §3.5 (three mathematical framings), §3.6 (three decouplings), §5.2 (Task-Bank Blueprint), §5.3 (experimental stages), §5.4 (tensor decomposition), §5.7 (Phase-1 go/no-go plan), §5.13 (RL redistribution correspondence — now a pointer to `docs/L3L4_RL_REDISTRIBUTION.md`); fold §5.16 back into §5; reconcile §5.5 to the A/A2/A3/C arms; RQ2 reworded off the removed framings. Surviving sections keep their numbers. Details moved to `PHASE1_SUMMARY.md` / `PHASE2_SUMMARY.md` / `TIMELINE.md` / `ERROR_TAXONOMY.md`. |

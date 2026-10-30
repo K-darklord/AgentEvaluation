@@ -11,7 +11,7 @@
 1. **The evaluation pipeline** — real benchmark data across five task families (GSM8K, MATH-500, MMLU-Pro, FAB, BFCL) + tool-calling agents + trajectory recording + three-tier scoring (T1 rule / T2 LLM rescue / T3 multi-judge).
 2. **The home of the research program** — single end-to-end paper whose core contribution is a *new evaluation paradigm*: an external meta-cognitive (weak-critic) proxy redefines capability from static single-shot accuracy into round-dimension dynamic observables — activation ceiling `P(A)`, locking `P(F | A)`, locking loss — and a cost–reliability + risk relationship; a model × task × error-type tensor decomposition localizes which of four capability layers (L1–L4) a model lacks. The evaluation-framework-interference study (26pp spurious deficit) motivates "static accuracy is a bad metric".
 
-> **Re-anchored 2026-10-21 → Error-Guided Test-Time Elimination (EGTE).** The program's active mechanism is
+> **Re-anchored 2026-10-27 → Error-Guided Test-Time Elimination (EGTE).** The program's active mechanism is
 > EGTE: a **train-free, three-role pipeline** — **distiller** → `mechanism` + `check_procedure`, **critic** → gold-free
 > `trigger`, **evaluator** → evidence-anchored CUT / KEEP / UNSURE — that **eliminates** wrong moves distilled from
 > gold-annotated errors, instead of scoring the correct path. It is deliberately **not a PRM** (no scalar reward,

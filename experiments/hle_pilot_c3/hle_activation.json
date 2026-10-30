@@ -1,0 +1,34 @@
+{
+  "slice": "hle_pilot",
+  "mode": "rescue",
+  "arms": {
+    "C3": {
+      "n": 50,
+      "n_rounds": 310,
+      "init": 0.12,
+      "final": 0.2,
+      "P_act": 0.3,
+      "item_net": {
+        "corrected": 6,
+        "flipped": 2,
+        "stay_correct": 4,
+        "stay_wrong": 38,
+        "net": 4,
+        "identity_ok": true
+      },
+      "transition_rates": {
+        "EIR": 12,
+        "ECR": 16,
+        "unchanged": 126,
+        "base": 154,
+        "EIR_rate": 0.0779,
+        "ECR_rate": 0.1039
+      }
+    },
+    "A3": {
+      "n": 50,
+      "vote": 0.14,
+      "P_act": 0.28
+    }
+  }
+}

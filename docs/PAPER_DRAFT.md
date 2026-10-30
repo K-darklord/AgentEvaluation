@@ -6,10 +6,10 @@
 
 ## 1. EGTE: definition, roles, and the optimization objective
 
-### 1.1 What EGTE is (asymmetric error exclusion)
+### 1.1 What EGTE is (asymmetric error exclusion via test-time elimination)
 
-EGTE (Error-Guided Test-Time Elimination) treats an **error set as an RSI information source** and  
-optimizes an RSI **lower bound**. It does not train or prompt the model to  
+EGTE (Error-Guided Test-Time Elimination) treats an **error bank as a test-time elimination information source** and  
+optimizes a test-time **lower bound** on error — targeting capability that **pretraining already imparted but post-training (RL) sampling fails to surface**: when self-consistency alone cannot reach the answer, EGTE *extracts* already-produced-but-unheld correctness via error-guided search, and its **error bank is recursively refined** into a reusable memory / generalization primitive that feeds a bounded agent loop. It does not train or prompt the model to  
 *produce* the correct answer (the positive direction); it distills, from a gold-annotated **error  
 bank**, a finite set of **generalizable wrong-execution behaviours**, and uses them to **EXCLUDE**  
 wrong candidates at test time. 
@@ -22,6 +22,56 @@ a learned intuition. The distilled memory is **answer-free** — a class-level `
 `check_procedure` that never names a specific molecule / number / option — so it transfers across  
 questions and across benchmark families and does not go obsolete: new errors keep feeding the bank,  
 sharpening the same mechanisms instead of accumulating instance memory.
+
+### 1.2 Two propositions: one-sided error control and convergence
+
+Two formal statements bound what EGTE can promise, and render its two failure modes falsifiable.
+
+**Proposition 1 (one-sided error control).** Let the evaluator cut with false-positive rate
+`FPR ≤ ε` (a *correct* candidate cut) and recall `≥ 1 − δ` over actually-wrong candidates.
+
+- *(a) Eliminate-to-one regime* (the arm implemented by `run_elimination_curve.py`): if elimination
+  proceeds until a single survivor remains, then `E[gain] ≥ P(err)·(1−δ) − P(correct)·ε`.
+- *(b) Mode regime* (the deployed C3 rule): let `q = P(a* wins the mode | a* survives, all other
+  survivors wrong)`. Then `E[gain] ≥ q·P(err)·(1−δ) − P(correct)·ε`, and (a) is the special case
+  `q = 1`.
+
+**Why one-sided control matters.** A PRM must be *calibrated* (both FP and FN controlled) to add
+value under mode aggregation; an excluder needs only `FPR ≤ ε` and sufficient recall. This is the
+formal content of "exclusion is cheaper than scoring".
+
+**Proposition 2 (convergence).** On the two-state {correct, wrong} chain with per-round rates
+EIR/ECR, `A_t → π* = ECR/(EIR+ECR)` geometrically at rate `1 − EIR − ECR`.
+
+**Assumption A3 (diminishing returns).** The marginal error-bank information `g(B_t)` — the per-step
+reduction in reachable wrong-execution space from adding one distilled rule — is non-increasing in
+`|B_t|`.
+
+Under A3 the outer loop saturates: `A_t → π*` with `g → 0`, and the stopping rule is `g(B_t) < τ`.
+A3 is a modelling assumption, not a theorem; it fails if new rules open previously unreachable error
+classes, which is exactly the "open hypothesis class" case we test in S1–S3.
+
+### 1.3 Two loops: test-time elimination and offline bank refinement
+
+EGTE has two loops with **different tenses**, and the paper keeps them apart.
+
+- **Inner loop (test-time, online).** One elimination pass over a *frozen* bank `B_t`. No gold, no
+  weight update, no bank write. This is what the arms A/A2/A3/C3/A3C3 measure.
+- **Outer loop (offline, across passes).** After pass `t`, failures that the frozen scorer marked
+  wrong are distilled back into `B_{t+1}`. The distiller is the sole gold reader; runtime roles
+  never see gold.
+
+**Label provenance.** Outer-loop labels come only from the frozen scorer on failed runs. There is no
+pseudo-labelling and no self-adjudication; a pseudo-gold outer loop would be self-confirming and is
+explicitly out of scope.
+
+**Disjointness rule (hard).** Pass `t` draws its items from `S_t`; the evaluation panel `P` is fixed,
+disjoint from every `S_t`, and **never enters any bank**. Violating this turns the flywheel into
+slow-motion train/test leakage.
+
+**Boundedness.** Marginal bank information `g(B_t)` is non-increasing (Assumption A3, §1.2), so
+refinement saturates rather than diverges: `B_t` converges into a reusable cross-benchmark memory,
+not an ever-growing instance store.
 
 ### 2.2 The strategy roles, and the quantity each optimizes
 
@@ -89,6 +139,16 @@ a final answer. The evaluator is **never** run in-loop; the critic is **never** 
 **headline causal contrast is the arms A / A2 / A3 / C3 / A3C3**; `C` (weak critic) is **outdated** — dropped, will **not appear** in the final paper — and was a Stage-A  
 diagnostic probe (historical only).
 
+The Stage-B contribution of the exclusion selector is isolated by an **eliminator switch** inside C3
+(replacing the dropped A3+Selector arm): with the switch `off`, C3 runs the strong critic alone and
+locks by mode (activation only); with it `on`, the offline evaluator eliminates + mode-locks (full
+EGTE). The Stage-B delta is `on − off`.
+
+**Stronger-model control.** The A3-vs-C3 contrast is also re-run on a frontier solver **astra**
+(`gpt-6-astra`), bare + A3, to rule out "the base model is just weak"; this arm is currently a
+**中转 smoke (channel relay)** — a wiring check that produces no citable number until a production
+channel is available.
+
 ### 2.5 The three core strategies, as implemented in `src/`
 
 The three load-bearing roles are separate code paths, not prompt styles; each has its own
@@ -97,7 +157,7 @@ them and is not optimized here.)
 
 #### Distiller — `build_mechanism_levels.py` (+ `build_error_taxonomy.py`, `build_unified_taxonomy.py`)
 
-Offline, over the gold-annotated error bank; the only role that reads gold. A distillation chain — each level re-distills the one beneath it, and the vocabulary is iteratively refined as the bank grows, not a fixed taxonomy:
+Offline, over the gold-annotated error bank; the only role that reads gold. The distiller is the sole executor of **recursive error-bank refinement**: after each pass the frozen scorer's gold labels feed the new errors back into the bank, re-distilling `B_t` into `B_{t+1}` — the same answer-free mechanisms are *sharpened*, never replaced by accumulated instance memory, so the bank converges into a reusable cross-benchmark primitive rather than an ever-growing instance store. A distillation chain — each level re-distills the one beneath it, and the vocabulary is iteratively refined as the bank grows, not a fixed taxonomy:
 - **L1** (`build_behavior_leaves.py``) — one instance-level wrong-operation `mechanism` per
   errored (model, task) pair.
 - **L2** (`build_mechanism_levels.py`) — clusters one solver model's L1 mechanisms into ≤8
@@ -267,10 +327,13 @@ The flip19 slice and the HLE pilot are analysis probes for optimizing and reason
 strategy, not evaluation benchmarks. They are kept because only these items show enough answer  
 transitions (flips) to quantify EIR / ECR and to inspect the mechanism.
 
-### 4.1 flip19 (n = 19, the answer-transition slice)
+### 4.1 Transition rates over the full loop (flip19 retained as an illustrative slice)
 
-19 items (across phase1 / new / gpqa) on which the arm-C loop produced an answer flip. EIR / ECR are  
-per-round transition rates on the {correct, wrong} chain.
+EIR/ECR are estimated over **all (item, round) transition opportunities of the arm's full loop**
+(denominator: every round whose previous state was `correct` for EIR, `wrong` for ECR), over **all N
+items of the run — not the flip-selected subset**. The flip19 slice is retained *only* as an
+illustrative case list and is **not** used for rate estimation (full-sample `N` and per-arm rates are
+filled after the frozen re-run).
 
 **Item list** (task id + prompt opening, grouped by source slice):
 
@@ -278,12 +341,15 @@ per-round transition rates on the {correct, wrong} chain.
 - **new** (`n=9`): `aime_018` ("A point $P$ is chosen in the interior of $\triangle ABC$…"), `aime_021` ("Three circles, each of radius $3$, are drawn with centers at $(14,92)$…"), `aime_044` ("Three $12$ cm $\times 12$ cm squares are each cut into two pieces $A$ and $B$…"), `gpqa_009` ("Which of the following molecules has C3h symmetry?…"), `gpqa_016` ("How many of the following compounds will exhibit optical activity?…"), `gpqa_028` ("(S)-4-hydroxycyclohex-2-en-1-one is treated with tert-Butyldimethylsilyl chloride…"), `gpqa_031` ("toluene is treated with nitric acid and sulfuric acid, forming product 1…"), `gpqa_048` ("cyclohexanone was treated with bromine, forming product 1…"), `gpqa_049` ("Sigmatropic rearrangement is a class of pericyclic reactions…")
 - **gpqa** (`n=5`): `gpqa_095` ("3,3,6-trimethylhepta-1,5-dien-4-one is treated with 1 equivalent of meta-chloroperbenzoic…"), `gpqa_103` ("Which sequence of reactions from the following options would lead to the high-yield…"), `gpqa_109` ("Consider a bound system of two nucleons (NN) in a 1S0 state…"), `gpqa_163` ("We would like to dissolve (at 25°C) 0.1 g Fe(OH)3 in 100 cm3…"), `gpqa_167` ("Calculate the amount of non-Gaussianity (nG) in the Schrödinger cat state…")
 
-| arm                    | n  | init  | final | EIR   | ECR   |
-| ---------------------- | -- | ----- | ----- | ----- | ----- |
-| A3C3, CoT-corrected    | 19 | 0.737 | 0.684 | 0.226 | 0.324 |
-| A3C3, no-CoT (pre-fix) | 19 | 0.842 | 0.632 | 0.322 | 0.341 |
-| C3, CoT-corrected      | 19 | 0.632 | 0.632 | 0.208 | 0.263 |
-| C3v2 (old)             | 19 | 0.632 | 0.684 | 0.176 | 0.303 |
+| arm                    | n  | init | final | EIR | ECR |
+| ---------------------- | -- | ---- | ----- | --- | --- |
+| A3C3, CoT-corrected    | N  | —    | —     | —   | —   |
+| A3C3, no-CoT (pre-fix) | N  | —    | —     | —   | —   |
+| C3, CoT-corrected      | N  | —    | —     | —   | —   |
+| C3v2 (old)             | N  | —    | —     | —   | —   |
+
+> Full-sample `N` and per-arm rates to be recomputed over the arm's complete loop after the frozen
+> re-run; the flip19 slice is illustrative only and does not enter rate estimation.
 
 ### 4.2 HLE pilot (n = 50, scorer-graded)
 
@@ -338,3 +404,12 @@ Activation (reachability): A3 16/50, C3 15/50. Head-to-head (A3 vote vs C3 full)
    *multiple-choice* vote, whereas C3's critic + evaluator applies more broadly (open-ended /
    derivational answers, where a plain majority vote is ill-defined)? Could C3 close the gap further by
    reasoning over the *similarity* between candidate answers (not yet introduced)?
+
+**Outer-loop acceptance criteria (S1–S3).**
+
+- **S1 slope** — `A_T − A_0 > 0` and not a single-round jump; holds with `|B|` capped.
+- **S2 attribution** — abstraction gain > same-size instance-memory gain.
+- **S3 transfer** — a bank distilled on family X raises accuracy on family Y (Y never in any bank).
+
+S1 fails → the claim shrinks to the inner loop. S2 fails → it is a capacity story, not a mechanism
+story. S3 fails → the memory is not answer-free.

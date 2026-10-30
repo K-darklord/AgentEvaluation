@@ -33,14 +33,14 @@
 **Layout** — title band (top), one-sentence falsifiable question (centre, large), falsification strip (bottom bar).
 
 **Title** (deep navy, bold)
-**Error-Guided Test-Time Elimination (EGTE): Distilling Answer-Free Error Mechanisms for Train-Free Recursive Self-Improvement**
+**Error-Guided Test-Time Elimination (EGTE)**
 
 **Subtitle** (gray)
-*A train-free, three-role pipeline (distiller → critic → evaluator) that **excludes** wrong candidates from an error set, instead of scoring the correct path.*
+*A train-free, three-role test-time elimination (distiller → critic → evaluator) that **excludes** wrong candidates from a recursively-refined error bank, instead of scoring the correct path.*
 
 **Falsification strip** (bottom bar, deep navy)
-- **One-sentence claim** — *Is a generalized error set an effective information source for recursive self-improvement — does gold-free error-set feedback beat directionless sampling?*
-- **Failure criterion** — *if C3 does not systematically beat A3 on the hard slice (Δ_act ≤ 0 AND net Δ ≤ 0), the error-set-as-RSI-source claim fails.*
+- **One-sentence claim** — *Does answer-free error exclusion beat compute-matched sampling, and does the loop converge — surfacing correctness that self-consistency alone cannot reach?*
+- **Failure criterion** — *if C3 does not systematically beat A3 on the hard slice (Δ_act ≤ 0 AND net Δ ≤ 0), the EGTE claim fails.*
 
 **Key output** — the single question the rest of the deck must answer, gated by the failure criterion above.
 
@@ -76,7 +76,7 @@ P3–P7 below instantiate this ladder in order; P8–P9 test its boundary and fo
 
 ---
 
-## P3 — Problem definition: the error set as an RSI information source · [stage 1 — gap & motivation]
+## P3 — Problem definition: the error set as a test-time elimination information source · [stage 1 — gap & motivation]
 
 **Breadcrumb**: `EGTE · 问题定义` · page 3
 
@@ -96,7 +96,7 @@ P3–P7 below instantiate this ladder in order; P8–P9 test its boundary and fo
 - The "learn-from-mistakes" family is already occupied — Mistake Notebook, PRISM, Cliff, LANPO, Agent-R / TAPO / LEMMA.
 
 **Right — 研究单位需要明确 (what the study must fix)**
-- Can an **error set** serve as an RSI information source *gold-free* at test time?
+- Can an **error set** serve as a gold-free *test-time elimination* information source?
 - Is *exclusion* (a few finite, falsifiable rules) cheaper and more robust than *scoring the correct direction* (a PRM)?
 - Is the elimination **attributable to a real error mechanism**, not noise or a lucky re-sample?
 
@@ -154,11 +154,11 @@ P3–P7 below instantiate this ladder in order; P8–P9 test its boundary and fo
 | **A** | bare re-solve, T=0, single answer, zero intervention | floor — raw latent accuracy |
 | **A2** | fixed neutral placebo, T=0, single answer | **placebo = no-distiller + no-critic-direction** — strips the whole error-set guidance (no mechanism, no direction); controls scaffolding and isolates the treatment |
 | **A3** | self-consistency (Wang et al. 2022), T=0.7, N=10, i.i.d. majority vote | **independent-sampling baseline EGTE must beat** |
-| **C3** | strong critic (in-loop) + evaluator `rubric_ce` (offline) | treatment — Stage A (activation) + Stage B (lock) |
+| **C3** | strong critic (in-loop) + evaluator `rubric_ce` (offline); **eliminator switch** isolates Stage B | treatment — Stage A (activation) + Stage B (lock) |
 | **A3C3** | A3-seeded round-0, then the C3 loop | stacked (sampling + EGTE) |
 
 **Additional controls** (same causal-contrast logic, kept separate from the fixed-solver arms)
-- **Stronger-model control** (to run) — frontier solver, bare + A3: rules out "the base model is just weak; a larger model reaches the same without EGTE."
+- **Stronger-model control** (to run) — frontier solver **astra** (`gpt-6-astra`, 中转 smoke only), bare + A3: rules out "the base model is just weak; a larger model reaches the same without EGTE."
 - **Compute-matched** — C3 (1× T=0 chain + critic + evaluator) uses **fewer** tokens than A3 (N=10 samples), so the C3 gain is *not* a compute artifact (EGTE is compute-cheaper).
 
 **Bottom** (teal)
@@ -182,7 +182,7 @@ Weak critic `C` is outdated (underperformed) — dropped, not in the final paper
 **Layout** — left-right columns: left = "三种裁决" (three verdicts), right = "同一比较条件" (fixed comparison terms); bottom main-judgement + shrink-conclusion.
 
 **Title** (deep navy, bold)
-**`CUT / KEEP / UNSURE` — a fair answer-vs-abstain comparison**
+**`CUT / KEEP / UNSURE` — a fair elimination-vs-vote comparison**
 
 **Subtitle** (gray)
 *The evaluator wakes only on an answer transition; it never reads gold, never runs in-loop.*
@@ -195,15 +195,14 @@ Weak critic `C` is outdated (underperformed) — dropped, not in the final paper
 
 **Right — 同一比较条件 (same comparison terms)**
 - same model + candidate answers.
-- same data split and coverage.
+- same data split.
 - includes verification, sampling, and call cost.
 
 **Bottom**
-- **主判断 (main judgement)** — *fixed coverage: is it more accurate (lower risk), or fixed risk budget: does it cover more samples?*
+- **主判断 (main judgement)** — *does elimination + mode raise accuracy over a plain majority vote, at lower tokens per correct, with EIR suppressed and ECR retained?*
 - **收缩结论 (shrink condition, teal)** — *if elimination + mode gives no stable gain, shrink the claim to diagnosis or mechanism discovery.*
 
-**Footer** (tiny gray)
-Under 0-1 loss, at equal coverage, Risk = 1 − Accuracy.
+
 
 ---
 
@@ -223,7 +222,7 @@ Under 0-1 loss, at equal coverage, Risk = 1 − Accuracy.
 
 | Table | Row — comparison object | Column — must answer |
 |---|---|---|
-| **主表 · 选择质量** Main · selection quality | A / A2 / A3 / C3 / A3C3 | Acc @ fixed coverage, AURC; covered fraction vs actual risk & cost; token count (C3 < A3) |
+| **主表 · 选择质量** Main · selection quality | A / A2 / A3 / C3 / A3C3 | Acc; tokens per correct; EIR; ECR; McNemar exact (paired) |
 | **支撑表 A · 信号质量** Support A · signal quality | weak discriminator / independent verifier (critic trigger) | AUROC, AUPRC, annotation agreement — is activation attributable to the error set? |
 | **支撑表 B · 干预机制** Support B · intervention mechanism | original / key intervention / irrelevant intervention | paired EIR/ECR deltas, confidence intervals, question type |
 | **支撑表 C · 稳健性** Support C · robustness | model (12–15) / task family / evidence format | cross-distribution gain and failure range |
@@ -249,7 +248,7 @@ Numeric cells are withheld here pending the full re-run under the frozen §3.0 s
 *Boundary conditions, cross-condition reproduction, and cost–benefit.*
 
 - **Cross-condition reproduction** — cross-model (12–15) × cross-task-family + a stronger frontier solver (rules out "the base model is just weak").
-- **Cross-benchmark transfer** — the L3 error bank is distilled from prior errors, **not** HLE; the HLE pilot's net +3 is out-of-distribution transfer evidence (Q1), distinct from the Stage-B-lock boundary below.
+- **Cross-benchmark transfer** — the L3 error bank is distilled from prior errors, **not** HLE; the HLE pilot's net +3 (4 saves vs 1 loss, p = 0.375) is **motivation / pilot** evidence only, not decision-grade transfer evidence — distinct from the Stage-B-lock boundary below.
 - **Cost–benefit** — settle is free vs the Stage-B evaluator cost.
 - **Explicit failure cases** — settle-locked-wrong, no-commit, inconsistent transitions.
 - **Boundary (teal)** — the Stage-B lock's transition-evidence signal is question-type-dependent: it shows on one slice but **not on HLE**; Phase 3 must test whether the transition rationale transfers across families, not just within a slice.
@@ -281,7 +280,7 @@ Robustness matrix = outline Tab 4.
 | static accuracy confounds capability with framework artefacts | motivation | measured 26 pp spurious deficit |
 | answer-free error mechanisms exclude wrong candidates, not score the right path | mechanism | distiller/critic/evaluator, EIR vs ECR |
 | elimination + mode lock beats a plain majority vote | decision | C3 vs A3 on the hard slice |
-| the mechanism's distillation transfers to HLE; only the Stage-B lock's evidence stays question-type-bound | boundary | one slice vs HLE |
+| distillation transfers to HLE as pilot-only motivation (net +3, p = 0.375); only the Stage-B lock's evidence stays question-type-bound | motivation / pilot | one slice vs HLE |
 
 **Bottom** (teal)
 *The strength of the contribution is bounded by how many alternative explanations the contrasts rule out.*
@@ -298,5 +297,5 @@ Fig 1–3 + Tab 1–4 (below) are the deck's cross-slide index.
 - **Fig 3** (P6): Stage-B evaluator pruned state chain → `CUT / KEEP / UNSURE`.
 - **Tab 1** (P5): control arms `A / A2 / A3 / C3 / A3C3`.
 - **Tab 2** (P5): two hypotheses (H1 activation / H2 mechanism) + falsification criteria.
-- **Tab 3** (P7): same-coverage risk across selectors on the hard slice.
+- **Tab 3** (P7): accuracy and EIR/ECR across arms on the hard slice.
 - **Tab 4** (P8): robustness matrix (cross-model × task family).

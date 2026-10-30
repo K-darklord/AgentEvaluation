@@ -19,12 +19,12 @@ the pipeline does not need a second rewrite when the full matrix scales up.
 - The **experiment design** (what to run) is authoritative in `docs/RESEARCH_PLAN.md`; this document
   is authoritative for **how the runs are executed and stored**.
 
-> **Alignment note (2026-10-21).** The experiment design has re-anchored to **Error-Guided Test-Time
-> Elimination (EGTE)** — a train-free, three-role evaluator (distill / check / review) that eliminates wrong
+> **Alignment note (2026-10-27).** The experiment design has re-anchored to **Error-Guided Test-Time
+> Elimination (EGTE)** — a train-free, three-role pipeline (distiller / critic / evaluator) that eliminates wrong
 > moves rather than scoring the correct path (see `docs/WORKMAP.md` §0.4, `docs/PHASE2_SUMMARY.md` §13–14).
 > For the execution layer this only refines *what the arms are named*: the ablation arms in §4.1 are now the
-> EGTE contrast set **A / A2 / A3 / C** (bare / placebo / i.i.d. T=0.7 N=10 / weak-critic), and the evaluator
-> side spawns three separated call roles (`distill` at build-time, `check` at execution-time, `review`
+> EGTE contrast set **A / A2 / A3 / C** (bare / placebo / i.i.d. T=0.7 N=10 / weak-critic), and the pipeline
+> side spawns three separated call roles (`distiller` at build-time, `critic` at execution-time, `evaluator`
 > post-transition). The scheduler / queue / artifact machinery below is unchanged.
 
 ---

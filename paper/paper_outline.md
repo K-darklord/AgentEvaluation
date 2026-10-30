@@ -1,4 +1,4 @@
-# Paper Outline: The Error Set as an RSI Information Source
+# Paper Outline: Error-Guided Test-Time Elimination (EGTE)
 
 > Re-anchored 2026-10-10 (RSI); **rewritten 2026-10-17** to follow the seven-stage
 > evidence-chain framework (problem → gap → motivation → hypotheses → mechanism →
@@ -6,8 +6,7 @@
 
 ## Working title (draft)
 
-"Error-Guided Test-Time Elimination (EGTE): Distilling Answer-Free Error Mechanisms for
-Train-Free Recursive Self-Improvement"
+"Error-Guided Test-Time Elimination (EGTE)"
 
 ## Target venue
 
@@ -39,9 +38,11 @@ Nature Machine Intelligence / IEEE TPAMI / NeurIPS (primary); ACL / EMNLP worksh
   capability curve), verification/self-correction (external feedback necessary),
   optimization (RLVR), inference scaling (test-time compute).
 - Gap: no unified trajectory-class system; no external gold-free error signal that is
-  *also* an RSI engine.
+  *also* a test-time-elimination engine.
 - Nearest neighbours (differentiate explicitly): Feedback Friction, Overthinking,
-  Activation-probe self-correction, Liu & Meng (EIR/ECR).
+  Activation-probe self-correction, Liu & Meng (EIR/ECR — the **source** of the EIR/ECR
+  vocabulary, stability threshold, and steady state we reuse; our contribution is the gold-free
+  *test-time elimination* realisation over the error bank, not the chain quantities).
 - **The "learn-from-mistakes" family is already occupied** — Mistake Notebook Learning
   (abstracted error patterns), PRISM (asymmetric FP bias), Cliff (first-mistake negative
   feedback), LANPO (relevant abstraction), Agent-R / TAPO / LEMMA (error-driven distillation).
@@ -59,7 +60,7 @@ Nature Machine Intelligence / IEEE TPAMI / NeurIPS (primary); ACL / EMNLP worksh
 ## 4. Research Questions & Hypotheses · [stage 4]
 
 - Q1–Q5 — the five core research questions (Q1 signal generalization [distiller → critic];
-  Q2 directional exploration, `P_act ≥ A3` [critic]; Q3 exclusion & abstention [evaluator];
+  Q2 directional exploration (critic → solver), `P_act ≥ A3` [critic]; Q3 exclusion & abstention [evaluator];
   Q4 selection mechanism evidenced per question; Q5 A3-vs-C3 by question type).
 - Two falsifiable hypotheses with support + failure criteria:
   - **H1 activation** — the strong critic lifts reachability vs A3: `P_act ≥ A3` at controlled EIR (↔ Q2 + Q5).
@@ -81,12 +82,16 @@ Nature Machine Intelligence / IEEE TPAMI / NeurIPS (primary); ACL / EMNLP worksh
   correct path — the solver's capability is lifted by mechanism, never by memorization.
 - Intervention controls (H2): vary only the rationale/signal; key-change delta must exceed
   irrelevant-change delta.
+- **Eliminator switch (H2 ablation, inside C3)**: toggling the critic-free exclusion selector
+  inside C3 — `off` = strong critic alone + mode (activation only), `on` = evaluator elimination +
+  mode (full EGTE) — isolates the exclusion selector's Stage-B contribution from the critic's
+  in-loop activation (replacing the dropped A3+Selector arm).
 
 ## 6. Main Results / Decision Evaluation · [stage 6 — decision]
 
 - Three-axis comparison on the hard slice (low-confidence / activated-but-unlocked tasks;
   definition in `PHASE2_SUMMARY §13`): `Δ_act`, settle vs vote, net final.
-- Fixed-denominator comparison (headroom buckets exclude `never`); same-coverage risk vs
+- Fixed-denominator comparison (headroom buckets exclude `never`); accuracy and EIR/ECR vs
   strong baselines (settle / mode / A3).
 
 ## 7. Robustness & Limitations · [stage 7 — boundary]
@@ -96,6 +101,17 @@ Nature Machine Intelligence / IEEE TPAMI / NeurIPS (primary); ACL / EMNLP worksh
 - Transition-evidence generalisation: the Stage-B lock's evidence is question-type-dependent —
   it currently shows on one slice but not on `HLE` — so Phase 3 must test whether the transition
   rationale transfers across benchmark families, not just within a single slice.
+
+### 7.1 The outer loop: recursive error-bank refinement
+
+Beyond the inner test-time elimination (EGTE, over a frozen error bank), the "recursive" half of the
+title is an **outer loop**: after each benchmark pass, newly gold-scored failures are distilled
+back into the L3 bank (re-distillation), sharpening the same answer-free mechanisms rather than
+accumulating instance memory. Label provenance is pinned — error labels come only from the frozen
+scorer on failed runs, and the distiller is the sole gold reader, so the answer-free mechanism
+never leaks gold to the runtime roles. The recursion is **bounded**: marginal bank information
+`g(B_t)` is non-increasing (Proposition 2), so refinement saturates rather than diverges — the
+bank converges into a reusable, cross-benchmark memory / generalization primitive.
 
 ## 8. Conclusion · [evidence correspondence]
 
@@ -115,5 +131,5 @@ Nature Machine Intelligence / IEEE TPAMI / NeurIPS (primary); ACL / EMNLP worksh
 - Fig 3: Stage-B evaluator pruned state chain → CUT / KEEP / UNSURE.
 - Tab 1: control arms (A / A2 / A3 / C3 / A3C3).
 - Tab 2: two hypotheses (H1 activation / H2 mechanism) + falsification criteria.
-- Tab 3: same-coverage risk across selectors on the hard slice.
+- Tab 3: accuracy and EIR/ECR across arms on the hard slice.
 - Tab 4: robustness matrix (cross-model × task family).

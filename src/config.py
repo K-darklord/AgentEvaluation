@@ -113,7 +113,9 @@ REASONING_BENCH_MAX_TOKENS = int(os.getenv("REASONING_BENCH_MAX_TOKENS", "8192")
 # Content window reserved AFTER the thinking_budget cap is exhausted, so a reasoning
 # model that would otherwise keep writing hidden CoT until finish_reason=length is
 # forced to floor a clean visible answer instead (deepseek GPQA fix, 2026-10-18).
-REASONING_CONTENT_MARGIN = int(os.getenv("REASONING_CONTENT_MARGIN", "64"))
+# Raised 64 -> 8192 for HLE (2026-10-28): HLE's step-by-step / long-answer forms need
+# a visible window far larger than the single option letter AIME/GPQA required.
+REASONING_CONTENT_MARGIN = int(os.getenv("REASONING_CONTENT_MARGIN", "8192"))
 
 # Transition self-report budget (rationale_mode="transition"). The "why did you
 # change" two-stage collection is a side channel that runs under its OWN prompt; it
@@ -194,6 +196,21 @@ DASHSCOPE_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
 TOKEN_PLAN_BASE_URL = "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1"
 ZHIPU_BASE_URL = "https://open.bigmodel.cn/api/paas/v4"
 
+# GPT-6 Astra (strong tier) via the cf.api.fan OpenAI-compatible gateway (2026-10-27).
+# Dedicated gateway key (sk- prefix); NOT Token Plan / DashScope / Zhipu. Model id on
+# this gateway is "gpt-6-astra" (also serves gpt-5.4 / gpt-5.5 / gpt-6-sol / gpt-6.1-sol,
+# gpt-5.6-terra / gpt-5.6-sol). Strong tier was deferred to Phase 2/3; now registered for
+# the stronger-model control (rules out "the base model is just weak").
+# channel: relay, not citable — third-party transit. Every response MUST record its
+# `response.model` (what the server actually served) alongside the request id into run
+# metadata; a gateway can silently downgrade gpt-6-astra -> gpt-6-sol, so the requested
+# model id cannot be trusted. Consistency check: astra's hard context/max_output ceilings
+# are 1.05M / 128K; sol is far smaller. Relay digits go to the appendix only — never a
+# headline number.
+ASTRA_BASE_URL = os.getenv("ASTRA_BASE_URL", "https://cf.api.fan/v1")
+ASTRA_API_KEY = os.getenv("ASTRA_API_KEY", "")
+ASTRA_MODEL = os.getenv("ASTRA_MODEL", "gpt-6-astra")
+
 PHASE1_MODELS = {
     "deepseek-v4-flash": {
         "tier": "mid",
@@ -202,9 +219,18 @@ PHASE1_MODELS = {
         "api_key": os.getenv("TOKEN_PLAN_API_KEY", ""),
         # Fix deepseek GPQA thinking non-convergence (2026-10-18): at model-default
         # thinking ON the hard items reason until ANY cap (length, content empty).
-        # thinking_budget forces the CoT to stop-and-commit at 8192; the +64 content
-        # window (REASONING_CONTENT_MARGIN) then floors a clean option letter.
-        "thinking_budget": 8192,
+        # thinking_budget forces the CoT to stop-and-commit; REASONING_CONTENT_MARGIN
+        # then reserves a visible answer window.
+        # Global frozen threshold — all reasoning benches (GPQA/AIME/BBH/
+        # MMLU-Pro/MATH500/HLE) run on this same budget.
+        # 2026-10-28 HLE note: a 32768 trial was REVERTED back to 16384. Local
+        # classification of the finish_reason=length rounds (31/31 across the
+        # A3+C3 pilot) showed they are all "ramble" — the model spilling English
+        # step-by-step reasoning into the visible answer — not truncated good
+        # answers, so a larger budget does NOT fix the length outcome (it can even
+        # make rambling worse). The hidden-CoT budget was never the binding
+        # constraint; those items are the model's real ceiling.
+        "thinking_budget": 16384,
         # Moved off HF router (TCP timeout / HTTP 000) to Alibaba Token Plan
         # origin-supply on 2026-09-28. Same DeepSeek-V4-Flash-0731 model.
     },

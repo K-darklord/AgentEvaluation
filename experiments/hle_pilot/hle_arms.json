@@ -1,0 +1,133 @@
+{
+  "slice": "hle_pilot",
+  "n": 50,
+  "arms": {
+    "A": {
+      "n": 50,
+      "accuracy": 0.26,
+      "t1_accuracy": 0.2,
+      "judge_n": 40,
+      "fn_rescued": 3
+    },
+    "A2": {
+      "init": {
+        "n": 50,
+        "accuracy": 0.22,
+        "t1_accuracy": 0.22,
+        "judge_n": 39,
+        "fn_rescued": 0
+      },
+      "final": {
+        "n": 50,
+        "accuracy": 0.28,
+        "t1_accuracy": 0.24,
+        "judge_n": 38,
+        "fn_rescued": 2
+      },
+      "settle": {
+        "n": 50,
+        "accuracy": 0.26,
+        "t1_accuracy": 0.22,
+        "judge_n": 36,
+        "fn_rescued": 2
+      },
+      "mode": {
+        "n": 50,
+        "accuracy": 0.24,
+        "t1_accuracy": 0.2,
+        "judge_n": 40,
+        "fn_rescued": 2
+      }
+    },
+    "A3": {
+      "init": {
+        "n": 50,
+        "accuracy": 0.14,
+        "t1_accuracy": 0.14,
+        "judge_n": 43,
+        "fn_rescued": 0
+      },
+      "vote": {
+        "n": 50,
+        "accuracy": 0.14,
+        "t1_accuracy": 0.14,
+        "judge_n": 43,
+        "fn_rescued": 0
+      }
+    },
+    "A3C3": {
+      "init": {
+        "n": 0,
+        "accuracy": 0.0,
+        "t1_accuracy": 0.0,
+        "judge_n": 0,
+        "fn_rescued": 0
+      },
+      "final": {
+        "n": 0,
+        "accuracy": 0.0,
+        "t1_accuracy": 0.0,
+        "judge_n": 0,
+        "fn_rescued": 0
+      },
+      "settle": {
+        "n": 0,
+        "accuracy": 0.0,
+        "t1_accuracy": 0.0,
+        "judge_n": 0,
+        "fn_rescued": 0
+      },
+      "mode": {
+        "n": 0,
+        "accuracy": 0.0,
+        "t1_accuracy": 0.0,
+        "judge_n": 0,
+        "fn_rescued": 0
+      }
+    },
+    "C3": {
+      "init": {
+        "n": 50,
+        "accuracy": 0.12,
+        "t1_accuracy": 0.08,
+        "judge_n": 46,
+        "fn_rescued": 2
+      },
+      "final": {
+        "n": 50,
+        "accuracy": 0.2,
+        "t1_accuracy": 0.18,
+        "judge_n": 41,
+        "fn_rescued": 1
+      },
+      "settle": {
+        "n": 50,
+        "accuracy": 0.16,
+        "t1_accuracy": 0.14,
+        "judge_n": 31,
+        "fn_rescued": 1
+      },
+      "mode": {
+        "n": 50,
+        "accuracy": 0.2,
+        "t1_accuracy": 0.18,
+        "judge_n": 41,
+        "fn_rescued": 1
+      }
+    },
+    "C3_eval": {
+      "n": 50,
+      "accuracy": 0.28,
+      "t1_accuracy": 0.22,
+      "judge_n": 39,
+      "fn_rescued": 3
+    },
+    "A3C3_eval": {
+      "n": 0,
+      "accuracy": 0.0,
+      "t1_accuracy": 0.0,
+      "judge_n": 0,
+      "fn_rescued": 0
+    }
+  }
+}

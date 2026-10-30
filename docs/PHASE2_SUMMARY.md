@@ -594,7 +594,7 @@ Both tunable from measured results.
 
 ---
 
-## 13. Related work & positioning: Error-Guided Test-Time Elimination (EGTE, 2026-10-21)
+## 13. Related work & positioning: Error-Guided Test-Time Elimination (EGTE, 2026-10-27)
 
 ### 13.1 Framing (this project's contribution)
 
@@ -617,19 +617,19 @@ This is **Error-Guided Test-Time Elimination (EGTE)** (错题集泛化): analogo
 derives, from gold-marked mistakes, a short list of *"for this class of problem, here are the
 moves to rule out"* — the wrong answer is excluded, not the right one selected.
 
-### 13.2 Three-role closed loop — distill / check / review (mechanism / check_procedure / trigger / evidence)
+### 13.2 Three-role pipeline — distiller / critic / evaluator (mechanism / check_procedure / trigger / evidence)
 
 | Role | When | Gold? | Produces | Consumes |
 |---|---|---|---|---|
-| **distill** (build) | offline, over the error bank | yes | `mechanism` + `check_procedure` (class-level, answer-free) | gold answer + wrong answer + prompt |
-| **check** (execute) | online, per task | no | cheap `trigger` signature (question-type + committed answer) | `trigger` |
-| **review** (post-transition) | after an answer **transition** only | no | CUT / UNSURE / ANSWER lock (rubric judge, evidence-anchored) | `mechanism` + `check_procedure` + `evidence` over the transition's hidden CoT |
+| **distiller** (build) | offline, over the error bank | yes | `mechanism` + `check_procedure` (class-level, answer-free) | gold answer + wrong answer + prompt |
+| **critic** (execute) | online, per task | no | cheap `trigger` signature (question-type + committed answer) | `trigger` |
+| **evaluator** (post-transition) | after an answer **transition** only | no | CUT / UNSURE / ANSWER lock (rubric judge, evidence-anchored) | `mechanism` + `check_procedure` + `evidence` over the transition's hidden CoT |
 
-Errors green-lit at review re-enter the bank, closing the loop. The evaluator only wakes on
+Errors green-lit by the evaluator re-enter the bank, closing the loop. The evaluator only wakes on
 transition (the cheap-path decision) — it never reads the target round's CoT at rest.
 
-The three roles above are *evaluator-internal*. Distinct from them — and from the **solver** (generates
-candidates) and the **critic** (feedback: weak = diagnosis / strong = correction) — is the **scorer**, the
+The three roles above are the *pipeline* — with the **critic** carrying the feedback role (weak = diagnosis /
+strong = correction). Distinct from them — and from the **solver** (generates candidates) — is the **scorer**, the
 final cross-arm grader `scorer_LLM_rescue` (T1 deterministic match → T2 LLM one-way FN rescue → T3 multi-LLM /
 human review). The scorer is the only runtime role that reads the gold at grade time and returns a
 truth-conditional correctness verdict; it reads only the committed final answer, never the CoT. Four separate
@@ -653,13 +653,13 @@ calls: the solver generates, the critic feeds back, the evaluator locks, the sco
 Every ingredient above exists in isolation, but the **synthesis** we are building — *EGTE, i.e.
 lower-bound optimization via answer-free mechanism+check_procedure distillation, closed over a
 transition-triggered, evidence-anchored self-review verifier (weak critic → rubric judge →
-activation+locking), with the solver and the three evaluator roles as SEPARATE calls* — is not,
+activation+locking), with the solver and the three pipeline roles as SEPARATE calls* — is not,
 to our knowledge, published as a single system. Three claims carry the novelty:
 
 1. **Asymmetry as an objective**, not just an RM-metric detail (PRISM stops at FP reduction).
 2. **Answer-free, cross-benchmark exclusion rules** as the durable memory (vs instance-anchored
    reflection in SCoRe/R3/Agent-R, and vs in-context notes in MNL/LANPO).
-3. **The three-role distill / check / review closure** (`mechanism` / `check_procedure` /
+3. **The three-role distiller / critic / evaluator closure** (`mechanism` / `check_procedure` /
    `trigger` / `evidence`) with the evaluator consuming only distilled checks at transition time
    — the explicit "robust, non-obsolete check memory" the RSI loop accumulates.
 
@@ -669,7 +669,7 @@ than "maximize correct-step probability". This is the market-separator to cite (
 
 ---
 
-## 14. Re-anchored experiment path (EGTE, 2026-10-21)
+## 14. Re-anchored experiment path (EGTE, 2026-10-27)
 
 > Supersedes §7 next-steps. One decisive change after the A2 forensics (§4/§5): **C (and A3) must
 > be re-run with the content-margin truncation fix before any C-vs-A2/A3 comparison is valid.**
@@ -688,21 +688,21 @@ than "maximize correct-step probability". This is the market-separator to cite (
 
 ### 14.2 deepseek-first EGTE ladder — close the loop on ONE model
 
-Get the full distill → check → review mechanism working end-to-end on deepseek before any
+Get the full distiller → critic → evaluator mechanism working end-to-end on deepseek before any
 cross-model / cross-type expansion:
 
-1. **distill** — gpqa error bank → `mechanism` + `check_procedure` (v3.0 three-role prompt; smoke
+1. **distiller** — gpqa error bank → `mechanism` + `check_procedure` (v3.0 three-role prompt; smoke
    3 first, then the full 49 gpqa entries).
-2. **check** — wire `trigger` into the cheap path; wake the evaluator only when the answer starts
+2. **critic** — wire `trigger` into the cheap path; wake the evaluator only when the answer starts
    to transition (the A-plan: never read the round's CoT at rest).
-3. **review** — rubric judge (disconnection/contradiction/error) consumes `check_procedure` +
+3. **evaluator** — rubric judge (disconnection/contradiction/error) consumes `check_procedure` +
    `evidence` over the transition's hidden CoT → CUT / UNSURE.
 4. **Gate**: EGTE must show a train-free test-time gain over the strong selectors (mode / A3-vote)
    on the deepseek hard slice *before* replication is attempted.
 
 ### 14.3 Replicate on glm / qwen
 
-- After deepseek EGTE is green end-to-end, port the same distill → check → review to glm and qwen
+- After deepseek EGTE is green end-to-end, port the same distiller → critic → evaluator to glm and qwen
   (fix glm `twostage` rationale fragment first, item 16; unify the rationale protocol, item 5).
 - Explicitly test **cross-model transfer** of the distilled mechanisms: answer-free mechanisms should
   transfer; the check is whether a glm/qwen-specific error bank is even needed, or whether deepseek's

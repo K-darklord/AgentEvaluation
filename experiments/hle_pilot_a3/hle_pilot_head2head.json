@@ -1,0 +1,46 @@
+{
+  "n": 50,
+  "n_multi": 34,
+  "n_single": 16,
+  "a3": {
+    "init": {
+      "n": 50,
+      "accuracy": 0.12,
+      "t1_accuracy": 0.12,
+      "judge_n": 44,
+      "fn_rescued": 0
+    },
+    "final_vote": {
+      "n": 50,
+      "accuracy": 0.14,
+      "t1_accuracy": 0.14,
+      "judge_n": 43,
+      "fn_rescued": 0
+    }
+  },
+  "c3": {
+    "init": {
+      "n": 50,
+      "accuracy": 0.12,
+      "t1_accuracy": 0.08,
+      "judge_n": 46,
+      "fn_rescued": 2
+    },
+    "final_strong": {
+      "n": 50,
+      "accuracy": 0.2,
+      "t1_accuracy": 0.18,
+      "judge_n": 41,
+      "fn_rescued": 1
+    },
+    "final_rubric": {
+      "hle_rubric_ce": {
+        "n": 50,
+        "accuracy": 0.24,
+        "t1_accuracy": 0.18,
+        "judge_n": 38,
+        "fn_rescued": 3
+      }
+    }
+  }
+}

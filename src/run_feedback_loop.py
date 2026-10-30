@@ -625,6 +625,36 @@ class _DaemonThreadPoolExecutor(concurrent.futures.ThreadPoolExecutor):
 _write_lock = threading.Lock()
 
 
+def _a3c3_source_traj(name: str) -> Path:
+    """Resolve the A3 arm trajectory that A3C3 consensus-reuse reads from.
+
+    Explicit full path (env A3C3_SOURCE_TRAJ) wins; otherwise derive from the
+    sibling A3 experiment dir (env A3C3_SOURCE_DIR, default "hle150_A3").
+    """
+    src = os.environ.get("A3C3_SOURCE_TRAJ")
+    if src:
+        return Path(src)
+    src_dir = os.environ.get("A3C3_SOURCE_DIR", "hle150_A3")
+    return REPO_ROOT / "experiments" / src_dir / name / "loop_trajectories.jsonl"
+
+
+def _load_a3_rounds_by_task(traj_path: Path) -> dict:
+    """Return {task_id: [round_dict, ...]} from an A3 arm trajectory file."""
+    out: dict = {}
+    if not traj_path or not traj_path.exists():
+        return out
+    for line in traj_path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        out[rec.get("task_id")] = rec.get("rounds", [])
+    return out
+
+
 def _load_completed(traj_path) -> set:
     # Task ids already checkpointed on disk (token-outage / restart recovery).
     done = set()
@@ -651,7 +681,7 @@ def _append_record(traj_path, record: dict) -> None:
 
 def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
                    arm: str, rationale_mode: str = "off",
-                   feedback_agent=None) -> dict:
+                   feedback_agent=None, a3_rounds=None) -> dict:
     family = _task_family(task.task_id)
     tool_cache: dict = {}
     records: list[dict] = []
@@ -668,32 +698,55 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
         }
         return _is_correct(family, row)
 
-    # round 0: baseline (no feedback). A3C3 replaces the single baseline solve with
-    # K independent temperature samples (T>0) majority-voted on the committed key; the
-    # voted answer becomes round 0's committed answer and the C3 feedback loop (rounds
-    # 1..R) then runs at T=0 (feedback_agent) to isolate the round-0 gain.
+    # round 0: baseline (no feedback). A3C3 does NOT re-sample here — it reuses the
+    # ALREADY-RUN A3 arm's 10-sample self-consistency: majority-vote A3's committed
+    # answers (re-derived from stored final_answer/reasoning/finish_reason) as round 0,
+    # then the C3 strong-critic feedback loop (rounds 1..R) runs at T=0 (feedback_agent)
+    # to isolate the round-0 gain. `a3_rounds` is this task's A3 trajectory rounds.
     round0_sample_corrects = None
     if arm == "A3C3":
-        samples = []  # (result, committed_key, commit_source, correct)
-        for _ in range(A3_SAMPLE_K):
-            sres = agent.solve(task, feedback=None, tool_cache=tool_cache)
-            skey, ssrc = _early_stop_key(family, task.gold_answer, sres.final_answer,
-                                         sres.reasoning_content, sres.finish_reason)
-            samples.append((sres, skey, ssrc, score(sres)))
+        keyed = []  # (a3_round_dict, committed_key, commit_source)
+        for rec in (a3_rounds or []):
+            k, src = _early_stop_key(family, task.gold_answer,
+                                     rec.get("final_answer"),
+                                     rec.get("reasoning_content") or "",
+                                     rec.get("finish_reason") or "")
+            keyed.append((rec, k, src))
+        round0_sample_corrects = [bool(r.get("is_correct")) for r, _, _ in keyed]
         # Majority vote over committed keys (ties -> first-encountered, consistent with
         # Counter.most_common insertion order). None (no-commit) samples are excluded.
-        key_counts = Counter(k for _, k, _, _ in samples if k is not None)
+        key_counts = Counter(k for _, k, _ in keyed if k is not None)
         voted_key = key_counts.most_common(1)[0][0] if key_counts else None
-        winner = next((s for s in samples if s[1] == voted_key),
-                      samples[0] if samples else None)
-        voted_result, _, voted_source, voted_correct = winner
-        prev_answer = voted_result.final_answer
-        prev_key = voted_key
-        prev_source = voted_source
-        prev_reasoning = voted_result.reasoning_content or ""
-        records.append(_round_record(0, voted_result, voted_correct, None, None, None,
-                                     None, arm, commit_source=voted_source))
-        round0_sample_corrects = [s[3] for s in samples]
+        winner = next((x for x in keyed if x[1] == voted_key),
+                      keyed[0] if keyed else None)
+        if winner is not None:
+            wrec, _, wsrc = winner
+            prev_answer = wrec.get("final_answer")
+            prev_key = voted_key
+            prev_source = wsrc
+            prev_reasoning = wrec.get("reasoning_content") or ""
+            r0 = dict(wrec)
+            r0["round"] = 0
+            r0["arm"] = arm
+            r0["commit_source"] = wsrc
+            records.append(r0)
+        else:
+            # A3 source has no rounds for this task (should not happen when A3 is
+            # complete): record a failed round 0 instead of silently re-sampling, so the
+            # consensus-reuse invariant is never broken.
+            prev_answer = ""
+            prev_key = prev_source = None
+            prev_reasoning = ""
+            records.append({
+                "round": 0, "arm": arm, "final_answer": "", "committed_answer": None,
+                "carried": False, "commit_source": None, "reasoning_content": "",
+                "finish_reason": "", "is_correct": False, "rationale": None,
+                "evidence": None, "error_score": None, "no_signal": None, "top3": [],
+                "critic_direction": None, "tool_calls": None, "latency_ms": 0,
+                "api_failure": True, "prompt_tokens": 0, "completion_tokens": 0,
+                "reasoning_tokens": 0, "rationale_prompt_tokens": 0,
+                "rationale_completion_tokens": 0, "rationale_reasoning_tokens": 0,
+            })
     else:
         result = agent.solve(task, feedback=None, tool_cache=tool_cache)
         prev_answer = result.final_answer
@@ -959,6 +1012,19 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
         # (token-outage recovery -> no re-billing of completed tasks).
         done_ids = _load_completed(traj_path)
         pending_tasks = [t for t in tasks if t.task_id not in done_ids]
+
+        # A3C3 consensus reuse: load this model's A3 trajectory ONCE (never re-sample).
+        # Every pending task must carry A3 rounds, else the invariant is broken.
+        a3_by_task: dict = {}
+        if arm == "A3C3":
+            a3_by_task = _load_a3_rounds_by_task(_a3c3_source_traj(name))
+            a3_missing = [t.task_id for t in pending_tasks
+                          if not a3_by_task.get(t.task_id)]
+            if a3_missing:
+                print(f"  [{name}] ABORT A3C3: {len(a3_missing)} pending tasks lack "
+                      f"A3 consensus source (e.g. {a3_missing[:5]}); finish A3 first.",
+                      flush=True)
+                raise SystemExit(2)
         print(f"\n=== feedback loop [{name}] model={entry['model']} "
               f"tasks={len(tasks)} done={len(done_ids)} pending={len(pending_tasks)} "
               f"R={max_rounds} N={early_stop_n} tier={tier} arm={arm} ===")
@@ -969,7 +1035,12 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
             # endpoints). The task-loop runs up to max_rounds+1 solves, so its deadline
             # must scale accordingly -- a fixed 180s total wrongly abandoned slow-but-
             # normal aime tasks (30% timeouts in the 2026-10-12 glm smoke).
-            solve_timeout = float(os.getenv("AGENTEVALUATION_SOLVE_TIMEOUT", "180"))
+            # Raised 180 -> 900 (2026-10-28): thinking_budget 16384 makes one solve emit
+            # up to 16384 hidden-CoT + 8192 visible tokens, which can take several
+            # minutes; the old 180s*11=1980s per-task deadline skipped the 14 slowest HLE
+            # pilot tasks as "hung" (they were slow, not dead -- the 30s stream read
+            # timeout already catches true server-side hangs).
+            solve_timeout = float(os.getenv("AGENTEVALUATION_SOLVE_TIMEOUT", "900"))
             ex = _DaemonThreadPoolExecutor(max_workers=concurrency)
             task_iter = iter(pending_tasks)
             in_flight = {}   # future -> task
@@ -982,7 +1053,7 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
                     return
                 fut = ex.submit(_run_task_loop, agent, critic, task, tier,
                                 max_rounds, early_stop_n, arm, rationale_mode,
-                                feedback_agent)
+                                feedback_agent, a3_by_task.get(task.task_id))
                 in_flight[fut] = task
                 deadline[fut] = time.monotonic() + solve_timeout * (max_rounds + 1)
 

@@ -219,6 +219,8 @@ def run_evaluation(
                 "reasoning_tokens": result.reasoning_tokens,
                 "cost_cny": _cost_cny(result.model_name, result.total_prompt_tokens, result.total_completion_tokens),
                 "model_name": result.model_name,
+                "response_model": result.response_model,
+                "response_id": result.response_id,
                 "seed": result.seed,
                 "trajectory": result.trajectory,   # 完整轨迹：归因分析的原料
                 "metadata": task.metadata,
@@ -241,6 +243,8 @@ def run_evaluation(
                 "reasoning_tokens": result.reasoning_tokens,
                 "cost_cny": _cost_cny(result.model_name, result.total_prompt_tokens, result.total_completion_tokens),
                 "model": result.model_name,
+                "response_model": result.response_model,
+                "response_id": result.response_id,
                 "seed": result.seed,
                 "metadata": json.dumps(task.metadata, ensure_ascii=False),
             })

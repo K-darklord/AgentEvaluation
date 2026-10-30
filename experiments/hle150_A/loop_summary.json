@@ -27,9 +27,9 @@
       "l4_lock_rate": 1.0,
       "l4_misled_rate": 0.0,
       "avg_rounds": 1.0,
-      "total_prompt_tokens": 59846,
-      "total_completion_tokens": 979658,
-      "total_reasoning_tokens": 976392,
+      "total_prompt_tokens": 60166,
+      "total_completion_tokens": 987864,
+      "total_reasoning_tokens": 984584,
       "total_rationale_prompt_tokens": 0,
       "total_rationale_completion_tokens": 0,
       "total_rationale_reasoning_tokens": 0

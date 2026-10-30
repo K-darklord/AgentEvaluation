@@ -488,6 +488,8 @@ class AgentResult:
     finish_reason: str = ""           # OpenAI finish_reason on final completion ("length" => budget-truncated)
     error: str = ""
     model_name: str = "rule-based-local"
+    response_model: str = ""          # actual model served (resp.model), not the requested id
+    response_id: str = ""             # request/response id paired with response_model
     seed: int | None = None
     temperature: float = 0.0
     api_failure: bool = False  # True if LLM API timed out or connection failed
@@ -1289,6 +1291,8 @@ class OpenAIAgent(BaseAgent):
                     tool_choice="auto" if iteration < max_steps - 1 else "none",
                 )
                 msg = resp.choices[0].message
+                result.response_model = getattr(resp, "model", "") or ""
+                result.response_id = getattr(resp, "id", "") or ""
                 _pt += resp.usage.prompt_tokens
                 _ct += resp.usage.completion_tokens
             except Exception as e:
@@ -1384,6 +1388,8 @@ class OpenAIAgent(BaseAgent):
                 fb_resp = self.client.chat.completions.create(
                     model=self.model, messages=fallback_msgs)
                 answer = _extract_content(fb_resp.choices[0].message)
+                result.response_model = getattr(fb_resp, "model", "") or ""
+                result.response_id = getattr(fb_resp, "id", "") or ""
                 _pt += fb_resp.usage.prompt_tokens
                 _ct += fb_resp.usage.completion_tokens
             except Exception as e:

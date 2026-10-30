@@ -1,0 +1,57 @@
+{
+  "slice": "hle150",
+  "mode": "rescue",
+  "arms": {
+    "C3": {
+      "n": 150,
+      "n_rounds": 963,
+      "init": 0.2133,
+      "final": 0.2267,
+      "P_act": 0.3533,
+      "item_net": {
+        "corrected": 8,
+        "flipped": 6,
+        "stay_correct": 26,
+        "stay_wrong": 110,
+        "net": 2,
+        "identity_ok": true
+      },
+      "transition_rates": {
+        "EIR": 38,
+        "ECR": 42,
+        "unchanged": 375,
+        "base": 455,
+        "EIR_rate": 0.0835,
+        "ECR_rate": 0.0923
+      }
+    },
+    "A2": {
+      "n": 150,
+      "n_rounds": 742,
+      "init": 0.1733,
+      "final": 0.18,
+      "P_act": 0.2333,
+      "item_net": {
+        "corrected": 6,
+        "flipped": 5,
+        "stay_correct": 21,
+        "stay_wrong": 118,
+        "net": 1,
+        "identity_ok": true
+      },
+      "transition_rates": {
+        "EIR": 16,
+        "ECR": 18,
+        "unchanged": 175,
+        "base": 209,
+        "EIR_rate": 0.0766,
+        "ECR_rate": 0.0861
+      }
+    },
+    "A3": {
+      "n": 150,
+      "vote": 0.2333,
+      "P_act": 0.42
+    }
+  }
+}

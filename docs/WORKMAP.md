@@ -60,8 +60,8 @@ EGTE is deliberately **not a PRM** and **not a self-correction trainer**. The di
    dense, so EGTE optimizes the *lower bound* of error rather than the objective.
 
 2. **EGTE is test-time and train-free — three SEPARATE roles, no weight updates.** The solver
-   and three evaluator roles — *distill* (build, gold → `mechanism`+`check_procedure`),
-   *check* (execute, gold-free, `trigger` signature), *review* (post-transition,
+   and three pipeline roles — *distiller* (build, gold → `mechanism`+`check_procedure`),
+   *critic* (execute, gold-free, `trigger` signature), *evaluator* (post-transition,
    evidence-anchored CUT/UNSURE) — are all separate calls. Capability rises by *mechanism*
    (answer-free, cross-question, cross-benchmark checks), not by memorizing instance answers;
    the distilled memory never goes stale because new errors keep sharpening the same mechanisms.
@@ -80,6 +80,8 @@ patterns" move), and the exact points where EGTE departs — are:
 | TAPO [46] | micro-reflective trajectories (keep erroneous prefix, insert diagnosis) | EGTE builds a check procedure for lock/abstain, not a corrective trajectory |
 | LEMMA [47] | error-type grounded mistake augmentation (wrong+reflection+correct) | EGTE is taxonomy-free, class-level behavior, cross-benchmark |
 | ThinkPRM [48] / SCoRe [49] / R3 [50] / VSI [51] / Double-Checker [52] | generative/scalar PRM, self-correction RL, reward-the-reflection, verify-reasoning-not-answer | all optimize a *positive* correctness signal; the elimination regime is the missing frame |
+
+Splitting the neighbours cleanly: **EGTE is a *search* regime** — it *eliminates* an answer-free `mechanism` + `check_procedure` over the candidate pool — rather than a *sampling* regime (best-of-N / self-consistency, which draws more candidates) or a *scoring* regime (PRM / verifier, which assigns positive credit to the correct path).
 
 Net effect: §8.2's "gap" (and the paper's novelty claim) is re-expressed. The contribution is
 no longer "diagnose convergence" alone but **"an error set, distilled as *answer-free exclusion
@@ -333,7 +335,7 @@ There are three real opportunities remaining for the proposal, all concentrated 
 35. Zhou, S. et al. (2026). *When More Thinking Hurts: Overthinking in LLM Test-Time Compute Scaling* — https://arxiv.org/abs/2604.10739
 36. (2026). *The Shape of Addition: Geometric Structures of Arithmetic in Large Language Models* — https://arxiv.org/abs/2606.03645
 
-37. Liu, A. & Meng, J. (2026). *Self-Correction as Feedback Control: Error Dynamics, Stability Thresholds, and Prompt Interventions in LLMs* — https://arxiv.org/abs/2604.22273
+37. Liu, A. & Meng, J. (2026). *Self-Correction as Feedback Control: Error Dynamics, Stability Thresholds, and Prompt Interventions in LLMs* — https://arxiv.org/abs/2604.22273 — **source of the EIR/ECR vocabulary**: we reuse their stability threshold, steady state π*, and convergence rate; our contribution is the *gold-free test-time elimination* realization over a two-state chain, not the chain quantities themselves.
 38. Chen, M. et al. (2021). *Evaluating Large Language Models Trained on Code* — https://arxiv.org/abs/2107.03374
 39. Setlur, A. et al. (2025). *Scaling Test-Time Compute Without Verification or RL is Suboptimal* — https://arxiv.org/abs/2502.12118
 40. Zelikman, E. et al. (2022). *STaR: Bootstrapping Reasoning With Reasoning* — https://arxiv.org/abs/2203.14465
