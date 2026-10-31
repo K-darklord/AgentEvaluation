@@ -83,7 +83,10 @@ GPQA_DATA_PATH = os.getenv("GPQA_DATA_PATH", "data/raw/gpqa_diamond.csv")
 # is deferred (VLM rework). We use a stratified 50-question pilot (hle_50_pilot.jsonl:
 # answer_type/answer/shape/question + hle_id) to validate the exact-match scorer on open
 # answer forms (symbolic / integer / word / text), the new non-saturated discriminative axis.
-HLE_DATA_PATH = os.getenv("HLE_DATA_PATH", "data/raw/hle/hle_50_pilot.jsonl")
+# HLE400 clean redo (2026-10-31): main set = 400 sealed questions (200 fixed old
+# pilot+hle150 + 200 new stratified draws, seed=42) from scripts/build_hle_400_set.py.
+# Default switched off the deprecated 50-question pilot.
+HLE_DATA_PATH = os.getenv("HLE_DATA_PATH", "data/raw/hle/hle_400_new.jsonl")
 
 # BIG-Bench Hard (curated reasoning tasks) - mirrors suzgunmiirc/BIG-Bench-Hard (GitHub raw).
 # Curated subset of cheap, clearly scoreable tasks (letter MCQ + short free-form).

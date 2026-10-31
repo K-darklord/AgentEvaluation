@@ -655,6 +655,38 @@ def _load_a3_rounds_by_task(traj_path: Path) -> dict:
     return out
 
 
+def _a_source_traj(name: str) -> Path:
+    """Resolve the A arm trajectory that A2/A3/C3 read their shared round-0 from.
+
+    Explicit full path (env A_SOURCE_TRAJ) wins; otherwise derive from the sibling A
+    experiment dir (env A_SOURCE_DIR, default "hle400_A").
+    """
+    src = os.environ.get("A_SOURCE_TRAJ")
+    if src:
+        return Path(src)
+    src_dir = os.environ.get("A_SOURCE_DIR", "hle400_A")
+    return REPO_ROOT / "experiments" / src_dir / name / "loop_trajectories.jsonl"
+
+
+def _load_a_round0_by_task(traj_path: Path) -> dict:
+    """Return {task_id: round0_dict} (the A arm's deterministic round-0 record)."""
+    out: dict = {}
+    if not traj_path or not traj_path.exists():
+        return out
+    for line in traj_path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        rounds = rec.get("rounds", [])
+        if rounds:
+            out[rec.get("task_id")] = rounds[0]
+    return out
+
+
 def _load_completed(traj_path) -> set:
     # Task ids already checkpointed on disk (token-outage / restart recovery).
     done = set()
@@ -681,7 +713,7 @@ def _append_record(traj_path, record: dict) -> None:
 
 def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
                    arm: str, rationale_mode: str = "off",
-                   feedback_agent=None, a3_rounds=None) -> dict:
+                   feedback_agent=None, a3_rounds=None, a_round0=None) -> dict:
     family = _task_family(task.task_id)
     tool_cache: dict = {}
     records: list[dict] = []
@@ -747,6 +779,23 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
                 "reasoning_tokens": 0, "rationale_prompt_tokens": 0,
                 "rationale_completion_tokens": 0, "rationale_reasoning_tokens": 0,
             })
+    elif arm in ("A2", "A3", "C3") and a_round0 is not None:
+        # A-seeding (shared round-0 anchor, 2026-10-31): reuse the A arm's
+        # deterministic (T=0) round-0 answer as this arm's round 0, so `init` is
+        # byte-comparable across A/A2/A3/C3 (no round-0 drift). A3 then samples
+        # n-1 fresh i.i.d. T>0 answers (rounds 1..n-1) for the SC vote; A itself is
+        # only the init anchor and does NOT enter the vote pool (see score_hle_arms).
+        wrec = a_round0
+        prev_answer = wrec.get("final_answer")
+        prev_key, prev_source = _early_stop_key(family, task.gold_answer, prev_answer,
+                                                wrec.get("reasoning_content") or "",
+                                                wrec.get("finish_reason") or "")
+        prev_reasoning = wrec.get("reasoning_content") or ""
+        r0 = dict(wrec)
+        r0["round"] = 0
+        r0["arm"] = arm
+        r0["commit_source"] = prev_source
+        records.append(r0)
     else:
         result = agent.solve(task, feedback=None, tool_cache=tool_cache)
         prev_answer = result.final_answer
@@ -758,9 +807,10 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
                                      arm, commit_source=prev_source))
 
     if arm == "A3":
-        # Self-consistency control: fixed K independent samples at T>0, no feedback,
-        # no early stop. Each round is one i.i.d. sample; vote = freq (majority).
-        # Coverage over the K samples = pass@k; C's analog is correct_appeared.
+        # Self-consistency control: round 0 is the A-seeded deterministic init anchor
+        # (NOT a vote); rounds 1..n-1 are n-1 independent i.i.d. T>0 samples with no
+        # feedback and no early stop. The SC vote = majority over those n-1 samples
+        # (score_hle_arms A3.vote); init = round 0 = A. Coverage = pass@k.
         for r in range(1, max_rounds):
             result = agent.solve(task, feedback=None, tool_cache=tool_cache)
             records.append(_round_record(r, result, score(result),
@@ -1025,6 +1075,18 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
                       f"A3 consensus source (e.g. {a3_missing[:5]}); finish A3 first.",
                       flush=True)
                 raise SystemExit(2)
+        # A-seeding (shared round-0): A2/A3/C3 load the A arm's deterministic round-0
+        # ONCE and reuse it as their round 0 (no round-0 drift). Every pending task
+        # must carry an A round-0, else the invariant is broken (run arm A first).
+        a_by_task: dict = {}
+        if arm in ("A2", "A3", "C3"):
+            a_by_task = _load_a_round0_by_task(_a_source_traj(name))
+            a_missing = [t.task_id for t in pending_tasks if not a_by_task.get(t.task_id)]
+            if a_missing:
+                print(f"  [{name}] ABORT {arm}: {len(a_missing)} pending tasks lack "
+                      f"A round-0 source (e.g. {a_missing[:5]}); run arm A first.",
+                      flush=True)
+                raise SystemExit(2)
         print(f"\n=== feedback loop [{name}] model={entry['model']} "
               f"tasks={len(tasks)} done={len(done_ids)} pending={len(pending_tasks)} "
               f"R={max_rounds} N={early_stop_n} tier={tier} arm={arm} ===")
@@ -1053,7 +1115,8 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
                     return
                 fut = ex.submit(_run_task_loop, agent, critic, task, tier,
                                 max_rounds, early_stop_n, arm, rationale_mode,
-                                feedback_agent, a3_by_task.get(task.task_id))
+                                feedback_agent, a3_by_task.get(task.task_id),
+                                a_by_task.get(task.task_id))
                 in_flight[fut] = task
                 deadline[fut] = time.monotonic() + solve_timeout * (max_rounds + 1)
 

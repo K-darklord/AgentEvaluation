@@ -4,10 +4,10 @@
   "arms": {
     "A": {
       "n": 50,
-      "accuracy": 0.26,
+      "accuracy": 0.28,
       "t1_accuracy": 0.2,
       "judge_n": 40,
-      "fn_rescued": 3
+      "fn_rescued": 4
     },
     "A2": {
       "init": {
@@ -42,9 +42,9 @@
     "A3": {
       "init": {
         "n": 50,
-        "accuracy": 0.14,
-        "t1_accuracy": 0.14,
-        "judge_n": 43,
+        "accuracy": 0.12,
+        "t1_accuracy": 0.12,
+        "judge_n": 44,
         "fn_rescued": 0
       },
       "vote": {
@@ -117,9 +117,9 @@
     },
     "C3_eval": {
       "n": 50,
-      "accuracy": 0.28,
-      "t1_accuracy": 0.22,
-      "judge_n": 39,
+      "accuracy": 0.24,
+      "t1_accuracy": 0.18,
+      "judge_n": 38,
       "fn_rescued": 3
     },
     "A3C3_eval": {

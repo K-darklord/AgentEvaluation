@@ -165,17 +165,22 @@ def _agg(scores: list[dict]) -> dict:
 
 
 def _majority_vote(meta: dict, task: dict) -> dict:
-    """A3 canonical majority vote (tie -> first-encountered), matching score_hle_pilot.score_a3."""
+    """A3 canonical majority vote (tie -> first-encountered) over the n-1 i.i.d.
+    T>0 samples (rounds[1:]). Round 0 is the A-seeded deterministic init anchor
+    (A3's `init`), NOT a vote: A must not enter the self-consistency pool."""
     rounds = task.get("rounds", [])
+    samples = rounds[1:]  # exclude the A-seeded round-0 anchor
+    if not samples:
+        return _score(meta, "")
     votes: Counter = Counter()
-    for r in rounds:
+    for r in samples:
         k = _key(meta, r)
         if k is not None:
             votes[k] += 1
-    winner_rec = rounds[0]
+    winner_rec = samples[0] if samples else None
     if votes:
         winner_key = votes.most_common(1)[0][0]
-        winner_rec = next((r for r in rounds if _key(meta, r) == winner_key), rounds[0])
+        winner_rec = next((r for r in samples if _key(meta, r) == winner_key), samples[0])
     return _score(meta, winner_rec.get("final_answer", ""))
 
 

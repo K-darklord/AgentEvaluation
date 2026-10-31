@@ -12,31 +12,31 @@
     "A2": {
       "init": {
         "n": 150,
-        "accuracy": 0.1733,
+        "accuracy": 0.1667,
         "t1_accuracy": 0.1333,
         "judge_n": 130,
-        "fn_rescued": 6
+        "fn_rescued": 5
       },
       "final": {
         "n": 150,
-        "accuracy": 0.18,
+        "accuracy": 0.1867,
         "t1_accuracy": 0.14,
         "judge_n": 129,
-        "fn_rescued": 6
+        "fn_rescued": 7
       },
       "settle": {
         "n": 150,
-        "accuracy": 0.1667,
+        "accuracy": 0.1733,
         "t1_accuracy": 0.1333,
         "judge_n": 120,
-        "fn_rescued": 5
+        "fn_rescued": 6
       },
       "mode": {
         "n": 150,
-        "accuracy": 0.18,
+        "accuracy": 0.1867,
         "t1_accuracy": 0.14,
         "judge_n": 129,
-        "fn_rescued": 6
+        "fn_rescued": 7
       }
     },
     "A3": {
