@@ -1,135 +1,139 @@
 # Paper Outline: Error-Guided Test-Time Elimination (EGTE)
 
-> Re-anchored 2026-10-10 (RSI); **rewritten 2026-10-17** to follow the seven-stage
-> evidence-chain framework (problem → gap → motivation → hypotheses → mechanism →
-> decision → boundary). Supersedes the 2026-09 finance-interference skeleton.
+> Follows the seven-stage evidence-chain framework (problem → gap → motivation → hypotheses →
+> mechanism → decision → boundary). **Trimmed 2026-10-31**: single story (EGTE as a train-free
+> test-time elimination method), HLE-400 as the main evidence, hypotheses remapped to the framework's
+> H1 identifiable / H2 mechanism-sensitive / H3 decision value.
 
 ## Working title (draft)
 
-"Error-Guided Test-Time Elimination (EGTE)"
-
-## Target venue
-
-Nature Machine Intelligence / IEEE TPAMI / NeurIPS (primary); ACL / EMNLP workshop (early checkpoint).
+"Error-Guided Test-Time Elimination: Excluding Wrong Candidates with Answer-Free Error Mechanisms"
 
 ---
 
 ## 1. Introduction · [stage 1 — main question]
 
-- **Failure-oriented open**: a single static accuracy confounds capability with
-  evaluation-framework artifacts (measured 26 pp spurious deficit, FAB pilot;
-  `docs/RESEARCH_PLAN.md §1.1`).
-- **Intrinsic self-correction is unreliable** (Huang 2023): external feedback is necessary.
-- **One-sentence, falsifiable main question**: *Is an error set an effective information
-  source for recursive self-improvement — i.e. does gold-free error-set feedback beat
-  directionless sampling, and does the gain decompose into reachability (Stage A) +
-  locking (Stage B), realised test-time as the three-role EGTE pipeline?*
-- **Falsification boundary** (framework stage 1): *if C3 does not systematically beat A3 on
-  the hard slice (Δ_act ≤ 0 AND net Δ ≤ 0), the error-set-as-RSI-source claim fails.*
-- **One instrument, used twice**: the diagnosis layer is the measurement substrate of the
-  improvement — not the deliverable.
-- **Error-set hook**: "knowing what you don't know" (Kadavath et al.; Reinforced
-  Hesitation) is realized by an *external, error-set transition signal*, not intrinsic
-  confidence.
+- **Open on the gap self-consistency leaves**: with sampling + majority vote, the correct answer
+  often *appears* in the candidate pool but is not *held*.
+- **Intrinsic self-correction is unreliable** (Huang 2023): an external signal is necessary; PRMs /
+  verifiers supply one but need training and positive labels.
+- **One-sentence, falsifiable main question**: *Can a model's own past errors — distilled offline into
+  answer-free error mechanisms — serve as the external signal for a gold-free, train-free test-time
+  loop that recovers the correct answers self-consistency cannot hold, on harder problems the error
+  bank has never seen?*
+- **Falsification boundary**: *if C3 does not systematically beat A3 on HLE-400 (paired McNemar not
+  significant and Δacc ≤ 0), the claim fails.*
+- **Existence claim** (stated up front): EGTE is an unoptimized instantiation; the paper shows the
+  mechanism yields a gain, not that each role is optimal.
 
 ## 2. Related Work · [stage 2 — gap]
 
-- Four threads (full map + 52 sources in `docs/WORKMAP.md`): agent evaluation (static →
-  capability curve), verification/self-correction (external feedback necessary),
-  optimization (RLVR), inference scaling (test-time compute).
-- Gap: no unified trajectory-class system; no external gold-free error signal that is
-  *also* a test-time-elimination engine.
-- Nearest neighbours (differentiate explicitly): Feedback Friction, Overthinking,
-  Activation-probe self-correction, Liu & Meng (EIR/ECR — the **source** of the EIR/ECR
-  vocabulary, stability threshold, and steady state we reuse; our contribution is the gold-free
-  *test-time elimination* realisation over the error bank, not the chain quantities).
-- **The "learn-from-mistakes" family is already occupied** — Mistake Notebook Learning
-  (abstracted error patterns), PRISM (asymmetric FP bias), Cliff (first-mistake negative
-  feedback), LANPO (relevant abstraction), Agent-R / TAPO / LEMMA (error-driven distillation).
-  The full EGTE-vs-neighbour positioning table is `PHASE2_SUMMARY §13.3`.
+- Written as a contrast table (what prior work established / what remains to test), not a list.
+  Three threads: test-time scaling (self-consistency, best-of-N + verifier); self-correction with
+  external feedback (Reflexion, Self-Refine, LLM-as-judge; Liu & Meng for the per-round EIR/ECR
+  vocabulary); learn-from-mistakes (Mistake Notebook, PRISM, Cliff, LANPO, Agent-R / TAPO / LEMMA).
+- Candidate gap: no gold-free, train-free error signal that (i) stores answer-free *mechanisms* rather
+  than instances, (ii) only *excludes*, never scores the correct direction, (iii) wakes only on an
+  answer transition — and no test of whether such a signal transfers to an unseen harder family.
 
 ## 3. Motivation / Preliminary · [stage 3 — simple-explanations-first]
 
-- Control arms as simple-explanation exclusion: **A3** (i.i.d. sampling, T=0.7, N=10) =
-  "just sample more" baseline; **C3** (strong critic + offline evaluator) must beat it.
-- **Observation vs inference separation**: early anomalies traced to measurement / rubric
-  drift, not a treatment effect (`PHASE2_SUMMARY §4`).
-- **settle > final** (+3–13 pp, zero extra cost) motivates a cheap Stage-A selector and
-  pushes Stage B onto a small hard slice.
+- Simple-route baselines, same model / split / scorer, with cost recorded: **A** (raw ability),
+  **A2** (feedback scaffold with no content), **A3** (just sample more). Each tests one simple
+  explanation.
+- Evidence: on the bank-source benchmarks these baselines leave little separable headroom; the
+  unexplained failures concentrate on HLE, where A3 activates correct answers it does not hold (`P_act(A3)` vs A3 vote acc).
+- **Observation vs inference separation**: early anomalies traced to measurement / rubric drift, not a
+  treatment effect (`PHASE2_SUMMARY §4`).
+- Outcome: **continue** — simple routes insufficient, remaining failures describable.
 
-## 4. Research Questions & Hypotheses · [stage 4]
+## 4. Research Questions & Hypotheses · [stage 4 — problem narrowing]
 
-- Q1–Q5 — the five core research questions (Q1 signal generalization [distiller → critic];
-  Q2 directional exploration (critic → solver), `P_act ≥ A3` [critic]; Q3 exclusion & abstention [evaluator];
-  Q4 selection mechanism evidenced per question; Q5 A3-vs-C3 by question type).
-- Two falsifiable hypotheses with support + failure criteria:
-  - **H1 activation** — the strong critic lifts reachability vs A3: `P_act ≥ A3` at controlled EIR (↔ Q2 + Q5).
-  - **H2 mechanism** — the evaluator's elimination + mode lock beats a plain majority vote on the hard slice (↔ Q3 + Q4).
+- Narrowed question: *fixing the solver, the loop and the scorer, does an answer-free error bank give
+  the critic + evaluator information beyond what a content-free feedback loop (A2) or i.i.d. sampling
+  (A3) already provides, on HLE?*
+- **Operational definition** of the intermediate object (answer-free `mechanism` + `check_procedure`):
+  class-level / gold-isolated / cross-family / data-distilled — with counter-examples (PPT P4).
+- Three hypotheses, each with support + failure criteria:
+  - **H1 identifiable** — the critic's gold-free suspicion names the archetype the solver actually
+    committed on HLE items it has never seen. *Measured offline*: an independent gold-visible judge
+    (same role class as the distiller) labels the archetype of every wrong round of C3's trajectories;
+    hit = judge label ∈ critic's archetype set; reported against a permutation baseline with a bootstrap
+    interval, plus a 20-item human spot check of the judge. *Weakens*: hit rate at the permutation
+    baseline, or one archetype fires regardless.
+  - **H2 mechanism-sensitive** — three layers, all offline from the four arms: (i) C3 beats A2 (the
+    irrelevant-change control: same loop, content-free feedback) on the same items; (ii) C3's
+    wrong→correct transitions are preceded by a `critic_direction` suspicion while A2's are preceded by
+    none (by construction); (iii) on open-form HLE items, where the A3 vote collapses, C3's gain
+    persists — so the gain cannot be voting (`PHASE2_SUMMARY §18.2`). *Weakens*: C3 ≈ A2, or the
+    gain is confined to MCQ items.
+  - **H3 decision value** — on the same 400 items, C3 beats the strong baseline A3 at no higher
+    cost (tokens per correct). *Weakens*: gain not significant, or cost exceeds A3.
+- Ablation under H3: eliminator on/off — which stage carries the gain (critic alone + mode vs
+  evaluator elimination + mode).
+- Optional strengthening of H2: a bank-free generic critic (critic prompt without the archetype
+  vocabulary).
 
 ## 5. Method: Error-Guided Test-Time Elimination (EGTE) · [stage 5 — mechanism]
 
-- Measurement layer: **EIR/ECR** (per-round) vs **P_act / lock-in** (whole-loop), bridged
-  algebraically (`r = 1 − ∏(1−ECR)`). Both EIR and ECR are introduced by the in-loop critic;
-  the offline evaluator acts only on the EIR side (revert + lock), never raising ECR.
-- **Three-role, train-free pipeline (solver + three roles are SEPARATE calls):**
-  1. **distiller** (build, gold available): wrong answer → answer-free `mechanism` + `check_procedure`.
-  2. **critic** (execute, gold-free): `trigger` signature flags when the answer transitions; the
-     evaluator wakes only then (never reads the round's CoT at rest).
-  3. **evaluator** (post-transition): rubric judge (disconnection/contradiction/error) consumes
-     `check_procedure` + `evidence` → `CUT` / `KEEP` / `UNSURE`; elimination + mode yield the lock.
-- Single graded dimension: **accuracy** (the metacognition dimension is dropped).
-- EGTE raises accuracy by *reducing errors* (lower-bound optimization), not by scoring the
-  correct path — the solver's capability is lifted by mechanism, never by memorization.
-- Intervention controls (H2): vary only the rationale/signal; key-change delta must exceed
-  irrelevant-change delta.
-- **Eliminator switch (H2 ablation, inside C3)**: toggling the critic-free exclusion selector
-  inside C3 — `off` = strong critic alone + mode (activation only), `on` = evaluator elimination +
-  mode (full EGTE) — isolates the exclusion selector's Stage-B contribution from the critic's
-  in-loop activation (replacing the dropped A3+Selector arm).
+- **Control arms & A-seeding**: A (bare T=0) is round 0 of every arm — A2 / A3 / C3 initialize from A's
+  deterministic answer (no round-0 drift); A3 = A-init + N-1 = 9 i.i.d. T=0.7 samples, majority-voted
+  (A does not enter the vote pool).
+- Measurement: **per-round EIR/ECR** (Liu & Meng; stability condition `ECR/EIR > Acc/(1−Acc)`) and
+  **per-item `P_act` / `P_flip`** (whole loop; under A-seeding `P_act` splits into `P_act_init` at
+  round 0 from A vs `P_act_loop` at round ≥ 1 = the critic's activation). The critic introduces both
+  EIR and ECR; the evaluator acts only on the EIR side.
+- **Three-role, train-free pipeline (same base model; separate calls):**
+  1. **distiller** (offline, gold available): wrong answer → answer-free `mechanism`
+     (`trigger` + `definition` + `check_procedure`; 7 cross-benchmark archetypes; chain in Appendix A).
+  2. **critic** (in-loop, gold-free): names the archetype the committed answer most likely violates;
+     emits 1–3 suspicions with the step to re-verify; never names an answer.
+  3. **evaluator** (post-transition, gold-free, offline, `rubric_ce`): each answer switch →
+     `CUT` / `KEEP` / `UNSURE` (UNSURE = not eliminated); elimination + mode, all-UNSURE → mode.
+- **Mechanism evidence (H1, H2)**: all offline, no new runs — the transition-evidence chain
+  (committed answers + per-round `critic_direction` + evaluator verdict) from the HLE-400 C3 and A2
+  trajectories (analogue of `experiments/_analysis/critic_direction_evidence.md`); a gold-visible
+  offline judge labelling the archetype of each wrong round for H1; the MCQ / open-form split for H2.
 
 ## 6. Main Results / Decision Evaluation · [stage 6 — decision]
 
-- Three-axis comparison on the hard slice (low-confidence / activated-but-unlocked tasks;
-  definition in `PHASE2_SUMMARY §13`): `Δ_act`, settle vs vote, net final.
-- Fixed-denominator comparison (headroom buckets exclude `never`); accuracy and EIR/ECR vs
-  strong baselines (settle / mode / A3).
+- **Main table = HLE-400**, same items for every arm: A / A2 / A3 / C3 × {acc, settle, tokens-per-correct
+  incl. all role calls, per-round EIR/ECR, `P_act_init`/`P_act_loop`, paired McNemar vs A3}; A3C3 optional,
+  not run.
+- **Bank provenance table**: which (model, benchmark) errors built the bank vs what is evaluated —
+  HLE never in the bank.
+- Ablation table: eliminator on/off (+ bank-free critic if run).
 
 ## 7. Robustness & Limitations · [stage 7 — boundary]
 
-- Cross-model (12–15) / cross-task-family reproduction; cost–benefit (settle free vs Stage B
-  cost); explicit failure-case list (settle-locked-wrong, no-commit, inconsistent transitions).
-- Transition-evidence generalisation: the Stage-B lock's evidence is question-type-dependent —
-  it currently shows on one slice but not on `HLE` — so Phase 3 must test whether the transition
-  rationale transfers across benchmark families, not just within a single slice.
-
-### 7.1 The outer loop: recursive error-bank refinement
-
-Beyond the inner test-time elimination (EGTE, over a frozen error bank), the "recursive" half of the
-title is an **outer loop**: after each benchmark pass, newly gold-scored failures are distilled
-back into the L3 bank (re-distillation), sharpening the same answer-free mechanisms rather than
-accumulating instance memory. Label provenance is pinned — error labels come only from the frozen
-scorer on failed runs, and the distiller is the sole gold reader, so the answer-free mechanism
-never leaks gold to the runtime roles. The recursion is **bounded**: marginal bank information
-`g(B_t)` is non-increasing (Proposition 2), so refinement saturates rather than diverges — the
-bank converges into a reusable, cross-benchmark memory / generalization primitive.
+- **For whom it holds**: HLE-400 split by answer type (MCQ vs open-ended); worst subgroup reported.
+- **Cost**: C3's total consumption vs A3; stated separately from failure conditions.
+- **Where it fails**: locked-wrong (early stop on a wrong answer), no-commit, inconsistent transitions;
+  correct candidates cut (false-CUT rate).
+- **Existence claim and headroom**: the three roles are unoptimized; headroom = gap between measured
+  EIR/ECR and the threshold `Acc/(1−Acc)`.
+- Single solver model; n = 400; no stronger-model comparison (claim is same-model + external bank);
+  reliable abstention out of scope.
 
 ## 8. Conclusion · [evidence correspondence]
 
 - Map each conclusion to the four evidence types: motivation / mechanism / decision / boundary.
+- Two sentences on the outer loop as the natural continuation (re-distilling new failures into the
+  bank after each pass): described, not claimed.
 
 ## Appendices
 
-- A: error-mechanism distillation (L1/L2/L3) + strong-critic construction.
-- B: anomaly / interference registry (evidence of measurement discipline).
-- C: reproducibility (seeds, config, git tags, `REPRODUCIBILITY.md`).
-- D: trajectory examples (activation / locking / no-commit / None-state).
+- A: error-mechanism distillation (L1/L2/L3) + the 7 archetypes + critic prompt.
+- B: evaluator rubric (`rubric_ce`), survive-score mapping, CUT / KEEP / UNSURE definition; scorer tiers.
+- C: reproducibility (frozen runtime standard, seeds, config, git tags, `REPRODUCIBILITY.md`).
+- D: transition-evidence examples; the gold-visible judge protocol for H1 and its 20-item spot check.
 
 ## Key figures / tables
 
-- Fig 1: capability curve → self-improvement engine (reframe).
-- Fig 2: the three-role EGTE pipeline (distiller / critic / evaluator) over the EIR/ECR stability diagram.
-- Fig 3: Stage-B evaluator pruned state chain → CUT / KEEP / UNSURE.
-- Tab 1: control arms (A / A2 / A3 / C3 / A3C3).
-- Tab 2: two hypotheses (H1 activation / H2 mechanism) + falsification criteria.
-- Tab 3: accuracy and EIR/ECR across arms on the hard slice.
-- Tab 4: robustness matrix (cross-model × task family).
+- Fig 1: one EGTE cycle — offline distillation → online elimination.
+- Fig 2: the three-role pipeline over the EIR/ECR two-state chain.
+- Fig 3: transition-evidence chain on one HLE trajectory (critic suspicion → answer change → verdict).
+- Tab 1: arms (A / A2 / A3 / C3 / A3C3).
+- Tab 2: bank provenance vs evaluation target.
+- Tab 3: HLE-400 main table.
+- Tab 4: H1 archetype hit rate vs permutation baseline; H2 (C3 vs A2 paired, attributed transitions, MCQ / open-form split); ablation (eliminator on/off).

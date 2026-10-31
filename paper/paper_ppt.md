@@ -1,12 +1,16 @@
 # Paper PPT — Slide Content & Layout (EGTE)
 
 **Source of truth**: `paper/paper_outline.md` (seven-stage evidence chain) + `docs/PAPER_DRAFT.md`
-(§2 roles/arms, §3 frozen standard, §4 results, §5 research questions). Aligned as of **2026-10-27**.
+(§2 roles/arms, §3 motivation & setup, §4 results, §5 hypotheses). Aligned as of **2026-10-31**.
 
 > **2026-10-27 restructure** — the deck is rebuilt on the *research-progression* scaffold drawn from the six
 > reference slides: one `问题定义 → 贡献1·中间对象 → 贡献2·机制验证 → 贡献3·决策层 → 主表` ladder, each stage
-> answering "what the study must answer" and leaving "a re-checkable deliverable". Slide order now follows that
-> ladder, not the old bullet list.
+> answering "what the study must answer" and leaving "a re-checkable deliverable".
+>
+> **2026-10-31 trim** — single story (EGTE as train-free test-time elimination); HLE-400 is the main
+> evidence (bank never sees HLE); hypotheses remapped to the framework's H1 identifiable / H2
+> mechanism-sensitive / H3 decision value; A2 is the irrelevant-change control for H2. Dropped: 26 pp
+> FAB opener, RSI, weak critic C, astra, flip19, knobs, rubric_v5, support tables A/B, venue.
 
 ---
 
@@ -36,11 +40,11 @@
 **Error-Guided Test-Time Elimination (EGTE)**
 
 **Subtitle** (gray)
-*A train-free, three-role test-time elimination (distiller → critic → evaluator) that **excludes** wrong candidates from a recursively-refined error bank, instead of scoring the correct path.*
+*A train-free, three-role test-time loop (distiller → critic → evaluator) that **excludes** wrong candidates using answer-free error mechanisms distilled from the model's own past errors — instead of scoring the correct path.*
 
 **Falsification strip** (bottom bar, deep navy)
-- **One-sentence claim** — *Does answer-free error exclusion beat compute-matched sampling, and does the loop converge — surfacing correctness that self-consistency alone cannot reach?*
-- **Failure criterion** — *if C3 does not systematically beat A3 on the hard slice (Δ_act ≤ 0 AND net Δ ≤ 0), the EGTE claim fails.*
+- **One-sentence claim** — *Can a model's own past errors, distilled into answer-free mechanisms, drive a gold-free test-time loop that recovers correct answers self-consistency finds but cannot hold — on harder problems the error bank has never seen?*
+- **Failure criterion** — *if C3 does not systematically beat A3 on HLE-400 (paired McNemar not significant and Δacc ≤ 0), the EGTE claim fails.*
 
 **Key output** — the single question the rest of the deck must answer, gated by the failure criterion above.
 
@@ -52,7 +56,7 @@
 
 > mirrors reference image **研究框架.png** (three-column "研究推进顺序" table).
 
-**Layout** — one three-column table, deep-navy header, zebra rows; bottom “retreat” note.
+**Layout** — one three-column table, deep-navy header, zebra rows; bottom "retreat" note.
 
 **Title** (deep navy, bold)
 **The research-progression ladder — five stages, one evidence chain**
@@ -62,11 +66,11 @@
 
 | Stage | What the study must answer | Deliverable of the stage |
 |---|---|---|
-| **问题定义** Problem definition | Where does prior work stop, and which failures still lack an *external* signal? | main question + literature boundary (a falsification criterion) |
-| **贡献1 · 中间对象** Contribution 1 · intermediate object | Which process quantity must be observed separately — how is a *wrong-execution behaviour* distilled answer-free? | answer-free `mechanism` + `check_procedure` (L1/L2/L3) + minimal baseline |
-| **贡献2 · 机制验证** Contribution 2 · mechanism verification | Why does it work, and which alternative explanations (sampling? scaffolding?) still hold? | interventions + ablations (`A/A2/A3/C3/A3C3`) + EIR/ECR stage-replacement |
-| **贡献3 · 决策层** Contribution 3 · decision layer | Which real decisions does it change — when is `CUT/KEEP/UNSURE` trustworthy? | decision rule (elimination + mode) + risk-coverage boundary |
-| **主表** Main table | Which contrasts jointly support the claim? | unified main table + support tables A/B/C |
+| **问题定义** Problem definition | Where does prior work stop, and which failures still lack an *external, gold-free* signal? | main question + literature boundary (a falsification criterion) |
+| **贡献1 · 中间对象** Contribution 1 · intermediate object | Which process quantity must be observed separately — how is a *wrong-execution behaviour* distilled answer-free? | answer-free `mechanism` + `check_procedure` + minimal baseline |
+| **贡献2 · 机制验证** Contribution 2 · mechanism verification | Is the signal identifiable (H1), and does the key intervention beat an irrelevant change (H2)? | offline judge archetype hit rate + C3 vs A2 with attributed transitions + MCQ / open-form split |
+| **贡献3 · 决策层** Contribution 3 · decision layer | Does the signal improve the decision on the same items at no higher cost (H3)? | C3 vs A3 on HLE-400 + eliminator on/off |
+| **主表** Main table | Which contrasts jointly support the claim? | HLE-400 main table + mechanism table + ablation table |
 
 **Bottom** (teal)
 *Every stage must leave a re-checkable deliverable; where the evidence is insufficient, retreat to the previous stage.*
@@ -76,7 +80,7 @@ P3–P7 below instantiate this ladder in order; P8–P9 test its boundary and fo
 
 ---
 
-## P3 — Problem definition: the error set as a test-time elimination information source · [stage 1 — gap & motivation]
+## P3 — Problem definition: the error bank as a test-time elimination information source · [stage 1 — gap & motivation]
 
 **Breadcrumb**: `EGTE · 问题定义` · page 3
 
@@ -85,23 +89,23 @@ P3–P7 below instantiate this ladder in order; P8–P9 test its boundary and fo
 **Layout** — left-right columns; left · green header "已有依据", right · deep-navy header "研究单位需要明确"; full-width bottom conclusion.
 
 **Title** (deep navy, bold)
-**Static accuracy confounds capability with framework artefacts**
+**Self-consistency finds the right answer and loses it — what external signal can hold it?**
 
 **Subtitle** (gray)
-*Candidate gap: which failures still lack an external gold-free signal, and can an error set supply it?*
+*Candidate gap: which failures still lack an external gold-free signal, and can the model's own past errors supply it?*
 
 **Left — 已有依据 (existing evidence)**
-- Static single-shot accuracy confounds capability with evaluation-framework artefacts — a measured **26 pp spurious deficit** (FAB pilot).
-- Intrinsic self-correction is unreliable (Huang et al. 2023); self-critic / self-refine models cannot reliably correct themselves without an external signal → external feedback is **necessary**.
-- The "learn-from-mistakes" family is already occupied — Mistake Notebook, PRISM, Cliff, LANPO, Agent-R / TAPO / LEMMA.
+- Under sampling + majority vote (Wang et al. 2022) the correct answer often **appears** in the candidate pool but is **not held** — test-time scaling activates it and the vote discards it.
+- Intrinsic self-correction is unreliable (Huang et al. 2023); self-critic / self-refine models cannot reliably correct themselves without an external signal → external feedback is **necessary**; PRMs / verifiers supply one but need training and positive labels.
+- The "learn-from-mistakes" family is already occupied — Mistake Notebook, PRISM, Cliff, LANPO, Agent-R / TAPO / LEMMA — all store instances or train on them.
 
 **Right — 研究单位需要明确 (what the study must fix)**
-- Can an **error set** serve as a gold-free *test-time elimination* information source?
-- Is *exclusion* (a few finite, falsifiable rules) cheaper and more robust than *scoring the correct direction* (a PRM)?
+- Can an **error bank** — the model's own past failures, distilled answer-free — serve as a gold-free, train-free *test-time elimination* information source?
+- Does the bank **transfer**: distilled on in-family benchmarks, does it fire correctly on a harder family it has never seen (HLE)?
 - Is the elimination **attributable to a real error mechanism**, not noise or a lucky re-sample?
 
 **Bottom** (teal)
-*Model "what goes wrong" (a few exclusion rules) rather than "what is right" — the asymmetry is the load-bearing claim.*
+*Model "what goes wrong" (a few answer-free exclusion rules) rather than "what is right" — exclusion as the design choice; its transfer to unseen hard problems is the test.*
 
 **Footer** (tiny gray)
 [1] Huang et al. 2023; [2] Wang et al. 2022 (self-consistency); full 52-source map — `docs/WORKMAP.md`.
@@ -126,14 +130,14 @@ P3–P7 below instantiate this ladder in order; P8–P9 test its boundary and fo
 |---|---|---|
 | **定位** class-level | mechanism names only the *wrong operation/verb*, not instance answer text | extracts an instance number, yet claims "answer-free" |
 | **充分性** gold isolation | the distiller is the **only** role that reads gold; runtime is gold-free | critic/evaluator covertly carry the answer (leakage) |
-| **一致性** cross-question transfer | one archetype fires across questions **and** benchmark families | fires only on bank items it was distilled from |
-| **未知状态** bank growth | L3 re-distills as the bank grows, not a frozen taxonomy | fixed taxonomy rejects new errors → mechanism goes stale |
+| **一致性** cross-family transfer | one archetype fires across questions **and** benchmark families — including HLE, which never entered the bank | fires only on bank items it was distilled from |
+| **未知状态** bank growth | the archetype vocabulary is distilled from error data, not a fixed taxonomy | fixed taxonomy rejects new errors → mechanism goes stale |
 
 **Bottom** (teal — continue condition)
-*Continue condition: freeze the 7 L3 archetypes with their answer-free `check_procedure`, and confirm they fire consistently across families.*
+*Continue condition: freeze the 7 archetypes with their answer-free `check_procedure`, and confirm they fire on HLE.*
 
 **Footer** (tiny gray)
-7 archetypes — `constraint_blind`, `descriptor_conflation`, `memory_substitution`, `procedure_truncation`, `sign_normalization_slip`, `retrieval_abort`, `format_nonconformance`.
+7 archetypes — `constraint_blind`, `descriptor_conflation`, `memory_substitution`, `procedure_truncation`, `sign_normalization_slip`, `retrieval_abort`, `format_nonconformance` — each an answer-free `trigger` + `definition` + `check_procedure`. Distillation chain (L1/L2/L3) → Appendix A.
 
 ---
 
@@ -141,35 +145,39 @@ P3–P7 below instantiate this ladder in order; P8–P9 test its boundary and fo
 
 **Breadcrumb**: `EGTE · 贡献2 · 机制验证` · page 5
 
-**Layout** — arm-contrast table (deep-navy header) + EIR/ECR condition strip + two hypothesis cards.
+**Layout** — arm-contrast table (deep-navy header) + EIR/ECR condition strip + three hypothesis cards.
 
 **Title** (deep navy, bold)
-**The causal contrast what explains the effect — sampling, scaffolding, or error-set guidance?**
+**The causal contrast — what explains the effect: sampling, scaffolding, or error-bank guidance?**
 
 **Subtitle** (gray)
-*All arms share the same solver base and scorer; they differ only in feedback/aggregation.*
+*All arms share the same solver base model and scorer; solver, critic and evaluator are the same model; arms differ only in feedback/aggregation.*
 
 | Arm | Definition | Role in the design |
 |---|---|---|
 | **A** | bare re-solve, T=0, single answer, zero intervention | floor — raw latent accuracy |
-| **A2** | fixed neutral placebo, T=0, single answer | **placebo = no-distiller + no-critic-direction** — strips the whole error-set guidance (no mechanism, no direction); controls scaffolding and isolates the treatment |
-| **A3** | self-consistency (Wang et al. 2022), T=0.7, N=10, i.i.d. majority vote | **independent-sampling baseline EGTE must beat** |
-| **C3** | strong critic (in-loop) + evaluator `rubric_ce` (offline); **eliminator switch** isolates Stage B | treatment — Stage A (activation) + Stage B (lock) |
-| **A3C3** | A3-seeded round-0, then the C3 loop | stacked (sampling + EGTE) |
+| **A2** | fixed neutral placebo loop, T=0, single answer | placebo — strips all error-bank guidance; controls scaffolding |
+| **A3** | self-consistency (Wang et al. 2022), T=0.7, init = A round-0 + N-1 = 9 i.i.d. samples, majority vote over the 9 | **independent-sampling baseline EGTE must beat** |
+| **C3** | strong critic (in-loop) + evaluator `rubric_ce` (offline), elimination + mode | treatment — activation (critic) + lock (evaluator) |
+| **A3C3** (optional) | A3-seeded round-0, then the C3 loop | stacked (sampling + EGTE), reported if run |
 
-**Additional controls** (same causal-contrast logic, kept separate from the fixed-solver arms)
-- **Stronger-model control** (to run) — frontier solver **astra** (`gpt-6-astra`, 中转 smoke only), bare + A3: rules out "the base model is just weak; a larger model reaches the same without EGTE."
-- **Compute-matched** — C3 (1× T=0 chain + critic + evaluator) uses **fewer** tokens than A3 (N=10 samples), so the C3 gain is *not* a compute artifact (EGTE is compute-cheaper).
+**A-seeding (shared round-0 anchor).** A's deterministic T=0 answer is round 0 of A2 / A3 / C3 (no
+round-0 drift); A3 = A-init + N-1 = 9 i.i.d. T=0.7 samples, majority-voted — A itself does not enter
+the vote pool.
+
+**Which contrast answers which hypothesis** (same items, same model, same scorer)
+- **H2 key vs irrelevant** — C3 (error-bank-driven direction) vs A2 (same loop, content-free feedback): A2 is the irrelevant-change control.
+- **H3 decision value** — C3 vs A3, paired McNemar; cost = total tokens of all role calls per correct, must not exceed A3.
+- **Eliminator on/off** (ablation under H3) — inside C3: `off` = critic alone + mode lock; `on` = evaluator elimination + mode.
+- **Bank-free critic** (optional strengthening of H2) — critic prompt without the archetype vocabulary.
 
 **Bottom** (teal)
-*`final = init + corrected(ECR) − flipped(EIR)` — iteration is beneficial only while `ECR / EIR > Acc / (1 − Acc)`.*
+*`final = init + corrected(ECR) − flipped(EIR)` (per-round) — iteration is beneficial only while `ECR / EIR > Acc / (1 − Acc)`; whole-loop `P_act` / `P_flip` are the per-item counterparts used in the main table and the eliminator ablation. Under A-seeding, `P_act_init` = correct at round 0 (from A) vs `P_act_loop` = correct first committed at round ≥ 1 (the critic's activation).*
 
-**Two hypotheses** (H1 / H2, each with support + failure)
-- **H1 activation** — the strong critic lifts reachability vs A3: `P_act ≥ A3` at controlled EIR (↔ Q2 + Q5).
-- **H2 mechanism** — the evaluator's elimination + mode lock beats a plain majority vote on the hard slice (↔ Q3 + Q4).
-
-**Footer** (tiny gray)
-Weak critic `C` is outdated (underperformed) — dropped, not in the final paper.
+**Three hypotheses** (framework stage 4; each with support + failure)
+- **H1 identifiable** — on C3's wrong rounds, the critic's gold-free archetype hits the archetype an independent gold-visible offline judge assigns, above a permutation baseline (20-item human spot check of the judge). *Fails if* hit rate is at baseline or one archetype fires regardless.
+- **H2 mechanism-sensitive** — (i) C3 > A2 on the same items; (ii) C3's wrong→correct transitions are preceded by a suspicion, A2's by none (`critic_direction = None`); (iii) the gain persists on open-form items where the A3 vote collapses. *Fails if* C3 ≈ A2 or the gain is MCQ-only.
+- **H3 decision value** — C3 > A3 (paired McNemar) at no higher tokens per correct. *Fails if* not significant or cost exceeds A3.
 
 ---
 
@@ -190,23 +198,21 @@ Weak critic `C` is outdated (underperformed) — dropped, not in the final paper
 **Left — 三种裁决 (three verdicts)**
 - **CUT** — a definitively-wrong candidate is reverted to the old answer.
 - **KEEP** — a clean transition keeps the new answer.
-- **UNSURE** — evidence is weak, both answers survive.
+- **UNSURE** — not eliminated this time; both answers survive (no abstention promised).
 - aggregation = **elimination + mode**; an all-UNSURE trace falls back to **mode**.
 
 **Right — 同一比较条件 (same comparison terms)**
-- same model + candidate answers.
-- same data split.
-- includes verification, sampling, and call cost.
+- same model, same 400 items, same scorer for every arm.
+- eliminator on vs off compared on the same C3 trajectories.
+- cost counted over all role calls (solver + critic + evaluator) vs A3's N samples.
 
 **Bottom**
-- **主判断 (main judgement)** — *does elimination + mode raise accuracy over a plain majority vote, at lower tokens per correct, with EIR suppressed and ECR retained?*
-- **收缩结论 (shrink condition, teal)** — *if elimination + mode gives no stable gain, shrink the claim to diagnosis or mechanism discovery.*
-
-
+- **主判断 (main judgement)** — *does C3 beat A3 on the same items at no higher cost (H3), and does elimination + mode add over the critic-alone lock without cutting correct candidates (false-CUT rate)?*
+- **收缩结论 (shrink condition, teal)** — *if elimination + mode gives no stable gain over the critic-alone lock, the claim shrinks to critic activation and mechanism discovery.*
 
 ---
 
-## P7 — Main table design: main table + support tables · [stage 5 — synthesis]
+## P7 — Main table design: main table + ablation table · [stage 5 — synthesis]
 
 **Breadcrumb**: `EGTE · 主表设计` · page 7
 
@@ -215,23 +221,24 @@ Weak critic `C` is outdated (underperformed) — dropped, not in the final paper
 **Layout** — teal-header table, columns = 表 / 行·比较对象 / 列·必须回答; bottom constraint sentence.
 
 **Title** (deep navy, bold)
-**EGTE's main table and support tables**
+**EGTE's main table and ablation table**
 
 **Subtitle** (gray)
-*The main table answers decision effect; the support tables explain why the signal works. Structure to be filled after the frozen re-run.*
+*The main table answers the decision effect on HLE-400; the mechanism table answers H1/H2; the ablation table says which stage carries the gain. Numbers filled after the frozen re-run.*
 
 | Table | Row — comparison object | Column — must answer |
 |---|---|---|
-| **主表 · 选择质量** Main · selection quality | A / A2 / A3 / C3 / A3C3 | Acc; tokens per correct; EIR; ECR; McNemar exact (paired) |
-| **支撑表 A · 信号质量** Support A · signal quality | weak discriminator / independent verifier (critic trigger) | AUROC, AUPRC, annotation agreement — is activation attributable to the error set? |
-| **支撑表 B · 干预机制** Support B · intervention mechanism | original / key intervention / irrelevant intervention | paired EIR/ECR deltas, confidence intervals, question type |
-| **支撑表 C · 稳健性** Support C · robustness | model (12–15) / task family / evidence format | cross-distribution gain and failure range |
+| **主表 · HLE-400** Main · selection quality | A / A2 / A3 / C3 (A3C3 not run) | Acc; settle; tokens per correct (all roles); per-round EIR / ECR; `P_act_init` / `P_act_loop`; McNemar exact (paired vs A3) |
+| **机制表 (H1/H2)** Mechanism | C3 wrong rounds (judge-labelled); C3 vs A2; MCQ vs open-form | archetype hit rate vs permutation baseline (H1); paired acc C3 vs A2, attributed-transition rate, gain by answer form (H2) |
+| **消融表** Ablation (under H3) | C3 eliminator off / on; (bank-free critic) | Acc delta; `P_flip`; false-CUT rate |
+| **来源表** Bank provenance | bank-source benchmarks vs evaluation target | which (model, benchmark) errors built the bank; HLE never in bank |
+| **动机表 (stage 3)** Motivation | A / A2 / A3 on the bank-source benchmarks | simple routes near ceiling there; unexplained failures concentrate on HLE (`P_act(A3)` vs A3 acc) |
 
 **Bottom** (teal)
-*The claim's reach is bounded by the paired result, cost, and cross-dataset stability.*
+*The claim's reach is bounded by the paired result on HLE-400, the cost, and the bank-provenance separation.*
 
 **Footer** (tiny gray)
-Numeric cells are withheld here pending the full re-run under the frozen §3.0 standard (`docs/PAPER_DRAFT.md`).
+Numeric cells withheld pending the full HLE-400 re-run under the frozen standard (`docs/PAPER_DRAFT.md` Appendix C).
 
 ---
 
@@ -239,25 +246,24 @@ Numeric cells are withheld here pending the full re-run under the frozen §3.0 s
 
 **Breadcrumb**: `EGTE · 稳健性 · 边界` · page 8
 
-**Layout** — robustness matrix (cross-model × task-family) + explicit failure-case list.
+**Layout** — existence-claim strip (top) + boundary list + explicit failure-case list.
 
 **Title** (deep navy, bold)
 **Where the claim holds — and where it fails**
 
 **Subtitle** (gray)
-*Boundary conditions, cross-condition reproduction, and cost–benefit.*
+*An existence claim: an unoptimized instantiation already yields the gain; each role has measurable headroom.*
 
-- **Cross-condition reproduction** — cross-model (12–15) × cross-task-family + a stronger frontier solver (rules out "the base model is just weak").
-- **Cross-benchmark transfer** — the L3 error bank is distilled from prior errors, **not** HLE; the HLE pilot's net +3 (4 saves vs 1 loss, p = 0.375) is **motivation / pilot** evidence only, not decision-grade transfer evidence — distinct from the Stage-B-lock boundary below.
-- **Cost–benefit** — settle is free vs the Stage-B evaluator cost.
-- **Explicit failure cases** — settle-locked-wrong, no-commit, inconsistent transitions.
-- **Boundary (teal)** — the Stage-B lock's transition-evidence signal is question-type-dependent: it shows on one slice but **not on HLE**; Phase 3 must test whether the transition rationale transfers across families, not just within a slice.
+- **Existence claim** — distiller / critic / evaluator are first instantiations, not optimized ones. Headroom is quantified by the gap between current EIR/ECR and the threshold `Acc/(1−Acc)`: critic EIR can be lowered, evaluator retention of wrong→correct can be raised.
+- **Transfer evidence** — the bank is distilled from in-family benchmarks, never from HLE; the HLE-400 result is therefore the cross-family, cross-difficulty test.
+- **Cost** — C3 total consumption (all role calls) vs A3, stated separately from failure conditions.
+- **For whom it holds** — HLE-400 split by answer type (MCQ vs open-ended); worst subgroup reported.
+- **Where it fails** — locked-wrong (early stop on a wrong answer), no-commit, inconsistent transitions; correct candidates cut (false-CUT rate).
+- **Boundary (teal)** — single solver model (deepseek-v4-flash), n = 400; reliable abstention out of scope (UNSURE = not eliminated); no stronger-model comparison (claim is same-model + external bank; frontier solver = future work).
 
 **Bottom** (teal)
-*The claim's boundary is where the transition evidence stops transferring across question types.*
+*The claim's boundary is one model, one hard family, and an unoptimized pipeline — each a stated direction for improvement, not a hidden assumption.*
 
-**Footer** (tiny gray)
-Robustness matrix = outline Tab 4.
 
 ---
 
@@ -277,10 +283,10 @@ Robustness matrix = outline Tab 4.
 
 | Conclusion | Evidence type | Key contrast |
 |---|---|---|
-| static accuracy confounds capability with framework artefacts | motivation | measured 26 pp spurious deficit |
-| answer-free error mechanisms exclude wrong candidates, not score the right path | mechanism | distiller/critic/evaluator, EIR vs ECR |
-| elimination + mode lock beats a plain majority vote | decision | C3 vs A3 on the hard slice |
-| distillation transfers to HLE as pilot-only motivation (net +3, p = 0.375); only the Stage-B lock's evidence stays question-type-bound | motivation / pilot | one slice vs HLE |
+| self-consistency activates correct answers but does not hold them | motivation | `P_act(A3)` vs A3 vote accuracy |
+| the critic's suspicion identifies the actual error (H1) and the error-bank direction, not the scaffold or the vote, drives the correction (H2) | mechanism | archetype hit rate vs baseline; C3 vs A2 + attributed transitions; open-form split |
+| error-guided elimination beats sampling on the same items at no higher cost (H3) | decision | C3 vs A3 on HLE-400; eliminator on vs off |
+| a bank distilled in-family transfers to an unseen harder family; the pipeline is an unoptimized existence proof | boundary | bank provenance vs HLE; EIR/ECR headroom |
 
 **Bottom** (teal)
 *The strength of the contribution is bounded by how many alternative explanations the contrasts rule out.*
@@ -292,10 +298,10 @@ Fig 1–3 + Tab 1–4 (below) are the deck's cross-slide index.
 
 ## Key figures / tables (cross-slide index)
 
-- **Fig 1** (P3): capability curve → self-improvement engine (reframe).
+- **Fig 1** (P3): one EGTE cycle — offline distillation → online elimination.
 - **Fig 2** (P4): the three-role EGTE pipeline (distiller / critic / evaluator) over the EIR/ECR stability diagram.
-- **Fig 3** (P6): Stage-B evaluator pruned state chain → `CUT / KEEP / UNSURE`.
-- **Tab 1** (P5): control arms `A / A2 / A3 / C3 / A3C3`.
-- **Tab 2** (P5): two hypotheses (H1 activation / H2 mechanism) + falsification criteria.
-- **Tab 3** (P7): accuracy and EIR/ECR across arms on the hard slice.
-- **Tab 4** (P8): robustness matrix (cross-model × task family).
+- **Fig 3** (P6): transition-evidence chain on one HLE trajectory (critic suspicion → answer change → verdict).
+- **Tab 1** (P5): control arms `A / A2 / A3 / C3 (/ A3C3)`.
+- **Tab 2** (P7): bank provenance vs evaluation target.
+- **Tab 3** (P7): HLE-400 main table (accuracy, settle, cost, EIR/ECR, P_act, McNemar).
+- **Tab 4** (P7): mechanism table (H1 hit rate vs baseline; H2 C3 vs A2, attribution, answer-form split) + ablation (eliminator on/off).

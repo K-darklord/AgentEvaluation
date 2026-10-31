@@ -1,415 +1,246 @@
 # Error-Guided Test-Time Elimination (EGTE) — Paper Draft
 
-
-
----
-
-## 1. EGTE: definition, roles, and the optimization objective
-
-### 1.1 What EGTE is (asymmetric error exclusion via test-time elimination)
-
-EGTE (Error-Guided Test-Time Elimination) treats an **error bank as a test-time elimination information source** and  
-optimizes a test-time **lower bound** on error — targeting capability that **pretraining already imparted but post-training (RL) sampling fails to surface**: when self-consistency alone cannot reach the answer, EGTE *extracts* already-produced-but-unheld correctness via error-guided search, and its **error bank is recursively refined** into a reusable memory / generalization primitive that feeds a bounded agent loop. It does not train or prompt the model to  
-*produce* the correct answer (the positive direction); it distills, from a gold-annotated **error  
-bank**, a finite set of **generalizable wrong-execution behaviours**, and uses them to **EXCLUDE**  
-wrong candidates at test time. 
-
-The asymmetry is the load-bearing claim: the space of *wrong* moves reachable for a problem class is  
-small, sparse, and checkable, while the space of correct derivations is dense and open-ended. Modeling  
-"what goes wrong" (a few finite exclusion rules) costs far less than modeling "what is right" (a PRM  
-that scores the correct direction), and is more robust because each rule is a *falsifiable check*, not  
-a learned intuition. The distilled memory is **answer-free** — a class-level `mechanism` +  
-`check_procedure` that never names a specific molecule / number / option — so it transfers across  
-questions and across benchmark families and does not go obsolete: new errors keep feeding the bank,  
-sharpening the same mechanisms instead of accumulating instance memory.
-
-### 1.2 Two propositions: one-sided error control and convergence
-
-Two formal statements bound what EGTE can promise, and render its two failure modes falsifiable.
-
-**Proposition 1 (one-sided error control).** Let the evaluator cut with false-positive rate
-`FPR ≤ ε` (a *correct* candidate cut) and recall `≥ 1 − δ` over actually-wrong candidates.
-
-- *(a) Eliminate-to-one regime* (the arm implemented by `run_elimination_curve.py`): if elimination
-  proceeds until a single survivor remains, then `E[gain] ≥ P(err)·(1−δ) − P(correct)·ε`.
-- *(b) Mode regime* (the deployed C3 rule): let `q = P(a* wins the mode | a* survives, all other
-  survivors wrong)`. Then `E[gain] ≥ q·P(err)·(1−δ) − P(correct)·ε`, and (a) is the special case
-  `q = 1`.
-
-**Why one-sided control matters.** A PRM must be *calibrated* (both FP and FN controlled) to add
-value under mode aggregation; an excluder needs only `FPR ≤ ε` and sufficient recall. This is the
-formal content of "exclusion is cheaper than scoring".
-
-**Proposition 2 (convergence).** On the two-state {correct, wrong} chain with per-round rates
-EIR/ECR, `A_t → π* = ECR/(EIR+ECR)` geometrically at rate `1 − EIR − ECR`.
-
-**Assumption A3 (diminishing returns).** The marginal error-bank information `g(B_t)` — the per-step
-reduction in reachable wrong-execution space from adding one distilled rule — is non-increasing in
-`|B_t|`.
-
-Under A3 the outer loop saturates: `A_t → π*` with `g → 0`, and the stopping rule is `g(B_t) < τ`.
-A3 is a modelling assumption, not a theorem; it fails if new rules open previously unreachable error
-classes, which is exactly the "open hypothesis class" case we test in S1–S3.
-
-### 1.3 Two loops: test-time elimination and offline bank refinement
-
-EGTE has two loops with **different tenses**, and the paper keeps them apart.
-
-- **Inner loop (test-time, online).** One elimination pass over a *frozen* bank `B_t`. No gold, no
-  weight update, no bank write. This is what the arms A/A2/A3/C3/A3C3 measure.
-- **Outer loop (offline, across passes).** After pass `t`, failures that the frozen scorer marked
-  wrong are distilled back into `B_{t+1}`. The distiller is the sole gold reader; runtime roles
-  never see gold.
-
-**Label provenance.** Outer-loop labels come only from the frozen scorer on failed runs. There is no
-pseudo-labelling and no self-adjudication; a pseudo-gold outer loop would be self-confirming and is
-explicitly out of scope.
-
-**Disjointness rule (hard).** Pass `t` draws its items from `S_t`; the evaluation panel `P` is fixed,
-disjoint from every `S_t`, and **never enters any bank**. Violating this turns the flywheel into
-slow-motion train/test leakage.
-
-**Boundedness.** Marginal bank information `g(B_t)` is non-increasing (Assumption A3, §1.2), so
-refinement saturates rather than diverges: `B_t` converges into a reusable cross-benchmark memory,
-not an ever-growing instance store.
-
-### 2.2 The strategy roles, and the quantity each optimizes
-
-Three roles carry the strategy — the **distiller**, the **critic**, and the **evaluator** — plus  
-two that frame them: the **solver** (generates) and the **scorer** (grades). Each role is a separate  
-call; correctness lives in exactly the scorer.
-
-| Role                             | When                          | Gold? | Produces                                                                | The quantity it optimizes                                 |
-| -------------------------------- | ----------------------------- | ----- | ----------------------------------------------------------------------- | --------------------------------------------------------- |
-| **distiller** (build)            | offline, over the error bank  | yes   | `mechanism` + `check_procedure` (class-level, answer-free)              | the generic exclusion rules both downstream roles consume |
-| **critic** (front, in-loop)      | feedback loop                 | no    | directional correction; the trajectory that diverges the candidate pool | **activation** `P_act` ↑ at controlled **EIR**            |
-| **evaluator** (back, offline)    | lock-in, on a transition only | no    | CUT / UNSURE / ANSWER lock (evidence-anchored)                          | suppress **EIR** (revert + lock), lock-in ↑                |
-| **solver** (generation)          | generation                    | no    | candidate answer + CoT                                                  | (policy; not optimized here)                              |
-| **scorer** (`scorer_LLM_rescue`) | final grading, all arms       | yes   | correctness verdict                                                     | (frozen; the only gold reader at grade time)              |
-
-The evaluator's runtime closure is **check → review**, consuming the distiller's `mechanism` +  
-`check_procedure`, with a `trigger` signature and per-transition `evidence` over the hidden CoT; it  
-wakes only on an answer **transition**, never reads the target round's CoT at rest, and never sees the  
-gold at runtime.
-
-### 2.3 The single Objective: EIR and ECR on the two-state chain
-
-
-
-```
-final = init + corrected(ECR) − flipped(EIR)
-```
-
-- **EIR** (error induction rate) = P(correct → wrong) per round. Introduced  by the  
-  **critic**: its perturbation buys activation, but the same perturbation can flip a correct  
-  answer to wrong. 
-- **ECR** (error correction rate) = P(wrong → correct) per round. Introduced by the **critic** too. The **evaluator does not raise ECR**; it only suppresses EIR, and  
-  (i) *repairs* a misdirected transition by re-verifying against the distilled `check_procedure`, and  
-  (ii) *recognizes* an already-activated correct answer and locks it before a later EIR event flips it.
-
-Iteration is beneficial only while `ECR / EIR > Acc / (1 − Acc)`, with steady state  
-`π* = ECR / (EIR + ECR)` and convergence `1 − EIR − ECR`. The two levers map one-to-one onto the two  
-stages:
-
-| Stage              | Role             | Knob                                | Target                             |
-| ------------------ | ---------------- | ----------------------------------- | ---------------------------------- |
-| **A** (activation) | critic (front)   | contain **EIR** at fixed activation | `P_act` ↑, EIR → 0                 |
-| **B** (locking)    | evaluator (back) | suppress **EIR**                    | `ECR/EIR > Acc/(1−Acc)`, lock-in ↑ |
-
-The objective is to make `final − init = corrected − flipped` **positive and stable** — to drive the  
-loop into the stability region — rather than to maximize either stage in isolation. 
-
-### 2.4 Four arms (causal contrast)
-
-All arms share the same solver base model and are graded by the same scorer. They differ only in the  
-feedback / aggregation treatment. `C3` is read as its default form: **critic (in-loop) +  
-evaluator (offline)**.
-
-| Arm    | Definition                                                                 | Identity / role in the design                           |
-| ------ | -------------------------------------------------------------------------- | ------------------------------------------------------- |
-| **A**  | bare re-solve, T=0, single answer, zero intervention                       | floor: raw latent accuracy (L1)                         |
-| **A2** | fixed neutral placebo, T=0, single answer                                  | placebo control for scaffolding                         |
-| **A3** | **self-consistency** (Wang et al. 2022), T=0.7, N=10, i.i.d. majority vote | the test-time scaling baseline EGTE must beat           |
-| **C**  | weak critic, directional, T=0, frequency-vote                              | **outdated** — dropped (weak critic underperformed); **not in final paper** |
-| **C3** | **strong critic (in-loop) + evaluator `rubric_ce` (offline)** = full EGTE  | the treatment: Stage A (activation) + Stage B (lock-in) |
-
-The strong critic diverges the error source by activation (necessarily activating both correct and  
-wrong candidates), and the offline evaluator reads that trajectory to *eliminate* wrong moves and lock  
-a final answer. The evaluator is **never** run in-loop; the critic is **never** told the gold. The  
-**headline causal contrast is the arms A / A2 / A3 / C3 / A3C3**; `C` (weak critic) is **outdated** — dropped, will **not appear** in the final paper — and was a Stage-A  
-diagnostic probe (historical only).
-
-The Stage-B contribution of the exclusion selector is isolated by an **eliminator switch** inside C3
-(replacing the dropped A3+Selector arm): with the switch `off`, C3 runs the strong critic alone and
-locks by mode (activation only); with it `on`, the offline evaluator eliminates + mode-locks (full
-EGTE). The Stage-B delta is `on − off`.
-
-**Stronger-model control.** The A3-vs-C3 contrast is also re-run on a frontier solver **astra**
-(`gpt-6-astra`), bare + A3, to rule out "the base model is just weak"; this arm is currently a
-**中转 smoke (channel relay)** — a wiring check that produces no citable number until a production
-channel is available.
-
-### 2.5 The three core strategies, as implemented in `src/`
-
-The three load-bearing roles are separate code paths, not prompt styles; each has its own
-module, iron rules, and optimized quantity. (The **solver** — `agent.py`, generation — frames
-them and is not optimized here.)
-
-#### Distiller — `build_mechanism_levels.py` (+ `build_error_taxonomy.py`, `build_unified_taxonomy.py`)
-
-Offline, over the gold-annotated error bank; the only role that reads gold. The distiller is the sole executor of **recursive error-bank refinement**: after each pass the frozen scorer's gold labels feed the new errors back into the bank, re-distilling `B_t` into `B_{t+1}` — the same answer-free mechanisms are *sharpened*, never replaced by accumulated instance memory, so the bank converges into a reusable cross-benchmark primitive rather than an ever-growing instance store. A distillation chain — each level re-distills the one beneath it, and the vocabulary is iteratively refined as the bank grows, not a fixed taxonomy:
-- **L1** (`build_behavior_leaves.py``) — one instance-level wrong-operation `mechanism` per
-  errored (model, task) pair.
-- **L2** (`build_mechanism_levels.py`) — clusters one solver model's L1 mechanisms into ≤8
-  benchmark-level classes by the shared *wrong verb*; each class gets an answer-free `mechanism`
-  (verb phrase), a differential gold-free `check_procedure`, and a `trigger` (question-type +
-  committed-answer signature).
-- **L3** — each L2 class is mapped into one cross-benchmark wrong-execution **archetype**; the archetype vocabulary is **distilled from the current error data, not fixed a priori**, and grows/refines as more (model, family) errors enter the bank. The present snapshot is
-  (`build_mechanism_levels.ARCHETYPES`): `constraint_blind`, `descriptor_conflation`,
-  `memory_substitution`, `procedure_truncation`, `sign_normalization_slip`, `retrieval_abort`,
-  `format_nonconformance`.
-
-A freeze step writes `level3_bank_{model}.json` — one answer-free entry per class (`definition`
-= a past-participle suspicion clause, plus `check_procedure`, `trigger`, and de-identified
-`examples`). Iron rules: **per-model banks** (never pool models), **never name** a molecule /
-number / option / answer text. `build_unified_taxonomy.py` is a parallel detector-first 8-leaf
-scheme kept only for the cross-family block-diagonality audit, not for runtime.
-
-#### Strong critic — `strong_critic.py` (`StrongCritic`); weak fallback `egte_critic.py` (`Level3Critic`)
-
-Gold-free, exec-time (`feedback(question, answer, family, reasoning)`). Reads the **question**, the
-**committed answer**, the solver's hidden CoT (a 6000-char reasoning budget, truncated only when
-longer) and the full answer-free L3 vocabulary. Against that vocabulary the LLM *reasons which
-archetype(s) this specific answer most likely violates* — i.e. it re-targets the feedback to the
-committed answer — then emits 1–3 grounded past-participle `suspicion`s, each with an
-instance-specific `check` naming the exact step/value/assumption to re-verify (still answer-free).
-On LLM/parse failure it falls back to `Level3Critic`:
-deterministic TF-IDF retrieval, single direction, probability-free, "possible" never "confident".
-Iron rules: never read gold; never emit a probability; never name the correct answer / option /
-question-specific content. This is the **activation** source — it deliberately diverges the
-candidate pool and therefore carries both **EIR** and **ECR**.
-
-#### Evaluator — `stage_b_evaluator.py` (`rubric_cut` / `rubric_ce` / `rubric_v5`; *not yet final*)
-
-Offline, never in-loop, never sees gold. Consumes the transition view (only *non-settled* tasks).
-For each answer **switch edge**, a three-dimension judge scores `contradiction / error /
-disconnection` (0–10) over the transition's reasoning (full hidden CoT); `error` is backlinked
-against the answer-free L3 bank, and any dim ≥ 6 must carry open evidence else it is zeroed.
-`rubric_ce` gates the CUT on `max(contradiction, error)`, dropping the direction-agnostic
-`disconnection` (which fires on both DERAIL and REPAIR). Each switch → `CUT` (revert to old) or
-`UNSURE` (keep both); aggregation = **elimination + mode**, with an all-UNSURE trace falling back to
-`mode` (an honest abstention is **not** the current fallback). **Not final:** `rubric_ce` and
-`rubric_v5` (rev 5) are still under comparison — `rubric_v5` is a structured judge separating an
-*evidence* axis (old/new support, error with backlink-verified quotes) from a *reflection* axis
-(confidence), in which only a backlinked error may CUT/KEEP, else UNSURE. (Reliable **abstention**
-detection is hard for the current model and may be out of scope.) Offline scoring is normal accuracy
-(locked == gold). This role is the **EIR** suppressor — it reverts misdirected transitions and locks
-already-activated correct answers, retaining the ECR the critic re-surfaced.
-
-The three evaluator strategies (all `elimination + mode`; they differ only in the judge structure, the decision rule, and the tie handling):
-
-| Knob | `rubric_cut` (rev4) | `rubric_ce` (2026-10-25) | `rubric_v5` (rev5) |
-| --- | --- | --- | --- |
-| Judge structure | 3-dim `disconnection/contradiction/error` (0–10) over the transition CoT | same 3-dim judge | evidence axis (`old/new_support`, `error_*` w/ backlinked quotes) vs reflection axis (`confidence`) |
-| Evidence gate | any dim ≥ 6 needs open evidence, else zeroed | same | backlink-verified quotes required |
-| Decision rule | `CUT` iff `max(3 dims) ≥ cut_bar` | `CUT` iff `max(contradiction,error) ≥ cut_bar` (drops `disconnection`) | `CUT`/`KEEP` iff a side's backlinked conclusion ≠ its answer label (deterministic, no threshold) |
-| Verdicts emitted | `CUT` / `UNSURE` | `CUT` / `UNSURE` | `CUT` / `KEEP` / `UNSURE` |
-| all-UNSURE fallback | `mode` | `mode` | `mode` |
-| surviving tie-break | `directional` | `directional` | `directional` |
-
-Here `directional` = on a surviving-mode tie, lock whichever tied answer the judge's confident verdicts preferred more often (`CUT` prefers its old/left answer, `KEEP` prefers its new/right answer); with no confident preference, abstain.
-
-The elimination → mode lock carries three further knobs (wired in `_elimination_mode_lock`, rev 8),
-ablating *how* the per-run survive-scores fold into a locked answer:
-
-> **Errata (2026-10-27)** — `keep` is listed below among the three "knobs" but is **not** an ablation
-> knob: it is a correctness fix to the verdict semantics (a clean transition, all three dims 0, should
-> read `KEEP`, not stay `UNSURE`). The genuine ablation knobs below are `vote_mode` and `weight_by`.
-
-1. **KEEP vote (`keep`, rubric strategies only).** A clean transition — all three dims 0 — reads as
-   `KEEP` (new side survives, old side drops) when `keep` is on; off, it stays `UNSURE`.
-   (`rubric_v5` has its own conclusion-mismatch `KEEP`, so `keep` is N/A there.)
-
-2. **half-vote / fold (`vote_mode`).** Each run folds its two flank survive-scores (from its left and
-   right switches) into one multiplier, and `UNSURE` casts a half vote or none:
-   - `max` — fold = max(flanks), `UNSURE` = 0.5 (conservative: a run dies only if *both* flanks kill it);
-   - `min` — fold = min(flanks), `UNSURE` = 0.5 (aggressive: a run dies if *either* flank kills it);
-   - `0` — no half vote (`UNSURE` inert), fold = max over the hard 0/1 `CUT`/`KEEP` flanks.
-
-3. **vote unit (`weight_by`).** `round` — every round of a run casts one vote (unit = round count);
-   `fragment` — every maximal run casts one vote (unit = 1).
-
-A verdict maps to survive-scores `CUT` = old 1.0 / new 0.0, `KEEP` = old 0.0 / new 1.0, `UNSURE` =
-both w; the non-`None` answer with the highest total weight locks, and a tie is broken
-`directional`ly (above) or abstains.
-
-The scorer is **`scorer_LLM_rescue`**: `T1` deterministic exact-match (routed by answer form), `T2`  
-LLM one-way FN rescue (re-reads only the committed final answer, never the CoT, never overturns a  
-correct T1), `T3` multi-LLM voting / human review of contested rows. See `docs/EVALUATION_STANDARD.md`  
-§0.
+> **2026-10-31 trim.** Single story: EGTE as a train-free, gold-free test-time elimination method on
+> the same base model, with the error bank as the only external signal. HLE-400 is the main evidence
+> (the bank never contains an HLE item). Hypotheses follow the seven-stage framework: H1 identifiable /
+> H2 mechanism-sensitive / H3 decision value; A2 is the irrelevant-change control for H2.
+> Engineering history: `docs/PHASE2_SUMMARY.md`, `docs/PHASE3_SUMMARY.md`, `docs/WORKMAP.md`.
+> Implementation parameters and the frozen runtime standard: Appendices B–C.
 
 ---
 
-## 3. Experimental results — deepseek-v4-flash, all benchmarks except FAB
+## 1. EGTE: definition and objective
 
-> **STATUS — all `§3` numbers are INVALID and must not be cited.** The §3.1 table mixes a fresh
-> **A2** run (2026-10-20/21, *after* the deepseek GPQA thinking fix of 2026-10-18) with stale or
-> missing comparison arms: **C** was run 2026-10-08/15 (pre-fix, and its GPQA slice used a different
-> `rationale_mode`), **C3** has no full `new`/`gpqa` run, and the **A3**-deepseek run dir is empty.
-> This makes A2's init look artificially highest across benchmarks — an artifact, not a placebo
-> effect. **Plan: re-run all arms under the frozen standard in §3.0, then refill §3.1.**
+### 1.1 What EGTE is
 
-**Model** `deepseek-v4-flash` (`deepseek-v4-flash-0731`). **Arms** A (bare, T=0) · A2 (fixed neutral  
-placebo) · A3 (self-consistency, T=0.7, N=10) · A3C3 (A3-seeded round-0, then the C3 loop) · C3 (strong critic in-loop + evaluator `rubric_ce`  
-offline). **Benchmarks** GSM8K, MATH-500, MMLU-Pro, BFCL, AIME, BBH, GPQA-Diamond (all non-FAB).  
-FAB (finance) is a single deferred decision-only run, excluded by design.
+EGTE (Error-Guided Test-Time Elimination) treats a model's own **error bank** as a test-time
+elimination information source. It targets capability that pretraining already imparted but that
+sampling fails to hold: under self-consistency the correct answer often *appears* in the candidate pool
+and is then discarded by the vote. EGTE does not train or prompt the model to *produce* the correct
+answer; it distills, offline and from a gold-annotated error bank, a finite set of **generalizable
+wrong-execution behaviours**, and uses them at test time — without gold, without training, on the
+**same base model** — to **exclude** wrong candidates.
 
-### 3.0 Frozen per-arm runtime standard (every re-run must follow this)
+The design choice is asymmetric: model "what goes wrong" (a few answer-free, falsifiable exclusion
+rules) rather than "what is right" (a scorer of the correct direction). This is stated as motivation,
+not as a tested claim. The distilled memory is **answer-free** — a class-level `mechanism` +
+`check_procedure` that never names a molecule / number / option — so it *can* transfer across questions
+and families; whether it does is what the HLE-400 evaluation tests.
 
-| Arm                              | solver `T` | samples | aggregation                    | feedback                  | grader               |
-| -------------------------------- | ---------- | ------- | ------------------------------ | ------------------------- | -------------------- |
-| **A** (floor)                    | 0          | 1       | single answer                  | none                      | `scorer_LLM_rescue`  |
-| **A2** (placebo)                 | 0          | 1       | fixed neutral placebo loop     | `A2_PLACEBO_FEEDBACK`     | `scorer_LLM_rescue`  |
-| **A3** (self-consistency)        | 0.7        | 10      | i.i.d. majority vote (tie→1st) | none                      | `scorer_LLM_rescue`  |
-| **C** (weak critic) — **outdated, not in final paper**  | 0          | 1       | frequency vote                 | weak critic (directional) | `scorer_LLM_rescue`  |
-| **C3** (treatment)               | 0          | 1       | `rubric_ce` elimination + mode | strong critic (in-loop)   | `scorer_LLM_rescue`  |
+### 1.2 The two-state chain: EIR and ECR, per round and per item
 
-Common frozen fields for **every** arm: `max_tokens = 8192` (`REASONING_BENCH_MAX_TOKENS`),
-`rationale_mode = off`, `max_rounds = 10`, `early_stop_n = 3`, model `deepseek-v4-flash-0731`,
-`seed = None`. `T = 0.7` applies **only** to A3's 10 i.i.d. round-0 samples; every other solver call
-(all arms, including C3's feedback rounds) is deterministic `T = 0` — see `run_feedback_loop.py`
-round-0, which runs A3C3's round-0 vote at `T>0` and the remaining loop at `T=0`.
+- **Per-round rates (Liu & Meng).** `EIR` = P(correct → wrong) per round; `ECR` = P(wrong → correct)
+  per round, over all (item, round) transition opportunities of an arm's full loop.
+  `final = init + corrected(ECR) − flipped(EIR)`; iteration helps only while
+  `ECR / EIR > Acc / (1 − Acc)` (standard two-state chain; cited, not claimed).
+- **Per-item quantities (whole loop).** `P_act` = P(correct answer committed at least once);
+  `P_flip` = P(a once-correct commit is not the locked answer). Under A-seeding (§2.2), every arm's
+  round 0 is A's deterministic T=0 answer, so activation is split: `P_act_init` = P(correct at round 0,
+  inherited from A) and `P_act_loop` = P(correct first committed at round ≥ 1) — only `P_act_loop` is
+  the critic's contribution.
+- **Who moves which rate.** The critic introduces both EIR and ECR; the evaluator does not raise ECR
+  and only suppresses EIR (revert misdirected transitions, lock an already-activated correct answer).
 
-**A3C3 (A3-seeded C3)**: run **contiguously with A3** (share A3's single run — no separate A3 pass) — A3's `T=0.7, n=10` i.i.d. majority vote becomes A3C3's
-round-0 committed answer — then continue with the **C3 loop** (`T=0`, `max_rounds=10`,
-`early_stop_n=3`). I.e. A3C3 = A3's round-0 vote + C3's feedback loop, run in the same pass as A3.
+## 2. Roles and arms
 
-**Per-arm metrics for the §3.1 comparison:**
+### 2.1 The roles, and the quantity each optimizes
 
-| Arm      | reported metrics                        |
-| -------- | --------------------------------------- |
-| **A**    | accuracy (single `T=0` sample)          |
-| **A2**   | `init` · `final` · `settle` · `mode`      |
-| **A3**   | `init` · `final`                        |
-| **A3C3** | `init` · `final` · `settle` · `mode` · `evaluator` |
-| **C3**   | `init` · `final` · `settle` · `mode` · `evaluator` |
+Three strategy roles — **distiller**, **critic**, **evaluator** — framed by the **solver** (generates)
+and the **scorer** (grades). Each role is a separate call on the same base model; correctness lives
+only in the scorer.
 
-- `init`      = accuracy of the round-0 committed answer.
-- `final`     = accuracy of the **last** committed answer (end of the loop).
-- `settle`    = accuracy of the **early-stop** answer — a trailing run of 3 identical committed
-  answers (`early_stop_n = 3`); a loop that never settles abstains (scored as not-correct).
-- `mode`      = accuracy of the **majority** committed answer across the whole loop (ties → latest
-  appearance) — the round-level analogue of A3's i.i.d. vote.
-- `evaluator` (C3 / A3C3) = accuracy of the offline evaluator's locked answer (strategy TBD — `rubric_ce` vs `rubric_v5` still being compared).
+| Role | When | Gold? | Produces | Optimizes |
+|---|---|---|---|---|
+| **distiller** | offline, over the error bank | yes | answer-free `mechanism` + `check_procedure` + `trigger` | the exclusion rules both runtime roles consume |
+| **critic** | in-loop | no | 1–3 suspicions (archetype + the step to re-verify) | `P_act` ↑ at controlled EIR |
+| **evaluator** | offline, on an answer transition only | no | `CUT` / `KEEP` / `UNSURE` → elimination + mode lock | `P_flip` ↓ (suppress EIR) |
+| **solver** | generation | no | candidate answer + CoT | — |
+| **scorer** | final grading, all arms | yes | correctness verdict | — (frozen) |
 
-### 3.1 Cross-benchmark arm accuracy
+**Distiller.** Instance-level wrong-operation mechanisms → per-benchmark classes grouped by the shared
+*wrong verb* → cross-benchmark **archetypes** (7: `constraint_blind`, `descriptor_conflation`,
+`memory_substitution`, `procedure_truncation`, `sign_normalization_slip`, `retrieval_abort`,
+`format_nonconformance`), each with a gold-free `check_procedure` and a `trigger`. Per-model banks;
+never names answer text. (Chain → Appendix A.)
 
-| Benchmark    | n   | A (bare T=0) | A2 (placebo)  | A3 (SC vote)  | C3 (strong + `rubric_ce`) |
-| ------------ | --- | ------------ | ------------- | ------------- | ------------------------- |
-| GSM8K        | 50  | —            | 100% (50/50)  | 100% (50/50)  | 98% (49/50)               |
-| MATH-500     | 50  | —            | 96% (48/50)   | 88% (44/50)   | 86% (43/50)               |
-| MMLU-Pro     | 50  | —            | 94% (47/50)   | 94% (47/50)   | 94% (47/50)               |
-| BFCL         | 50  | —            | 100% (50/50)  | 100% (50/50)  | 100% (50/50)              |
-| AIME         | 50  | —            | 100% (50/50)  | 88% (44/50)   | 94% (47/50)               |
-| BBH          | 44  | —            | 93% (41/44)   | 95% (42/44)   | 93% (41/44)               |
-| GPQA-Diamond | 198 | —            | 86% (171/198) | 77% (152/198) | 81% (161/198)             |
+**Critic.** Reads the question, the committed answer, the hidden CoT and the archetype vocabulary;
+reasons which archetype(s) this answer most likely violates; emits 1–3 suspicions naming the step /
+value / assumption to re-verify. Never reads gold, never emits a probability, never names an answer.
+Each suspicion is recorded as a structured `critic_direction` (archetype + suspicion) per round — the
+unit of the mechanism evidence in §4.2.
 
-Arm **A** (bare re-solve, T=0) is pending a clean T=0 re-run — its column is left empty for now.  
-Arm **A2** reports the final committed answer of the fixed-neutral-placebo loop (T=0, rationale off).  
-GPQA-Diamond pools the 50-item new slice and the 148-item gpqa_051-198 slice (A2 = 44 + 127 / 198).  
-Benchmarks with no arm-to-arm separation will be dropped from the final paper.
+**Evaluator (`rubric_ce`).** Offline; consumes only answer **switch edges**. A judge scores
+`contradiction / error` over the transition's reasoning, `error` backlinked to the archetype bank; a
+switch is `CUT` (revert) when either dimension clears the bar with open evidence, `KEEP` when the
+transition is clean, otherwise `UNSURE` (= not eliminated; no abstention promised). Aggregation =
+elimination + mode; all-UNSURE → mode. (Rubric, bar, survive-scores → Appendix B.)
 
+### 2.2 Arms
 
+All arms share the same solver base model, the same items, and the same scorer; they differ only in the
+feedback / aggregation treatment.
 
-## 4. Analysis data (flip19 + HLE — strategic probes, not benchmarks)
+| Arm | Definition | Role in the design |
+|---|---|---|
+| **A** | bare re-solve, T=0, single answer | floor: raw latent accuracy |
+| **A2** | the same feedback loop with **content-free** placebo feedback (`critic_direction = None`) | **irrelevant-change control** for H2: scaffold without the error bank |
+| **A3** | self-consistency (Wang et al. 2022), init = A round-0 + N-1 = 9 i.i.d. T=0.7 samples, majority vote over the 9 | strong baseline for H3 |
+| **C3** | critic (in-loop) + evaluator `rubric_ce` (offline), elimination + mode | treatment: key intervention |
+| **A3C3** (optional) | A3-seeded round-0, then the C3 loop | stacked; reported if run |
 
-The flip19 slice and the HLE pilot are analysis probes for optimizing and reasoning about the  
-strategy, not evaluation benchmarks. They are kept because only these items show enough answer  
-transitions (flips) to quantify EIR / ECR and to inspect the mechanism.
+**A-seeding (shared round-0 anchor).** A's deterministic T=0 answer is round 0 of A2 / A3 / C3 — the
+arms differ only from round 1 on, so "round-0 drift" (a T=0 re-solve that itself changes the answer)
+cannot confound init-to-final movement. A3 = A-init + N-1 = 9 i.i.d. T=0.7 samples, majority-voted;
+A itself never enters the vote pool.
 
-### 4.1 Transition rates over the full loop (flip19 retained as an illustrative slice)
+**Ablation under H3 — eliminator on/off.** From the same C3 trajectories: `off` = critic alone + mode
+lock; `on` = evaluator elimination + mode. **Optional strengthening of H2** — a bank-free critic (same
+prompt, no archetype vocabulary).
 
-EIR/ECR are estimated over **all (item, round) transition opportunities of the arm's full loop**
-(denominator: every round whose previous state was `correct` for EIR, `wrong` for ECR), over **all N
-items of the run — not the flip-selected subset**. The flip19 slice is retained *only* as an
-illustrative case list and is **not** used for rate estimation (full-sample `N` and per-arm rates are
-filled after the frozen re-run).
+---
 
-**Item list** (task id + prompt opening, grouped by source slice):
+## 3. Motivation and setup
 
-- **phase1** (`n=5`): `math500_010` ("The expression $2\cdot3\cdot4\cdot5+1$ is equal to 121…"), `math500_021` ("Evaluate $(1+2i)6-3i$."), `math500_027` ("In how many ways can $7$ people sit around a round table…"), `mmlu_pro_033` ("Find the amount to be paid each month in order to pay off…"), `mmlu_pro_047` ("Which of the following would yield the greatest net return…")
-- **new** (`n=9`): `aime_018` ("A point $P$ is chosen in the interior of $\triangle ABC$…"), `aime_021` ("Three circles, each of radius $3$, are drawn with centers at $(14,92)$…"), `aime_044` ("Three $12$ cm $\times 12$ cm squares are each cut into two pieces $A$ and $B$…"), `gpqa_009` ("Which of the following molecules has C3h symmetry?…"), `gpqa_016` ("How many of the following compounds will exhibit optical activity?…"), `gpqa_028` ("(S)-4-hydroxycyclohex-2-en-1-one is treated with tert-Butyldimethylsilyl chloride…"), `gpqa_031` ("toluene is treated with nitric acid and sulfuric acid, forming product 1…"), `gpqa_048` ("cyclohexanone was treated with bromine, forming product 1…"), `gpqa_049` ("Sigmatropic rearrangement is a class of pericyclic reactions…")
-- **gpqa** (`n=5`): `gpqa_095` ("3,3,6-trimethylhepta-1,5-dien-4-one is treated with 1 equivalent of meta-chloroperbenzoic…"), `gpqa_103` ("Which sequence of reactions from the following options would lead to the high-yield…"), `gpqa_109` ("Consider a bound system of two nucleons (NN) in a 1S0 state…"), `gpqa_163` ("We would like to dissolve (at 25°C) 0.1 g Fe(OH)3 in 100 cm3…"), `gpqa_167` ("Calculate the amount of non-Gaussianity (nG) in the Schrödinger cat state…")
+### 3.1 Simple routes on the bank-source benchmarks (framework stage 3)
 
-| arm                    | n  | init | final | EIR | ECR |
-| ---------------------- | -- | ---- | ----- | --- | --- |
-| A3C3, CoT-corrected    | N  | —    | —     | —   | —   |
-| A3C3, no-CoT (pre-fix) | N  | —    | —     | —   | —   |
-| C3, CoT-corrected      | N  | —    | —     | —   | —   |
-| C3v2 (old)             | N  | —    | —     | —   | —   |
+A / A2 / A3 on GSM8K, MATH-500, MMLU-Pro, BFCL, AIME, BBH, GPQA-Diamond — the benchmarks whose
+errors built the bank. Same model, same scorer, cost recorded.
 
-> Full-sample `N` and per-arm rates to be recomputed over the arm's complete loop after the frozen
-> re-run; the flip19 slice is illustrative only and does not enter rate estimation.
+| Benchmark | n | A | A2 | A3 |
+|---|---|---|---|---|
+| … | 50 (198) | — | — | — |
 
-### 4.2 HLE pilot (n = 50, scorer-graded)
+Reading: simple routes leave little separable headroom here; the unexplained failures are on HLE, where A3
+activates correct answers it does not hold (`P_act(A3)` vs A3 vote accuracy — the motivating gap).
+Outcome: continue.
 
-| line                   | init | final        | definition                                          |
-| ---------------------- | ---- | ------------ | --------------------------------------------------- |
-| A3 (self-consistency)  | 0.12 | 0.14 (7/50)  | N=10 @ T=0.7, majority vote                         |
-| C3 strong-critic alone | 0.12 | 0.14 (7/50)  | strong critic last round, no evaluator              |
-| C3 + `rubric_ce`       | 0.12 | 0.20 → 0.24 (12/50) | strong critic + offline evaluator, mode fallback; knob-optimized (`keep`+`fragment`) |
-| C3 + `rubric_v5`       | 0.12 | 0.06 (3/50)  | strong critic + offline evaluator, mode fallback (pre-fix: was abstain) |
+### 3.2 Bank provenance vs evaluation target (Tab 2)
 
-Activation (reachability): A3 16/50, C3 15/50. Head-to-head (A3 vote vs C3 full): 4 C3 saves  
-(hle_028, hle_032, hle_038, hle_040), 1 C3 loss (hle_013) — net +3.
+| | Benchmarks | In the bank? | Role in the paper |
+|---|---|---|---|
+| **bank source** | GSM8K, MATH-500, MMLU-Pro, BFCL, AIME, BBH, GPQA-Diamond | yes — this model's errors on these items | §3.1 motivation only |
+| **evaluation target** | **HLE-400** | **never** — no HLE item or error enters any bank | all hypotheses |
 
-> `rubric_v5`'s `0.06 (3/50)` was scored under the old **abstain** fallback; after 2026-10-26 the
-> fallback is **mode** (matching `rubric_ce`), so this number is stale and needs a re-run.
->
-> Knob ablation (2026-10-26, offline re-derivation — no new LLM): re-scoring the committed `rubric_ce`
-> verdicts under the three Stage-B knobs (`keep`, `vote_mode`, `weight_by`) on the rescuable slice
-> (`correct_appeared ∧ ≥2 candidates`, n=11) lifts C3 + `rubric_ce` from its committed 10/50 (0.20) to
-> **12/50 (0.24)**. The +2 decomposes: (i) **+1 from the rev-8 rewrite** (survive-score `fold=max` +
-> directional tie-break replacing the hard-delete + abstain rule; on `hle_025` it rescues the
-> once-flashed correct `142` that the old code deleted to no-survivors); (ii) **+1 from the
-> `keep ∧ fragment` interaction** (`weight_by=fragment` lifts only when `keep=on`). `vote_mode` (the
-> UNSURE half-vote) has no effect on this slice. flip19 (`rubric_ce`, n=5) is invariant across all
-> three knobs (0.800 everywhere).
+### 3.3 Model, standard, metrics
 
-## 5. Research questions (Q1–Q5)
+Model `deepseek-v4-flash` as solver, critic and evaluator. One frozen runtime standard for every arm —
+`thinking_budget = 16384`, reasoning content `max_tokens = 8192` (`REASONING_CONTENT_MARGIN = 8192`),
+rounds, early stop, scorer (Appendix C). `T = 0.7` only for A3's samples; all other calls `T = 0`.
 
-1. **Signal generalization (distiller → critic).** Does the distiller's answer-free `mechanism` +
-   `check_procedure` give the strong critic a signal that *generalizes* — i.e. it fires on the right
-   archetype across questions and benchmark families, rather than only on the bank items it was
-   distilled from?
+| Metric | Definition |
+|---|---|
+| `acc` | accuracy of the arm's locked / voted / final answer, scorer-graded |
+| `tokens per correct` | total tokens of **all** calls (solver + critic + evaluator, or N samples for A3) ÷ correct items |
+| `EIR`, `ECR` | per-round rates over all transition opportunities (§1.2) |
+| `P_act`, `P_flip` | per-item activation / flip (§1.2); `P_act` split into `P_act_init` (round 0, from A) vs `P_act_loop` (round ≥ 1, critic's activation) |
+| `settle` | the loop's trailing lock on three consecutive identical commits (abstain if none); a second lock alongside `mode` |
+| `archetype hit rate` | over C3's wrong rounds, fraction where the gold-visible offline judge's archetype ∈ the critic's archetype set (H1); reported against a permutation baseline |
+| `attributed-transition rate` | fraction of wrong→correct transitions whose preceding round carries a `critic_direction` suspicion (H2; presence, not match — match is H1) |
+| `false-CUT rate` | fraction of CUT verdicts that removed a correct candidate |
+| `McNemar` | exact paired test on the same items |
 
-2. **Directional exploration (critic → solver), evidenced by transitions.** Does the strong critic
-   actually steer the *solver* toward new (correct) directions — and is this established by transition
-   evidence (the committed-answer trajectory plus the critic's per-transition rationale), not by
-   aggregate accuracy alone? Concretely: does the critic activate a correct answer at least as often as
-   A3's i.i.d. sampling (`P_act` ≥ A3), while keeping EIR from exceeding ECR (else the strong critic
-   needs re-tuning)?
+---
 
-3. **Exclusion and abstention (evaluator).** Does the evaluator receive a signal strong enough to
-   (a) exclude definitively-wrong candidates without cutting a correct one, (b) stay `UNSURE` when the
-   evidence is weak, and (c) lock the most *sticky* state (the settled tail or the mode) rather than a
-   transient answer? Is its current cut bar too conservative or too aggressive?
+## 4. Results
 
-4. **Is the selection mechanism itself evidenced?** Beyond the final number: does the *transition
-   evidence chain* — solver trajectory + critic feedback + evaluator CUT/UNSURE decisions — trace, per
-   question, *why* a wrong candidate was excluded and the correct one retained, so the elimination is
-   attributable to a real error mechanism rather than to noise or a lucky re-sample?
+### 4.1 H3 — decision value: HLE-400 main table (Tab 3)
 
-5. **A3 vs C3 by question type.** Is the advantage question-type dependent — A3 a strong
-   *multiple-choice* vote, whereas C3's critic + evaluator applies more broadly (open-ended /
-   derivational answers, where a plain majority vote is ill-defined)? Could C3 close the gap further by
-   reasoning over the *similarity* between candidate answers (not yet introduced)?
+| Arm | n | acc | settle | tokens / correct | EIR | ECR | `P_act_init` / `P_act_loop` | McNemar vs A3 |
+|---|---|---|---|---|---|---|---|---|
+| A | 400 | — | – | — | – | – | – | — |
+| A2 | 400 | — | — | — | — | — | — | — |
+| A3 | 400 | — | – | — | – | – | – | (ref) |
+| C3 | 400 | — | — | — | — | — | — | — |
 
-**Outer-loop acceptance criteria (S1–S3).**
+*A3C3 is optional and not run in this study.*
 
-- **S1 slope** — `A_T − A_0 > 0` and not a single-round jump; holds with `|B|` capped.
-- **S2 attribution** — abstraction gain > same-size instance-memory gain.
-- **S3 transfer** — a bank distilled on family X raises accuracy on family Y (Y never in any bank).
+*Expected reading (HLE-200 in hand): C3 > A3 at no higher cost.*
 
-S1 fails → the claim shrinks to the inner loop. S2 fails → it is a capacity story, not a mechanism
-story. S3 fails → the memory is not answer-free.
+### 4.2 H1 / H2 — mechanism table (Tab 4)
+
+All offline, from the HLE-400 C3 and A2 trajectories (per-round `critic_direction`, committed-answer
+trajectory), analogue of `experiments/_analysis/critic_direction_evidence.md`. The frozen standard runs
+`rationale_mode = off`, so no solver self-attribution text exists on HLE; attribution is mechanical:
+`critic_direction` present on the round preceding a wrong→correct transition.
+
+**H1 — archetype hit rate.** An independent gold-visible offline judge (same role class as the
+distiller; sees gold + the round's CoT, never later rounds) labels the archetype of every C3 wrong round
+(or "none of the 7"). Hit = judge label ∈ critic's 1–3 archetypes. Baseline = hit rate with judge labels
+permuted across rounds; bootstrap interval on the difference. A 20-item human spot check reports
+agreement with the judge.
+
+| H1 | value |
+|---|---|
+| C3 wrong rounds (n) | — |
+| archetype hit rate | — |
+| permutation baseline | — |
+| difference (bootstrap 95% CI) | — |
+| human spot check agreement (n = 20) | — |
+
+**H2 — key vs irrelevant, three layers.**
+
+| H2 | C3 | A2 | A3 |
+|---|---|---|---|
+| acc, all 400 (paired) | — | — | — |
+| wrong→correct transitions | — | — | — |
+| transitions preceded by a suspicion | — | 0 by construction | — |
+| acc, MCQ items | — | — | — |
+| acc, open-form items (A3 vote collapses here) | — | — | — |
+
+*H1 holds if the hit rate exceeds the permutation baseline; H2 holds if C3 > A2, C3's transitions are
+preceded by suspicions, and the gain persists on open-form items (so it cannot be voting;
+`PHASE2_SUMMARY §18.2`).*
+
+### 4.3 Ablation under H3 — eliminator on/off
+
+| Variant | acc | `P_flip` | false-CUT rate |
+|---|---|---|---|
+| C3, eliminator **off** (critic + mode) | — | — | – |
+| C3, eliminator **on** (full EGTE) | — | — | — |
+| C3, bank-free critic (optional) | — | — | — |
+
+### 4.4 Transition case studies (Fig 3)
+
+Two to three HLE trajectories showing the full chain — committed answers, critic suspicion (archetype +
+step), evaluator verdict per switch — including one failure case.
+
+## 5. Hypotheses and what answers them
+
+| Hypothesis | Supports | Weakens | Answered by |
+|---|---|---|---|
+| **H1 identifiable** — the critic's gold-free suspicion names the archetype the solver actually committed | hit rate above the permutation baseline; judge validated by spot check | hit at baseline, or one archetype fires regardless | §4.2 offline judge |
+| **H2 mechanism-sensitive** — the error-bank direction (C3) beats the content-free scaffold (A2), the corrections follow suspicions, and the gain is not the vote | C3 > A2 paired; transitions preceded by suspicions; gain persists on open-form items | C3 ≈ A2; unattributed transitions; gain MCQ-only | §4.2 |
+| **H3 decision value** — C3 beats A3 on the same items at no higher cost | paired McNemar significant; tokens/correct ≤ A3 | not significant; cost exceeds A3 | §4.1, §4.3 |
+
+## 6. Robustness, limitations, conclusion
+
+**For whom it holds.** HLE-400 split by answer type (MCQ vs open-ended); worst subgroup reported.
+
+**Cost.** C3's total consumption vs A3, stated separately from failure conditions.
+
+**Where it fails.** locked-wrong (early stop on a wrong answer), no-commit, inconsistent transitions; false-CUT cases.
+
+**Existence claim and headroom.** The three roles are first instantiations, not optimized ones; the
+headroom is the gap between measured EIR/ECR and `Acc/(1−Acc)` — critic EIR can be lowered, evaluator
+retention of wrong→correct raised.
+
+**Limitations.** Single solver model; n = 400; no stronger-model comparison (the claim is same-model +
+external bank); reliable abstention out of scope (`UNSURE` = not eliminated).
+
+**Conclusion.** One cycle — failures → answer-free distillation → gold-free elimination on an unseen
+harder family — mapped to the four evidence types (motivation §3.1, mechanism §4.2, decision §4.1,
+boundary §6). The natural continuation re-distills new failures into the bank after each pass; described,
+not claimed.
+
+---
+
+## Appendices (pointers)
+
+- **A** — L1/L2/L3 distillation chain, 7 archetype definitions, critic prompt.
+- **B** — `rubric_ce` judge prompt, cut bar, survive-score mapping and tie-break; scorer tiers (T1 exact
+  match / T2 one-way LLM rescue / T3 review); `settle` metric.
+- **C** — frozen runtime standard (`thinking_budget 16384`, reasoning `max_tokens 8192`
+  (`REASONING_CONTENT_MARGIN 8192`), `max_rounds 10`, `early_stop_n 3`, seeds, git tags,
+  `docs/REPRODUCIBILITY.md`).
+- **D** — transition-evidence examples; H1 gold-visible judge prompt and protocol (labels the round's own
+  error only, never sees later rounds), permutation baseline, 20-item spot check.
