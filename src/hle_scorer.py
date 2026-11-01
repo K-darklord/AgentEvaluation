@@ -150,6 +150,8 @@ def _get_judge_client():
             _judge_client = OpenAI(
                 base_url=config.T2_JUDGE_BASE_URL,
                 api_key=token,
+                timeout=120.0,
+                max_retries=2,
             )
         return _judge_client
 
