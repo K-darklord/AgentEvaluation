@@ -1,0 +1,39 @@
+task    fam    sequence(R=correct,M=mode,w=other,·=none)  #R  #M  #cands  gold
+hle_206  int    MM·MMRRR       3   4    2    35
+hle_323  int    MRMMM          1   4    2    1
+hle_309  int    Mw··wM·RRMM    2   4    3    300
+hle_082  int    RwMMw··wwMM    1   4    5    12
+hle_300  int    R··MM·         1   2    2    4
+hle_202  int    wMMRwwwwMR·    2   3    5    2
+hle_395  int    wwwMMww·RRM    2   3    5    10
+hle_140  letter MMwRwMw·MR·    2   4    4    E
+hle_366  letter MRMMM          1   4    2    B
+hle_383  letter M·RMM·         1   3    2    B
+hle_165  letter RMMM           1   3    2    C
+hle_322  letter ·MMRMRwwMMM    2   6    3    C
+hle_039  raw    MMRMMwwwwww    1   4    6    $18\pi$
+hle_060  raw    MMRRMMM        2   5    2    N
+hle_159  raw    MRMMM          1   4    2    ii,iv,iii,ii,down
+hle_270  raw    MRMMM          1   4    2    c
+hle_004  raw    MRRMMM         2   4    2    2, 4, 5
+hle_116  raw    MRRMMwRMRMM    4   6    3    (a) No; (b) yes; (c) no.
+hle_016  raw    MwMRMRMRMMM    3   7    3    Yes
+hle_232  raw    MwwwwwRRwMM    2   3    6    (r-1)!^d
+hle_318  raw    RRwMMM         2   3    3    F
+hle_156  raw    RwMMM          1   3    3    B:2.  B and C: 3. A,B, an
+hle_030  raw    RwwwwwwwwwM    1   1   11    r^{A(1-\cos\theta)+B\sin\
+hle_062  raw    wMwMMwwRwww    1   3    8    (13, 2028/119)
+hle_122  raw    wRRwwwwwMMw    2   2    9    24 8
+hle_326  raw    wRwwwwwMMww    1   2   10    Inhibition of lamotrigine
+hle_225  raw    wwRMMwMwwww    1   3    7    $\{n \;|\; n \geq 4\}$
+hle_396  raw    wwRwwwMMwww    1   2   10    55.43
+hle_371  raw    wwwRwwwwwwM    1   1   11    $\frac{hk\cosh(kh)}{\cosh
+hle_196  raw    wwwwMMRMRMR    3   4    4    24.75 seconds
+hle_305  raw    wwwwRRwwMMw    2   2    9    O(1)
+hle_094  raw    wwwwRwwwwwM    1   1   11    9/8
+hle_259  raw    wwwwwRwwMMw    1   2   10    $d=u-u^2$.
+hle_280  raw    wwwwwRwwwMM    1   2    9    \max(\sqrt{BL}, \frac{L}{
+hle_019  raw    wwwwwRwwwwM    1   1   11    כִּ֗יל סָ֥ף מָ֣ה הִים נַ֣
+hle_129  raw    wwwwwwwwRwM    1   1   11    b = \alpha P_1
+hle_379  raw    wwwwwwwwwRM    1   1   11    h6+ Kf6 Ng4#
+37 {'R_is_final': 2, 'R_mid_abandoned': 22, 'R_at_start_abandoned': 5, 'tie': 8}

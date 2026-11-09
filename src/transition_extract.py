@@ -113,6 +113,11 @@ def _family_key(family, gold, answer, reasoning="", finish_reason=""):
         if re.fullmatch(r"\(?([A-E])\)?", g):
             v, src = resolve_commit(a, reasoning, "letter", "ABCDE", truncated=truncated)
             return (("letter", v), src) if v is not None else (None, None)
+        if truncated:
+            # A length-truncated integer/raw round is a budget-truncated fragment, not a
+            # clean commit -> no commit (mirrors scorer's truncation rule, which the
+            # letter branch above already applies via truncated=True).
+            return None, None
         if re.fullmatch(r"-?\d+", g):
             i = _transition_committed_integer(a)
             if i is not None:

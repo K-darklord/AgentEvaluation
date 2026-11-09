@@ -1,0 +1,68 @@
+{
+  "A.init": {
+    "baseline": 94,
+    "final": 112,
+    "acc": 0.28,
+    "delta": 18
+  },
+  "A2.init": {
+    "baseline": 94,
+    "final": 112,
+    "acc": 0.28,
+    "delta": 18
+  },
+  "A2.final": {
+    "baseline": 112,
+    "final": 141,
+    "acc": 0.3525,
+    "delta": 29
+  },
+  "A2.settle": {
+    "baseline": 108,
+    "final": 135,
+    "acc": 0.3375,
+    "delta": 27
+  },
+  "A2.mode": {
+    "baseline": 112,
+    "final": 141,
+    "acc": 0.3525,
+    "delta": 29
+  },
+  "A3.init": {
+    "baseline": 94,
+    "final": 112,
+    "acc": 0.28,
+    "delta": 18
+  },
+  "A3.vote": {
+    "baseline": 117,
+    "final": 133,
+    "acc": 0.3325,
+    "delta": 16
+  },
+  "C3.init": {
+    "baseline": 94,
+    "final": 112,
+    "acc": 0.28,
+    "delta": 18
+  },
+  "C3.final": {
+    "baseline": 119,
+    "final": 139,
+    "acc": 0.3475,
+    "delta": 20
+  },
+  "C3.settle": {
+    "baseline": 96,
+    "final": 117,
+    "acc": 0.2925,
+    "delta": 21
+  },
+  "C3.mode": {
+    "baseline": 116,
+    "final": 144,
+    "acc": 0.36,
+    "delta": 28
+  }
+}

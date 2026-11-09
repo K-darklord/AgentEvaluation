@@ -72,7 +72,9 @@ import json
 import os
 import re
 import sys
+import threading
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -276,25 +278,33 @@ def _reasoning_by_to(rec: dict) -> dict[int, str]:
 
 
 def _switch_edges(rec: dict) -> list[tuple[int, int]]:
-    """Edges whose committed answer actually changes. Only these need a KEEP/CUT
-    judgement -- a hold (same answer carried) changes nothing."""
+    """Edges whose committed answer actually changes, between two consecutive
+    non-None (committed) rounds. Only these need a KEEP/CUT judgement -- a hold (same
+    answer carried) changes nothing, and a None (no-commit) round is not a candidate,
+    so there is no judged switch into or out of it (mirrors scorer's exclusion of
+    no-commit rounds)."""
     rounds = rec.get("rounds", [])
     out: list[tuple[int, int]] = []
     for k in range(1, len(rounds)):
-        frm, to = rounds[k - 1]["r"], rounds[k]["r"]
-        if rounds[k - 1].get("ans") != rounds[k].get("ans"):
-            out.append((frm, to))
+        a_prev, a_cur = rounds[k - 1].get("ans"), rounds[k].get("ans")
+        if a_prev is None or a_cur is None:
+            continue
+        if a_prev != a_cur:
+            out.append((rounds[k - 1]["r"], rounds[k]["r"]))
     return out
 
 
 def _ans_fragments(rec: dict) -> list[dict]:
-    """Split the raw committed-answer chain into maximal runs of equal value (None
-    counts as its own value). Returns, in order, one dict per run:
-    {ans, rounds:[r, ...]}."""
+    """Split the committed-answer chain into maximal runs of equal non-None value.
+    A None (no-commit) round is not a fragment: it breaks the run and carries no vote
+    (mirrors scorer's exclusion of no-commit rounds from candidates). Returns, in
+    order, one dict per run: {ans, rounds:[r, ...]}."""
     rounds = rec.get("rounds", [])
     frags: list[dict] = []
     for r in rounds:
         a = r.get("ans")
+        if a is None:
+            continue
         if not frags or frags[-1]["ans"] != a:
             frags.append({"ans": a, "rounds": [r["r"]]})
         else:
@@ -1055,6 +1065,12 @@ def _elimination_mode_lock(rec: dict, cuts: dict[tuple[int, int], str], allow_un
     # judge's confident verdicts, how often each tied answer is the PREFERRED side
     # (CUT -> its LEFT "old" answer; KEEP -> its RIGHT "new" answer) and lock the
     # most-preferred. No confident preference -> stay abstain (do not guess).
+    if tie_break == "mode":
+        mode_ans = _mode_answer(rec)
+        info["status"] = "tie_fallback_mode"
+        info["tie_among"] = top
+        info["mode"] = mode_ans
+        return mode_ans, info
     if tie_break == "directional":
         pref: dict = {}
         for frm, to in switches:
@@ -1266,7 +1282,7 @@ def evaluate_one(agent: HuggingFaceAgent, rec: dict, strategy: dict, rubric_thre
         else:
             # rubric_cut breaks surviving-count ties by the judge's directional
             # preference (CUT/KEEP side); conservative_cut keeps abstain-on-tie.
-            _tie = "directional" if agg in ("rubric_cut", "rubric_ce", "rubric_v5") else "abstain"
+            _tie = "mode" if agg in ("rubric_cut", "rubric_ce", "rubric_v5") else "abstain"
             verdict, info = _elimination_mode_lock(rec, cuts, allow_unsure=True, tie_break=_tie, vote_mode=_VOTE_MODE)
     else:
         verdict, info = _elimination_mode_lock(rec, cuts, allow_unsure=allow_unsure, vote_mode=_VOTE_MODE)
@@ -1353,22 +1369,80 @@ def main():
         recs = recs[:args.limit]
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
+
+    # Resume: reload already-evaluated tasks (keyed by task_id) from a prior run's
+    # final output or its staged .tmp.<pid> file, so a restart skips finished work.
+    done: dict = {}
+    for src in [args.out] + sorted(args.out.parent.glob(args.out.name + ".tmp.*")):
+        if not src.exists():
+            continue
+        for line in src.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            try:
+                r = json.loads(line)
+            except Exception:
+                continue
+            if isinstance(r, dict) and r.get("task_id"):
+                done[r["task_id"]] = r
+    pending = [r for r in recs if r.get("task_id") not in done]
+
+    worker_count = args.concurrency or int(os.getenv("RSI_EVAL_CONCURRENCY", "4"))
+
+    def make_agent():
+        return HuggingFaceAgent(
+            model=entry["model"], token=entry.get("api_key"),
+            base_url=entry["base_url"], max_tokens=1024, temperature=0.0,
+            seed=None, enable_thinking=entry.get("enable_thinking"),
+            thinking_budget=entry.get("thinking_budget"),
+            content_margin=_RSI_JUDGE_CONTENT_MARGIN)
+
+    _tls = threading.local()
+
+    def run_one_threaded(rec):
+        ag = getattr(_tls, "agent", None)
+        if ag is None:
+            ag = make_agent()
+            _tls.agent = ag
+        return evaluate_one(ag, rec, strategy, rubric_threshold=args.rubric_threshold,
+                            sidecar=sidecar, blind=args.blind, error_vocab=error_vocab)
+
     rows = []
     # Atomic write: stage to a temp file then rename, so overlapping/concurrent runs
     # (or a killed background job) can never leave a half-written or interleaved
     # .verdict.jsonl that breaks line-based readers with stray bytes.
     tmp_out = args.out.with_suffix(args.out.suffix + f".tmp.{os.getpid()}")
+    print(f"[resume] {len(done)} done, {len(pending)} pending, concurrency={worker_count}",
+          flush=True)
     with open(tmp_out, "w", encoding="utf-8") as fout:
-        # serial smoke-first; concurrency is a fast-follow, not needed for correctness
-        for i, rec in enumerate(recs, 1):
-            res = evaluate_one(agent, rec, strategy, rubric_threshold=args.rubric_threshold, sidecar=sidecar, blind=args.blind, error_vocab=error_vocab)
-            fout.write(json.dumps(res, ensure_ascii=False) + "\n")
-            fout.flush()
-            rows.append(res)
-            behavior = "answer" if res["verdict"] is not None else "abstain"
-            print(f"[{i}/{len(recs)}] {res['task_id']} gold={res['gold']} "
-                  f"verdict={res['verdict']} ({behavior}) lock={res['lock_status']} "
-                  f"correct={res['correct']} meta={res['meta_correct']}", flush=True)
+        # persist already-done records first, in original order
+        for rec in recs:
+            if rec.get("task_id") in done:
+                res = done[rec["task_id"]]
+                fout.write(json.dumps(res, ensure_ascii=False) + "\n")
+                fout.flush()
+                rows.append(res)
+        if worker_count > 1 and pending:
+            with ThreadPoolExecutor(max_workers=worker_count) as ex:
+                for res in ex.map(run_one_threaded, pending):
+                    fout.write(json.dumps(res, ensure_ascii=False) + "\n")
+                    fout.flush()
+                    rows.append(res)
+                    behavior = "answer" if res.get("verdict") is not None else "abstain"
+                    print(f"[{len(rows)}/{len(recs)}] {res['task_id']} gold={res['gold']} "
+                          f"verdict={res['verdict']} ({behavior}) lock={res['lock_status']} "
+                          f"correct={res['correct']} meta={res['meta_correct']}", flush=True)
+        else:
+            for rec in pending:
+                res = evaluate_one(agent, rec, strategy, rubric_threshold=args.rubric_threshold,
+                                   sidecar=sidecar, blind=args.blind, error_vocab=error_vocab)
+                fout.write(json.dumps(res, ensure_ascii=False) + "\n")
+                fout.flush()
+                rows.append(res)
+                behavior = "answer" if res.get("verdict") is not None else "abstain"
+                print(f"[{len(rows)}/{len(recs)}] {res['task_id']} gold={res['gold']} "
+                      f"verdict={res['verdict']} ({behavior}) lock={res['lock_status']} "
+                      f"correct={res['correct']} meta={res['meta_correct']}", flush=True)
 
     os.replace(tmp_out, args.out)
     tot = len(rows)

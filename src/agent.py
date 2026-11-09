@@ -623,7 +623,12 @@ class HuggingFaceAgent(BaseAgent):
                 self._stream_client = OpenAI(
                     base_url=self.base_url,
                     api_key=self.token,
-                    timeout=httpx.Timeout(read_timeout, connect=config.LLM_CONNECT_TIMEOUT),
+                    timeout=httpx.Timeout(
+                        connect=config.LLM_STREAM_CONNECT_TIMEOUT,
+                        read=read_timeout,
+                        write=config.LLM_STREAM_WRITE_TIMEOUT,
+                        pool=config.LLM_STREAM_POOL_TIMEOUT,
+                    ),
                 )
             return self._stream_client
         if self._client is None:
@@ -741,7 +746,10 @@ class HuggingFaceAgent(BaseAgent):
                 reasoning_parts = []
                 usage = None
                 finish_reason = None
+                wall_deadline = _time.monotonic() + config.LLM_STREAM_WALL_TIMEOUT
                 for chunk in chunks:
+                    if _time.monotonic() > wall_deadline:
+                        raise TimeoutError(f"stream wall-clock timed out after {config.LLM_STREAM_WALL_TIMEOUT:.0f}s")
                     if getattr(chunk, "usage", None) is not None:
                         usage = chunk.usage
                     for choice in getattr(chunk, "choices", []) or []:

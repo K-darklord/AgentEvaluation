@@ -1,0 +1,44 @@
+{
+  "run_id": "hle400_C2",
+  "arm": "C2",
+  "bank_free": true,
+  "family_filter": null,
+  "task_set": "hle",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "off",
+  "seed": null,
+  "n_tasks": 400,
+  "concurrency": 6,
+  "models": {
+    "deepseek-v4-flash-payg": {
+      "model_id": "deepseek-v4-flash-0731",
+      "init_accuracy": 0.1575,
+      "final_accuracy": 0.2225,
+      "end_state_distribution": {
+        "1": 43,
+        "2": 7,
+        "3": 13,
+        "4": 33,
+        "5": 27,
+        "6": 277
+      },
+      "l3_activation_rate": 0.3075,
+      "l3_reversibility_rate": 0.178,
+      "l4_lock_rate": 0.6825,
+      "l4_misled_rate": 0.1111,
+      "avg_rounds": 6.89,
+      "critic_fallback_rounds": 30,
+      "total_prompt_tokens": 1967519,
+      "total_completion_tokens": 36160276,
+      "total_reasoning_tokens": 34237528,
+      "total_rationale_prompt_tokens": 0,
+      "total_rationale_completion_tokens": 0,
+      "total_rationale_reasoning_tokens": 0
+    }
+  }
+}

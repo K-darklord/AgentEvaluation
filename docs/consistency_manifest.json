@@ -1,0 +1,547 @@
+{
+ "schema_version": "1.0",
+ "methods": [],
+ "results": [],
+ "numeric_facts": [
+  {
+   "fact_id": "N001",
+   "concept": "C3.mode correct",
+   "value": 154,
+   "section": "§Abstract,§1,§5.1,§6.1,§6.3,§7",
+   "unit": "items",
+   "denominator": 400,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N002",
+   "concept": "C2.mode correct",
+   "value": 159,
+   "section": "§Abstract,§1,§5.1,§7,§9",
+   "unit": "items",
+   "denominator": 400,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N003",
+   "concept": "A2.mode correct",
+   "value": 145,
+   "section": "§5.1,§1",
+   "unit": "items",
+   "denominator": 400,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N004",
+   "concept": "A3.vote expectation (random ties)",
+   "value": 137.4,
+   "section": "§3.1,§5.1,§1",
+   "unit": "value",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N005",
+   "concept": "A3.vote deterministic first-encountered",
+   "value": 136,
+   "section": "§3.1,§5.2",
+   "unit": "items",
+   "denominator": 400,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N006",
+   "concept": "A3.vote deterministic latest",
+   "value": 141,
+   "section": "§3.1",
+   "unit": "items",
+   "denominator": 400,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N007",
+   "concept": "ceiling A2",
+   "value": 154,
+   "section": "§5.1,§5.4,§6.1",
+   "unit": "items",
+   "denominator": 400,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N008",
+   "concept": "ceiling A3 (9 samples)",
+   "value": 190,
+   "section": "§5.1,§5.4",
+   "unit": "items",
+   "denominator": 400,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N009",
+   "concept": "ceiling C3",
+   "value": 191,
+   "section": "§5.1,§5.4,§6.1",
+   "unit": "items",
+   "denominator": 400,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N010",
+   "concept": "ceiling C2",
+   "value": 198,
+   "section": "§5.1,§5.4",
+   "unit": "items",
+   "denominator": 400,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N011",
+   "concept": "C2 vs A3 symmetric p median",
+   "value": 0.004,
+   "section": "§Abstract,§1,§5.1,§7",
+   "unit": "value",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N012",
+   "concept": "C3 vs A3 symmetric p median",
+   "value": 0.076,
+   "section": "§1,§5.1,§7",
+   "unit": "value",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N013",
+   "concept": "A3-adaptive accuracy",
+   "value": 136.5,
+   "section": "§Abstract,§5.1,§5.4",
+   "unit": "value",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N014",
+   "concept": "A3-adaptive tokens M",
+   "value": 36.0,
+   "section": "§5.1",
+   "unit": "value",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N015",
+   "concept": "recoverable items C3",
+   "value": 37,
+   "section": "§6.1,§6.3,§Abstract",
+   "unit": "items",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N016",
+   "concept": "oracle undo all breaks",
+   "value": 173,
+   "section": "§6.1,§6.4,§1",
+   "unit": "items",
+   "denominator": 400,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N017",
+   "concept": "decisive switches",
+   "value": 301,
+   "section": "§6.1",
+   "unit": "items",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N018",
+   "concept": "repair switches",
+   "value": 159,
+   "section": "§6.1,§5.3",
+   "unit": "items",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N019",
+   "concept": "break switches",
+   "value": 142,
+   "section": "§6.1,§5.3",
+   "unit": "items",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N020",
+   "concept": "Judge-R disagree acc",
+   "value": 0.5,
+   "section": "§6.3,§6.4",
+   "unit": "value",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N021",
+   "concept": "Judge-R+ disagree acc",
+   "value": 0.475,
+   "section": "§6.3,§6.4",
+   "unit": "value",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N022",
+   "concept": "Judge-C disagree acc",
+   "value": 0.485,
+   "section": "§6.3,§6.4",
+   "unit": "value",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N023",
+   "concept": "C3 solver tokens M",
+   "value": 37.05,
+   "section": "§5.1,§5.1 reading",
+   "unit": "value",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N024",
+   "concept": "A3 solver tokens M",
+   "value": 51.32,
+   "section": "§5.1",
+   "unit": "value",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N025",
+   "concept": "C3 critic tokens M (est)",
+   "value": 16,
+   "section": "§5.1",
+   "unit": "items",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N026",
+   "concept": "stay asym C3",
+   "value": 1.5,
+   "section": "§5.4,§3.2",
+   "unit": "value",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N027",
+   "concept": "stay asym C2",
+   "value": 1.9,
+   "section": "§5.4,§3.2",
+   "unit": "value",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N028",
+   "concept": "stay asym A2",
+   "value": 1.25,
+   "section": "§5.4",
+   "unit": "value",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N029",
+   "concept": "stay asym A3",
+   "value": 1.6,
+   "section": "§5.4",
+   "unit": "value",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N030",
+   "concept": "multi-answer items",
+   "value": 253,
+   "section": "§6.3",
+   "unit": "items",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N031",
+   "concept": "items with judgeable edge",
+   "value": 244,
+   "section": "§6.3",
+   "unit": "items",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N032",
+   "concept": "freeze edges",
+   "value": 1201,
+   "section": "§6.1,§6.3",
+   "unit": "items",
+   "denominator": null,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N033",
+   "concept": "init correct",
+   "value": 113,
+   "section": "§5.1,§5.3",
+   "unit": "items",
+   "denominator": 400,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N034",
+   "concept": "C3 final",
+   "value": 140,
+   "section": "§5.1,§5.3",
+   "unit": "items",
+   "denominator": 400,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N035",
+   "concept": "C2 final",
+   "value": 148,
+   "section": "§5.1,§5.3",
+   "unit": "items",
+   "denominator": 400,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  },
+  {
+   "fact_id": "N036",
+   "concept": "A2 final",
+   "value": 142,
+   "section": "§5.1,§5.3",
+   "unit": "items",
+   "denominator": 400,
+   "numerator": null,
+   "sample_size": 400,
+   "analysis_set": "HLE-400 frozen",
+   "evidence_ids": [
+    "E1",
+    "E3"
+   ]
+  }
+ ]
+}

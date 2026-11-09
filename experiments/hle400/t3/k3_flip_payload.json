@@ -1,0 +1,272 @@
+{
+  "demote": [
+    {
+      "task_id": "hle_129",
+      "final_answer": "\\[\nb^*=\\operatorname{clip}(\\alpha P_1,[-\\sqrt{P_2},\\sqrt{P_2}])\n\\]\nfor \\(X_2=U_2+bZ_1\\); equivalently \\(b^*=-\\alpha P_1\\) (clipped to \\([-\\sqrt{P_2},\\sqrt{P_2}]\\)) if \\(X_2=U_2-bZ_1\\). When feasible, \\(b^*=\\alpha P_1\\).",
+      "resp_key": "121eb0d27fd0e53c967f1bc827a65e67fdfffa40ae4852c863aa11f5503730a3",
+      "n_correct": 1,
+      "votes": [
+        false,
+        true,
+        false
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_280",
+      "final_answer": "\\[\n\\frac{L}{\\log\\!\\left(2+\\frac{L}{B}\\right)}+\\sqrt{BL}\n\\]",
+      "resp_key": "0a86a49ff7463c7be68d20a6d9631302bf319993b007fe8f2b5c649e3b7b9b6b",
+      "n_correct": 1,
+      "votes": [
+        true,
+        false,
+        false
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_021",
+      "final_answer": "f(0)=1,\\qquad f(n+1)=\\bot\\multimap f(n),\\qquad \nC=\\bigotimes_{i=1}^{m} f(b).",
+      "resp_key": "ccfd28fd871d38e1c563240514fa5ce13b781fef70c38b8f3a0fb6d9151e4e2f",
+      "n_correct": 1,
+      "votes": [
+        false,
+        true,
+        false
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_036",
+      "final_answer": "\\[\n\\boxed{1.0436\\ \\text{s}}\n\\]",
+      "resp_key": "33903c2e1784d358f633ef801750a95d57327d531fbfd18f037678884bfc40d3",
+      "n_correct": 1,
+      "votes": [
+        false,
+        true,
+        false
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_021",
+      "final_answer": "\\[\n\\boxed{%\nf(w)=\\underbrace{\\bot\\otimes\\cdots\\otimes\\bot}_{w\\text{ times}}\\multimap 1\n\\quad\\text{and}\\quad\nC=\\bigotimes_{k=1}^{m}\\Bigl(\\underbrace{\\bot\\otimes\\cdots\\otimes\\bot}_{b\\text{ times}}\\multimap 1\\Bigr)\n}\n\\]",
+      "resp_key": "8ef77278e94b1979fe67a3d2e0f69ac206a7a23a0828cb3ab4c899a892233102",
+      "n_correct": 1,
+      "votes": [
+        false,
+        false,
+        true
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_386",
+      "final_answer": "It must flip over or change shape between two forms, mimicking azobenzene’s light-driven trans–cis photoisomerization.",
+      "resp_key": "8513e5a625bc418e777f4f9f36ec59231060934b53d008ca447d6550e8a5eb1d",
+      "n_correct": 1,
+      "votes": [
+        false,
+        true,
+        false
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_280",
+      "final_answer": "\\[\n\\max\\left\\{\\sqrt{B\\log(\\delta^{-1})},\\ \\frac{\\log(\\delta^{-1})}{\\log\\left(2+\\frac{\\log(\\delta^{-1})}{B}\\right)}\\right\\}\n\\]",
+      "resp_key": "96f5d8b0b88da498017f88e152af8eb9b32acad06c1797667f8a118eaf8ad221",
+      "n_correct": 1,
+      "votes": [
+        false,
+        true,
+        false
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_030",
+      "final_answer": "Need final answer no explanation.\\[\n\\boxed{\\frac{1}{r^{1/2}}e^{-r(1-\\cos\\theta)}\\,r^{A(1-\\cos\\theta)+B\\sin\\theta}}\n\\]",
+      "resp_key": "b7011e8f4e43ecbb7150fb691cd24ddc93ed32e146a40423a27c53864817aa36",
+      "n_correct": 0,
+      "votes": [
+        false,
+        false,
+        false
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_021",
+      "final_answer": "\\[\n\\boxed{\n\\underline{0}=1,\\qquad \\underline{n+1}=\\bot\\multimap\\underline{n},\\qquad\nf(w)=\\underline{w},\\qquad\nC=\\bigotimes_{i=1}^{m}\\underline{b}\n}\n\\]\nwhere the left-hand context is read as the multiset \\(\\{\\!\\{ f(w)\\mid w\\in W \\}\\!\\}\\).",
+      "resp_key": "58bc1e564d0df0941f5d0e9791232ddc21cfbeaa248517651b61ce5f964e241c",
+      "n_correct": 1,
+      "votes": [
+        false,
+        false,
+        true
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_280",
+      "final_answer": "\\[\n\\boxed{\\max\\left(\\sqrt{BL},\\,\\frac{L}{\\log\\left(2+\\frac{L}{B}\\right)}\\right)}\n\\]",
+      "resp_key": "6854fb5acf850fac2f5a3b7396335a6f0a7b34e7ad7528a01d3979397e66ee13",
+      "n_correct": 0,
+      "votes": [
+        false,
+        false,
+        false
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_280",
+      "final_answer": "\\[\nA(B,\\delta)=\\frac{L}{\\log\\!\\left(2+\\frac{L}{B}\\right)}+\\sqrt{BL}\n\\]\nwhere \\(L=\\log(\\delta^{-1})\\).",
+      "resp_key": "2a269fd3b2d673720bde50d79449c7064ff1436b48f6f9444f4a97417ef040f3",
+      "n_correct": 1,
+      "votes": [
+        false,
+        true,
+        false
+      ],
+      "source": "winner_missed"
+    },
+    {
+      "task_id": "hle_280",
+      "final_answer": "\\[\n\\sqrt{B L}+\\frac{L}{\\log\\!\\left(2+\\frac{L}{B}\\right)}\n\\]",
+      "resp_key": "2db493d3061c3027d3149c563e145e582bfe2f7ab0ce0da3cc46fb9a844939ad",
+      "n_correct": 1,
+      "votes": [
+        true,
+        false,
+        false
+      ],
+      "source": "winner_missed"
+    }
+  ],
+  "restore": [
+    {
+      "task_id": "hle_129",
+      "final_answer": "\\(b^*=-\\alpha P_1\\) (if using the convention \\(X_2=U_2+bZ_1\\); otherwise \\(b^*=\\alpha P_1\\) for \\(X_2=U_2-bZ_1\\)), with the feasibility/power constraint \\(b^{*2}\\le P_2\\).",
+      "resp_key": "71d17d0a4ace1451b3b71771718b3e7ed845cb535229699fc08e8ff988b00a86",
+      "n_correct": 2,
+      "votes": [
+        false,
+        true,
+        true
+      ],
+      "source": "winner_false"
+    }
+  ],
+  "unstable": [
+    {
+      "task_id": "hle_374",
+      "final_answer": "UULLLLLLLLLLLDDLLLLLLLLLL",
+      "resp_key": "ac33794077fa5b50576bdccfeaaaef54f1bd03349f2e1d2ca821423f42625a71",
+      "n_correct": 2,
+      "votes": [
+        false,
+        true,
+        true
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_121",
+      "final_answer": "\\(y \\ge x-u+l+(u-l)b,\\quad y \\ge lb\\)",
+      "resp_key": "114a4d02b1602e6f0c4624c43380faf53f7f4f29c5f0566effc968a6964e6d9f",
+      "n_correct": 2,
+      "votes": [
+        true,
+        false,
+        true
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_153",
+      "final_answer": "\\[\nZ = \\int \\mathcal{D}\\bar\\psi \\, \\mathcal{D}\\psi \\;\n\\exp\\!\\left[-\\int_0^\\beta d\\tau \\int d^3x \\left(\n\\bar\\psi(\\mathbf{x},\\tau)\\left(\\partial_\\tau - \\mu\\right)\\psi(\\mathbf{x},\\tau)\n+ \\mathcal{H}(\\bar\\psi,\\psi)\n\\right)\\right],\n\\]\nwith fermionic fields satisfying antiperiodic boundary conditions\n\\[\n\\psi(\\mathbf{x},\\tau+\\beta) = -\\psi(\\mathbf{x},\\tau), \\qquad\n\\bar\\psi(\\mathbf{x},\\tau+\\beta) = -\\bar\\psi(\\mathbf{x},\\tau),\n\\]\nwhere \\(\\beta = 1/(k_B T)\\).",
+      "resp_key": "8c5ea1d71a3a30cba091a07787fab452c31c87ca3465fe993df2fe5b78080a0e",
+      "n_correct": 2,
+      "votes": [
+        true,
+        true,
+        false
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_021",
+      "final_answer": "\\[\n\\boxed{\n\\underline{0}=1,\\qquad \\underline{n+1}=\\bot\\multimap\\underline{n},\\qquad\nf(w)=\\underline{w},\\qquad\nC=\\bigotimes_{i=1}^m \\underline{b}.\n}\n\\]",
+      "resp_key": "3775411b874e38568854d7b98c7ddb19e0a16a0551dee55e48e5b6468de524d7",
+      "n_correct": 2,
+      "votes": [
+        false,
+        true,
+        true
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_021",
+      "final_answer": "\\[\n\\boxed{\n\\underline{0}=1,\\qquad \\underline{n+1}=\\bot\\multimap\\underline{n},\\qquad\nf(w)=\\underline{w},\\qquad\nC=\\bigotimes_{i=1}^{m}\\underline{b}\n}\n\\]\nwhere the left-hand context is the multiset \\(\\{\\!\\{ f(w)\\mid w\\in W \\}\\!\\}\\) and derivability is in the standard two-sided classical multiplicative linear logic with identity, cut, exchange, and the usual rules for \\(\\otimes,\\multimap,1,\\bot\\).",
+      "resp_key": "5825b0c5211cb91ab37e2714d832753e37acef2ff76a4655675dea5e14146454",
+      "n_correct": 2,
+      "votes": [
+        true,
+        false,
+        true
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_121",
+      "final_answer": "\\(y \\ge x-(u-l)(1-b),\\quad y \\ge -(-l)b\\)",
+      "resp_key": "903bc9f19128c1d7c1c220535f5b0cfd422e082fd2283406359531fbdfb4385c",
+      "n_correct": 2,
+      "votes": [
+        false,
+        true,
+        true
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_170",
+      "final_answer": "Thus syllable 11 (ve from convenit) is long, not short. Let's update:\nSequence: L B B L B B L L L L B B L L? Wait if ve long, then after con L, ve L, ni B, ti B, ma L, go L. So sequence:\n1 L (ve)\n2 B (ru)\n3 B (be)\n4 L (quat)\n5 B (quo)\n6 B (mi)\n7 L (nis)\n8 L (ca)\n9 L (su)\n10 L (con)\n11 L (ve)\n12 B (ni)\n13 B (ti)\n14 L (ma)\n15 L (go)",
+      "resp_key": "0bd57654a70011dd10d50479622a372eb0497787205061ac98c143d08f81f03f",
+      "n_correct": 2,
+      "votes": [
+        true,
+        true,
+        false
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_280",
+      "final_answer": "\\[\n\\max\\left(\\sqrt{BL},\\,\\frac{L}{\\log\\left(2+\\frac{L}{B}\\right)}\\right)\n\\]",
+      "resp_key": "c97e0f7a0c9f00e19376c34aa46610896460175ff07b5b85e2f3d0155c0b80fc",
+      "n_correct": 2,
+      "votes": [
+        true,
+        true,
+        false
+      ],
+      "source": "gap"
+    },
+    {
+      "task_id": "hle_280",
+      "final_answer": "\\[\n\\max\\left(\\sqrt{BL},\\ \\frac{L}{\\log\\!\\left(2+\\frac{L}{B}\\right)}\\right)\n\\]",
+      "resp_key": "0005949b0c6961cc9973eb206ea13b007d48e9b35e9034ecbe437409b3ec427c",
+      "n_correct": 2,
+      "votes": [
+        true,
+        false,
+        true
+      ],
+      "source": "gap"
+    }
+  ]
+}

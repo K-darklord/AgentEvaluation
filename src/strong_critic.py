@@ -53,6 +53,22 @@ SYSTEM = (
     "\"confident\". Return JSON only."
 )
 
+# C2 (bank-free) variant: identical scaffold, but the critic relies on its own judgement
+# of where answers to such questions typically go wrong instead of the answer-free error
+# bank. All iron rules stay verbatim.
+SYSTEM_BANK_FREE = (
+    "You are the STRONG critic role of an Error-Guided Test-Time Elimination (EGTE) "
+    "evaluator. At test time you inspect a solver's committed answer to a hard question "
+    "and, using your own judgement of where answers to such questions typically go wrong, identify "
+    "the most likely wrong direction(s) the answer exhibits. Iron rules: never read the "
+    "gold answer; never emit a probability or confidence score; never name the correct "
+    "answer, option letter, or any question-specific answer content; never tell the "
+    "solver what the answer IS. Speak only in \"possible\" (suspicion), never "
+    "\"confident\". Return JSON only."
+)
+
+A2_PLACEBO_FEEDBACK = "No confident error direction was found for this answer."
+
 
 def _extract_json(content: str) -> dict | None:
     if not content:
@@ -74,15 +90,18 @@ def _extract_json(content: str) -> dict | None:
 class StrongCritic:
     """Exec-time LLM critic: reasons over the answer-free bank, emits possible directions.
 
-    ``feedback`` returns ``(text, structured_list, None)`` -- the same 3-tuple shape as
-    ``Level3Critic.feedback``, but ``structured_list`` holds the LLM grounding (a list of
-    {id/name/suspicion} dicts) instead of a single struct.
+    ``feedback`` returns ``(text, structured_list, None, fallback)``; ``structured_list``
+    holds the LLM grounding (a list of {id/name/suspicion} dicts). The 4th value is None
+    on the bank-aware path and True only on the bank-free placebo fallback.
     """
 
-    def __init__(self, entries: list[dict], model_entry: dict):
+    def __init__(self, entries: list[dict], model_entry: dict, bank_free: bool = False):
         self.entries = entries
         self.model = model_entry
-        self._weak = Level3Critic(entries)  # fallback when the LLM call/parse fails
+        self.bank_free = bank_free
+        # C3 falls back to the TF-IDF weak critic on LLM failure; C2 (bank-free) must NOT
+        # read the bank, so its fallback is one retry then a neutral placeholder.
+        self._weak = None if bank_free else Level3Critic(entries)
         self._agent = HuggingFaceAgent(
             model=model_entry["model"],
             token=model_entry.get("api_key"),
@@ -96,7 +115,9 @@ class StrongCritic:
         )
 
     @classmethod
-    def load(cls, model: str, bank_dir=None) -> "StrongCritic":
+    def load(cls, model: str, bank_dir=None, bank_free: bool = False) -> "StrongCritic":
+        if bank_free:
+            return cls([], config.PHASE1_MODELS[model], bank_free=True)
         weak = Level3Critic.load(model, bank_dir=bank_dir)
         return cls(weak.entries, config.PHASE1_MODELS[model])
 
@@ -123,21 +144,27 @@ class StrongCritic:
                 "The model's reasoning for the answer above (tail, may be truncated):",
                 prefix + tail,
             ]
-        lines += [
-            "",
-            "Wrong-execution vocabulary (pick from THESE only; answer-free):",
-        ]
-        for e in self._vocab():
-            name = (e.get("name") or "").strip()
-            definition = _clean(e.get("definition", ""))
-            check = _clean(e.get("check_procedure", ""))
-            lines.append(f"- {name}: {definition}")
-            lines.append(f"  to check: {check}")
+        if not self.bank_free:
+            lines += [
+                "",
+                "Wrong-execution vocabulary (pick from THESE only; answer-free):",
+            ]
+            for e in self._vocab():
+                name = (e.get("name") or "").strip()
+                definition = _clean(e.get("definition", ""))
+                check = _clean(e.get("check_procedure", ""))
+                lines.append(f"- {name}: {definition}")
+                lines.append(f"  to check: {check}")
+        id_line = (
+            "  \"id\"        : a short label (at most 4 words) naming the kind of shortcoming"
+            if self.bank_free
+            else "  \"id\"        : the vocabulary name you invoke, verbatim from the list above"
+        )
         lines += [
             "",
             "Return a JSON object with exactly one key \"directions\": a list of 1 to 3 "
             "objects ranked most-likely first. Each object has three string fields:",
-            "  \"id\"        : the vocabulary name you invoke, verbatim from the list above",
+            id_line,
             "  \"suspicion\" : a past-participle clause (no leading 'the answer', no 'you "
             "may have') grounded in THIS answer's specific shortcoming, still answer-free",
             "  \"check\"     : a concrete gold-free self-check the solver can run to catch "
@@ -148,39 +175,62 @@ class StrongCritic:
         return "\n".join(lines)
 
     def feedback(self, question: str, answer: str, family: str = "gpqa", reasoning: str = ""):
-        """Reason over the bank and render possible directions; fall back to C2 on failure.
+        """Reason over the bank and render possible directions.
+
+        Returns ``(text, structured, None, fallback)``. ``fallback`` is None for the
+        bank-aware C3/A3C3 path; for the C2 bank-free path it is True only when the
+        critic failed after one retry and ablated to the neutral placebo sentence.
 
         ``reasoning`` is the solver's hidden CoT for the answer being critiqued; when
         present the critic grounds its ``check`` in a specific step (still gold-free).
         """
-        try:
+        system = SYSTEM_BANK_FREE if self.bank_free else SYSTEM
+        fallback = False if self.bank_free else None
+
+        def _render(directions):
+            lines = ["A few possible error directions were inferred for this answer:"]
+            structured = []
+            for i, d in enumerate(directions, 1):
+                name = (d.get("id") or "").strip()
+                suspicion = _clean(d.get("suspicion", ""))
+                check = _clean(d.get("check", ""))
+                lines.append("")
+                lines.append(f"{i}. {name} -- you may have {suspicion}.")
+                if check:
+                    lines.append(f"   To check: {check}.")
+                structured.append({
+                    "archetype_id": None,
+                    "archetype_name": name,
+                    "suspicion": suspicion,
+                    "check": check,
+                })
+            return "\n".join(lines), structured
+
+        def _call():
             content, _reasoning, _info = self._agent._call_llm_text(
-                [{"role": "system", "content": SYSTEM},
+                [{"role": "system", "content": system},
                  {"role": "user", "content": self._build_user(question, answer, reasoning)}])
             parsed = _extract_json(content)
             directions = parsed.get("directions", []) if parsed else []
             directions = [d for d in directions if isinstance(d, dict) and d.get("suspicion")]
             if not directions:
                 raise ValueError("empty directions")
-        except Exception:
-            pairs = self._weak.topk(question, answer, family, k=3)
-            text, structured = self._weak.render_topk(pairs)
-            return text, structured, None
+            return directions
 
-        lines = ["A few possible error directions were inferred for this answer:"]
-        structured = []
-        for i, d in enumerate(directions, 1):
-            name = (d.get("id") or "").strip()
-            suspicion = _clean(d.get("suspicion", ""))
-            check = _clean(d.get("check", ""))
-            lines.append("")
-            lines.append(f"{i}. {name} -- you may have {suspicion}.")
-            if check:
-                lines.append(f"   To check: {check}.")
-            structured.append({
-                "archetype_id": None,
-                "archetype_name": name,
-                "suspicion": suspicion,
-                "check": check,
-            })
-        return "\n".join(lines), structured, None
+        try:
+            directions = _call()
+        except Exception:
+            if self.bank_free:
+                # retry once; if still failing, ablate to the neutral placebo (no bank read)
+                try:
+                    directions = _call()
+                except Exception:
+                    return A2_PLACEBO_FEEDBACK, [], None, True
+            else:
+                # C3/A3C3: fall back to the TF-IDF weak critic (reads the bank)
+                pairs = self._weak.topk(question, answer, family, k=3)
+                text, structured = self._weak.render_topk(pairs)
+                return text, structured, None, None
+
+        text, structured = _render(directions)
+        return text, structured, None, fallback

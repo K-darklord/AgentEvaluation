@@ -29,7 +29,7 @@ final paper (historical only).
 | **A3C3** (A3-seeded C3)          | 0.7 → 0    | 10 → 1  | A3 round-0 vote → C3 loop          | strong critic         | `scorer_LLM_rescue`  |
 | **C3** (treatment)               | 0          | 1       | `rubric_ce` elimination + mode     | strong critic         | `scorer_LLM_rescue`  |
 
-Common frozen fields for **every** arm: `max_tokens = 8192` (`REASONING_BENCH_MAX_TOKENS`),
+Common frozen fields for **every** arm: `thinking_budget = 16384` (hidden CoT cap, stop-and-commit) + `REASONING_CONTENT_MARGIN = 8192` (visible answer window) → `max_tokens = 24576` per solver call (`REASONING_BENCH_MAX_TOKENS = 8192` is the non-HLE bench default and is NOT the HLE cap),
 `rationale_mode = off`, `max_rounds = 10`, `early_stop_n = 3`, model
 `deepseek-v4-flash-0731`, `seed = None`. `T = 0.7` applies **only** to A3's 10 i.i.d.
 round-0 samples (and A3C3's shared round-0); every other solver call is deterministic `T = 0`.
@@ -67,10 +67,10 @@ Frozen for this phase; recorded so the paper's reproducibility section matches t
 
 | Parameter                       | Value   | Rationale                                                                 |
 | ------------------------------- | ------- | ------------------------------------------------------------------------- |
-| `thinking_budget`               | 32768   | was 16384 → stop-and-commit; hardest HLE items still reason to cap (model ceiling) |
+| `thinking_budget`               | **16384** | stop-and-commit cap on the hidden CoT. A 32768 trial (2026-10-28) was **reverted**: all `finish_reason=length` rounds were rambles, not truncated good answers (`src/config.py` note) |
 | `REASONING_CONTENT_MARGIN`      | 8192    | was 64 → visible answer window                                             |
 | `AGENTEVALUATION_SOLVE_TIMEOUT` | 900     | was 180 → slow CoT tasks were cancelled as "hung" (not dead)               |
-| `max_tokens` (per solve)        | 40960   | `thinking_budget` + `REASONING_CONTENT_MARGIN`                             |
+| `max_tokens` (per solve)        | **24576** | `thinking_budget` + `REASONING_CONTENT_MARGIN`; observed max completion in all four HLE-400 arms = 24576 |
 
 ---
 

@@ -1,0 +1,3 @@
+{"task_id": "hle_032", "arm": "A3", "metric": "vote", "gold": "(r,t)", "answer_type": "exactMatch", "shape": "word", "old_winner": "(r, t)", "new_winner": "r, t", "old_t1": true, "new_t1": true, "verdict_flip": false}
+{"task_id": "hle_235", "arm": "A3", "metric": "vote", "gold": "0.96", "answer_type": "exactMatch", "shape": "int", "old_winner": "0.96", "new_winner": "24/25", "old_t1": true, "new_t1": false, "verdict_flip": true}
+{"task_id": "hle_126", "arm": "C3", "metric": "mode", "gold": "306.7103", "answer_type": "exactMatch", "shape": "int", "old_winner": "**347.4053**", "new_winner": "-1.0000", "old_t1": false, "new_t1": false, "verdict_flip": false}

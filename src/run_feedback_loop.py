@@ -35,11 +35,13 @@ import concurrent.futures
 import concurrent.futures.thread as _cf_thread
 import json
 import os
+import random
 import re
 import sys
 import threading
 import time
 import weakref
+import zlib
 from collections import Counter
 from datetime import datetime
 from pathlib import Path
@@ -102,6 +104,81 @@ CRITIC_HOLD_ON_REPEAT = os.environ.get("CRITIC_HOLD_ON_REPEAT", "0") == "1"
 #        with NO direction and NO keep/change nudge.
 #   C  = treatment: weak-critic directional feedback (Phase-1, unchanged).
 A2_PLACEBO_FEEDBACK = "No confident error direction was found for this answer."
+
+
+# ---- A2' perturbing placebo (docs/A2PRIME_PERTURBING_PLACEBO_SPEC.md) ----
+# Five generic, question-independent error archetypes, NAMED VERBATIM after the 5
+# instantiated entries of the C3 error-bank vocabulary (docs/ERROR_BANK_PROVENANCE.md
+# sec3). Each feedback round draws k of these WITHOUT replacement, where k mirrors C2's
+# observed direction-count distribution (P(k=3)=.86, P(k=2)=.11, P(k=1)=.03), and
+# renders them in C3's exact multi-entry format with ZERO LLM calls (a structured
+# perturbation, not a real critique). The text fragments below are written BEFORE any
+# run and must NOT be changed after results are read (spec sec5 / sec6).
+_A2P_ARCHETYPES = [
+    ("constraint-blind decimation",
+     "discounted a constraint or condition stated in the problem",
+     "re-read the problem statement, list every stated constraint, and confirm the answer satisfies each one"),
+    ("descriptor/label conflation",
+     "merged two distinct items or labels that should stay separate",
+     "list every distinct entity or label named in the problem and confirm none were merged or swapped"),
+    ("procedure truncation / omission",
+     "stopped short of completing every step the problem requires",
+     "enumerate the full sequence of steps the problem requires and confirm none were skipped or left unfinished"),
+    ("retrieval-abort",
+     "abandoned the recall or lookup of a needed fact before it was settled",
+     "confirm every fact or value used is actually stated, derived, or verifiably recalled rather than assumed"),
+    ("format / precision non-conformance",
+     "deviated from the requested output format or precision",
+     "re-read the requested output format and precision and confirm the answer conforms to it exactly"),
+]
+
+# Direction-count distribution matching C2's observed critic direction counts (see
+# EXEC_AGENT_WORKLIST.md E3 dated run-in revision 2026-11-08). A2P reproduces it so the
+# number-of-directions confound (C2 emits 3 directions in a plurality of its rounds) is
+# controlled.
+_A2P_K_POP = [3, 2, 1]
+_A2P_K_WEIGHTS = [0.86, 0.11, 0.03]
+
+
+def _a2p_stable_hash(task_id: str) -> int:
+    """Stable 32-bit hash of a task id.
+
+    The spec prescribes ``random.Random(hash(task_id) ^ round_index)``; Python's builtin
+    ``hash(str)`` is salted per process (PYTHONHASHSEED) and NOT reproducible across
+    processes, so we use CRC-32 instead -- deterministic across runs and platforms.
+    """
+    return zlib.crc32(str(task_id).encode("utf-8"))
+
+
+def _a2p_feedback(task_id: str, round_index: int):
+    """Render the A2' perturbing placebo for one feedback round.
+
+    Draws k in [1,3] (weights .03/.11/.86, matching C2's direction-count) then samples k
+    archetypes WITHOUT replacement and renders them in C3's exact multi-entry format.
+
+    Returns ``(text, critic_direction)``; ``critic_direction`` is a k-element list of
+    ``{archetype_id, archetype_name, suspicion, check, template}`` matching the C2/C3
+    structured shape so downstream analysis treats it uniformly. ``len(critic_direction)``
+    is ``k`` (recorded via ``k_draw_counts`` in the run summary).
+    """
+    rng = random.Random(_a2p_stable_hash(task_id) ^ round_index)
+    k = rng.choices(_A2P_K_POP, weights=_A2P_K_WEIGHTS)[0]
+    chosen = rng.sample(_A2P_ARCHETYPES, k)
+    lines = ["A few possible error directions were inferred for this answer:"]
+    critic_direction = []
+    for i, (name, suspicion, check) in enumerate(chosen, 1):
+        lines.append("")
+        lines.append(f"{i}. {name} -- you may have {suspicion}.")
+        lines.append(f"   To check: {check}.")
+        critic_direction.append({
+            "archetype_id": None,
+            "archetype_name": name,
+            "suspicion": suspicion,
+            "check": check,
+            "template": True,
+        })
+    text = "\n".join(lines)
+    return text, critic_direction
 
 
 def _force_no_proxy() -> None:
@@ -549,7 +626,8 @@ def _collect_transition_rationale(agent, task, feedback: str,
 def _round_record(r: int, result, correct: bool, evidence, error, no_signal,
                   top3, arm: str, rationale: str = "", rat_toks=(0, 0, 0),
                   committed_answer=None, carried: bool = False,
-                  commit_source: str = None, critic_direction=None) -> dict:
+                  commit_source: str = None, critic_direction=None,
+                  critic_fallback=None) -> dict:
     return {
         "round": r,
         "arm": arm,
@@ -566,6 +644,7 @@ def _round_record(r: int, result, correct: bool, evidence, error, no_signal,
         "no_signal": no_signal,
         "top3": [{"leaf": l, "prob": round(p, 4)} for l, p in (top3 or [])],
         "critic_direction": critic_direction or None,
+        "critic_fallback": critic_fallback,
         "tool_calls": result.tool_calls,
         "latency_ms": result.total_latency_ms,
         "api_failure": result.api_failure,
@@ -779,7 +858,7 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
                 "reasoning_tokens": 0, "rationale_prompt_tokens": 0,
                 "rationale_completion_tokens": 0, "rationale_reasoning_tokens": 0,
             })
-    elif arm in ("A2", "A3", "C3") and a_round0 is not None:
+    elif arm in ("A2", "A2P", "A3", "C3", "C2") and a_round0 is not None:
         # A-seeding (shared round-0 anchor, 2026-10-31): reuse the A arm's
         # deterministic (T=0) round-0 answer as this arm's round 0, so `init` is
         # byte-comparable across A/A2/A3/C3 (no round-0 drift). A3 then samples
@@ -825,6 +904,7 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
         }
 
     critic_direction = None
+    critic_fallback = None   # per-round fallback flag (bank-free C2 only; None otherwise)
     streak = 1
     issued_archetypes = set()   # direction memory for CRITIC_HOLD_ON_REPEAT
     # A3C3 feedback rounds run on the deterministic (T=0) agent to match C3; only the
@@ -841,29 +921,42 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
                 break
             feedback = _feedback_message(prev_answer, A2_PLACEBO_FEEDBACK, rationale_mode)
             pred = evidence = error = no_signal = None
-        else:  # C (single) / C2 (top-3) / C3 (strong LLM critic)
+        elif arm == "A2P":
+            # A2' perturbing placebo: zero-LLM template directions (no real critique, no
+            # bank read, no CoT). Emits k generic archetypes every round (k ~ C2's
+            # direction-count distribution; never silent), matching C2's scaffold minus
+            # the critique content.
+            if family is None:
+                break
+            fb_text, critic_direction = _a2p_feedback(task.task_id, r)
+            pred = evidence = error = None
+            feedback = _feedback_message(prev_answer, fb_text, rationale_mode)
+            no_signal = False
+        else:  # C (single) / C2TFIDF (top-3) / C3 (strong LLM) / C2 (bank-free)
             if family is None:
                 break
             evidence = None
-            if arm == "C2":
+            if arm == "C2TFIDF":
                 pairs = critic.topk(task.prompt, prev_answer, family, k=3)
                 fb_text, critic_direction = critic.render_topk(pairs)
-            else:  # "C" / "C3" / "A3C3": strong LLM critic feeds the solver CoT
-                if arm in ("C3", "A3C3"):
-                    # lever-1: both C3 and A3C3 ground the critic's check in the
-                    # solver's hidden CoT. A3C3 was previously missing reasoning here
+                critic_fallback = None
+            else:  # "C" / "C3" / "A3C3" / "C2": strong LLM critic feeds the solver CoT
+                if arm in ("C3", "A3C3", "C2"):
+                    # lever-1: C3/A3C3/C2 ground the critic's check in the solver's
+                    # hidden CoT. A3C3 was previously missing reasoning here
                     # (arm == "C3" guard), so its critic silently degraded to the old
                     # no-CoT behaviour while C3-v2 fed CoT -- fixed 2026-10-24.
-                    fb_text, critic_direction, evidence = critic.feedback(
+                    fb_text, critic_direction, evidence, critic_fallback = critic.feedback(
                         task.prompt, prev_answer, family, reasoning=prev_reasoning)
                 else:
                     fb_text, critic_direction, evidence = critic.feedback(
                         task.prompt, prev_answer, family)
+                    critic_fallback = None
             error = None
             pred = None
             feedback = _feedback_message(prev_answer, fb_text, rationale_mode)
             no_signal = False
-            if CRITIC_HOLD_ON_REPEAT and arm in ("C3", "A3C3"):
+            if CRITIC_HOLD_ON_REPEAT and arm in ("C3", "A3C3", "C2"):
                 # Direction-memory HOLD gate: if the critic re-proposes an archetype it
                 # already emitted this task, suppress the perturbation (feedback=None) so
                 # a recurring same-direction push cannot drive A->B->A oscillation.
@@ -935,7 +1028,8 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
                                      pred, arm, rationale, rat_toks,
                                      committed_answer=(score_answer if carried else None),
                                      carried=carried, commit_source=commit_source,
-                                     critic_direction=critic_direction))
+                                     critic_direction=critic_direction,
+                                     critic_fallback=critic_fallback))
         if streak >= early_stop_n:
             break
 
@@ -1019,7 +1113,9 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
 
     names = models or [m for m in config.PHASE1_MODELS if config.PHASE1_MODELS[m].get("api_key")]
     summary = {
-        "run_id": run_id, "arm": arm, "family_filter": family,
+        "run_id": run_id, "arm": arm, "bank_free": (arm == "C2"),
+        "template_critic": (arm == "A2P"),
+        "family_filter": family,
         "task_set": task_set, "max_tokens": max_tokens,
         "max_rounds": max_rounds,
         "early_stop_n": early_stop_n, "tier": tier, "temperature": temperature,
@@ -1050,10 +1146,10 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
                                             else entry.get("enable_thinking")),
                 thinking_budget=entry.get("thinking_budget"))
         critic = None
-        if arm in ("C", "C2"):
+        if arm in ("C", "C2TFIDF"):
             critic = Level3Critic.load(name)
-        elif arm in ("C3", "A3C3"):
-            critic = StrongCritic.load(name)
+        elif arm in ("C3", "A3C3", "C2"):
+            critic = StrongCritic.load(name, bank_free=(arm == "C2"))
         model_dir = out_root / name
         model_dir.mkdir(parents=True, exist_ok=True)
         traj_path = model_dir / "loop_trajectories.jsonl"
@@ -1079,7 +1175,8 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
         # ONCE and reuse it as their round 0 (no round-0 drift). Every pending task
         # must carry an A round-0, else the invariant is broken (run arm A first).
         a_by_task: dict = {}
-        if arm in ("A2", "A3", "C3"):
+        if arm in ("A2", "A2P", "A3", "C3", "C2"):
+            summary["a_source_traj"] = str(_a_source_traj(name))
             a_by_task = _load_a_round0_by_task(_a_source_traj(name))
             a_missing = [t.task_id for t in pending_tasks if not a_by_task.get(t.task_id)]
             if a_missing:
@@ -1187,6 +1284,7 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
 
         m = {
             "model_id": entry["model"],
+            "base_url": entry["base_url"],
             "init_accuracy": round(init_correct / n, 4) if n else 0.0,
             "final_accuracy": round(final_correct / n, 4) if n else 0.0,
             "end_state_distribution": {str(k): v for k, v in sorted(states.items())},
@@ -1195,6 +1293,26 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
             "l4_lock_rate": round(locked, 4),
             "l4_misled_rate": round(misled, 4),
             "avg_rounds": round(avg_rounds, 2),
+            "critic_fallback_rounds": sum(1 for t in per_task for r in t["rounds"] if r.get("critic_fallback")),
+            "archetype_draw_counts": dict(sorted(
+                Counter(
+                    d["archetype_name"]
+                    for t in per_task
+                    for r in t["rounds"]
+                    for d in (r.get("critic_direction") or [])
+                    if isinstance(d, dict) and d.get("template") and d.get("archetype_name")
+                ).items()
+            )),
+            "k_draw_counts": {str(k): v for k, v in sorted(
+                Counter(
+                    len(r.get("critic_direction") or [])
+                    for t in per_task
+                    for r in t["rounds"]
+                    if r.get("critic_direction")
+                    and all(isinstance(d, dict) and d.get("template")
+                            for d in r["critic_direction"])
+                ).items()
+            )},
             "total_prompt_tokens": sum(r["prompt_tokens"] for t in per_task for r in t["rounds"]),
             "total_completion_tokens": sum(r["completion_tokens"] for t in per_task for r in t["rounds"]),
             "total_reasoning_tokens": sum(r.get("reasoning_tokens", 0) for t in per_task for r in t["rounds"]),
@@ -1233,11 +1351,14 @@ if __name__ == "__main__":
     ap.add_argument("--max-rounds", type=int, default=MAX_ROUNDS)
     ap.add_argument("--early-stop", type=int, default=EARLY_STOP_N)
     ap.add_argument("--tier", default=TIER, choices=["A", "B", "C"])
-    ap.add_argument("--arm", default="C", choices=["A", "A2", "A3", "A3C3", "C", "C2", "C3"],
+    ap.add_argument("--arm", default="C",
+                    choices=["A", "A2", "A2P", "A3", "A3C3", "C", "C2", "C2TFIDF", "C3"],
                     help="experimental arm: A=no-treatment, A2=form placebo, "
+                         "A2P=perturbing placebo (zero-LLM template), "
                          "A3=i.i.d. temperature sampling (self-consistency), "
                          "A3C3=self-consistency round0 + C3 strong-critic loop, "
-                         "C=critic(single), C2=critic(top-3), C3=strong LLM critic")
+                         "C=critic(single), C2=bank-free strong critic, "
+                         "C2TFIDF=critic(top-3 TF-IDF), C3=strong LLM critic")
     ap.add_argument("--family", default=None,
                     help="restrict to one family: math/math500/mmlu_pro/bfcl/finance/"
                          "aime/gpqa/bbh/hle")

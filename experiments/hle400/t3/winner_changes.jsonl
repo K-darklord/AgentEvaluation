@@ -1,0 +1,2 @@
+{"task_id": "hle_126", "answer_type": "exactMatch", "shape": "int", "gold": "306.7103", "changes": {"C3_mode": {"raw_winner_round": 8, "cluster_winner_round": 5, "raw_winner_answer": "**347.4053**", "cluster_winner_answer": "-1.0000"}}}
+{"task_id": "hle_235", "answer_type": "exactMatch", "shape": "int", "gold": "0.96", "changes": {"A3_vote": {"raw_winner_round": 3, "cluster_winner_round": 1, "raw_winner_answer": "0.96", "cluster_winner_answer": "24/25"}}}

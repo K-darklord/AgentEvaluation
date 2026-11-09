@@ -24,7 +24,15 @@ LLM_READ_TIMEOUT = float(os.getenv("LLM_READ_TIMEOUT", "180"))
 # a few hard GPQA items emits zero output and blocks until the runner's coarse deadline),
 # so closed-book text generation streams and uses this short per-chunk read timeout to
 # detect the hang in seconds and mark the item api_failure instead of freezing the arm.
-LLM_STREAM_READ_TIMEOUT = float(os.getenv("LLM_STREAM_READ_TIMEOUT", "30"))
+LLM_STREAM_READ_TIMEOUT = float(os.getenv("LLM_STREAM_READ_TIMEOUT", "60"))
+LLM_STREAM_CONNECT_TIMEOUT = float(os.getenv("LLM_STREAM_CONNECT_TIMEOUT", "10"))
+LLM_STREAM_WRITE_TIMEOUT = float(os.getenv("LLM_STREAM_WRITE_TIMEOUT", "10"))
+LLM_STREAM_POOL_TIMEOUT = float(os.getenv("LLM_STREAM_POOL_TIMEOUT", "10"))
+LLM_STREAM_WALL_TIMEOUT = float(os.getenv("LLM_STREAM_WALL_TIMEOUT", "300"))
+# Wall-clock deadline on the TOTAL stream (seconds). A keep-alive / never-[DONE] stream
+# can otherwise block forever while every per-chunk read stays under its own timeout;
+# read is widened 30 -> 60 so a slow-but-alive thinking-mode chunk gap is not misread
+# as a hang. (2026-11-08 Q-CUT hang fix)
 
 
 
@@ -237,6 +245,17 @@ PHASE1_MODELS = {
         # Moved off HF router (TCP timeout / HTTP 000) to Alibaba Token Plan
         # origin-supply on 2026-09-28. Same DeepSeek-V4-Flash-0731 model.
     },
+    # Pay-as-you-go alias for the same model. SAME DeepSeek-V4-Flash-0731 weights,
+    # SAME Bailian backend as the Token Plan entry above; only the billing route
+    # differs (sk-ws key vs sk-sp key). Added 2026-11-06 so judge-C / C2 reruns can
+    # continue while the token-plan 1-month quota is exhausted (429 insufficient_quota).
+    "deepseek-v4-flash-payg": {
+        "tier": "mid",
+        "model": "deepseek-v4-flash-0731",
+        "base_url": DASHSCOPE_BASE_URL,
+        "api_key": os.getenv("DASHSCOPE_API_KEY", ""),
+        "thinking_budget": 16384,
+    },
     "qwen3.8-flash": {
         "tier": "mid",
         "model": os.getenv("QWEN_FLASH_MODEL", "qwen3.8-flash"),
@@ -245,6 +264,18 @@ PHASE1_MODELS = {
         # thinking left at model default (qwen3.8-flash defaults to thinking ON).
         # We do NOT disable it — thinking is model capability, not interference.
         # Finance token cost is dominated by tool-loop context growth, not hidden CoT.
+    },
+    "qwen3.8-flash-payg": {
+        "tier": "mid",
+        "model": os.getenv("QWEN_FLASH_MODEL", "qwen3.8-flash"),
+        "base_url": DASHSCOPE_BASE_URL,
+        "api_key": os.getenv("DASHSCOPE_API_KEY", ""),
+        # thinking_budget forces hidden CoT to stop at 16384 instead of reasoning until
+        # finish_reason=length. max_tokens = 16384 + REASONING_CONTENT_MARGIN(8192) =
+        # 24576, matching deepseek's frozen budget. Without it qwen fell to
+        # REASONING_BENCH_MAX_TOKENS (8192 total) and truncated hard HLE items
+        # (qwen ~12.5k hidden CoT / round). E6 budget-alignment fix (2026-11-08).
+        "thinking_budget": 16384,
     },
     "glm-5.3": {
         "tier": "mid",

@@ -1,0 +1,400 @@
+{"task_id": "hle_001", "gold": "13425", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_002", "gold": "u(t)(v_i(t) + \\rho)", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_003", "gold": "Cut off of LFC > 4 in contaminated samples", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_004", "gold": "2, 4, 5", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_005", "gold": "Heinemannomyces", "answer_type": "exactMatch", "shape": "word", "A": false}
+{"task_id": "hle_006", "gold": "11", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_007", "gold": "\\(\\Delta E= 0.0423\\text{ eV}\\)", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_008", "gold": "Spiro[4.5]decan-6-one", "answer_type": "exactMatch", "shape": "word", "A": true}
+{"task_id": "hle_009", "gold": "\\mu a. \\theta(1, a+\\mu b.\\theta(0,b+1))", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_010", "gold": "4809", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_011", "gold": "5", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_012", "gold": "n + (\\frac{\\pi^2}{6} - 1)n\\alpha", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_013", "gold": "fluent_0(object_1_type_0, object_1_type_0)", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_014", "gold": "cliff-room-both-neither-room", "answer_type": "exactMatch", "shape": "word", "A": false}
+{"task_id": "hle_015", "gold": "$\\pi_0 = \\frac{\\rho}{2(e^{\\rho} - 1)}$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_016", "gold": "Yes", "answer_type": "exactMatch", "shape": "word", "A": false}
+{"task_id": "hle_017", "gold": "352311", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_018", "gold": "$\\frac{E(1+g) - d}{q}\\]$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_019", "gold": "כִּ֗יל סָ֥ף מָ֣ה הִים נַ֣חְ נֶ֑ שַׁ֥ן,עַֽל", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_020", "gold": "Meyerhold", "answer_type": "exactMatch", "shape": "word", "A": false}
+{"task_id": "hle_021", "gold": "$f(w)=\\bot\\multimap\\bot^{1+w}, C = f(b)^m$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_022", "gold": "841", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_023", "gold": "6", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_024", "gold": "9", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_025", "gold": "142", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_026", "gold": "0", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_027", "gold": "12", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_028", "gold": "\\pi", "answer_type": "exactMatch", "shape": "symbol", "A": true}
+{"task_id": "hle_029", "gold": "(a) Yes (b) 0 (c) $-w^2(g^2 a \\cdot 1_R)$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_030", "gold": "r^{A(1-\\cos\\theta)+B\\sin\\theta}", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_031", "gold": "no,no,no,no,yes,yes,yes,no,yes,2,2,2", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_032", "gold": "(r,t)", "answer_type": "exactMatch", "shape": "word", "A": false}
+{"task_id": "hle_033", "gold": "2394", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_034", "gold": "Mayakovsky", "answer_type": "exactMatch", "shape": "word", "A": false}
+{"task_id": "hle_035", "gold": "v₀𝛼arctanh(√(2h𝛼c+h²)/(𝛼c+h), 𝛼=c𝛾₀/g", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_036", "gold": "1.03", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_037", "gold": "3.8", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_038", "gold": "$9\\pi(3 + 2\\sqrt{3})$", "answer_type": "exactMatch", "shape": "symbol", "A": true}
+{"task_id": "hle_039", "gold": "$18\\pi$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_040", "gold": "-2+1/((1-DawsonF[1])/E^3+DawsonF[2])", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_041", "gold": "D", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_042", "gold": "D", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_043", "gold": "D", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_044", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_045", "gold": "C", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_046", "gold": "C", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_047", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_048", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_049", "gold": "D", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_050", "gold": "A", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_051", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_052", "gold": "9/4", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_053", "gold": "Y[0.075]", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_054", "gold": "Yes", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_055", "gold": "[cylinder r=6, h=21.5]0;41", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_056", "gold": "0", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_057", "gold": "3", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_058", "gold": "24", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_059", "gold": "0", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_060", "gold": "N", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_061", "gold": "10711", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_062", "gold": "(13, 2028/119)", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_063", "gold": "D", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_064", "gold": "27/4 - π√3", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_065", "gold": "E", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_066", "gold": "$\\infty$.", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_067", "gold": "I", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_068", "gold": "2^{15/16}", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_069", "gold": "$[n]_qT^{n-1}dT$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_070", "gold": "$2^{\\frac{1}{8}}e^{-\\frac{\\pi}{24}}$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_071", "gold": "$1+\\frac{10080n^2-1433}{7257600n^4}$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_072", "gold": "2.5", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_073", "gold": "4", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_074", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_075", "gold": "121", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_076", "gold": "6", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_077", "gold": "\\frac{\\ln(5){\\ln(14) - \\ln(3)}", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_078", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_079", "gold": "q^240", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_080", "gold": "47", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_081", "gold": "Y[1.10]", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_082", "gold": "12", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_083", "gold": "E", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_084", "gold": "$\\frac{21}{4}.$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_085", "gold": "$-\\frac{1}{2}$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_086", "gold": "$\\frac{1+e+e^2}{1+e+e^2+e^3}$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_087", "gold": "00111101", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_088", "gold": "28", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_089", "gold": "4", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_090", "gold": "3,4,2463,13418", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_091", "gold": "10^{793} + 2*10^{398} + 1000", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_092", "gold": "10", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_093", "gold": "−∣s ′ −s∣(1−κ(s)^2 /24)", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_094", "gold": "9/8", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_095", "gold": "\\mu_{0}\\log\\left(  1-\\Gamma\\right)  \\mathbf{Q}(\\mu_{0})", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_096", "gold": "$\\frac{\\pi}{\\ln(4)}$", "answer_type": "exactMatch", "shape": "symbol", "A": true}
+{"task_id": "hle_097", "gold": "1025", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_098", "gold": "16663878", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_099", "gold": "0", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_100", "gold": "$\\frac{13}{21}$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_101", "gold": "3", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_102", "gold": "(0,0,0,2,2,2)", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_103", "gold": "3", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_104", "gold": "12", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_105", "gold": "2\\sqrt{5}", "answer_type": "exactMatch", "shape": "symbol", "A": true}
+{"task_id": "hle_106", "gold": "6", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_107", "gold": "E", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_108", "gold": "813", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_109", "gold": "34", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_110", "gold": "76", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_111", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_112", "gold": "log(1/\\epsilon)/log((1+\\delta)/(1-\\delta))", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_113", "gold": "(a) Yes; (b) Both; (c) Yes.", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_114", "gold": "$\\frac{1}{2}(N_1M_1 + N_1M_2 + N_2M_2)$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_115", "gold": "$2 \\sum_{k=0}^{(d-1)/2} \\binom{n}{k}$", "answer_type": "exactMatch", "shape": "symbol", "A": true}
+{"task_id": "hle_116", "gold": "(a) No; (b) yes; (c) no.", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_117", "gold": "yes", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_118", "gold": "4", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_119", "gold": "-6", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_120", "gold": "0.8944", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_121", "gold": "$y\\geq b \\cdot l, y \\geq x + b - 1$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_122", "gold": "24 8", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_123", "gold": "YYN2", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_124", "gold": "(N+1)\\left\\lceil \\frac{\\pi}{2\\arcsin \\left( \\frac{1}{2t} \\right)} \\right\\rceil", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_125", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_126", "gold": "306.7103", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_127", "gold": "0.286", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_128", "gold": "15", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_129", "gold": "b = \\alpha P_1", "answer_type": "exactMatch", "shape": "symbol", "A": true}
+{"task_id": "hle_130", "gold": "A", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_131", "gold": "N4", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_132", "gold": "11:2", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_133", "gold": "D", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_134", "gold": "F", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_135", "gold": "C", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_136", "gold": "A", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_137", "gold": "E", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_138", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_139", "gold": "collagen", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_140", "gold": "E", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_141", "gold": "C16-ceramide", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_142", "gold": "231", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_143", "gold": "A", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_144", "gold": "Change anti-seizure medication", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_145", "gold": "A", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_146", "gold": "H", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_147", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_148", "gold": "30", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_149", "gold": "A", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_150", "gold": "\\tilde{\\mathsf{S}}^{s)}_{(b)} = k \\log \\ti", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_151", "gold": "500", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_152", "gold": "35.68", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_153", "gold": "Z=T_r{exp(−βH)}", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_154", "gold": "A", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_155", "gold": "$2N_f -3$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_156", "gold": "B:2.  B and C: 3. A,B, and C: 4", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_157", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_158", "gold": "G", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_159", "gold": "ii,iv,iii,ii,down", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_160", "gold": "$\\frac{7}{24\\pi}$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_161", "gold": "2.2", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_162", "gold": "1-(2g/πk) [F(k)-E(k)]", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_163", "gold": "\\mu_rho=1/\\mu_theta. H_int=H0(R2/R1)", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_164", "gold": "SWAM", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_165", "gold": "C", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_166", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_167", "gold": "23", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_168", "gold": "H", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_169", "gold": "E", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_170", "gold": "DDSSDS", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_171", "gold": "D", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_172", "gold": "A", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_173", "gold": "E", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_174", "gold": "MV Celtic Horizon", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_175", "gold": "coverro", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_176", "gold": "T", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_177", "gold": "Posh", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_178", "gold": "E", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_179", "gold": "21", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_180", "gold": "18", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_181", "gold": "3640000", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_182", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_183", "gold": "7", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_184", "gold": "F5 G♭5 G5 F5 G5 F5 E♭5 F5 G5 C5 F5", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_185", "gold": "1/4096", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_186", "gold": "K", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_187", "gold": "E", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_188", "gold": "3, 5, 6", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_189", "gold": "C3h", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_190", "gold": "4,6-dichloropyrimidine-5-carbaldehyde", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_191", "gold": "730/297", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_192", "gold": "Oganesson", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_193", "gold": "no", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_194", "gold": "linalool (p-tolyl) thiocarbonate", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_195", "gold": "F(6)A2G(4)2Ga(3)1Sg1", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_196", "gold": "24.75 seconds", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_197", "gold": "Total messages exchanged: 12", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_198", "gold": "F", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_199", "gold": "50 to 4.66 ohms", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_200", "gold": "45", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_201", "gold": "289026722411805831750717\\pi/2199023255552", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_202", "gold": "2", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_203", "gold": "\\( \\frac{(p+1)_2' + (p-1)_2'}{2} - 1 \\)", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_204", "gold": "(S_z \\oplus Z_r) \\& (C_r \\multimap S_{nz})", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_205", "gold": "4667348672819419628992129", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_206", "gold": "35", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_207", "gold": "3126826975036021918421449648904939195594", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_208", "gold": "ln(2)", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_209", "gold": "$2^{81}$", "answer_type": "exactMatch", "shape": "symbol", "A": true}
+{"task_id": "hle_210", "gold": "73", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_211", "gold": "\\(\\eta^{\\prime} \\sqrt{N}\\)", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_212", "gold": "\\frac{11}{32}", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_213", "gold": "4048", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_214", "gold": "24", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_215", "gold": "Y[1.673]", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_216", "gold": "17", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_217", "gold": "11", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_218", "gold": "0", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_219", "gold": "$117 \\pi$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_220", "gold": "63", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_221", "gold": "[3,7] Wrong", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_222", "gold": "$n \\in\\{2,3,4,6\\}$.", "answer_type": "exactMatch", "shape": "symbol", "A": true}
+{"task_id": "hle_223", "gold": "0.15", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_224", "gold": "364", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_225", "gold": "$\\{n \\;|\\; n \\geq 4\\}$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_226", "gold": "468", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_227", "gold": "10", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_228", "gold": "$\\lfloor \\frac{n+1}{3} \\rfloor$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_229", "gold": "4.328", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_230", "gold": "2^c", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_231", "gold": "pi/2 - 1/4", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_232", "gold": "(r-1)!^d", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_233", "gold": "73", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_234", "gold": "A", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_235", "gold": "0.96", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_236", "gold": "30", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_237", "gold": "8", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_238", "gold": "1", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_239", "gold": "34828543449", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_240", "gold": "1", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_241", "gold": "5", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_242", "gold": "1", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_243", "gold": "$\\frac{7^{2024}-1}{6}$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_244", "gold": "11", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_245", "gold": "DDDYYY", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_246", "gold": "$\\frac{1}{6^{3/2}}$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_247", "gold": "19", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_248", "gold": "\\frac{318281087}{8016470462}", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_249", "gold": "329/150", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_250", "gold": "C", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_251", "gold": "0", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_252", "gold": "2 - 2^{4048}", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_253", "gold": "D", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_254", "gold": "$\\frac{(4t+2)^n-(-2)^n}{2}$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_255", "gold": "70", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_256", "gold": "$\\frac{1260n^3+21n+10}{2520n}$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_257", "gold": "6", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_258", "gold": "9!^2", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_259", "gold": "$d=u-u^2$.", "answer_type": "exactMatch", "shape": "symbol", "A": true}
+{"task_id": "hle_260", "gold": "10", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_261", "gold": "181", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_262", "gold": "1930", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_263", "gold": "24", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_264", "gold": "BD", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_265", "gold": "000200,011100,111111", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_266", "gold": "1", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_267", "gold": "12, 481043", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_268", "gold": "1.5 2", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_269", "gold": "7.71", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_270", "gold": "c", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_271", "gold": "1", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_272", "gold": "$100\\pi -  100\\pi \\ln 2$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_273", "gold": "1365", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_274", "gold": "{1 , 37, 397, 496, 595}", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_275", "gold": "10^{9}", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_276", "gold": "$\\pi\\;\\textrm{arcsinh}\\;1$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_277", "gold": "5", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_278", "gold": "2^2000/3,4(2^2000)/3,8(2^2000)/3,10.2^2000", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_279", "gold": "Y24", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_280", "gold": "\\max(\\sqrt{BL}, \\frac{L}{\\log(B^{-1}L)})", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_281", "gold": "2:8:35000", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_282", "gold": "46", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_283", "gold": "16", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_284", "gold": "\\( \\deg{P} + \\deg{Q} + 2 \\)", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_285", "gold": "C", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_286", "gold": "(a) $w^M\\in Z(R)$ (b) $w^M\\cdot r$ (c) yes", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_287", "gold": "3/2", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_288", "gold": "\\frac{1}{2}", "answer_type": "exactMatch", "shape": "symbol", "A": true}
+{"task_id": "hle_289", "gold": "$990,2(\\frac{27000!}{9002!9001!9000!}),24$", "answer_type": "exactMatch", "shape": "symbol", "A": true}
+{"task_id": "hle_290", "gold": "arccos(2 sqrt(6) /5)", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_291", "gold": "6 * \\sqrt{2}", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_292", "gold": "Yes", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_293", "gold": "H", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_294", "gold": "2", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_295", "gold": "Kh1", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_296", "gold": "C", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_297", "gold": "whale", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_298", "gold": "exp(\\Delta/2)*\\Sigma*exp(\\Delta/2)^T", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_299", "gold": "1329:1729:24:100", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_300", "gold": "4", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_301", "gold": "321", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_302", "gold": "Akhenaten", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_303", "gold": "B,C", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_304", "gold": "0.993:8", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_305", "gold": "O(1)", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_306", "gold": "(7,4)", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_307", "gold": "ABCEFGIJKLN", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_308", "gold": "7", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_309", "gold": "300", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_310", "gold": "D", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_311", "gold": "N^{1 / \\Omega(\\log \\log n)}", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_312", "gold": "\\infty", "answer_type": "exactMatch", "shape": "symbol", "A": true}
+{"task_id": "hle_313", "gold": "A", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_314", "gold": "C", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_315", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_316", "gold": "C", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_317", "gold": "A", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_318", "gold": "F", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_319", "gold": "75.6%", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_320", "gold": "C", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_321", "gold": "3.66 mL", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_322", "gold": "C", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_323", "gold": "1", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_324", "gold": "11", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_325", "gold": "A", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_326", "gold": "Inhibition of lamotrigine glucuronidation", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_327", "gold": "3.92*10^-6", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_328", "gold": "E", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_329", "gold": "M", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_330", "gold": "E", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_331", "gold": "Felty's syndrome", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_332", "gold": "7", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_333", "gold": "0.71", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_334", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_335", "gold": "C", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_336", "gold": "α+9β/5,α+β/5,α+(sqrt41*β)/5,α-(sqrt41*β)", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_337", "gold": "2e^2 B/h(V_1)", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_338", "gold": "0.0062", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_339", "gold": "1, 2, 2", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_340", "gold": "6", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_341", "gold": "F", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_342", "gold": "B1B2CEFIJ", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_343", "gold": "\\frac{2}{3}mg+m\\frac{v^2}{l}", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_344", "gold": "$R/3$, $1/4$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_345", "gold": "33", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_346", "gold": "13", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_347", "gold": "Ha-H0 ln[sinh^2(πw/D)/sinh^2(πx/D)-1]/2", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_348", "gold": "\\frac{3g^4}{64\\pi E^2}", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_349", "gold": "Iridium", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_350", "gold": "Case 3", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_351", "gold": "Numbers, Henry V", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_352", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_353", "gold": "Nam Định", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_354", "gold": "H", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_355", "gold": "/t͡ʃo kab 'sol β̞el/", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_356", "gold": "Tommy owns Lot A and Lot B with 1234567890", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_357", "gold": "C", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_358", "gold": "E", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_359", "gold": "Father Philip Waggett.", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_360", "gold": "x/x/xx/x/xx/xx/", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_361", "gold": "A", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_362", "gold": "A", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_363", "gold": "tmesis", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_364", "gold": "Tulu and Korean", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_365", "gold": "G", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_366", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_367", "gold": "I-II-VI", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_368", "gold": "Gustav Kirchhoff's lectures on Mechanics", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_369", "gold": "O", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_370", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_371", "gold": "$\\frac{hk\\cosh(kh)}{\\cosh^2(kh)+(kh)^2}$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_372", "gold": "Parquet floor", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_373", "gold": "A stinging nettle", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_374", "gold": "ULDL", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_375", "gold": "{B1}", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_376", "gold": "1,2,3,4,0", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_377", "gold": "{B1}", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_378", "gold": "Hakata Tokyo", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_379", "gold": "h6+ Kf6 Ng4#", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_380", "gold": "music, speech, sound effects", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_381", "gold": "Db5 D5 Eb5 E5 F5 Gb5 Db6 Db6 B5 Ab5", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_382", "gold": "3", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_383", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_384", "gold": "(1), (2), (3); (2), (5), (6)", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_385", "gold": "$\\{\\{1,4\\},\\{2\\},\\{3, 5\\}\\}$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_386", "gold": "Rotate around the N-N double bond", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_387", "gold": "\\(\\left(690.51, 158.55, 12)\\right)\\)", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_388", "gold": "Tribromination product", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_389", "gold": "E", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_390", "gold": "1.776 * 10^-3", "answer_type": "exactMatch", "shape": "text", "A": true}
+{"task_id": "hle_391", "gold": "thiocyanatobenzene", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_392", "gold": "Racemate of 4-phenyl-2-bromobutane", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_393", "gold": "CC1(C)OC2COC3(COC(C)(C)O3)C(=O)C2O1", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_394", "gold": "350", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_395", "gold": "10", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_396", "gold": "55.43", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_397", "gold": "E", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_398", "gold": "305 mm", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_399", "gold": "E", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_400", "gold": "1.4", "answer_type": "exactMatch", "shape": "int", "A": true}

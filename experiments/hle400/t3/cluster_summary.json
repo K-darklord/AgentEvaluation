@@ -1,0 +1,14 @@
+{
+  "slice": "hle400",
+  "n_common": 400,
+  "merged_tasks": 4,
+  "merged_pairs": 28,
+  "winner_changed": {
+    "A2_settle": 0,
+    "A2_mode": 0,
+    "A3_vote": 1,
+    "C3_settle": 0,
+    "C3_mode": 1
+  },
+  "winner_changed_total": 2
+}

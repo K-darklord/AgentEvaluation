@@ -1,0 +1,119 @@
+{
+  "slice": "hle400",
+  "n": 400,
+  "arms": {
+    "A": {
+      "n": 400,
+      "accuracy": 0.235,
+      "t1_accuracy": 0.1575,
+      "judge_n": 337,
+      "fn_rescued": 31
+    },
+    "A2": {
+      "init": {
+        "n": 400,
+        "accuracy": 0.235,
+        "t1_accuracy": 0.1575,
+        "judge_n": 337,
+        "fn_rescued": 31
+      },
+      "final": {
+        "n": 400,
+        "accuracy": 0.28,
+        "t1_accuracy": 0.2,
+        "judge_n": 320,
+        "fn_rescued": 32
+      },
+      "settle": {
+        "n": 400,
+        "accuracy": 0.27,
+        "t1_accuracy": 0.19,
+        "judge_n": 295,
+        "fn_rescued": 32
+      },
+      "mode": {
+        "n": 400,
+        "accuracy": 0.28,
+        "t1_accuracy": 0.2,
+        "judge_n": 320,
+        "fn_rescued": 32
+      }
+    },
+    "A3": {
+      "init": {
+        "n": 400,
+        "accuracy": 0.235,
+        "t1_accuracy": 0.1575,
+        "judge_n": 337,
+        "fn_rescued": 31
+      },
+      "vote": {
+        "n": 400,
+        "accuracy": 0.2925,
+        "t1_accuracy": 0.22,
+        "judge_n": 312,
+        "fn_rescued": 29
+      }
+    },
+    "A3C3": {
+      "init": {
+        "n": 0,
+        "accuracy": 0.0,
+        "t1_accuracy": 0.0,
+        "judge_n": 0,
+        "fn_rescued": 0
+      },
+      "final": {
+        "n": 0,
+        "accuracy": 0.0,
+        "t1_accuracy": 0.0,
+        "judge_n": 0,
+        "fn_rescued": 0
+      },
+      "settle": {
+        "n": 0,
+        "accuracy": 0.0,
+        "t1_accuracy": 0.0,
+        "judge_n": 0,
+        "fn_rescued": 0
+      },
+      "mode": {
+        "n": 0,
+        "accuracy": 0.0,
+        "t1_accuracy": 0.0,
+        "judge_n": 0,
+        "fn_rescued": 0
+      }
+    },
+    "C3": {
+      "init": {
+        "n": 400,
+        "accuracy": 0.235,
+        "t1_accuracy": 0.1575,
+        "judge_n": 337,
+        "fn_rescued": 31
+      },
+      "final": {
+        "n": 400,
+        "accuracy": 0.2975,
+        "t1_accuracy": 0.21,
+        "judge_n": 316,
+        "fn_rescued": 35
+      },
+      "settle": {
+        "n": 400,
+        "accuracy": 0.24,
+        "t1_accuracy": 0.1825,
+        "judge_n": 211,
+        "fn_rescued": 23
+      },
+      "mode": {
+        "n": 400,
+        "accuracy": 0.29,
+        "t1_accuracy": 0.2075,
+        "judge_n": 317,
+        "fn_rescued": 33
+      }
+    }
+  }
+}

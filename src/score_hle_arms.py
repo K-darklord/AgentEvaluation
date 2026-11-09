@@ -111,6 +111,16 @@ def _score(meta: dict, resp: str) -> dict:
                      meta["answer_type"], meta["shape"], resp or "")
 
 
+def _truncated_wrong() -> dict:
+    """Score a length-truncated winner as wrong (no-commit), bypassing the T2 judge.
+
+    A winning round with finish_reason == "length" holds a budget-truncated fragment,
+    not a clean commit; it is scored wrong uniformly across all arms/metrics and is
+    never sent to the judge."""
+    return {"correct": False, "t1_correct": False, "judge_correct": None,
+            "agreement": None, "disagreement": None}
+
+
 def _key(meta: dict, rec: dict):
     return _early_stop_key(FAMILY, meta["gold"], rec.get("final_answer", ""),
                            rec.get("reasoning_content", ""),
@@ -119,6 +129,8 @@ def _key(meta: dict, rec: dict):
 
 def _round_score(meta: dict, rounds: list, i: int) -> dict:
     if 0 <= i < len(rounds):
+        if rounds[i].get("finish_reason", "") == "length":
+            return _truncated_wrong()
         return _score(meta, rounds[i].get("final_answer", ""))
     return _score(meta, "")
 
@@ -131,6 +143,9 @@ def _settle_idx(meta: dict, task: dict) -> int | None:
     n = len(keys)
     i = n - 1
     while i >= 0:
+        if keys[i] is None:        # a no-commit round is not a settle anchor
+            i -= 1
+            continue
         j = i
         while j - 1 >= 0 and keys[j - 1] == keys[j]:
             j -= 1
@@ -148,8 +163,12 @@ def _mode_idx(meta: dict, task: dict) -> int:
     cnt: dict = {}
     latest: dict = {}
     for i, k in enumerate(keys):
+        if k is None:              # a no-commit round is not a candidate (mirrors _majority_vote)
+            continue
         cnt[k] = cnt.get(k, 0) + 1
         latest[k] = i
+    if not cnt:
+        return -1
     best = max(cnt, key=lambda k: (cnt[k], latest[k]))
     return latest[best]
 
@@ -181,6 +200,8 @@ def _majority_vote(meta: dict, task: dict) -> dict:
     if votes:
         winner_key = votes.most_common(1)[0][0]
         winner_rec = next((r for r in samples if _key(meta, r) == winner_key), samples[0])
+    if winner_rec.get("finish_reason", "") == "length":
+        return _truncated_wrong()
     return _score(meta, winner_rec.get("final_answer", ""))
 
 

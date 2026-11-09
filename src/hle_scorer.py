@@ -147,11 +147,16 @@ def _get_judge_client():
             if not token:
                 return None
             from openai import OpenAI
+            import httpx
+            # Streaming + short per-chunk read timeout: on the reasoning endpoint a
+            # non-streaming request NEVER fires httpx read-timeout on a server-side hang
+            # (zero output), so a float client timeout is silently ignored and the scorer
+            # blocks forever. The short streaming read timeout detects the hang in seconds.
             _judge_client = OpenAI(
                 base_url=config.T2_JUDGE_BASE_URL,
                 api_key=token,
-                timeout=120.0,
-                max_retries=2,
+                timeout=httpx.Timeout(config.LLM_STREAM_READ_TIMEOUT,
+                                      connect=config.LLM_CONNECT_TIMEOUT),
             )
         return _judge_client
 
@@ -198,8 +203,18 @@ def llm_judge(question: str, gold: str, response: str) -> bool | None:
             messages=[{"role": "user", "content": prompt}],
             max_tokens=config.T2_RESCUE_MAX_TOKENS,
             temperature=config.T2_TEMPERATURE,
+            stream=True,
         )
-        text = (resp.choices[0].message.content or "").strip().upper()
+        parts = []
+        for chunk in resp:
+            for choice in getattr(chunk, "choices", []) or []:
+                delta = getattr(choice, "delta", None)
+                if delta is None:
+                    continue
+                c = getattr(delta, "content", None)
+                if c:
+                    parts.append(c)
+        text = "".join(parts).strip().upper()
         result = text.startswith("CORRECT")
     except Exception:
         result = None

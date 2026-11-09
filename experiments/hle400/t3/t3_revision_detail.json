@@ -1,0 +1,1254 @@
+{
+  "missed_rescue": [
+    {
+      "task_id": "hle_018",
+      "gold": "$\\frac{E(1+g) - d}{q}\\]$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\np_1=\\frac{(1+g)E-d}{q}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "A3.init",
+        "C3.init",
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_030",
+      "gold": "r^{A(1-\\cos\\theta)+B\\sin\\theta}",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\omega(r,\\theta)\\sim \\frac{1}{r^{1/2}}\\,e^{-r(1-\\cos\\theta)}\\,r^{A(1-\\cos\\theta)+B\\sin\\theta}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "A3.init",
+        "C3.init"
+      ]
+    },
+    {
+      "task_id": "hle_036",
+      "gold": "1.03",
+      "shape": "int",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\boxed{1.03 \\text{ s}}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "A3.init",
+        "C3.init",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_035",
+      "gold": "v₀𝛼arctanh(√(2h𝛼c+h²)/(𝛼c+h), 𝛼=c𝛾₀/g",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\nD=\\frac{v_0 c}{g\\sqrt{1-v_0^2/c^2}}\n\\cosh^{-1}\\!\\left(1+\\frac{g h}{c^2}\\sqrt{1-\\frac{v_0^2}{c^2}}\\right)\n\\]\n(independent of \\(m\\)).",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A3.init",
+        "C3.init"
+      ]
+    },
+    {
+      "task_id": "hle_040",
+      "gold": "-2+1/((1-DawsonF[1])/E^3+DawsonF[2])",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n-2+\\frac{e^4}{e+\\int_1^2 e^{s^2}\\,ds}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "A3.init",
+        "C3.init"
+      ]
+    },
+    {
+      "task_id": "hle_052",
+      "gold": "9/4",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\boxed{\\frac{9}{4}}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "A3.init",
+        "C3.init",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_070",
+      "gold": "$2^{\\frac{1}{8}}e^{-\\frac{\\pi}{24}}$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\sqrt[8]{2}\\,e^{-\\pi/24}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "A3.init",
+        "C3.init",
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_071",
+      "gold": "$1+\\frac{10080n^2-1433}{7257600n^4}$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\nP(n)=1+\\frac{1}{720n^2}-\\frac{1433}{7257600n^4}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "A3.init",
+        "C3.init",
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_153",
+      "gold": "Z=T_r{exp(−βH)}",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\nZ = \\int \\mathcal{D}[\\bar{\\psi}, \\psi] \\exp\\left\\{-\\int_0^\\beta d\\tau \\left[ \\sum_{\\alpha} \\bar{\\psi}_\\alpha(\\tau) \\partial_\\tau \\psi_\\alpha(\\tau) + H(\\bar{\\psi}, \\psi) \\right] \\right\\}\n\\]\nwhere \\(\\tau \\in [0,\\beta]\\), \\(\\beta = 1/(k_B T)\\), \\(\\psi_\\alpha(\\tau)\\) and \\(\\bar{\\psi}_\\alpha(\\tau)\\) are Grassmann variables, and the integral is over paths with anti-periodic boundary conditions \\(\\psi_\\alpha(\\beta) = -\\psi_\\alpha(0)\\), \\(\\bar{\\psi}_\\alpha(\\beta) = -\\bar{\\psi}_\\alpha(0)\\).",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A3.init",
+        "C3.init"
+      ]
+    },
+    {
+      "task_id": "hle_156",
+      "gold": "B:2.  B and C: 3. A,B, and C: 4",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "1) Tokamaks: A only  \n2) LHD: B only  \n3) Wendelstein 7-X: B and C  \n4) NCSX: A, B, and C  \n5) Reversed Field Pinches: A only",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "A3.init",
+        "A3.vote",
+        "C3.init"
+      ]
+    },
+    {
+      "task_id": "hle_194",
+      "gold": "linalool (p-tolyl) thiocarbonate",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "S-linalyl O-(p-tolyl) thiolcarbonate",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "A3.init",
+        "C3.init",
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_225",
+      "gold": "$\\{n \\;|\\; n \\geq 4\\}$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\boxed{\\{4,5,6,7,\\dots\\}}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "A3.init",
+        "C3.init"
+      ]
+    },
+    {
+      "task_id": "hle_254",
+      "gold": "$\\frac{(4t+2)^n-(-2)^n}{2}$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\boxed{\\frac{(4t+2)^n-(-2)^n}{2}}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "A3.init",
+        "C3.init",
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_256",
+      "gold": "$\\frac{1260n^3+21n+10}{2520n}$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\sum_{k\\ge 0}k^3 e^{-k^2/n}\n= \\frac{n^2}{2}+\\frac{1}{120}+\\frac{1}{252\\,n}+O(n^{-2}),\n\\]\nwith error actually of exact order \\(n^{-2}\\), since the next term is \\(\\frac{1}{480}n^{-2}\\).",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A3.init",
+        "C3.init"
+      ]
+    },
+    {
+      "task_id": "hle_276",
+      "gold": "$\\pi\\;\\textrm{arcsinh}\\;1$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\pi \\ln(1+\\sqrt{2})\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "A3.init",
+        "C3.init",
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_290",
+      "gold": "arccos(2 sqrt(6) /5)",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\boxed{\\arctan\\!\\left(\\frac{\\sqrt{6}}{12}\\right)}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "A3.init",
+        "C3.init"
+      ]
+    },
+    {
+      "task_id": "hle_280",
+      "gold": "\\max(\\sqrt{BL}, \\frac{L}{\\log(B^{-1}L)})",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\nA(B,\\delta)=\\frac{L}{\\log\\!\\left(2+\\frac{L}{B}\\right)}+\\sqrt{BL}\n\\]\nwhere \\(L=\\log(\\delta^{-1})\\).",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A3.init",
+        "C3.init"
+      ]
+    },
+    {
+      "task_id": "hle_343",
+      "gold": "\\frac{2}{3}mg+m\\frac{v^2}{l}",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\nF=\\frac{m v^{2}}{l}+\\frac{2}{3}mg\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "A3.init",
+        "C3.init",
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_374",
+      "gold": "ULDL",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "UULLLLLLLLLLLLDDLLLLLLLLLL",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A3.init",
+        "C3.init"
+      ]
+    },
+    {
+      "task_id": "hle_032",
+      "gold": "(r,t)",
+      "shape": "word",
+      "answer_type": "exactMatch",
+      "final_answer": "Now second chain q(x,y)=p(x,y) h(y)/h(x). Since original p recurrent, h exists. The h-transform q is a Markov chain on Σ\\A (or with A removed) with transition probabilities q(x,y)=p(x,y) h(y)/h(x) for x∉A. What about recurrence/transience of q? We need answer \"t\" because 1/h is positive bounded harmonic for q? Let's verify q irreducible? q may not be irreducible due to removing A; but if original recurrent and h→∞, the h-transform is the Doob transform conditioned to never hit A? Actually h=0 on A, so q kills A; the q-chain lives on outside states and is transient because 1/h is harmonic bounded and nonconstant. Let's prove: For x∉A, ∑_y q(x,y) (1/h(y)) = ∑_y p(x,y) h(y)/h(x) * 1/h(y) = 1/h(x) * ∑_y p(x,y)=1/h(x). So 1/h is harmonic for q on outside. It is strictly positive and bounded (since h→∞, inf h>0; h has minimum? h positive outside A and tends∞, so minimum m>0; 1/h ≤1/m). Nonconstant because h varies (tends∞). If q is irreducible on Σ\\A, nonconstant bounded harmonic implies transient. Is q irreducible? Original p irreducible but q kills transitions into A; removing A may disconnect. However the question says \"another Markov chain on the same state space\" with q formula; maybe they define q on A? Since h(x)=0 for x∈A, formula invalid. But if they ignore A, q may not be irreducible; recurrence/transience classification for non-irreducible? However the h-transform chain on Σ\\A might be irreducible? Not necessarily. Example reflecting random walk on Z_+ with A={0}, p symmetric",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A2.final"
+      ]
+    },
+    {
+      "task_id": "hle_035",
+      "gold": "v₀𝛼arctanh(√(2h𝛼c+h²)/(𝛼c+h), 𝛼=c𝛾₀/g",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\nD=\\frac{v_0 c}{g\\sqrt{1-v_0^2/c^2}}\n\\cosh^{-1}\\!\\left(1+\\frac{g h}{c^2}\\sqrt{1-\\frac{v_0^2}{c^2}}\\right)\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A2.final",
+        "A2.settle",
+        "A2.mode"
+      ]
+    },
+    {
+      "task_id": "hle_064",
+      "gold": "27/4 - π√3",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\frac{27}{4}-\\sqrt{3}\\,\\pi\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A2.final",
+        "A2.settle",
+        "A2.mode"
+      ]
+    },
+    {
+      "task_id": "hle_077",
+      "gold": "\\frac{\\ln(5){\\ln(14) - \\ln(3)}",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\frac{\\log 5}{\\log(14/3)}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "A3.vote",
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_100",
+      "gold": "$\\frac{13}{21}$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\boxed{\\frac{13}{21}}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_114",
+      "gold": "$\\frac{1}{2}(N_1M_1 + N_1M_2 + N_2M_2)$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\boxed{\\frac{N_1M_1+N_2M_2+N_1M_2}{2}}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A2.final",
+        "A2.settle",
+        "A2.mode"
+      ]
+    },
+    {
+      "task_id": "hle_115",
+      "gold": "$2 \\sum_{k=0}^{(d-1)/2} \\binom{n}{k}$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n2+2\\sum_{i=1}^{(d-1)/2}\\binom{n}{i}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A2.final",
+        "A2.settle",
+        "A2.mode"
+      ]
+    },
+    {
+      "task_id": "hle_121",
+      "gold": "$y\\geq b \\cdot l, y \\geq x + b - 1$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\(b\\in\\{0,1\\},\\quad y \\ge x-b,\\quad y \\ge l-lb\\)",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A2.final",
+        "A2.settle",
+        "A2.mode"
+      ]
+    },
+    {
+      "task_id": "hle_153",
+      "gold": "Z=T_r{exp(−βH)}",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\nZ = \\int \\mathcal{D}[\\bar{\\psi}, \\psi] \\exp\\left\\{-\\int_0^\\beta d\\tau \\left[ \\sum_{\\alpha} \\bar{\\psi}_\\alpha(\\tau) \\partial_\\tau \\psi_\\alpha(\\tau) + H(\\bar{\\psi}, \\psi) \\right] \\right\\}\n\\]\nwith \\(\\tau \\in [0,\\beta]\\), \\(\\beta = 1/(k_B T)\\), and anti-periodic boundary conditions \\(\\psi_\\alpha(\\beta) = -\\psi_\\alpha(0)\\), \\(\\bar{\\psi}_\\alpha(\\beta) = -\\bar{\\psi}_\\alpha(0)\\).",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A2.final",
+        "A2.settle",
+        "A2.mode"
+      ]
+    },
+    {
+      "task_id": "hle_182",
+      "gold": "B",
+      "shape": "mc",
+      "answer_type": "multipleChoice",
+      "final_answer": "Let's search memory: There is a known Go problem \"Capture all 5 white stones\" with black stones at (2,6),(4,6),(3,5),(4,4),(4,3),(4,2),(6,2); white at (2,5),(1,4),(3,4),(3,3),(2,2). First move answer maybe (1,6) or (2,4). It resembles a \"Gokyo Shumyo\" or tsumego where Black first plays at 1-6? The shape: White stones form a \"door group\" with potential to connect/escape; Black needs play at 1-6 to prevent escape before capturing. Options include (1,6) specifically as a common \"first move outside liberties\" to block escape. The coordinate (1,6) is adjacent to black (2,6",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A2.final",
+        "A2.mode"
+      ]
+    },
+    {
+      "task_id": "hle_217",
+      "gold": "11",
+      "shape": "int",
+      "answer_type": "exactMatch",
+      "final_answer": "```text\n11\n```",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A2.final",
+        "A2.mode"
+      ]
+    },
+    {
+      "task_id": "hle_228",
+      "gold": "$\\lfloor \\frac{n+1}{3} \\rfloor$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\left\\lfloor \\frac{n+1}{3}\\right\\rfloor\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "A3.vote",
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_231",
+      "gold": "pi/2 - 1/4",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\boxed{\\frac{2\\pi-1}{4}}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A2.final",
+        "A2.settle",
+        "A2.mode"
+      ]
+    },
+    {
+      "task_id": "hle_256",
+      "gold": "$\\frac{1260n^3+21n+10}{2520n}$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\sum_{k\\ge0}k^3e^{-k^2/n}\n=\\frac{n^2}{2}+\\frac{1}{120}+\\frac{1}{252n}+E_n,\\qquad\nE_n=\\frac{1}{480n^2}+O(n^{-3})>0,\n\\]\nso for large \\(n\\), \\(|E_n|\\ge \\frac{c}{n^2}\\) with \\(c=\\frac1{960}>0\\).",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A2.final",
+        "A2.mode"
+      ]
+    },
+    {
+      "task_id": "hle_371",
+      "gold": "$\\frac{hk\\cosh(kh)}{\\cosh^2(kh)+(kh)^2}$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\chi=\\frac{kh\\cosh(kh)}{\\cosh^2(kh)+(kh)^2}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A2.final",
+        "A2.settle",
+        "A2.mode"
+      ]
+    },
+    {
+      "task_id": "hle_388",
+      "gold": "Tribromination product",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "3-bromo-2,8-bis(5-bromo-4-(2-ethylhexyl)thiophen-2-yl)-5-methyl-4H-dithieno[3,2-e:2',3'-g]isoindole-4,6(5H)-dione",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A2.final",
+        "A2.settle",
+        "A2.mode"
+      ]
+    },
+    {
+      "task_id": "hle_018",
+      "gold": "$\\frac{E(1+g) - d}{q}\\]$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\np_1=\\frac{E(1+g)-d}{q}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A3.vote"
+      ]
+    },
+    {
+      "task_id": "hle_035",
+      "gold": "v₀𝛼arctanh(√(2h𝛼c+h²)/(𝛼c+h), 𝛼=c𝛾₀/g",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\nD=\\frac{\\gamma_0 v_0 c}{g}\\cosh^{-1}\\!\\left(1+\\frac{g h}{\\gamma_0 c^2}\\right),\\qquad \n\\gamma_0=\\frac{1}{\\sqrt{1-v_0^2/c^2}}.\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A3.vote"
+      ]
+    },
+    {
+      "task_id": "hle_040",
+      "gold": "-2+1/((1-DawsonF[1])/E^3+DawsonF[2])",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n-2+\\frac{e^4}{\\displaystyle e+\\int_1^2 e^{r^2}\\,dr}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A3.vote"
+      ]
+    },
+    {
+      "task_id": "hle_062",
+      "gold": "(13, 2028/119)",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "Let  \n\\[\n13<m<\\frac{2028}{119}.\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A3.vote"
+      ]
+    },
+    {
+      "task_id": "hle_194",
+      "gold": "linalool (p-tolyl) thiocarbonate",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "S-linalyl O-(p-tolyl) thiocarbonate",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A3.vote"
+      ]
+    },
+    {
+      "task_id": "hle_225",
+      "gold": "$\\{n \\;|\\; n \\geq 4\\}$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\boxed{\\{4,5,6,7,\\ldots\\}}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A3.vote"
+      ]
+    },
+    {
+      "task_id": "hle_254",
+      "gold": "$\\frac{(4t+2)^n-(-2)^n}{2}$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\frac{(4t+2)^n-(-2)^n}{2}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A3.vote"
+      ]
+    },
+    {
+      "task_id": "hle_256",
+      "gold": "$\\frac{1260n^3+21n+10}{2520n}$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\sum_{k\\ge 0}k^3 e^{-k^2/n}\n=\\frac{n^2}{2}+\\frac{1}{120}+\\frac{1}{252n}\n+\\left(\\frac{1}{480n^2}+O(n^{-3})\\right),\n\\]\nso the approximation error is genuinely of order \\(n^{-2}\\), namely \\(\\sim \\frac{1}{480n^2}\\).",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A3.vote"
+      ]
+    },
+    {
+      "task_id": "hle_288",
+      "gold": "\\frac{1}{2}",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\alpha=\\frac12\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A3.vote"
+      ]
+    },
+    {
+      "task_id": "hle_280",
+      "gold": "\\max(\\sqrt{BL}, \\frac{L}{\\log(B^{-1}L)})",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\sqrt{B L}+\\frac{L}{\\log\\!\\left(2+\\frac{L}{B}\\right)}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A3.vote"
+      ]
+    },
+    {
+      "task_id": "hle_312",
+      "gold": "\\infty",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "Countably infinitely many.",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A3.vote"
+      ]
+    },
+    {
+      "task_id": "hle_337",
+      "gold": "2e^2 B/h(V_1)",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\nC=\\frac{2e^2B}{hV_1}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A3.vote"
+      ]
+    },
+    {
+      "task_id": "hle_343",
+      "gold": "\\frac{2}{3}mg+m\\frac{v^2}{l}",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\nF=\\frac{m v^{2}}{l}+\\frac{2}{3}m g\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A3.vote"
+      ]
+    },
+    {
+      "task_id": "hle_035",
+      "gold": "v₀𝛼arctanh(√(2h𝛼c+h²)/(𝛼c+h), 𝛼=c𝛾₀/g",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "Not uniquely determined without specifying the relativistic gravity/force convention.  \nIf gravity is a constant lab-frame force \\(F=mg\\):\n\\[\nD=\\frac{v_0 c}{g\\sqrt{1-v_0^2/c^2}}\n\\operatorname{arcosh}\\!\\left(1+\\frac{gh}{c^2}\\sqrt{1-\\frac{v_0^2}{c^2}}\\right).\n\\]\nIf the equivalence-principle/Rindler free-fall model is used:\n\\[\nD=v_0\\sqrt{\\frac{2h}{g}+\\frac{h^2}{c^2}}.\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.final"
+      ]
+    },
+    {
+      "task_id": "hle_068",
+      "gold": "2^{15/16}",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\boxed{2^{15/16}}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_069",
+      "gold": "$[n]_qT^{n-1}dT$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\nabla_q(T^n)=[n]_q\\,T^{n-1}\\,dT\n=\\frac{q^n-1}{q-1}\\,T^{n-1}\\,dT\n\\qquad(n\\ge 1),\n\\]\nand \\(\\nabla_q(1)=0\\).",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_096",
+      "gold": "$\\frac{\\pi}{\\ln(4)}$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\frac{\\pi}{2\\ln 2}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_153",
+      "gold": "Z=T_r{exp(−βH)}",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\nZ=\\int \\mathcal D\\bar\\psi\\,\\mathcal D\\psi\\,\n\\exp\\!\\left\\{-\\int_0^\\beta d\\tau\\left[\\sum_\\alpha\n\\bar\\psi_\\alpha(\\tau)\\partial_\\tau\\psi_\\alpha(\\tau)\n+\\mathcal H(\\bar\\psi(\\tau),\\psi(\\tau))\\right]\\right\\},\n\\]\nwith Grassmann fields satisfying anti-periodic boundary conditions\n\\[\n\\psi_\\alpha(\\beta)=-\\psi_\\alpha(0),\\qquad\n\\bar\\psi_\\alpha(\\beta)=-\\bar\\psi_\\alpha(0).\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_162",
+      "gold": "1-(2g/πk) [F(k)-E(k)]",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\boxed{\nN_f=1-\\frac{8}{\\pi}\\int_{k}^{1}\n\\frac{(1-t^2/2)F(t)-E(t)}\n{t^3\\sqrt{1-t^2}}\\,dt,\n\\qquad\nk^2=\\frac{1}{1+g^2/4}\n}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_202",
+      "gold": "2",
+      "shape": "int",
+      "answer_type": "exactMatch",
+      "final_answer": "Wait, one more subtlety: The Levi-Civita symbol ε_{abc} is a pseudo-tensor of rank 3, but under translations it's invariant. The product ε_{abc} u_d u_e u_f u_g has 7 indices. But is it a *function of the positions* if N=2? Yes u=r1-r2. However, if we define T_{abcdefg}=ε_{abc} (r1-r2)_d (r1-r2)_e (r1-r2)_f (r1-r2)_g, this is translation-invariant. Under rotation R, T' = ε_{abc} (R u)_d... = R_{dD}... ε_{abc} u_D... Since R_{aA}R_{bB}R_{cC} ε_{ABC}=det(R) ε_{abc}, we get T' = det(R) R_{aA}...R_{gG} ε_{ABC} u",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.final"
+      ]
+    },
+    {
+      "task_id": "hle_231",
+      "gold": "pi/2 - 1/4",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\frac{2\\pi-1}{4}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_256",
+      "gold": "$\\frac{1260n^3+21n+10}{2520n}$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\boxed{\nA(n)=\\frac{n^2}{2}+\\frac{1}{120}+\\frac{1}{252n},\\qquad\n\\left|\\sum_{k\\ge 0}k^3e^{-k^2/n}-A(n)\\right|\n=\\frac{1}{480n^2}+O(n^{-3})=\\Theta(n^{-2}).\n}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.final",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_288",
+      "gold": "\\frac{1}{2}",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\boxed{\\frac{1}{2}}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_290",
+      "gold": "arccos(2 sqrt(6) /5)",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\boxed{\\arcsin\\!\\left(\\frac{1}{5}\\right)}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_337",
+      "gold": "2e^2 B/h(V_1)",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\nC_g=\\frac{2e^2B}{hV_1}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_388",
+      "gold": "Tribromination product",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\boxed{\\text{2-(5-bromo-4-(2-ethylhexyl)thiophen-2-yl)-8-(5-bromo-4-(2-ethylhexyl)thiophen-2-yl)-3-bromo-5-methyl-4H-dithieno[3,2-e:2',3'-g]isoindole-4,6(5H)-dione}}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.final",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_335",
+      "gold": "C",
+      "shape": "mc",
+      "answer_type": "multipleChoice",
+      "final_answer": "\\[\n\\Delta W=\\frac{\\pi d^2 h^2 \\rho}{2 t^2}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.settle"
+      ]
+    },
+    {
+      "task_id": "hle_035",
+      "gold": "v₀𝛼arctanh(√(2h𝛼c+h²)/(𝛼c+h), 𝛼=c𝛾₀/g",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\nD=\\frac{v_0 c}{g\\sqrt{1-v_0^2/c^2}}\n\\operatorname{arcosh}\\!\\left(1+\\frac{g h}{c^2}\\sqrt{1-\\frac{v_0^2}{c^2}}\\right).\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_079",
+      "gold": "q^240",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\boxed{q^{240}}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_114",
+      "gold": "$\\frac{1}{2}(N_1M_1 + N_1M_2 + N_2M_2)$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\mathbb E[\\tau]=\\frac12\\bigl(N_1M_1+N_2M_2+N_1M_2\\bigr)\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_115",
+      "gold": "$2 \\sum_{k=0}^{(d-1)/2} \\binom{n}{k}$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n2+2\\sum_{k=1}^{(d-1)/2}\\binom{n}{k}\n\\]",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_312",
+      "gold": "\\infty",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\(\\aleph_0\\)",
+      "astra_verdict": true,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.mode"
+      ]
+    }
+  ],
+  "false_rescue": [
+    {
+      "task_id": "hle_129",
+      "gold": "b = \\alpha P_1",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\(b^*=-\\alpha P_1\\) (if using the convention \\(X_2=U_2+bZ_1\\); otherwise \\(b^*=\\alpha P_1\\) for \\(X_2=U_2-bZ_1\\)), with the feasibility/power constraint \\(b^{*2}\\le P_2\\).",
+      "astra_verdict": false,
+      "prev_deepseek": "rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A3.init",
+        "C3.init"
+      ]
+    },
+    {
+      "task_id": "hle_336",
+      "gold": "α+9β/5,α+β/5,α+(sqrt41*β)/5,α-(sqrt41*β)",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "\\(E=\\alpha+\\frac{9}{5}\\beta,\\quad \\alpha+\\frac{\\sqrt{41}}{5}\\beta,\\quad \\alpha+\\frac{1}{5}\\beta,\\quad \\alpha-\\frac{\\sqrt{41}}{5}\\beta\\)",
+      "astra_verdict": false,
+      "prev_deepseek": "rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A2.final",
+        "A2.settle",
+        "A2.mode",
+        "A3.init",
+        "C3.init",
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    }
+  ],
+  "none": [
+    {
+      "task_id": "hle_121",
+      "gold": "$y\\geq b \\cdot l, y \\geq x + b - 1$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "y \\geq l b - b, \\quad y \\geq x + l - 1 + b - l b",
+      "astra_verdict": null,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A.init",
+        "A2.init",
+        "A3.init",
+        "C3.init"
+      ]
+    },
+    {
+      "task_id": "hle_021",
+      "gold": "$f(w)=\\bot\\multimap\\bot^{1+w}, C = f(b)^m$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "f(0)=1,\\qquad f(n+1)=\\bot\\multimap f(n),\\qquad \nC=\\bigotimes_{i=1}^{m} f(b).",
+      "astra_verdict": null,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A2.final",
+        "A2.settle",
+        "A2.mode"
+      ]
+    },
+    {
+      "task_id": "hle_121",
+      "gold": "$y\\geq b \\cdot l, y \\geq x + b - 1$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "y ≥ x - (u - l) b,  \ny ≥ -(u - l)(1 - b)",
+      "astra_verdict": null,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "A3.vote"
+      ]
+    },
+    {
+      "task_id": "hle_021",
+      "gold": "$f(w)=\\bot\\multimap\\bot^{1+w}, C = f(b)^m$",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\boxed{\n\\underline{0}=1,\\qquad \\underline{n+1}=\\bot\\multimap\\underline{n},\\qquad\nf(w)=\\underline{w},\\qquad\nC=\\bigotimes_{i=1}^{m}\\underline{b}\n}\n\\]",
+      "astra_verdict": null,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.final",
+        "C3.settle",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_280",
+      "gold": "\\max(\\sqrt{BL}, \\frac{L}{\\log(B^{-1}L)})",
+      "shape": "symbol",
+      "answer_type": "exactMatch",
+      "final_answer": "\\[\n\\frac{B}{2}\\,\\Phi^{-1}\\!\\left(\\frac{2\\log(\\delta^{-1})}{B}\\right),\\qquad\n\\Phi(s)=1-\\sqrt{1+s^{2}}+s\\,\\sinh^{-1}(s)\n\\]",
+      "astra_verdict": null,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.final",
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_393",
+      "gold": "CC1(C)OC2COC3(COC(C)(C)O3)C(=O)C2O1",
+      "shape": "text",
+      "answer_type": "exactMatch",
+      "final_answer": "C1(C3OCC12)(COC2)(COCC(=O)COCOC3)",
+      "astra_verdict": null,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.mode"
+      ]
+    },
+    {
+      "task_id": "hle_396",
+      "gold": "55.43",
+      "shape": "int",
+      "answer_type": "exactMatch",
+      "final_answer": "l^* = 4a\\sqrt{3}",
+      "astra_verdict": null,
+      "prev_deepseek": "not_rescued",
+      "served_model": "gpt-6-astra",
+      "metric_instances": [
+        "C3.mode"
+      ]
+    }
+  ],
+  "fp": [
+    {
+      "task_id": "hle_182",
+      "gold": "B",
+      "answer_type": "multipleChoice",
+      "shape": "mc",
+      "final_answer": "Sequence: B1(2,4), W1(1,5), B2(3,2), W2(2,3), B3(1,6), W3(1,3) connect all White into G with liberties {(2,4),(1,2),(2,1)}. B(1,6) safe? B(1,6) connected to B(2,6); yes. B(2,4) captured, B(3,2) connected row4. Black to move B4. Instead of (1,2), play (2,1):\nAfter B(2,1), G liberties = (2,4),(1,2) (since (2,1) occupied). B(2,1) has liberties (1,1),(3,1) (and adjacent W(2,2) but no empty there) because neighbors: (1,1 empty),(3,1 empty),(2,2 W), edge. So safe (2 liberties). White W4 could play (1,2) reducing G liberties to (2,4) and also attacking B(2,1)? (1,2)",
+      "provenance": [
+        "C3.final",
+        "C3.mode"
+      ],
+      "k": 3,
+      "n_true": 0,
+      "n_false": 3
+    }
+  ],
+  "cluster": [
+    {
+      "task_id": "hle_032",
+      "arm": "A3",
+      "metric": "vote",
+      "gold": "(r,t)",
+      "answer_type": "exactMatch",
+      "shape": "word",
+      "old_winner": "(r, t)",
+      "new_winner": "r, t",
+      "old_t1": true,
+      "new_t1": true,
+      "verdict_flip": false
+    },
+    {
+      "task_id": "hle_235",
+      "arm": "A3",
+      "metric": "vote",
+      "gold": "0.96",
+      "answer_type": "exactMatch",
+      "shape": "int",
+      "old_winner": "0.96",
+      "new_winner": "24/25",
+      "old_t1": true,
+      "new_t1": false,
+      "verdict_flip": true
+    },
+    {
+      "task_id": "hle_126",
+      "arm": "C3",
+      "metric": "mode",
+      "gold": "306.7103",
+      "answer_type": "exactMatch",
+      "shape": "int",
+      "old_winner": "**347.4053**",
+      "new_winner": "-1.0000",
+      "old_t1": false,
+      "new_t1": false,
+      "verdict_flip": false
+    }
+  ]
+}

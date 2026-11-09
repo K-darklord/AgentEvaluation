@@ -1,0 +1,568 @@
+{
+ "C2": {
+  "ntasks": 400,
+  "nrounds": 2758,
+  "mean_rounds_per_task": 6.89,
+  "truncated_rounds": 206,
+  "truncation_rate": 0.0747,
+  "submitted_rounds": 2551,
+  "submission_rate": 0.9249,
+  "api_failure_rounds": 1,
+  "reasoning_tokens_overall": {
+   "n": 2758,
+   "mean": 12413.9,
+   "median": 16384,
+   "p25": 7746,
+   "p75": 16384,
+   "min": 0,
+   "max": 16533
+  },
+  "completion_tokens_overall": {
+   "n": 2758,
+   "mean": 13111.1,
+   "median": 16386,
+   "p25": 7803,
+   "p75": 16401,
+   "min": 0,
+   "max": 24576
+  },
+  "by_round": {
+   "0": {
+    "n_rounds": 400,
+    "trunc_n": 28,
+    "trunc_rate": 7.0,
+    "reasoning_tokens": {
+     "n": 400,
+     "mean": 11718.5,
+     "median": 16384,
+     "p25": 5840,
+     "p75": 16384,
+     "min": 85,
+     "max": 16384
+    },
+    "completion_tokens": {
+     "n": 400,
+     "mean": 12346.0,
+     "median": 16386,
+     "p25": 5848,
+     "p75": 16401,
+     "min": 95,
+     "max": 24576
+    }
+   },
+   "1": {
+    "n_rounds": 400,
+    "trunc_n": 25,
+    "trunc_rate": 6.25,
+    "reasoning_tokens": {
+     "n": 400,
+     "mean": 11904.8,
+     "median": 16384,
+     "p25": 6774,
+     "p75": 16384,
+     "min": 310,
+     "max": 16384
+    },
+    "completion_tokens": {
+     "n": 400,
+     "mean": 12523.2,
+     "median": 16386,
+     "p25": 6779,
+     "p75": 16397,
+     "min": 317,
+     "max": 24576
+    }
+   },
+   "2": {
+    "n_rounds": 400,
+    "trunc_n": 28,
+    "trunc_rate": 7.0,
+    "reasoning_tokens": {
+     "n": 400,
+     "mean": 11991.6,
+     "median": 16384,
+     "p25": 6476,
+     "p75": 16384,
+     "min": 240,
+     "max": 16410
+    },
+    "completion_tokens": {
+     "n": 400,
+     "mean": 12665.2,
+     "median": 16386,
+     "p25": 6513,
+     "p75": 16395,
+     "min": 245,
+     "max": 24576
+    }
+   },
+   "3": {
+    "n_rounds": 279,
+    "trunc_n": 14,
+    "trunc_rate": 5.02,
+    "reasoning_tokens": {
+     "n": 279,
+     "mean": 12799.7,
+     "median": 16384,
+     "p25": 8835,
+     "p75": 16384,
+     "min": 334,
+     "max": 16388
+    },
+    "completion_tokens": {
+     "n": 279,
+     "mean": 13285.9,
+     "median": 16387,
+     "p25": 8862,
+     "p75": 16401,
+     "min": 341,
+     "max": 24576
+    }
+   },
+   "4": {
+    "n_rounds": 239,
+    "trunc_n": 20,
+    "trunc_rate": 8.37,
+    "reasoning_tokens": {
+     "n": 239,
+     "mean": 12644.6,
+     "median": 16384,
+     "p25": 8999,
+     "p75": 16384,
+     "min": 190,
+     "max": 16384
+    },
+    "completion_tokens": {
+     "n": 239,
+     "mean": 13416,
+     "median": 16387,
+     "p25": 9013,
+     "p75": 16405,
+     "min": 195,
+     "max": 24576
+    }
+   },
+   "5": {
+    "n_rounds": 215,
+    "trunc_n": 20,
+    "trunc_rate": 9.3,
+    "reasoning_tokens": {
+     "n": 215,
+     "mean": 13139.4,
+     "median": 16384,
+     "p25": 10287,
+     "p75": 16384,
+     "min": 164,
+     "max": 16384
+    },
+    "completion_tokens": {
+     "n": 215,
+     "mean": 13992.8,
+     "median": 16388,
+     "p25": 10298,
+     "p75": 16404,
+     "min": 186,
+     "max": 24576
+    }
+   },
+   "6": {
+    "n_rounds": 197,
+    "trunc_n": 15,
+    "trunc_rate": 7.61,
+    "reasoning_tokens": {
+     "n": 197,
+     "mean": 12798.7,
+     "median": 16384,
+     "p25": 9024,
+     "p75": 16384,
+     "min": 220,
+     "max": 16533
+    },
+    "completion_tokens": {
+     "n": 197,
+     "mean": 13453.6,
+     "median": 16387,
+     "p25": 9043,
+     "p75": 16404,
+     "min": 229,
+     "max": 24576
+    }
+   },
+   "7": {
+    "n_rounds": 175,
+    "trunc_n": 14,
+    "trunc_rate": 8.0,
+    "reasoning_tokens": {
+     "n": 175,
+     "mean": 12747.3,
+     "median": 16384,
+     "p25": 8863,
+     "p75": 16384,
+     "min": 287,
+     "max": 16385
+    },
+    "completion_tokens": {
+     "n": 175,
+     "mean": 13467.2,
+     "median": 16387,
+     "p25": 8866,
+     "p75": 16409,
+     "min": 296,
+     "max": 24576
+    }
+   },
+   "8": {
+    "n_rounds": 164,
+    "trunc_n": 15,
+    "trunc_rate": 9.15,
+    "reasoning_tokens": {
+     "n": 164,
+     "mean": 12705.4,
+     "median": 16384,
+     "p25": 9219,
+     "p75": 16384,
+     "min": 181,
+     "max": 16384
+    },
+    "completion_tokens": {
+     "n": 164,
+     "mean": 13519.2,
+     "median": 16387,
+     "p25": 9224,
+     "p75": 16415,
+     "min": 188,
+     "max": 24576
+    }
+   },
+   "9": {
+    "n_rounds": 147,
+    "trunc_n": 14,
+    "trunc_rate": 9.52,
+    "reasoning_tokens": {
+     "n": 147,
+     "mean": 12656.3,
+     "median": 16384,
+     "p25": 8437,
+     "p75": 16384,
+     "min": 0,
+     "max": 16384
+    },
+    "completion_tokens": {
+     "n": 147,
+     "mean": 13618.6,
+     "median": 16387,
+     "p25": 8454,
+     "p75": 16416,
+     "min": 0,
+     "max": 24576
+    }
+   },
+   "10": {
+    "n_rounds": 142,
+    "trunc_n": 13,
+    "trunc_rate": 9.15,
+    "reasoning_tokens": {
+     "n": 142,
+     "mean": 13219.4,
+     "median": 16384,
+     "p25": 9994,
+     "p75": 16384,
+     "min": 157,
+     "max": 16384
+    },
+    "completion_tokens": {
+     "n": 142,
+     "mean": 14075.1,
+     "median": 16387,
+     "p25": 10163,
+     "p75": 16411,
+     "min": 162,
+     "max": 24576
+    }
+   }
+  }
+ },
+ "C3": {
+  "ntasks": 400,
+  "nrounds": 2688,
+  "mean_rounds_per_task": 6.72,
+  "truncated_rounds": 210,
+  "truncation_rate": 0.0781,
+  "submitted_rounds": 2478,
+  "submission_rate": 0.9219,
+  "api_failure_rounds": 3,
+  "reasoning_tokens_overall": {
+   "n": 2688,
+   "mean": 12404.7,
+   "median": 16384,
+   "p25": 7671,
+   "p75": 16384,
+   "min": 0,
+   "max": 16501
+  },
+  "completion_tokens_overall": {
+   "n": 2688,
+   "mean": 13130.2,
+   "median": 16387,
+   "p25": 7697,
+   "p75": 16402,
+   "min": 0,
+   "max": 24576
+  },
+  "by_round": {
+   "0": {
+    "n_rounds": 400,
+    "trunc_n": 28,
+    "trunc_rate": 7.0,
+    "reasoning_tokens": {
+     "n": 400,
+     "mean": 11718.5,
+     "median": 16384,
+     "p25": 5840,
+     "p75": 16384,
+     "min": 85,
+     "max": 16384
+    },
+    "completion_tokens": {
+     "n": 400,
+     "mean": 12346.0,
+     "median": 16386,
+     "p25": 5848,
+     "p75": 16401,
+     "min": 95,
+     "max": 24576
+    }
+   },
+   "1": {
+    "n_rounds": 400,
+    "trunc_n": 23,
+    "trunc_rate": 5.75,
+    "reasoning_tokens": {
+     "n": 400,
+     "mean": 11901.3,
+     "median": 16384,
+     "p25": 6349,
+     "p75": 16384,
+     "min": 57,
+     "max": 16385
+    },
+    "completion_tokens": {
+     "n": 400,
+     "mean": 12438.9,
+     "median": 16386,
+     "p25": 6351,
+     "p75": 16394,
+     "min": 180,
+     "max": 24576
+    }
+   },
+   "2": {
+    "n_rounds": 400,
+    "trunc_n": 21,
+    "trunc_rate": 5.25,
+    "reasoning_tokens": {
+     "n": 400,
+     "mean": 11464.5,
+     "median": 16384,
+     "p25": 5494,
+     "p75": 16384,
+     "min": 0,
+     "max": 16387
+    },
+    "completion_tokens": {
+     "n": 400,
+     "mean": 11949.1,
+     "median": 16386,
+     "p25": 5511,
+     "p75": 16394,
+     "min": 0,
+     "max": 24576
+    }
+   },
+   "3": {
+    "n_rounds": 276,
+    "trunc_n": 21,
+    "trunc_rate": 7.61,
+    "reasoning_tokens": {
+     "n": 276,
+     "mean": 12756.5,
+     "median": 16384,
+     "p25": 9903,
+     "p75": 16384,
+     "min": 0,
+     "max": 16389
+    },
+    "completion_tokens": {
+     "n": 276,
+     "mean": 13477.5,
+     "median": 16388,
+     "p25": 9905,
+     "p75": 16403,
+     "min": 0,
+     "max": 24576
+    }
+   },
+   "4": {
+    "n_rounds": 242,
+    "trunc_n": 25,
+    "trunc_rate": 10.33,
+    "reasoning_tokens": {
+     "n": 242,
+     "mean": 13118.5,
+     "median": 16384,
+     "p25": 11171,
+     "p75": 16384,
+     "min": 167,
+     "max": 16384
+    },
+    "completion_tokens": {
+     "n": 242,
+     "mean": 14001.9,
+     "median": 16388,
+     "p25": 11180,
+     "p75": 16406,
+     "min": 170,
+     "max": 24576
+    }
+   },
+   "5": {
+    "n_rounds": 202,
+    "trunc_n": 17,
+    "trunc_rate": 8.42,
+    "reasoning_tokens": {
+     "n": 202,
+     "mean": 13115.9,
+     "median": 16384,
+     "p25": 10243,
+     "p75": 16384,
+     "min": 323,
+     "max": 16386
+    },
+    "completion_tokens": {
+     "n": 202,
+     "mean": 13914.5,
+     "median": 16388,
+     "p25": 10247,
+     "p75": 16413,
+     "min": 335,
+     "max": 24576
+    }
+   },
+   "6": {
+    "n_rounds": 183,
+    "trunc_n": 16,
+    "trunc_rate": 8.74,
+    "reasoning_tokens": {
+     "n": 183,
+     "mean": 13027.9,
+     "median": 16384,
+     "p25": 9345,
+     "p75": 16384,
+     "min": 217,
+     "max": 16393
+    },
+    "completion_tokens": {
+     "n": 183,
+     "mean": 13900.9,
+     "median": 16388,
+     "p25": 9350,
+     "p75": 16413,
+     "min": 222,
+     "max": 24576
+    }
+   },
+   "7": {
+    "n_rounds": 166,
+    "trunc_n": 13,
+    "trunc_rate": 7.83,
+    "reasoning_tokens": {
+     "n": 166,
+     "mean": 13060.5,
+     "median": 16384,
+     "p25": 10106,
+     "p75": 16384,
+     "min": 51,
+     "max": 16501
+    },
+    "completion_tokens": {
+     "n": 166,
+     "mean": 13771.0,
+     "median": 16388,
+     "p25": 10204,
+     "p75": 16407,
+     "min": 167,
+     "max": 24576
+    }
+   },
+   "8": {
+    "n_rounds": 149,
+    "trunc_n": 15,
+    "trunc_rate": 10.07,
+    "reasoning_tokens": {
+     "n": 149,
+     "mean": 12781.0,
+     "median": 16384,
+     "p25": 8789,
+     "p75": 16384,
+     "min": 63,
+     "max": 16385
+    },
+    "completion_tokens": {
+     "n": 149,
+     "mean": 13687.7,
+     "median": 16388,
+     "p25": 8791,
+     "p75": 16412,
+     "min": 179,
+     "max": 24576
+    }
+   },
+   "9": {
+    "n_rounds": 139,
+    "trunc_n": 13,
+    "trunc_rate": 9.35,
+    "reasoning_tokens": {
+     "n": 139,
+     "mean": 13063.8,
+     "median": 16384,
+     "p25": 11048,
+     "p75": 16384,
+     "min": 232,
+     "max": 16384
+    },
+    "completion_tokens": {
+     "n": 139,
+     "mean": 13985.3,
+     "median": 16388,
+     "p25": 11055,
+     "p75": 16424,
+     "min": 335,
+     "max": 24576
+    }
+   },
+   "10": {
+    "n_rounds": 131,
+    "trunc_n": 18,
+    "trunc_rate": 13.74,
+    "reasoning_tokens": {
+     "n": 131,
+     "mean": 12922.8,
+     "median": 16384,
+     "p25": 9990,
+     "p75": 16384,
+     "min": 149,
+     "max": 16393
+    },
+    "completion_tokens": {
+     "n": 131,
+     "mean": 14259.7,
+     "median": 16388,
+     "p25": 9993,
+     "p75": 16483,
+     "min": 154,
+     "max": 24576
+    }
+   }
+  }
+ }
+}

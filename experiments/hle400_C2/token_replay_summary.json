@@ -1,0 +1,27 @@
+{
+  "seed": 42,
+  "k": 50,
+  "total_feedback_rounds": 2358,
+  "success_rounds": 2328,
+  "fallback_rounds": 30,
+  "per_call_means": {
+    "prompt_chars": 8365.18,
+    "prompt_tokens": 2601.3,
+    "completion_tokens": 7224.36,
+    "reasoning_tokens": 6921.72
+  },
+  "prompt_chars_dist": {
+    "mean": 8365.18,
+    "median": 7857.0,
+    "min": 5846,
+    "max": 15530
+  },
+  "extrapolated": {
+    "prompt_tokens": 6133865.4,
+    "completion_tokens": 17035040.88,
+    "reasoning_tokens": 16321415.76,
+    "reasoning_ci_lo": 12421726.360604957,
+    "reasoning_ci_hi": 20221105.159395043,
+    "critic_total_pt_plus_ct": 23168906.28
+  }
+}
