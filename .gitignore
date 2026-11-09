@@ -99,3 +99,16 @@ cache/
 # Reference dataset clone (Humanity's Last Exam official repo) — external clone, not this repo's content
 data/hle_repo/
 
+
+# ===========================
+# Experimental LLM run artifacts (trajectories / verdicts / transitions)
+# ===========================
+# Huge JSONL outputs kept locally only (full-machine backup is the durability
+# mechanism), never committed to git. The paper's evidence chain lives in the
+# small summary/scores files, which stay version-controlled.
+experiments/**/loop_trajectories.jsonl
+experiments/**/*_transitions.jsonl
+experiments/**/judge_c_verdicts*.jsonl
+experiments/**/qcut_*.jsonl
+experiments/**/*_moves.jsonl
+experiments/**/*_switches_*.jsonl
