@@ -627,7 +627,7 @@ def _round_record(r: int, result, correct: bool, evidence, error, no_signal,
                   top3, arm: str, rationale: str = "", rat_toks=(0, 0, 0),
                   committed_answer=None, carried: bool = False,
                   commit_source: str = None, critic_direction=None,
-                  critic_fallback=None) -> dict:
+                  critic_fallback=None, critic_toks=(0, 0, 0)) -> dict:
     return {
         "round": r,
         "arm": arm,
@@ -654,6 +654,9 @@ def _round_record(r: int, result, correct: bool, evidence, error, no_signal,
         "rationale_prompt_tokens": rat_toks[0],
         "rationale_completion_tokens": rat_toks[1],
         "rationale_reasoning_tokens": rat_toks[2],
+        "critic_prompt_tokens": critic_toks[0],
+        "critic_completion_tokens": critic_toks[1],
+        "critic_reasoning_tokens": critic_toks[2],
     }
 
 
@@ -702,6 +705,35 @@ class _DaemonThreadPoolExecutor(concurrent.futures.ThreadPoolExecutor):
 
 
 _write_lock = threading.Lock()
+
+# --- interface-failure retry (rule 3) -------------------------------------
+# An api_failure solve is NEVER returned to the task loop: it is retried after a
+# short delay, so "LLM error: ..." text never enters final_answer and never feeds
+# the "N consecutive identical" early-stop streak. Consecutive failures abort.
+SOLVE_MAX_CONSEC_ERRORS = int(os.getenv("AGENTEVALUATION_SOLVE_MAX_CONSEC_ERRORS", "5"))
+# Per-thread consecutive-failure counter so concurrent reruns (rule 1) do not
+# share a global streak across worker threads.
+_solve_ctx = threading.local()
+
+
+class InterfaceAbortError(Exception):
+    """Raised when the solver interface fails too many times in a row."""
+
+
+def _solve_with_retry(agent, task, *, feedback=None, tool_cache=None,
+                      rationale_mode="off"):
+    while True:
+        result = agent.solve(task, feedback=feedback, tool_cache=tool_cache,
+                             rationale_mode=rationale_mode)
+        if not result.api_failure:
+            _solve_ctx.consec_errors = 0
+            return result
+        _solve_ctx.consec_errors = getattr(_solve_ctx, "consec_errors", 0) + 1
+        n = _solve_ctx.consec_errors
+        if n >= SOLVE_MAX_CONSEC_ERRORS:
+            raise InterfaceAbortError(
+                f"{n} consecutive interface failures; last={result.final_answer!r}")
+        time.sleep(1.0)
 
 
 def _a3c3_source_traj(name: str) -> Path:
@@ -876,7 +908,7 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
         r0["commit_source"] = prev_source
         records.append(r0)
     else:
-        result = agent.solve(task, feedback=None, tool_cache=tool_cache)
+        result = _solve_with_retry(agent, task, tool_cache=tool_cache)
         prev_answer = result.final_answer
         prev_key, prev_source = _early_stop_key(family, task.gold_answer, prev_answer,
                                                  result.reasoning_content,
@@ -891,7 +923,7 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
         # feedback and no early stop. The SC vote = majority over those n-1 samples
         # (score_hle_arms A3.vote); init = round 0 = A. Coverage = pass@k.
         for r in range(1, max_rounds):
-            result = agent.solve(task, feedback=None, tool_cache=tool_cache)
+            result = _solve_with_retry(agent, task, tool_cache=tool_cache)
             records.append(_round_record(r, result, score(result),
                                          None, None, None, None, arm))
         corrects = [rec["is_correct"] for rec in records]
@@ -905,6 +937,7 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
 
     critic_direction = None
     critic_fallback = None   # per-round fallback flag (bank-free C2 only; None otherwise)
+    critic_toks = (0, 0, 0)  # per-round critic LLM token usage (prompt/completion/reasoning)
     streak = 1
     issued_archetypes = set()   # direction memory for CRITIC_HOLD_ON_REPEAT
     # A3C3 feedback rounds run on the deterministic (T=0) agent to match C3; only the
@@ -946,7 +979,7 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
                     # hidden CoT. A3C3 was previously missing reasoning here
                     # (arm == "C3" guard), so its critic silently degraded to the old
                     # no-CoT behaviour while C3-v2 fed CoT -- fixed 2026-10-24.
-                    fb_text, critic_direction, evidence, critic_fallback = critic.feedback(
+                    fb_text, critic_direction, evidence, critic_fallback, critic_toks = critic.feedback(
                         task.prompt, prev_answer, family, reasoning=prev_reasoning)
                 else:
                     fb_text, critic_direction, evidence = critic.feedback(
@@ -971,8 +1004,9 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
                     no_signal = True
                 else:
                     issued_archetypes |= cur_names
-        result = solver.solve(task, feedback=feedback, tool_cache=tool_cache,
-                             rationale_mode=rationale_mode)
+        result = _solve_with_retry(solver, task, feedback=feedback,
+                                   tool_cache=tool_cache,
+                                   rationale_mode=rationale_mode)
         rationale = ""
         rat_toks = (0, 0, 0)
         if feedback and rationale_mode in ("reason_line", "json"):
@@ -1029,7 +1063,8 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
                                      committed_answer=(score_answer if carried else None),
                                      carried=carried, commit_source=commit_source,
                                      critic_direction=critic_direction,
-                                     critic_fallback=critic_fallback))
+                                     critic_fallback=critic_fallback,
+                                     critic_toks=critic_toks))
         if streak >= early_stop_n:
             break
 
@@ -1129,7 +1164,7 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
         entry = config.PHASE1_MODELS[name]
         agent = HuggingFaceAgent(
             model=entry["model"], token=entry.get("api_key"),
-            base_url=entry["base_url"], max_tokens=max_tokens, temperature=temperature,
+            base_url=entry["base_url"], max_tokens=entry.get("max_tokens", max_tokens), temperature=temperature,
             seed=None, enable_thinking=(enable_thinking
                                         if enable_thinking is not None
                                         else entry.get("enable_thinking")),
@@ -1242,7 +1277,13 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
                             continue
                         deadline.pop(fut, None)
                         in_flight.pop(fut)
-                        _append_record(traj_path, fut.result())
+                        try:
+                            rec = fut.result()
+                        except InterfaceAbortError as e:
+                            print(f"  [{name}] ABORT: {e}", flush=True)
+                            ex.shutdown(wait=False, cancel_futures=True)
+                            raise SystemExit(2)
+                        _append_record(traj_path, rec)
                         done += 1
                         print(f"  [{name}] {done}/{len(pending_tasks)} tasks done",
                               flush=True)

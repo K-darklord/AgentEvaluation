@@ -210,27 +210,33 @@ class StrongCritic:
             content, _reasoning, _info = self._agent._call_llm_text(
                 [{"role": "system", "content": system},
                  {"role": "user", "content": self._build_user(question, answer, reasoning)}])
+            u = getattr(_info, "usage", None)
+            toks = (
+                getattr(u, "prompt_tokens", 0) or 0,
+                getattr(u, "completion_tokens", 0) or 0,
+                getattr(u, "reasoning_tokens", 0) or 0,
+            )
             parsed = _extract_json(content)
             directions = parsed.get("directions", []) if parsed else []
             directions = [d for d in directions if isinstance(d, dict) and d.get("suspicion")]
             if not directions:
                 raise ValueError("empty directions")
-            return directions
+            return directions, toks
 
         try:
-            directions = _call()
+            directions, toks = _call()
         except Exception:
             if self.bank_free:
                 # retry once; if still failing, ablate to the neutral placebo (no bank read)
                 try:
-                    directions = _call()
+                    directions, toks = _call()
                 except Exception:
-                    return A2_PLACEBO_FEEDBACK, [], None, True
+                    return A2_PLACEBO_FEEDBACK, [], None, True, (0, 0, 0)
             else:
                 # C3/A3C3: fall back to the TF-IDF weak critic (reads the bank)
                 pairs = self._weak.topk(question, answer, family, k=3)
                 text, structured = self._weak.render_topk(pairs)
-                return text, structured, None, None
+                return text, structured, None, None, (0, 0, 0)
 
         text, structured = _render(directions)
-        return text, structured, None, fallback
+        return text, structured, None, fallback, toks

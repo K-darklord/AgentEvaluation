@@ -1,547 +1,471 @@
 {
- "schema_version": "1.0",
- "methods": [],
- "results": [],
+ "schema_version": 2,
+ "paper": "paper/acl/main.tex",
+ "date": "2026-11-11",
+ "methods": {
+  "selected": "expected score under uniformly random ties",
+  "tests": "exact McNemar (binary); paired sign-flip permutation 10k + bootstrap 95% CI (selected)",
+  "sidecars": [
+   "is_correct_t3_sidecar_v3.json",
+   "is_correct_t3_sidecar_rep.json",
+   "is_correct_t3_sidecar_A3extra.json"
+  ]
+ },
+ "results": {
+  "replication": "R1-R4 hold",
+  "cost_matched": "R1 holds, R2 interval includes 0"
+ },
  "numeric_facts": [
   {
-   "fact_id": "N001",
-   "concept": "C3.mode correct",
-   "value": 154,
-   "section": "§Abstract,§1,§5.1,§6.1,§6.3,§7",
-   "unit": "items",
-   "denominator": 400,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "ceiling_ds",
+   "what": "RP/PP/SC9/BC/FC reached, deepseek",
+   "value": [
+    153,
+    171,
+    190,
+    192,
+    198
+   ],
+   "paper": "Tab2",
+   "source": "scripts/two_model_tables.py"
   },
   {
-   "fact_id": "N002",
-   "concept": "C2.mode correct",
-   "value": 159,
-   "section": "§Abstract,§1,§5.1,§7,§9",
-   "unit": "items",
-   "denominator": 400,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "ceiling_qw",
+   "what": "RP/PP/SC9/FC reached, qwen",
+   "value": [
+    123,
+    149,
+    171,
+    182
+   ],
+   "paper": "Tab2",
+   "source": "scripts/two_model_tables.py"
   },
   {
-   "fact_id": "N003",
-   "concept": "A2.mode correct",
-   "value": 145,
-   "section": "§5.1,§1",
-   "unit": "items",
-   "denominator": 400,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "selected_ds",
+   "what": "RP/PP/SC9/SC11/adaptive/BC/FC selected, deepseek",
+   "value": [
+    145.0,
+    146.1,
+    136.7,
+    138.2,
+    135.8,
+    150.9,
+    157.4
+   ],
+   "paper": "Tab2",
+   "source": "two_model_tables.py; cost_matched_readout.py; tie_and_adaptive_baselines.py"
   },
   {
-   "fact_id": "N004",
-   "concept": "A3.vote expectation (random ties)",
-   "value": 137.4,
-   "section": "§3.1,§5.1,§1",
-   "unit": "value",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "selected_qw",
+   "what": "RP/PP/SC9/FC selected, qwen",
+   "value": [
+    90.8,
+    95.6,
+    91.0,
+    114.1
+   ],
+   "paper": "Tab2",
+   "source": "scripts/two_model_tables.py"
   },
   {
-   "fact_id": "N005",
-   "concept": "A3.vote deterministic first-encountered",
-   "value": 136,
-   "section": "§3.1,§5.2",
-   "unit": "items",
-   "denominator": 400,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "final_ds",
+   "what": "RP/PP/BC/FC final, deepseek",
+   "value": [
+    141,
+    142,
+    140,
+    148
+   ],
+   "paper": "Tab2",
+   "source": "scripts/two_model_tables.py"
   },
   {
-   "fact_id": "N006",
-   "concept": "A3.vote deterministic latest",
-   "value": 141,
-   "section": "§3.1",
-   "unit": "items",
-   "denominator": 400,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "final_qw",
+   "what": "RP/PP/FC final, qwen",
+   "value": [
+    89,
+    92,
+    112
+   ],
+   "paper": "Tab2",
+   "source": "scripts/two_model_tables.py"
   },
   {
-   "fact_id": "N007",
-   "concept": "ceiling A2",
-   "value": 154,
-   "section": "§5.1,§5.4,§6.1",
-   "unit": "items",
-   "denominator": 400,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "greedy",
+   "what": "greedy correct deepseek/qwen",
+   "value": [
+    113,
+    69
+   ],
+   "paper": "Tab2",
+   "source": "scripts/two_model_tables.py"
   },
   {
-   "fact_id": "N008",
-   "concept": "ceiling A3 (9 samples)",
-   "value": 190,
-   "section": "§5.1,§5.4",
-   "unit": "items",
-   "denominator": 400,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "tokens_ds_M",
+   "what": "RP/PP/SC9/SC11/adaptive/BC solver/FC solver; critic BC/FC (replay)",
+   "value": [
+    24.6,
+    31.8,
+    51.4,
+    61.8,
+    35.5,
+    37.1,
+    38.1,
+    29.0,
+    23.2
+   ],
+   "paper": "Tab2",
+   "source": "two_model_tables.py; token_replay_summary.json"
   },
   {
-   "fact_id": "N009",
-   "concept": "ceiling C3",
-   "value": 191,
-   "section": "§5.1,§5.4,§6.1",
-   "unit": "items",
-   "denominator": 400,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "tokens_qw_M",
+   "what": "RP/PP/SC9/FC solver, qwen",
+   "value": [
+    15.2,
+    21.0,
+    31.8,
+    23.6
+   ],
+   "paper": "Tab2",
+   "source": "scripts/two_model_tables.py"
   },
   {
-   "fact_id": "N010",
-   "concept": "ceiling C2",
-   "value": 198,
-   "section": "§5.1,§5.4",
-   "unit": "items",
-   "denominator": 400,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "cands",
+   "what": "distinct candidates/item deepseek RP/PP/SC/BC/FC; qwen RP/PP/SC/FC",
+   "value": [
+    2.05,
+    2.72,
+    4.52,
+    3.5,
+    3.65,
+    2.11,
+    2.94,
+    4.84,
+    3.62
+   ],
+   "paper": "Tab2",
+   "source": "scripts/two_model_tables.py"
   },
   {
-   "fact_id": "N011",
-   "concept": "C2 vs A3 symmetric p median",
-   "value": 0.004,
-   "section": "§Abstract,§1,§5.1,§7",
-   "unit": "value",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "matched_k_ds",
+   "what": "k=2,k=3,exact-only for RP/PP/SC/FC",
+   "value": [
+    [
+     141,
+     148,
+     169,
+     172
+    ],
+    [
+     150,
+     157,
+     178,
+     181
+    ],
+    [
+     91,
+     102,
+     120,
+     122
+    ]
+   ],
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py"
   },
   {
-   "fact_id": "N012",
-   "concept": "C3 vs A3 symmetric p median",
-   "value": 0.076,
-   "section": "§1,§5.1,§7",
-   "unit": "value",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "matched_k_qw",
+   "what": "k=2,k=3,exact-only for RP/PP/SC/FC",
+   "value": [
+    [
+     109,
+     118,
+     134,
+     136
+    ],
+    [
+     118,
+     137,
+     147,
+     160
+    ],
+    [
+     79,
+     94,
+     93,
+     117
+    ]
+   ],
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py"
   },
   {
-   "fact_id": "N013",
-   "concept": "A3-adaptive accuracy",
-   "value": 136.5,
-   "section": "§Abstract,§5.1,§5.4",
-   "unit": "value",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "fc_vs_rp_sel",
+   "what": "diff, lo, hi, p: deepseek; qwen; mean of both",
+   "value": [
+    [
+     12.4,
+     -1.6,
+     25.6,
+     0.076
+    ],
+    [
+     23.3,
+     8.8,
+     39.2,
+     0.004
+    ],
+    [
+     17.9,
+     7.8,
+     28.5,
+     0.0004
+    ]
+   ],
+   "paper": "Tab4/Fig2",
+   "source": "two_model_tables.py; cost_matched_readout.py"
   },
   {
-   "fact_id": "N014",
-   "concept": "A3-adaptive tokens M",
-   "value": 36.0,
-   "section": "§5.1",
-   "unit": "value",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "fc_vs_pp_sel",
+   "what": "diff, lo, hi, p: deepseek; qwen; mean of both",
+   "value": [
+    [
+     11.3,
+     -0.8,
+     23.7,
+     0.071
+    ],
+    [
+     18.5,
+     3.9,
+     34.3,
+     0.019
+    ],
+    [
+     14.9,
+     5.3,
+     25.7,
+     0.003
+    ]
+   ],
+   "paper": "Tab4/Fig2",
+   "source": "same"
   },
   {
-   "fact_id": "N015",
-   "concept": "recoverable items C3",
-   "value": 37,
-   "section": "§6.1,§6.3,§Abstract",
-   "unit": "items",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "fc_vs_sc_sel",
+   "what": "deepseek N=9; deepseek N=11; qwen N=9",
+   "value": [
+    [
+     20.7,
+     9.0,
+     32.4,
+     0.0004
+    ],
+    [
+     19.2,
+     7.0,
+     31.1,
+     0.002
+    ],
+    [
+     23.1,
+     9.6,
+     38.6,
+     0.002
+    ]
+   ],
+   "paper": "Tab4",
+   "source": "same"
   },
   {
-   "fact_id": "N016",
-   "concept": "oracle undo all breaks",
-   "value": 173,
-   "section": "§6.1,§6.4,§1",
-   "unit": "items",
-   "denominator": 400,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "usc",
+   "what": "USC on SC11 (n=396): selected, FC.mode diff, lo, hi, p",
+   "value": [
+    145,
+    11.4,
+    -1.4,
+    24.8,
+    0.087
+   ],
+   "paper": "S4.2/AppE",
+   "source": "scripts/cost_matched_readout.py"
   },
   {
-   "fact_id": "N017",
-   "concept": "decisive switches",
-   "value": 301,
-   "section": "§6.1",
-   "unit": "items",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "pool_bound",
+   "what": "FC vs SC9 pooled: deepseek; qwen; mean of both",
+   "value": [
+    [
+     13.0,
+     2.1,
+     23.8,
+     0.019
+    ],
+    [
+     12.2,
+     -2.8,
+     27.3,
+     0.1
+    ],
+    [
+     12.6,
+     3.2,
+     22.4,
+     0.01
+    ]
+   ],
+   "paper": "S4.2",
+   "source": "two_model_tables.py; cost_matched_readout.py"
   },
   {
-   "fact_id": "N018",
-   "concept": "repair switches",
-   "value": 159,
-   "section": "§6.1,§5.3",
-   "unit": "items",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "ceiling_pairs_ds",
+   "what": "FCvsRP, FCvsPP, PPvsRP, FCvsSC, FCvsBC discordant",
+   "value": [
+    [
+     52,
+     7
+    ],
+    [
+     39,
+     12
+    ],
+    [
+     28,
+     10
+    ],
+    [
+     29,
+     21
+    ],
+    [
+     23,
+     17
+    ]
+   ],
+   "paper": "Tab4",
+   "source": "scripts/two_model_tables.py"
   },
   {
-   "fact_id": "N019",
-   "concept": "break switches",
-   "value": 142,
-   "section": "§6.1,§5.3",
-   "unit": "items",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "ceiling_pairs_qw",
+   "what": "FCvsRP, FCvsPP, PPvsRP, FCvsSC discordant",
+   "value": [
+    [
+     69,
+     10
+    ],
+    [
+     49,
+     16
+    ],
+    [
+     42,
+     16
+    ],
+    [
+     44,
+     33
+    ]
+   ],
+   "paper": "Tab4",
+   "source": "scripts/two_model_tables.py"
   },
   {
-   "fact_id": "N020",
-   "concept": "Judge-R disagree acc",
-   "value": 0.5,
-   "section": "§6.3,§6.4",
-   "unit": "value",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "final_pairs",
+   "what": "FC vs RP final discordant: deepseek; qwen",
+   "value": [
+    [
+     29,
+     22,
+     0.4
+    ],
+    [
+     48,
+     25,
+     0.01
+    ]
+   ],
+   "paper": "S4.3",
+   "source": "scripts/two_model_tables.py"
   },
   {
-   "fact_id": "N021",
-   "concept": "Judge-R+ disagree acc",
-   "value": 0.475,
-   "section": "§6.3,§6.4",
-   "unit": "value",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "stay_ratio",
+   "what": "deepseek RP/PP/SC/BC/FC; qwen RP/PP/SC/FC",
+   "value": [
+    1.42,
+    1.68,
+    1.77,
+    1.74,
+    2.14,
+    1.2,
+    1.28,
+    1.38,
+    1.6
+   ],
+   "paper": "Tab5",
+   "source": "persistence_and_settle.py; REPLICATION_RESULTS.md"
   },
   {
-   "fact_id": "N022",
-   "concept": "Judge-C disagree acc",
-   "value": 0.485,
-   "section": "§6.3,§6.4",
-   "unit": "value",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "breakeven",
+   "what": "threshold deepseek/qwen; first-round ratio range",
+   "value": [
+    0.39,
+    0.21,
+    0.34,
+    0.96
+   ],
+   "paper": "S4.3",
+   "source": "tie_and_adaptive_baselines.py; REPLICATION_RESULTS.md"
   },
   {
-   "fact_id": "N023",
-   "concept": "C3 solver tokens M",
-   "value": 37.05,
-   "section": "§5.1,§5.1 reading",
-   "unit": "value",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "judges",
+   "what": "disagree-acc R/R+/C; dev->test; test->dev; sweep max",
+   "value": [
+    [
+     18,
+     36
+    ],
+    [
+     53,
+     116
+    ],
+    [
+     32,
+     66
+    ],
+    [
+     76,
+     73,
+     71
+    ],
+    [
+     73,
+     72,
+     77
+    ],
+    [
+     154,
+     156,
+     155
+    ]
+   ],
+   "paper": "Tab6",
+   "source": "scripts/judge_conditional_test.py (pre-rerun C3 trajectories)"
   },
   {
-   "fact_id": "N024",
-   "concept": "A3 solver tokens M",
-   "value": 51.32,
-   "section": "§5.1",
-   "unit": "value",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
-  },
-  {
-   "fact_id": "N025",
-   "concept": "C3 critic tokens M (est)",
-   "value": 16,
-   "section": "§5.1",
-   "unit": "items",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
-  },
-  {
-   "fact_id": "N026",
-   "concept": "stay asym C3",
-   "value": 1.5,
-   "section": "§5.4,§3.2",
-   "unit": "value",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
-  },
-  {
-   "fact_id": "N027",
-   "concept": "stay asym C2",
-   "value": 1.9,
-   "section": "§5.4,§3.2",
-   "unit": "value",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
-  },
-  {
-   "fact_id": "N028",
-   "concept": "stay asym A2",
-   "value": 1.25,
-   "section": "§5.4",
-   "unit": "value",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
-  },
-  {
-   "fact_id": "N029",
-   "concept": "stay asym A3",
-   "value": 1.6,
-   "section": "§5.4",
-   "unit": "value",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
-  },
-  {
-   "fact_id": "N030",
-   "concept": "multi-answer items",
-   "value": 253,
-   "section": "§6.3",
-   "unit": "items",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
-  },
-  {
-   "fact_id": "N031",
-   "concept": "items with judgeable edge",
-   "value": 244,
-   "section": "§6.3",
-   "unit": "items",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
-  },
-  {
-   "fact_id": "N032",
-   "concept": "freeze edges",
-   "value": 1201,
-   "section": "§6.1,§6.3",
-   "unit": "items",
-   "denominator": null,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
-  },
-  {
-   "fact_id": "N033",
-   "concept": "init correct",
-   "value": 113,
-   "section": "§5.1,§5.3",
-   "unit": "items",
-   "denominator": 400,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
-  },
-  {
-   "fact_id": "N034",
-   "concept": "C3 final",
-   "value": 140,
-   "section": "§5.1,§5.3",
-   "unit": "items",
-   "denominator": 400,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
-  },
-  {
-   "fact_id": "N035",
-   "concept": "C2 final",
-   "value": 148,
-   "section": "§5.1,§5.3",
-   "unit": "items",
-   "denominator": 400,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
-  },
-  {
-   "fact_id": "N036",
-   "concept": "A2 final",
-   "value": 142,
-   "section": "§5.1,§5.3",
-   "unit": "items",
-   "denominator": 400,
-   "numerator": null,
-   "sample_size": 400,
-   "analysis_set": "HLE-400 frozen",
-   "evidence_ids": [
-    "E1",
-    "E3"
-   ]
+   "id": "headroom",
+   "what": "37 = ties 11 + margin1 10 + >=2 16; switches 1201 (159 W->R, 142 R->W); oracle 173; blind 149",
+   "value": [
+    37,
+    11,
+    10,
+    16,
+    1201,
+    159,
+    142,
+    173,
+    149
+   ],
+   "paper": "S5",
+   "source": "EVALUATOR_RESULTS.md"
   }
  ]
 }

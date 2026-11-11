@@ -25,6 +25,8 @@ ev=reco.load_jsonl(T3/'c3_rubric_ce.jsonl')
 QV={}
 for r in map(json.loads,open(T3/'qcut_result.jsonl')): QV.setdefault((r['task_id'],int(r['from_r']),int(r['to_r'])),[]).append(r['verdict'])
 JC={(r['task_id'],r['from_r'],r['to_r']):r['final'] for r in map(json.loads,open(T3/'judge_c_verdicts_dashscope.jsonl'))}
+PAIRWISE={}
+for r in map(json.loads,open(T3/'qcut_pairwise_result.jsonl')): PAIRWISE[(r['task_id'],int(r['from_r']),int(r['to_r']))]=r['bucket']
 dev=lambda t:int(t.split('_')[1])%2==0
 # verdict getters: return raw verdict string or None (absent)
 def gR(t,a,b):
@@ -35,9 +37,13 @@ def gRp(t,a,b):
     if not vs: return None
     return 'CUT' if all(x=='CUT' for x in vs) else 'NO_CUT' if all(x=='NO_CUT' for x in vs) else 'UNSURE'
 def gC(t,a,b): return JC.get((t,a,b))
+def gP(t,a,b):
+    v=PAIRWISE.get((t,a,b))
+    return 'CUT' if v=='cut' else ('KEEP' if v=='keep' else None)
 JUDGES={'Judge-R':(gR,{'CUT':'break','KEEP':'fix','UNSURE':None}),
         'Judge-R+':(gRp,{'CUT':'break','NO_CUT':'fix','UNSURE':None}),
-        'Judge-C':(gC,{'OVER':'break','WARRANTED':'fix','UNSURE':None})}
+        'Judge-C':(gC,{'OVER':'break','WARRANTED':'fix','UNSURE':None}),
+        'Judge-P':(gP,{'CUT':'break','KEEP':'fix'})}
 TASKS={}
 for t,lp in loop.items():
     keys=reco.freeze_keys(lp.get('gold_answer',''),lp); sl=side[t]
@@ -61,6 +67,11 @@ ALL=list(TASKS); D=[t for t in ALL if dev(t)]; T=[t for t in ALL if not dev(t)]
 modeacc=lambda ts:sum(TASKS[t]['corr'][TASKS[t]['mode']] for t in ts)
 def mcnemar(b,c):
     n=b+c; return None if n==0 else round(min(1,sum(comb(n,i) for i in range(0,min(b,c)+1))*2/2**n),3)
+def wilson(k,n,z=1.96):
+    if n==0: return None
+    p=k/n; z2=z*z; d=1+z2/n
+    ctr=(p+z2/(2*n))/d; hw=z*math.sqrt(p*(1-p)/n+z2/(4*n*n))/d
+    return ctr-hw, ctr+hw
 def confusion(name,tasks):
     g,_=JUDGES[name]; C=Counter()
     for t in tasks:
@@ -134,8 +145,10 @@ for name in JUDGES:
     e3=apply_lr(name,T,LRd); e4=apply_lr(name,D,LRt)
     print(f"**E3** dev-fit ±logLR -> test: {e3[0]} vs mode {modeacc(T)} (+{e3[1]} −{e3[2]}, McNemar p={mcnemar(e3[1],e3[2])})  ")
     print(f"**E4** test-fit -> dev: {e4[0]} vs mode {modeacc(D)} (+{e4[1]} −{e4[2]}); LR dev/test: "+", ".join(f"{v} {LRd[v]:.2f}/{LRt[v]:.2f}" for v in LRd)+"\n")
-    C=conditional(name); n=C['n']
-    print(f"**Conditional on counts** (decisive edges with non-UNSURE verdict, n={n}): judge {C['j']/n:.3f} | counts-only {C['c']/n:.3f} | agree {C['ag']/n:.3f} | **judge when disagreeing {C['dj']}/{C['dn']} = {C['dj']/max(1,C['dn']):.3f}**\n")
-    res=sorted(((run_cfg(name,ALL,*c),c) for c in cfgs),key=lambda r:-r[0][0]); b=res[0]
-    bd=max(cfgs,key=lambda c:run_cfg(name,D,*c)[0]); bt=max(cfgs,key=lambda c:run_cfg(name,T,*c)[0])
-    print(f"**Aggregation grid** ({len(cfgs)} configs, in-sample all 400): max {b[0][0]} (+{b[0][1]} −{b[0][2]}) at {b[1]}; configs ≥155: {sum(1 for r in res if r[0][0]>=155)}; best-on-dev→test {run_cfg(name,T,*bd)} (mode {modeacc(T)}); best-on-test→dev {run_cfg(name,D,*bt)} (mode {modeacc(D)})\n")
+    C=conditional(name); n=C['n']; wl,wu=wilson(C['dj'],C['dn'])
+    wstr=f" [{wl:.3f}, {wu:.3f}]" if wl is not None else ""
+    print(f"**Conditional on counts** (decisive edges with non-UNSURE verdict, n={n}): judge {C['j']/n:.3f} | counts-only {C['c']/n:.3f} | agree {C['ag']/n:.3f} | **judge when disagreeing {C['dj']}/{C['dn']} = {C['dj']/max(1,C['dn']):.3f}{wstr} (Wilson CI)**\n")
+    if name != 'Judge-P':  # E5 pairwise: no exhaustive aggregation (spec N4)
+        res=sorted(((run_cfg(name,ALL,*c),c) for c in cfgs),key=lambda r:-r[0][0]); b=res[0]
+        bd=max(cfgs,key=lambda c:run_cfg(name,D,*c)[0]); bt=max(cfgs,key=lambda c:run_cfg(name,T,*c)[0])
+        print(f"**Aggregation grid** ({len(cfgs)} configs, in-sample all 400): max {b[0][0]} (+{b[0][1]} −{b[0][2]}) at {b[1]}; configs ≥155: {sum(1 for r in res if r[0][0]>=155)}; best-on-dev→test {run_cfg(name,T,*bd)} (mode {modeacc(T)}); best-on-test→dev {run_cfg(name,D,*bt)} (mode {modeacc(D)})\n")

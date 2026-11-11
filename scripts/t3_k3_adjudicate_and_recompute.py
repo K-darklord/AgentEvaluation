@@ -19,17 +19,20 @@ sys.path.insert(0, ".")
 from src.score_hle_arms import load_index, read_traj, _settle_idx, _mode_idx, _key
 
 T3 = Path("experiments/hle400/t3")
-ARMS = {"A": ["init"], "A2": ["init", "final", "settle", "mode"], "A3": ["init", "vote"], "C3": ["init", "final", "settle", "mode"], "C2": ["init", "final", "settle", "mode"]}
+ARMS = {"A": ["init"], "A2": ["init", "final", "settle", "mode"], "A3": ["init", "vote"], "C3": ["init", "final", "settle", "mode"], "C2": ["init", "final", "settle", "mode"], "A2P": ["init", "final", "settle", "mode"]}
 # Arms whose critic is an independent LLM call (bank-free C2 included). Template/placebo
 # critic arms (A2, future A2P) make zero LLM critic calls and must NOT be hardcoded here.
 LLM_CRITIC_ARMS = {"C3", "A3C3", "C2"}
 idx = load_index(Path("data/raw/hle/hle_400_new.jsonl"))
 def _traj_dir(a):
-    # C2 ran on the payg endpoint (deepseek-v4-flash-payg); the other four arms on token-plan.
-    return "deepseek-v4-flash-payg" if a == "C2" else "deepseek-v4-flash"
-traj = {a: read_traj(Path(f"experiments/hle400_{a}/{_traj_dir(a)}/loop_trajectories.jsonl")) for a in ARMS}
+    # C2 and A2P ran on the payg endpoint (deepseek-v4-flash-payg); the other four arms on token-plan.
+    return "deepseek-v4-flash-payg" if a in ("C2", "A2P") else "deepseek-v4-flash"
+def _exp_dir(a):
+    return "hle400_A2PRIME" if a == "A2P" else f"hle400_{a}"
+traj = {a: read_traj(Path(f"experiments/{_exp_dir(a)}/{_traj_dir(a)}/loop_trajectories.jsonl")) for a in ARMS}
 side = json.load(open(T3 / "is_correct_t3_sidecar.json"))["arms"]
 side["C2"] = json.load(open(T3 / "is_correct_t3_sidecar_C2.json"))["arms"]["C2"]
+side["A2P"] = json.load(open(T3 / "is_correct_t3_sidecar_A2P.json"))["arms"]["A2P"]
 
 def ws(s): return " ".join(str(s).split())
 
@@ -174,7 +177,7 @@ def mcnemar(b, c):
     n = b + c
     if n == 0: return 1.0
     k = min(b, c); return min(1.0, 2 * sum(comb(n, i) for i in range(k + 1)) / 2 ** n)
-pairs = [("C3.final", "A3.vote"), ("C3.mode", "A3.vote"), ("C3.final", "A2.final"), ("C3.mode", "A2.mode"), ("A2.final", "A3.vote"), ("A2.mode", "A3.vote"), ("C3.final", "A.init"), ("A3.vote", "A.init"), ("A2.final", "A.init"), ("C3.final", "C2.final"), ("C3.mode", "C2.mode"), ("C2.final", "A3.vote"), ("C2.mode", "A3.vote"), ("C2.final", "A2.final"), ("C2.mode", "A2.mode"), ("C2.final", "A.init"), ("C2.mode", "A.init")]
+pairs = [("C3.final", "A3.vote"), ("C3.mode", "A3.vote"), ("C3.final", "A2.final"), ("C3.mode", "A2.mode"), ("A2.final", "A3.vote"), ("A2.mode", "A3.vote"), ("C3.final", "A.init"), ("A3.vote", "A.init"), ("A2.final", "A.init"), ("C3.final", "C2.final"), ("C3.mode", "C2.mode"), ("C2.final", "A3.vote"), ("C2.mode", "A3.vote"), ("C2.final", "A2.final"), ("C2.mode", "A2.mode"), ("C2.final", "A.init"), ("C2.mode", "A.init"), ("A2P.final", "C2.final"), ("A2P.mode", "C2.mode"), ("A2P.final", "A3.vote"), ("A2P.mode", "A3.vote"), ("A2P.final", "A2.final"), ("A2P.mode", "A2.mode"), ("A2P.final", "A.init"), ("A2P.mode", "A.init")]
 paired = {}
 for x, y in pairs:
     b, c = len(correct[x] - correct[y]), len(correct[y] - correct[x])

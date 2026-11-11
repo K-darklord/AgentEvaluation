@@ -9,12 +9,13 @@ from pathlib import Path
 from collections import Counter
 from math import comb
 spec=importlib.util.spec_from_file_location('reco','scripts/recompute_evaluator_offline.py'); reco=importlib.util.module_from_spec(spec); spec.loader.exec_module(reco)
-side=json.load(open('experiments/hle400/t3/is_correct_t3_sidecar_v2.json'))['arms']
+side=json.load(open(__import__('os').environ.get('SIDECAR','experiments/hle400/t3/is_correct_t3_sidecar_v3.json')))['arms']
 def mcn(b,c):
     n=b+c; return 1.0 if n==0 else min(1,sum(comb(n,i) for i in range(0,min(b,c)+1))*2/2**n)
 ARM={}
-for arm,d in (('A2','deepseek-v4-flash'),('A3','deepseek-v4-flash'),('C3','deepseek-v4-flash'),('C2','deepseek-v4-flash-payg')):
-    loop=reco.load_jsonl(Path(f'experiments/hle400_{arm}/{d}/loop_trajectories.jsonl'))
+for arm,d in (('A2','deepseek-v4-flash'),('A3','deepseek-v4-flash'),('C3','deepseek-v4-flash'),('C2','deepseek-v4-flash-payg'),('A2P','deepseek-v4-flash-payg')):
+    edir='hle400_A2PRIME' if arm=='A2P' else f'hle400_{arm}'
+    loop=reco.load_jsonl(Path(f'experiments/{edir}/{d}/loop_trajectories.jsonl'))
     T={}
     for t,lp in loop.items():
         keys=reco.freeze_keys(lp.get('gold_answer',''),lp); sl=side[arm][t]
@@ -158,12 +159,19 @@ for a in ('C3','C2'):
 print("\n=== M1: fully randomized ties on BOTH sides (300 paired draws) ===")
 def rand_pick_all(arm,rng,start=0):
     return [pick(ARM[arm][t]['keys'],ARM[arm][t]['sl'],'random',rng,start=start) for t in tasks]
-for a in ('C3','C2','A2'):
+for a in ('C3','C2','A2','A2P'):
     ps=[];da=[];db=[]; rng=random.Random(11)
     for _ in range(300):
         x=rand_pick_all(a,rng); y=rand_pick_all('A3',rng,start=1)
         B=sum(1 for i in range(400) if x[i] and not y[i]); C=sum(1 for i in range(400) if y[i] and not x[i]); ps.append(mcn(B,C)); da.append(sum(x)); db.append(sum(y))
     ps.sort(); print(f"  {a}(random ties) mean {statistics.mean(da):.1f} vs A3(random) mean {statistics.mean(db):.1f}: p median {ps[150]:.3f} IQR [{ps[75]:.3f},{ps[225]:.3f}] P(p<0.05)={sum(p<0.05 for p in ps)/300:.2f}")
+print("\n=== A2P symmetric-tie pairwise (both sides randomized, 300 paired draws) ===")
+for si,b in enumerate(('C2','A2','A3')):
+    ps=[]; da=[]; db=[]; rng=random.Random(21+si)
+    for _ in range(300):
+        x=rand_pick_all('A2P',rng); y=rand_pick_all(b,rng,start=(1 if b=='A3' else 0))
+        B=sum(1 for i in range(400) if x[i] and not y[i]); C=sum(1 for i in range(400) if y[i] and not x[i]); ps.append(mcn(B,C)); da.append(sum(x)); db.append(sum(y))
+    ps.sort(); print(f"  A2P(random) mean {statistics.mean(da):.1f} vs {b}(random) mean {statistics.mean(db):.1f}: p median {ps[150]:.3f} IQR [{ps[75]:.3f},{ps[225]:.3f}] P(p<0.05)={sum(p<0.05 for p in ps)/300:.2f}")
 print("\n=== M2: adaptive A3 under random sample orderings (300 permutations; samples drawn without replacement from the 9) ===")
 accs=[];toks=[];ps_c2=[];ps_c3=[]; rng=random.Random(5)
 xC2=res['C2']['latest']; xC3=res['C3']['latest']

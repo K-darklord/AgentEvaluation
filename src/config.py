@@ -283,6 +283,18 @@ PHASE1_MODELS = {
         "base_url": TOKEN_PLAN_BASE_URL,
         "api_key": os.getenv("TOKEN_PLAN_API_KEY", ""),
     },
+    "glm-5.3-zhipu": {
+        "tier": "mid",
+        "model": "glm-5.3",
+        "base_url": ZHIPU_BASE_URL,
+        "api_key": os.getenv("ZHIPU_API_KEY", ""),
+        # Zhipu glm-5.3 (thinking ON by default, returns reasoning_content). No
+        # Alibaba `thinking_budget` param; align the total budget to the frozen
+        # 16384 (thinking) + 8192 (content) = 24576 via a model-level max_tokens
+        # override (run_feedback_loop reads it). Third-model confirmatory run,
+        # docs/THIRD_MODEL_SPEC.md (2026-11-11).
+        "max_tokens": 24576,
+    },
     # weak tier (qwen3.6-flash @ TokenPlan, glm-4.7-flash @ Zhipu) DEFERRED to Phase 2.
     # Kimi (4th family) pending Tencent Cloud TokenHub quota; add here when confirmed.
 }

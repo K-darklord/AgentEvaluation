@@ -1,13 +1,11 @@
-# Paper draft v5 (2026-11-08) — revised after independent review
+# Paper draft v6 (2026-11-10) — A2′ read out; all headline numbers frozen
 
-> **Status.** Third full draft. Changes from v4 (all driven by the second independent review and verified on the
-> frozen trajectories): A3's tie-break randomized and integrated over (300 draws) instead of a fixed rule; C3 vs A3
-> re-stated as borderline, C2 vs A3 as the robust result; a cost-matched adaptive self-consistency baseline added
-> and the "lower cost" claim withdrawn; §5.3 rewritten around one-step rates; persistence claims vs sampling
-> removed; normalizer-split limitation added; intervals on all §6 disagreement accuracies; regimes in §5.6
-> reworded; placebo described accurately; pre-registration language made verifiable.
-> All numbers freeze-key + sidecar v2. C2 numbers are after the hle_201 adjudication (frozen regeneration
-> pending **[TBD-3b]**; frozen files currently read 158 / 197). Remaining tasks: §R.
+> **Status.** Fourth full draft. Changes from v5: the perturbing placebo A2′ (pre-specified) is scored and read
+> out ("content has an effect": ceiling 170 vs C2 198, p = 0.0001); C2 numbers are now in the frozen files
+> (159 / 198 after the hle_201 exact-equality rule); critic tokens measured by replay for C2 (≈ 23 M); Judge-R+
+> row updated to its current coverage; analysis-status and multiplicity paragraph added (§4); claims registry and
+> consistency manifest added (Appendix G); abstract cut to ≤ 250 words.
+> All numbers freeze-key + sidecar v2 and traceable through `CLAIMS_REGISTRY.md`. Open items: §R.
 
 ---
 
@@ -20,28 +18,23 @@ Exam, and Where Same-Model Selection Ends**
 fixed and adaptive self-consistency; a vocabulary of the model's own errors adds nothing identifiable; no
 same-model judge adds to the vote count.*)
 
-## Abstract (≈ 245 words)
+## Abstract (≈ 240 words)
 
 Revision loops in which a model answers, is critiqued, and answers again are usually judged by their last
-answer, and by that measure intrinsic self-correction is known to be unreliable. We read such loops instead as
-samplers of answer distributions. On 400 Humanity's Last Exam items, with one model (deepseek-v4-flash) as
-solver and critic, a loop whose critic must name a specific suspicion and a concrete check every round raises
-the number of items whose trajectory ever contains the correct answer from 154 (a content-free placebo loop) to
-191–198 (paired p ≤ 8 × 10⁻⁸); temperature sampling reaches 190 with more candidates. A parameter-free majority
-over rounds then selects the correct answer on 157–159/400 items when the critic reasons freely, against
-137 ± 3 for nine-sample self-consistency (McNemar p = 0.004, ties randomized on both sides and integrated over
-300 draws) and 136.5 for a cost-matched adaptive self-consistency baseline (p = 0.001); with a critic restricted
-to a vocabulary distilled from the model's past errors the direction is the same but not significant under the
-same symmetric convention (151 vs 137, p = 0.08). The two critic
-arms do not differ (p = 0.67), so the distilled vocabulary is not identifiable as an active ingredient. The
-loops' last answers (140–148) are worse than their majorities, consistent with the negative self-correction
-literature, which we reconcile through the one-step repair/damage ratio. We then show that no same-model judge
-of the loop's own transitions adds detectable information to the vote count: three framings are at chance
-exactly where they disagree with the count (0.48–0.50, intervals 0.35–0.65), cross-half Bayes weighting and an
-exhaustive rule sweep do not beat it; gains above ≈ 2 items per judge are not excluded, but only by sample
-size. The count
-is also a usable confidence for abstention. A simulation on the frozen trajectories shows how the ceiling gain
-converts to accuracy as external verification improves.
+answer, and by that measure intrinsic self-correction is unreliable. We read such loops as samplers of answer
+distributions. On 400 Humanity's Last Exam items, with one model (deepseek-v4-flash) as solver and critic, a
+critic that must name a specific suspicion and a concrete check every round raises the number of items whose
+trajectory ever contains the correct answer from 154 (a reassuring placebo loop) to 191–198 (p ≤ 8 × 10⁻⁸). A
+parameter-free majority over rounds then selects the correct answer on 157/400 items, against 137 for
+nine-sample self-consistency (p = 0.004, ties randomized on both sides) and 136.5 for a cost-matched adaptive
+variant (p = 0.001), at higher total cost. Two pre-specified controls locate the active ingredient. A
+vocabulary distilled from the model's own past errors is not it: critics with and without it do not differ
+(p = 0.67). Answer-specificity is: a dose-matched placebo issuing templated, answer-blind suspicions reaches
+170 items rather than 198 (p = 0.0001) and selects 142 rather than 157 (p = 0.03). The loops' last answers
+improve no more than a placebo's, consistent with the negative self-correction literature. Finally, no
+same-model judge of the loop's own transitions adds detectable information to the vote count: three framings
+are at chance where they disagree with it (0.46–0.50), and neither cross-half Bayes weighting nor an exhaustive
+rule sweep beats it, though gains of a few items cannot be excluded at this sample size.
 
 ---
 
@@ -73,9 +66,12 @@ the test is not significant once ties are treated symmetrically (150.7 vs 137.3,
 only with its own recency tie-break against a randomized baseline), so we do not claim it; no for the placebo
 (145.9, p = 0.27). A model that starts at 80 % on a benchmark would need a repair/damage ratio above 4 for a
 revision to help at all; at HLE's 28 % the threshold is 0.39, which is why revision loops can gain here and not
-there (§5.3). The critic arms' selected-answer advantage *over the placebo* is itself not
-significant (+9 / +14; p = 0.21 / 0.07): the critique's identifiable effect is on the ceiling, and on the
-selected answer it is the loop-plus-count that does most of the work. (iii) No: conditional on the vote count,
+there (§5.3). Two pre-specified controls locate the active ingredient. Against a reassuring placebo (A2) the
+critic arms' selected-answer advantage is not significant (+9 / +14; p = 0.21 / 0.07). Against a dose-matched
+*perturbing* placebo (A2′: the same number of suspicions per round, drawn at random from the five archetype
+names in a fixed answer-blind template) it is: answer-blind perturbation alone lifts the ceiling from 154 to 170
+(p = 0.011) and does nothing for the selected answer (142 vs 146), while answer-specific critique adds the rest
+(ceiling 170 → 198, p = 0.0001; selected 142 → 157, p = 0.03). (iii) No: conditional on the vote count,
 same-model judgments of the transitions carry no detectable information.
 
 **Contributions.**
@@ -84,8 +80,9 @@ same-model judgments of the transitions carry no detectable information.
    negative self-correction results on one axis.
 2. Evidence that structured self-critique is a competitive sampler: a ceiling equal to nine-sample self-
    consistency with fewer candidates and, for free critique, a parameter-free selection that beats both
-   fixed and cost-matched adaptive self-consistency at similar solver cost (plus critic calls); and a
-   pre-specified null for the distilled error-bank vocabulary.
+   fixed and cost-matched adaptive self-consistency (at higher total cost, §5.1); and two pre-specified
+   controls that locate the active ingredient: not the distilled error-bank vocabulary (C2 vs C3, null) but the
+   answer-specificity of the critique (C2 vs the perturbing placebo A2′).
 3. A mechanism account (activation, persistence and a sequential stopping rule) with an explicit accounting of
    what the recency tie-break contributes, and the vote margin as a usable abstention signal.
 4. A bounded negative result on same-model evaluation: three judge framings, Bayes-weighted aggregation and an
@@ -117,6 +114,7 @@ loop. Round 0 of every arm is the bare solver's T = 0 answer (A-seeding).
 | A3 (self-consistency) | 9 i.i.d. samples at T = 0.7 | none (fixed N) | vote over the 9 samples |
 | A3-adaptive (cost-matched; simulated on A3's samples in order) | same samples | stop when an answer has 3 votes | vote |
 | C3 (error-bank critic) | critic picks 1–3 suspicions from a five-entry vocabulary distilled from the model's own past errors, writes an answer-specific suspicion and a concrete gold-free check grounded in the solver's CoT tail; never silent | as A2 | final, settle, mode |
+| A2′ (perturbing placebo) | each round k suspicions (k drawn from C2's empirical distribution: 3 with p = .86, 2 with .11, 1 with .03), drawn without replacement from the five archetype names and rendered with fixed, answer-blind generic sentences in the critic's exact output format; no LLM critic call | as A2 | final, settle, mode |
 | C2 (free critic) | identical prompt with the vocabulary removed; the critic names the shortcoming in its own words | as A2 | final, settle, mode |
 
 Loop constants: max 10 rounds; thinking budget 16 384 + margin 8 192 = 24 576 tokens per solver call; T = 0
@@ -198,8 +196,9 @@ under the frozen scorer.
 | A2 · final / settle / **mode** | 142 / 136 / **145** | 154 | 24.66 M | 0 | mode under random ties 145.9 |
 | A3 · vote (9 samples) | **137.4** ± (129–145) | 190 | 51.32 M | 0 | deterministic conventions: 136 / 141 |
 | A3-adaptive · vote | 136.5 (129–145) | — | 36.0 M (35.3–36.5) | 0 | stop at 3 votes; 300 sample permutations |
-| C3 · final / settle / **mode** | 140 / 117 / **154** | 191 | 37.05 M | ≈ 16 M (2 288 calls; 9–20 M range on hidden reasoning) | total ≈ 53 M; mode under random ties 150.5 |
-| C2 · final / settle / **mode** | 148 / 121 / **159** | **198** | 38.13 M | ≈ **[TBD-4]** (2 358 calls; same method) | mode under random ties 157.4 |
+| A2′ · final / settle / **mode** | 135 / 127 / **143** | 170 | 30.22 M | 0 | mode under random ties 142.1 |
+| C3 · final / settle / **mode** | 140 / 117 / **154** | 191 | 37.05 M | ≈ 16–23 M (2 288 calls; **[TBD-4b]** re-estimate with the same 50-call replay as C2) | total ≈ 53–60 M; mode under random ties 150.5 |
+| C2 · final / settle / **mode** | 148 / 121 / **159** | **198** | 38.13 M | ≈ 23 M (2 358 calls; replay of 50: 2.6 k prompt + 7.2 k completion incl. 6.9 k hidden reasoning per call; range 19–27 M) | total ≈ 61 M; mode under random ties 157.4 |
 
 Selectors cost no tokens. Critic tokens are estimated by replaying a sample of critic calls under the frozen
 configuration (the critic runs with hidden reasoning, hence the range). Judge tokens (§6: Judge-R 24 M, Judge-C
@@ -211,7 +210,10 @@ significant in 97 % of draws; C3 150.7 vs 137.3, p = 0.076 [0.044, 0.161], signi
 137.4, p = 0.27. Vs A3-adaptive (random orders and ties): C2 (recency) p = **0.001** [0.001, 0.005]; C3 (recency)
 p = 0.021 [0.012, 0.044], 80 %. *Method as specified (recency for loop arms, randomized baseline):* C2 159,
 p = 0.002, 100 %; C3 154, p = 0.030 [0.016, 0.058], 70 %; A2 145, p = 0.34. We claim the symmetric-convention
-results. Between loop arms: C2.mode vs
+results. Perturbing placebo (pre-specified read-out, Appendix E): ceiling A2′ vs C2 12/40, **p = 0.0001**; A2′ vs
+A2 26/10, p = 0.011; selected answer A2′ vs C2 under the symmetric convention 142.1 vs 157.4, p = 0.032
+[0.019, 0.054], significant in 74 % of draws (recency: 143 vs 159, 15/31, p = 0.026); A2′ vs A2 p = 0.63; A2′ vs
+A3 p = 0.54. Between loop arms: C2.mode vs
 C3.mode 27/23, p = 0.67; C3.mode vs A2.mode 25/16, p = 0.21; C2.mode vs A2.mode 33/19, p = 0.07. All arms vs
 A.init p ≤ 0.0014. Final-answer rule: C3.final vs A3.vote 26/22, p = 0.67; C2.final vs A3.vote 32/20, p = 0.13.
 Ceiling: C3 vs A2 47/8, **p = 8 × 10⁻⁸**; C2 vs A2 50/7, **p = 4 × 10⁻⁹**; C2 vs C3 22/16, p = 0.42; C3 vs A3
@@ -222,15 +224,20 @@ tie-break contributes −0.9 / +3.5 / +1.6 items. It is part of the method (a se
 fixed before any HLE comparison, but since it is unavailable to the baseline we do not let it carry a claim: C3's
 significance depends on it and is therefore not claimed; C2's does not.
 
-**Reading.** The free-critique arm beats self-consistency under the symmetric convention and against a
+**Reading.** The ceiling gain over the reassuring placebo decomposes into +16 from answer-blind perturbation
+(A2 → A2′) and +28 from answer-specific critique (A2′ → C2). On the selected answer the perturbation alone buys
+nothing (142–143 vs 145–146) and answer-specific critique buys about +15 over the dose-matched placebo
+(p ≈ 0.03), a comparison the reassuring placebo could not resolve. The free-critique arm beats
+self-consistency under the symmetric convention and against a
 cost-matched adaptive baseline; the error-bank arm points the same way but is not significant under symmetric
 ties; the placebo is not. The two
 critic arms do not differ from each other. The critic arms' advantage over the placebo on the *selected* answer
 (+9 / +14) is not significant, whereas their advantage on the *ceiling* (+37 / +44) is large: the
 critique's identifiable contribution is to reach, not to select. Cost: the critic arms use about as many solver
 tokens as adaptive self-consistency (37–38 vs 36 M) and in addition pay for one critic call per round
-(≈ 16 M for C3); their total cost (≈ 53 M) is therefore higher than adaptive self-consistency by about 45 % and
-about equal to fixed ten-sample self-consistency, not lower. The last
+(≈ 23 M for C2 by replay; C3 of the same order); their total cost (≈ 55–61 M) is therefore about 1.6 times that of
+adaptive self-consistency and above fixed ten-sample self-consistency (51 M), not lower. The critic's hidden
+reasoning (≈ 7 k tokens per call) accounts for most of it. The last
 answer is worse than the count in every loop arm (142 < 145, 140 < 154, 148 < 159).
 
 ### 5.2 Answer form
@@ -241,7 +248,8 @@ answer is worse than the count in every loop arm (142 < 145, 140 < 154, 148 < 15
 | A2.mode | 36 | 109 |
 | A3.vote (first-encountered convention) | 35 | 101 |
 | C3.mode | 40 | 114 |
-| C2.mode | **[TBD-3b]** | **[TBD-3b]** |
+| A2′.mode | 38 | 105 |
+| C2.mode | 35 | **124** |
 
 The critic arms' gain over self-consistency is larger on open-form items than on MCQ: not a voting-over-few-
 options artefact.
@@ -269,7 +277,9 @@ critique's effect shows.
 ### 5.4 Mechanism: activation, persistence and the stopping rule
 
 **Activation.** Both critic arms put the correct answer into the trajectory far more often than the placebo
-(191 / 198 vs 154) with 3.5–3.7 distinct candidates per item vs 2.1; so does temperature sampling (190, with
+(191 / 198 vs 154) with 3.5–3.7 distinct candidates per item vs 2.1; the perturbing placebo sits in between
+(170, 2.7 candidates, 772 switches vs 475 for A2 and 1 323 for C2): the solver reacts to answer-blind
+suspicions, but far less than to suspicions that read its answer; so does temperature sampling (190, with
 4.1 candidates), which shows that a non-specific perturbation suffices to reach the ceiling. Ceiling by round:
 C3 passes A2's final ceiling (154) at round 2 (165) and reaches 180 by round 4; A2 is at 151 by round 4 and
 stops.
@@ -282,6 +292,7 @@ current one:
 | A3 (i.i.d.; P(next draw = current)) | 0.54 | 0.34 | 1.6 |
 | C3 | 0.55 [0.49, 0.62] | 0.36 [0.32, 0.40] | 1.5 [1.3, 1.8] |
 | C2 | 0.57 [0.51, 0.64] | 0.30 [0.26, 0.33] | 1.9 [1.6, 2.2] |
+| A2′ | 0.71 [0.66, 0.77] | 0.50 [0.46, 0.54] | 1.4 [1.3, 1.6] |
 | A2 | 0.79 | 0.63 | 1.25 |
 
 The asymmetry in the error-bank arm equals that of i.i.d. sampling; the free-critique arm's is higher
@@ -366,12 +377,12 @@ written before the runs.
 | Judge (edges judged / 1201; items / 244) | E1 edge acc. | LR CIs ∋ 1 | E3 dev→test (mode 76) | E4 test→dev (mode 78) | acc. when disagreeing with count (Wilson 95 %) | rule sweep, in-sample max |
 |---|---|---|---|---|---|---|
 | Judge-R (1185; 241) | 0.577 | yes | 76 (+2 −2) | 73 (+5 −10) | 18/36 = 0.50 [0.35, 0.65] | 154 |
-| Judge-R+ (1041; 242 **[TBD-5]**) | 0.571 | yes | 77 (+3 −2) | 76 (+4 −6) | 38/80 = 0.48 [0.37, 0.58] | 156 (0 across halves) |
+| Judge-R+ (1041; 242 **[TBD-5]**) | 0.603 | no (CUT 0.72 [0.52, 0.99]; NO_CUT 1.90 [1.20, 3.02]) | 73 (+3 −6, p = .51) | 72 (+5 −11) | 53/116 = 0.46 [0.37, 0.55] | 156 (0 across halves) |
 | Judge-C (1201; 244) | 0.663 | no | 71 (+3 −8, p = .23) | 77 (+8 −9) | 32/66 = 0.49 [0.37, 0.60] | 155 (0 across halves) |
 
 Of the 253 multi-answer items, 244 have at least one switch between two committed answers (1201 edges); the
 other 9 change answer only through a no-commit round, have no judgeable edge, and fall back to mode for every
-judge. Counts alone predict repair vs break at 0.58 / 0.60 / 0.67 on the same edges, never below the judge. In-sample
+judge. Counts alone predict repair vs break at 0.58 / 0.60–0.62 / 0.67 on the same edges, never below the judge. In-sample
 logistic over count + verdict features: 150 < 154. Why 66 % edge accuracy is not enough: overturning mode is a
 repair on 37 of the 123 multi-answer items where mode could be overturned (prior 0.30); a judge with edge
 accuracy p flips with precision 0.30p/(0.30p + 0.70(1 − p)) = 45 % at p = 0.66, crossing 50 % above 0.70. On the
@@ -381,7 +392,7 @@ the recency rule alone recovers 14 of the 23 ties whose tied set contains the co
 
 ### 6.4 Statement
 None of the three same-model judge framings added detectable information to the vote count: where they disagree
-with it they are at chance (0.48–0.50, intervals 0.35–0.65), Bayes-weighted aggregation fitted on one half
+with it they are at chance (0.46–0.50, intervals 0.35–0.65), Bayes-weighted aggregation fitted on one half
 gains ≤ +1 on the other, and an exhaustive sweep of 81 aggregation rules gains ≤ +2 in-sample. This is a non-
 detection with the power of 400 items (gains of up to roughly 5 items per judge are not excluded) on one
 model, one benchmark and three framings, and is falsified by any judge that beats the count on these edges. The
@@ -394,9 +405,10 @@ critic that abstains.
 
 - **H1, identifiability of critique content.** Pre-specified as structure vs content (C3 vs C2 vs A2). The
   shared critique structure is identifiable (both critic arms vs placebo on the ceiling, p ≤ 8 × 10⁻⁸); the
-  bank's distilled vocabulary is not (C2 ≥ C3 on every endpoint, all n.s.). "Structure" is a residual that also
-  contains "forced output every round" and "non-specific perturbation" (sampling reaches the same ceiling); a
-  perturbing placebo or an abstaining critic would be needed to separate them. The protocol's original H1 (a
+  bank's distilled vocabulary is not (C2 ≥ C3 on every endpoint, all n.s.). The residual "structure" is
+  decomposed by the perturbing placebo under its pre-specified rule (A2′ ceiling ≤ C2 − 15 at p < 0.05 →
+  "content has an effect"): 170 vs 198, p = 0.0001. Answer-blind pressure accounts for about a third of the
+  ceiling gain over A2 and none of the selection gain; answer-specific critique accounts for the rest. The protocol's original H1 (a
   gold-visible labeller's archetype hit-rate on wrong rounds) was specified but not executed, because §6 showed
   the critic's archetype labels carry no conditional information about correctness; we report this rather than
   the result.
@@ -406,8 +418,7 @@ critic that abstains.
 - **H3, decision value.** The free-critique arm beats fixed and adaptive self-consistency on the same items
   under the symmetric tie convention (p = 0.004 / 0.001); the error-bank arm does not (0.08 / 0.02 with its own
   recency rule only) and is not claimed. The original "at no higher cost" clause is
-  **withdrawn**: solver tokens are comparable to adaptive self-consistency and critic tokens are additional
-  **[TBD-4]**.
+  **withdrawn**: solver tokens are comparable to adaptive self-consistency and critic tokens are additional.
 - **Falsification boundary:** not crossed for C2; crossed for C3 under the symmetric convention.
 
 ## 8. Limitations and future work
@@ -416,8 +427,9 @@ critic that abstains.
   bounded accordingly.
 - The last answer of a revision loop remains unreliable; our gains are in the aggregate. Deployment must read
   the trajectory, not the final message.
-- The critique's identifiable effect is on the ceiling; on the selected answer the loop-plus-count explains most
-  of the gain and the critic arms are not significantly above the placebo.
+- The critique's largest and most secure effect is on the ceiling. On the selected answer it is significant
+  against the dose-matched perturbing placebo (p ≈ 0.03) but not against the reassuring one (p = 0.07–0.14), and
+  the loop-plus-count alone already accounts for most of the gain over the initial answer.
 - Scorer: an LLM tier with one-directional rescue; false positives scale with candidate count and could inflate
   the critic arms' ceilings; the stratified human check **[TBD-11]** bounds this.
 - Normalizer: 27 % of correct→correct transitions change key in the critic arms (§5.4).
@@ -426,9 +438,9 @@ critic that abstains.
   (finish_reason = length) 7.5 % vs 7.8 %; usable-commit rate (round yields a normalizable answer key) 92.5 % vs
   92.2 %; reasoning length median 45.2k vs 45.4k chars (`endpoint_caveat_alignment.json`). An endpoint artefact
   behind C2 ≥ C3 is excluded on every observable; a 50-item same-route replay is **[TBD-15]** when quota renews.
-- Placebo: a reassurance, not a perturbation; a perturbing placebo (random archetype suspicions from a fixed
-  template, dose-matched to C2, no LLM critic) is being run as the control that separates grounded critique
-  from pressure to change **[A2′, in progress]**.
+- Placebos: A2 is a reassurance; A2′ is a dose-matched perturbation with templated, answer-blind suspicions.
+  A2′ controls for pressure, dose and format, not for the fluency or length of the feedback (its sentences are
+  generic and identical across items); a critic shown a *different* item's answer would be the stricter control.
 - Dose: C2's critic emitted three suspicions per round far more often than C3's (86 % vs 12 %); C2 ≥ C3 is
   therefore confounded by dose as well as content, which is one more reason not to read it as free critique
   being superior.
@@ -441,8 +453,9 @@ critic that abstains.
 ## 9. Conclusion
 
 Read as a corrector, a self-critique loop on a frontier-level exam does what the literature says: its last
-answer improves no more than a placebo's. Read as a sampler, structured, never-silent critique reaches the
-correct answer on 37–44 more items than content-free iteration, and a parameter-free count over the trajectory
+answer improves no more than a placebo's. Read as a sampler, never-silent critique that reads the answer reaches the
+correct answer on 37–44 more items than content-free iteration and 21–28 more than answer-blind perturbation
+of the same dose, and a parameter-free count over the trajectory
 selects it more often than fixed or adaptive self-consistency when the critic reasons freely; when the critic
 is confined to a vocabulary of the model's own past errors the direction is the same and the test does not
 reach significance under a symmetric tie convention. The count is also where same-model
@@ -464,18 +477,24 @@ F6 verifier regimes.
 
 ---
 
-## §R. Remaining tasks (v5 → submission)
+## §R. Remaining tasks (v6 → submission)
 
-| id | task | owner |
-|---|---|---|
-| TBD-3b | hle_201 rule → regenerate frozen files with C2 (159 / 198); C2 MCQ–open; C2 persistence with the frozen method + bootstrap intervals; **add A3 tie-randomization and A3-adaptive to `t3_k3_adjudicate_and_recompute.py` outputs** | agent |
-| TBD-4 | C2 critic tokens: replay 50 bank-free critic calls, extrapolate to 2 358 calls, give the hidden-reasoning range as for C3 | agent |
-| TBD-5 | Judge-R+ : rebuild the Q-CUT manifest in freeze-key space and judge the 160 freeze edges it lacks (≈ 320 calls), then re-run `judge_conditional_test.py`; else keep 1041/1201 with a footnote on the manifest's key space | agent |
-| TBD-11 | Human double-annotation, **stratified**: items reached only in a critic arm; T2-rescued and K = 3 verdicts; MCQ/open; report agreement and κ | PI + annotator |
-| TBD-13 | done — `scripts/selective_prediction.py` (§5.5) | — |
-| TBD-14 | done — `scripts/verifier_regimes.py` (§5.6) | — |
-| TBD-15 | 50-item same-route replay of C2 when quota renews (per-round alignment already done: see §8) | agent |
-| TBD-18 | Pairwise judge (`qcut_pairwise_result.jsonl`) through `judge_conditional_test.py` as a fourth row | agent |
-| TBD-2 / 6 / 7 / 8 / 9 / 17 | Citations (add adaptive-consistency line); figures F1–F6; frozen-doc sync (incl. tie-rule and A3-adaptive notes in `HLE400_FROZEN_DATA.md`); deprecations; outline/PPT; terminology glossary in §3 | agent |
-| TBD-16 | Optional: 100-item second-model replication of A2 / A3 / C2 (mode, vote, ceiling) | PI |
-| TBD-10 | Format pass; final number audit by a second agent reading only frozen files | agent → PI |
+| id | task | owner | status |
+|---|---|---|---|
+| TBD-R | **Second-model replication (qwen3.8-flash)**: finish A3 (199/200) → second 200 → scoring (T1→T2→T3, K = 3) → `REPLICATION_RESULTS.md`; read out R1–R4 once, at n = 400 | agent | first 200 run, unscored |
+| TBD-4b | C3 critic tokens by the same 50-call replay as C2 (C2: ≈ 23 M) | agent | open |
+| TBD-5 | Judge-R+: rebuild manifest in freeze-key space, judge the 160 missing edges, regenerate the row | agent | open (1041/1201) |
+| TBD-18 | Pairwise judge as a fourth row of §6.3 | agent | open |
+| TBD-11 | 100-item stratified human double annotation of the scorer (κ) | PI + annotator | open |
+| TBD-15 | 50-item same-route replay of C2 when quota renews | agent | waiting on quota |
+| TBD-2 | Citations (incl. adaptive-consistency, universal self-consistency, self-preference in LLM judges) | agent | open |
+| TBD-6 | Figures F1–F6 (specs in `EXEC_AGENT_WORKLIST.md` E9) | agent | open |
+| TBD-7/8 | Frozen-doc sync and deprecation of intermediate evaluator docs | agent | open |
+| TBD-C7 | Prose gates (mechanical: passive voice, intensifiers; semantic; independent red team) | author + review agent | em-dashes done |
+| TBD-C8 | Third independent review with the ML review checklist and validity-threat table | review agent | after TBD-R |
+| TBD-C9 | Alternative introduction/abstract in the "open with the challenge" pattern, for PI choice | author | after TBD-R |
+| TBD-10 | Format pass; final audit by a second agent against `CLAIMS_REGISTRY.md` and `consistency_manifest.json` | agent → PI | last |
+
+Closed since v5: hle_201 regeneration (C2 159 / 198 frozen); C2 critic tokens; C2 answer-form split; C2
+persistence with intervals; endpoint alignment; A2′ run, scoring and read-out; selective-prediction and
+verifier scripts; tie-randomization and adaptive baseline in a repository script; judge coverage units.

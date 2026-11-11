@@ -1,4 +1,16 @@
-# HLE-400 — Frozen experiment data (v2, 2026-11-02)
+# HLE-400 — Frozen experiment data
+
+> **当前状态（2026-11-11，v3）。** 论文数字只读下列文件，入口见 `docs/INDEX.md`。本文件其余部分是 v2（2026-11-02）时的记录，仅供追溯；其中引用的审计文档已移入 `docs/_deprecated/20261111_pre_submission/`。
+>
+> - 逐轮对错：`experiments/hle400/t3/is_correct_t3_sidecar_v3.json`（A、A2、A2P、A3、C3、C2）；v3 = v2 + 含接口失败轨迹整题重跑后重新判分（清单 `api_failure_rerun_manifest.json`：A2′ 29 题、A2 2、A3 4、C3 3、C2 1）。
+> - v3 读数（平局随机的期望得分 / 上限 / 最后一轮）：A2 145.0 / 153 / 141；A2′ 146.1 / 171 / 142；A3 136.7 / 190 / –；C3 150.9 / 192 / 140；C2 157.4 / 198 / 148；首答 113。复算：`python3 scripts/two_model_tables.py`。
+> - 规则：任何含接口失败轮的轨迹无效并整题重跑；报错文本不算答案。
+> - 新增：自洽采样第 10–11 个样本（`is_correct_t3_sidecar_A3extra.json`）、第二模型 qwen（`is_correct_t3_sidecar_rep.json`）。这两处判分为精确匹配 + astra K1 + 已有裁决规则，未做新的争议复判。
+> - `t3_final_scores_v2.json`、`transition_metrics_v2.json` 仍是 v2，待官方计分脚本按 v3 重新生成。
+
+---
+
+## （历史）v2 记录
 
 **Status: FROZEN.** Scorer pipeline closed: T1 → truncation rule → astra K1 per-round → K=3 re-review →
 second-agent adjudication of all 22 disputes (every verdict accepted by the PI on 2026-11-02 18:07).

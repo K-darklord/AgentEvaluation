@@ -1,5 +1,7 @@
 # Change-Propagation Protocol
 
+> **Note (2026-11-11).** The document list and the "active direction" below describe the repository before the HLE-400 study. The current set of documents is `docs/INDEX.md`; the rule itself still applies: when a conclusion changes, the paper, `docs/CLAIMS_REGISTRY.md`, `docs/consistency_manifest.json` and `docs/INDEX.md` are revised in the same change.
+
 > Living document · v1.4 · 2026-10-27
 >
 > This protocol governs how the repository stays internally consistent when the research direction changes or new experimental conclusions revise prior views. It is **normative**: every change must follow it.

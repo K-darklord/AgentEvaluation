@@ -50,6 +50,7 @@ with 5.7 commits. (Table A)
 | A3 (i.i.d.: P(next draw equals current)) | 0.54 | 0.34 | 1.6 |
 | C3 | 0.55 | 0.36 | 1.5 |
 | A2 | 0.79 | 0.63 | 1.25 |
+| A2′ | 0.71 | 0.50 | 1.42 [1.27, 1.59] |
 
 Two readings. (i) The critic does **not** make correct answers stickier per step than i.i.d. sampling
 does; it re-randomises every round at roughly the i.i.d. rate. (ii) A2 is stickier in absolute terms
@@ -60,7 +61,7 @@ the ratio, not the level. (Table B)
 ## 5.2.4 Compounding: why C3 beats A3 with fewer commits
 
 The early-stop rule (3 identical commits) turns the per-step ratio into a ratio of run probabilities:
-P(run ≥ 3 | entered) ∝ stay², i.e. 0.55² / 0.36² = **2.3** for C3, while a fixed-size i.i.d. vote uses
+P(run ≥ 3 | entered) ∝ stay², i.e. 0.55² / 0.36² = **2.3** for C3 and 0.71² / 0.50² = **2.0** for A2′, while a fixed-size i.i.d. vote uses
 the per-step asymmetry only once. The signature is in the count distribution of the correct answer on
 activated tasks:
 

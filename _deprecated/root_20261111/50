@@ -1,0 +1,50 @@
+{"task_id": "hle_001", "gold": "13425", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_002", "gold": "u(t)(v_i(t) + \\rho)", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_003", "gold": "Cut off of LFC > 4 in contaminated samples", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_004", "gold": "2, 4, 5", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_005", "gold": "Heinemannomyces", "answer_type": "exactMatch", "shape": "word", "A": false}
+{"task_id": "hle_006", "gold": "11", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_007", "gold": "\\(\\Delta E= 0.0423\\text{ eV}\\)", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_008", "gold": "Spiro[4.5]decan-6-one", "answer_type": "exactMatch", "shape": "word", "A": true}
+{"task_id": "hle_009", "gold": "\\mu a. \\theta(1, a+\\mu b.\\theta(0,b+1))", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_010", "gold": "4809", "answer_type": "exactMatch", "shape": "int", "A": true}
+{"task_id": "hle_011", "gold": "5", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_012", "gold": "n + (\\frac{\\pi^2}{6} - 1)n\\alpha", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_013", "gold": "fluent_0(object_1_type_0, object_1_type_0)", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_014", "gold": "cliff-room-both-neither-room", "answer_type": "exactMatch", "shape": "word", "A": false}
+{"task_id": "hle_015", "gold": "$\\pi_0 = \\frac{\\rho}{2(e^{\\rho} - 1)}$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_016", "gold": "Yes", "answer_type": "exactMatch", "shape": "word", "A": false}
+{"task_id": "hle_017", "gold": "352311", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_018", "gold": "$\\frac{E(1+g) - d}{q}\\]$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_019", "gold": "כִּ֗יל סָ֥ף מָ֣ה הִים נַ֣חְ נֶ֑ שַׁ֥ן,עַֽל", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_020", "gold": "Meyerhold", "answer_type": "exactMatch", "shape": "word", "A": false}
+{"task_id": "hle_021", "gold": "$f(w)=\\bot\\multimap\\bot^{1+w}, C = f(b)^m$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_022", "gold": "841", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_023", "gold": "6", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_024", "gold": "9", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_025", "gold": "142", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_026", "gold": "0", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_027", "gold": "12", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_028", "gold": "\\pi", "answer_type": "exactMatch", "shape": "symbol", "A": true}
+{"task_id": "hle_029", "gold": "(a) Yes (b) 0 (c) $-w^2(g^2 a \\cdot 1_R)$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_030", "gold": "r^{A(1-\\cos\\theta)+B\\sin\\theta}", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_031", "gold": "no,no,no,no,yes,yes,yes,no,yes,2,2,2", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_032", "gold": "(r,t)", "answer_type": "exactMatch", "shape": "word", "A": false}
+{"task_id": "hle_033", "gold": "2394", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_034", "gold": "Mayakovsky", "answer_type": "exactMatch", "shape": "word", "A": false}
+{"task_id": "hle_035", "gold": "v₀𝛼arctanh(√(2h𝛼c+h²)/(𝛼c+h), 𝛼=c𝛾₀/g", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_036", "gold": "1.03", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_037", "gold": "3.8", "answer_type": "exactMatch", "shape": "int", "A": false}
+{"task_id": "hle_038", "gold": "$9\\pi(3 + 2\\sqrt{3})$", "answer_type": "exactMatch", "shape": "symbol", "A": true}
+{"task_id": "hle_039", "gold": "$18\\pi$", "answer_type": "exactMatch", "shape": "symbol", "A": false}
+{"task_id": "hle_040", "gold": "-2+1/((1-DawsonF[1])/E^3+DawsonF[2])", "answer_type": "exactMatch", "shape": "text", "A": false}
+{"task_id": "hle_041", "gold": "D", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_042", "gold": "D", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_043", "gold": "D", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_044", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_045", "gold": "C", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_046", "gold": "C", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_047", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_048", "gold": "B", "answer_type": "multipleChoice", "shape": "mc", "A": true}
+{"task_id": "hle_049", "gold": "D", "answer_type": "multipleChoice", "shape": "mc", "A": false}
+{"task_id": "hle_050", "gold": "A", "answer_type": "multipleChoice", "shape": "mc", "A": false}

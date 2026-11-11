@@ -212,11 +212,25 @@ def check_for(rec: dict, t: dict, to_r: int) -> str | None:
     return None
 
 
+def freeze_switches(keys: list):
+    """(from_i, to_i) edges whose frozen key changes between consecutive non-None keys.
+    Mirrors recompute_evaluator_offline.freeze_switches (the decisive-edge space used by
+    the edge-level audit)."""
+    out = []
+    for i in range(1, len(keys)):
+        if keys[i - 1] is None or keys[i] is None:
+            continue
+        if keys[i - 1] != keys[i]:
+            out.append((i - 1, i))
+    return out
+
+
 def build_manifest(recs_by_tid: dict, side_c3: dict, loop_by_tid: dict):
-    """Yield (tid, rec, keys, move) for every candidate entry move of every
-    multi-answer, margin<=1 task (margin>=2 is a structural no-op: one subtraction
-    can't flip). Candidates/votes/mode are computed over FROZEN keys (issue 1: key
-    space, not the transition string), so the manifest matches `_mode_idx` exactly."""
+    """Yield (tid, rec, keys, move) for every FREEZE-SPACE switch edge (i-1, i) of every
+    multi-answer task. This is the full decisive-edge space (freeze_switches), NOT the
+    narrower most-recent entry-move set; judging all of them is what makes the Judge-R+
+    edge-level audit reach 1201/1201 coverage (N3/E4). Candidates/votes over FROZEN keys.
+    """
     for tid in sorted(recs_by_tid):
         rec = recs_by_tid[tid]
         lrec = loop_by_tid.get(tid)
@@ -225,28 +239,46 @@ def build_manifest(recs_by_tid: dict, side_c3: dict, loop_by_tid: dict):
         gold = lrec.get("gold_answer", "") or rec.get("gold", "")
         keys = freeze_round_keys(gold, lrec)
         votes, latest = freeze_votes(keys)
-        cands = list(votes.keys())
-        if len(cands) < 2:
+        if len(votes) < 2:
             continue
-        counts = sorted(((votes.get(k, 0), k) for k in cands),
-                        key=lambda x: (x[0], latest.get(x[1], -1)), reverse=True)
-        if len(counts) < 2:
-            continue
-        em = entry_moves(rec, keys)
-        for k, (from_r, to_r, t) in em.items():
-            reasoning = t.get("reasoning") or ""
-            if not reasoning and 0 <= to_r < len(rec.get("rounds", [])):
-                reasoning = rec["rounds"][to_r].get("reasoning") or ""
+        rnds = lrec.get("rounds", [])
+        tmap = {}
+        for t in rec.get("transitions", []):
+            fr, tr_ = t.get("from_r"), t.get("to_r")
+            if fr is not None and tr_ is not None:
+                tmap[(fr, tr_)] = t
+        for from_i, to_i in freeze_switches(keys):
+            t = tmap.get((from_i, to_i))
+            if t is not None:
+                old = t.get("from")
+                new = t.get("to")
+                reasoning = t.get("reasoning") or ""
+                if not reasoning and 0 <= to_i < len(rnds):
+                    reasoning = rnds[to_i].get("reasoning_content") or ""
+                check = check_for(rec, t, to_i)
+            else:
+                # no transition record (CoT-recovered key change): build card from rounds.
+                old = rnds[from_i].get("final_answer") if 0 <= from_i < len(rnds) else None
+                new = rnds[to_i].get("final_answer") if 0 <= to_i < len(rnds) else None
+                reasoning = (rnds[to_i].get("reasoning_content") or "") if 0 <= to_i < len(rnds) else ""
+                check = None
+                if 0 <= to_i < len(rnds):
+                    cd = rnds[to_i].get("critic_direction")
+                    if cd:
+                        for item in cd:
+                            if item.get("check"):
+                                check = item["check"]
+                                break
             yield tid, rec, keys, {
                 "task_id": tid,
-                "candidate": k,
-                "from_r": from_r,
-                "to_r": to_r,
-                "old": t.get("from"),
-                "new": t.get("to"),
-                "check": check_for(rec, t, to_r),
+                "candidate": keys[to_i],
+                "from_r": from_i,
+                "to_r": to_i,
+                "old": old,
+                "new": new,
+                "check": check,
                 "reasoning": reasoning,
-                "c_a": votes.get(k, 0),
+                "c_a": votes.get(keys[to_i], 0),
             }
 
 

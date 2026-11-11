@@ -1,5 +1,7 @@
 # AgentEvaluation Standard — Three-Tier Scoring
 
+> **Note (2026-11-11).** General three-tier scoring standard from the multi-benchmark phase, still referenced by the code. The protocol actually applied in the paper (truncation rule, exact match, independent judge, adjudication; sidecar v3; reduced protocol for the replication and added samples) is in `docs/HLE_SCORER.md` and `docs/HLE400_FROZEN_DATA.md`.
+
 **Version**: 3.0 (2026-10-05)
 **Author**: AgentEvaluation Project
 **Alignment**: cross-domain (math / math500 / mmlu_pro / finance / bfcl); Finance Agent Benchmark (FAB) v2 for the finance family

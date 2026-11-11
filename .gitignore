@@ -114,3 +114,19 @@ experiments/**/*_moves.jsonl
 experiments/**/*_switches_*.jsonl
 
 experiments/**/loop_trajectories.jsonl.bak_*
+
+
+# ===========================
+# Human audit (contains benchmark questions and the blinding key) — local only
+# ===========================
+audit/**/*.xlsx
+audit/**/items.csv
+audit/**/key.json
+audit/**/resolved.json
+
+# Superseded local material
+_deprecated/root_*/output/
+_deprecated/root_*/project_dump.txt
+experiments/_deprecated/backups_*/
+experiments/**/usc_result.jsonl
+experiments/**/astra_verdicts*.jsonl

@@ -1,0 +1,28 @@
+{
+  "seed": 42,
+  "k": 50,
+  "total_critic_calls": 2617,
+  "success_rounds": 2607,
+  "fallback_rounds": 10,
+  "model": "qwen3.8-flash-payg",
+  "per_call_means": {
+    "prompt_chars": 7505.66,
+    "prompt_tokens": 2357.96,
+    "completion_tokens": 2458.38,
+    "reasoning_tokens": 2002.6
+  },
+  "prompt_chars_dist": {
+    "mean": 7505.66,
+    "median": 7613.5,
+    "min": 2252,
+    "max": 28538
+  },
+  "extrapolated": {
+    "prompt_tokens": 6170781.32,
+    "completion_tokens": 6433580.46,
+    "reasoning_tokens": 5240804.2,
+    "reasoning_ci_lo": 3083149.5433925954,
+    "reasoning_ci_hi": 7398458.856607404,
+    "critic_total_pt_plus_ct": 12604361.780000001
+  }
+}

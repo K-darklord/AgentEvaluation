@@ -1,5 +1,7 @@
 # HLE-400 Scorer Document (T1 / T2 / T3)
 
+> **Note (2026-11-11).** Current frozen scores are sidecar v3 (`docs/HLE400_FROZEN_DATA.md`, top block): v2 plus re-scoring of trajectories rerun after interface failures. The second model, the third model and the two added self-consistency samples are scored with truncation rule → exact match → independent judge (K=1) → the existing adjudication rules, without a new round of dispute resolution. A human audit of the model-based tier is specified in `docs/HUMAN_AUDIT_PLAN.md`.
+
 **Version**: 1.3 (2026-11-02) — K=3 adjudication applied; §1.2 is authoritative
 **Scope**: `hle400` slice, n = 400
 **Arms**: A / A2 / A3 / C3  (A3C3 is an empty placeholder in this slice)

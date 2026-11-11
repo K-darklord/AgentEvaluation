@@ -10,7 +10,7 @@ MODEL="${MODEL:?set MODEL=<registry name, e.g. qwen3.8-flash-payg or glm-5.3>}"
 CONC="${1:-6}"
 TASKFILE="${TASKFILE:-data/raw/hle/hle_replication_200.json}"   # second pass: TASKFILE=data/raw/hle/hle_replication_rest200.json (same out-dirs, resume adds the items)
 TASKS="$(python3 -c "import json;print(','.join(json.load(open('$TASKFILE'))['task_ids']))")"
-TAG="rep200"
+TAG="${TAG:-rep200}"
 run() {  # arm out_dir extra...
   local arm="$1"; local out="$2"; shift 2
   echo "== [$(date '+%F %T')] $MODEL arm=$arm -> experiments/$out"

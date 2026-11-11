@@ -716,3 +716,27 @@ tokens the CoT truncated the answer.
 - deepseek-v4-flash shows run-to-run variation under temperature = 0 on CoT-boundary families
   (AIME 46/50 vs 42/50 across identical runs). Tracked, not yet root-caused; Phase-2 follow-up in
   `docs/REPRODUCIBILITY.md` §3.4.
+
+---
+
+## 2026-11-11 — HLE-400 study consolidated; repository cleanup
+
+Entries between 2026-10-10 and 2026-11-10 were kept in the documents rather than here; `docs/PROJECT_HISTORY.md` §0 summarizes that period.
+
+### Added
+- `paper/acl/` — manuscript in the ACL template with verified bibliography and figures.
+- Second-model replication (qwen3.8-flash): trajectories, sidecar `is_correct_t3_sidecar_rep.json`, `docs/REPLICATION_RESULTS.md`.
+- Cost-matched self-consistency (two further samples) and universal self-consistency; `docs/COST_MATCHED_SC_RESULTS.md`.
+- Sidecar v3 after rerunning every trajectory that contained an interface failure (`api_failure_rerun_manifest.json`).
+- Pre-registered specifications for a third model (`docs/THIRD_MODEL_SPEC.md`) and a human audit of scoring (`docs/HUMAN_AUDIT_PLAN.md`).
+- Analysis scripts: `two_model_tables.py`, `cost_matched_readout.py`, `persistence_and_settle.py`, `merge_correct_vote.py`, `vote_latex_normalized.py`, `ceiling_at_matched_k.py`, `paired_expected_score_tests.py`, `review_fixes_stats.py`, `human_audit_sample.py`, `human_audit_analyze.py`.
+- `docs/INDEX.md` (entry point), `docs/PROJECT_HISTORY.md` (merges HISTORY, TIMELINE, EXPERIMENT_LOG, DECISION_LOG).
+
+### Changed
+- `README.md` rewritten for the current study; `docs/CLAIMS_REGISTRY.md` and `docs/consistency_manifest.json` regenerated against the manuscript; notes added to `PROTOCOL.md`, `docs/REPRODUCIBILITY.md`, `docs/EVALUATION_STANDARD.md`, `docs/HLE_SCORER.md`, `docs/HLE400_FROZEN_DATA.md`.
+- Run rules: an interface failure is never written as an answer; affected trajectories are rerun in full.
+
+### Deprecated (moved, not deleted; move logs in the `_deprecated` folders)
+- Earlier drafts and phase documents (`docs/_deprecated/20261111_pre_submission/`, `docs/_deprecated/20261111_repo_cleanup/`).
+- 29 unused modules in `src/_deprecated/`, 11 scripts in `scripts/_deprecated/`, stray root files and the legacy `output/` folder in `_deprecated/root_20261111/`, run backups in `experiments/_deprecated/backups_20261111/`.
+

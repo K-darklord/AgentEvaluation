@@ -16,12 +16,12 @@
   4. `python3 scripts/tie_and_adaptive_baselines.py` 与 `python3 scripts/judge_conditional_test.py` 各跑一次，确认输出与草稿 §3.1/§5.1/§6.3 的数一致：A3 随机 137.4、adaptive 136.5、C2 random 157.4、C3 random 150.5；Judge-R 相左 18/36=0.500、Judge-C 32/66=0.485 必须一致；**Judge-R+ 的行随覆盖变化，以当前输出为准，把整行贴进完成记录即可**（E4 补齐后再贴一次）。其余不一致即停、报。
   5. 产出 C2 的 MCQ/open 拆分（同 `by_answer_form` 口径），填到本文件。
 
-- [ ] **E2. C2 critic token 重放估计**
+- [x] **E2. C2 critic token 重放估计**（完成：≈23.2 M；prompt 2.6k + completion 7.2k/次，rt 区间 12.4–20.2 M）
   从 C2 轨迹随机抽 50 个反馈轮（固定种子），用冻结配置（`StrongCritic.load(model, bank_free=True)`，同 `CRITIC_REASONING_BUDGET`）重放 critic 调用，记录 prompt / completion / reasoning tokens；外推到 2358 次；给 reasoning 的区间（同 C3 的处理）。同时记 prompt 字符数分布，与 C3 的 50 次对照（C3 已有 ≈16 M 的估计口径，沿用）。产出一张四列表（arm / 50 次均值 / 外推 / 区间）。
 
 ## 第 2 批（E1 完成后开，可并行）
 
-- [ ] **E3. A2′ 扰动型安慰剂**（按 `A2PRIME_PERTURBING_PLACEBO_SPEC.md`）
+- [x] **E3. A2′ 扰动型安慰剂**（完成并判读：上限 170 vs C2 198，p=0.0001 → 内容有作用）（按 `A2PRIME_PERTURBING_PLACEBO_SPEC.md`）
   1. 实现 arm `A2P`（模板 critic，零 LLM 调用），五句通用 suspicion/check 写入代码常量。**（已批准跑前修订 2026-11-08，写入 spec §1）**
 
      **A2P 五句通用句 + 名（bank 原文 = C3 实际看到的去重词汇）**（`src/run_feedback_loop.py` 常量 `_A2P_ARCHETYPES`；每轮先抽 k，P(k=3)=.86 / P(k=2)=.11 / P(k=1)=.03，再从 5 个名中不放回抽 k 个，按 C3 多条格式渲染，零 LLM）：
@@ -68,6 +68,26 @@
   - 中间方案文档（CEL / MPC / COV / QV-MPC / MOVE_PAIRWISE / CHECK_OUTCOME / lock_rule_study / 阈值 sweep / `BANK_FREE_CRITIC_PLAN.md`）移 `docs/_deprecated/`，顶部标 superseded。
 - [ ] **E9. 图 F1–F6**（等我给图规格；数据源分别为 E1 三件套、`tie_and_adaptive_baselines.py`、`persistence_analysis.py`、`judge_conditional_test.py`、`selective_prediction.py`、`verifier_regimes.py`——后两个脚本由我今天归位到 `scripts/`）。
 
+## 第 4 批（2026-11-10 起，按此顺序）
+
+- [ ] **N1. E6 复现收尾（最高优先，最长）**
+  1. A3 第 200 题跑完后**不分析**，立即 `MODEL=qwen3.8-flash-payg TASKFILE=data/raw/hle/hle_replication_rest200.json bash scripts/run_replication.sh 6` 起第二段（同 out-dir，resume 追加；起跑前 `caffeinate -s`）。
+  2. 第二段跑的同时，对第一段 200 题的五臂先做计分的**机械部分**（T1 → T2 → T3 K=1），K=3 与人工裁决等 400 题齐了一起做；不出任何 R1–R4 的数。
+  3. 400 题齐后：K=3 + 新变体裁决 → `is_correct_t3_sidecar_rep.json` → `REPLICATION_RESULTS.md`（只填数：五臂 init/final/settle/mode（recency + 对称约定）、上限、stay 不对称 + CI、候选数、均轮数、token；配对 McNemar：C2 vs A3、C2 vs A2、C2 vs A2P、A2P vs A2 的上限与 mode）。
+  4. 顺带核三项并写进结果：每臂截断率、`reasoning_tokens` 是否触顶 16384 的比例、round 0 与 A 臂逐字一致。
+- [ ] **N2. TBD-4b C3 critic token**：与 E2 完全同法（50 次重放，种子 42，`StrongCritic.load(model, bank_free=False)`），外推 2288 次，给 rt 区间；更新 `_token_cost_autogen.md` 使 C2/C3 两行同一方法。
+- [ ] **N3. E4 Judge-R+ 补齐**：freeze 空间重建 manifest，补 160 条边（流式 + 墙钟已修），重跑 `judge_conditional_test.py`，把新整行贴完成记录。
+- [ ] **N4. E5 pairwise judge 第四行**（纯离线）。
+- [ ] **N5. E8 冻结文档同步与归档**：按原 E8 清单；另加 `HLE400_FROZEN_DATA.md` 的 A2′ 行与 C2/A2′ 配对检验、`C2_BANK_FREE_CRITIC_SPEC.md` 补"方向数 86% vs 12%"的差异说明。
+- [ ] **N6. E9 图**（规格如下，数据源脚本均已在 `scripts/`；输出 `paper/figs/F*.pdf` + 生成脚本 `scripts/make_figures.py`）
+  - F1 双前沿：x = 臂（A, A2, A2′, A3, C3, C2），每臂两根柱：上限（浅）与选中（深；A3 用随机平局期望 + 129–145 区间须）。
+  - F2 逐轮上限曲线：A2 / A2′ / C3 / C2，x = 轮次 0–10，y = 累计"出现过正确答案"的题数。
+  - F3 stay 不对称：五臂 P(stay|correct) vs P(stay|wrong) 成对柱 + 比值与 CI。
+  - F4 judge：三（四）个 judge 的"相左时判对率"点 + Wilson 区间，0.5 虚线，旁标"只用计数"的准确率。
+  - F5 弃权曲线：覆盖率 vs 准确率，A2 / A3 / C3 / C2（+A2′）。
+  - F6 验证器 regime：q vs 实现准确率，独立误差实线、相关误差虚线，A2 / A3 / C3 / C2。
+- [ ] **N7. E7**（配额恢复后）C2 50 题 token-plan 重放。
+
 ## 不做
 C1-free；abstaining critic；强模型 judge；任何聚合器/evaluator 新设计；为个案重开冻结数；看过结果后改 A2′ 模板或判读。
 
@@ -75,6 +95,7 @@ C1-free；abstaining critic；强模型 judge；任何聚合器/evaluator 新设
 | 项 | 完成时间 | 结果一行 | 文件 |
 |---|---|---|---|
 | E1 | 2026-11-08 | 计数器改按轨迹事实计数（LLM_CRITIC_ARMS=C3/A3C3/C2），字段 `critic_calls_llm`（旧名别名保留）；重生成后 C3=2288、C2=2358、其余 0；C2 159/148/121 不变；diff 仅 cost_solver_only 6 格 | `scripts/t3_k3_adjudicate_and_recompute.py` |
+| G5 | 2026-11-11 | 只报事实：定位到 `hle_261` A2 臂 round 1。final_answer 回显题目并附答案：`Minimum number of vertices in a family of bipartite graphs covering all edges of \(K_{35}\) is **181**.`（题目原文：`What is the minimum number of vertices in a family of bipartite graphs covering all the edges of the complete graph \( K_n \) where n = 35?`）；gold=`181`（answer_type=exactMatch, shape=int）；committed_answer=`181`；finish_reason=`stop`；trajectory `is_correct=true`；冻结 sidecar v3 `A2.hle_261[1]={c:true, s:"astra_true"}`（round0/round2 为 `t1`）。复核：按冻结 T1–T3 规则应判对——回显文本内确含正确值 `181`（与 gold 精确相等），T1 未对回显文本精确匹配、由 T2 astra judge FN 救回，属合法判对，非需纠正异常。 | `experiments/hle400_A2/deepseek-v4-flash/loop_trajectories.jsonl`、`experiments/hle400/t3/is_correct_t3_sidecar_v3.json` |
 
 
 
@@ -94,3 +115,63 @@ C1-free；abstaining critic；强模型 judge；任何聚合器/evaluator 新设
 - 相左准确率（judge 与 counts 不一致时）：53/116 = 0.457
 - 穷举聚合（81 configs，in-sample all 400）：最大 156（+4 −2）@ ('node', 0.5, 0, 99)；≥155 配置数 32；跨半 best-on-dev→test (75,0,1) vs mode 76、best-on-test→dev (78,2,2) vs mode 78
 - 覆盖 边/题：1041 边 / 242 题（freeze 全空间 1201 边 / 244 题；当前缺 160 边 / 2 题，E4 补到 1201/1201、244/244）
+
+
+## 第 5 批（2026-11-10 下午）：同成本自洽采样 + USC
+
+规格见 `docs/COST_MATCHED_SC_AND_USC_SPEC.md`（读出规则已预先写定，不得改动提示词与参数）。
+
+| 编号 | 任务 | 规模 | 优先级 |
+|---|---|---|---|
+| S1 | A3 补第 10–11 个样本并按冻结协议判分 | 400 题 × 2 样本，约 10.3M token | 高，排在 E6 第二批 200 题之前或并行 |
+| S2 | USC：6 个应用对象 × 400 次调用（A3 的 9/11 样本；C2、C3、A2、A2′ 轨迹） | 2400 次调用；其中 A3 的 11 样本一项依赖 S1 | 高；不依赖 S1 的 5 项可立即开始 |
+
+注意：不改任何冻结文件；新数据写新目录/新文件；交付 `docs/COST_MATCHED_SC_RESULTS.md` 只报事实。
+
+
+## 第 6 批（2026-11-11 上午）：v3 之后的收尾
+
+背景：接口失败重跑已完成，`is_correct_t3_sidecar_v3.json` 已核对（各臂 0 条失败轮、长度一致）。以下为剩余项。
+
+| 编号 | 任务 | 说明 |
+|---|---|---|
+| F1 | S1 判分 | `hle400_A3_extra` 的 800 个新答案走冻结协议 → `is_correct_t3_sidecar_A3extra.json`。同成本读出只差这一项。 |
+| F2 | USC 补跑过期记录 | 重跑过的题其 USC 记录已过期：A3-9 4 题、A3-11 同 4 题、C2 1 题、C3 3 题、A2 2 题、A2′ 29 题（题号见 `api_failure_rerun_manifest.json`）。用新轨迹重跑这些行并替换。 |
+| F3 | 官方计分表 v3 | 用官方计分脚本按 v3 重新生成各臂 final / settle / mode（`t3_final_scores_v3.json`），供核对 Table 2 的 settle 列。 |
+| F4 | C3 三题的 judge 补跑 | hle_164、hle_179、hle_347 的 C3 轨迹已换新；对这三题的 switch 重跑 Judge-R / Judge-R+ / Judge-C，并更新 switch 清单，使第 6 节可按 v3 重算。 |
+| F5 | qwen 复现修复 | 见前一批说明（61 题首答超时等）；完成后再判分。 |
+| F6 | `hle400_A2` 提示词回显被判对的一轮 | 复核并记录处理结果。 |
+
+
+## 第 7 批（2026-11-11 下午）：正式稿之后的收尾
+
+状态：正式稿已成（`paper/acl/main.tex`，入口见 `docs/INDEX.md`）。第 5、6 批中已完成：S1 采样与判分、S2（除过期记录）、接口失败重跑与 v3 sidecar、qwen 五个臂及判分、`REPLICATION_RESULTS.md`。过期的过程文件已移入各 `_deprecated/` 目录（清单 `docs/_deprecated/20261111_pre_submission/MOVE_LOG.json`），请勿再往旧路径写文件。
+
+| 编号 | 任务 | 说明 |
+|---|---|---|
+| G1 | 补跑过期 USC 记录 | A3-9 4 题、A3-11 4 题、C2 1、C3 3、A2 2、A2′ 29（题号见 `api_failure_rerun_manifest.json`）；替换 `usc_result.jsonl` 中对应行。 |
+| G2 | C3 三题的 judge 补跑 | hle_164、hle_179、hle_347 的新轨迹：重跑 Judge-R / Judge-R+ / Judge-C，更新 switch 清单与 `r2w_w2r_switches_freezekey.jsonl`，然后重跑 `scripts/judge_conditional_test.py`。 |
+| G3 | 官方计分表 v3 | 用官方计分脚本按 v3 生成 final / settle / mode（`t3_final_scores_v3.json`、`transition_metrics_v3.json`）。 |
+| G4 | qwen 的 critic token 回放 | 同 deepseek 的做法，50 次回放，产出 `experiments/rep200_C2_qwen3.8-flash-payg/token_replay_summary.json`。 |
+| G5 | `hle400_A2` 中 1 轮提示词回显被判对 | 复核并记录。 |
+
+追加实验见 `docs/NEXT_EXPERIMENTS_FOR_MAIN_CONFERENCE.md`，待用户决定后另行下达。
+
+
+## 第 8 批（2026-11-11 下午）：第三模型 + 收尾补跑
+
+优先级从上到下。第 7 批的 G1–G5 并入本批，编号不变。
+
+| 编号 | 任务 | 说明 |
+|---|---|---|
+| T1 | 第三模型 glm-5.3 | 严格按 `docs/THIRD_MODEL_SPEC.md`：先做 §3 的 16 题对齐门槛并回报（只报运行健康度），通过后再全量；§4 的运行保护与 critic token 逐次记录是硬要求；判分完成前不做任何对错预览。 |
+| G1 | 补跑 43 条过期 USC 记录 | 见第 7 批。 |
+| G2 | C3 三题的 judge 补跑 | 见第 7 批。 |
+| G3 | 官方计分表 v3 | 见第 7 批。 |
+| G4 | qwen 的 critic token 回放 | 见第 7 批。 |
+| G5 | `hle400_A2` 提示词回显被判对的一轮 | 见第 7 批。 |
+
+人工审计（`docs/HUMAN_AUDIT_PLAN.md`）由用户安排标注人，执行 agent 无需处理。
+
+
+> **仓库整理提示（2026-11-11 14:40）**：根目录杂项、`output/`、29 个未被任何现行代码引用的 `src/` 模块、6 个旧脚本、若干旧文档已移入 `_deprecated/`（清单见各目录 `MOVE_LOG.json`，入口 `docs/INDEX.md`）。已静态检查：现行 `src/`、`scripts/`、`tests/` 中没有对被移动模块的引用。若确需其中某个文件，请移回原处并在此文件注明，不要在 `_deprecated/` 内直接运行。`.gitignore` 已加入 `audit/` 下的标注表与对照表、`usc_result.jsonl`、`astra_verdicts*.jsonl`。

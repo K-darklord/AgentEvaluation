@@ -1,0 +1,51 @@
+# api_failure 修复 — 自主执行 runbook (2026-11-11 01:03)
+
+## 后台任务监控
+用 ps aux | grep rerun_api_failures 看存活；tail 各 output.log 看进度。
+- A2P(27): job-86e9d9c4b4334a30a337132e778ebd96  log=/var/folders/cy/fl1tn9tn3_zdjsp5mqr_l7tm0000gn/T/trae-agent-toolhost-501/jobs/job-86e9d9c4b4334a30a337132e778ebd96/output.log
+- C3(1=hle_347): job-89b82d864523489094f58ef2ce0100c6  log=.../job-89b82d864523489094f58ef2ce0100c6/output.log
+- qwen A(59): job-240e31802c9743aa819914f8c8dd7a60  log=.../job-240e31802c9743aa819914f8c8dd7a60/output.log
+
+## 已完成
+- 规则3修复: src/run_feedback_loop.py _solve_with_retry(719) 接口失败重试/不写记录/报错文本不进答案键
+- 主实验: A2(2题 hle_100,hle_347), A3(4题6样本 hle_031,hle_164,hle_347,hle_372), C2(1题 hle_007) — remaining_api_failure=0
+- v3脚本 scripts/gen_t3_sidecar_v3.py 已写好+dry-run通过(生成 v3 sidecar + manifest)
+
+## 待办 (顺序执行)
+
+### 步骤1: 等 A2P+C3 完成
+验证: python3 -c "from scripts.rerun_api_failures import load_bad_tasks; ..." 或直接
+  检查两个 log 末尾 remaining_api_failure=0 且 errors=0。
+  主实验全部臂 (A2/A2P/A3/C2/C3) remaining_api_failure 应为 0。
+
+### 步骤2: 跑 v3 判分
+   cd /Users/kevin/PycharmProjects/AgentEvaluation
+   python3 scripts/gen_t3_sidecar_v3.py
+   输出: experiments/hle400/t3/is_correct_t3_sidecar_v3.json + api_failure_rerun_manifest.json
+   (v2 原样保留; astra 新答案写入 astra_verdicts_v3.jsonl 缓存)
+
+### 步骤3: 等 qwen A(59) 完成 → 验证 0 → 启动 qwen A2/A2P/C2 (并行)
+   python3 scripts/rerun_api_failures.py --arm A2 --model qwen3.8-flash-payg --traj experiments/rep200_A2_qwen3.8-flash-payg/qwen3.8-flash-payg/loop_trajectories.jsonl --a-source experiments/rep200_A_qwen3.8-flash-payg/qwen3.8-flash-payg/loop_trajectories.jsonl --mode full
+   python3 scripts/rerun_api_failures.py --arm A2P --model qwen3.8-flash-payg --traj experiments/rep200_A2P_qwen3.8-flash-payg/qwen3.8-flash-payg/loop_trajectories.jsonl --a-source experiments/rep200_A_qwen3.8-flash-payg/qwen3.8-flash-payg/loop_trajectories.jsonl --mode full
+   python3 scripts/rerun_api_failures.py --arm C2 --model qwen3.8-flash-payg --traj experiments/rep200_C2_qwen3.8-flash-payg/qwen3.8-flash-payg/loop_trajectories.jsonl --a-source experiments/rep200_A_qwen3.8-flash-payg/qwen3.8-flash-payg/loop_trajectories.jsonl --mode full
+   (C2 无 bank-model; C3 才有)
+
+### 步骤4: qwen A3 = replace round0(61题) + 去重(15题)
+   - replace round0: --arm A3 --mode replace_round0 --a-source=rep200_A_qwen.../loop_trajectories.jsonl
+   - 去重: 15 个 task 各 2 条记录 (hle_005,017,022,024,025,026,027,028,029,030,031,035,044,045,049),
+     保留首条, 删第二条 (用 python 脚本按行去重, 保序)
+
+### 步骤5: 交付
+   读 experiments/hle400/t3/api_failure_rerun_manifest.json → 汇总清单(每臂题号/前后轮数/新旧对错)
+   hle_400 复核结论: A2 hle_400 round2 是提示词回显(reviewer模板, 内含 7/5=1.4=gold),
+     extract_final_answer→'"""', T1=False, 但 astra 因回显含 7/5 判 True。
+     不影响 mode/settle/final 胜者(round0/1/3/4/5 均为真 7/5), 仅 round2 单轮 verdict 虚高。
+
+## 关键事实
+- 冻结判分协议: trunc(finish_reason=length→False) > T1(score_t1) > astra K1(gpt-6-astra) > K3 RULES
+- K3 RULES 与重跑交集: hle_030, hle_036 (都在 A2P)
+- 端点: A2/A3/C3 原 token-plan(deepseek-v4-flash) 配额耗尽→rerun 用 deepseek-v4-flash-payg; A2P/C2 原 payg
+- 主实验原始备份(before): 
+  A2=.bak_apifail_20261110_232641, A3=.bak_apifail_20261110_232700,
+  C3=.bak_apifail_20261110_232648, C2=.bak_apifail_20261110_225209, A2P=.bak_apifail_20261110_232652
+- qwen 臂: A,A2,A2P,A3,C2 (无 C3); A3 有 415行=400+15重复

@@ -1,5 +1,7 @@
 # Reproducibility Standard (Top-Venue Grade)
 
+> **Note (2026-11-11).** This standard was written for the earlier multi-benchmark phase; the layout it describes is partly superseded. For the current paper, reproduction is described in `README.md` ("Reproducing the paper's numbers") and `docs/INDEX.md`. Section 3.4 (run-to-run variation at temperature 0) remains relevant and is the reason the paper lists single runs as a limitation.
+
 > Scope: metacognitive-agent experiments / multi-model multi-round feedback / LLM-as-a-Judge evaluation.
 > Presumption: target venues are Nature Machine Intelligence / TPAMI / NeurIPS.
 > Effective: from day one of model construction — never retro-fitted after the fact.
