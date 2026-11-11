@@ -1,0 +1,114 @@
+[
+  {
+    "task_id": "hle_012",
+    "arm": "A3-9"
+  },
+  {
+    "task_id": "hle_006",
+    "arm": "A2"
+  },
+  {
+    "task_id": "hle_080",
+    "arm": "C2"
+  },
+  {
+    "task_id": "hle_100",
+    "arm": "A3-9"
+  },
+  {
+    "task_id": "hle_110",
+    "arm": "A3-9"
+  },
+  {
+    "task_id": "hle_162",
+    "arm": "C2"
+  },
+  {
+    "task_id": "hle_112",
+    "arm": "A3-9"
+  },
+  {
+    "task_id": "hle_114",
+    "arm": "A3-9"
+  },
+  {
+    "task_id": "hle_121",
+    "arm": "A3-9"
+  },
+  {
+    "task_id": "hle_122",
+    "arm": "A3-9"
+  },
+  {
+    "task_id": "hle_128",
+    "arm": "A3-9"
+  },
+  {
+    "task_id": "hle_280",
+    "arm": "C2"
+  },
+  {
+    "task_id": "hle_164",
+    "arm": "A3-9"
+  },
+  {
+    "task_id": "hle_378",
+    "arm": "C2"
+  },
+  {
+    "task_id": "hle_375",
+    "arm": "C2"
+  },
+  {
+    "task_id": "hle_385",
+    "arm": "C2"
+  },
+  {
+    "task_id": "hle_203",
+    "arm": "A3-9"
+  },
+  {
+    "task_id": "hle_207",
+    "arm": "A3-9"
+  },
+  {
+    "task_id": "hle_080",
+    "arm": "A2P"
+  },
+  {
+    "task_id": "hle_211",
+    "arm": "A3-9"
+  },
+  {
+    "task_id": "hle_121",
+    "arm": "A2P"
+  },
+  {
+    "task_id": "hle_164",
+    "arm": "A2P"
+  },
+  {
+    "task_id": "hle_225",
+    "arm": "A3-9"
+  },
+  {
+    "task_id": "hle_183",
+    "arm": "A2P"
+  },
+  {
+    "task_id": "hle_201",
+    "arm": "A2P"
+  },
+  {
+    "task_id": "hle_196",
+    "arm": "A2P"
+  },
+  {
+    "task_id": "hle_239",
+    "arm": "A3-9"
+  },
+  {
+    "task_id": "hle_258",
+    "arm": "A3-9"
+  }
+]

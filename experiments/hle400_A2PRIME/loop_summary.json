@@ -1,0 +1,59 @@
+{
+  "run_id": "hle400_A2PRIME",
+  "arm": "A2P",
+  "bank_free": false,
+  "template_critic": true,
+  "family_filter": null,
+  "task_set": "hle",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "off",
+  "seed": null,
+  "n_tasks": 400,
+  "concurrency": 6,
+  "models": {
+    "deepseek-v4-flash-payg": {
+      "model_id": "deepseek-v4-flash-0731",
+      "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "init_accuracy": 0.1575,
+      "final_accuracy": 0.205,
+      "end_state_distribution": {
+        "1": 47,
+        "2": 7,
+        "3": 9,
+        "4": 26,
+        "5": 16,
+        "6": 295
+      },
+      "l3_activation_rate": 0.2625,
+      "l3_reversibility_rate": 0.1246,
+      "l4_lock_rate": 0.746,
+      "l4_misled_rate": 0.1111,
+      "avg_rounds": 5.8,
+      "critic_fallback_rounds": 0,
+      "archetype_draw_counts": {
+        "constraint-blind decimation": 1122,
+        "descriptor/label conflation": 1060,
+        "format / precision non-conformance": 1084,
+        "procedure truncation / omission": 1095,
+        "retrieval-abort": 1070
+      },
+      "k_draw_counts": {
+        "1": 70,
+        "2": 189,
+        "3": 1661
+      },
+      "total_prompt_tokens": 1365302,
+      "total_completion_tokens": 28853931,
+      "total_reasoning_tokens": 27266503,
+      "total_rationale_prompt_tokens": 0,
+      "total_rationale_completion_tokens": 0,
+      "total_rationale_reasoning_tokens": 0
+    }
+  },
+  "a_source_traj": "/Users/kevin/PycharmProjects/AgentEvaluation/experiments/hle400_A/deepseek-v4-flash/loop_trajectories.jsonl"
+}

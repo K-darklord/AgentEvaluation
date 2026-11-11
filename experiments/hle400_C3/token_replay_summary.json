@@ -1,0 +1,27 @@
+{
+  "seed": 42,
+  "k": 50,
+  "total_feedback_rounds": 2288,
+  "bank_model": "deepseek-v4-flash",
+  "endpoint_model": "deepseek-v4-flash-payg",
+  "per_call_means": {
+    "prompt_chars": 11157.5,
+    "prompt_tokens": 3219.74,
+    "completion_tokens": 9445.48,
+    "reasoning_tokens": 9279.56
+  },
+  "prompt_chars_dist": {
+    "mean": 11157.5,
+    "median": 10534.0,
+    "min": 5894,
+    "max": 31022
+  },
+  "extrapolated": {
+    "prompt_tokens": 7366765.119999999,
+    "completion_tokens": 21611258.24,
+    "reasoning_tokens": 21231633.279999997,
+    "reasoning_ci_lo": 17483958.11896623,
+    "reasoning_ci_hi": 24979308.44103377,
+    "critic_total_pt_plus_ct": 28978023.36
+  }
+}

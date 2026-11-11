@@ -1,0 +1,2581 @@
+{
+ "model": "qwen3.8-flash-payg",
+ "rule": "rule1(whole-task rerun)/rule3(retry,no-write)",
+ "rerun_tasks": {
+  "A": 61,
+  "A2": 71,
+  "A2P": 72,
+  "C2": 76,
+  "A3": 76
+ },
+ "manifest": [
+  {
+   "arm": "A",
+   "task_id": "hle_124",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_133",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_148",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_157",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_178",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_180",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_181",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_183",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_184",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_188",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_191",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_190",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_202",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_197",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_198",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_206",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_210",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_212",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_219",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_217",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_214",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_222",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_223",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_225",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_234",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_231",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_236",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_241",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_239",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_244",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_247",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_245",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_254",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_258",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_266",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_260",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_281",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_271",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_278",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_283",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_282",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_287",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_296",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_288",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_292",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_298",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_299",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_307",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_327",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_333",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_330",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_342",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_339",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_338",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_343",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_347",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_344",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_366",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_364",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_390",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A",
+   "task_id": "hle_384",
+   "rounds_before": 1,
+   "rounds_after": 1,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_006",
+   "rounds_before": 6,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_008",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_019",
+   "rounds_before": 4,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_021",
+   "rounds_before": 5,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_013",
+   "rounds_before": 7,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_038",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_032",
+   "rounds_before": 11,
+   "rounds_after": 5,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_053",
+   "rounds_before": 5,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_039",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_023",
+   "rounds_before": 11,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_124",
+   "rounds_before": 4,
+   "rounds_after": 9,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_157",
+   "rounds_before": 5,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_133",
+   "rounds_before": 6,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_181",
+   "rounds_before": 4,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_148",
+   "rounds_before": 6,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_184",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_190",
+   "rounds_before": 4,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_183",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_191",
+   "rounds_before": 6,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_197",
+   "rounds_before": 4,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_178",
+   "rounds_before": 8,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_188",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_206",
+   "rounds_before": 4,
+   "rounds_after": 5,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_212",
+   "rounds_before": 4,
+   "rounds_after": 6,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_180",
+   "rounds_before": 7,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_202",
+   "rounds_before": 6,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_222",
+   "rounds_before": 5,
+   "rounds_after": 5,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_217",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_198",
+   "rounds_before": 11,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_231",
+   "rounds_before": 4,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_223",
+   "rounds_before": 9,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_234",
+   "rounds_before": 4,
+   "rounds_after": 6,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_225",
+   "rounds_before": 6,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_219",
+   "rounds_before": 5,
+   "rounds_after": 7,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_236",
+   "rounds_before": 5,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_214",
+   "rounds_before": 8,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_241",
+   "rounds_before": 6,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_247",
+   "rounds_before": 5,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_239",
+   "rounds_before": 7,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_244",
+   "rounds_before": 8,
+   "rounds_after": 8,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_254",
+   "rounds_before": 4,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_210",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_266",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_258",
+   "rounds_before": 4,
+   "rounds_after": 9,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_245",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_278",
+   "rounds_before": 6,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_260",
+   "rounds_before": 4,
+   "rounds_after": 6,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_287",
+   "rounds_before": 4,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_288",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_271",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_282",
+   "rounds_before": 5,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_281",
+   "rounds_before": 8,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_283",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_298",
+   "rounds_before": 4,
+   "rounds_after": 6,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_292",
+   "rounds_before": 8,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_299",
+   "rounds_before": 5,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_333",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_339",
+   "rounds_before": 4,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_296",
+   "rounds_before": 6,
+   "rounds_after": 5,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_327",
+   "rounds_before": 8,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_330",
+   "rounds_before": 11,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_338",
+   "rounds_before": 4,
+   "rounds_after": 6,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_307",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_343",
+   "rounds_before": 6,
+   "rounds_after": 6,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_347",
+   "rounds_before": 5,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_342",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_364",
+   "rounds_before": 4,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_390",
+   "rounds_before": 4,
+   "rounds_after": 5,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_344",
+   "rounds_before": 6,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_366",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_384",
+   "rounds_before": 5,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_100",
+   "rounds_before": 11,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_123",
+   "rounds_before": 7,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_116",
+   "rounds_before": 9,
+   "rounds_after": 6,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_127",
+   "rounds_before": 5,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_121",
+   "rounds_before": 9,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_124",
+   "rounds_before": 5,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_129",
+   "rounds_before": 4,
+   "rounds_after": 7,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_135",
+   "rounds_before": 10,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_138",
+   "rounds_before": 11,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_136",
+   "rounds_before": 11,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_140",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_133",
+   "rounds_before": 11,
+   "rounds_after": 7,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_142",
+   "rounds_before": 11,
+   "rounds_after": 7,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_157",
+   "rounds_before": 11,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_180",
+   "rounds_before": 4,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_183",
+   "rounds_before": 4,
+   "rounds_after": 7,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_181",
+   "rounds_before": 10,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_184",
+   "rounds_before": 8,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_191",
+   "rounds_before": 5,
+   "rounds_after": 6,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_190",
+   "rounds_before": 5,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_188",
+   "rounds_before": 10,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_148",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_197",
+   "rounds_before": 5,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_206",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_202",
+   "rounds_before": 4,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_178",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_210",
+   "rounds_before": 4,
+   "rounds_after": 7,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_217",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_214",
+   "rounds_before": 5,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_219",
+   "rounds_before": 4,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_223",
+   "rounds_before": 4,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_222",
+   "rounds_before": 10,
+   "rounds_after": 7,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_212",
+   "rounds_before": 11,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_231",
+   "rounds_before": 5,
+   "rounds_after": 7,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_225",
+   "rounds_before": 4,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_198",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_234",
+   "rounds_before": 6,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_241",
+   "rounds_before": 6,
+   "rounds_after": 9,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_236",
+   "rounds_before": 8,
+   "rounds_after": 5,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_254",
+   "rounds_before": 8,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_245",
+   "rounds_before": 11,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_244",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_247",
+   "rounds_before": 7,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_239",
+   "rounds_before": 11,
+   "rounds_after": 5,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_266",
+   "rounds_before": 5,
+   "rounds_after": 8,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_258",
+   "rounds_before": 5,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_278",
+   "rounds_before": 9,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_281",
+   "rounds_before": 4,
+   "rounds_after": 8,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_271",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_288",
+   "rounds_before": 6,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_282",
+   "rounds_before": 5,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_260",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_283",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_296",
+   "rounds_before": 4,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_287",
+   "rounds_before": 6,
+   "rounds_after": 6,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_298",
+   "rounds_before": 7,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_330",
+   "rounds_before": 4,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_292",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_333",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_327",
+   "rounds_before": 5,
+   "rounds_after": 8,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_339",
+   "rounds_before": 7,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_307",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_342",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_299",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_347",
+   "rounds_before": 6,
+   "rounds_after": 7,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_343",
+   "rounds_before": 11,
+   "rounds_after": 5,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_338",
+   "rounds_before": 11,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_364",
+   "rounds_before": 4,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_344",
+   "rounds_before": 10,
+   "rounds_after": 5,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_366",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_390",
+   "rounds_before": 9,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_384",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_124",
+   "rounds_before": 6,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_133",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_157",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_181",
+   "rounds_before": 11,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_148",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_184",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_190",
+   "rounds_before": 4,
+   "rounds_after": 8,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_191",
+   "rounds_before": 9,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_178",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_183",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_197",
+   "rounds_before": 6,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_188",
+   "rounds_before": 11,
+   "rounds_after": 9,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_198",
+   "rounds_before": 4,
+   "rounds_after": 6,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_180",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_202",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_206",
+   "rounds_before": 8,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_219",
+   "rounds_before": 4,
+   "rounds_after": 5,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_214",
+   "rounds_before": 4,
+   "rounds_after": 7,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_210",
+   "rounds_before": 6,
+   "rounds_after": 5,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_212",
+   "rounds_before": 8,
+   "rounds_after": 6,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_223",
+   "rounds_before": 5,
+   "rounds_after": 5,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_217",
+   "rounds_before": 9,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_222",
+   "rounds_before": 9,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_234",
+   "rounds_before": 6,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_239",
+   "rounds_before": 4,
+   "rounds_after": 5,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_231",
+   "rounds_before": 7,
+   "rounds_after": 7,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_236",
+   "rounds_before": 7,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_225",
+   "rounds_before": 11,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_241",
+   "rounds_before": 5,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_254",
+   "rounds_before": 4,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_245",
+   "rounds_before": 7,
+   "rounds_after": 6,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_247",
+   "rounds_before": 7,
+   "rounds_after": 7,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_244",
+   "rounds_before": 8,
+   "rounds_after": 7,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_260",
+   "rounds_before": 4,
+   "rounds_after": 6,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_278",
+   "rounds_before": 4,
+   "rounds_after": 6,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_271",
+   "rounds_before": 11,
+   "rounds_after": 9,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_266",
+   "rounds_before": 11,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_282",
+   "rounds_before": 7,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_281",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_258",
+   "rounds_before": 11,
+   "rounds_after": 5,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_287",
+   "rounds_before": 4,
+   "rounds_after": 9,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_283",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_292",
+   "rounds_before": 9,
+   "rounds_after": 6,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_296",
+   "rounds_before": 4,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_288",
+   "rounds_before": 6,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_299",
+   "rounds_before": 5,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_327",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_298",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_333",
+   "rounds_before": 7,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_339",
+   "rounds_before": 4,
+   "rounds_after": 5,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_330",
+   "rounds_before": 11,
+   "rounds_after": 5,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_338",
+   "rounds_before": 6,
+   "rounds_after": 5,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_307",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_343",
+   "rounds_before": 9,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_344",
+   "rounds_before": 5,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_342",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_347",
+   "rounds_before": 11,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_366",
+   "rounds_before": 8,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_390",
+   "rounds_before": 8,
+   "rounds_after": 4,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_364",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_384",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_137",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_146",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_114",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_132",
+   "rounds_before": 11,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_128",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_154",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_147",
+   "rounds_before": 11,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_161",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_163",
+   "rounds_before": 5,
+   "rounds_after": 9,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_131",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_155",
+   "rounds_before": 11,
+   "rounds_after": 3,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_156",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_152",
+   "rounds_before": 11,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_164",
+   "rounds_before": 6,
+   "rounds_after": 9,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_160",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "endpoint": "qwen3.8-flash-payg"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_124",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_133",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_148",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_157",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_178",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_180",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_181",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_183",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_184",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_188",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_190",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_191",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_197",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_198",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_202",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_206",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_210",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_212",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_214",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_217",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_219",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_222",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_223",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_225",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_231",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_234",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_236",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_239",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_241",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_244",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_245",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_247",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_254",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_258",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_260",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_266",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_271",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_278",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_281",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_282",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_283",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_287",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_288",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_292",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_296",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_298",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_299",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_307",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_327",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_330",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_333",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_338",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_339",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_342",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_343",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_344",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_347",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_364",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_366",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_384",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_390",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "replace round0"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_005",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "dedup (keep first sample)"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_017",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "dedup (keep first sample)"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_022",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "dedup (keep first sample)"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_024",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "dedup (keep first sample)"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_025",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "dedup (keep first sample)"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_026",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "dedup (keep first sample)"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_027",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "dedup (keep first sample)"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_028",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "dedup (keep first sample)"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_029",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "dedup (keep first sample)"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_030",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "dedup (keep first sample)"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_031",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "dedup (keep first sample)"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_035",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "dedup (keep first sample)"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_044",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "dedup (keep first sample)"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_045",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "dedup (keep first sample)"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_049",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "endpoint": "qwen3.8-flash-payg",
+   "note": "dedup (keep first sample)"
+  }
+ ]
+}

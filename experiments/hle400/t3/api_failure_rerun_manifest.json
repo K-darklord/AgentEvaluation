@@ -1,0 +1,446 @@
+{
+ "rerun_tasks": {
+  "A": [],
+  "A2": [
+   "hle_100",
+   "hle_347"
+  ],
+  "A3": [
+   "hle_031",
+   "hle_164",
+   "hle_347",
+   "hle_372"
+  ],
+  "C3": [
+   "hle_164",
+   "hle_179",
+   "hle_347"
+  ],
+  "C2": [
+   "hle_007"
+  ],
+  "A2P": [
+   "hle_026",
+   "hle_029",
+   "hle_030",
+   "hle_031",
+   "hle_033",
+   "hle_034",
+   "hle_035",
+   "hle_036",
+   "hle_037",
+   "hle_038",
+   "hle_039",
+   "hle_043",
+   "hle_044",
+   "hle_046",
+   "hle_047",
+   "hle_048",
+   "hle_050",
+   "hle_051",
+   "hle_052",
+   "hle_053",
+   "hle_054",
+   "hle_055",
+   "hle_057",
+   "hle_058",
+   "hle_164",
+   "hle_347",
+   "hle_394",
+   "hle_396",
+   "hle_400"
+  ]
+ },
+ "manifest": [
+  {
+   "arm": "A2",
+   "task_id": "hle_100",
+   "metric": "mode",
+   "rounds_before": 7,
+   "rounds_after": 4,
+   "old_correct": true,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2",
+   "task_id": "hle_347",
+   "metric": "mode",
+   "rounds_before": 11,
+   "rounds_after": 9,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_031",
+   "metric": "vote",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "old_correct": true,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_164",
+   "metric": "vote",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_347",
+   "metric": "vote",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A3",
+   "task_id": "hle_372",
+   "metric": "vote",
+   "rounds_before": 10,
+   "rounds_after": 10,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "C3",
+   "task_id": "hle_164",
+   "metric": "mode",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "C3",
+   "task_id": "hle_179",
+   "metric": "mode",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "old_correct": null,
+   "new_correct": null,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "C3",
+   "task_id": "hle_347",
+   "metric": "mode",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "C2",
+   "task_id": "hle_007",
+   "metric": "mode",
+   "rounds_before": 11,
+   "rounds_after": 7,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_026",
+   "metric": "mode",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "old_correct": true,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_029",
+   "metric": "mode",
+   "rounds_before": 9,
+   "rounds_after": 11,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_030",
+   "metric": "mode",
+   "rounds_before": 9,
+   "rounds_after": 9,
+   "old_correct": false,
+   "new_correct": true,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_031",
+   "metric": "mode",
+   "rounds_before": 7,
+   "rounds_after": 4,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_033",
+   "metric": "mode",
+   "rounds_before": 11,
+   "rounds_after": 4,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_034",
+   "metric": "mode",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_035",
+   "metric": "mode",
+   "rounds_before": 4,
+   "rounds_after": 5,
+   "old_correct": false,
+   "new_correct": true,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_036",
+   "metric": "mode",
+   "rounds_before": 4,
+   "rounds_after": 8,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_037",
+   "metric": "mode",
+   "rounds_before": 4,
+   "rounds_after": 11,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_038",
+   "metric": "mode",
+   "rounds_before": 4,
+   "rounds_after": 10,
+   "old_correct": false,
+   "new_correct": true,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_039",
+   "metric": "mode",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_043",
+   "metric": "mode",
+   "rounds_before": 11,
+   "rounds_after": 5,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_044",
+   "metric": "mode",
+   "rounds_before": 11,
+   "rounds_after": 4,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_046",
+   "metric": "mode",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "old_correct": null,
+   "new_correct": null,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_047",
+   "metric": "mode",
+   "rounds_before": 11,
+   "rounds_after": 6,
+   "old_correct": true,
+   "new_correct": true,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_048",
+   "metric": "mode",
+   "rounds_before": 11,
+   "rounds_after": 4,
+   "old_correct": true,
+   "new_correct": true,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_050",
+   "metric": "mode",
+   "rounds_before": 11,
+   "rounds_after": 6,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_051",
+   "metric": "mode",
+   "rounds_before": 11,
+   "rounds_after": 3,
+   "old_correct": true,
+   "new_correct": true,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_052",
+   "metric": "mode",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "old_correct": false,
+   "new_correct": true,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_053",
+   "metric": "mode",
+   "rounds_before": 4,
+   "rounds_after": 9,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_054",
+   "metric": "mode",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_055",
+   "metric": "mode",
+   "rounds_before": 4,
+   "rounds_after": 3,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_057",
+   "metric": "mode",
+   "rounds_before": 5,
+   "rounds_after": 3,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_058",
+   "metric": "mode",
+   "rounds_before": 5,
+   "rounds_after": 3,
+   "old_correct": true,
+   "new_correct": true,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_164",
+   "metric": "mode",
+   "rounds_before": 10,
+   "rounds_after": 11,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_347",
+   "metric": "mode",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "old_correct": false,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_394",
+   "metric": "mode",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "old_correct": null,
+   "new_correct": false,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_396",
+   "metric": "mode",
+   "rounds_before": 11,
+   "rounds_after": 11,
+   "old_correct": true,
+   "new_correct": true,
+   "endpoint": "deepseek-v4-flash-payg"
+  },
+  {
+   "arm": "A2P",
+   "task_id": "hle_400",
+   "metric": "mode",
+   "rounds_before": 9,
+   "rounds_after": 3,
+   "old_correct": false,
+   "new_correct": true,
+   "endpoint": "deepseek-v4-flash-payg"
+  }
+ ]
+}

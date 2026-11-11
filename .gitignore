@@ -112,3 +112,5 @@ experiments/**/judge_c_verdicts*.jsonl
 experiments/**/qcut_*.jsonl
 experiments/**/*_moves.jsonl
 experiments/**/*_switches_*.jsonl
+
+experiments/**/loop_trajectories.jsonl.bak_*
