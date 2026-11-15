@@ -23,6 +23,7 @@ def kappa(x,y,labels):
     n=len(x); po=sum(a==b for a,b in zip(x,y))/n; pe=sum((x.count(l)/n)*(y.count(l)/n) for l in labels); return po,(po-pe)/(1-pe) if pe<1 else float('nan')
 done=[i for i in ids if i not in miss]
 a=[A[i] for i in done]; b=[B[i] for i in done]
+if not any(a) or not any(b): sys.exit('sheets not filled in yet')
 print('labels A',Counter(a),'B',Counter(b)); print('inter-annotator agreement %.3f kappa %.3f (three labels)'%kappa(a,b,['correct','incorrect','unsure']))
 both=[i for i in done if A[i]==B[i] and A[i] in('correct','incorrect')]
 print('agreed and decided:',len(both),'of',len(done),'-> remaining need discussion; put resolved labels in',D+'resolved.json as {id: correct|incorrect}')

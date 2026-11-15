@@ -36,7 +36,8 @@ amap={'A3-9':'A3','A3-11':'A3','C2':'C2','C3':'C3','A2':'A2','A2P':'A2P'}
 U={}; stale=Counter()
 for x in rows:
     a=amap[x['arm']]; t=x['task_id']; sr=x['selected_round']
-    if t in man.get(a,[]): stale[x['arm']]+=1; U.setdefault(x['arm'],{})[t]=None; continue
+    # stale rows were rerun on 2026-11-11 (G1); set USC_EXCLUDE_RERUN=1 to reproduce the earlier 396-question read-out
+    if __import__('os').environ.get('USC_EXCLUDE_RERUN')=='1' and t in man.get(a,[]): stale[x['arm']]+=1; U.setdefault(x['arm'],{})[t]=None; continue
     if sr is None: c=0.0
     elif a=='A3': c=float(bool(C[t][int(sr)-1]['c']))
     else: c=float(bool(side[a][t][int(sr)]['c']))

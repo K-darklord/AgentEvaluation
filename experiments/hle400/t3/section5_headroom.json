@@ -1,0 +1,27 @@
+{
+ "reach": 192,
+ "mode": 154,
+ "headroom": 38,
+ "split": {
+  "more": 17,
+  "tie": 10,
+  "one vote": 11
+ },
+ "switches": 1199,
+ "switch_types": {
+  "W->W": 797,
+  "W->R": 160,
+  "R->W": 143,
+  "R->R": 99
+ },
+ "judged": {
+  "R": 1178,
+  "R+": 1199,
+  "C": 1199
+ },
+ "questions_with_more_than_one_candidate": 253,
+ "of_which_overturning_helps": 38,
+ "tied_questions": 56,
+ "tied_with_correct": 24,
+ "recency_recovers": 14
+}

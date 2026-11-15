@@ -1,0 +1,812 @@
+Question put to the author ten times: "State, for a submission to ACL, what this study did and what it found: write the abstract, the list of main results in the introduction, and the conclusion."
+
+I have generated the following ten responses to the question.
+
+===== Response 1 =====
+[ABSTRACT]
+When a language model criticizes its own answer and tries again, two things happen together: the model is asked the question again, and it is told what may be wrong.
+We separate the two.
+On 400 questions from Humanity's Last Exam and three models, we compare a loop in which a critic writes specific doubts about each answer with two placebo loops, one that only reports that no problem was found and one that raises the same generic doubts for every question, and with a majority vote over independent samples.
+For each method we count the questions on which a correct answer appears among its answers (\emph{reached}) and on which the most frequent of its answers is correct (\emph{selected}).
+Our main result is that specific critique reaches more questions than both placebos on all three models, though no more than independent samples at similar cost.
+A matching gain in selection is not established.
+It is much smaller than the gain in reach on every model, and the one test of it that we fixed in advance, on the third model (MiniMax-M2.5), is inconclusive ($+5.2$ questions, 95\% interval $-6.9$ to $18.0$).
+Selection is already present without critique: when merely asked again, a model repeats correct answers more often than incorrect ones, and a vote over its answers picks up the difference.
+On the one model where we tested it, asking the model to judge its own changes of answer did not improve that vote.
+Compared with a loop that has no critic, self-critique mainly helps a model find answers; we could not show that it helps the model pick the right one.
+
+[MAIN RESULTS IN THE INTRODUCTION]
+Our main result is that specific critique reaches more questions than both placebos on all three models, though no more than independent samples at similar cost.
+A matching gain in selection is not established.
+It is much smaller than the gain in reach on every model, and the one test of it that we fixed in advance, on the third model (MiniMax-M2.5), is inconclusive ($+5.2$ questions, 95\% interval $-6.9$ to $18.0$).
+Selection is already present without critique: when merely asked again, a model repeats correct answers more often than incorrect ones, and a vote over its answers picks up the difference.
+On the one model where we tested it, asking the model to judge its own changes of answer did not improve that vote.
+Compared with a loop that has no critic, self-critique mainly helps a model find answers; we could not show that it helps the model pick the right one.
+\end{abstract}
+
+\section{Introduction}
+
+A common way to improve a language model's answer at test time is to let the model criticize the answer and try again, several times \citep{madaan2023selfrefine,shinn2023reflexion}.
+Such a loop does two things in every round.
+It asks the question again, with the model's previous answer in view.
+And it tells the model what may be wrong with that answer.
+Studies that compare a loop with and without its critic, or a loop with a single answer, change both at once, so they cannot say which of the two is responsible for a gain.
+
+We begin with one observation.
+On one of our models (\ds), a loop with a critic ends with a correct majority answer on 157 of 400 questions.
+A loop that is identical except that its feedback always reads ``no problem was found'' ends with 145.
+The critic seems to be worth 12 questions.
+But the two loops did not have the same material to choose from.
+With the critic, a correct answer appeared somewhere among the loop's answers on 198 questions; without it, on 153.
+The critic produced a correct answer on 45 more questions, and only 12 more were chosen.
+On the 146 questions where both loops produced a correct answer, the loop with the critic chose it \emph{less} often.
+
+This paper shows that the pattern is general across three models and explains it.
+We measure two outcomes for every method.
+A question is \emph{reached} if a correct answer appears anywhere among the answers the method produces; this is the coverage of \citet{brown2024monkeys}.
+It is \emph{selected} if the most frequent of those answers is correct.
+We then vary the feedback in the loop one step at a time (Section~\ref{sec:setup}).
+In the \emph{reassuring loop} the feedback says that no problem was found.
+In the \emph{generic-doubt loop} the feedback raises doubts drawn from five fixed sentences, the same for every question, written without reading anything.
+In the \emph{critique loop} a critic, which is the same model, reads the question and the answer and writes doubts specific to them.
+As a reference outside the loop design we take a majority vote over nine \emph{independent samples}, known as self-consistency \citep{wang2023selfconsistency}.
+One model plays every role, no reference answer enters any loop, and nothing is trained.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figs/reach_select.pdf}
+  \caption{Questions out of 400 that each method \emph{reaches} (a correct answer appears among its answers; open circle) and \emph{selects} (its most frequent answer is correct; filled circle). The dashed line marks the first answer, which all three loops share. The critique loop moves the open circle far more than the filled one.}
+  \label{fig:reach}
+\end{figure}
+
+Our main result is that \textbf{specific critique adds to what a model finds}, compared with loops that have no critic.
+The other three results are an account, largely exploratory, of why this adds so little to what is selected (Figure~\ref{fig:reach}).
+
+\textbf{Specific critique finds more correct answers.}
+The critique loop reaches more questions than the generic-doubt loop and the reassuring loop on all three models (198, 171 and 153 on \ds; 182, 149 and 123 on \qw; 152, 128 and 125 on \mm).
+The advantage holds when every method is limited to its first three distinct answers and when only exact matches count as correct.
+It is an advantage over loops without a critic: nine independent samples reach as many questions as the critique loop, or more.
+
+\textbf{A gain in selected questions is not established.}
+On the third model we fixed one confirmatory test in advance, that the critique loop selects more questions than the reassuring loop; its interval includes zero.
+The estimate is positive on all three models and its mean over them excludes zero, so a gain may well exist; but it is not established, and it is far smaller than the gain in reach.
+The critique loop's gain in selected questions arises on questions that only it reaches.
+
+\textbf{Selection is already present without critique.}
+A model that is asked again repeats a correct answer more often than an incorrect one, also when the feedback is mere reassurance, and a majority vote over the rounds turns this into selection.
+The critique loop also selects more questions than the majority answer of nine independent samples on each model, although it reaches no more; part of this margin depends on how differently written answers are counted.
+
+\textbf{The same model did not improve on the vote.}
+The critique loop's last answer is worse than its majority answer, and on one model three ways of asking the model to judge its own changes of answer were right about half of the time wherever they could have changed the outcome.
+
+Parts of this picture are known: models verify their own output poorly \citep{huang2024cannot,stechly2024selfverification,song2024mindgap}, and a correct answer is often present among a model's samples without being chosen \citep{brown2024monkeys,jain2026cliff}.
+What we add is attribution inside the loop.
+Placebo loops hold the rest of the loop fixed while the feedback changes, and the two outcomes show where a critic acts: clearly on what is reached, and not demonstrably on what is selected.
+We release all answers, per-answer scores, judge verdicts and analysis code.
+
+[CONCLUSION]
+A self-critique loop asks a model again and criticizes its answer.
+Asking again lets a vote select the answers the model prefers.
+Criticizing its answer makes it find more correct answers, more so when the critique is specific, though no more than independent sampling finds.
+A matching gain in selected questions is not established: the confirmatory test was inconclusive, and the estimated gain is far smaller than the gain in reach on all three models.
+The gap between reached and selected was not closed by the model's own last answer on any model, nor by the model acting as a judge on the one model where we tried.
+
+===== Response 2 =====
+[ABSTRACT]
+When a language model criticizes its own answer and tries again, two things happen together: the model is asked the question again, and it is told what may be wrong.
+We separate the two as far as placebo feedback allows.
+On 400 questions from Humanity's Last Exam and three models, we compare a loop in which a critic writes specific doubts about each answer with two placebo loops, one that only reports that no problem was found and one that raises the same generic doubts for every question, and with a majority vote over independent samples.
+For each method we count the questions on which a correct answer appears among its answers (\emph{reached}) and on which the most frequent of its answers is correct (\emph{selected}).
+Our main result is that specific critique reaches more questions than both placebos on all three models. It does not consistently reach more than independent samples at similar cost, so it may act mainly by making the model change its answer.
+A corresponding gain in selected questions is not established.
+It is much smaller than the gain in reach on every model, and the one test of it that we fixed in advance, on the third model (MiniMax-M2.5), is inconclusive ($+5.2$ questions, 95\% interval $-6.9$ to $18.0$).
+Much of what a loop selects it selects without critique: with reassurance as the only feedback, selected questions exceed correct first answers by 21 to 32 (the majority answer of nine samples gains 14 to 24), while the critic's estimated addition is 5 to 23, with intervals that include zero on two models.
+On the one model where we tested it, asking the model to judge its own changes of answer did not improve that vote.
+Compared with a loop that has no critic, self-critique mainly helps a model find correct answers; we could not show that it raises the number that end up selected.
+
+[MAIN RESULTS IN THE INTRODUCTION]
+Our main result is that specific critique reaches more questions than both placebos on all three models. It does not consistently reach more than independent samples at similar cost, so it may act mainly by making the model change its answer.
+A corresponding gain in selected questions is not established.
+It is much smaller than the gain in reach on every model, and the one test of it that we fixed in advance, on the third model (MiniMax-M2.5), is inconclusive ($+5.2$ questions, 95\% interval $-6.9$ to $18.0$).
+Much of what a loop selects it selects without critique: with reassurance as the only feedback, selected questions exceed correct first answers by 21 to 32 (the majority answer of nine samples gains 14 to 24), while the critic's estimated addition is 5 to 23, with intervals that include zero on two models.
+On the one model where we tested it, asking the model to judge its own changes of answer did not improve that vote.
+Compared with a loop that has no critic, self-critique mainly helps a model find correct answers; we could not show that it raises the number that end up selected.
+\end{abstract}
+
+\section{Introduction}
+
+A common way to improve a language model's answer at test time is to let the model criticize the answer and try again, several times \citep{madaan2023selfrefine,shinn2023reflexion}.
+Such a loop does two things in every round.
+It asks the question again, with the model's previous answer in view.
+And it tells the model what may be wrong with that answer.
+Studies that compare a loop with and without its critic, or a loop with a single answer, change both at once, so they cannot say which of the two is responsible for a gain.
+
+Consider one of our models (\ds).
+A loop with a critic ends with a correct majority answer on 157 of 400 questions.
+A loop that is identical except that its feedback always reads ``no problem was found'' ends with 145.
+The critic seems to be worth 12 questions.
+But the two loops did not have the same material to choose from.
+With the critic, a correct answer appeared somewhere among the loop's answers on 198 questions; without it, on 153.
+The critic led to a correct answer on 45 more questions, and only 12 more ended as the majority answer.
+
+This paper shows that the pattern holds across three models and examines why.
+We measure two outcomes for every method.
+A question is \emph{reached} if a correct answer appears anywhere among the answers the method produces; this is the coverage of \citet{brown2024monkeys}.
+It is \emph{selected} if the most frequent of those answers is correct.
+We then vary the feedback in the loop one step at a time (Section~\ref{sec:setup}).
+In the \emph{reassuring loop} the feedback says that no problem was found.
+In the \emph{generic-doubt loop} the feedback raises doubts drawn from five fixed sentences, the same for every question, written without reading anything.
+In the \emph{critique loop} a critic, which is the same model, reads the question and the answer and writes doubts specific to them.
+As a reference outside the loop design we take a majority vote over nine \emph{independent samples}, known as self-consistency \citep{wang2023selfconsistency}.
+One model plays every role in a loop, and no reference answer enters it.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figs/reach_select.pdf}
+  \caption{Questions out of 400 that each method \emph{reaches} (a correct answer appears among its answers; open circle) and \emph{selects} (its most frequent answer is correct; filled circle). The dashed line marks the first answer, which all three loops share. The critique loop moves the open circle far more than the filled one.}
+  \label{fig:reach}
+\end{figure}
+
+Our main result is that \textbf{specific critique adds to what a model finds}, compared with loops that have no critic.
+The other three results are an account, largely exploratory, of why the gain in what is selected is smaller and harder to establish (Figure~\ref{fig:reach}).
+
+\textbf{Specific critique finds more correct answers.}
+The critique loop reaches more questions than the generic-doubt loop and the reassuring loop on all three models (198, 171 and 153 on \ds; 182, 149 and 123 on \qw; 152, 128 and 125 on \mm).
+The advantage holds when every method is limited to its first three distinct answers (to its first two, on two of the three models), when only exact matches count as correct, and when multiple-choice questions are left out.
+It is an advantage over loops without a critic; against nine independent samples the comparison depends on the model and on the scoring.
+
+\textbf{A gain in selected questions is not established.}
+On the third model we fixed one confirmatory test in advance, that the critique loop selects more questions than the reassuring loop; its interval includes zero.
+The estimate is positive on all three models and its mean over them excludes zero, so a gain may well exist; but it is not established, and it is far smaller than the gain in reach.
+The critique loop's gain in selected questions arises on questions that only it reaches.
+
+\textbf{Much is selected without a critic.}
+With mere reassurance as feedback, selected questions already exceed correct first answers by 21 to 32; the critic's estimated addition is 12, 23 and 5.
+The critique loop also selects more questions than the majority answer of nine independent samples on each model, although it reaches no more; part of this margin depends on how differently written answers are counted.
+
+\textbf{The same model did not improve on its majority answer.}
+The critique loop's last answer is worse than its majority answer, and on one model three ways of asking the model to judge its own changes of answer were right about half of the time wherever they could have changed the outcome.
+
+Parts of this picture are known: models verify their own output poorly \citep{huang2024cannot,stechly2024selfverification,song2024mindgap}, and a correct answer is often present among a model's samples without being chosen \citep{brown2024monkeys,jain2026cliff}.
+What we add is attribution inside the loop.
+Placebo loops hold the rest of the loop fixed while the feedback changes, and the two outcomes show where a critic acts: clearly on what is reached, and not demonstrably on what is selected.
+We release all answers, per-answer scores, judge verdicts and analysis code.
+
+[CONCLUSION]
+A self-critique loop asks a model again and criticizes its answer.
+Asking again, with no information in the feedback, already raises the number of correct answers.
+Criticizing the answer makes the model find more correct answers than a loop without a critic does, though not consistently more than independent sampling finds.
+A matching gain in selected questions is not established: the confirmatory test was inconclusive, and the estimated gain is far smaller than the gain in reach on all three models.
+The gap between reached and selected was not closed by the model's own last answer on any model, nor by the model acting as a judge on the one model where we tried.
+
+===== Response 3 =====
+[ABSTRACT]
+When a language model criticizes its own answer and tries again, two things happen together: the model is asked the question again, and it is told what may be wrong.
+We separate the two as far as placebo feedback allows.
+On 400 questions from Humanity's Last Exam and three models, we compare a loop in which a critic writes specific doubts about each answer with two placebo loops, one that only reports that no problem was found and one that raises the same generic doubts for every question, and with a majority vote over independent samples.
+For each method we count the questions on which a correct answer appears among its answers (\emph{reached}) and on which the most frequent of its answers is correct (\emph{selected}).
+Our main result is that specific critique reaches more questions than both placebos on all three models, also when each method is limited to its first three distinct answers; it does not consistently reach more than independent samples at similar cost, so it may act mainly by making the model change its answer.
+A corresponding gain in selected questions is not established.
+It is much smaller than the gain in reach on every model, and the one test of it that we fixed in advance, on the third model (MiniMax-M2.5), is inconclusive ($+5.2$ questions, 95\% interval $-6.9$ to $18.0$).
+Much of what a loop selects it selects without critique: with reassurance as the only feedback, selected questions exceed correct first answers by 21 to 32 (a vote over nine samples gains 14 to 24), while the critic's estimated addition is 5 to 23, with intervals that include zero on two models.
+On the one model where we tested it, asking the model to judge its own changes of answer did not improve that vote.
+Compared with a loop that has no critic, self-critique mainly helps a model find correct answers; we could not show that it raises the number that end up selected.
+
+[MAIN RESULTS IN THE INTRODUCTION]
+Our main result is that specific critique reaches more questions than both placebos on all three models, also when each method is limited to its first three distinct answers; it does not consistently reach more than independent samples at similar cost, so it may act mainly by making the model change its answer.
+A corresponding gain in selected questions is not established.
+It is much smaller than the gain in reach on every model, and the one test of it that we fixed in advance, on the third model (MiniMax-M2.5), is inconclusive ($+5.2$ questions, 95\% interval $-6.9$ to $18.0$).
+Much of what a loop selects it selects without critique: with reassurance as the only feedback, selected questions exceed correct first answers by 21 to 32 (a vote over nine samples gains 14 to 24), while the critic's estimated addition is 5 to 23, with intervals that include zero on two models.
+On the one model where we tested it, asking the model to judge its own changes of answer did not improve that vote.
+Compared with a loop that has no critic, self-critique mainly helps a model find correct answers; we could not show that it raises the number that end up selected.
+\end{abstract}
+
+\section{Introduction}
+
+A common way to improve a language model's answer at test time is to let the model criticize the answer and try again, several times \citep{madaan2023selfrefine,shinn2023reflexion}.
+Such a loop does two things in every round.
+It asks the question again, with the model's previous answer in view.
+And it tells the model what may be wrong with that answer.
+Studies that compare a loop with and without its critic, or a loop with a single answer, change both at once, so they cannot say which of the two is responsible for a gain.
+
+Consider one of our models (\ds).
+A loop with a critic ends with a correct majority answer on 157 of 400 questions.
+A loop that is identical except that its feedback always reads ``no problem was found'' ends with 145.
+The critic seems to be worth 12 questions.
+But the two loops did not have the same material to choose from.
+With the critic, a correct answer appeared somewhere among the loop's answers on 198 questions; without it, on 153.
+The critic led to a correct answer on 45 more questions, and only 12 more ended as the majority answer.
+
+This paper shows that the pattern holds across three models and examines why.
+We measure two outcomes for every method.
+A question is \emph{reached} if a correct answer appears anywhere among the answers the method produces; this is the coverage of \citet{brown2024monkeys}.
+It is \emph{selected} if the most frequent of those answers is correct.
+We then vary the feedback in the loop one step at a time (Section~\ref{sec:setup}).
+In the \emph{reassuring loop} the feedback says that no problem was found.
+In the \emph{generic-doubt loop} the feedback raises doubts drawn from five fixed sentences, the same for every question, written without reading anything.
+In the \emph{critique loop} a critic, which is the same model, reads the question and the answer and writes doubts specific to them.
+As a reference outside the loop design we take a majority vote over nine \emph{independent samples}, known as self-consistency \citep{wang2023selfconsistency}.
+One model plays every role, no reference answer enters any loop, and nothing is trained.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figs/reach_select.pdf}
+  \caption{Questions out of 400 that each method \emph{reaches} (a correct answer appears among its answers; open circle) and \emph{selects} (its most frequent answer is correct; filled circle). The dashed line marks the first answer, which all three loops share. The critique loop moves the open circle far more than the filled one.}
+  \label{fig:reach}
+\end{figure}
+
+Our main result is that \textbf{specific critique adds to what a model finds}, compared with loops that have no critic.
+The other three results are an account, largely exploratory, of why the gain in what is selected is smaller and harder to establish (Figure~\ref{fig:reach}).
+
+\textbf{Specific critique finds more correct answers.}
+The critique loop reaches more questions than the generic-doubt loop and the reassuring loop on all three models (198, 171 and 153 on \ds; 182, 149 and 123 on \qw; 152, 128 and 125 on \mm).
+The advantage holds when every method is limited to its first three distinct answers (to its first two, on two of the three models), when only exact matches count as correct, and when multiple-choice questions are left out.
+It is an advantage over loops without a critic; against nine independent samples the comparison depends on the model and on the scoring.
+
+\textbf{A gain in selected questions is not established.}
+On the third model we fixed one confirmatory test in advance, that the critique loop selects more questions than the reassuring loop; its interval includes zero.
+The estimate is positive on all three models and its mean over them excludes zero, so a gain may well exist; but it is not established, and it is far smaller than the gain in reach.
+The critique loop's gain in selected questions arises on questions that only it reaches.
+
+\textbf{Much is selected without a critic.}
+With mere reassurance as feedback, selected questions already exceed correct first answers by 21 to 32; the critic's estimated addition is 12, 23 and 5.
+The critique loop also selects more questions than the majority answer of nine independent samples on each model, although it reaches no more; part of this margin depends on how differently written answers are counted.
+
+\textbf{The same model did not improve on the vote.}
+The critique loop's last answer is worse than its majority answer, and on one model three ways of asking the model to judge its own changes of answer were right about half of the time wherever they could have changed the outcome.
+
+Parts of this picture are known: models verify their own output poorly \citep{huang2024cannot,stechly2024selfverification,song2024mindgap}, and a correct answer is often present among a model's samples without being chosen \citep{brown2024monkeys,jain2026cliff}.
+What we add is attribution inside the loop.
+Placebo loops hold the rest of the loop fixed while the feedback changes, and the two outcomes show where a critic acts: clearly on what is reached, and not demonstrably on what is selected.
+We release all answers, per-answer scores, judge verdicts and analysis code.
+
+[CONCLUSION]
+A self-critique loop asks a model again and criticizes its answer.
+Asking again, with no information in the feedback, already raises the number of correct answers.
+Criticizing the answer makes the model find more correct answers than a loop without a critic does, though not consistently more than independent sampling finds.
+A matching gain in selected questions is not established: the confirmatory test was inconclusive, and the estimated gain is far smaller than the gain in reach on all three models.
+The gap between reached and selected was not closed by the model's own last answer on any model, nor by the model acting as a judge on the one model where we tried.
+
+===== Response 4 =====
+[ABSTRACT]
+When a language model criticizes its own answer and tries again, two things happen together: the model is asked the question again, and it is told what may be wrong.
+We separate the two.
+On 400 questions from Humanity's Last Exam and three models, we compare a loop in which a critic writes specific doubts about each answer with two placebo loops, one that only reports that no problem was found and one that raises the same generic doubts for every question, and with a majority vote over independent samples.
+For each method we count the questions on which a correct answer appears among its answers (\emph{reached}) and on which the most frequent of its answers is correct (\emph{selected}).
+Our main result is that specific critique reaches more questions than both placebos on all three models.
+We find no reliable gain in selection beyond what this larger reach explains.
+A pre-registered test of a selection advantage over the reassuring loop fails on the third model ($+5.2$ questions, 95\% interval $-6.9$ to $18.0$), and in exploratory analyses the critique loop selects a smaller share of the questions it reaches than the reassuring loop does, by 11 to 15 points on every model.
+Selection is already present without critique: when merely asked again, a model repeats correct answers more often than incorrect ones, and a vote over its answers picks up the difference.
+On the one model where we tested it, asking the model to judge its own changes of answer did not improve that vote.
+The evidence fits a simple reading: self-critique helps a model search for answers and does little to help it verify them.
+
+[MAIN RESULTS IN THE INTRODUCTION]
+Our main result is that specific critique reaches more questions than both placebos on all three models.
+We find no reliable gain in selection beyond what this larger reach explains.
+A pre-registered test of a selection advantage over the reassuring loop fails on the third model ($+5.2$ questions, 95\% interval $-6.9$ to $18.0$), and in exploratory analyses the critique loop selects a smaller share of the questions it reaches than the reassuring loop does, by 11 to 15 points on every model.
+Selection is already present without critique: when merely asked again, a model repeats correct answers more often than incorrect ones, and a vote over its answers picks up the difference.
+On the one model where we tested it, asking the model to judge its own changes of answer did not improve that vote.
+The evidence fits a simple reading: self-critique helps a model search for answers and does little to help it verify them.
+\end{abstract}
+
+\section{Introduction}
+
+A common way to improve a language model's answer at test time is to let the model criticize the answer and try again, several times \citep{madaan2023selfrefine,shinn2023reflexion}.
+Such a loop does two things in every round.
+It asks the question again, with the model's previous answer in view.
+And it tells the model what may be wrong with that answer.
+Studies that compare a loop with and without its critic, or a loop with a single answer, change both at once, so they cannot say which of the two is responsible for a gain.
+
+We begin with one observation.
+On one of our models (\ds), a loop with a critic ends with a correct majority answer on 157 of 400 questions.
+A loop that is identical except that its feedback always reads ``no problem was found'' ends with 145.
+The critic seems to be worth 12 questions.
+But the two loops did not have the same material to choose from.
+With the critic, a correct answer appeared somewhere among the loop's answers on 198 questions; without it, on 153.
+The critic produced a correct answer on 45 more questions, and only 12 more were chosen.
+On the 146 questions where both loops produced a correct answer, the loop with the critic chose it \emph{less} often.
+
+This paper shows that the pattern is general across three models and explains it.
+We measure two outcomes for every method.
+A question is \emph{reached} if a correct answer appears anywhere among the answers the method produces; this is the coverage of \citet{brown2024monkeys}.
+It is \emph{selected} if the most frequent of those answers is correct.
+We then vary the feedback in the loop one step at a time (Section~\ref{sec:setup}).
+In the \emph{reassuring loop} the feedback says that no problem was found.
+In the \emph{generic-doubt loop} the feedback raises doubts drawn from five fixed sentences, the same for every question, written without reading anything.
+In the \emph{critique loop} a critic, which is the same model, reads the question and the answer and writes doubts specific to them.
+As a reference outside the loop design we take a majority vote over nine \emph{independent samples}, known as self-consistency \citep{wang2023selfconsistency}.
+One model plays every role, no reference answer enters any loop, and nothing is trained.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figs/reach_select.pdf}
+  \caption{Questions out of 400 that each method \emph{reaches} (a correct answer appears among its answers; open circle) and \emph{selects} (its most frequent answer is correct; filled circle). The dashed line marks the first answer, which all three loops share. The critique loop moves the open circle far more than the filled one.}
+  \label{fig:reach}
+\end{figure}
+
+Our main result, and the only one we fixed in advance as a headline, is that \textbf{specific critique adds to what a model finds}.
+The other three results are an account, largely exploratory, of why this adds so little to what is selected (Figure~\ref{fig:reach}).
+
+\textbf{Specific critique finds more correct answers.}
+The critique loop reaches more questions than the generic-doubt loop and the reassuring loop on all three models (198, 171 and 153 on \ds; 182, 149 and 123 on \qw; 152, 128 and 125 on \mm).
+The advantage holds when every method is limited to the same number of distinct answers and when only exact matches count as correct.
+
+\textbf{We find no reliable selection gain beyond reach.}
+On the third model we fixed one confirmatory test in advance, that the critique loop selects more questions than the reassuring loop, and it failed.
+The estimate is positive on all three models and its mean over them excludes zero, so a gain may exist; but it is no larger than the added reach accounts for.
+The share of reached questions that are also selected is lower in the critique loop than in the reassuring loop on every model, and the critique loop's gain in selected questions arises on questions that only it reaches.
+
+\textbf{Selection is already present without critique.}
+A model that is asked again repeats a correct answer more often than an incorrect one, also when the feedback is mere reassurance, and a majority vote over the rounds turns this into selection.
+The critique loop also selects more than a vote over independent samples on each model, although it reaches no more.
+
+\textbf{The same model did not improve on the vote.}
+The critique loop's last answer is worse than its majority answer, and on one model three ways of asking the model to judge its own changes of answer were right about half of the time wherever they could have changed the outcome.
+
+Parts of this picture are known: models verify their own output poorly \citep{huang2024cannot,stechly2024selfverification,song2024mindgap}, and a correct answer is often present among a model's samples without being chosen \citep{brown2024monkeys,jain2026cliff}.
+What we add is attribution inside the loop.
+Placebo loops separate critique from everything else a loop does, and the two outcomes show where critique acts: clearly on reach, and not detectably on selection once reach is accounted for.
+We release all answers, per-answer scores, judge verdicts and analysis code.
+
+[CONCLUSION]
+A self-critique loop asks a model again and criticizes its answer.
+Asking again lets a vote select the answers the model prefers.
+Criticizing its answer makes it find more correct answers, more so when the critique is specific.
+We found no reliable evidence that critique improves how well the found answers are selected: a confirmatory test failed, and the share of reached questions that are selected is lower with critique on all three models.
+The gap between reached and selected was not closed by the model's own last answer on any model, nor by the model acting as a judge on the one model where we tried.
+
+===== Response 5 =====
+[ABSTRACT]
+When a language model criticizes its own answer and tries again, two things happen together: the model is asked the question again, and it is told what may be wrong.
+To tell them apart, we compare a loop that has such a critic with two placebo loops, one whose feedback only says that no problem was found and one whose feedback raises the same generic doubts for every question.
+A majority vote over independent samples serves as a further reference.
+We use 400 questions from Humanity's Last Exam and three models.
+For each method we count the questions on which a correct answer appears among its answers (\emph{reached}) and the questions on which its most frequent answer is correct (\emph{selected}).
+The loop with a critic reaches more questions than both placebo loops on all three models.
+On two models its new answers are also more often correct; on the third, MiniMax-M2.5, it only prompts more of them.
+It does not consistently reach more than independent samples at similar cost.
+A corresponding gain in selected questions is not established: it is far smaller than the gain in reached questions, and the one test of it that we fixed in advance is inconclusive ($+5.2$ questions on MiniMax-M2.5, 95\% interval $-6.9$ to $18.0$).
+A placebo loop that only reassures already selects 21 to 32 more questions than the first answer gets right.
+On one model, with a variant of the critic, asking the model to judge its own changes of answer did not improve on its most frequent answer.
+Compared with loops that have no critic, self-critique leads a model to more correct answers; we could not show that it raises the number that end up selected.
+
+[MAIN RESULTS IN THE INTRODUCTION]
+Our main result is that \textbf{a critic raises what a loop reaches}, compared with the two placebo loops.
+The other three results are an account, largely exploratory, of why the gain in what is selected is smaller and harder to establish (Figure~\ref{fig:reach}).
+
+\textbf{The critique loop reaches more questions than both placebo loops} (secondary tests fixed in advance).
+The critique loop reaches more questions than the generic-doubt loop and the reassuring loop on all three models (198, 171 and 153 on \ds; 182, 149 and 123 on \qw; 152, 128 and 125 on \mm).
+The advantage holds when every method is limited to its first three distinct answers (to its first two, on two of the three models), when only exact matches count as correct, and when multiple-choice questions are left out.
+On two models the critic's new answers are also more often correct; on the third it only prompts more of them.
+Against nine independent samples the comparison depends on the model and on the scoring, so one reading we cannot exclude is that the critic mainly restores the variety that a loop anchored on one answer lacks.
+
+\textbf{A gain in selected questions is not established} (confirmatory test).
+On the third model we fixed one confirmatory test in advance, that the critique loop selects more questions than the reassuring loop; its interval includes zero.
+The estimate is positive on all three models and its mean over them excludes zero, so a gain may well exist; but it is not established, and it is far smaller than the gain in reach.
+The critique loop's gain in selected questions arises on questions that only it reaches.
+
+\textbf{A loop selects much without a critic} (descriptive).
+With mere reassurance as feedback, selected questions already exceed correct first answers by 21 to 32; the critic's estimated addition is 12, 23 and 5.
+The critique loop also selects more questions than the majority answer of nine independent samples (a secondary test fixed in advance; clear on two models and narrow on the third), although it reaches no more; part of this margin depends on how differently written answers are counted.
+
+\textbf{The same model did not improve on its majority answer} (exploratory).
+The critique loop's last answer is correct less often than its majority answer, significantly on two models, and on one model three ways of asking the model to judge its own changes of answer were right about half of the time wherever they could have changed the outcome.
+
+Parts of this picture are known: models verify their own output poorly \citep{huang2024cannot,stechly2024selfverification,song2024mindgap}, and a correct answer is often present among a model's samples without being chosen \citep{brown2024monkeys,jain2026cliff}.
+What we add is a controlled comparison inside the loop.
+Placebo loops hold the rest of the loop fixed while the feedback changes, and the two outcomes show where a critic acts: clearly on what is reached, and not demonstrably on what is selected.
+
+[CONCLUSION]
+A self-critique loop asks a model again and criticizes its answer.
+With no information in the feedback, a loop that asks again already selects more questions than the first answer gets right, by a margin we describe and did not test.
+Adding a critic raises what the loop reaches above both placebo loops, though not consistently above what independent samples reach.
+A corresponding gain in selected questions is not established: the confirmatory test was inconclusive, and the estimated gain is far smaller than the gain in reach.
+The gap between reached and selected was not closed by the model's own last answer, which was worse than the majority answer on two models, nor by the model acting as judge on the one model where we tried it.
+
+===== Response 6 =====
+[ABSTRACT]
+When a language model criticizes its own answer and tries again, two things happen together: the model is asked the question again, and it is told what may be wrong.
+To tell them apart, we compare a loop that has such a critic (the \emph{critique loop}) with two placebo loops, one whose feedback only says that no problem was found and one whose feedback raises the same generic doubts for every question.
+A majority vote over independent samples serves as a further reference.
+We use 400 questions from Humanity's Last Exam and three models.
+For each method we count the questions on which a correct answer appears among its answers (\emph{reached}) and the questions on which its majority answer, the most frequent one, is correct (\emph{selected}).
+The critique loop reaches more questions than both placebo loops on all three models.
+On two models its new answers are also more often correct; on the third, MiniMax-M2.5, it only prompts more of them.
+It reaches no more than independent samples at similar cost, and fewer on MiniMax-M2.5.
+A corresponding gain in selected questions is not established: the gain in reached questions is significant on every model, the gain in selected questions on one, and the one test of the latter that we fixed in advance is inconclusive ($+5.2$ questions on MiniMax-M2.5, 95\% interval $-6.9$ to $18.0$).
+A placebo loop that only reassures already selects 21 to 32 more questions than the first answer gets right, about what a majority vote over nine samples gains.
+On one model, with a variant of the critic, asking the model to judge its own changes of answer did not improve on its majority answer.
+Compared with the placebo loops, a critic raises the number of questions reached; we could not show that it raises the number selected.
+
+[MAIN RESULTS IN THE INTRODUCTION]
+Our main result is that \textbf{a critic raises what a loop reaches}, compared with the two placebo loops.
+The other three results are an account, largely exploratory, of why the gain in what is selected is smaller and harder to establish (Figure~\ref{fig:reach}).
+
+\textbf{The critique loop reaches more questions than both placebo loops} (secondary tests fixed in advance).
+The critique loop reaches more questions than the generic-doubt loop and the reassuring loop on all three models (198, 171 and 153 on \ds; 182, 149 and 123 on \qw; 152, 128 and 125 on \mm).
+The advantage holds when every method is limited to its first three distinct answers (to its first two, on two of the three models), when only exact matches count as correct, and when multiple-choice questions are left out.
+On two models the critic's new answers are also more often correct; on the third it only prompts more of them.
+Against nine independent samples the comparison depends on the model and on the scoring, so one reading we cannot exclude is that the critic mainly restores the variety that a loop anchored on one answer lacks.
+
+\textbf{A gain in selected questions is not established} (confirmatory test).
+On the third model we fixed one confirmatory test in advance, that the critique loop selects more questions than the reassuring loop; its interval includes zero.
+The estimate is positive on all three models and its mean over them excludes zero, so a gain may well exist; but it is not established, and it is far smaller than the gain in reach.
+The critique loop's gain in selected questions arises on questions that only it reaches.
+
+\textbf{A loop selects much without a critic} (exploratory).
+With mere reassurance as feedback, selected questions already exceed correct first answers by 21 to 32; the critic's estimated addition is 12, 23 and 5.
+The critique loop also selects more questions than the majority answer of nine independent samples (a secondary test, fixed in advance for the second and third model; met on both, narrowly on the third), although it reaches no more; part of this margin depends on how differently written answers are counted.
+
+\textbf{The same model did not improve on its majority answer} (exploratory).
+The critique loop's last answer is correct less often than its majority answer, significantly on two models, and on one model three ways of asking the model to judge its own changes of answer were right about half of the time wherever they could have changed the outcome.
+
+Parts of this picture are known: models verify their own output poorly \citep{huang2024cannot,stechly2024selfverification,song2024mindgap}, and a correct answer is often present among a model's samples without being chosen \citep{brown2024monkeys,jain2026cliff}.
+What we add is a controlled comparison inside the loop.
+Placebo loops hold the rest of the loop fixed while the feedback changes, and the two outcomes show where a critic acts: clearly on what is reached, and not demonstrably on what is selected.
+
+[CONCLUSION]
+A self-critique loop asks a model again and criticizes its answer.
+With no information in the feedback, a loop that asks again already selects more questions than the first answer gets right, by a margin comparable to that of a majority vote over nine samples; we describe this margin and did not test it.
+Adding a critic raises the number of questions reached above both placebo loops, though not above what independent samples reach.
+A corresponding gain in selected questions is not established: the confirmatory test was inconclusive, and the estimated gain is far smaller than the gain in reached questions.
+The gap between reached and selected was not closed by the model's own last answer, nor by the model acting as judge on the one model where we tried it.
+
+===== Response 7 =====
+[ABSTRACT]
+When a language model criticizes its own answer and tries again, two things happen together: the model is asked the question again, and it is told what may be wrong.
+We separate the two as far as placebo feedback allows.
+On 400 questions from Humanity's Last Exam and three models, we compare a loop in which a critic writes specific doubts about each answer with two placebo loops, one that only reports that no problem was found and one that raises the same generic doubts for every question, and with a majority vote over independent samples.
+For each method we count the questions on which a correct answer appears among its answers (\emph{reached}) and on which the most frequent of its answers is correct (\emph{selected}).
+Our main result is that specific critique reaches more questions than both placebos on all three models; it does not consistently reach more than independent samples at similar cost.
+A corresponding gain in selected questions is not established.
+It is much smaller than the gain in reach on every model, and the one test of it that we fixed in advance, on the third model (MiniMax-M2.5), is inconclusive ($+5.2$ questions, 95\% interval $-6.9$ to $18.0$).
+Much of what a loop selects it selects without critique: merely asking the model again, with reassurance as the only feedback, raises the number of correct answers by 21 to 32 questions over the first answer, and the critic adds 5 to 23 more.
+On the one model where we tested it, asking the model to judge its own changes of answer did not improve that vote.
+Compared with a loop that has no critic, self-critique mainly helps a model find correct answers; we could not show that it raises the number that end up selected.
+
+[MAIN RESULTS IN THE INTRODUCTION]
+Our main result is that specific critique reaches more questions than both placebos on all three models; it does not consistently reach more than independent samples at similar cost.
+A corresponding gain in selected questions is not established.
+It is much smaller than the gain in reach on every model, and the one test of it that we fixed in advance, on the third model (MiniMax-M2.5), is inconclusive ($+5.2$ questions, 95\% interval $-6.9$ to $18.0$).
+Much of what a loop selects it selects without critique: merely asking the model again, with reassurance as the only feedback, raises the number of correct answers by 21 to 32 questions over the first answer, and the critic adds 5 to 23 more.
+On the one model where we tested it, asking the model to judge its own changes of answer did not improve that vote.
+Compared with a loop that has no critic, self-critique mainly helps a model find correct answers; we could not show that it raises the number that end up selected.
+\end{abstract}
+
+\section{Introduction}
+
+A common way to improve a language model's answer at test time is to let the model criticize the answer and try again, several times \citep{madaan2023selfrefine,shinn2023reflexion}.
+Such a loop does two things in every round.
+It asks the question again, with the model's previous answer in view.
+And it tells the model what may be wrong with that answer.
+Studies that compare a loop with and without its critic, or a loop with a single answer, change both at once, so they cannot say which of the two is responsible for a gain.
+
+Consider one of our models (\ds).
+A loop with a critic ends with a correct majority answer on 157 of 400 questions.
+A loop that is identical except that its feedback always reads ``no problem was found'' ends with 145.
+The critic seems to be worth 12 questions.
+But the two loops did not have the same material to choose from.
+With the critic, a correct answer appeared somewhere among the loop's answers on 198 questions; without it, on 153.
+The critic led to a correct answer on 45 more questions, and only 12 more ended as the majority answer.
+
+This paper shows that the pattern holds across three models and examines why.
+We measure two outcomes for every method.
+A question is \emph{reached} if a correct answer appears anywhere among the answers the method produces; this is the coverage of \citet{brown2024monkeys}.
+It is \emph{selected} if the most frequent of those answers is correct.
+We then vary the feedback in the loop one step at a time (Section~\ref{sec:setup}).
+In the \emph{reassuring loop} the feedback says that no problem was found.
+In the \emph{generic-doubt loop} the feedback raises doubts drawn from five fixed sentences, the same for every question, written without reading anything.
+In the \emph{critique loop} a critic, which is the same model, reads the question and the answer and writes doubts specific to them.
+As a reference outside the loop design we take a majority vote over nine \emph{independent samples}, known as self-consistency \citep{wang2023selfconsistency}.
+One model plays every role, no reference answer enters any loop, and nothing is trained.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figs/reach_select.pdf}
+  \caption{Questions out of 400 that each method \emph{reaches} (a correct answer appears among its answers; open circle) and \emph{selects} (its most frequent answer is correct; filled circle). The dashed line marks the first answer, which all three loops share. The critique loop moves the open circle far more than the filled one.}
+  \label{fig:reach}
+\end{figure}
+
+Our main result is that \textbf{specific critique adds to what a model finds}, compared with loops that have no critic.
+The other three results are an account, largely exploratory, of why the gain in what is selected is smaller and harder to establish (Figure~\ref{fig:reach}).
+
+\textbf{Specific critique finds more correct answers.}
+The critique loop reaches more questions than the generic-doubt loop and the reassuring loop on all three models (198, 171 and 153 on \ds; 182, 149 and 123 on \qw; 152, 128 and 125 on \mm).
+The advantage holds when every method is limited to its first three distinct answers and when only exact matches count as correct.
+It is an advantage over loops without a critic; against nine independent samples the comparison depends on the model and on the scoring.
+
+\textbf{A gain in selected questions is not established.}
+On the third model we fixed one confirmatory test in advance, that the critique loop selects more questions than the reassuring loop; its interval includes zero.
+The estimate is positive on all three models and its mean over them excludes zero, so a gain may well exist; but it is not established, and it is far smaller than the gain in reach.
+The critique loop's gain in selected questions arises on questions that only it reaches.
+
+\textbf{Much is selected without a critic.}
+Asking again with mere reassurance already adds 21 to 32 selected questions to the first answer; the critic adds 12, 23 and 5 more.
+The critique loop also selects more questions than the majority answer of nine independent samples on each model, although it reaches no more; part of this margin depends on how differently written answers are counted.
+
+\textbf{The same model did not improve on the vote.}
+The critique loop's last answer is worse than its majority answer, and on one model three ways of asking the model to judge its own changes of answer were right about half of the time wherever they could have changed the outcome.
+
+Parts of this picture are known: models verify their own output poorly \citep{huang2024cannot,stechly2024selfverification,song2024mindgap}, and a correct answer is often present among a model's samples without being chosen \citep{brown2024monkeys,jain2026cliff}.
+What we add is attribution inside the loop.
+Placebo loops hold the rest of the loop fixed while the feedback changes, and the two outcomes show where a critic acts: clearly on what is reached, and not demonstrably on what is selected.
+We release all answers, per-answer scores, judge verdicts and analysis code.
+
+[CONCLUSION]
+A self-critique loop asks a model again and criticizes its answer.
+Asking again, with no information in the feedback, already raises the number of correct answers.
+Criticizing the answer makes the model find more correct answers than a loop without a critic does, though not consistently more than independent sampling finds.
+A matching gain in selected questions is not established: the confirmatory test was inconclusive, and the estimated gain is far smaller than the gain in reach on all three models.
+The gap between reached and selected was not closed by the model's own last answer on any model, nor by the model acting as a judge on the one model where we tried.
+
+===== Response 8 =====
+[ABSTRACT]
+When a language model criticizes its own answer and tries again, two things happen together: the model is asked the question again, and it is told what may be wrong.
+We separate the two as far as placebo feedback allows.
+On 400 questions from Humanity's Last Exam and three models, we compare a loop in which a critic writes specific doubts about each answer with two placebo loops, one that only reports that no problem was found and one that raises the same generic doubts for every question, and with a majority vote over independent samples.
+For each method we count the questions on which a correct answer appears among its answers (\emph{reached}) and on which the most frequent of its answers is correct (\emph{selected}).
+Our main result is that a loop with a critic reaches more questions than both placebo loops on all three models.
+On two models its new answers are also more often correct; on the third it only prompts more of them.
+It does not consistently reach more than independent samples at similar cost.
+A corresponding gain in selected questions is not established.
+It is much smaller than the gain in reach on every model, and the one test of it that we fixed in advance, on the third model (MiniMax-M2.5), is inconclusive ($+5.2$ questions, 95\% interval $-6.9$ to $18.0$).
+Much of what a loop selects it selects without critique: with reassurance as the only feedback, selected questions exceed correct first answers by 21 to 32, or by 11 to 28 measured against an average single sample (the majority answer of nine samples gains 14 to 24 over the first answer), while the critic's estimated addition is 5 to 23, with intervals that include zero on two models.
+On the one model where we tested it, asking the model to judge its own changes of answer did not improve that vote.
+Compared with a loop that has no critic, self-critique mainly helps a model find correct answers; we could not show that it raises the number that end up selected.
+
+[MAIN RESULTS IN THE INTRODUCTION]
+Our main result is that a loop with a critic reaches more questions than both placebo loops on all three models.
+On two models its new answers are also more often correct; on the third it only prompts more of them.
+It does not consistently reach more than independent samples at similar cost.
+A corresponding gain in selected questions is not established.
+It is much smaller than the gain in reach on every model, and the one test of it that we fixed in advance, on the third model (MiniMax-M2.5), is inconclusive ($+5.2$ questions, 95\% interval $-6.9$ to $18.0$).
+Much of what a loop selects it selects without critique: with reassurance as the only feedback, selected questions exceed correct first answers by 21 to 32, or by 11 to 28 measured against an average single sample (the majority answer of nine samples gains 14 to 24 over the first answer), while the critic's estimated addition is 5 to 23, with intervals that include zero on two models.
+On the one model where we tested it, asking the model to judge its own changes of answer did not improve that vote.
+Compared with a loop that has no critic, self-critique mainly helps a model find correct answers; we could not show that it raises the number that end up selected.
+\end{abstract}
+
+\section{Introduction}
+
+A common way to improve a language model's answer at test time is to let the model criticize the answer and try again, several times \citep{madaan2023selfrefine,shinn2023reflexion}.
+Such a loop does two things in every round.
+It asks the question again, with the model's previous answer in view.
+And it tells the model what may be wrong with that answer.
+Studies that compare a loop with and without its critic, or a loop with a single answer, change both at once, so they cannot say which of the two is responsible for a gain.
+
+Consider one of our models (\ds).
+A loop with a critic ends with a correct majority answer on 157 of 400 questions.
+A loop that is identical except that its feedback always reads ``no problem was found'' ends with 145.
+The critic seems to be worth 12 questions.
+But the two loops did not have the same material to choose from.
+With the critic, a correct answer appeared somewhere among the loop's answers on 198 questions; without it, on 153.
+The critic led to a correct answer on 45 more questions, and only 12 more ended as the majority answer.
+
+This paper shows that the pattern holds across three models and examines why.
+We measure two outcomes for every method.
+A question is \emph{reached} if a correct answer appears anywhere among the answers the method produces; this is the coverage of \citet{brown2024monkeys}.
+It is \emph{selected} if the most frequent of those answers is correct.
+We then vary the feedback in the loop one step at a time (Section~\ref{sec:setup}).
+In the \emph{reassuring loop} the feedback says that no problem was found.
+In the \emph{generic-doubt loop} the feedback raises doubts drawn from five fixed sentences, the same for every question, written without reading anything.
+In the \emph{critique loop} a critic, which is the same model, reads the question and the answer and writes doubts specific to them.
+As a reference outside the loop design we take a majority vote over nine \emph{independent samples}, known as self-consistency \citep{wang2023selfconsistency}.
+One model plays every role in a loop, and no reference answer enters it.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figs/reach_select.pdf}
+  \caption{Questions out of 400 that each method \emph{reaches} (a correct answer appears among its answers; open circle) and \emph{selects} (its most frequent answer is correct; filled circle). The dashed line marks the first answer, which all three loops share. The critique loop moves the open circle far more than the filled one.}
+  \label{fig:reach}
+\end{figure}
+
+Our main result is that \textbf{a critic adds to what a model finds}, compared with loops that have no critic.
+The other three results are an account, largely exploratory, of why the gain in what is selected is smaller and harder to establish (Figure~\ref{fig:reach}).
+
+\textbf{A critic leads to more correct answers than loops without one} (secondary tests fixed in advance).
+The critique loop reaches more questions than the generic-doubt loop and the reassuring loop on all three models (198, 171 and 153 on \ds; 182, 149 and 123 on \qw; 152, 128 and 125 on \mm).
+The advantage holds when every method is limited to its first three distinct answers (to its first two, on two of the three models), when only exact matches count as correct, and when multiple-choice questions are left out.
+It is an advantage over loops without a critic; against nine independent samples the comparison depends on the model and on the scoring.
+
+\textbf{A gain in selected questions is not established} (confirmatory test).
+On the third model we fixed one confirmatory test in advance, that the critique loop selects more questions than the reassuring loop; its interval includes zero.
+The estimate is positive on all three models and its mean over them excludes zero, so a gain may well exist; but it is not established, and it is far smaller than the gain in reach.
+The critique loop's gain in selected questions arises on questions that only it reaches.
+
+\textbf{Much is selected without a critic} (descriptive).
+With mere reassurance as feedback, selected questions already exceed correct first answers by 21 to 32, or by 11 to 28 against an average single sample; the critic's estimated addition is 12, 23 and 5.
+The critique loop also selects more questions than the majority answer of nine independent samples (a secondary test fixed in advance; clear on two models and narrow on the third), although it reaches no more; part of this margin depends on how differently written answers are counted.
+
+\textbf{The same model did not improve on its majority answer} (exploratory).
+The critique loop's last answer is correct less often than its majority answer, significantly on two models, and on one model three ways of asking the model to judge its own changes of answer were right about half of the time wherever they could have changed the outcome.
+
+Parts of this picture are known: models verify their own output poorly \citep{huang2024cannot,stechly2024selfverification,song2024mindgap}, and a correct answer is often present among a model's samples without being chosen \citep{brown2024monkeys,jain2026cliff}.
+What we add is attribution inside the loop.
+Placebo loops hold the rest of the loop fixed while the feedback changes, and the two outcomes show where a critic acts: clearly on what is reached, and not demonstrably on what is selected.
+
+[CONCLUSION]
+A self-critique loop asks a model again and criticizes its answer.
+Asking again, with no information in the feedback, already raises the number of correct answers.
+Criticizing the answer makes the model find more correct answers than a loop without a critic does, though not consistently more than independent sampling finds.
+A corresponding gain in selected questions is not established: the confirmatory test was inconclusive, and the estimated gain is far smaller than the gain in reach.
+The gap between reached and selected was not closed by the model's own last answer, which was worse than the majority answer on two models, nor by the model acting as judge on the one model where we tried it.
+
+===== Response 9 =====
+[ABSTRACT]
+When a language model criticizes its own answer and tries again, two things happen together: the model is asked the question again, and it is told what may be wrong.
+We separate the two as far as placebo feedback allows.
+On 400 questions from Humanity's Last Exam and three models, we compare a loop in which a critic writes specific doubts about each answer with two placebo loops, one that only reports that no problem was found and one that raises the same generic doubts for every question, and with a majority vote over independent samples.
+For each method we count the questions on which a correct answer appears among its answers (\emph{reached}) and on which the most frequent of its answers is correct (\emph{selected}).
+Our main result is that specific critique reaches more questions than both placebos on all three models, though no more than independent samples at similar cost.
+A corresponding gain in selected questions is not established.
+It is much smaller than the gain in reach on every model, and the one test of it that we fixed in advance, on the third model (MiniMax-M2.5), is inconclusive ($+5.2$ questions, 95\% interval $-6.9$ to $18.0$).
+Most of what a loop selects it selects without critique: when merely asked again, a model repeats correct answers more often than incorrect ones, and a vote over its answers picks up the difference.
+On the one model where we tested it, asking the model to judge its own changes of answer did not improve that vote.
+Compared with a loop that has no critic, self-critique mainly helps a model find correct answers; we could not show that it raises the number that end up selected.
+
+[MAIN RESULTS IN THE INTRODUCTION]
+Our main result is that specific critique reaches more questions than both placebos on all three models, though no more than independent samples at similar cost.
+A corresponding gain in selected questions is not established.
+It is much smaller than the gain in reach on every model, and the one test of it that we fixed in advance, on the third model (MiniMax-M2.5), is inconclusive ($+5.2$ questions, 95\% interval $-6.9$ to $18.0$).
+Most of what a loop selects it selects without critique: when merely asked again, a model repeats correct answers more often than incorrect ones, and a vote over its answers picks up the difference.
+On the one model where we tested it, asking the model to judge its own changes of answer did not improve that vote.
+Compared with a loop that has no critic, self-critique mainly helps a model find correct answers; we could not show that it raises the number that end up selected.
+\end{abstract}
+
+\section{Introduction}
+
+A common way to improve a language model's answer at test time is to let the model criticize the answer and try again, several times \citep{madaan2023selfrefine,shinn2023reflexion}.
+Such a loop does two things in every round.
+It asks the question again, with the model's previous answer in view.
+And it tells the model what may be wrong with that answer.
+Studies that compare a loop with and without its critic, or a loop with a single answer, change both at once, so they cannot say which of the two is responsible for a gain.
+
+Consider one of our models (\ds).
+A loop with a critic ends with a correct majority answer on 157 of 400 questions.
+A loop that is identical except that its feedback always reads ``no problem was found'' ends with 145.
+The critic seems to be worth 12 questions.
+But the two loops did not have the same material to choose from.
+With the critic, a correct answer appeared somewhere among the loop's answers on 198 questions; without it, on 153.
+The critic led to a correct answer on 45 more questions, and only 12 more ended as the majority answer.
+
+This paper shows that the pattern holds across three models and examines why.
+We measure two outcomes for every method.
+A question is \emph{reached} if a correct answer appears anywhere among the answers the method produces; this is the coverage of \citet{brown2024monkeys}.
+It is \emph{selected} if the most frequent of those answers is correct.
+We then vary the feedback in the loop one step at a time (Section~\ref{sec:setup}).
+In the \emph{reassuring loop} the feedback says that no problem was found.
+In the \emph{generic-doubt loop} the feedback raises doubts drawn from five fixed sentences, the same for every question, written without reading anything.
+In the \emph{critique loop} a critic, which is the same model, reads the question and the answer and writes doubts specific to them.
+As a reference outside the loop design we take a majority vote over nine \emph{independent samples}, known as self-consistency \citep{wang2023selfconsistency}.
+One model plays every role, no reference answer enters any loop, and nothing is trained.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figs/reach_select.pdf}
+  \caption{Questions out of 400 that each method \emph{reaches} (a correct answer appears among its answers; open circle) and \emph{selects} (its most frequent answer is correct; filled circle). The dashed line marks the first answer, which all three loops share. The critique loop moves the open circle far more than the filled one.}
+  \label{fig:reach}
+\end{figure}
+
+Our main result is that \textbf{specific critique adds to what a model finds}, compared with loops that have no critic.
+The other three results are an account, largely exploratory, of why this adds so little to what is selected (Figure~\ref{fig:reach}).
+
+\textbf{Specific critique finds more correct answers.}
+The critique loop reaches more questions than the generic-doubt loop and the reassuring loop on all three models (198, 171 and 153 on \ds; 182, 149 and 123 on \qw; 152, 128 and 125 on \mm).
+The advantage holds when every method is limited to its first three distinct answers and when only exact matches count as correct.
+It is an advantage over loops without a critic: nine independent samples reach as many questions as the critique loop, or more.
+
+\textbf{A gain in selected questions is not established.}
+On the third model we fixed one confirmatory test in advance, that the critique loop selects more questions than the reassuring loop; its interval includes zero.
+The estimate is positive on all three models and its mean over them excludes zero, so a gain may well exist; but it is not established, and it is far smaller than the gain in reach.
+The critique loop's gain in selected questions arises on questions that only it reaches.
+
+\textbf{Most selected questions need no critic.}
+A model that is asked again repeats a correct answer more often than an incorrect one, also when the feedback is mere reassurance, and a majority vote over the rounds turns this into selection.
+The critique loop also selects more questions than the majority answer of nine independent samples on each model, although it reaches no more; part of this margin depends on how differently written answers are counted.
+
+\textbf{The same model did not improve on the vote.}
+The critique loop's last answer is worse than its majority answer, and on one model three ways of asking the model to judge its own changes of answer were right about half of the time wherever they could have changed the outcome.
+
+Parts of this picture are known: models verify their own output poorly \citep{huang2024cannot,stechly2024selfverification,song2024mindgap}, and a correct answer is often present among a model's samples without being chosen \citep{brown2024monkeys,jain2026cliff}.
+What we add is attribution inside the loop.
+Placebo loops hold the rest of the loop fixed while the feedback changes, and the two outcomes show where a critic acts: clearly on what is reached, and not demonstrably on what is selected.
+We release all answers, per-answer scores, judge verdicts and analysis code.
+
+[CONCLUSION]
+A self-critique loop asks a model again and criticizes its answer.
+Asking again lets a vote select the answers the model prefers.
+Criticizing its answer makes it find more correct answers, more so when the critique is specific, though no more than independent sampling finds.
+A matching gain in selected questions is not established: the confirmatory test was inconclusive, and the estimated gain is far smaller than the gain in reach on all three models.
+The gap between reached and selected was not closed by the model's own last answer on any model, nor by the model acting as a judge on the one model where we tried.
+
+===== Response 10 =====
+[ABSTRACT]
+When a language model criticizes its own answer and tries again, two things happen together: the model is asked the question again, and it is told what may be wrong.
+We separate the two.
+On 400 questions from Humanity's Last Exam and three models, we compare a loop in which a critic writes specific doubts about each answer with two placebo loops, one that only reports that no problem was found and one that raises the same generic doubts for every question, and with a majority vote over independent samples.
+For each method we count the questions on which a correct answer appears among its answers (\emph{reached}) and on which the most frequent of its answers is correct (\emph{selected}).
+Our main result is that specific critique reaches more questions than both placebos on all three models, though no more than independent samples at similar cost.
+A matching gain in selection is not established.
+It is much smaller than the gain in reach on every model, and the one test of it that we fixed in advance, on the third model (MiniMax-M2.5), fails ($+5.2$ questions, 95\% interval $-6.9$ to $18.0$).
+Selection is already present without critique: when merely asked again, a model repeats correct answers more often than incorrect ones, and a vote over its answers picks up the difference.
+On the one model where we tested it, asking the model to judge its own changes of answer did not improve that vote.
+Compared with a loop that has no critic, self-critique mainly helps a model find answers; we could not show that it helps the model pick the right one.
+
+[MAIN RESULTS IN THE INTRODUCTION]
+Our main result is that specific critique reaches more questions than both placebos on all three models, though no more than independent samples at similar cost.
+A matching gain in selection is not established.
+It is much smaller than the gain in reach on every model, and the one test of it that we fixed in advance, on the third model (MiniMax-M2.5), fails ($+5.2$ questions, 95\% interval $-6.9$ to $18.0$).
+Selection is already present without critique: when merely asked again, a model repeats correct answers more often than incorrect ones, and a vote over its answers picks up the difference.
+On the one model where we tested it, asking the model to judge its own changes of answer did not improve that vote.
+Compared with a loop that has no critic, self-critique mainly helps a model find answers; we could not show that it helps the model pick the right one.
+\end{abstract}
+
+\section{Introduction}
+
+A common way to improve a language model's answer at test time is to let the model criticize the answer and try again, several times \citep{madaan2023selfrefine,shinn2023reflexion}.
+Such a loop does two things in every round.
+It asks the question again, with the model's previous answer in view.
+And it tells the model what may be wrong with that answer.
+Studies that compare a loop with and without its critic, or a loop with a single answer, change both at once, so they cannot say which of the two is responsible for a gain.
+
+We begin with one observation.
+On one of our models (\ds), a loop with a critic ends with a correct majority answer on 157 of 400 questions.
+A loop that is identical except that its feedback always reads ``no problem was found'' ends with 145.
+The critic seems to be worth 12 questions.
+But the two loops did not have the same material to choose from.
+With the critic, a correct answer appeared somewhere among the loop's answers on 198 questions; without it, on 153.
+The critic produced a correct answer on 45 more questions, and only 12 more were chosen.
+On the 146 questions where both loops produced a correct answer, the loop with the critic chose it \emph{less} often.
+
+This paper shows that the pattern is general across three models and explains it.
+We measure two outcomes for every method.
+A question is \emph{reached} if a correct answer appears anywhere among the answers the method produces; this is the coverage of \citet{brown2024monkeys}.
+It is \emph{selected} if the most frequent of those answers is correct.
+We then vary the feedback in the loop one step at a time (Section~\ref{sec:setup}).
+In the \emph{reassuring loop} the feedback says that no problem was found.
+In the \emph{generic-doubt loop} the feedback raises doubts drawn from five fixed sentences, the same for every question, written without reading anything.
+In the \emph{critique loop} a critic, which is the same model, reads the question and the answer and writes doubts specific to them.
+As a reference outside the loop design we take a majority vote over nine \emph{independent samples}, known as self-consistency \citep{wang2023selfconsistency}.
+One model plays every role, no reference answer enters any loop, and nothing is trained.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figs/reach_select.pdf}
+  \caption{Questions out of 400 that each method \emph{reaches} (a correct answer appears among its answers; open circle) and \emph{selects} (its most frequent answer is correct; filled circle). The dashed line marks the first answer, which all three loops share. The critique loop moves the open circle far more than the filled one.}
+  \label{fig:reach}
+\end{figure}
+
+Our main result is that \textbf{specific critique adds to what a model finds}, compared with loops that have no critic.
+The other three results are an account, largely exploratory, of why this adds so little to what is selected (Figure~\ref{fig:reach}).
+
+\textbf{Specific critique finds more correct answers.}
+The critique loop reaches more questions than the generic-doubt loop and the reassuring loop on all three models (198, 171 and 153 on \ds; 182, 149 and 123 on \qw; 152, 128 and 125 on \mm).
+The advantage holds when every method is limited to its first three distinct answers and when only exact matches count as correct.
+It is an advantage over loops without a critic: nine independent samples reach as many questions as the critique loop, or more.
+
+\textbf{We find no reliable selection gain beyond reach.}
+On the third model we fixed one confirmatory test in advance, that the critique loop selects more questions than the reassuring loop, and it failed.
+The estimate is positive on all three models and its mean over them excludes zero, so a gain may well exist; but it is not established, and it is far smaller than the gain in reach.
+The critique loop's gain in selected questions arises on questions that only it reaches.
+
+\textbf{Selection is already present without critique.}
+A model that is asked again repeats a correct answer more often than an incorrect one, also when the feedback is mere reassurance, and a majority vote over the rounds turns this into selection.
+The critique loop also selects more than a vote over independent samples on each model, although it reaches no more.
+
+\textbf{The same model did not improve on the vote.}
+The critique loop's last answer is worse than its majority answer, and on one model three ways of asking the model to judge its own changes of answer were right about half of the time wherever they could have changed the outcome.
+
+Parts of this picture are known: models verify their own output poorly \citep{huang2024cannot,stechly2024selfverification,song2024mindgap}, and a correct answer is often present among a model's samples without being chosen \citep{brown2024monkeys,jain2026cliff}.
+What we add is attribution inside the loop.
+Placebo loops separate critique from everything else a loop does, and the two outcomes show where critique acts: clearly on reach, and not detectably on selection once reach is accounted for.
+We release all answers, per-answer scores, judge verdicts and analysis code.
+
+[CONCLUSION]
+A self-critique loop asks a model again and criticizes its answer.
+Asking again lets a vote select the answers the model prefers.
+Criticizing its answer makes it find more correct answers, more so when the critique is specific, though no more than independent sampling finds.
+A gain in how well the found answers are selected is not established: the confirmatory test failed, and the estimated gain is far smaller than the gain in reach on all three models.
+The gap between reached and selected was not closed by the model's own last answer on any model, nor by the model acting as a judge on the one model where we tried.
+
+Evaluate these responses.
+Select the most consistent response based on majority consensus.
+Start your answer with "The most consistent response is Response X" (without quotes).

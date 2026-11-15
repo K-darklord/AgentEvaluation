@@ -19,7 +19,7 @@ from math import comb
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT))
 spec=importlib.util.spec_from_file_location('reco',ROOT/'scripts/recompute_evaluator_offline.py'); reco=importlib.util.module_from_spec(spec); spec.loader.exec_module(reco)
 T3=ROOT/'experiments/hle400/t3'
-side=json.load(open(T3/'is_correct_t3_sidecar_v2.json'))['arms']['C3']
+side=json.load(open(T3/'is_correct_t3_sidecar_v3.json'))['arms']['C3']
 loop=reco.load_jsonl(ROOT/'experiments/hle400_C3/deepseek-v4-flash/loop_trajectories.jsonl')
 ev=reco.load_jsonl(T3/'c3_rubric_ce.jsonl')
 QV={}
@@ -134,7 +134,7 @@ def run_cfg(name,tasks,scheme,wB,wF,gate):
         if ok!=d['corr'][d['mode']]: ch['+' if ok else '-']+=1
     return tot,ch['+'],ch['-']
 cfgs=[(s,wB,wF,g) for s in ('node','fragment','candidate') for wB in grid for wF in grid for g in (99,1,0)]
-print(f"# Same-model judge audit (freeze-key, sidecar v2)\n\nmode: all {modeacc(ALL)} | dev {modeacc(D)} | test {modeacc(T)}\n")
+print(f"# Same-model judge audit (freeze-key, sidecar v3)\n\nmode: all {modeacc(ALL)} | dev {modeacc(D)} | test {modeacc(T)}\n")
 for name in JUDGES:
     print(f"## {name}\n")
     for lbl,ts in (('dev (even)',D),('test (odd)',T),('all 400',ALL)):

@@ -38,14 +38,16 @@ def draw(cands,n,stratum):
         if got==n: break
     if got<n: print('WARNING short stratum',stratum,got,n)
     return got
-for arm in ('A2','A2P','A3','C3','C2'): draw(pool[('ds',arm,'astra_true')],20,f'ds/{arm}/model_accepted')
-for arm in ('A2','A2P','A3','C3','C2'): draw(pool[('ds',arm,'astra_false')],8,f'ds/{arm}/model_rejected')
-g=draw([c for a in ('A2','A2P','A3','C3','C2') for c in pool[('ds',a,'adjudicated')]],15,'ds/any/adjudicated')
-PENDING_ADJ=15-g
-draw([c for a in ('A2','A2P','A3','C3','C2') for c in pool[('ds',a,'t1')]],10,'ds/any/exact_match')
-for arm in ('A2','A2P','A3','C2'): draw(pool[('qw',arm,'astra_true')],5,f'qw/{arm}/model_accepted')
-draw([c for a in ('A2','A2P','A3','C2') for c in pool[('qw',a,'astra_false')]],15,'qw/any/model_rejected')
-if PENDING_ADJ: draw([c for a in ('A2','A2P','A3','C2') for c in pool[('qw',a,'adjudicated')]],PENDING_ADJ,'qw/any/adjudicated')
+# Quotas (100 items, double-annotated; decided 2026-11-11, before any annotation). The earlier 200-item draw was never annotated.
+N_ACC,N_REJ,N_ADJ,N_EX,N_QACC,N_QREJ=10,4,8,5,3,5
+DS=('A2','A2P','A3','C3','C2'); QW=('A2','A2P','A3','C2')
+for arm in DS: draw(pool[('ds',arm,'astra_true')],N_ACC,f'ds/{arm}/model_accepted')
+for arm in DS: draw(pool[('ds',arm,'astra_false')],N_REJ,f'ds/{arm}/model_rejected')
+g=draw([c for a in DS for c in pool[('ds',a,'adjudicated')]],N_ADJ//2,'ds/any/adjudicated')
+draw([c for a in QW for c in pool[('qw',a,'adjudicated')]],N_ADJ-g,'qw/any/adjudicated')
+draw([c for a in DS for c in pool[('ds',a,'t1')]],N_EX,'ds/any/exact_match')
+for arm in QW: draw(pool[('qw',arm,'astra_true')],N_QACC,f'qw/{arm}/model_accepted')
+draw([c for a in QW for c in pool[('qw',a,'astra_false')]],N_QREJ,'qw/any/model_rejected')
 rng.shuffle(chosen)
 out=Path('audit/human_audit_20261111'); key={}
 with open(out/'items.csv','w',newline='',encoding='utf-8') as f:

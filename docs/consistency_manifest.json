@@ -1,471 +1,3780 @@
 {
- "schema_version": 2,
+ "schema_version": 3,
  "paper": "paper/acl/main.tex",
- "date": "2026-11-11",
+ "paper_version": "v13",
+ "date": "2026-11-15",
+ "model_order": [
+  "deepseek-v4-flash",
+  "qwen3.8-flash",
+  "MiniMax-M2.5"
+ ],
+ "names": {
+  "A": "first answer",
+  "A2": "reassuring loop",
+  "A2P": "generic-doubt loop",
+  "C2": "critique loop",
+  "A3": "independent samples",
+  "C3": "restricted critic"
+ },
  "methods": {
   "selected": "expected score under uniformly random ties",
-  "tests": "exact McNemar (binary); paired sign-flip permutation 10k + bootstrap 95% CI (selected)",
+  "tests": "exact McNemar (reached); paired sign-flip permutation, 10,000 draws, and question-level bootstrap 95% interval (selected)",
   "sidecars": [
    "is_correct_t3_sidecar_v3.json",
    "is_correct_t3_sidecar_rep.json",
+   "is_correct_t3_sidecar_rep3.json",
    "is_correct_t3_sidecar_A3extra.json"
   ]
  },
  "results": {
-  "replication": "R1-R4 hold",
-  "cost_matched": "R1 holds, R2 interval includes 0"
+  "third_model": "P1 not met; P2 not met; S1, S2, S4, S5 met; S3 not met",
+  "replication_qwen": "four pre-specified tests hold",
+  "cost_matched": "R1 holds; R2 interval includes 0"
  },
+ "check": "python3 scripts/check_manifest.py",
  "numeric_facts": [
   {
-   "id": "ceiling_ds",
-   "what": "RP/PP/SC9/BC/FC reached, deepseek",
-   "value": [
-    153,
-    171,
-    190,
-    192,
-    198
-   ],
-   "paper": "Tab2",
-   "source": "scripts/two_model_tables.py"
-  },
-  {
-   "id": "ceiling_qw",
-   "what": "RP/PP/SC9/FC reached, qwen",
-   "value": [
-    123,
-    149,
-    171,
-    182
-   ],
-   "paper": "Tab2",
-   "source": "scripts/two_model_tables.py"
-  },
-  {
-   "id": "selected_ds",
-   "what": "RP/PP/SC9/SC11/adaptive/BC/FC selected, deepseek",
-   "value": [
-    145.0,
-    146.1,
-    136.7,
-    138.2,
-    135.8,
-    150.9,
-    157.4
-   ],
-   "paper": "Tab2",
-   "source": "two_model_tables.py; cost_matched_readout.py; tie_and_adaptive_baselines.py"
-  },
-  {
-   "id": "selected_qw",
-   "what": "RP/PP/SC9/FC selected, qwen",
-   "value": [
-    90.8,
-    95.6,
-    91.0,
-    114.1
-   ],
-   "paper": "Tab2",
-   "source": "scripts/two_model_tables.py"
-  },
-  {
-   "id": "final_ds",
-   "what": "RP/PP/BC/FC final, deepseek",
-   "value": [
-    141,
-    142,
-    140,
-    148
-   ],
-   "paper": "Tab2",
-   "source": "scripts/two_model_tables.py"
-  },
-  {
-   "id": "final_qw",
-   "what": "RP/PP/FC final, qwen",
-   "value": [
-    89,
-    92,
-    112
-   ],
-   "paper": "Tab2",
-   "source": "scripts/two_model_tables.py"
-  },
-  {
-   "id": "greedy",
-   "what": "greedy correct deepseek/qwen",
-   "value": [
-    113,
-    69
-   ],
-   "paper": "Tab2",
-   "source": "scripts/two_model_tables.py"
-  },
-  {
-   "id": "tokens_ds_M",
-   "what": "RP/PP/SC9/SC11/adaptive/BC solver/FC solver; critic BC/FC (replay)",
-   "value": [
-    24.6,
-    31.8,
-    51.4,
-    61.8,
-    35.5,
-    37.1,
-    38.1,
-    29.0,
-    23.2
-   ],
-   "paper": "Tab2",
-   "source": "two_model_tables.py; token_replay_summary.json"
-  },
-  {
-   "id": "tokens_qw_M",
-   "what": "RP/PP/SC9/FC solver, qwen",
-   "value": [
-    15.2,
-    21.0,
-    31.8,
-    23.6
-   ],
-   "paper": "Tab2",
-   "source": "scripts/two_model_tables.py"
-  },
-  {
-   "id": "cands",
-   "what": "distinct candidates/item deepseek RP/PP/SC/BC/FC; qwen RP/PP/SC/FC",
-   "value": [
-    2.05,
-    2.72,
-    4.52,
-    3.5,
-    3.65,
-    2.11,
-    2.94,
-    4.84,
-    3.62
-   ],
-   "paper": "Tab2",
-   "source": "scripts/two_model_tables.py"
-  },
-  {
-   "id": "matched_k_ds",
-   "what": "k=2,k=3,exact-only for RP/PP/SC/FC",
-   "value": [
-    [
-     141,
-     148,
-     169,
-     172
-    ],
-    [
-     150,
-     157,
-     178,
-     181
-    ],
-    [
-     91,
-     102,
-     120,
-     122
-    ]
-   ],
+   "id": "first_deepseek",
+   "what": "first answer correct, deepseek",
+   "value": 113,
    "paper": "Tab3",
-   "source": "scripts/two_model_tables.py"
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A2",
+    "r0"
+   ],
+   "tex": [
+    "first answer 113"
+   ]
   },
   {
-   "id": "matched_k_qw",
-   "what": "k=2,k=3,exact-only for RP/PP/SC/FC",
-   "value": [
-    [
-     109,
-     118,
-     134,
-     136
-    ],
-    [
-     118,
-     137,
-     147,
-     160
-    ],
-    [
-     79,
-     94,
-     93,
-     117
-    ]
-   ],
+   "id": "selected_deepseek_A2",
+   "what": "selected, reassuring, deepseek",
+   "value": 145.0,
    "paper": "Tab3",
-   "source": "scripts/two_model_tables.py"
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A2",
+    "sel"
+   ],
+   "tex": [
+    "145.0"
+   ]
   },
   {
-   "id": "fc_vs_rp_sel",
-   "what": "diff, lo, hi, p: deepseek; qwen; mean of both",
-   "value": [
-    [
-     12.4,
-     -1.6,
-     25.6,
-     0.076
-    ],
-    [
-     23.3,
-     8.8,
-     39.2,
-     0.004
-    ],
-    [
-     17.9,
-     7.8,
-     28.5,
-     0.0004
-    ]
+   "id": "reached_deepseek_A2",
+   "what": "reached, reassuring, deepseek",
+   "value": 153,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A2",
+    "ceil"
    ],
-   "paper": "Tab4/Fig2",
-   "source": "two_model_tables.py; cost_matched_readout.py"
+   "tex": [
+    "153"
+   ]
   },
   {
-   "id": "fc_vs_pp_sel",
-   "what": "diff, lo, hi, p: deepseek; qwen; mean of both",
-   "value": [
-    [
-     11.3,
-     -0.8,
-     23.7,
-     0.071
-    ],
-    [
-     18.5,
-     3.9,
-     34.3,
-     0.019
-    ],
-    [
-     14.9,
-     5.3,
-     25.7,
-     0.003
-    ]
+   "id": "last_deepseek_A2",
+   "what": "last answer correct, reassuring, deepseek",
+   "value": 141,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A2",
+    "fin"
    ],
-   "paper": "Tab4/Fig2",
-   "source": "same"
+   "tex": [
+    "141"
+   ]
   },
   {
-   "id": "fc_vs_sc_sel",
-   "what": "deepseek N=9; deepseek N=11; qwen N=9",
-   "value": [
-    [
-     20.7,
-     9.0,
-     32.4,
-     0.0004
-    ],
-    [
-     19.2,
-     7.0,
-     31.1,
-     0.002
-    ],
-    [
-     23.1,
-     9.6,
-     38.6,
-     0.002
-    ]
+   "id": "selected_deepseek_A2P",
+   "what": "selected, generic, deepseek",
+   "value": 146.1,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A2P",
+    "sel"
    ],
-   "paper": "Tab4",
-   "source": "same"
+   "tex": [
+    "146.1"
+   ]
   },
   {
-   "id": "usc",
-   "what": "USC on SC11 (n=396): selected, FC.mode diff, lo, hi, p",
-   "value": [
-    145,
-    11.4,
-    -1.4,
-    24.8,
-    0.087
+   "id": "reached_deepseek_A2P",
+   "what": "reached, generic, deepseek",
+   "value": 171,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A2P",
+    "ceil"
    ],
-   "paper": "S4.2/AppE",
-   "source": "scripts/cost_matched_readout.py"
+   "tex": [
+    "171"
+   ]
   },
   {
-   "id": "pool_bound",
-   "what": "FC vs SC9 pooled: deepseek; qwen; mean of both",
-   "value": [
-    [
-     13.0,
-     2.1,
-     23.8,
-     0.019
-    ],
-    [
-     12.2,
-     -2.8,
-     27.3,
-     0.1
-    ],
-    [
-     12.6,
-     3.2,
-     22.4,
-     0.01
-    ]
+   "id": "last_deepseek_A2P",
+   "what": "last answer correct, generic, deepseek",
+   "value": 142,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A2P",
+    "fin"
    ],
-   "paper": "S4.2",
-   "source": "two_model_tables.py; cost_matched_readout.py"
+   "tex": [
+    "142"
+   ]
   },
   {
-   "id": "ceiling_pairs_ds",
-   "what": "FCvsRP, FCvsPP, PPvsRP, FCvsSC, FCvsBC discordant",
-   "value": [
-    [
-     52,
-     7
-    ],
-    [
-     39,
-     12
-    ],
-    [
-     28,
-     10
-    ],
-    [
-     29,
-     21
-    ],
-    [
-     23,
-     17
-    ]
+   "id": "selected_deepseek_C2",
+   "what": "selected, critique, deepseek",
+   "value": 157.4,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "C2",
+    "sel"
    ],
-   "paper": "Tab4",
-   "source": "scripts/two_model_tables.py"
+   "tex": [
+    "157.4"
+   ]
   },
   {
-   "id": "ceiling_pairs_qw",
-   "what": "FCvsRP, FCvsPP, PPvsRP, FCvsSC discordant",
-   "value": [
-    [
-     69,
-     10
-    ],
-    [
-     49,
-     16
-    ],
-    [
-     42,
-     16
-    ],
-    [
-     44,
-     33
-    ]
+   "id": "reached_deepseek_C2",
+   "what": "reached, critique, deepseek",
+   "value": 198,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "C2",
+    "ceil"
    ],
-   "paper": "Tab4",
-   "source": "scripts/two_model_tables.py"
+   "tex": [
+    "198"
+   ]
   },
   {
-   "id": "final_pairs",
-   "what": "FC vs RP final discordant: deepseek; qwen",
-   "value": [
-    [
-     29,
-     22,
-     0.4
-    ],
-    [
-     48,
-     25,
-     0.01
-    ]
+   "id": "last_deepseek_C2",
+   "what": "last answer correct, critique, deepseek",
+   "value": 148,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "C2",
+    "fin"
    ],
-   "paper": "S4.3",
-   "source": "scripts/two_model_tables.py"
+   "tex": [
+    "148"
+   ]
   },
   {
-   "id": "stay_ratio",
-   "what": "deepseek RP/PP/SC/BC/FC; qwen RP/PP/SC/FC",
-   "value": [
-    1.42,
-    1.68,
-    1.77,
-    1.74,
-    2.14,
-    1.2,
-    1.28,
-    1.38,
-    1.6
+   "id": "selected_deepseek_A3",
+   "what": "selected, samples, deepseek",
+   "value": 136.7,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A3",
+    "sel"
    ],
-   "paper": "Tab5",
-   "source": "persistence_and_settle.py; REPLICATION_RESULTS.md"
+   "tex": [
+    "136.7"
+   ]
   },
   {
-   "id": "breakeven",
-   "what": "threshold deepseek/qwen; first-round ratio range",
-   "value": [
-    0.39,
-    0.21,
-    0.34,
-    0.96
+   "id": "reached_deepseek_A3",
+   "what": "reached, samples, deepseek",
+   "value": 190,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A3",
+    "ceil"
    ],
-   "paper": "S4.3",
-   "source": "tie_and_adaptive_baselines.py; REPLICATION_RESULTS.md"
+   "tex": [
+    "190"
+   ]
   },
   {
-   "id": "judges",
-   "what": "disagree-acc R/R+/C; dev->test; test->dev; sweep max",
-   "value": [
-    [
-     18,
-     36
-    ],
-    [
-     53,
-     116
-    ],
-    [
-     32,
-     66
-    ],
-    [
-     76,
-     73,
-     71
-    ],
-    [
-     73,
-     72,
-     77
-    ],
-    [
-     154,
-     156,
-     155
-    ]
+   "id": "first_qwen",
+   "what": "first answer correct, qwen",
+   "value": 69,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A2",
+    "r0"
    ],
+   "tex": [
+    "first answer 69"
+   ]
+  },
+  {
+   "id": "selected_qwen_A2",
+   "what": "selected, reassuring, qwen",
+   "value": 90.8,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A2",
+    "sel"
+   ],
+   "tex": [
+    "90.8"
+   ]
+  },
+  {
+   "id": "reached_qwen_A2",
+   "what": "reached, reassuring, qwen",
+   "value": 123,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A2",
+    "ceil"
+   ],
+   "tex": [
+    "123"
+   ]
+  },
+  {
+   "id": "last_qwen_A2",
+   "what": "last answer correct, reassuring, qwen",
+   "value": 89,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A2",
+    "fin"
+   ],
+   "tex": [
+    "89"
+   ]
+  },
+  {
+   "id": "selected_qwen_A2P",
+   "what": "selected, generic, qwen",
+   "value": 95.6,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A2P",
+    "sel"
+   ],
+   "tex": [
+    "95.6"
+   ]
+  },
+  {
+   "id": "reached_qwen_A2P",
+   "what": "reached, generic, qwen",
+   "value": 149,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A2P",
+    "ceil"
+   ],
+   "tex": [
+    "149"
+   ]
+  },
+  {
+   "id": "last_qwen_A2P",
+   "what": "last answer correct, generic, qwen",
+   "value": 92,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A2P",
+    "fin"
+   ],
+   "tex": [
+    "92"
+   ]
+  },
+  {
+   "id": "selected_qwen_C2",
+   "what": "selected, critique, qwen",
+   "value": 114.1,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "C2",
+    "sel"
+   ],
+   "tex": [
+    "114.1"
+   ]
+  },
+  {
+   "id": "reached_qwen_C2",
+   "what": "reached, critique, qwen",
+   "value": 182,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "C2",
+    "ceil"
+   ],
+   "tex": [
+    "182"
+   ]
+  },
+  {
+   "id": "last_qwen_C2",
+   "what": "last answer correct, critique, qwen",
+   "value": 112,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "C2",
+    "fin"
+   ],
+   "tex": [
+    "112"
+   ]
+  },
+  {
+   "id": "selected_qwen_A3",
+   "what": "selected, samples, qwen",
+   "value": 91.0,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A3",
+    "sel"
+   ],
+   "tex": [
+    "91.0"
+   ]
+  },
+  {
+   "id": "reached_qwen_A3",
+   "what": "reached, samples, qwen",
+   "value": 171,
+   "paper": "Tab3",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A3",
+    "ceil"
+   ],
+   "tex": [
+    "171"
+   ]
+  },
+  {
+   "id": "first_minimax",
+   "what": "first answer correct, minimax",
+   "value": 81,
+   "paper": "Tab3",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A2",
+    "greedy"
+   ],
+   "tex": [
+    "first answer 81"
+   ]
+  },
+  {
+   "id": "selected_minimax_A2",
+   "what": "selected, reassuring, minimax",
+   "value": 101.7,
+   "paper": "Tab3",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A2",
+    "selected"
+   ],
+   "tex": [
+    "101.7"
+   ]
+  },
+  {
+   "id": "reached_minimax_A2",
+   "what": "reached, reassuring, minimax",
+   "value": 125,
+   "paper": "Tab3",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A2",
+    "reach"
+   ],
+   "tex": [
+    "125"
+   ]
+  },
+  {
+   "id": "last_minimax_A2",
+   "what": "last answer correct, reassuring, minimax",
+   "value": 100,
+   "paper": "Tab3",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A2",
+    "final"
+   ],
+   "tex": [
+    "100"
+   ]
+  },
+  {
+   "id": "selected_minimax_A2P",
+   "what": "selected, generic, minimax",
+   "value": 102.3,
+   "paper": "Tab3",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A2P",
+    "selected"
+   ],
+   "tex": [
+    "102.3"
+   ]
+  },
+  {
+   "id": "reached_minimax_A2P",
+   "what": "reached, generic, minimax",
+   "value": 128,
+   "paper": "Tab3",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A2P",
+    "reach"
+   ],
+   "tex": [
+    "128"
+   ]
+  },
+  {
+   "id": "last_minimax_A2P",
+   "what": "last answer correct, generic, minimax",
+   "value": 101,
+   "paper": "Tab3",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A2P",
+    "final"
+   ],
+   "tex": [
+    "101"
+   ]
+  },
+  {
+   "id": "selected_minimax_C2",
+   "what": "selected, critique, minimax",
+   "value": 106.9,
+   "paper": "Tab3",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "C2",
+    "selected"
+   ],
+   "tex": [
+    "106.9"
+   ]
+  },
+  {
+   "id": "reached_minimax_C2",
+   "what": "reached, critique, minimax",
+   "value": 152,
+   "paper": "Tab3",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "C2",
+    "reach"
+   ],
+   "tex": [
+    "152"
+   ]
+  },
+  {
+   "id": "last_minimax_C2",
+   "what": "last answer correct, critique, minimax",
+   "value": 99,
+   "paper": "Tab3",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "C2",
+    "final"
+   ],
+   "tex": [
+    "99"
+   ]
+  },
+  {
+   "id": "selected_minimax_A3",
+   "what": "selected, samples, minimax",
+   "value": 94.7,
+   "paper": "Tab3",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A3",
+    "selected"
+   ],
+   "tex": [
+    "94.7"
+   ]
+  },
+  {
+   "id": "reached_minimax_A3",
+   "what": "reached, samples, minimax",
+   "value": 173,
+   "paper": "Tab3",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A3",
+    "reach"
+   ],
+   "tex": [
+    "173"
+   ]
+  },
+  {
+   "id": "robust_deepseek_k2_A2",
+   "what": "reached, first 2 cand., reassuring, deepseek",
+   "value": 141,
    "paper": "Tab6",
-   "source": "scripts/judge_conditional_test.py (pre-rerun C3 trajectories)"
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A2",
+    "k2"
+   ]
   },
   {
-   "id": "headroom",
-   "what": "37 = ties 11 + margin1 10 + >=2 16; switches 1201 (159 W->R, 142 R->W); oracle 173; blind 149",
-   "value": [
-    37,
-    11,
-    10,
-    16,
-    1201,
-    159,
-    142,
-    173,
-    149
+   "id": "robust_deepseek_k2_A2P",
+   "what": "reached, first 2 cand., generic, deepseek",
+   "value": 148,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A2P",
+    "k2"
+   ]
+  },
+  {
+   "id": "robust_deepseek_k2_C2",
+   "what": "reached, first 2 cand., critique, deepseek",
+   "value": 172,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "C2",
+    "k2"
+   ]
+  },
+  {
+   "id": "robust_deepseek_k2_A3",
+   "what": "reached, first 2 cand., samples, deepseek",
+   "value": 169,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A3",
+    "k2"
    ],
-   "paper": "S5",
-   "source": "EVALUATOR_RESULTS.md"
+   "tex": [
+    "first 2 cand. & 141 & 148 & 172 & 169"
+   ]
+  },
+  {
+   "id": "robust_deepseek_k3_A2",
+   "what": "reached, first 3 cand., reassuring, deepseek",
+   "value": 150,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A2",
+    "k3"
+   ]
+  },
+  {
+   "id": "robust_deepseek_k3_A2P",
+   "what": "reached, first 3 cand., generic, deepseek",
+   "value": 157,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A2P",
+    "k3"
+   ]
+  },
+  {
+   "id": "robust_deepseek_k3_C2",
+   "what": "reached, first 3 cand., critique, deepseek",
+   "value": 181,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "C2",
+    "k3"
+   ]
+  },
+  {
+   "id": "robust_deepseek_k3_A3",
+   "what": "reached, first 3 cand., samples, deepseek",
+   "value": 178,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A3",
+    "k3"
+   ],
+   "tex": [
+    "first 3 cand. & 150 & 157 & 181 & 178"
+   ]
+  },
+  {
+   "id": "robust_deepseek_t1ceil_A2",
+   "what": "reached, exact match, reassuring, deepseek",
+   "value": 91,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A2",
+    "t1ceil"
+   ]
+  },
+  {
+   "id": "robust_deepseek_t1ceil_A2P",
+   "what": "reached, exact match, generic, deepseek",
+   "value": 102,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A2P",
+    "t1ceil"
+   ]
+  },
+  {
+   "id": "robust_deepseek_t1ceil_C2",
+   "what": "reached, exact match, critique, deepseek",
+   "value": 122,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "C2",
+    "t1ceil"
+   ]
+  },
+  {
+   "id": "robust_deepseek_t1ceil_A3",
+   "what": "reached, exact match, samples, deepseek",
+   "value": 120,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "deepseek",
+    "A3",
+    "t1ceil"
+   ],
+   "tex": [
+    "exact match & 91 & 102 & 122 & 120"
+   ]
+  },
+  {
+   "id": "robust_qwen_k2_A2",
+   "what": "reached, first 2 cand., reassuring, qwen",
+   "value": 109,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A2",
+    "k2"
+   ]
+  },
+  {
+   "id": "robust_qwen_k2_A2P",
+   "what": "reached, first 2 cand., generic, qwen",
+   "value": 118,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A2P",
+    "k2"
+   ]
+  },
+  {
+   "id": "robust_qwen_k2_C2",
+   "what": "reached, first 2 cand., critique, qwen",
+   "value": 136,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "C2",
+    "k2"
+   ]
+  },
+  {
+   "id": "robust_qwen_k2_A3",
+   "what": "reached, first 2 cand., samples, qwen",
+   "value": 134,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A3",
+    "k2"
+   ],
+   "tex": [
+    "first 2 cand. & 109 & 118 & 136 & 134"
+   ]
+  },
+  {
+   "id": "robust_qwen_k3_A2",
+   "what": "reached, first 3 cand., reassuring, qwen",
+   "value": 118,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A2",
+    "k3"
+   ]
+  },
+  {
+   "id": "robust_qwen_k3_A2P",
+   "what": "reached, first 3 cand., generic, qwen",
+   "value": 137,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A2P",
+    "k3"
+   ]
+  },
+  {
+   "id": "robust_qwen_k3_C2",
+   "what": "reached, first 3 cand., critique, qwen",
+   "value": 160,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "C2",
+    "k3"
+   ]
+  },
+  {
+   "id": "robust_qwen_k3_A3",
+   "what": "reached, first 3 cand., samples, qwen",
+   "value": 147,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A3",
+    "k3"
+   ],
+   "tex": [
+    "first 3 cand. & 118 & 137 & 160 & 147"
+   ]
+  },
+  {
+   "id": "robust_qwen_t1ceil_A2",
+   "what": "reached, exact match, reassuring, qwen",
+   "value": 79,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A2",
+    "t1ceil"
+   ]
+  },
+  {
+   "id": "robust_qwen_t1ceil_A2P",
+   "what": "reached, exact match, generic, qwen",
+   "value": 94,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A2P",
+    "t1ceil"
+   ]
+  },
+  {
+   "id": "robust_qwen_t1ceil_C2",
+   "what": "reached, exact match, critique, qwen",
+   "value": 117,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "C2",
+    "t1ceil"
+   ]
+  },
+  {
+   "id": "robust_qwen_t1ceil_A3",
+   "what": "reached, exact match, samples, qwen",
+   "value": 93,
+   "paper": "Tab6",
+   "source": "scripts/two_model_tables.py",
+   "json": [
+    "experiments/hle400/t3/two_model_scores.json",
+    "qwen",
+    "A3",
+    "t1ceil"
+   ],
+   "tex": [
+    "exact match & 79 & 94 & 117 & 93"
+   ]
+  },
+  {
+   "id": "robust_minimax_k2_A2",
+   "what": "reached, first 2 cand., reassuring, minimax",
+   "value": 111,
+   "paper": "Tab6",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A2",
+    "reach_k2"
+   ]
+  },
+  {
+   "id": "robust_minimax_k2_A2P",
+   "what": "reached, first 2 cand., generic, minimax",
+   "value": 111,
+   "paper": "Tab6",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A2P",
+    "reach_k2"
+   ]
+  },
+  {
+   "id": "robust_minimax_k2_C2",
+   "what": "reached, first 2 cand., critique, minimax",
+   "value": 121,
+   "paper": "Tab6",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "C2",
+    "reach_k2"
+   ]
+  },
+  {
+   "id": "robust_minimax_k2_A3",
+   "what": "reached, first 2 cand., samples, minimax",
+   "value": 126,
+   "paper": "Tab6",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A3",
+    "reach_k2"
+   ],
+   "tex": [
+    "first 2 cand. & 111 & 111 & 121 & 126"
+   ]
+  },
+  {
+   "id": "robust_minimax_k3_A2",
+   "what": "reached, first 3 cand., reassuring, minimax",
+   "value": 117,
+   "paper": "Tab6",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A2",
+    "reach_k3"
+   ]
+  },
+  {
+   "id": "robust_minimax_k3_A2P",
+   "what": "reached, first 3 cand., generic, minimax",
+   "value": 121,
+   "paper": "Tab6",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A2P",
+    "reach_k3"
+   ]
+  },
+  {
+   "id": "robust_minimax_k3_C2",
+   "what": "reached, first 3 cand., critique, minimax",
+   "value": 142,
+   "paper": "Tab6",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "C2",
+    "reach_k3"
+   ]
+  },
+  {
+   "id": "robust_minimax_k3_A3",
+   "what": "reached, first 3 cand., samples, minimax",
+   "value": 146,
+   "paper": "Tab6",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A3",
+    "reach_k3"
+   ],
+   "tex": [
+    "first 3 cand. & 117 & 121 & 142 & 146"
+   ]
+  },
+  {
+   "id": "robust_minimax_t1ceil_A2",
+   "what": "reached, exact match, reassuring, minimax",
+   "value": 83,
+   "paper": "Tab6",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A2",
+    "reach_exact_only"
+   ]
+  },
+  {
+   "id": "robust_minimax_t1ceil_A2P",
+   "what": "reached, exact match, generic, minimax",
+   "value": 83,
+   "paper": "Tab6",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A2P",
+    "reach_exact_only"
+   ]
+  },
+  {
+   "id": "robust_minimax_t1ceil_C2",
+   "what": "reached, exact match, critique, minimax",
+   "value": 98,
+   "paper": "Tab6",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "C2",
+    "reach_exact_only"
+   ]
+  },
+  {
+   "id": "robust_minimax_t1ceil_A3",
+   "what": "reached, exact match, samples, minimax",
+   "value": 111,
+   "paper": "Tab6",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A3",
+    "reach_exact_only"
+   ],
+   "tex": [
+    "exact match & 83 & 83 & 98 & 111"
+   ]
+  },
+  {
+   "id": "P1",
+   "what": "CONFIRMATORY: selected, critique - reassuring, minimax (diff, lo, hi)",
+   "value": [
+    5.2,
+    -6.9,
+    18.0
+   ],
+   "paper": "Tab4, Sec4.2, AppE",
+   "source": "scripts/third_model_readout.py",
+   "tex": [
+    "$\\mathbf{+5.2}$ \\ci{-6.9}{18.0}"
+   ]
+  },
+  {
+   "id": "P1_diff",
+   "what": "P1 diff",
+   "value": 5.2,
+   "paper": "Tab4",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "P1 selected FC-RP",
+    "diff"
+   ]
+  },
+  {
+   "id": "P1_lo",
+   "what": "P1 lo",
+   "value": -6.9,
+   "paper": "Tab4",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "P1 selected FC-RP",
+    "lo"
+   ]
+  },
+  {
+   "id": "P1_hi",
+   "what": "P1 hi",
+   "value": 18.0,
+   "paper": "Tab4",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "P1 selected FC-RP",
+    "hi"
+   ]
+  },
+  {
+   "id": "P1_holds",
+   "what": "P1 holds",
+   "value": false,
+   "paper": "Tab4",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "P1 selected FC-RP",
+    "holds"
+   ]
+  },
+  {
+   "id": "P2_diff",
+   "what": "P2 (critique - generic, selected) diff",
+   "value": 4.6,
+   "paper": "Tab4, AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "P2 selected FC-PP",
+    "diff"
+   ]
+  },
+  {
+   "id": "P2_lo",
+   "what": "P2 (critique - generic, selected) lo",
+   "value": -8.4,
+   "paper": "Tab4, AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "P2 selected FC-PP",
+    "lo"
+   ]
+  },
+  {
+   "id": "P2_hi",
+   "what": "P2 (critique - generic, selected) hi",
+   "value": 16.8,
+   "paper": "Tab4, AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "P2 selected FC-PP",
+    "hi"
+   ]
+  },
+  {
+   "id": "P2_holds",
+   "what": "P2 (critique - generic, selected) holds",
+   "value": false,
+   "paper": "Tab4, AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "P2 selected FC-PP",
+    "holds"
+   ],
+   "tex": [
+    "$+4.6$ \\ci{-8.4}{16.8}"
+   ]
+  },
+  {
+   "id": "S1_b",
+   "what": "S1 reach FC vs RP: reached only by the first",
+   "value": 38,
+   "paper": "Tab4, AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "S1 reach FC vs RP",
+    "b"
+   ],
+   "tex": [
+    "38/11"
+   ]
+  },
+  {
+   "id": "S1_c",
+   "what": "S1 reach FC vs RP: reached only by the second",
+   "value": 11,
+   "paper": "Tab4, AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "S1 reach FC vs RP",
+    "c"
+   ]
+  },
+  {
+   "id": "S1_holds",
+   "what": "S1 reach FC vs RP: criterion met",
+   "value": true,
+   "paper": "AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "S1 reach FC vs RP",
+    "holds"
+   ]
+  },
+  {
+   "id": "S2_b",
+   "what": "S2 reach FC vs PP (>=15, p<.05): reached only by the first",
+   "value": 37,
+   "paper": "Tab4, AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "S2 reach FC vs PP (>=15, p<.05)",
+    "b"
+   ],
+   "tex": [
+    "37/13"
+   ]
+  },
+  {
+   "id": "S2_c",
+   "what": "S2 reach FC vs PP (>=15, p<.05): reached only by the second",
+   "value": 13,
+   "paper": "Tab4, AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "S2 reach FC vs PP (>=15, p<.05)",
+    "c"
+   ]
+  },
+  {
+   "id": "S2_holds",
+   "what": "S2 reach FC vs PP (>=15, p<.05): criterion met",
+   "value": true,
+   "paper": "AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "S2 reach FC vs PP (>=15, p<.05)",
+    "holds"
+   ]
+  },
+  {
+   "id": "S3_b",
+   "what": "S3 reach PP vs RP: reached only by the first",
+   "value": 21,
+   "paper": "Tab4, AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "S3 reach PP vs RP",
+    "b"
+   ],
+   "tex": [
+    "21/18"
+   ]
+  },
+  {
+   "id": "S3_c",
+   "what": "S3 reach PP vs RP: reached only by the second",
+   "value": 18,
+   "paper": "Tab4, AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "S3 reach PP vs RP",
+    "c"
+   ]
+  },
+  {
+   "id": "S3_holds",
+   "what": "S3 reach PP vs RP: criterion met",
+   "value": false,
+   "paper": "AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "S3 reach PP vs RP",
+    "holds"
+   ]
+  },
+  {
+   "id": "S4_diff",
+   "what": "S4 (critique - samples, selected) diff",
+   "value": 12.2,
+   "paper": "Tab4, AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "S4 selected FC-SC9",
+    "diff"
+   ]
+  },
+  {
+   "id": "S4_lo",
+   "what": "S4 (critique - samples, selected) lo",
+   "value": 1.0,
+   "paper": "Tab4, AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "S4 selected FC-SC9",
+    "lo"
+   ]
+  },
+  {
+   "id": "S4_hi",
+   "what": "S4 (critique - samples, selected) hi",
+   "value": 24.0,
+   "paper": "Tab4, AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "S4 selected FC-SC9",
+    "hi"
+   ]
+  },
+  {
+   "id": "S4_holds",
+   "what": "S4 (critique - samples, selected) holds",
+   "value": true,
+   "paper": "Tab4, AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "S4 selected FC-SC9",
+    "holds"
+   ],
+   "tex": [
+    "$+12.2$ \\ci{1.0}{24.0}"
+   ]
+  },
+  {
+   "id": "S5_holds",
+   "what": "S5 repeat ratio: critique lower bound above reassuring estimate",
+   "value": true,
+   "paper": "AppE",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "preregistered",
+    "S5 stay ratio FC lower bound > RP estimate",
+    "holds"
+   ]
+  },
+  {
+   "id": "reach_mm_c2_a3_b",
+   "what": "reached only by critique (vs samples), minimax",
+   "value": 19,
+   "paper": "Tab4",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "other",
+    "reach FC vs SC9",
+    "b"
+   ],
+   "tex": [
+    "19/40"
+   ]
+  },
+  {
+   "id": "reach_mm_c2_a3_c",
+   "what": "reached only by samples (vs critique), minimax",
+   "value": 40,
+   "paper": "Tab4",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "other",
+    "reach FC vs SC9",
+    "c"
+   ]
+  },
+  {
+   "id": "pair_ds_c2_a2",
+   "what": "paired comparison row: reached only-first/only-second; selected difference with 95% interval",
+   "value": "52/7$^{***}$ & $+12.4$ \\ci{-1.6}{25.6}",
+   "paper": "Tab4",
+   "source": "scripts/two_model_tables.py (stdout)",
+   "tex": [
+    "52/7$^{***}$ & $+12.4$ \\ci{-1.6}{25.6}"
+   ]
+  },
+  {
+   "id": "pair_qw_c2_a2",
+   "what": "paired comparison row: reached only-first/only-second; selected difference with 95% interval",
+   "value": "69/10$^{***}$ & $+23.3$ \\ci{8.8}{39.2}",
+   "paper": "Tab4",
+   "source": "scripts/two_model_tables.py (stdout)",
+   "tex": [
+    "69/10$^{***}$ & $+23.3$ \\ci{8.8}{39.2}"
+   ]
+  },
+  {
+   "id": "pair_ds_c2_a2p",
+   "what": "paired comparison row: reached only-first/only-second; selected difference with 95% interval",
+   "value": "39/12$^{***}$ & $+11.3$ \\ci{-0.8}{23.7}",
+   "paper": "Tab4",
+   "source": "scripts/two_model_tables.py (stdout)",
+   "tex": [
+    "39/12$^{***}$ & $+11.3$ \\ci{-0.8}{23.7}"
+   ]
+  },
+  {
+   "id": "pair_qw_c2_a2p",
+   "what": "paired comparison row: reached only-first/only-second; selected difference with 95% interval",
+   "value": "49/16$^{***}$ & $+18.5$ \\ci{3.9}{34.3}",
+   "paper": "Tab4",
+   "source": "scripts/two_model_tables.py (stdout)",
+   "tex": [
+    "49/16$^{***}$ & $+18.5$ \\ci{3.9}{34.3}"
+   ]
+  },
+  {
+   "id": "pair_ds_a2p_a2",
+   "what": "paired comparison row: reached only-first/only-second; selected difference with 95% interval",
+   "value": "28/10$^{**}$ & $+1.2$ \\ci{-10.1}{12.5}",
+   "paper": "Tab4",
+   "source": "scripts/two_model_tables.py (stdout)",
+   "tex": [
+    "28/10$^{**}$ & $+1.2$ \\ci{-10.1}{12.5}"
+   ]
+  },
+  {
+   "id": "pair_qw_a2p_a2",
+   "what": "paired comparison row: reached only-first/only-second; selected difference with 95% interval",
+   "value": "42/16$^{***}$ & $+4.8$ \\ci{-8.1}{18.6}",
+   "paper": "Tab4",
+   "source": "scripts/two_model_tables.py (stdout)",
+   "tex": [
+    "42/16$^{***}$ & $+4.8$ \\ci{-8.1}{18.6}"
+   ]
+  },
+  {
+   "id": "pair_ds_c2_a3",
+   "what": "paired comparison row: reached only-first/only-second; selected difference with 95% interval",
+   "value": "29/21 & $+20.7$ \\ci{9.0}{32.4}",
+   "paper": "Tab4",
+   "source": "scripts/two_model_tables.py (stdout)",
+   "tex": [
+    "29/21 & $+20.7$ \\ci{9.0}{32.4}"
+   ]
+  },
+  {
+   "id": "pair_qw_c2_a3",
+   "what": "paired comparison row: reached only-first/only-second; selected difference with 95% interval",
+   "value": "44/33 & $+23.1$ \\ci{9.6}{38.6}",
+   "paper": "Tab4",
+   "source": "scripts/two_model_tables.py (stdout)",
+   "tex": [
+    "44/33 & $+23.1$ \\ci{9.6}{38.6}"
+   ]
+  },
+  {
+   "id": "mean3_C2-A2_diff",
+   "what": "mean of three models, selected, C2-A2, diff (exploratory)",
+   "value": 13.6,
+   "paper": "Tab4, Fig3",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "mean_of_three",
+    "C2-A2",
+    "diff"
+   ]
+  },
+  {
+   "id": "mean3_C2-A2_lo",
+   "what": "mean of three models, selected, C2-A2, lo (exploratory)",
+   "value": 5.1,
+   "paper": "Tab4, Fig3",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "mean_of_three",
+    "C2-A2",
+    "lo"
+   ]
+  },
+  {
+   "id": "mean3_C2-A2_hi",
+   "what": "mean of three models, selected, C2-A2, hi (exploratory)",
+   "value": 22.2,
+   "paper": "Tab4, Fig3",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "mean_of_three",
+    "C2-A2",
+    "hi"
+   ],
+   "tex": [
+    "$+13.6$ \\ci{5.1}{22.2}"
+   ]
+  },
+  {
+   "id": "mean3_C2-A2P_diff",
+   "what": "mean of three models, selected, C2-A2P, diff (exploratory)",
+   "value": 11.5,
+   "paper": "Tab4, Fig3",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "mean_of_three",
+    "C2-A2P",
+    "diff"
+   ]
+  },
+  {
+   "id": "mean3_C2-A2P_lo",
+   "what": "mean of three models, selected, C2-A2P, lo (exploratory)",
+   "value": 3.4,
+   "paper": "Tab4, Fig3",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "mean_of_three",
+    "C2-A2P",
+    "lo"
+   ]
+  },
+  {
+   "id": "mean3_C2-A2P_hi",
+   "what": "mean of three models, selected, C2-A2P, hi (exploratory)",
+   "value": 20.1,
+   "paper": "Tab4, Fig3",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "mean_of_three",
+    "C2-A2P",
+    "hi"
+   ],
+   "tex": [
+    "$+11.5$ \\ci{3.4}{20.1}"
+   ]
+  },
+  {
+   "id": "mean3_A2P-A2_diff",
+   "what": "mean of three models, selected, A2P-A2, diff (exploratory)",
+   "value": 2.2,
+   "paper": "Tab4, Fig3",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "mean_of_three",
+    "A2P-A2",
+    "diff"
+   ]
+  },
+  {
+   "id": "mean3_A2P-A2_lo",
+   "what": "mean of three models, selected, A2P-A2, lo (exploratory)",
+   "value": -5.2,
+   "paper": "Tab4, Fig3",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "mean_of_three",
+    "A2P-A2",
+    "lo"
+   ]
+  },
+  {
+   "id": "mean3_A2P-A2_hi",
+   "what": "mean of three models, selected, A2P-A2, hi (exploratory)",
+   "value": 9.8,
+   "paper": "Tab4, Fig3",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "mean_of_three",
+    "A2P-A2",
+    "hi"
+   ],
+   "tex": [
+    "$+2.2$ \\ci{-5.2}{9.8}"
+   ]
+  },
+  {
+   "id": "mean3_C2-A3_diff",
+   "what": "mean of three models, selected, C2-A3, diff (exploratory)",
+   "value": 18.7,
+   "paper": "Tab4, Fig3",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "mean_of_three",
+    "C2-A3",
+    "diff"
+   ]
+  },
+  {
+   "id": "mean3_C2-A3_lo",
+   "what": "mean of three models, selected, C2-A3, lo (exploratory)",
+   "value": 10.7,
+   "paper": "Tab4, Fig3",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "mean_of_three",
+    "C2-A3",
+    "lo"
+   ]
+  },
+  {
+   "id": "mean3_C2-A3_hi",
+   "what": "mean of three models, selected, C2-A3, hi (exploratory)",
+   "value": 26.4,
+   "paper": "Tab4, Fig3",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "mean_of_three",
+    "C2-A3",
+    "hi"
+   ],
+   "tex": [
+    "$+18.7$ \\ci{10.7}{26.4}"
+   ]
+  },
+  {
+   "id": "conv_deepseek_A2",
+   "what": "conversion, reassuring, deepseek (exploratory)",
+   "value": 0.95,
+   "paper": "Tab3",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "deepseek",
+    "conversion",
+    "A2",
+    0
+   ]
+  },
+  {
+   "id": "conv_deepseek_A2P",
+   "what": "conversion, generic, deepseek (exploratory)",
+   "value": 0.85,
+   "paper": "Tab3",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "deepseek",
+    "conversion",
+    "A2P",
+    0
+   ]
+  },
+  {
+   "id": "conv_deepseek_C2",
+   "what": "conversion, critique, deepseek (exploratory)",
+   "value": 0.79,
+   "paper": "Tab3",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "deepseek",
+    "conversion",
+    "C2",
+    0
+   ]
+  },
+  {
+   "id": "conv_deepseek_A3",
+   "what": "conversion, samples, deepseek (exploratory)",
+   "value": 0.72,
+   "paper": "Tab3",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "deepseek",
+    "conversion",
+    "A3",
+    0
+   ]
+  },
+  {
+   "id": "conv_qwen_A2",
+   "what": "conversion, reassuring, qwen (exploratory)",
+   "value": 0.74,
+   "paper": "Tab3",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "qwen",
+    "conversion",
+    "A2",
+    0
+   ]
+  },
+  {
+   "id": "conv_qwen_A2P",
+   "what": "conversion, generic, qwen (exploratory)",
+   "value": 0.64,
+   "paper": "Tab3",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "qwen",
+    "conversion",
+    "A2P",
+    0
+   ]
+  },
+  {
+   "id": "conv_qwen_C2",
+   "what": "conversion, critique, qwen (exploratory)",
+   "value": 0.63,
+   "paper": "Tab3",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "qwen",
+    "conversion",
+    "C2",
+    0
+   ]
+  },
+  {
+   "id": "conv_qwen_A3",
+   "what": "conversion, samples, qwen (exploratory)",
+   "value": 0.53,
+   "paper": "Tab3",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "qwen",
+    "conversion",
+    "A3",
+    0
+   ]
+  },
+  {
+   "id": "conv_minimax_A2",
+   "what": "conversion, reassuring, minimax (exploratory)",
+   "value": 0.81,
+   "paper": "Tab3",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "minimax",
+    "conversion",
+    "A2",
+    0
+   ]
+  },
+  {
+   "id": "conv_minimax_A2P",
+   "what": "conversion, generic, minimax (exploratory)",
+   "value": 0.8,
+   "paper": "Tab3",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "minimax",
+    "conversion",
+    "A2P",
+    0
+   ]
+  },
+  {
+   "id": "conv_minimax_C2",
+   "what": "conversion, critique, minimax (exploratory)",
+   "value": 0.7,
+   "paper": "Tab3",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "minimax",
+    "conversion",
+    "C2",
+    0
+   ]
+  },
+  {
+   "id": "conv_minimax_A3",
+   "what": "conversion, samples, minimax (exploratory)",
+   "value": 0.55,
+   "paper": "Tab3",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "minimax",
+    "conversion",
+    "A3",
+    0
+   ]
+  },
+  {
+   "id": "split_deepseek_both_n",
+   "what": "where selected questions come from, critique vs reassuring, deepseek, both_n (exploratory)",
+   "value": 146,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "deepseek",
+    "C2-A2",
+    "both_n"
+   ]
+  },
+  {
+   "id": "split_deepseek_both_x",
+   "what": "where selected questions come from, critique vs reassuring, deepseek, both_x (exploratory)",
+   "value": 129.6,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "deepseek",
+    "C2-A2",
+    "both_x"
+   ]
+  },
+  {
+   "id": "split_deepseek_both_y",
+   "what": "where selected questions come from, critique vs reassuring, deepseek, both_y (exploratory)",
+   "value": 140.0,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "deepseek",
+    "C2-A2",
+    "both_y"
+   ]
+  },
+  {
+   "id": "split_deepseek_x_only_n",
+   "what": "where selected questions come from, critique vs reassuring, deepseek, x_only_n (exploratory)",
+   "value": 52,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "deepseek",
+    "C2-A2",
+    "x_only_n"
+   ]
+  },
+  {
+   "id": "split_deepseek_x_only_selected",
+   "what": "where selected questions come from, critique vs reassuring, deepseek, x_only_selected (exploratory)",
+   "value": 27.8,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "deepseek",
+    "C2-A2",
+    "x_only_selected"
+   ]
+  },
+  {
+   "id": "split_deepseek_y_only_n",
+   "what": "where selected questions come from, critique vs reassuring, deepseek, y_only_n (exploratory)",
+   "value": 7,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "deepseek",
+    "C2-A2",
+    "y_only_n"
+   ]
+  },
+  {
+   "id": "split_deepseek_y_only_selected",
+   "what": "where selected questions come from, critique vs reassuring, deepseek, y_only_selected (exploratory)",
+   "value": 5.0,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "deepseek",
+    "C2-A2",
+    "y_only_selected"
+   ]
+  },
+  {
+   "id": "split_deepseek_total",
+   "what": "where selected questions come from, critique vs reassuring, deepseek, total (exploratory)",
+   "value": 12.4,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "deepseek",
+    "C2-A2",
+    "total"
+   ]
+  },
+  {
+   "id": "split_qwen_both_n",
+   "what": "where selected questions come from, critique vs reassuring, qwen, both_n (exploratory)",
+   "value": 113,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "qwen",
+    "C2-A2",
+    "both_n"
+   ]
+  },
+  {
+   "id": "split_qwen_both_x",
+   "what": "where selected questions come from, critique vs reassuring, qwen, both_x (exploratory)",
+   "value": 82.3,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "qwen",
+    "C2-A2",
+    "both_x"
+   ]
+  },
+  {
+   "id": "split_qwen_both_y",
+   "what": "where selected questions come from, critique vs reassuring, qwen, both_y (exploratory)",
+   "value": 84.8,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "qwen",
+    "C2-A2",
+    "both_y"
+   ]
+  },
+  {
+   "id": "split_qwen_x_only_n",
+   "what": "where selected questions come from, critique vs reassuring, qwen, x_only_n (exploratory)",
+   "value": 69,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "qwen",
+    "C2-A2",
+    "x_only_n"
+   ]
+  },
+  {
+   "id": "split_qwen_x_only_selected",
+   "what": "where selected questions come from, critique vs reassuring, qwen, x_only_selected (exploratory)",
+   "value": 31.8,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "qwen",
+    "C2-A2",
+    "x_only_selected"
+   ]
+  },
+  {
+   "id": "split_qwen_y_only_n",
+   "what": "where selected questions come from, critique vs reassuring, qwen, y_only_n (exploratory)",
+   "value": 10,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "qwen",
+    "C2-A2",
+    "y_only_n"
+   ]
+  },
+  {
+   "id": "split_qwen_y_only_selected",
+   "what": "where selected questions come from, critique vs reassuring, qwen, y_only_selected (exploratory)",
+   "value": 6.0,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "qwen",
+    "C2-A2",
+    "y_only_selected"
+   ]
+  },
+  {
+   "id": "split_qwen_total",
+   "what": "where selected questions come from, critique vs reassuring, qwen, total (exploratory)",
+   "value": 23.3,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "qwen",
+    "C2-A2",
+    "total"
+   ]
+  },
+  {
+   "id": "split_minimax_both_n",
+   "what": "where selected questions come from, critique vs reassuring, minimax, both_n (exploratory)",
+   "value": 114,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "minimax",
+    "C2-A2",
+    "both_n"
+   ]
+  },
+  {
+   "id": "split_minimax_both_x",
+   "what": "where selected questions come from, critique vs reassuring, minimax, both_x (exploratory)",
+   "value": 90.6,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "minimax",
+    "C2-A2",
+    "both_x"
+   ]
+  },
+  {
+   "id": "split_minimax_both_y",
+   "what": "where selected questions come from, critique vs reassuring, minimax, both_y (exploratory)",
+   "value": 95.3,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "minimax",
+    "C2-A2",
+    "both_y"
+   ]
+  },
+  {
+   "id": "split_minimax_x_only_n",
+   "what": "where selected questions come from, critique vs reassuring, minimax, x_only_n (exploratory)",
+   "value": 38,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "minimax",
+    "C2-A2",
+    "x_only_n"
+   ]
+  },
+  {
+   "id": "split_minimax_x_only_selected",
+   "what": "where selected questions come from, critique vs reassuring, minimax, x_only_selected (exploratory)",
+   "value": 16.3,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "minimax",
+    "C2-A2",
+    "x_only_selected"
+   ]
+  },
+  {
+   "id": "split_minimax_y_only_n",
+   "what": "where selected questions come from, critique vs reassuring, minimax, y_only_n (exploratory)",
+   "value": 11,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "minimax",
+    "C2-A2",
+    "y_only_n"
+   ]
+  },
+  {
+   "id": "split_minimax_y_only_selected",
+   "what": "where selected questions come from, critique vs reassuring, minimax, y_only_selected (exploratory)",
+   "value": 6.3,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "minimax",
+    "C2-A2",
+    "y_only_selected"
+   ]
+  },
+  {
+   "id": "split_minimax_total",
+   "what": "where selected questions come from, critique vs reassuring, minimax, total (exploratory)",
+   "value": 5.2,
+   "paper": "Tab5",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "minimax",
+    "C2-A2",
+    "total"
+   ],
+   "tex": [
+    "129.6 & 82.3 & 90.6",
+    "140.0 & 84.8 & 95.3",
+    "27.8 & 31.8 & 16.3",
+    "5.0 & 6.0 & 6.3"
+   ]
+  },
+  {
+   "id": "last_minus_selected_deepseek",
+   "what": "critique loop, last - selected (exploratory)",
+   "value": -9.4,
+   "paper": "Sec4.2",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "deepseek",
+    "final_vs_selected",
+    "C2",
+    2,
+    "diff"
+   ]
+  },
+  {
+   "id": "last_minus_selected_qwen",
+   "what": "critique loop, last - selected (exploratory)",
+   "value": -2.1,
+   "paper": "Sec4.2",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "qwen",
+    "final_vs_selected",
+    "C2",
+    2,
+    "diff"
+   ]
+  },
+  {
+   "id": "last_minus_selected_minimax",
+   "what": "critique loop, last - selected (exploratory)",
+   "value": -7.9,
+   "paper": "Sec4.2",
+   "source": "scripts/search_not_verification.py",
+   "json": [
+    "experiments/hle400/t3/search_not_verification.json",
+    "minimax",
+    "final_vs_selected",
+    "C2",
+    2,
+    "diff"
+   ]
+  },
+  {
+   "id": "exact_sel_deepseek_first",
+   "what": "selected under exact matching, first, deepseek",
+   "value": 63,
+   "paper": "AppF",
+   "source": "scripts/selected_exact_only.py",
+   "json": [
+    "experiments/hle400/t3/selected_exact_only.json",
+    "deepseek",
+    "first"
+   ]
+  },
+  {
+   "id": "exact_sel_deepseek_A2",
+   "what": "selected under exact matching, A2, deepseek",
+   "value": 84.0,
+   "paper": "AppF",
+   "source": "scripts/selected_exact_only.py",
+   "json": [
+    "experiments/hle400/t3/selected_exact_only.json",
+    "deepseek",
+    "A2"
+   ]
+  },
+  {
+   "id": "exact_sel_deepseek_A2P",
+   "what": "selected under exact matching, A2P, deepseek",
+   "value": 82.4,
+   "paper": "AppF",
+   "source": "scripts/selected_exact_only.py",
+   "json": [
+    "experiments/hle400/t3/selected_exact_only.json",
+    "deepseek",
+    "A2P"
+   ]
+  },
+  {
+   "id": "exact_sel_deepseek_C2",
+   "what": "selected under exact matching, C2, deepseek",
+   "value": 96.5,
+   "paper": "AppF",
+   "source": "scripts/selected_exact_only.py",
+   "json": [
+    "experiments/hle400/t3/selected_exact_only.json",
+    "deepseek",
+    "C2"
+   ]
+  },
+  {
+   "id": "exact_sel_deepseek_A3",
+   "what": "selected under exact matching, A3, deepseek",
+   "value": 84.6,
+   "paper": "AppF",
+   "source": "scripts/selected_exact_only.py",
+   "json": [
+    "experiments/hle400/t3/selected_exact_only.json",
+    "deepseek",
+    "A3"
+   ]
+  },
+  {
+   "id": "exact_sel_qwen_first",
+   "what": "selected under exact matching, first, qwen",
+   "value": 38,
+   "paper": "AppF",
+   "source": "scripts/selected_exact_only.py",
+   "json": [
+    "experiments/hle400/t3/selected_exact_only.json",
+    "qwen",
+    "first"
+   ]
+  },
+  {
+   "id": "exact_sel_qwen_A2",
+   "what": "selected under exact matching, A2, qwen",
+   "value": 56.0,
+   "paper": "AppF",
+   "source": "scripts/selected_exact_only.py",
+   "json": [
+    "experiments/hle400/t3/selected_exact_only.json",
+    "qwen",
+    "A2"
+   ]
+  },
+  {
+   "id": "exact_sel_qwen_A2P",
+   "what": "selected under exact matching, A2P, qwen",
+   "value": 59.0,
+   "paper": "AppF",
+   "source": "scripts/selected_exact_only.py",
+   "json": [
+    "experiments/hle400/t3/selected_exact_only.json",
+    "qwen",
+    "A2P"
+   ]
+  },
+  {
+   "id": "exact_sel_qwen_C2",
+   "what": "selected under exact matching, C2, qwen",
+   "value": 68.1,
+   "paper": "AppF",
+   "source": "scripts/selected_exact_only.py",
+   "json": [
+    "experiments/hle400/t3/selected_exact_only.json",
+    "qwen",
+    "C2"
+   ]
+  },
+  {
+   "id": "exact_sel_qwen_A3",
+   "what": "selected under exact matching, A3, qwen",
+   "value": 50.2,
+   "paper": "AppF",
+   "source": "scripts/selected_exact_only.py",
+   "json": [
+    "experiments/hle400/t3/selected_exact_only.json",
+    "qwen",
+    "A3"
+   ]
+  },
+  {
+   "id": "exact_sel_minimax_first",
+   "what": "selected under exact matching, first, minimax",
+   "value": 51,
+   "paper": "AppF",
+   "source": "scripts/selected_exact_only.py",
+   "json": [
+    "experiments/hle400/t3/selected_exact_only.json",
+    "minimax",
+    "first"
+   ]
+  },
+  {
+   "id": "exact_sel_minimax_A2",
+   "what": "selected under exact matching, A2, minimax",
+   "value": 65.2,
+   "paper": "AppF",
+   "source": "scripts/selected_exact_only.py",
+   "json": [
+    "experiments/hle400/t3/selected_exact_only.json",
+    "minimax",
+    "A2"
+   ]
+  },
+  {
+   "id": "exact_sel_minimax_A2P",
+   "what": "selected under exact matching, A2P, minimax",
+   "value": 66.1,
+   "paper": "AppF",
+   "source": "scripts/selected_exact_only.py",
+   "json": [
+    "experiments/hle400/t3/selected_exact_only.json",
+    "minimax",
+    "A2P"
+   ]
+  },
+  {
+   "id": "exact_sel_minimax_C2",
+   "what": "selected under exact matching, C2, minimax",
+   "value": 66.6,
+   "paper": "AppF",
+   "source": "scripts/selected_exact_only.py",
+   "json": [
+    "experiments/hle400/t3/selected_exact_only.json",
+    "minimax",
+    "C2"
+   ]
+  },
+  {
+   "id": "exact_sel_minimax_A3",
+   "what": "selected under exact matching, A3, minimax",
+   "value": 62.9,
+   "paper": "AppF",
+   "source": "scripts/selected_exact_only.py",
+   "json": [
+    "experiments/hle400/t3/selected_exact_only.json",
+    "minimax",
+    "A3"
+   ],
+   "tex": [
+    "84.0, 82.4, 96.5, 84.6",
+    "56.0, 59.0, 68.1, 50.2",
+    "65.2, 66.1, 66.6, 62.9",
+    "mean per model $+8.7$ \\ci{1.9}{15.8}"
+   ]
+  },
+  {
+   "id": "repeat_correct_deepseek_A2",
+   "what": "repeat_correct, reassuring, deepseek",
+   "value": 0.77,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "A2",
+    "repeat_correct"
+   ]
+  },
+  {
+   "id": "repeat_incorrect_deepseek_A2",
+   "what": "repeat_incorrect, reassuring, deepseek",
+   "value": 0.54,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "A2",
+    "repeat_incorrect"
+   ]
+  },
+  {
+   "id": "ratio_deepseek_A2",
+   "what": "ratio, reassuring, deepseek",
+   "value": 1.4,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "A2",
+    "ratio"
+   ]
+  },
+  {
+   "id": "repeat_correct_deepseek_A2P",
+   "what": "repeat_correct, generic, deepseek",
+   "value": 0.69,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "A2P",
+    "repeat_correct"
+   ]
+  },
+  {
+   "id": "repeat_incorrect_deepseek_A2P",
+   "what": "repeat_incorrect, generic, deepseek",
+   "value": 0.41,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "A2P",
+    "repeat_incorrect"
+   ]
+  },
+  {
+   "id": "ratio_deepseek_A2P",
+   "what": "ratio, generic, deepseek",
+   "value": 1.7,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "A2P",
+    "ratio"
+   ]
+  },
+  {
+   "id": "repeat_correct_deepseek_C2",
+   "what": "repeat_correct, critique, deepseek",
+   "value": 0.53,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "C2",
+    "repeat_correct"
+   ]
+  },
+  {
+   "id": "repeat_incorrect_deepseek_C2",
+   "what": "repeat_incorrect, critique, deepseek",
+   "value": 0.25,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "C2",
+    "repeat_incorrect"
+   ]
+  },
+  {
+   "id": "ratio_deepseek_C2",
+   "what": "ratio, critique, deepseek",
+   "value": 2.1,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "C2",
+    "ratio"
+   ]
+  },
+  {
+   "id": "repeat_correct_deepseek_A3",
+   "what": "repeat_correct, samples, deepseek",
+   "value": 0.5,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "A3",
+    "repeat_correct"
+   ]
+  },
+  {
+   "id": "repeat_incorrect_deepseek_A3",
+   "what": "repeat_incorrect, samples, deepseek",
+   "value": 0.28,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "A3",
+    "repeat_incorrect"
+   ]
+  },
+  {
+   "id": "ratio_deepseek_A3",
+   "what": "ratio, samples, deepseek",
+   "value": 1.8,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "A3",
+    "ratio"
+   ]
+  },
+  {
+   "id": "repeat_correct_qwen_A2",
+   "what": "repeat_correct, reassuring, qwen",
+   "value": 0.68,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "A2",
+    "repeat_correct"
+   ]
+  },
+  {
+   "id": "repeat_incorrect_qwen_A2",
+   "what": "repeat_incorrect, reassuring, qwen",
+   "value": 0.56,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "A2",
+    "repeat_incorrect"
+   ]
+  },
+  {
+   "id": "ratio_qwen_A2",
+   "what": "ratio, reassuring, qwen",
+   "value": 1.2,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "A2",
+    "ratio"
+   ]
+  },
+  {
+   "id": "repeat_correct_qwen_A2P",
+   "what": "repeat_correct, generic, qwen",
+   "value": 0.51,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "A2P",
+    "repeat_correct"
+   ]
+  },
+  {
+   "id": "repeat_incorrect_qwen_A2P",
+   "what": "repeat_incorrect, generic, qwen",
+   "value": 0.4,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "A2P",
+    "repeat_incorrect"
+   ]
+  },
+  {
+   "id": "ratio_qwen_A2P",
+   "what": "ratio, generic, qwen",
+   "value": 1.3,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "A2P",
+    "ratio"
+   ]
+  },
+  {
+   "id": "repeat_correct_qwen_C2",
+   "what": "repeat_correct, critique, qwen",
+   "value": 0.45,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "C2",
+    "repeat_correct"
+   ]
+  },
+  {
+   "id": "repeat_incorrect_qwen_C2",
+   "what": "repeat_incorrect, critique, qwen",
+   "value": 0.28,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "C2",
+    "repeat_incorrect"
+   ]
+  },
+  {
+   "id": "ratio_qwen_C2",
+   "what": "ratio, critique, qwen",
+   "value": 1.6,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "C2",
+    "ratio"
+   ]
+  },
+  {
+   "id": "repeat_correct_qwen_A3",
+   "what": "repeat_correct, samples, qwen",
+   "value": 0.36,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "A3",
+    "repeat_correct"
+   ]
+  },
+  {
+   "id": "repeat_incorrect_qwen_A3",
+   "what": "repeat_incorrect, samples, qwen",
+   "value": 0.26,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "A3",
+    "repeat_incorrect"
+   ]
+  },
+  {
+   "id": "ratio_qwen_A3",
+   "what": "ratio, samples, qwen",
+   "value": 1.4,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "A3",
+    "ratio"
+   ]
+  },
+  {
+   "id": "repeat_correct_minimax_A2",
+   "what": "repeat_correct, reassuring, minimax",
+   "value": 0.73,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "A2",
+    "repeat_correct"
+   ]
+  },
+  {
+   "id": "repeat_incorrect_minimax_A2",
+   "what": "repeat_incorrect, reassuring, minimax",
+   "value": 0.59,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "A2",
+    "repeat_incorrect"
+   ]
+  },
+  {
+   "id": "ratio_minimax_A2",
+   "what": "ratio, reassuring, minimax",
+   "value": 1.2,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "A2",
+    "ratio"
+   ]
+  },
+  {
+   "id": "repeat_correct_minimax_A2P",
+   "what": "repeat_correct, generic, minimax",
+   "value": 0.7,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "A2P",
+    "repeat_correct"
+   ]
+  },
+  {
+   "id": "repeat_incorrect_minimax_A2P",
+   "what": "repeat_incorrect, generic, minimax",
+   "value": 0.54,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "A2P",
+    "repeat_incorrect"
+   ]
+  },
+  {
+   "id": "ratio_minimax_A2P",
+   "what": "ratio, generic, minimax",
+   "value": 1.3,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "A2P",
+    "ratio"
+   ]
+  },
+  {
+   "id": "repeat_correct_minimax_C2",
+   "what": "repeat_correct, critique, minimax",
+   "value": 0.53,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "C2",
+    "repeat_correct"
+   ]
+  },
+  {
+   "id": "repeat_incorrect_minimax_C2",
+   "what": "repeat_incorrect, critique, minimax",
+   "value": 0.37,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "C2",
+    "repeat_incorrect"
+   ]
+  },
+  {
+   "id": "ratio_minimax_C2",
+   "what": "ratio, critique, minimax",
+   "value": 1.5,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "C2",
+    "ratio"
+   ]
+  },
+  {
+   "id": "repeat_correct_minimax_A3",
+   "what": "repeat_correct, samples, minimax",
+   "value": 0.45,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "A3",
+    "repeat_correct"
+   ]
+  },
+  {
+   "id": "repeat_incorrect_minimax_A3",
+   "what": "repeat_incorrect, samples, minimax",
+   "value": 0.26,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "A3",
+    "repeat_incorrect"
+   ]
+  },
+  {
+   "id": "ratio_minimax_A3",
+   "what": "ratio, samples, minimax",
+   "value": 1.7,
+   "paper": "Tab7",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "A3",
+    "ratio"
+   ],
+   "tex": [
+    "Critique & .53 & .25 & 2.1 & & .45 & .28 & 1.6 & & .53 & .37 & 1.5",
+    "Reassure & .77 & .54 & 1.4 & & .68 & .56 & 1.2 & & .73 & .59 & 1.2",
+    "Generic & .69 & .41 & 1.7 & & .51 & .40 & 1.3 & & .70 & .54 & 1.3",
+    "Samples & .50 & .28 & 1.8 & & .36 & .26 & 1.4 & & .45 & .26 & 1.7"
+   ]
+  },
+  {
+   "id": "first_rev_up_deepseek_A2",
+   "what": "first revision repaired, reassuring, deepseek",
+   "value": 17,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "A2",
+    "first_round_repaired"
+   ]
+  },
+  {
+   "id": "first_rev_down_deepseek_A2",
+   "what": "first revision damaged, reassuring, deepseek",
+   "value": 7,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "A2",
+    "first_round_damaged"
+   ]
+  },
+  {
+   "id": "first_rev_up_deepseek_A2P",
+   "what": "first revision repaired, generic, deepseek",
+   "value": 22,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "A2P",
+    "first_round_repaired"
+   ]
+  },
+  {
+   "id": "first_rev_down_deepseek_A2P",
+   "what": "first revision damaged, generic, deepseek",
+   "value": 13,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "A2P",
+    "first_round_damaged"
+   ]
+  },
+  {
+   "id": "first_rev_up_deepseek_C2",
+   "what": "first revision repaired, critique, deepseek",
+   "value": 45,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "C2",
+    "first_round_repaired"
+   ]
+  },
+  {
+   "id": "first_rev_down_deepseek_C2",
+   "what": "first revision damaged, critique, deepseek",
+   "value": 20,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "C2",
+    "first_round_damaged"
+   ]
+  },
+  {
+   "id": "first_rev_up_qwen_A2",
+   "what": "first revision repaired, reassuring, qwen",
+   "value": 30,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "A2",
+    "first_round_repaired"
+   ]
+  },
+  {
+   "id": "first_rev_down_qwen_A2",
+   "what": "first revision damaged, reassuring, qwen",
+   "value": 13,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "A2",
+    "first_round_damaged"
+   ]
+  },
+  {
+   "id": "first_rev_up_qwen_A2P",
+   "what": "first revision repaired, generic, qwen",
+   "value": 40,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "A2P",
+    "first_round_repaired"
+   ]
+  },
+  {
+   "id": "first_rev_down_qwen_A2P",
+   "what": "first revision damaged, generic, qwen",
+   "value": 18,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "A2P",
+    "first_round_damaged"
+   ]
+  },
+  {
+   "id": "first_rev_up_qwen_C2",
+   "what": "first revision repaired, critique, qwen",
+   "value": 47,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "C2",
+    "first_round_repaired"
+   ]
+  },
+  {
+   "id": "first_rev_down_qwen_C2",
+   "what": "first revision damaged, critique, qwen",
+   "value": 29,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "C2",
+    "first_round_damaged"
+   ]
+  },
+  {
+   "id": "first_rev_up_minimax_A2",
+   "what": "first revision repaired, reassuring, minimax",
+   "value": 21,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "A2",
+    "first_round_repaired"
+   ]
+  },
+  {
+   "id": "first_rev_down_minimax_A2",
+   "what": "first revision damaged, reassuring, minimax",
+   "value": 13,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "A2",
+    "first_round_damaged"
+   ]
+  },
+  {
+   "id": "first_rev_up_minimax_A2P",
+   "what": "first revision repaired, generic, minimax",
+   "value": 26,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "A2P",
+    "first_round_repaired"
+   ]
+  },
+  {
+   "id": "first_rev_down_minimax_A2P",
+   "what": "first revision damaged, generic, minimax",
+   "value": 12,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "A2P",
+    "first_round_damaged"
+   ]
+  },
+  {
+   "id": "first_rev_up_minimax_C2",
+   "what": "first revision repaired, critique, minimax",
+   "value": 27,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "C2",
+    "first_round_repaired"
+   ]
+  },
+  {
+   "id": "first_rev_down_minimax_C2",
+   "what": "first revision damaged, critique, minimax",
+   "value": 29,
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "C2",
+    "first_round_damaged"
+   ],
+   "tex": [
+    "reassuring 17 and 7, generic doubt 22 and 13, critique 45 and 20",
+    "30 and 13, 40 and 18, 47 and 29",
+    "21 and 13, 26 and 12, 27 and 29"
+   ]
+  },
+  {
+   "id": "leak_better_deepseek",
+   "what": "critic text contains the next answer, changes for the better [hits, n]",
+   "value": [
+    2,
+    132
+   ],
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "C2",
+    "critic_contains_next_answer",
+    "better"
+   ],
+   "tex": [
+    "2 of 132 changes for the better and 2 of 100"
+   ]
+  },
+  {
+   "id": "leak_worse_deepseek",
+   "what": "critic text contains the next answer, changes for the worse [hits, n]",
+   "value": [
+    2,
+    100
+   ],
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "C2",
+    "critic_contains_next_answer",
+    "worse"
+   ]
+  },
+  {
+   "id": "leak_better_qwen",
+   "what": "critic text contains the next answer, changes for the better [hits, n]",
+   "value": [
+    17,
+    159
+   ],
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "C2",
+    "critic_contains_next_answer",
+    "better"
+   ],
+   "tex": [
+    "17 of 159 and 16 of 132"
+   ]
+  },
+  {
+   "id": "leak_worse_qwen",
+   "what": "critic text contains the next answer, changes for the worse [hits, n]",
+   "value": [
+    16,
+    132
+   ],
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "C2",
+    "critic_contains_next_answer",
+    "worse"
+   ]
+  },
+  {
+   "id": "leak_better_minimax",
+   "what": "critic text contains the next answer, changes for the better [hits, n]",
+   "value": [
+    13,
+    115
+   ],
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "C2",
+    "critic_contains_next_answer",
+    "better"
+   ],
+   "tex": [
+    "13 of 115 and 16 of 98"
+   ]
+  },
+  {
+   "id": "leak_worse_minimax",
+   "what": "critic text contains the next answer, changes for the worse [hits, n]",
+   "value": [
+    16,
+    98
+   ],
+   "paper": "AppF",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "C2",
+    "critic_contains_next_answer",
+    "worse"
+   ]
+  },
+  {
+   "id": "gap_odds",
+   "what": "repeat probabilities: gap (correct - incorrect), reassuring to critique, per model; odds ratio on minimax",
+   "value": [
+    0.23,
+    0.28,
+    0.11,
+    0.17,
+    0.13,
+    0.17,
+    1.8,
+    2.0
+   ],
+   "paper": "Sec4.3",
+   "source": "scripts/three_model_appendix.py",
+   "tex": [
+    "0.23 to 0.28, 0.11 to 0.17, 0.13 to 0.17",
+    "(1.8 to 2.0)"
+   ]
+  },
+  {
+   "id": "gap_deepseek_A2",
+   "what": "repeat probability gap",
+   "value": 0.23,
+   "paper": "Sec4.3",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "A2",
+    "gap"
+   ]
+  },
+  {
+   "id": "odds_deepseek_A2",
+   "what": "repeat odds ratio",
+   "value": 2.8,
+   "paper": "Sec4.3",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "A2",
+    "odds_ratio"
+   ]
+  },
+  {
+   "id": "gap_deepseek_C2",
+   "what": "repeat probability gap",
+   "value": 0.28,
+   "paper": "Sec4.3",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "C2",
+    "gap"
+   ]
+  },
+  {
+   "id": "odds_deepseek_C2",
+   "what": "repeat odds ratio",
+   "value": 3.5,
+   "paper": "Sec4.3",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "C2",
+    "odds_ratio"
+   ]
+  },
+  {
+   "id": "gap_qwen_A2",
+   "what": "repeat probability gap",
+   "value": 0.11,
+   "paper": "Sec4.3",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "A2",
+    "gap"
+   ]
+  },
+  {
+   "id": "odds_qwen_A2",
+   "what": "repeat odds ratio",
+   "value": 1.6,
+   "paper": "Sec4.3",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "A2",
+    "odds_ratio"
+   ]
+  },
+  {
+   "id": "gap_qwen_C2",
+   "what": "repeat probability gap",
+   "value": 0.17,
+   "paper": "Sec4.3",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "C2",
+    "gap"
+   ]
+  },
+  {
+   "id": "odds_qwen_C2",
+   "what": "repeat odds ratio",
+   "value": 2.1,
+   "paper": "Sec4.3",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "C2",
+    "odds_ratio"
+   ]
+  },
+  {
+   "id": "gap_minimax_A2",
+   "what": "repeat probability gap",
+   "value": 0.13,
+   "paper": "Sec4.3",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "A2",
+    "gap"
+   ]
+  },
+  {
+   "id": "odds_minimax_A2",
+   "what": "repeat odds ratio",
+   "value": 1.8,
+   "paper": "Sec4.3",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "A2",
+    "odds_ratio"
+   ]
+  },
+  {
+   "id": "gap_minimax_C2",
+   "what": "repeat probability gap",
+   "value": 0.17,
+   "paper": "Sec4.3",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "C2",
+    "gap"
+   ]
+  },
+  {
+   "id": "odds_minimax_C2",
+   "what": "repeat odds ratio",
+   "value": 2.0,
+   "paper": "Sec4.3",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "C2",
+    "odds_ratio"
+   ]
+  },
+  {
+   "id": "trunc_first_ds",
+   "what": "deepseek first answers cut off at the token limit",
+   "value": 28,
+   "paper": "Sec4.3",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "A2",
+    "first_answer_truncated"
+   ],
+   "tex": [
+    "28 first answers"
+   ]
+  },
+  {
+   "id": "single_sample_deepseek",
+   "what": "average single sample correct",
+   "value": 117.1,
+   "paper": "Sec4.3",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "deepseek",
+    "A3",
+    "single_sample_correct"
+   ]
+  },
+  {
+   "id": "single_sample_qwen",
+   "what": "average single sample correct",
+   "value": 79.9,
+   "paper": "Sec4.3",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "qwen",
+    "A3",
+    "single_sample_correct"
+   ]
+  },
+  {
+   "id": "single_sample_minimax",
+   "what": "average single sample correct",
+   "value": 82.0,
+   "paper": "Sec4.3",
+   "source": "scripts/three_model_appendix.py",
+   "json": [
+    "experiments/hle400/t3/three_model_appendix.json",
+    "minimax",
+    "A3",
+    "single_sample_correct"
+   ]
+  },
+  {
+   "id": "step_asking_again",
+   "what": "reassuring selected - first answer; and against an average single sample",
+   "value": [
+    32.0,
+    21.8,
+    20.7
+   ],
+   "paper": "Sec4.3",
+   "source": "derived from Tab3 and single_sample_*",
+   "tex": [
+    "32.0, 21.8 and 20.7",
+    "28.0, 10.8 and 19.7"
+   ]
+  },
+  {
+   "id": "judge_reach",
+   "what": "Sec. 4.5, restricted critic on deepseek: reach",
+   "value": 192,
+   "paper": "Sec4.5, AppG",
+   "source": "scripts/section5_headroom.py",
+   "json": [
+    "experiments/hle400/t3/section5_headroom.json",
+    "reach"
+   ],
+   "tex": [
+    "reaches 192 questions"
+   ]
+  },
+  {
+   "id": "judge_mode",
+   "what": "Sec. 4.5, restricted critic on deepseek: mode",
+   "value": 154,
+   "paper": "Sec4.5, AppG",
+   "source": "scripts/section5_headroom.py",
+   "json": [
+    "experiments/hle400/t3/section5_headroom.json",
+    "mode"
+   ],
+   "tex": [
+    "correct on 154 questions"
+   ]
+  },
+  {
+   "id": "judge_headroom",
+   "what": "Sec. 4.5, restricted critic on deepseek: headroom",
+   "value": 38,
+   "paper": "Sec4.5, AppG",
+   "source": "scripts/section5_headroom.py",
+   "json": [
+    "experiments/hle400/t3/section5_headroom.json",
+    "headroom"
+   ]
+  },
+  {
+   "id": "judge_switches",
+   "what": "Sec. 4.5, restricted critic on deepseek: switches",
+   "value": 1199,
+   "paper": "Sec4.5, AppG",
+   "source": "scripts/section5_headroom.py",
+   "json": [
+    "experiments/hle400/t3/section5_headroom.json",
+    "switches"
+   ]
+  },
+  {
+   "id": "judge_switch_W->R",
+   "what": "changes that matter, W->R",
+   "value": 160,
+   "paper": "AppG",
+   "source": "scripts/section5_headroom.py",
+   "json": [
+    "experiments/hle400/t3/section5_headroom.json",
+    "switch_types",
+    "W->R"
+   ]
+  },
+  {
+   "id": "judge_switch_R->W",
+   "what": "changes that matter, R->W",
+   "value": 143,
+   "paper": "AppG",
+   "source": "scripts/section5_headroom.py",
+   "json": [
+    "experiments/hle400/t3/section5_headroom.json",
+    "switch_types",
+    "R->W"
+   ]
+  },
+  {
+   "id": "judge_headroom_tie",
+   "what": "headroom split, tie",
+   "value": 10,
+   "paper": "AppG",
+   "source": "scripts/section5_headroom.py",
+   "json": [
+    "experiments/hle400/t3/section5_headroom.json",
+    "split",
+    "tie"
+   ]
+  },
+  {
+   "id": "judge_headroom_one vote",
+   "what": "headroom split, one vote",
+   "value": 11,
+   "paper": "AppG",
+   "source": "scripts/section5_headroom.py",
+   "json": [
+    "experiments/hle400/t3/section5_headroom.json",
+    "split",
+    "one vote"
+   ]
+  },
+  {
+   "id": "judge_headroom_more",
+   "what": "headroom split, more",
+   "value": 17,
+   "paper": "AppG",
+   "source": "scripts/section5_headroom.py",
+   "json": [
+    "experiments/hle400/t3/section5_headroom.json",
+    "split",
+    "more"
+   ]
+  },
+  {
+   "id": "judge_coverage_R",
+   "what": "changes judged by judge R",
+   "value": 1178,
+   "paper": "AppG",
+   "source": "scripts/section5_headroom.py",
+   "json": [
+    "experiments/hle400/t3/section5_headroom.json",
+    "judged",
+    "R"
+   ]
+  },
+  {
+   "id": "judge_coverage_R+",
+   "what": "changes judged by judge R+",
+   "value": 1199,
+   "paper": "AppG",
+   "source": "scripts/section5_headroom.py",
+   "json": [
+    "experiments/hle400/t3/section5_headroom.json",
+    "judged",
+    "R+"
+   ]
+  },
+  {
+   "id": "judge_coverage_C",
+   "what": "changes judged by judge C",
+   "value": 1199,
+   "paper": "AppG",
+   "source": "scripts/section5_headroom.py",
+   "json": [
+    "experiments/hle400/t3/section5_headroom.json",
+    "judged",
+    "C"
+   ]
+  },
+  {
+   "id": "judge_table",
+   "what": "judge accuracy; accuracy where judge and vote-count rule disagree",
+   "value": "see Tab8",
+   "paper": "Tab8",
+   "source": "scripts/judge_conditional_test.py (stdout)",
+   "tex": [
+    "Accuracy on changes that matter & .57 & .59 & .66",
+    "18/37 & 68/150 & 32/66"
+   ]
+  },
+  {
+   "id": "cost_matched",
+   "what": "deepseek: vote over 11 samples 138.2; USC 145; critique - USC +12.4 [-0.7, 25.6]",
+   "value": [
+    138.2,
+    145,
+    12.4
+   ],
+   "paper": "AppF",
+   "source": "scripts/cost_matched_readout.py (stdout)",
+   "tex": [
+    "the vote selects 138.2 and reaches 193",
+    "12.4 (\\ci{-0.7}{25.6}, $p=0.06$)"
+   ]
+  },
+  {
+   "id": "reconcile",
+   "what": "critique last answer - vote over nine samples",
+   "value": [
+    11.3,
+    21.0,
+    4.3
+   ],
+   "paper": "AppF",
+   "source": "scripts/reconcile_with_voting_literature.py (stdout)",
+   "tex": [
+    "11.3 on \\ds{} (\\ci{-2.1}{24.2}), 21.0 on \\qw{} (\\ci{6.7}{36.5}) and 4.3 on \\mm{} (\\ci{-9.2}{17.4})"
+   ]
+  },
+  {
+   "id": "vote_split_bound",
+   "what": "critique - samples after merging correct answers",
+   "value": [
+    13.0,
+    12.2,
+    5.4
+   ],
+   "paper": "AppF",
+   "source": "two_model_tables.py (stdout) / third_model_readout.py",
+   "tex": [
+    "13.0 on \\ds{} (\\ci{2.1}{23.8}), 12.2 on \\qw{} (\\ci{-2.8}{27.3}) and 5.4 on \\mm{} (\\ci{-6.2}{17.3})"
+   ]
+  },
+  {
+   "id": "vote_split_bound_mm",
+   "what": "pooled critique - samples, minimax",
+   "value": 5.4,
+   "paper": "AppF",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "other",
+    "pooled FC-SC9",
+    "diff"
+   ]
+  },
+  {
+   "id": "tokens",
+   "what": "tokens in millions: reassuring, generic, critique, samples per model",
+   "value": "24.6, 31.8, 61, 51.4; 15.2, 21.0, 36, 31.8; 21.3, 24.3, 45, 44.7",
+   "paper": "AppF",
+   "source": "solver: main-table scripts; critic: e2_*_token_replay*.py and run logs",
+   "tex": [
+    "\\ds{} 24.6, 31.8, 61, 51.4; \\qw{} 15.2, 21.0, 36, 31.8; \\mm{} 21.3, 24.3, 45, 44.7"
+   ]
+  },
+  {
+   "id": "tokens_mm_A2",
+   "what": "solver tokens (M), minimax",
+   "value": 21.3,
+   "paper": "AppF",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A2",
+    "solver_tokens_M"
+   ]
+  },
+  {
+   "id": "tokens_mm_A2P",
+   "what": "solver tokens (M), minimax",
+   "value": 24.3,
+   "paper": "AppF",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A2P",
+    "solver_tokens_M"
+   ]
+  },
+  {
+   "id": "tokens_mm_A3",
+   "what": "solver tokens (M), minimax",
+   "value": 44.7,
+   "paper": "AppF",
+   "source": "scripts/third_model_readout.py",
+   "json": [
+    "experiments/hle400/t3/third_model_readout.json",
+    "descriptives",
+    "A3",
+    "solver_tokens_M"
+   ]
+  },
+  {
+   "id": "audit_false_accept",
+   "what": "scoring audit: answers scored correct that the audit finds incorrect",
+   "value": [
+    "H006",
+    "H013",
+    "H079",
+    "H080",
+    "H087",
+    "H095"
+   ],
+   "paper": "AppD",
+   "source": "scripts/human_audit_final.py",
+   "json": [
+    "audit/human_audit_20261111/audit_final.json",
+    "false_accept"
+   ]
+  },
+  {
+   "id": "audit_false_reject",
+   "what": "scoring audit: answers scored incorrect that the audit finds correct",
+   "value": [
+    "H047"
+   ],
+   "paper": "AppD",
+   "source": "scripts/human_audit_final.py",
+   "json": [
+    "audit/human_audit_20261111/audit_final.json",
+    "false_reject"
+   ]
   }
  ]
 }

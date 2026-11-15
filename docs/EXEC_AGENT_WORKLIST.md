@@ -155,7 +155,7 @@ C1-free；abstaining critic；强模型 judge；任何聚合器/evaluator 新设
 | G4 | qwen 的 critic token 回放 | 同 deepseek 的做法，50 次回放，产出 `experiments/rep200_C2_qwen3.8-flash-payg/token_replay_summary.json`。 |
 | G5 | `hle400_A2` 中 1 轮提示词回显被判对 | 复核并记录。 |
 
-追加实验见 `docs/NEXT_EXPERIMENTS_FOR_MAIN_CONFERENCE.md`，待用户决定后另行下达。
+追加实验方案已归档（`docs/_deprecated/20261115_v13_alignment/NEXT_EXPERIMENTS_FOR_MAIN_CONFERENCE.md`）；2026-11-15 作者决定不再追加实验。
 
 
 ## 第 8 批（2026-11-11 下午）：第三模型 + 收尾补跑
@@ -175,3 +175,23 @@ C1-free；abstaining critic；强模型 judge；任何聚合器/evaluator 新设
 
 
 > **仓库整理提示（2026-11-11 14:40）**：根目录杂项、`output/`、29 个未被任何现行代码引用的 `src/` 模块、6 个旧脚本、若干旧文档已移入 `_deprecated/`（清单见各目录 `MOVE_LOG.json`，入口 `docs/INDEX.md`）。已静态检查：现行 `src/`、`scripts/`、`tests/` 中没有对被移动模块的引用。若确需其中某个文件，请移回原处并在此文件注明，不要在 `_deprecated/` 内直接运行。`.gitignore` 已加入 `audit/` 下的标注表与对照表、`usc_result.jsonl`、`astra_verdicts*.jsonl`。
+
+
+## 第 8 批更新（2026-11-11 17:10）
+
+已确认完成：G3（官方计分表 v3）、G4（qwen critic token 回放，约 12.6M）、G5。T1 门槛：glm-5.3 未通过。
+
+| 顺序 | 任务 | 说明 |
+|---|---|---|
+| 1 | G1、G2 重新启动 | 两个被中断的补跑任务，与 T1 无依赖，现在就做。 |
+| 2 | T1 替代模型探测 | 按 `docs/THIRD_MODEL_SPEC.md` §10：列出最多 3 个候选（不同厂商、可设 thinking 预算、按量付费可用），各跑 16 题门槛，**只回报运行健康度**；不要调 glm-5.3 的推理强度去凑门槛。 |
+| 3 | T1 全量 | 用户在健康度报告中选定模型并写入规格 §10 之后再启动。 |
+
+
+## 结束说明（2026-11-15）
+
+本清单的全部任务已结束，不再下达新任务：
+- 第 8 批：G1（USC 补跑，`usc_result.jsonl` 2400 行）、G2（Judge-R / Judge-R+ 在重跑轨迹上的补判，`qcut_result.jsonl` 1243 行）完成。
+- T1：glm-5.3 未通过 16 题健康度门槛，kimi-k2.5 调用挂起；按 `docs/THIRD_MODEL_SPEC.md` §10 选定 MiniMax-M2.5，全量运行、判分（`is_correct_t3_sidecar_rep3.json`）与读出（`docs/THIRD_MODEL_RESULTS.md`、`scripts/third_model_readout.py`）完成，最近一次提交 `5822269 [P2.16]`。
+- 2026-11-15 作者决定不再追加实验。本文件留作记录，代码注释中的条目编号（E1、E2、E3 等）指向这里。
+- 当前入口：`docs/INDEX.md`。论文用名与本文件代号的对照见该文件第 2 节。

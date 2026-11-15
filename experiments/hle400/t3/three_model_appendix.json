@@ -1,0 +1,224 @@
+{
+ "deepseek": {
+  "A2": {
+   "repeat_correct": 0.7708,
+   "repeat_incorrect": 0.5431,
+   "ratio": 1.419,
+   "gap": 0.2278,
+   "odds_ratio": 2.83,
+   "counts": [
+    384,
+    296,
+    917,
+    498
+   ],
+   "first_round_repaired": 17,
+   "first_round_damaged": 7,
+   "first_answer_truncated": 28
+  },
+  "A2P": {
+   "repeat_correct": 0.6921,
+   "repeat_incorrect": 0.4125,
+   "ratio": 1.678,
+   "gap": 0.2796,
+   "odds_ratio": 3.202,
+   "counts": [
+    445,
+    308,
+    1200,
+    495
+   ],
+   "first_round_repaired": 22,
+   "first_round_damaged": 13,
+   "first_answer_truncated": 28
+  },
+  "C2": {
+   "repeat_correct": 0.5347,
+   "repeat_incorrect": 0.2498,
+   "ratio": 2.14,
+   "gap": 0.2848,
+   "odds_ratio": 3.45,
+   "counts": [
+    548,
+    293,
+    1529,
+    382
+   ],
+   "first_round_repaired": 45,
+   "first_round_damaged": 20,
+   "first_answer_truncated": 28,
+   "critic_contains_next_answer": {
+    "better": [
+     2,
+     132
+    ],
+    "worse": [
+     2,
+     100
+    ]
+   }
+  },
+  "A3": {
+   "repeat_correct": 0.5019,
+   "repeat_incorrect": 0.2835,
+   "ratio": 1.77,
+   "gap": 0.2184,
+   "odds_ratio": 2.547,
+   "counts": [
+    8288,
+    4160,
+    17784,
+    5042
+   ],
+   "single_sample_correct": 117.1
+  }
+ },
+ "qwen": {
+  "A2": {
+   "repeat_correct": 0.676,
+   "repeat_incorrect": 0.5635,
+   "ratio": 1.2,
+   "gap": 0.1124,
+   "odds_ratio": 1.616,
+   "counts": [
+    287,
+    194,
+    1212,
+    683
+   ],
+   "first_round_repaired": 30,
+   "first_round_damaged": 13,
+   "first_answer_truncated": 0
+  },
+  "A2P": {
+   "repeat_correct": 0.5109,
+   "repeat_incorrect": 0.4004,
+   "ratio": 1.276,
+   "gap": 0.1106,
+   "odds_ratio": 1.565,
+   "counts": [
+    411,
+    210,
+    1536,
+    615
+   ],
+   "first_round_repaired": 40,
+   "first_round_damaged": 18,
+   "first_answer_truncated": 0
+  },
+  "C2": {
+   "repeat_correct": 0.4545,
+   "repeat_incorrect": 0.285,
+   "ratio": 1.595,
+   "gap": 0.1696,
+   "odds_ratio": 2.091,
+   "counts": [
+    495,
+    225,
+    1923,
+    548
+   ],
+   "first_round_repaired": 47,
+   "first_round_damaged": 29,
+   "first_answer_truncated": 0,
+   "critic_contains_next_answer": {
+    "better": [
+     17,
+     159
+    ],
+    "worse": [
+     16,
+     132
+    ]
+   }
+  },
+  "A3": {
+   "repeat_correct": 0.359,
+   "repeat_incorrect": 0.2593,
+   "ratio": 1.384,
+   "gap": 0.0996,
+   "odds_ratio": 1.599,
+   "counts": [
+    5616,
+    2016,
+    20976,
+    5440
+   ],
+   "single_sample_correct": 79.9
+  }
+ },
+ "minimax": {
+  "A2": {
+   "repeat_correct": 0.7264,
+   "repeat_incorrect": 0.5939,
+   "ratio": 1.223,
+   "gap": 0.1325,
+   "odds_ratio": 1.815,
+   "counts": [
+    296,
+    215,
+    1081,
+    642
+   ],
+   "first_round_repaired": 21,
+   "first_round_damaged": 13,
+   "first_answer_truncated": 0
+  },
+  "A2P": {
+   "repeat_correct": 0.7013,
+   "repeat_incorrect": 0.5423,
+   "ratio": 1.293,
+   "gap": 0.159,
+   "odds_ratio": 1.982,
+   "counts": [
+    308,
+    216,
+    1195,
+    648
+   ],
+   "first_round_repaired": 26,
+   "first_round_damaged": 12,
+   "first_answer_truncated": 0
+  },
+  "C2": {
+   "repeat_correct": 0.5326,
+   "repeat_incorrect": 0.3669,
+   "ratio": 1.452,
+   "gap": 0.1657,
+   "odds_ratio": 1.966,
+   "counts": [
+    383,
+    204,
+    1687,
+    619
+   ],
+   "first_round_repaired": 27,
+   "first_round_damaged": 29,
+   "first_answer_truncated": 0,
+   "critic_contains_next_answer": {
+    "better": [
+     13,
+     115
+    ],
+    "worse": [
+     16,
+     98
+    ]
+   }
+  },
+  "A3": {
+   "repeat_correct": 0.4459,
+   "repeat_incorrect": 0.2616,
+   "ratio": 1.705,
+   "gap": 0.1843,
+   "odds_ratio": 2.272,
+   "counts": [
+    5768,
+    2572,
+    21208,
+    5548
+   ],
+   "single_sample_correct": 82.0
+  }
+ }
+}

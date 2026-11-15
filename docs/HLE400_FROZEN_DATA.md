@@ -8,6 +8,14 @@
 > - 新增：自洽采样第 10–11 个样本（`is_correct_t3_sidecar_A3extra.json`）、第二模型 qwen（`is_correct_t3_sidecar_rep.json`）。这两处判分为精确匹配 + astra K1 + 已有裁决规则，未做新的争议复判。
 > - `t3_final_scores_v2.json`、`transition_metrics_v2.json` 仍是 v2，待官方计分脚本按 v3 重新生成。
 
+> **补充（2026-11-15，论文 v13）。**
+> - 第三模型 MiniMax-M2.5：`is_correct_t3_sidecar_rep3.json`（A、A2、A2P、A3、C2；生成脚本 `scripts/gen_t3_sidecar_rep3.py`，判分协议与主实验相同）。读数（selected / reached / last）：A2 101.7 / 125 / 100；A2P 102.3 / 128 / 101；C2 106.9 / 152 / 99；A3 94.7 / 173 / –；首答 81。复算：`python3 scripts/third_model_readout.py`。
+> - qwen 读数：A2 90.8 / 123 / 89；A2P 95.6 / 149 / 92；C2 114.1 / 182 / 112；A3 91.0 / 171 / –；首答 69。复算：`python3 scripts/two_model_tables.py`。
+> - `usc_result.jsonl` 已补齐为 2400 行；`qcut_result.jsonl` 补判后为 1243 行；`c3_rubric_ce.jsonl` 同步补判。§4.5 的数字以 `scripts/section5_headroom.py` 在 v3 轨迹上的输出为准。
+> - 分析脚本的输出文件：`two_model_scores.json`、`third_model_readout.json`、`three_model_means.json`、`three_model_appendix.json`、`search_not_verification.json`、`selected_exact_only.json`、`section5_headroom.json`。
+> - 论文用名：A2 = reassuring loop，A2P（A2′）= generic-doubt loop，C2 = critique loop，A3 = independent samples，C3 = restricted critic；"上限 / ceiling" = reached，"mode / 期望得分" = selected。完整对照见 `docs/INDEX.md` 第 2 节。
+> - 全部论文数字的核对：`python3 scripts/check_manifest.py`。
+
 ---
 
 ## （历史）v2 记录

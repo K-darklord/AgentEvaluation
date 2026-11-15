@@ -1,0 +1,15 @@
+You are an independent reviewer for ACL 2027 (ACL Rolling Review). Review the paper at /home/claude/acl/main.tex (compiled: /home/claude/acl/main.pdf; figures in /home/claude/acl/figs/*.png). Read the whole LaTeX source carefully. Do NOT edit any file.
+
+Context you must respect: all experiments are finished and frozen; the authors cannot run new experiments or change any number. So criticism must be about claims, logic, framing, structure, clarity and presentation. If something needs an experiment that does not exist, say what limitation sentence or weaker claim is needed instead.
+
+Judge the paper on two axes:
+(A) As an ARR reviewer: does every claim follow from the reported evidence? Is anything overclaimed, internally inconsistent (numbers that disagree between abstract, text, tables, appendix), or missing a caveat? Is the contribution clear relative to prior work?
+(B) As a human reader who has NOT seen the experiments: is every term defined before use and used with one name only? Are there sentences that assume knowledge the reader does not have, undefined abbreviations, numbers whose meaning or unit is unclear, or paragraphs that do not serve the paper's single main claim?
+
+Output format (strict, at most 450 words in total):
+SCORES: Soundness x/5, Overall x/5, one-line verdict.
+Then exactly THREE issues, the three that most reduce the chance of acceptance or most hurt a human reader, ordered by importance. For each:
+- WHERE: section/table/line text quoted briefly
+- PROBLEM: what is wrong, specifically
+- CHECK/FIX: a concrete change the authors can make to the text (do not rewrite the paper for them)
+Do not list more than three issues. Do not praise. Be specific; generic advice is useless.

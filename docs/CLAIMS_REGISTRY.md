@@ -1,63 +1,74 @@
-# Claims registry（v2，2026-11-11；对应 `paper/acl/main.tex`）
+# 主张—证据对照（v3，2026-11-15，对应 `paper/acl/main.tex` v13）
 
-规则：论文中的每个数字都应能回指到本表一行；证据是冻结文件或只读冻结文件的脚本。状态分三类：**预先指定**（规格文档有日期、先于看数）、**探索性**（看数后提出）、**稳健性**（为回应质疑而加）。旧版（v1，按内部草稿编号）在 `docs/_deprecated/20261111_pre_submission/CLAIMS_REGISTRY_v1.md`。
+每条主张给出：论文位置、类别、数字、复算脚本。名称用论文的叫法；代码代号对照见 `docs/INDEX.md` 第 2 节。
+数字的顺序一律是 deepseek-v4-flash、qwen3.8-flash、MiniMax-M2.5；每个模型 400 题。`a/b` 表示只有前一种方法答对（或到达）的题数 / 只有后一种的题数。
 
-## E. 证据源
-| E | 内容 | 位置 |
-|---|---|---|
-| E1 | 逐轮对错（deepseek） | `experiments/hle400/t3/is_correct_t3_sidecar_v3.json` |
-| E2 | 逐轮对错（qwen） | `experiments/hle400/t3/is_correct_t3_sidecar_rep.json` |
-| E3 | 两模型主表与配对检验 | `scripts/two_model_tables.py` → `two_model_scores.json` |
-| E4 | 同成本、USC、合并检验 | `scripts/cost_matched_readout.py`；`is_correct_t3_sidecar_A3extra.json`、`usc_result.jsonl` |
-| E5 | 留存率、recency、提示条数 | `scripts/persistence_and_settle.py`；qwen：`scripts/gen_replication_results.py` → `REPLICATION_RESULTS.md` |
-| E6 | 保守下界、格式归一化 | `scripts/merge_correct_vote.py`、`scripts/vote_latex_normalized.py` |
-| E7 | 自适应自洽采样、首轮修复/损伤 | `scripts/tie_and_adaptive_baselines.py` |
-| E8 | 弃答、验证器模拟 | `scripts/selective_prediction.py`、`scripts/verifier_regimes.py` |
-| E9 | judge 审计 | `scripts/judge_conditional_test.py` → `_judge_audit_autogen.md`、`EVALUATOR_RESULTS.md` |
-| E10 | critic token 回放 | `experiments/hle400_C2/token_replay_summary.json`、`experiments/hle400_C3/token_replay_summary.json` |
-| E11 | 预注册与规格 | `C2_BANK_FREE_CRITIC_SPEC.md`、`A2PRIME_PERTURBING_PLACEBO_SPEC.md`、`EVALUATOR_FINAL_DESIGN.md`、`REPLICATION_SPEC.md`、`COST_MATCHED_SC_AND_USC_SPEC.md` |
-| E12 | 判分协议与裁决 | `HLE_SCORER.md`、`k3_adjudication.json`、`scripts/gen_t3_sidecar_v3.py`、`scripts/gen_t3_sidecar_rep.py` |
-| E13 | 切换文本分析（critic 是否递出答案） | `experiments/hle400/t3/r2w_w2r_switches_freezekey.jsonl`（重跑前的 C3 轨迹） |
+**类别**（与论文 §3 "What was fixed in advance" 一致）
+- **确认性**：唯一的一项，第三模型上 critique loop 对 reassuring loop 的 selected 之差（P1）。
+- **预先确定的次要检验**：各规格里写明判据的其余检验。
+- **描述 / 探索**：没有预先确定判据的数字，包括三模型均值、conversion、来源拆分、与投票文献的对照。论文中均标明。
 
-## C. 主张
-| C | 主张（论文位置） | 数 | 证据 | 状态 |
+## A. Reach（§4.1）
+| ID | 主张 | 类别 | 数字 | 脚本 |
 |---|---|---|---|---|
-| C01 | 上限三级阶梯（摘要、§4.1、表 2） | deepseek 153 / 171 / 198；qwen 123 / 149 / 182 | E1–E3 | 描述性 |
-| C02 | 上限：FC 对 RP | 52/7；69/10，均 p<0.001 | E3 | 预先指定（安慰剂对照；qwen 为 R2） |
-| C03 | 上限：FC 对 PP | 39/12 p=0.0002；49/16 p<0.001 | E3 | 预先指定（A2′ 读出规则；qwen 为 R4） |
-| C04 | 上限：PP 对 RP | 28/10 p=0.005；42/16 p<0.001 | E3 | 预先指定的对照，检验为探索性 |
-| C05 | 上限在匹配候选数下保持（表 3） | k=2：33/9、37/19；k=3：35/11、41/18 | E3 | 稳健性 |
-| C06 | 上限在仅精确匹配下保持（表 3） | 31/11 p=0.003；35/12 p=0.001 | E3 | 稳健性 |
-| C07 | FC 与 9 样本自洽采样上限相当 | 198 对 190（29/21）；182 对 171（44/33） | E3 | 描述性 |
-| C08 | 选中答案：FC 对 RP（§4.2、表 4、图 2） | +12.4 [−1.6, 25.6] p=0.08；+23.3 [8.8, 39.2] p=0.004；合并每模型 +17.9 [7.8, 28.5] p<0.001 | E3、E4 | 单模型检验为探索性；合并检验为探索性（事后） |
-| C09 | 选中答案：FC 对 PP | +11.3 [−0.8, 23.7] p=0.07；+18.5 [3.9, 34.3] p=0.02；合并 +14.9 [5.3, 25.7] p=0.003 | E3、E4 | 同上 |
-| C10 | 选中答案：FC 对 9 样本自洽采样 | +20.7 [9.0, 32.4] p<0.001；+23.1 [9.6, 38.6] p=0.002 | E3 | qwen 为预先指定（R1）；deepseek 的证伪检验原为 BC 而写 |
-| C11 | 同成本（11 样本）下仍成立 | 138.2；+19.2 [7.0, 31.1] p=0.002 | E4 | 预先指定（COST_MATCHED R1） |
-| C12 | 对 USC 未确立 | USC 145；+11.4 [−1.4, 24.8] p=0.09（n=396） | E4 | 预先指定（COST_MATCHED R2，未通过）；次要结果 |
-| C13 | 保守下界 | deepseek +13.0 [2.1, 23.8]；qwen +12.2 [−2.8, 27.3]；合并 12.6 [3.2, 22.4] p=0.010 | E3、E4、E6 | 稳健性 |
-| C14 | 压力本身不改善选择 | PP 对 RP：+1.2 p=0.84；+4.8 p=0.47 | E3 | 探索性 |
-| C15 | RP 以约一半 token 与自洽采样持平 | +8.2 p=0.20；−0.2 p=0.99；token 24.6M 对 51.4M、15.2M 对 31.8M | E3 | 探索性 |
-| C16 | error bank 无可识别贡献 | FC 对 BC：上限 23/17 p=0.43；选中 +6.5 p=0.32 | E3 | 预先指定（C2 读出规则） |
-| C17 | BC 对自洽采样（原证伪检验） | +14.1 [2.5, 26.7] p=0.03 | E3 | 预先指定 |
-| C18 | 最后一轮：deepseek 不优于安慰剂，qwen 优于 | 148 对 141（29/22 p=0.40）；112 对 89（48/25 p=0.010） | E3 | 探索性 |
-| C19 | 盈亏判据 | 阈值 0.39 / 0.21；首轮修复/损伤见附录 E | E7、REPLICATION_RESULTS | 探索性 |
-| C20 | 留存不对称（表 5） | FC 2.1 / 1.6；RP 1.4 / 1.2；qwen FC 区间下界 1.37 > RP 1.20 | E5 | qwen 为预先指定（R3） |
-| C21 | critic 未直接递出答案；修对/改错近似对半 | 0/129；159 对 142 | E13 | 探索性（基于重跑前的 C3 轨迹） |
-| C22 | 成本 | FC 约 61M、BC 约 66M（critic 为回放外推 23M、29M）；RP 24.6M；SC 51.4M | E3、E10 | 描述性；qwen 的 critic 未计量 |
-| C23 | 同模型 judge 在票数之外无可检出信息（§5、表 6） | 分歧处准确率 18/36、53/116、32/66；跨半 76/73/71 与 73/72/77；81 规则 154/156/155 | E9 | 验收标准预先指定；"条件于票数"检验为探索性 |
-| C24 | headroom 与 oracle | 37 = 11 + 10 + 16；1,201 switch；oracle 173；盲撤 149 | E9 | 描述性（重跑前的 C3 轨迹，上限 191） |
-| C25 | 弃答、验证器模拟（附录 E） | 见附录 | E8 | 探索性 |
-| C26 | BC 对两个 placebo 的选中答案（表 4，评审后补报） | +5.9 [−6.8, 18.5] p=0.34；+4.8 [−6.5, 16.4] p=0.43 | `scripts/review_fixes_stats.py` | 稳健性（不利于主张的对比） |
-| C27 | 保守下界下对 11 样本自洽采样 | +9.3 [−2.1, 20.4] p=0.11 | E4 | 稳健性 |
-| C28 | 模型间差异不显著（附录 E） | 选中 FC−RP：+10.8 [−8.8, 31.6]；最后一轮：+16.0 [−4.0, 38.0] | `scripts/review_fixes_stats.py` | 探索性 |
-| C29 | 单样本准确率、截断率（§4.2、附录 C） | 单样本 117 / 80；deepseek 截断 6.4%–8.0%，首答截断 28 题；qwen 1 轮 | `scripts/review_fixes_stats.py` | 描述性 |
-| C30 | critic 未直接递出答案（改用 Free critic 轨迹，取代 C21 的数字） | deepseek 修对 2/132、改错 2/100；qwen 17/159、16/132；修对/改错 165/135、229/193 | `scripts/review_fixes_stats.py` | 探索性 |
-| C31 | Free critic 每轮 3 条质疑的比例 | deepseek 86%，qwen 95%；A2′ 的剂量分布取自 deepseek 并沿用于 qwen | `scripts/review_fixes_stats.py` | 描述性 |
+| A1 | critique loop 到达的题多于 reassuring loop，三个模型都成立 | 预先确定（qwen：复现检验；MiniMax：S1） | reached 198/153、182/123、152/125；配对 52/7、69/10、38/11，均 p<.001 | `two_model_tables.py`、`third_model_readout.py` |
+| A2 | critique loop 到达的题多于 generic-doubt loop | 预先确定（MiniMax：S2，差至少 15 且 p<.05） | reached 198/171、182/149、152/128；配对 39/12、49/16、37/13 | 同上 |
+| A3 | generic-doubt loop 多于 reassuring loop 只在两个模型上成立 | 预先确定（MiniMax：S3 未满足） | 28/10、42/16、21/18（p=.75） | 同上 |
+| A4 | A1、A2 在限定候选数、只计精确匹配时仍成立（MiniMax 在前 2 个候选时不显著） | 描述 | 前 2 个候选的 reached（reassuring/generic/critique/samples）：141/148/172/169、109/118/136/134、111/111/121/126；前 3 个：150/157/181/178、118/137/160/147、117/121/142/146；精确匹配：91/102/122/120、79/94/117/93、83/83/98/111 | 同上（表 6） |
+| A5 | 第一个候选错时，第二个候选答对的比例 critique loop 不低于 generic-doubt loop | 探索 | 24% 对 15%（48/204、26/171）、24% 对 19%、16% 对 15% | `reach_quality_checks.py` |
+| A6 | critique loop 与 9 个独立样本到达的题数相当，MiniMax 上样本更多 | 描述 | reached 198/190、182/171、152/173；配对 29/21、44/33、19/40（p=.009） | 主表脚本 |
+| A7 | 这一增益归于 critic 整体，不单独归于"内容具体"：两种 loop 在长度、是否每轮更新、是否读过题目上也不同 | 论文的解释限定 | — | §3、Limitations |
 
-注（2026-11-11 下午，独立评审后）：摘要与引言中对选择增益的表述已限定为"一个模型显著 + 合并检验"，并写明这些对比不在预注册检验内；参考文献 31 条，其中 5 条为评审后核对新增，5 条更新为正式发表版本。
+## B. Selected（§4.2）
+| ID | 主张 | 类别 | 数字 | 脚本 |
+|---|---|---|---|---|
+| B1 | 对 reassuring loop 的 selected 增益没有确立：第三模型上的确认性检验未满足 | **确认性（P1）** | MiniMax +5.2 [−6.9, 18.0]，p=.42 | `third_model_readout.py` |
+| B2 | 另两个模型上的同一差值 | 预先确定（qwen）/ 描述（deepseek） | +12.4 [−1.6, 25.6]、+23.3 [8.8, 39.2] | `two_model_tables.py` |
+| B3 | 三模型均值为正 | 探索 | +13.6 [5.1, 22.2] | `three_model_means.py` |
+| B4 | 对 generic-doubt loop | 预先确定（MiniMax：P2 未满足） | +11.3 [−0.8, 23.7]、+18.5 [3.9, 34.3]、+4.6 [−8.4, 16.8]；均值 +11.5 [3.4, 20.1] | 同 B1–B3 |
+| B5 | generic-doubt loop 对 reassuring loop 没有差别 | 描述 | +1.2、+4.8、+0.7；均值 +2.2 [−5.2, 9.8] | 同上 |
+| B6 | 只计精确匹配时结论相同 | 描述 | +12.5 [0.8, 24.3]、+12.1 [−0.7, 24.8]、+1.4 [−8.6, 11.8]；均值 +8.7 [1.9, 15.8] | `selected_exact_only.py` |
+| B7 | 检验效力有限（区间半宽约 12 题，对 13.6 题的效应约 57%） | 论文的限定 | — | §3 |
+| B8 | conversion 在 critique loop 下更低 | 探索 | reassuring/generic/critique/samples：.95/.85/.79/.72、.74/.64/.63/.53、.81/.80/.70/.55；critique − reassuring：−.15 [−.21, −.09]、−.11 [−.20, −.03]、−.11 [−.20, −.03] | `search_not_verification.py` |
+| B9 | 两种 loop 都到达的题上，critique loop 选中的不多于 reassuring loop；它的增益来自只有它到达的题（按结果拆分，不是因果分解） | 探索 | 都到达 146/113/114 题：129.6 对 140.0、82.3 对 84.8、90.6 对 95.3（均值 −5.9 [−10.9, −1.1]）；只有 critique 到达 52/69/38 题，其中选中 27.8/31.8/16.3；只有 reassuring 到达 7/10/11 题，选中 5.0/6.0/6.3 | 同上（表 5） |
+| B10 | critique loop 的最后一个答案不如它的 plurality answer | 探索 | last − selected：−9.4、−2.1、−7.9；均值 −6.5 [−11.2, −1.8] | 同上 |
 
-## 已知不一致与待办
-- 第 5 节（C23、C24）与 C21 基于 C3 重跑前的轨迹（3 题不同）。待执行 agent 对这 3 题补跑 judge 后重算，论文脚注已注明。
-- USC 的 43 条过期记录待补跑（C12）。
-- 论文附录 E 中 settle 的数字（135、134、117、121）中前两个由 `persistence_and_settle.py` 的同口径实现算出，待官方计分脚本按 v3 复核。
-- qwen 与新增样本的判分未做新的争议复判（论文 Limitations 已写明）。
+## C. 没有 critic 时 loop 选什么（§4.3）
+| ID | 主张 | 类别 | 数字 | 脚本 |
+|---|---|---|---|---|
+| C1 | 只是再问一次，selected 就比首答多（描述，未检验；首答是偏弱的基线） | 描述 | reassuring loop selected − 首答：32.0、21.8、20.7；deepseek 去掉 28 道首答被截断的题为 28.0；对单个样本的平均正确数（117.1/79.9/82.0）为 28.0、10.8、19.7 | 主表脚本；`three_model_appendix.py` |
+| C2 | 答案正确时更容易被重复，所有方法都如此；critique loop 下两个概率都下降，比值上升 | 描述；比值检验为预先确定（qwen、MiniMax：S5 成立） | 重复概率 正确/错误/比值：deepseek .77/.54/1.4、.69/.41/1.7、.53/.25/2.1、.50/.28/1.8；qwen .68/.56/1.2、.51/.40/1.3、.46/.29/1.6、.36/.26/1.4；MiniMax .73/.59/1.2、.70/.54/1.3、.53/.37/1.5、.45/.26/1.7 | `three_model_appendix.py`；区间 `persistence_and_settle.py`、`third_model_readout.py` |
+
+## D. 对独立样本（§4.4）
+| ID | 主张 | 类别 | 数字 | 脚本 |
+|---|---|---|---|---|
+| D1 | critique loop 的 selected 多于 9 个样本的投票，虽然到达的题不更多 | 预先确定（qwen；MiniMax：S4 勉强成立） | +20.7 [9.0, 32.4]、+23.1 [9.6, 38.6]、+12.2 [1.0, 24.0]（置换 p=.051）；均值 +18.7 [10.7, 26.4] | 主表脚本、`three_model_means.py` |
+| D2 | 把写法不同的正确答案并在一起计票后差距缩小（上界，用了参考答案） | 描述 | 13.0 [2.1, 23.8]、12.2 [−2.8, 27.3]、5.4 [−6.2, 17.3] | `merge_correct_vote.py`、主表脚本的 pooled 项 |
+| D3 | 同成本（11 个样本，deepseek）下结论不变；USC 作选择器时差距的区间含 0 | 预先确定（R1 成立，R2 不成立） | 11 样本投票 138.2，critique 领先 +19.2 [7.0, 31.1]；USC 145，critique 领先 +12.4 [−0.7, 25.6]，p=.065 | `cost_matched_readout.py` |
+| D4 | 与"投票优于顺序修改"的文献的差别来自读出方式（plurality 而非最后一个答案）与答案形式（开放式），不来自题目难度 | 探索 | last − 9 样本投票：+11.3 [−2.1, 24.2]、+21.0 [6.7, 36.5]、+4.3 [−9.2, 17.4]；单字母题（86）plurality 差 0.0、+6.2、+4.4；其余 314 题 +20.7、+16.9、+7.8；难度三层的每题优势 .03/.08/.09 | `reconcile_with_voting_literature.py` |
+
+## E. 同模型 judge（§4.5、附录 G；仅 deepseek 的 restricted critic 轨迹）
+| ID | 主张 | 类别 | 数字 | 脚本 |
+|---|---|---|---|---|
+| E1 | 三个同模型 judge 都没有把 plurality answer 改得更好 | 预先确定的设计（`EVALUATOR_FINAL_DESIGN.md`）；范围限定为一个模型、一种 critic | reached 192，selected 154，可改进空间 38（平局 10、差一票 11、更多 17）；1,199 次改答中 303 次影响对错（160 修好、143 改坏）；judge 准确率 .57、.59、.66；按 judge 改写后最好 154/156/155 | `section5_headroom.py`、`judge_conditional_test.py` |
+
+## F. 判分与审计（附录 C、D）
+| ID | 主张 | 类别 | 数字 | 脚本 |
+|---|---|---|---|---|
+| F1 | 抽查 100 条判分，93 条与审计结论一致；自动判对的 71 条中 6 条应为错，自动判错的 29 条中 1 条应为对 | 审计方案预先写定（`HUMAN_AUDIT_PLAN.md`）；讨论裁决一路不是独立判断，论文已写明 | 直接比较 53/53，符号核验 12/12，讨论裁决 28/35 | `human_audit_final.py` |
+| F2 | 只计精确匹配的结果不依赖 grader（见 A4、B6） | 描述 | — | — |
+
+## G. 其他附录数字
+| 内容 | 数字 | 脚本 |
+|---|---|---|
+| token（百万）：reassuring/generic/critique/samples | 24.6/31.8/61/51.4、15.2/21.0/36/31.8、21.3/24.3/45/44.7 | 主表脚本（solver）+ critic 回放或运行记录 |
+| 首轮修复/损伤 | deepseek 17/7、22/13、45/20；qwen 30/13、40/18、47/29；MiniMax 21/13、26/12、27/29 | `three_model_appendix.py` |
+| critic 文本含下一答案（变好 / 变坏） | 2/132、2/100；17/159、16/132；13/115、16/98 | `three_model_appendix.py` |
+
+## 不在论文中的结果
+- restricted critic（C3）对两种安慰剂 loop 的比较、模型 × 方法的交互：`review_fixes_stats.py`，论文只在附录 B 提及 restricted critic。
+- 弃答曲线、模拟验证器、自适应采样：`selective_prediction.py`、`verifier_regimes.py`、`tie_and_adaptive_baselines.py`，为早期版本的分析，v13 未使用。
+- "模型保留首答的倾向"的观察、GPQA 与蒸馏阶段的数据：作者决定不写入。
+
+## 已知的未决事项
+见 `docs/INDEX.md` 第 8 节。

@@ -130,3 +130,19 @@ _deprecated/root_*/project_dump.txt
 experiments/_deprecated/backups_*/
 experiments/**/usc_result.jsonl
 experiments/**/astra_verdicts*.jsonl
+
+# human audit: files containing benchmark questions/answers or voided pilot labels
+audit/human_audit_*/pilot_*.xlsx
+audit/human_audit_*/cas_results.json
+audit/human_audit_*/milp_check.json
+
+# LaTeX build files
+paper/acl/*.aux
+paper/acl/*.bbl
+paper/acl/*.blg
+paper/acl/*.log
+paper/acl/*.out
+
+# Superseded PDFs and files awaiting manual deletion
+paper/acl/_old/
+_to_delete/

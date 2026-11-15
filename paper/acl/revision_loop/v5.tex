@@ -1,0 +1,739 @@
+\documentclass[11pt]{article}
+\usepackage[review]{acl}
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{multirow}
+
+\newcommand{\ds}{\textsc{DeepSeek}}
+\newcommand{\qw}{\textsc{Qwen}}
+\newcommand{\mm}{\textsc{MiniMax}}
+\newcommand{\ci}[2]{$[#1,\,#2]$}
+
+\title{Reaching Versus Selecting: A Placebo-Controlled Study of\\What Self-Critique Adds to an Answer}
+
+\author{Anonymous ACL submission}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+When a language model criticizes its own answer and tries again, two things happen together: the model is asked the question again, and it is told what may be wrong.
+We separate the two as far as placebo feedback allows.
+On 400 questions from Humanity's Last Exam and three models, we compare a loop in which a critic writes specific doubts about each answer with two placebo loops, one that only reports that no problem was found and one that raises the same generic doubts for every question, and with a majority vote over independent samples.
+For each method we count the questions on which a correct answer appears among its answers (\emph{reached}) and on which the most frequent of its answers is correct (\emph{selected}).
+Our main result is that specific critique reaches more questions than both placebos on all three models; it does not consistently reach more than independent samples at similar cost.
+A corresponding gain in selected questions is not established.
+It is much smaller than the gain in reach on every model, and the one test of it that we fixed in advance, on the third model (MiniMax-M2.5), is inconclusive ($+5.2$ questions, 95\% interval $-6.9$ to $18.0$).
+Much of what a loop selects it selects without critique: merely asking the model again, with reassurance as the only feedback, raises the number of correct answers by 21 to 32 questions over the first answer, and the critic adds 5 to 23 more.
+On the one model where we tested it, asking the model to judge its own changes of answer did not improve that vote.
+Compared with a loop that has no critic, self-critique mainly helps a model find correct answers; we could not show that it raises the number that end up selected.
+\end{abstract}
+
+\section{Introduction}
+
+A common way to improve a language model's answer at test time is to let the model criticize the answer and try again, several times \citep{madaan2023selfrefine,shinn2023reflexion}.
+Such a loop does two things in every round.
+It asks the question again, with the model's previous answer in view.
+And it tells the model what may be wrong with that answer.
+Studies that compare a loop with and without its critic, or a loop with a single answer, change both at once, so they cannot say which of the two is responsible for a gain.
+
+Consider one of our models (\ds).
+A loop with a critic ends with a correct majority answer on 157 of 400 questions.
+A loop that is identical except that its feedback always reads ``no problem was found'' ends with 145.
+The critic seems to be worth 12 questions.
+But the two loops did not have the same material to choose from.
+With the critic, a correct answer appeared somewhere among the loop's answers on 198 questions; without it, on 153.
+The critic led to a correct answer on 45 more questions, and only 12 more ended as the majority answer.
+
+This paper shows that the pattern holds across three models and examines why.
+We measure two outcomes for every method.
+A question is \emph{reached} if a correct answer appears anywhere among the answers the method produces; this is the coverage of \citet{brown2024monkeys}.
+It is \emph{selected} if the most frequent of those answers is correct.
+We then vary the feedback in the loop one step at a time (Section~\ref{sec:setup}).
+In the \emph{reassuring loop} the feedback says that no problem was found.
+In the \emph{generic-doubt loop} the feedback raises doubts drawn from five fixed sentences, the same for every question, written without reading anything.
+In the \emph{critique loop} a critic, which is the same model, reads the question and the answer and writes doubts specific to them.
+As a reference outside the loop design we take a majority vote over nine \emph{independent samples}, known as self-consistency \citep{wang2023selfconsistency}.
+One model plays every role, no reference answer enters any loop, and nothing is trained.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figs/reach_select.pdf}
+  \caption{Questions out of 400 that each method \emph{reaches} (a correct answer appears among its answers; open circle) and \emph{selects} (its most frequent answer is correct; filled circle). The dashed line marks the first answer, which all three loops share. The critique loop moves the open circle far more than the filled one.}
+  \label{fig:reach}
+\end{figure}
+
+Our main result is that \textbf{specific critique adds to what a model finds}, compared with loops that have no critic.
+The other three results are an account, largely exploratory, of why the gain in what is selected is smaller and harder to establish (Figure~\ref{fig:reach}).
+
+\textbf{Specific critique finds more correct answers.}
+The critique loop reaches more questions than the generic-doubt loop and the reassuring loop on all three models (198, 171 and 153 on \ds; 182, 149 and 123 on \qw; 152, 128 and 125 on \mm).
+The advantage holds when every method is limited to its first three distinct answers and when only exact matches count as correct.
+It is an advantage over loops without a critic; against nine independent samples the comparison depends on the model and on the scoring.
+
+\textbf{A gain in selected questions is not established.}
+On the third model we fixed one confirmatory test in advance, that the critique loop selects more questions than the reassuring loop; its interval includes zero.
+The estimate is positive on all three models and its mean over them excludes zero, so a gain may well exist; but it is not established, and it is far smaller than the gain in reach.
+The critique loop's gain in selected questions arises on questions that only it reaches.
+
+\textbf{Much is selected without a critic.}
+Asking again with mere reassurance already adds 21 to 32 selected questions to the first answer; the critic adds 12, 23 and 5 more.
+The critique loop also selects more questions than the majority answer of nine independent samples on each model, although it reaches no more; part of this margin depends on how differently written answers are counted.
+
+\textbf{The same model did not improve on the vote.}
+The critique loop's last answer is worse than its majority answer, and on one model three ways of asking the model to judge its own changes of answer were right about half of the time wherever they could have changed the outcome.
+
+Parts of this picture are known: models verify their own output poorly \citep{huang2024cannot,stechly2024selfverification,song2024mindgap}, and a correct answer is often present among a model's samples without being chosen \citep{brown2024monkeys,jain2026cliff}.
+What we add is attribution inside the loop.
+Placebo loops hold the rest of the loop fixed while the feedback changes, and the two outcomes show where a critic acts: clearly on what is reached, and not demonstrably on what is selected.
+We release all answers, per-answer scores, judge verdicts and analysis code.
+
+\section{Related Work}
+
+\paragraph{Sampling, coverage and voting.}
+Self-consistency samples several answers and returns the most frequent one \citep{wang2023selfconsistency,aggarwal2023adaptive}; universal self-consistency asks the model to pick the consensus among free-form answers \citep{chen2023usc}.
+\citet{brown2024monkeys} separate two things that sampling must achieve, following \citet{chen2021codex}: \emph{coverage}, meaning that some sample is correct, and identifying which one.
+Coverage keeps growing with more samples while voting saturates \citep{chen2024morecalls}, and an imperfect verifier limits what resampling can achieve \citep{stroebl2024flaws}.
+\citet{jain2026cliff} measure the same gap on competition mathematics and find that a model selects correctly far less often than its samples contain a correct answer.
+We apply this two-part view to the answers of a revision loop and ask which part of the loop moves which quantity.
+
+\paragraph{Self-correction.}
+Self-Refine and Reflexion iterate generation and feedback from one model \citep{madaan2023selfrefine,shinn2023reflexion}.
+Later studies are less positive.
+Gains largely disappear when no information about the correct answer leaks into the loop \citep{huang2024cannot}; self-critique can hurt where a sound external verifier helps \citep{stechly2024selfverification}; models find their own errors poorly \citep{tyen2024cannot} and favour their own output \citep{xu2024pride}; see \citet{kamoi2024when} for a survey and \citet{song2024mindgap} for a formal treatment of the gap between generating and verifying.
+These studies score the loop by its last answer.
+Others compare iterative methods with voting: \citet{bilal2026refining} refine sampled answers with self-critique and then vote, work on multi-agent debate attributes most of its gains to the final vote \citep{smit2024mad,choi2025debate}, and at equal compute self-consistency often matches reflection and debate \citep{wang2024token}.
+
+\paragraph{Placebo controls.}
+Doubt without content is known to move answers: asked ``Are you sure?'', models often change a correct answer \citep{laban2024flipflop}.
+In code repair, where a failed program can be executed, placebo-controlled studies with small models find that sampling again without feedback is hard to beat and disagree on whether feedback content matters beyond a content-free placebo \citep{iscan2026falsification,iscan2026form,verma2026blind}.
+Our setting has no executable signal, and we report reaching and selecting separately.
+
+\paragraph{Verifiers and judges.}
+Trained verifiers supply the external signal that self-correction lacks \citep{lightman2024verify}; models used as judges favour their own outputs \citep{zheng2023judging,panickssery2024evaluators}, and agreement among samples is not verification \citep{denisov2026consensus}.
+\citet{zhao2025sample} report that a model can verify its outputs when it compares a large pool of independent responses, while \citet{hu2026oracle} find that same-family selectors do more harm than good on fixed pools of answers.
+
+\section{Setup}
+\label{sec:setup}
+
+\paragraph{The loop.}
+A \emph{solver} answers each question once without sampling (temperature 0); we call this the \emph{first answer}.
+In each later round the solver is shown the question, its previous answer and a feedback message, and answers again.
+It is told to keep its answer if it believes the answer is correct.
+The loop stops when the solver has given the same answer three times in a row, or after ten rounds of feedback.
+The three loops of a model start from the same first answer and differ only in the feedback.
+
+\paragraph{Methods.}
+Table~\ref{tab:conditions} lists the four methods.
+In the \emph{reassuring loop} the feedback is always the sentence ``No confident error direction was found for this answer.''
+In the \emph{critique loop} the feedback is written by a \emph{critic}, a separate call to the same model.
+The critic reads the question, the current answer and the end of the solver's reasoning.
+It must return one to three doubts, each with a check that the solver can carry out without knowing the reference answer.
+It may not name an answer and is told not to solve the question again.
+In the \emph{generic-doubt loop} no model is called and nothing is read.
+The feedback consists of one to three doubts in the same format, assembled from five fixed sentences such as ``you may have discounted a constraint stated in the problem''.
+The number of doubts in a round is drawn from the distribution that the critic produced on the first model (three doubts in 86\% of rounds), so that the two loops apply a similar amount of doubt in the same format.
+They still differ in more than specificity: the critic's feedback is longer and new in every round, whereas the generic doubts are redrawn from the same five sentences; it comes from a model call that has read the question and the solver's reasoning; and that call costs tokens (the critique loop uses 2.1 to 2.5 times the tokens of the reassuring loop).
+When we write ``specific critique'' we mean this whole package.
+\emph{Independent samples} are nine answers drawn at temperature 0.7 with the prompt of the first answer.
+A variant of the critic that is restricted to a fixed list of error types was run on one model and is reported in Appendix~\ref{app:bank}.
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lp{2.75cm}cc@{}}
+\toprule
+Method & Feedback & Again & Doubt \\
+\midrule
+Reassuring loop & ``no problem found'' & \checkmark & none \\
+Generic-doubt loop & 1--3 fixed sentences, same for all questions & \checkmark & generic \\
+Critique loop & 1--3 doubts by a critic that read the answer & \checkmark & specific \\
+Independent samples & none; 9 separate answers & & none \\
+\bottomrule
+\end{tabular}
+\caption{The four methods. \emph{Again}: the model is asked again with its previous answer in view. Going down the first three rows adds generic doubt, and then replaces it by the output of a critic call that reads the question and the answer.}
+\label{tab:conditions}
+\end{table}
+
+\paragraph{Models and data.}
+We use 400 text-only questions of Humanity's Last Exam \citep{phan2025hle}, sampled with stratification by subject (84 multiple choice, 316 open-form).
+Three models from three providers each run all four methods: deepseek-v4-flash (\ds), qwen3.8-flash (\qw) and MiniMax-M2.5 (\mm).
+Every call may use up to 16{,}384 tokens of reasoning and 8{,}192 tokens of visible output.
+The first answer is correct on 113, 69 and 81 questions, so the questions are hard for all three models.
+
+\paragraph{Scoring.}
+Every answer of every round is scored.
+An answer is first compared with the reference by exact matching after normalization.
+If it does not match, a \emph{grader}, a model from a different provider, decides whether it states the same final answer as the reference; identical answers receive identical grades in all methods (Appendix~\ref{app:scoring}).
+An answer cut off at the token limit is incorrect.
+Because the grader can only accept answers that exact matching rejected, it could favour methods that produce more distinct answers; we therefore repeat the main comparisons with exact matching alone.
+A partial human audit of the grading is described in Appendix~\ref{app:audit}.
+
+\paragraph{Outcomes.}
+Table~\ref{tab:terms} defines the quantities we report.
+All of them are computed from the list of answers that a method gives to a question: the answers of the successive rounds of a loop, or the nine samples.
+Two answers that mean the same but are written differently count as two candidates and split the vote, in every method.
+When several candidates tie for most frequent, we pick among them at random in every method and score the question by its expected value, for example 0.5 if one of two tied candidates is correct; this is why counts of selected questions can be fractional.
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lp{5.6cm}@{}}
+\toprule
+Term & Meaning (per question, then counted over 400) \\
+\midrule
+Candidate & A distinct answer in the list; two answers are the same candidate if they agree after normalization. \\
+Reached & Some candidate is correct. \\
+Majority answer & The most frequent candidate (for samples, the usual majority vote). \\
+Selected & The majority answer is correct. \\
+Conversion & Selected divided by reached: the share of reached questions that are also selected. \\
+Final & The last answer of a loop is correct. \\
+\bottomrule
+\end{tabular}
+\caption{Outcomes. \emph{Reached} and \emph{selected} are counts of questions; \emph{conversion} is a share. We use ``selected'' only for the count.}
+\label{tab:terms}
+\end{table}
+
+\paragraph{Statistics.}
+Methods are compared on the same questions.
+For yes-or-no outcomes (reached, final) we use exact McNemar tests and report the two discordant counts as $a/b$: $a$ questions on which only the first method succeeds and $b$ on which only the second does.
+For selected questions we use a paired sign-flip permutation test on per-question scores (10{,}000 permutations) and 95\% bootstrap intervals over questions, written in brackets.
+Pooled estimates add the three models' per-question differences and are reported as a mean per model.
+$P$-values are not adjusted for multiple comparisons.
+
+\paragraph{What was fixed in advance.}
+The study was run one model at a time, and the tests for each later model were written down before its data existed (Appendix~\ref{app:prereg}).
+For the third model we fixed a single confirmatory test, that the critique loop selects more questions than the reassuring loop, with five secondary tests.
+The comparisons of reach and the comparison with independent samples were also fixed in advance for the second and third model.
+The plan, recorded in dated internal documents and not registered externally, was to present reach and selection as two headline results if this test held, and reach alone if it did not; it did not, and reach is our headline.
+Conversion, the split of questions by which method reaches them, the comparison of the final answer with the majority answer, and all pooled estimates are exploratory: we computed them after seeing the data, and we use them to interpret the failed test, not to replace it.
+
+\section{Results}
+
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3.4pt}
+\begin{tabular}{@{}l rrrr c rrrr c rrrr@{}}
+\toprule
+ & \multicolumn{4}{c}{\ds{} (first answer 113)} & & \multicolumn{4}{c}{\qw{} (first answer 69)} & & \multicolumn{4}{c}{\mm{} (first answer 81)} \\
+\cmidrule(lr){2-5}\cmidrule(lr){7-10}\cmidrule(l){12-15}
+Method & Final & Sel. & Reached & Conv. & & Final & Sel. & Reached & Conv. & & Final & Sel. & Reached & Conv. \\
+\midrule
+Reassuring loop & 141 & 145.0 & 153 & \textbf{.95} & & 89 & 90.8 & 123 & \textbf{.74} & & 100 & 101.7 & 125 & \textbf{.81} \\
+Generic-doubt loop & 142 & 146.1 & 171 & .85 & & 92 & 95.6 & 149 & .64 & & 101 & 102.3 & 128 & .80 \\
+Critique loop & 148 & \textbf{157.4} & \textbf{198} & .79 & & 112 & \textbf{114.1} & \textbf{182} & .63 & & 99 & \textbf{106.9} & 152 & .70 \\
+Independent samples & -- & 136.7 & 190 & .72 & & -- & 91.0 & 171 & .53 & & -- & 94.7 & \textbf{173} & .55 \\
+\bottomrule
+\end{tabular}
+\caption{Questions answered correctly, out of 400, for three models. \emph{Final}: the loop's last answer. \emph{Sel.}: selected. \emph{Conv.}: conversion, selected divided by reached. Terms as in Table~\ref{tab:terms}. Conversion is an exploratory, descriptive ratio: methods reach different questions, so it compares different sets.}
+\label{tab:main}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\fontsize{8}{9.6}\selectfont
+\setlength{\tabcolsep}{1.5pt}
+\begin{tabular}{@{}l ll c ll c ll c l@{}}
+\toprule
+ & \multicolumn{2}{c}{\ds} & & \multicolumn{2}{c}{\qw} & & \multicolumn{2}{c}{\mm} & & Mean of three \\
+\cmidrule(lr){2-3}\cmidrule(lr){5-6}\cmidrule(lr){8-9}\cmidrule(l){11-11}
+Comparison & Reached & Selected & & Reached & Selected & & Reached & Selected & & Selected \\
+\midrule
+Critique -- reassuring & 52/7$^{***}$ & $+12.4$ \ci{-1.6}{25.6} & & 69/10$^{***}$ & $+23.3$ \ci{8.8}{39.2} & & 38/11$^{***}$ & $+5.2$ \ci{-6.9}{18.0} & & $+13.6$ \ci{5.1}{22.2} \\
+Critique -- generic & 39/12$^{***}$ & $+11.3$ \ci{-0.8}{23.7} & & 49/16$^{***}$ & $+18.5$ \ci{3.9}{34.3} & & 37/13$^{***}$ & $+4.6$ \ci{-8.4}{16.8} & & $+11.5$ \ci{3.4}{20.1} \\
+Generic -- reassuring & 28/10$^{**}$ & $+1.2$ \ci{-10.1}{12.5} & & 42/16$^{***}$ & $+4.8$ \ci{-8.1}{18.6} & & 21/18 & $+0.7$ \ci{-11.4}{12.8} & & $+2.2$ \ci{-5.2}{9.8} \\
+Critique -- samples & 29/21 & $+20.7$ \ci{9.0}{32.4} & & 44/33 & $+23.1$ \ci{9.6}{38.6} & & 19/40$^{**}$ & $+12.2$ \ci{1.0}{24.0} & & $+18.7$ \ci{10.7}{26.4} \\
+\bottomrule
+\end{tabular}
+\caption{Paired comparisons on the same 400 questions. \emph{Reached}: $a/b$ means that $a$ questions are reached only by the first method and $b$ only by the second (exact McNemar test; $^{**}p<0.01$, $^{***}p<0.001$). \emph{Selected}: difference in selected questions, first minus second, with 95\% bootstrap interval. The comparison in the first row on \mm{} was the single confirmatory test fixed in advance; its interval contains zero.}
+\label{tab:pairs}
+\end{table*}
+
+Table~\ref{tab:main} gives the outcomes of every method and Table~\ref{tab:pairs} the paired comparisons.
+We take the four results in turn.
+
+\subsection{Specific critique finds more correct answers}
+\label{sec:reach}
+
+The critique loop reaches more questions than the reassuring loop on every model: 198 against 153, 182 against 123, and 152 against 125.
+It also reaches more than the generic-doubt loop: 198 against 171, 182 against 149, and 152 against 128.
+All six differences are significant at $p<0.001$ (Table~\ref{tab:pairs}).
+
+Doubt without specific content helps less, and not on every model.
+The generic-doubt loop reaches more than the reassuring loop on \ds{} and \qw{} (171 against 153, 149 against 123) but not on \mm{} (128 against 125; $p=0.75$).
+\mm{} reads the generic doubts (its reasoning repeats their wording in 88\% of rounds) but seldom acts on them: its answer changes after 41\% of generic-doubt rounds, against 36\% after reassurance and 59\% after critique.
+What reliably produces new correct answers, among the loops, is feedback written by a critic for the answer at hand.
+
+\paragraph{Is it only more answers?}
+The critique loop produces more candidates per question than the placebo loops (3.2 to 3.7 against 2.0 to 2.9), and more candidates mean more chances.
+We therefore count only the first $k$ candidates of each method (Table~\ref{tab:robust} in Appendix~\ref{app:more}).
+With three candidates the critique loop stays ahead of the generic-doubt loop on all models (discordant pairs 35/11, 41/18 and 33/12; $p\le 0.004$).
+With two it stays ahead on \ds{} and \qw{} (33/9 and 37/19) and is not significantly ahead on \mm{} (23/13, $p=0.13$).
+
+\paragraph{Is it the scoring?}
+With exact matching alone every count falls and the order of the loops is unchanged: critique against generic doubt gives 31/11, 35/12 and 24/9 ($p\le 0.01$).
+
+\paragraph{Critique against sampling.}
+Critique is not consistently a better way of finding answers than drawing independent samples at similar cost.
+The critique loop and nine samples reach similar numbers of questions on \ds{} and \qw{} (198 against 190, 182 against 171; not significant), and sampling reaches more on \mm{} (173 against 152; 19/40 in Table~\ref{tab:pairs}, $p=0.009$).
+Under exact matching the picture is mixed in another way: 122 against 120 on \ds, 117 against 93 on \qw, where the critique loop is clearly ahead, and 98 against 111 on \mm.
+The two cost about the same: 61, 36 and 45 million tokens for the critique loop, critic included, and 51, 32 and 45 million for nine samples.
+
+
+\subsection{No established gain in selected questions}
+\label{sec:select}
+
+\paragraph{The confirmatory test.}
+In counts of selected questions the critique loop is ahead of the reassuring loop by 12.4, 23.3 and 5.2 (Table~\ref{tab:pairs}).
+Only the second difference is significant on its own.
+The third was our confirmatory test, and its interval contains zero (\ci{-6.9}{18.0}, $p=0.42$).
+The test is inconclusive, not evidence of no effect: its interval spans about twelve questions either way, the estimate is positive on every model, and the mean over the three is 13.6 (\ci{5.1}{22.2}), an exploratory estimate.
+What we can say is that the gain is not established by the test we committed to, and that it is much smaller than the gain in reach (45, 59 and 27 questions).
+The picture is the same when only exact matches count as correct: the differences are $+12.5$, $+12.1$ and $+1.4$, with a mean of 8.7 (\ci{1.9}{15.8}; Appendix~\ref{app:more}).
+The rest of this section is exploratory and asks why.
+
+\paragraph{Conversion.}
+If critique helped the model pick out a correct answer, the critique loop might select a larger share of what it reaches.
+It selects a smaller share: conversion is below that of the reassuring loop by 0.15 on \ds{} (interval \ci{-0.21}{-0.09}), 0.11 on \qw{} (\ci{-0.20}{-0.03}) and 0.11 on \mm{} (\ci{-0.20}{-0.03}).
+Part of this is composition: the questions that only the critique loop reaches are ones on which the first answer was wrong, and such questions are harder to select in any method.
+
+\paragraph{Where the selected questions come from.}
+Table~\ref{tab:split} splits the questions by which loop reaches them.
+The questions that only the critique loop reaches (52, 69 and 38) are the source of its gain: it selects about half of them (27.8, 31.8 and 16.3).
+On the questions that both loops reach, the critique loop selects fewer than the reassuring loop on every model ($-10.4$, $-2.5$ and $-4.8$).
+The loss is significant on \ds{} and in the pooled data (mean per model $-5.9$, \ci{-10.9}{-1.1}, $p=0.025$).
+The net difference in Table~\ref{tab:pairs} is the first effect minus the second and minus the few questions that only the reassuring loop reaches.
+
+This split groups questions by an outcome, so it describes where the gain arises and does not show that critique harms selection: the questions a reassuring loop reaches are mostly those the first answer already had right, which are easy to keep.
+Against the generic-doubt loop, on questions both reach, the critique loop is neither better nor worse (mean per model $-0.9$, \ci{-6.6}{4.6}).
+The pattern is consistent with doubt of either kind making correct answers somewhat less secure, but our design does not test this directly.
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3.6pt}
+\begin{tabular}{@{}l rrr@{}}
+\toprule
+ & \ds & \qw & \mm \\
+\midrule
+\multicolumn{4}{@{}l}{\emph{Reached by both loops}} \\
+\quad questions & 146 & 113 & 114 \\
+\quad selected, critique & 129.6 & 82.3 & 90.6 \\
+\quad selected, reassuring & 140.0 & 84.8 & 95.3 \\
+\quad difference & $-10.4^{**}$ & $-2.5$ & $-4.8$ \\
+\multicolumn{4}{@{}l}{\emph{Reached only by the critique loop}} \\
+\quad questions & 52 & 69 & 38 \\
+\quad selected, critique & 27.8 & 31.8 & 16.3 \\
+\multicolumn{4}{@{}l}{\emph{Reached only by the reassuring loop}} \\
+\quad questions & 7 & 10 & 11 \\
+\quad selected, reassuring & 5.0 & 6.0 & 6.3 \\
+\midrule
+Net difference & $+12.4$ & $+23.3$ & $+5.2$ \\
+\bottomrule
+\end{tabular}
+\caption{Where the critique loop's selected questions come from. Its gain over the reassuring loop arises on questions that only it reaches; on questions both reach it selects fewer ($^{**}p<0.01$, permutation test).}
+\label{tab:split}
+\end{table}
+
+\paragraph{The last answer.}
+A loop's own conclusion is its last answer.
+In the critique loop the last answer is correct less often than the majority answer: 148 against 157.4 on \ds{} ($p=0.04$), 112 against 114.1 on \qw, and 99 against 106.9 on \mm{} ($p=0.02$); the mean per model is $-6.5$ (\ci{-11.2}{-1.8}, $p=0.006$).
+In the reassuring loop the two are close (141 and 145.0, 89 and 90.8, 100 and 101.7).
+The last answer of the critique loop is better than that of the reassuring loop on \qw{} (discordant 48/25, $p=0.01$) and not on \ds{} (29/22) or \mm{} (24/25), in line with earlier negative findings for self-correction scored by its last answer \citep{huang2024cannot}.
+
+\subsection{Much is selected without a critic}
+\label{sec:mech}
+
+Where, then, do the selected questions come from?
+The first answer is correct on 113, 69 and 81 questions.
+Asking again with reassurance as the only feedback brings the selected count to 145.0, 90.8 and 101.7, a gain of 32.0, 21.8 and 20.7; the figure for \ds{} is an upper bound, since 28 of its first answers were cut off at the token limit and counted as incorrect.
+The critic then adds 12.4, 23.3 and 5.2.
+On \qw{} the two steps are equal; on the other two models the first is the larger.
+
+The first step is the solver revising its answer when asked again, not the vote: in the reassuring loop the last answer is correct almost as often as the majority answer (141, 89 and 100), so the vote itself contributes only 2 to 4 questions.
+Why does revision without information help?
+
+\paragraph{Correct answers are repeated more often.}
+Table~\ref{tab:stay} gives the probability that the next answer is the same as the current one, separately for correct and incorrect current answers.
+In every loop and on every model a correct answer is more likely to be repeated than an incorrect one, so a solver that is asked again tends to leave correct answers and move off incorrect ones.
+Under reassurance the ratio of the two probabilities is 1.4, 1.2 and 1.2.
+Nothing in the feedback points to the correct answer, so this pattern is consistent with a preference of the model's own; it may also reflect that easy questions are both stable and often right, which these pooled probabilities cannot separate.
+Independent samples show the same preference in another form: two samples agree more often when one of them is correct (ratios 1.8, 1.4 and 1.7).
+
+Critique changes these probabilities in two ways.
+It lowers the probability that an incorrect answer is repeated (from 0.54 to 0.25 on \ds), which is how it finds new answers.
+It also lowers the probability that a correct answer is repeated (from 0.77 to 0.53).
+The ratio rises, to 2.1, 1.6 and 1.4.
+A secondary test on this ratio, fixed in advance, holds on \qw{} and \mm{} (Appendix~\ref{app:prereg}).
+But a ratio rises whenever both probabilities fall by similar amounts: the absolute gap changes little (0.23 to 0.28, 0.12 to 0.17, 0.14 to 0.16), and on \mm{} the odds ratio is unchanged (1.9).
+The rise is weak evidence at best that critique tells correct answers from incorrect ones.
+What is clear is that the correct answer is repeated less often and competes with more candidates, and conversion falls (Figure~\ref{fig:conv}).
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{2.1pt}
+\begin{tabular}{@{}l ccc c ccc c ccc@{}}
+\toprule
+ & \multicolumn{3}{c}{\ds} & & \multicolumn{3}{c}{\qw} & & \multicolumn{3}{c}{\mm} \\
+\cmidrule(lr){2-4}\cmidrule(lr){6-8}\cmidrule(l){10-12}
+ & cor. & inc. & ratio & & cor. & inc. & ratio & & cor. & inc. & ratio \\
+\midrule
+Reassure & .77 & .54 & 1.4 & & .68 & .56 & 1.2 & & .73 & .59 & 1.2 \\
+Generic & .69 & .41 & 1.7 & & .51 & .40 & 1.3 & & .70 & .54 & 1.3 \\
+Critique & .53 & .25 & 2.1 & & .46 & .29 & 1.6 & & .53 & .37 & 1.4 \\
+Samples & .50 & .28 & 1.8 & & .36 & .26 & 1.4 & & .45 & .26 & 1.7 \\
+\bottomrule
+\end{tabular}
+\caption{Probability that the next answer repeats the current one, when the current answer is correct (cor.) and incorrect (inc.), and their ratio. For independent samples, which have no order, the entry is the probability that two different samples agree. Intervals are in Appendix~\ref{app:more}.}
+\label{tab:stay}
+\end{table}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figs/conversion.pdf}
+  \caption{Conversion against the probability that two consecutive answers differ (for independent samples: that two samples differ). Each line joins the four methods of one model. Methods that make the model change its answer more often select a smaller share of what they reach.}
+  \label{fig:conv}
+\end{figure}
+
+\paragraph{The critique loop against sampling.}
+The critique loop selects more questions than a vote over nine independent samples on all three models: $+20.7$, $+23.1$ and $+12.2$ (Table~\ref{tab:pairs}).
+This comparison was fixed in advance for the second and third model.
+Its criterion, an interval that excludes zero, is met on each, but only narrowly on \mm{}, where the interval is \ci{1.0}{24.0} and the permutation test gives $p=0.051$; we do not count that case as more than suggestive.
+The advantage does not come from reach, which is no higher than for sampling (Section~\ref{sec:reach}).
+On the questions that both methods reach, the critique loop selects 10.5, 15.4 and 14.0 more than sampling (mean per model $+13.3$, \ci{7.4}{19.5}; exploratory).
+Independent samples spread their votes over more candidates (4.5 to 4.8 per question).
+We cannot say which feature of the loop is responsible, because a loop differs from sampling in several ways at once: it sees its previous answer, it is told to keep an answer it believes, it stops after three repeats, and it runs at temperature 0 where sampling uses 0.7.
+The reassuring loop has all of these features and selects about as many questions as nine samples, with about half the tokens (differences of $+8.2$, $-0.2$ and $+6.9$, none significant), so they do not by themselves beat sampling.
+
+Four analyses limit this advantage (Appendix~\ref{app:more}).
+Under exact matching the margin is 12.0, 17.9 and 3.6, and on \mm{} its interval includes zero (\ci{-5.2}{13.5}).
+If all answers scored correct are merged before voting, which favours sampling, the margin falls to 13.0, 12.2 and 5.4, and only the first interval excludes zero.
+On \ds, eleven samples, which cost as much as the critique loop, leave a margin of $+19.2$ (\ci{7.0}{31.1}); but when the model itself picks the consensus among them \citep{chen2023usc}, the margin is $+12.4$ with an interval that reaches zero (\ci{-0.7}{25.6}).
+Part of the advantage thus reflects how a plain vote counts free-form answers that are written differently.
+
+\subsection{The same model did not improve on the vote}
+\label{sec:judges}
+
+The critique loop leaves 41, 68 and 45 reached questions unselected.
+Could the model recover them by judging its own changes of answer?
+We tested this once, on \ds{} and on a variant of the critique loop whose critic must choose its doubts from a fixed list (Appendix~\ref{app:bank}); it behaves like the critique loop, reaching 192 questions, of which 154 are selected when ties go to the more recent answer.
+
+We call a step from one answer to a different answer in consecutive rounds a \emph{change}.
+The loops contain 1{,}199 changes; 160 turn an incorrect answer into a correct one and 143 do the opposite.
+If every harmful change could be undone, about 173 questions would be selected, so there is room to gain for anything that can tell helpful changes from harmful ones.
+We asked the same model to act as a \emph{judge} of each change in three ways, never showing it a reference answer: by rating the new answer, by rating it with the question in view and quoting the step objected to, and by deciding whether the critic's doubt before the change was justified.
+Each judge's verdicts then adjust the vote, with weights estimated on half of the questions and applied to the other half.
+
+No judge selects more questions than the unadjusted vote on either half (Table~\ref{tab:judges} in Appendix~\ref{app:judges}).
+Two of the judges are better than chance at telling whether a single change was an improvement (57\%, 59\% and 66\% correct), but so is a rule that ignores the judge and looks only at the votes: guess that a change was an improvement if the new answer ends with at least as many votes as the old one.
+A judge can alter the outcome only where it disagrees with this vote-count rule, and there the three judges are right 49\%, 45\% and 49\% of the time.
+
+This result covers one model and one loop, and each judge disagrees with the vote-count rule on only 37 to 150 changes, so a judge that is right up to about 65\% of the time there cannot be excluded.
+It agrees with the finding of Section~\ref{sec:select} that the solver's own last answer is worse than its majority answer, and it does not conflict with verification over large pools of independent responses \citep{zhao2025sample}, since our judges see one loop with three to four candidates.
+
+\section{Discussion}
+
+\paragraph{Two parts of a loop.}
+Asking again lets the solver revise, and it leaves correct answers less often than incorrect ones; this needs no critic and accounts for 21 to 32 selected questions.
+Critique pushes the model away from its current answer; it is where a loop's new answers come from, and its content matters, since specific doubts find more than generic ones on every model.
+Sampling at a higher temperature often finds as many, so one possibility, which we did not test, is that critique mainly restores the variety that a loop anchored on one answer lacks.
+Whether the critic also raises the number of selected questions is not established: the estimated gain is smaller than the gain in reach and was not confirmed by the test fixed in advance.
+
+\paragraph{Reading earlier results.}
+Scored by its last answer, self-critique often fails \citep{huang2024cannot,stechly2024selfverification}; the last answer is the output of the search, taken without the vote.
+Scored by its majority answer and compared with sampling, a critique loop looks good \citep{bilal2026refining}, here on all three models, though part of that margin depends on how differently written answers are counted.
+Compared with a loop that only reassures, the critic's contribution to selected questions is smaller than its contribution to reach and is not established.
+
+\paragraph{Use.}
+A loop's answer should be taken by vote over its rounds, not from its last round.
+Where nothing outside the model can check an answer, a reassuring loop selects about as many questions as nine samples at half the cost, and a critic adds 5 to 23, not reliably, for 2.1 to 2.5 times the tokens.
+Where a tool, a test or another model can check answers, reach is what matters; there specific critique reaches 27 to 59 more questions than a reassuring loop, though independent sampling reaches as many.
+Closing the gap between reached and selected seems to need information from outside the model.
+
+\section{Conclusion}
+
+A self-critique loop asks a model again and criticizes its answer.
+Asking again, with no information in the feedback, already raises the number of correct answers.
+Criticizing the answer makes the model find more correct answers than a loop without a critic does, though not consistently more than independent sampling finds.
+A matching gain in selected questions is not established: the confirmatory test was inconclusive, and the estimated gain is far smaller than the gain in reach on all three models.
+The gap between reached and selected was not closed by the model's own last answer on any model, nor by the model acting as a judge on the one model where we tried.
+
+\section*{Limitations}
+
+All results come from one benchmark of hard questions, with one run per method and model, and no prompt was tuned.
+On easier tasks, where the first answer is usually right, revision breaks more than it fixes, and the balance between reach and conversion will differ.
+The reference answers of the benchmark contain errors \citep{zhai2026hleverified}, which adds noise to every method.
+
+The criterion of the confirmatory test was not met, and that of one secondary test was not met either: on the third model generic doubt does not reach more than reassurance.
+Conversion, the split by reach, the comparison of last and majority answers and the pooled estimates were not fixed in advance.
+The split conditions on an outcome and cannot by itself establish that critique harms selection.
+
+The repeat probabilities of Table~\ref{tab:stay} pool rounds across questions and are cut short by the rule that stops a loop after three identical answers; correct answers may repeat more partly because easy questions are stable.
+
+The reassuring loop does not isolate the act of asking again: it also anchors on one answer, tells the solver to keep an answer it believes, stops after three repeats and uses temperature 0, and we did not vary these separately.
+
+The generic-doubt loop matches the critique loop in the format of doubt and, on \ds, in its amount (Section~\ref{sec:setup} lists what it does not match).
+The number of doubts was taken from \ds{} for all models; on \mm{} the critic issued three doubts in 66\% of rounds against 86\% in the generic-doubt loop, so there the generic-doubt loop applied somewhat more doubts than the critic.
+It does not match the critic in length, in being written by a model that read the question, or in the computation of the critic call.
+We therefore attribute the reach advantage to specific critique of the question and answer, without separating reading the question from reading the answer.
+On two models about one critique in ten contains the solver's next answer, equally often before helpful and harmful changes (Appendix~\ref{app:more}); this check cannot detect a critic that gives a derivation and stops short of the answer.
+
+About four in ten correct answers are accepted by the grader and not by exact matching.
+The comparisons of reach and of selected questions were repeated with exact matching alone and lead to the same conclusions.
+In the completed part of a human audit (65 of 100 sampled answers), the grader was not found to reject a correct answer and was found to accept numerical answers that match the reference only after rounding (Appendix~\ref{app:audit}).
+
+The judge study and the comparisons at equal cost use one model.
+Critic tokens were measured on the third model and estimated from replays of 50 calls on the first two.
+About a third of the calls of \mm{} and half of those of \ds{} used the full reasoning allowance.
+The analyses fixed in advance were recorded in dated internal documents and not registered externally.
+
+\section*{Ethics Statement}
+
+The study uses a public benchmark and commercial model interfaces.
+Two people checked a sample of scored answers; no personal data were collected.
+We see no specific risk beyond those of the underlying models.
+
+\bibliography{refs}
+
+\appendix
+
+\section{Methods and Prompts}
+\label{app:prompts}
+
+\paragraph{Solver.}
+The first answer uses the benchmark prompt.
+In later rounds the solver receives the question again with this message: ``A reviewer looked at your PREVIOUS answer to this question and gave feedback. Your previous answer was: [answer]. Reviewer feedback: [feedback]. Reconsider the question and provide your final answer again. If you believe your previous answer was already correct, keep it as is.''
+Each round is a separate call; no conversation history is carried over.
+
+\paragraph{Reassuring loop.}
+The feedback is the fixed sentence ``No confident error direction was found for this answer.''
+
+\paragraph{Critique loop.}
+The critic's system prompt states that it inspects a committed answer to a hard question and identifies the most likely wrong directions; that it never reads the reference answer, never gives a probability, never names the correct answer or any answer content, and speaks only of possibilities.
+The user message contains the question, the answer and the last 6{,}000 characters of the solver's reasoning.
+The critic returns one to three doubts, each with a short label, a suspicion about this answer's specific shortcoming, and a check that the solver can run without the reference answer; it is told not to derive or solve the question again.
+The critic returned three doubts in 86\% of rounds on \ds, 95\% on \qw{} and 66\% on \mm.
+If the critic fails twice, the round uses the reassuring sentence (30 of 2{,}358 rounds on \ds, 10 on \qw, 4 on \mm).
+
+\paragraph{Generic-doubt loop.}
+Each round draws a number of doubts $k\in\{3,2,1\}$ with probabilities 0.86, 0.11 and 0.03, the distribution observed for the critic on \ds{} and used for all models, and then $k$ of five generic sentences without replacement, seeded by the question identifier and the round.
+Each is rendered as ``[name]: you may have [generic suspicion]. To check: [generic check].'', for example ``constraint-blind decimation: you may have discounted a constraint or condition stated in the problem. To check: re-read the problem statement, list every stated constraint, and confirm the answer satisfies each one.''
+The five sentences are named after the error types of Appendix~\ref{app:bank}.
+
+\paragraph{Independent samples.}
+Samples use the prompt of the first answer at temperature 0.7.
+Sampling does not lower the quality of single answers: one sample is correct on 117, 80 and 82 questions on average, against 113, 69 and 81 for the first answer.
+
+\section{The Restricted Critic}
+\label{app:bank}
+
+The study began with a critic that must choose each doubt from a list of five error types.
+The list was distilled from 33 incorrect answers of deepseek-v4-flash on six other benchmarks (GPQA-Diamond, MMLU-Pro, MATH-500, BFCL, BBH and AIME): constraint-blind decimation; descriptor or label conflation; procedure truncation or omission; retrieval abort; format or precision non-conformance.
+No question or answer from Humanity's Last Exam enters the list.
+The critique loop of the main text, whose critic is free to name the shortcoming itself, was introduced as a control for this list.
+
+On \ds{} the restricted critic gives final 140, selected 150.9 and reached 192, against 148, 157.4 and 198 for the critique loop; the differences are not significant (reached 23/17; selected $+6.5$, \ci{-6.4}{18.9}).
+We had fixed in advance that the list would be judged to have no identifiable effect if the unrestricted critic reached at most five questions fewer; it reaches six more.
+The restricted critic was not run on the other models, and the main text uses the unrestricted critic throughout.
+Against the two placebo loops the restricted critic's selected questions differ by $+5.9$ (\ci{-6.8}{18.5}) and $+4.8$ (\ci{-6.5}{16.4}); against nine samples by $+14.1$ (\ci{2.5}{26.7}).
+
+\section{Scoring Protocol}
+\label{app:scoring}
+
+\paragraph{Steps.}
+(1) An answer whose generation was cut off at the token limit is incorrect.
+(2) Otherwise the answer is matched against the reference by rules that depend on the answer type (option letter, integer, normalized string).
+(3) Unmatched answers are graded once by a model from a different provider (gpt-6-astra), the grader; the grade is stored per question and answer, so identical answers receive identical verdicts in all methods.
+(4) On \ds, answers on which the grader and a second model-based check disagreed were graded three more times and decided per answer variant; the resulting rules are applied wherever the same variant recurs, on all models.
+Of the answers scored correct, about six in ten are exact matches and four in ten are accepted in steps (3) or (4).
+
+\paragraph{Candidates and ties.}
+A candidate is correct if its last occurrence is scored correct.
+Occurrences of one candidate usually share a grade; they can differ when one occurrence was cut off at the token limit, or when two strings that normalize to the same candidate were graded differently (5 of 3{,}251 candidates on \mm).
+Under the alternative rule that resolves ties in favour of the more recent answer, which is available to loops and not to samples, the selected counts on \ds{} are 144, 147 and 159 for the reassuring, generic-doubt and critique loops, against 145.0, 146.1 and 157.4 under random ties.
+
+\paragraph{Failed calls and truncation.}
+Any loop containing a failed call was rerun in full: on \ds{} 29 questions for the generic-doubt loop and one to four for the other methods; on \qw{} 61 first answers with the loops that depend on them; none on \mm.
+An error message never counts as an answer.
+On \ds{} between 6.4\% and 8.0\% of rounds per method are cut off at the token limit, including 28 first answers; on \qw{} one round; on \mm{} at most 0.9\% per method.
+
+\section{Human Audit of the Scoring}
+\label{app:audit}
+
+We drew 100 scored answers, stratified by model, method and scoring step, and hid the model, the method and the automatic verdict.
+The answers were handled in three ways that were fixed before any formal annotation, according to what a comparison with the reference requires.
+
+\emph{Direct comparison} (66 answers: option letters, numbers, short strings).
+One annotator judged each answer as correct, incorrect or unsure without using a language model, and a second person reviewed the judgements; because the reviewer saw some of the first annotator's labels, we report no agreement statistic between them.
+The 66 answers divide into 58 on which annotator and reviewer gave the same definite judgement, one on which they differed, five that the annotator marked unsure, and two that the reviewer left blank.
+Of the 58, 51 agree with the automatic verdict.
+All 22 answers that the automatic scoring rejected and all 5 exact matches were confirmed.
+The 7 disagreements are answers that the automatic scoring accepted and that differ from the reference as written: five are the same answer in another notation or become identical under a formatting rule stated in the question, and two are numerical answers that agree with the reference only after rounding.
+
+\emph{Symbolic check} (12 answers: two mathematical expressions).
+Both expressions were transcribed for a computer algebra system and compared symbolically and numerically.
+All 12 are equivalent, and all 12 had been accepted by the automatic scoring.
+
+\emph{Discussion} (22 answers that require reading the question closely, such as answers that are conditional on a convention).
+These, together with the 7 disagreements and the 6 answers without an agreed definite judgement, 35 answers in all, are being adjudicated separately and are not counted above; the audit is therefore partial, with 65 of 100 answers resolved.
+
+Within the resolved part we found no case in which the automatic scoring rejected a correct answer.
+Its acceptance of rounded numerical answers is a leniency that applies to all methods alike.
+
+\section{Analyses Fixed in Advance}
+\label{app:prereg}
+
+Each item below was written down in a dated internal document before the corresponding data existed; none was registered externally.
+
+\emph{First model (\ds).}
+(i) The majority answer of the critic loop against a vote over nine samples; written for the restricted critic of Appendix~\ref{app:bank}, which passes ($p=0.03$).
+(ii) The unrestricted critic as a control for the list of error types, with the criterion given in Appendix~\ref{app:bank}.
+(iii) The generic-doubt loop: critique content is judged effective if this loop reaches at least 15 questions fewer than the critique loop at $p<0.05$ (observed: 27 fewer).
+(iv) The acceptance criteria for the judges of Section~\ref{sec:judges}.
+(v) Comparisons at equal token cost: the critique loop against a vote over eleven samples (holds) and against the model's own choice of consensus among eleven samples (interval includes zero).
+
+\emph{Second model (\qw).}
+Four tests: critique loop against nine samples on selected questions; reach of the critique loop against the reassuring loop; reach of the generic-doubt loop at least 15 below the critique loop; ratio of repeat probabilities in the critique loop above that in the reassuring loop.
+All four hold.
+
+\emph{Third model (\mm).}
+One confirmatory test: the critique loop selects more questions than the reassuring loop (interval excludes zero).
+The criterion is not met ($+5.2$, \ci{-6.9}{18.0}).
+Secondary tests: the same against the generic-doubt loop (not met, $+4.6$, \ci{-8.4}{16.8}); reach of the critique loop against the reassuring loop (holds); reach of the generic-doubt loop at least 15 below the critique loop (holds, 24 below); reach of the generic-doubt loop above the reassuring loop (not met, 128 against 125); critique loop against nine samples on selected questions (holds by the stated criterion, interval \ci{1.0}{24.0}; permutation $p=0.051$); ratio of repeat probabilities (holds).
+We had also fixed that, if the confirmatory test held, reach and selection would both be headline results, and that otherwise reach would be the only headline and the test would be reported as not met.
+The model first chosen as the third model, glm-5.3, could not be run within the token allowance on a 16-question check of run health; before any answer was scored it was replaced by MiniMax-M2.5, the first candidate from another provider to pass that check.
+
+All other analyses are exploratory.
+The random-tie convention replaced an earlier asymmetric one after internal review.
+
+\section{Additional Results}
+\label{app:more}
+
+\paragraph{Candidates, changes and tokens.}
+Distinct candidates per question for the reassuring loop, generic-doubt loop, critique loop and nine samples: \ds{} 2.1, 2.7, 3.7, 4.5; \qw{} 2.1, 2.9, 3.6, 4.8; \mm{} 2.0, 2.2, 3.2, 4.8.
+Probability that two consecutive answers differ: \ds{} 0.37, 0.50, 0.66, 0.63; \qw{} 0.40, 0.56, 0.67, 0.71; \mm{} 0.36, 0.41, 0.59, 0.68.
+Tokens in millions, prompt plus completion: \ds{} 24.6, 31.8, 61, 51.4; \qw{} 15.2, 21.0, 36, 31.8; \mm{} 21.3, 24.3, 45, 44.7.
+The critique loop's figures include the critic: 15.4 million measured on \mm, and 23 and 13 million estimated from replays of 50 calls on \ds{} and \qw.
+
+\paragraph{Robustness of reach.}
+Table~\ref{tab:robust} gives the counts behind Section~\ref{sec:reach}.
+
+\begin{table}[h]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}ll rrrr@{}}
+\toprule
+ & & Reass. & Gen. & Crit. & Samp. \\
+\midrule
+\ds & first 2 cand. & 141 & 148 & 172 & 169 \\
+ & first 3 cand. & 150 & 157 & 181 & 178 \\
+ & exact match & 91 & 102 & 122 & 120 \\
+\qw & first 2 cand. & 109 & 118 & 136 & 134 \\
+ & first 3 cand. & 118 & 137 & 160 & 147 \\
+ & exact match & 79 & 94 & 117 & 93 \\
+\mm & first 2 cand. & 111 & 111 & 121 & 126 \\
+ & first 3 cand. & 117 & 121 & 142 & 146 \\
+ & exact match & 83 & 83 & 98 & 111 \\
+\bottomrule
+\end{tabular}
+\caption{Robustness of reach. \emph{First $k$ cand.}: questions reached when only the first $k$ candidates of each method are counted. \emph{Exact match}: all candidates, with exact matching as the only scoring step.}
+\label{tab:robust}
+\end{table}
+
+\paragraph{Intervals for Table~\ref{tab:stay}.}
+Bootstrap 95\% intervals of the ratios, in the order reassuring, generic doubt, critique, samples: \ds{} \ci{1.27}{1.58}, \ci{1.50}{1.88}, \ci{1.83}{2.50}, \ci{1.45}{2.14}; \qw{} \ci{1.07}{1.34}, \ci{1.12}{1.43}, \ci{1.37}{1.83}, \ci{1.10}{1.70}; \mm{} \ci{1.11}{1.34}, \ci{1.18}{1.42}, \ci{1.26}{1.65}, \ci{1.40}{2.07}.
+
+\paragraph{Selected questions.}
+Figure~\ref{fig:forest} shows the differences of Table~\ref{tab:pairs}.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figs/forest.pdf}
+  \caption{Difference in selected questions between the critique loop and each other method, with 95\% bootstrap intervals.}
+  \label{fig:forest}
+\end{figure}
+
+\paragraph{Selected questions under exact matching.}
+When only exact matches count as correct, the first answer is correct on 63, 38 and 51 questions, and the selected counts for the reassuring loop, generic-doubt loop, critique loop and nine samples are 84.0, 82.4, 96.5, 84.6 on \ds; 56.0, 59.0, 68.1, 50.2 on \qw; and 65.2, 66.1, 66.6, 62.9 on \mm.
+Critique loop minus reassuring loop: $+12.5$ \ci{0.8}{24.3}, $+12.1$ \ci{-0.7}{24.8}, $+1.4$ \ci{-8.6}{11.8}; mean per model $+8.7$ \ci{1.9}{15.8}.
+Critique loop minus nine samples: $+12.0$ \ci{2.1}{22.0}, $+17.9$ \ci{4.6}{30.6}, $+3.6$ \ci{-5.2}{13.5}; mean per model $+11.2$ \ci{4.6}{18.2}.
+
+\paragraph{The first revision.}
+Questions repaired and damaged by the first round of feedback: \ds{} reassuring 17 and 7, generic doubt 22 and 13, critique 45 and 20; \qw{} 30 and 13, 40 and 18, 47 and 29; \mm{} 21 and 13, 26 and 12, 27 and 29.
+
+\paragraph{Does the critic hand over answers?}
+A critic could help by solving the question and passing its solution on.
+If so, its text should contain the solver's next answer, mainly when the change is for the better.
+Among changes with a numeric or free-text answer, the critic's text contains the next answer in 2 of 132 changes for the better and 2 of 100 for the worse on \ds, 17 of 159 and 16 of 132 on \qw, and 12 of 115 and 9 of 89 on \mm.
+So on \qw{} and \mm{} about 10\% of critiques contain the next answer, with no excess among changes for the better.
+
+\paragraph{Sampling at equal cost and the model as selector (\ds).}
+With eleven samples, the token cost of the critique loop, the vote selects 138.2 and reaches 193.
+When the solver model is given the eleven answers and asked to pick the consensus, with the prompt of \citet{chen2023usc}, it selects 145 ($+6.8$ over the vote, \ci{-1.3}{15.4}).
+The critique loop's majority answer exceeds this by 12.4 (\ci{-0.7}{25.6}, $p=0.06$).
+Applied to the critique loop's own answers, the same selector gives 153, below the majority answer (157.4).
+
+\paragraph{A bound on vote splitting.}
+Independent samples may write one answer in several ways and so split their vote.
+To bound the effect we merge, before voting, all answers to a question that were scored correct; this uses the reference and overstates the effect.
+Under the bound the critique loop exceeds nine samples by 13.0 on \ds{} (\ci{2.1}{23.8}), 12.2 on \qw{} (\ci{-2.8}{27.3}) and 5.4 on \mm{} (\ci{-6.2}{17.3}).
+
+\paragraph{The break-even point for revision.}
+One round of revision fixes some incorrect answers and breaks some correct ones.
+It raises accuracy only if the share of incorrect answers fixed, divided by the share of correct answers broken, exceeds $a/(1-a)$, where $a$ is the accuracy before revision \citep{yang2024confidence}.
+With first-answer accuracy of 0.28, 0.17 and 0.20 the bar is 0.39, 0.21 and 0.25; at an accuracy of 0.8 it is 4.
+This is one reason why results on hard and easy tasks differ.
+
+\section{Judge Details}
+\label{app:judges}
+
+In this analysis ties in the vote are resolved in favour of the more recent answer, as the judges' adjustments require an order; the majority answer is then correct on 154 questions (150.9 under random ties).
+The figure of 173 and a second one (149, when every change that the solver attributes to the feedback is undone) were computed before three loops were rerun after interface failures.
+Judge 1 gives a definite verdict on 98 of the 303 changes that matter and is right on 56.
+A sweep over 81 ways of combining verdicts and votes gains at most two questions in-sample and none when the best rule on one half is applied to the other.
+
+\begin{table}[h]
+\centering
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}l ccc@{}}
+\toprule
+ & Judge 1 & Judge 2 & Judge 3 \\
+\midrule
+Accuracy on changes that matter & .57 & .59 & .66 \\
+Selected, first half (vote: 76) & 76 & 72 & 71 \\
+Selected, second half (vote: 78) & 77 & 75 & 77 \\
+Accuracy where judge and & 18/37 & 68/150 & 32/66 \\
+\quad vote-count rule disagree & (.49) & (.45) & (.49) \\
+\bottomrule
+\end{tabular}
+\caption{Same-model judges on \ds. A change \emph{matters} if it turns an incorrect answer into a correct one or the reverse. \emph{Selected}: questions selected on one half when the judge's verdicts, weighted on the other half, adjust the vote; the unadjusted vote selects 76 and 78 (ties resolved towards the more recent answer). \emph{Vote-count rule}: a change is an improvement if the new answer ends with at least as many votes as the old one.}
+\label{tab:judges}
+\end{table}
+
+
+Judge 1 scores three aspects of the new answer (disconnection from earlier steps, contradiction, a locatable error) and votes against the answer when any score is high; it returned a verdict on 1{,}178 of the 1{,}199 changes.
+Judge 2 adds the question and a required quotation of the step objected to.
+Judge 3 receives the question, the critic's doubt and the criticized answer and decides whether the doubt was warranted; a verdict requires agreement across two presentations in swapped order.
+Judges 2 and 3 cover all changes.
+The weights are likelihood ratios added in log space; ratios with intervals that exclude one were obtained for Judge 2 (0.73 and 1.75 for its two verdicts) and Judge 3 (0.51 and 1.84), not for Judge 1.
+The 81 combination rules vary where a verdict acts, the weights of the two verdicts, and a restriction to questions with a close vote; their in-sample best results are 154, 156 and 155 against 154 for the vote.
+Of the 38 reached and unselected questions, 10 are ties, 11 are lost by one vote and 17 by more.
+
+Why is 66\% accuracy on single changes not enough?
+Among the 116 questions that have both a correct and an incorrect candidate, overturning the majority answer helps on 38 (33\%).
+At that base rate a judge that is right with probability $p$ overturns correctly with probability $0.33p/(0.33p+0.67(1-p))$, which exceeds one half only if $p>0.67$.
+
+\end{document}

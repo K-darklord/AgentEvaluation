@@ -740,3 +740,18 @@ Entries between 2026-10-10 and 2026-11-10 were kept in the documents rather than
 - Earlier drafts and phase documents (`docs/_deprecated/20261111_pre_submission/`, `docs/_deprecated/20261111_repo_cleanup/`).
 - 29 unused modules in `src/_deprecated/`, 11 scripts in `scripts/_deprecated/`, stray root files and the legacy `output/` folder in `_deprecated/root_20261111/`, run backups in `experiments/_deprecated/backups_20261111/`.
 
+## 2026-11-15 — Third model, scoring audit, manuscript v13; documents aligned
+
+### Added
+- Third model (MiniMax-M2.5): runs `experiments/rep3_*`, sidecar `is_correct_t3_sidecar_rep3.json`, read-out `scripts/third_model_readout.py`, `docs/THIRD_MODEL_RESULTS.md`. The single confirmatory test (critique loop against reassuring loop, selected questions) was not met; the two tests on reach were.
+- Audit of the automatic scoring (100 answers; direct comparison, symbolic check, discussed adjudication): `scripts/human_audit_*.py`, `audit/human_audit_20261111/audit_final.json`, results in `docs/HUMAN_AUDIT_PLAN.md`.
+- Analysis scripts: `search_not_verification.py`, `selected_exact_only.py`, `reach_quality_checks.py`, `reconcile_with_voting_literature.py`, `section5_headroom.py`, `three_model_means.py`, `three_model_appendix.py`, `check_manifest.py`; `scripts/README.md`.
+- `paper/acl/REVISION_LOG.md`, `paper/acl/revision_loop/` (ten review-and-revise rounds and the selection among them), `main_preprint.tex`.
+
+### Changed
+- Manuscript rewritten for three models with new names for the methods (reassuring loop, generic-doubt loop, critique loop, independent samples) and outcomes (reached, selected, conversion); version 13 corrects four rounded or miscounted appendix figures found while re-deriving every number from the scripts.
+- `README.md`, `docs/INDEX.md`, `docs/CLAIMS_REGISTRY.md` (v3) and `docs/consistency_manifest.json` (v3) rewritten against the manuscript; status notes added to `docs/HLE400_FROZEN_DATA.md`, `docs/PROJECT_HISTORY.md`, `docs/COST_MATCHED_SC_RESULTS.md`, `docs/EXEC_AGENT_WORKLIST.md`.
+- Universal self-consistency output completed to 2,400 rows; same-model judge verdicts completed on the rerun trajectories.
+
+### Deprecated (moved, not deleted)
+- `docs/NEXT_EXPERIMENTS_FOR_MAIN_CONFERENCE.md` to `docs/_deprecated/20261115_v13_alignment/` (no further experiments are planned); earlier PDFs to `paper/acl/_old/`.

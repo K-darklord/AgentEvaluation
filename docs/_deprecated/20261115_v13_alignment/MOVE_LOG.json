@@ -1,0 +1,16 @@
+{
+ "date": "2026-11-15",
+ "reason": "文档与 v13 论文对齐；作者决定不再追加实验",
+ "moves": [
+  {
+   "from": "docs/NEXT_EXPERIMENTS_FOR_MAIN_CONFERENCE.md",
+   "to": "docs/_deprecated/20261115_v13_alignment/NEXT_EXPERIMENTS_FOR_MAIN_CONFERENCE.md",
+   "note": "追加实验方案。其中第三模型一项已完成（MiniMax-M2.5），其余不做。文内的 ARR 截稿日 2027-01-04 是估计，官方只公布了 2027 年 1 月。"
+  },
+  {
+   "from": "paper/acl/v12_anonymous.pdf, paper/acl/v12_preprint.pdf",
+   "to": "paper/acl/_old/",
+   "note": "被 v13 取代（数值更正，见 paper/acl/REVISION_LOG.md）"
+  }
+ ]
+}
