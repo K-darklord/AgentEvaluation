@@ -295,6 +295,19 @@ PHASE1_MODELS = {
         # docs/THIRD_MODEL_SPEC.md (2026-11-11).
         "max_tokens": 24576,
     },
+    # Third-model confirmatory run (docs/THIRD_MODEL_SPEC.md §10, locked 2026-11-11).
+    # MiniMax-M2.5 on DashScope pay-as-you-go (input 2.1 / output 8.4 CNY per M token).
+    # enable_thinking=True + thinking_budget=16384 align with the frozen deepseek/qwen
+    # budget (max_tokens = 16384 + REASONING_CONTENT_MARGIN 8192 = 24576). Passed the
+    # §3 16-question gate: 16/16 done, 0 timeout, 0 truncation.
+    "minimax-m2.5": {
+        "tier": "mid",
+        "model": "MiniMax-M2.5",
+        "base_url": DASHSCOPE_BASE_URL,
+        "api_key": os.getenv("DASHSCOPE_API_KEY", ""),
+        "enable_thinking": True,
+        "thinking_budget": 16384,
+    },
     # weak tier (qwen3.6-flash @ TokenPlan, glm-4.7-flash @ Zhipu) DEFERRED to Phase 2.
     # Kimi (4th family) pending Tencent Cloud TokenHub quota; add here when confirmed.
 }

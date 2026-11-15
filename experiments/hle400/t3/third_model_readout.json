@@ -1,0 +1,220 @@
+{
+ "model": "minimax-m2.5",
+ "descriptives": {
+  "A2": {
+   "final": 100.0,
+   "selected": 101.7,
+   "pooled": 101.7,
+   "reach": 125.0,
+   "reach_k2": 111.0,
+   "reach_k3": 117.0,
+   "reach_exact_only": 83.0,
+   "mode_recency": 102,
+   "cand_per_q": 1.97,
+   "rounds_per_q": 4.82,
+   "truncated_rounds": 0,
+   "solver_tokens_M": 21.3,
+   "failure_rounds": 0,
+   "greedy": 81.0,
+   "stay_ratio": 1.22,
+   "stay_ratio_ci": [
+    1.11,
+    1.34
+   ]
+  },
+  "A2P": {
+   "final": 101.0,
+   "selected": 102.3,
+   "pooled": 105.1,
+   "reach": 128.0,
+   "reach_k2": 111.0,
+   "reach_k3": 121.0,
+   "reach_exact_only": 83.0,
+   "mode_recency": 102,
+   "cand_per_q": 2.18,
+   "rounds_per_q": 5.21,
+   "truncated_rounds": 14,
+   "solver_tokens_M": 24.3,
+   "failure_rounds": 0,
+   "greedy": 81.0,
+   "stay_ratio": 1.29,
+   "stay_ratio_ci": [
+    1.18,
+    1.42
+   ]
+  },
+  "A3": {
+   "final": 80.0,
+   "selected": 94.7,
+   "pooled": 102.9,
+   "reach": 173.0,
+   "reach_k2": 126.0,
+   "reach_k3": 146.0,
+   "reach_exact_only": 111.0,
+   "mode_recency": 92,
+   "cand_per_q": 4.75,
+   "rounds_per_q": 9.0,
+   "truncated_rounds": 34,
+   "solver_tokens_M": 44.7,
+   "failure_rounds": 0,
+   "greedy": 81.0,
+   "stay_ratio": 1.7,
+   "stay_ratio_ci": [
+    1.4,
+    2.07
+   ]
+  },
+  "C2": {
+   "final": 99.0,
+   "selected": 106.9,
+   "pooled": 108.2,
+   "reach": 152.0,
+   "reach_k2": 121.0,
+   "reach_k3": 142.0,
+   "reach_exact_only": 98.0,
+   "mode_recency": 106,
+   "cand_per_q": 3.18,
+   "rounds_per_q": 6.63,
+   "truncated_rounds": 1,
+   "solver_tokens_M": 29.8,
+   "failure_rounds": 0,
+   "greedy": 81.0,
+   "stay_ratio": 1.45,
+   "stay_ratio_ci": [
+    1.26,
+    1.65
+   ]
+  }
+ },
+ "preregistered": {
+  "P1 selected FC-RP": {
+   "diff": 5.2,
+   "lo": -6.9,
+   "hi": 18.0,
+   "p": 0.4218,
+   "holds": false
+  },
+  "P2 selected FC-PP": {
+   "diff": 4.6,
+   "lo": -8.4,
+   "hi": 16.8,
+   "p": 0.4791,
+   "holds": false
+  },
+  "S1 reach FC vs RP": {
+   "b": 38,
+   "c": 11,
+   "p": 0.0001,
+   "holds": true
+  },
+  "S2 reach FC vs PP (>=15, p<.05)": {
+   "b": 37,
+   "c": 13,
+   "p": 0.0009,
+   "holds": true
+  },
+  "S3 reach PP vs RP": {
+   "b": 21,
+   "c": 18,
+   "p": 0.7493,
+   "holds": false
+  },
+  "S4 selected FC-SC9": {
+   "diff": 12.2,
+   "lo": 1.0,
+   "hi": 24.0,
+   "p": 0.0512,
+   "holds": true
+  },
+  "S5 stay ratio FC lower bound > RP estimate": {
+   "fc": 1.45,
+   "fc_ci": [
+    1.26,
+    1.65
+   ],
+   "rp": 1.22,
+   "holds": true
+  }
+ },
+ "other": {
+  "selected PP-RP": {
+   "diff": 0.7,
+   "lo": -11.4,
+   "hi": 12.8,
+   "p": 0.9335
+  },
+  "selected RP-SC9": {
+   "diff": 6.9,
+   "lo": -3.3,
+   "hi": 17.6,
+   "p": 0.2164
+  },
+  "pooled FC-SC9": {
+   "diff": 5.4,
+   "lo": -6.2,
+   "hi": 17.3,
+   "p": 0.3892
+  },
+  "reach FC vs SC9": {
+   "b": 19,
+   "c": 40,
+   "p": 0.0086
+  },
+  "final FC vs RP": {
+   "b": 24,
+   "c": 25,
+   "p": 1
+  },
+  "final FC vs PP": {
+   "b": 23,
+   "c": 25,
+   "p": 0.8854
+  },
+  "k2 FC vs RP": {
+   "b": 21,
+   "c": 11,
+   "p": 0.1102
+  },
+  "k2 FC vs PP": {
+   "b": 23,
+   "c": 13,
+   "p": 0.1325
+  },
+  "k2 PP vs RP": {
+   "b": 16,
+   "c": 16,
+   "p": 1
+  },
+  "k3 FC vs RP": {
+   "b": 33,
+   "c": 8,
+   "p": 0.0001
+  },
+  "k3 FC vs PP": {
+   "b": 33,
+   "c": 12,
+   "p": 0.0025
+  },
+  "k3 PP vs RP": {
+   "b": 22,
+   "c": 18,
+   "p": 0.6358
+  },
+  "t1ceil FC vs RP": {
+   "b": 27,
+   "c": 12,
+   "p": 0.0237
+  },
+  "t1ceil FC vs PP": {
+   "b": 24,
+   "c": 9,
+   "p": 0.0135
+  },
+  "t1ceil PP vs RP": {
+   "b": 11,
+   "c": 11,
+   "p": 1
+  },
+  "single_sample_accuracy_SC": 82.0
+ }
+}

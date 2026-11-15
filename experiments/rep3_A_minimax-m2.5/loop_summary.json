@@ -1,0 +1,44 @@
+{
+  "run_id": "rep3_A_minimax-m2.5",
+  "arm": "A",
+  "bank_free": false,
+  "template_critic": false,
+  "family_filter": null,
+  "task_set": "hle",
+  "max_tokens": 8192,
+  "max_rounds": 0,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "off",
+  "seed": null,
+  "n_tasks": 200,
+  "concurrency": 30,
+  "models": {
+    "minimax-m2.5": {
+      "model_id": "MiniMax-M2.5",
+      "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "init_accuracy": 0.1275,
+      "final_accuracy": 0.1275,
+      "end_state_distribution": {
+        "1": 51,
+        "6": 349
+      },
+      "l3_activation_rate": 0.1275,
+      "l3_reversibility_rate": 0.0,
+      "l4_lock_rate": 1.0,
+      "l4_misled_rate": 0.0,
+      "avg_rounds": 1.0,
+      "critic_fallback_rounds": 0,
+      "archetype_draw_counts": {},
+      "k_draw_counts": {},
+      "total_prompt_tokens": 132851,
+      "total_completion_tokens": 4233492,
+      "total_reasoning_tokens": 4192825,
+      "total_rationale_prompt_tokens": 0,
+      "total_rationale_completion_tokens": 0,
+      "total_rationale_reasoning_tokens": 0
+    }
+  }
+}
