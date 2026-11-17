@@ -18,8 +18,6 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
-from src import config
-from src.agent import HuggingFaceAgent
 
 
 def _load_env():
@@ -35,7 +33,10 @@ def _load_env():
         os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
 
 
-_load_env()
+_load_env()  # before importing src.config: config reads api keys at import time
+
+from src import config
+from src.agent import HuggingFaceAgent
 
 MODEL_NAME = "qwen3.8-flash-payg"
 OUT_DIR = REPO / "experiments" / f"b0_A_{MODEL_NAME}"
