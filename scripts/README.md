@@ -16,6 +16,9 @@ Run everything from the repository root. Scripts in groups 1 and 2 read frozen f
 | `three_model_appendix.py` | Repeat probabilities, first revision, whether the critic hands over answers, first answers cut off (`three_model_appendix.json`) |
 | `persistence_and_settle.py` | Intervals of the repeat probabilities (deepseek; `SIDECAR=` selects another file) |
 | `reach_quality_checks.py` | Second candidates; reach by question format |
+| `controls_readout.py` | Token-yoked and content controls on qwen: tests fixed in the two control specifications (`controls_readout.json`) |
+| `reach_by_subject.py` | Reach by subject area (`reach_by_subject.json`) |
+| `reach_by_draw.py` | Results on the questions drawn first and last (`reach_by_draw.json`) |
 | `selected_exact_only.py` | Selected questions when only exact matches count (`selected_exact_only.json`) |
 | `cost_matched_readout.py` | Eleven samples at equal cost; the model as selector (deepseek) |
 | `reconcile_with_voting_literature.py` | Loop against vote under different read-outs, answer formats and difficulty |
@@ -25,7 +28,7 @@ Run everything from the repository root. Scripts in groups 1 and 2 read frozen f
 | `check_manifest.py` | Checks `docs/consistency_manifest.json` against the outputs above and `paper/acl/main.tex` |
 
 ## 2. Analyses from earlier versions, not in the current paper
-`review_fixes_stats.py` (restricted critic against the placebo loops, interactions), `tie_and_adaptive_baselines.py`,
+`budget_matched_reach.py` (critique loop cut at a placebo loop's token budget; computed, judged an unsound comparison and replaced by the control in `docs/TOKEN_YOKED_CONTROL_SPEC.md`), `review_fixes_stats.py` (restricted critic against the placebo loops, interactions), `tie_and_adaptive_baselines.py`,
 `selective_prediction.py`, `verifier_regimes.py`, `vote_latex_normalized.py`, `ceiling_at_matched_k.py`,
 `paired_expected_score_tests.py`, `lr_vote.py`, `switch_contrast.py`, `gen_replication_results.py` (writes
 `docs/REPLICATION_RESULTS.md`).
@@ -47,8 +50,10 @@ Run everything from the repository root. Scripts in groups 1 and 2 read frozen f
 third-model candidates), `probe_candidates.py`, `probe_endpoints.py`, `probe_thinking_budget.py`.
 
 ## 5. Data and audit preparation
-`build_hle_400_set.py` (the 400 questions; seed 42), `build_hle_150_set.py` (earlier set);
+`make_yoke_budget.py` (token budgets for the control specified in `docs/TOKEN_YOKED_CONTROL_SPEC.md`), `make_mismatch_map.py` (question pairing for `docs/CONTENT_CONTROLS_SPEC.md`), `make_resume_budget_total.py` (budget matched in total tokens, written for v3 of `docs/EQUAL_TOKEN_CONTROLS_SPEC.md` and not used after v4), `build_hle_confirm_sets.py` (two new question sets for `docs/MODEL_DEPENDENCE_SPEC.md`; not yet run), `build_hle_400_set.py` (the 400 questions; seed 42), `build_hle_150_set.py` (earlier set);
 `human_audit_sample.py`, `human_audit_make_sheets.py`, `human_audit_cas_checks.py`, `human_audit_milp_check.py`,
 `human_audit_make_discussion.py`, `human_audit_analyze.py`.
 
 `_deprecated/` holds scripts from earlier phases.
+
+`control_health.py` reports run health of the control runs (rounds, tokens, failures, feedback length) without reading any correctness field.

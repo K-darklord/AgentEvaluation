@@ -1,0 +1,190 @@
+{
+ "new 800": {
+  "reassuring": {
+   "repeat_correct": 0.643,
+   "repeat_incorrect": 0.602,
+   "ratio": 1.07,
+   "gap": 0.042,
+   "odds_ratio": 1.19,
+   "selected": 168.5,
+   "last": 170.0,
+   "first_revision_repaired": 41,
+   "first_revision_damaged": 33,
+   "counts": [
+    583,
+    375,
+    2269,
+    1365
+   ],
+   "last_minus_selected": {
+    "diff": 1.5,
+    "lo": -3.0,
+    "hi": 6.0,
+    "p": 0.5637
+   }
+  },
+  "generic doubt": {
+   "repeat_correct": 0.515,
+   "repeat_incorrect": 0.428,
+   "ratio": 1.2,
+   "gap": 0.087,
+   "odds_ratio": 1.42,
+   "selected": 183.3,
+   "last": 176.0,
+   "first_revision_repaired": 59,
+   "first_revision_damaged": 54,
+   "counts": [
+    767,
+    395,
+    3115,
+    1333
+   ],
+   "last_minus_selected": {
+    "diff": -7.2,
+    "lo": -16.8,
+    "hi": 2.4,
+    "p": 0.1411
+   }
+  },
+  "token-yoked generic doubt": {
+   "repeat_correct": 0.584,
+   "repeat_incorrect": 0.541,
+   "ratio": 1.08,
+   "gap": 0.043,
+   "odds_ratio": 1.19,
+   "selected": 181.5,
+   "last": 173.0,
+   "first_revision_repaired": 58,
+   "first_revision_damaged": 58,
+   "counts": [
+    2260,
+    1319,
+    9330,
+    5044
+   ],
+   "last_minus_selected": {
+    "diff": -8.5,
+    "lo": -27.8,
+    "hi": 10.5,
+    "p": 0.388
+   }
+  },
+  "critique": {
+   "repeat_correct": 0.431,
+   "repeat_incorrect": 0.287,
+   "ratio": 1.5,
+   "gap": 0.144,
+   "odds_ratio": 1.88,
+   "selected": 205.3,
+   "last": 207.0,
+   "first_revision_repaired": 104,
+   "first_revision_damaged": 64,
+   "counts": [
+    967,
+    417,
+    3817,
+    1096
+   ],
+   "last_minus_selected": {
+    "diff": 1.7,
+    "lo": -12.3,
+    "hi": 15.2,
+    "p": 0.8053
+   }
+  }
+ },
+ "original 400": {
+  "reassuring": {
+   "repeat_correct": 0.676,
+   "repeat_incorrect": 0.564,
+   "ratio": 1.2,
+   "gap": 0.112,
+   "odds_ratio": 1.62,
+   "selected": 90.8,
+   "last": 89.0,
+   "first_revision_repaired": 30,
+   "first_revision_damaged": 13,
+   "counts": [
+    287,
+    194,
+    1212,
+    683
+   ],
+   "last_minus_selected": {
+    "diff": -1.8,
+    "lo": -7.2,
+    "hi": 3.0,
+    "p": 0.593
+   }
+  },
+  "generic doubt": {
+   "repeat_correct": 0.511,
+   "repeat_incorrect": 0.4,
+   "ratio": 1.28,
+   "gap": 0.111,
+   "odds_ratio": 1.56,
+   "selected": 95.6,
+   "last": 92.0,
+   "first_revision_repaired": 40,
+   "first_revision_damaged": 18,
+   "counts": [
+    411,
+    210,
+    1536,
+    615
+   ],
+   "last_minus_selected": {
+    "diff": -3.6,
+    "lo": -11.0,
+    "hi": 3.2,
+    "p": 0.3388
+   }
+  },
+  "token-yoked generic doubt": {
+   "repeat_correct": 0.603,
+   "repeat_incorrect": 0.525,
+   "ratio": 1.15,
+   "gap": 0.078,
+   "odds_ratio": 1.38,
+   "selected": 91.9,
+   "last": 83.0,
+   "first_revision_repaired": 31,
+   "first_revision_damaged": 21,
+   "counts": [
+    1145,
+    691,
+    5062,
+    2658
+   ],
+   "last_minus_selected": {
+    "diff": -9.0,
+    "lo": -23.1,
+    "hi": 4.6,
+    "p": 0.2051
+   }
+  },
+  "critique": {
+   "repeat_correct": 0.455,
+   "repeat_incorrect": 0.285,
+   "ratio": 1.6,
+   "gap": 0.17,
+   "odds_ratio": 2.09,
+   "selected": 114.1,
+   "last": 112.0,
+   "first_revision_repaired": 47,
+   "first_revision_damaged": 29,
+   "counts": [
+    495,
+    225,
+    1923,
+    548
+   ],
+   "last_minus_selected": {
+    "diff": -2.1,
+    "lo": -10.0,
+    "hi": 6.1,
+    "p": 0.6141
+   }
+  }
+ }
+}

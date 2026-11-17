@@ -62,3 +62,25 @@ for s in ('top','right','left'): ax.spines[s].set_visible(False)
 ax.tick_params(axis='y',length=0); ax.tick_params(axis='x',length=2,colors=MUTED,labelsize=7); ax.xaxis.grid(True,color=GRID,lw=0.5); ax.set_axisbelow(True); ax.set_xlim(-10,42)
 ax.legend(loc='lower center',bbox_to_anchor=(0.36,1.0),ncol=4,frameon=False,fontsize=6.6,handletextpad=0.1,columnspacing=0.6)
 fig.savefig('figs/forest.pdf',bbox_inches='tight',pad_inches=0.02); fig.savefig('figs/forest.png',dpi=200,bbox_inches='tight')
+# ---------- Figure 1 (v16): reached and selected at equal tokens, and on the 800 new questions (Qwen) ----------
+import json
+E1=json.load(open('../../experiments/hle400/t3/equal_token_readout.json'))['qwen']; SC=json.load(open('../../experiments/hle400/t3/selection_confirmation_readout.json'))['conditions']
+fb=E1['feedback']; cr=E1['critique']
+PA=[('Reassuring',fb['reassuring']['equal_tokens']),('Mismatched critique',fb['mismatched critique']['equal_tokens']),('Generic doubt',fb['generic doubt']['equal_tokens']),('Question-only critique',fb['question-only critique']['equal_tokens']),('Critique',cr)]
+PB=[(f"Reassuring loop ({SC['reassuring']['tokens_M']:.0f}M)",SC['reassuring']),(f"Generic-doubt loop ({SC['generic doubt']['tokens_M']:.0f}M)",SC['generic doubt']),(f"Token-yoked generic doubt ({SC['token-yoked generic doubt']['tokens_M']:.0f}M)",SC['token-yoked generic doubt']),(f"Critique loop ({SC['critique']['tokens_M']:.0f}M)",SC['critique'])]
+fig,axes=plt.subplots(2,1,figsize=(3.03,2.9),gridspec_kw={"hspace":0.8,"height_ratios":[5,4]})
+for ax,rows,first,title,xl,xlab,off in ((axes[0],PA,69,'First 400 questions, every loop at equal tokens',(55,205),'questions answered correctly (of 400)',3),(axes[1],PB,SC['first answer']['reached'],'800 new questions (tokens in brackets)',(110,400),'questions answered correctly (of 800)',6)):
+    rows=rows[::-1]
+    for i,(name,d) in enumerate(rows):
+        hi= name.startswith('Critique'); col=ORANGE if hi else BLUE
+        ax.plot([d['selected'],d['reached']],[i,i],color=col,lw=1.6,solid_capstyle='round',zorder=2)
+        ax.plot(d['selected'],i,'o',ms=5,mfc=col,mec='white',mew=0.8,zorder=3); ax.plot(d['reached'],i,'o',ms=5,mfc='white',mec=col,mew=1.2,zorder=3)
+        ax.text(d['selected']-off,i,f"{d['selected']:.0f}",ha='right',va='center',fontsize=7,color=INK,bbox=dict(fc='white',ec='none',pad=0.6),zorder=2); ax.text(d['reached']+off,i,f"{d['reached']:.0f}",ha='left',va='center',fontsize=7,color=INK)
+    ax.axvline(first,color=MUTED,lw=0.7,ls=(0,(3,2)),zorder=1); ax.text(first+off*0.7,-0.62,f"first answer {first}",ha='left',va='center',fontsize=6.5,color=MUTED)
+    ax.set_yticks(range(len(rows))); ax.set_yticklabels([r[0] for r in rows],color=INK); ax.set_ylim(-1.0,len(rows)-0.4); ax.set_xlim(*xl)
+    ax.set_title(title,loc='left',fontsize=8,color=INK,pad=4); ax.set_xlabel(xlab,color=INK,fontsize=7)
+    for s in ('top','right','left'): ax.spines[s].set_visible(False)
+    ax.tick_params(axis='y',length=0); ax.tick_params(axis='x',length=2,colors=MUTED,labelsize=7); ax.xaxis.grid(True,color=GRID,lw=0.5); ax.set_axisbelow(True)
+h1,=axes[0].plot([],[],'o',ms=5,mfc=INK,mec='white',mew=0.8,label='selected'); h2,=axes[0].plot([],[],'o',ms=5,mfc='white',mec=INK,mew=1.2,label='reached')
+fig.legend(handles=[h1,h2],loc='upper right',bbox_to_anchor=(0.99,1.06),ncol=2,frameon=False,fontsize=7,handletextpad=0.2,columnspacing=0.9)
+fig.savefig('figs/tokens_select.pdf',bbox_inches='tight',pad_inches=0.02); fig.savefig('figs/tokens_select.png',dpi=200,bbox_inches='tight')

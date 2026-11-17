@@ -40,14 +40,27 @@ from openai import OpenAI  # noqa: E402
 
 INDEX = AGENT_ROOT / "data/raw/hle/hle_400_new.jsonl"
 M = "qwen3.8-flash-payg"
-ARMS = ["A", "A2", "A2P", "A3", "C2"]
+ARMS = ["A", "A2", "A2P", "A3", "C2", "A2PY", "C2X", "C2Q"]
 T3 = AGENT_ROOT / "experiments/hle400/t3"
 ASTRA_CACHE = T3 / "astra_verdicts_rep.jsonl"
 SIDECAR_OUT = T3 / "is_correct_t3_sidecar_rep.json"
 
+# arm -> experiment dir name. The three new control arms (A2PY token-yoked generic
+# doubt, C2X mismatched-critique, C2Q question-only critique) use non-rep200 dirs.
+ARM_DIRS = {
+    "A": "rep200_A_qwen3.8-flash-payg",
+    "A2": "rep200_A2_qwen3.8-flash-payg",
+    "A2P": "rep200_A2P_qwen3.8-flash-payg",
+    "A3": "rep200_A3_qwen3.8-flash-payg",
+    "C2": "rep200_C2_qwen3.8-flash-payg",
+    "A2PY": "yoke_A2PY_qwen3.8-flash-payg",
+    "C2X": "ctrl_C2X_qwen3.8-flash-payg",
+    "C2Q": "ctrl_C2Q_qwen3.8-flash-payg",
+}
+
 
 def exp_dir(arm):
-    return f"rep200_{arm}_qwen3.8-flash-payg"
+    return ARM_DIRS[arm]
 
 
 def traj_path(arm):

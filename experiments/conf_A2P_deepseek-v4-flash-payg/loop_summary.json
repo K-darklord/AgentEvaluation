@@ -1,0 +1,57 @@
+{
+  "run_id": "conf_A2P_deepseek-v4-flash-payg",
+  "arm": "A2P",
+  "bank_free": false,
+  "template_critic": true,
+  "family_filter": null,
+  "task_set": "hle_confirm",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "off",
+  "seed": null,
+  "n_tasks": 16,
+  "concurrency": 120,
+  "models": {
+    "deepseek-v4-flash-payg": {
+      "model_id": "deepseek-v4-flash-0731",
+      "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "init_accuracy": 0.0625,
+      "final_accuracy": 0.1875,
+      "end_state_distribution": {
+        "1": 1,
+        "4": 2,
+        "5": 1,
+        "6": 12
+      },
+      "l3_activation_rate": 0.25,
+      "l3_reversibility_rate": 0.2,
+      "l4_lock_rate": 1.0,
+      "l4_misled_rate": 0.0,
+      "avg_rounds": 5.19,
+      "critic_fallback_rounds": 0,
+      "archetype_draw_counts": {
+        "constraint-blind decimation": 39,
+        "descriptor/label conflation": 36,
+        "format / precision non-conformance": 35,
+        "procedure truncation / omission": 42,
+        "retrieval-abort": 38
+      },
+      "k_draw_counts": {
+        "1": 2,
+        "2": 7,
+        "3": 58
+      },
+      "total_prompt_tokens": 35837,
+      "total_completion_tokens": 1099125,
+      "total_reasoning_tokens": 1081878,
+      "total_rationale_prompt_tokens": 0,
+      "total_rationale_completion_tokens": 0,
+      "total_rationale_reasoning_tokens": 0
+    }
+  },
+  "a_source_traj": "/Users/kevin/PycharmProjects/AgentEvaluation/experiments/conf_A_deepseek-v4-flash-payg/deepseek-v4-flash-payg/loop_trajectories.jsonl"
+}

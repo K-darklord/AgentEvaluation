@@ -181,6 +181,93 @@ def _a2p_feedback(task_id: str, round_index: int):
     return text, critic_direction
 
 
+def _render_frozen_directions(critic_direction):
+    """Render a frozen ``critic_direction`` list (archetype_name/suspicion/check dicts) back
+    into the solver-facing feedback text, in C2's exact format. C2X reuses the donor's
+    stored critique without calling the critic."""
+    lines = ["A few possible error directions were inferred for this answer:"]
+    for i, d in enumerate(critic_direction or [], 1):
+        name = (d.get("archetype_name") or "").strip()
+        suspicion = (d.get("suspicion") or "").strip()
+        check = (d.get("check") or "").strip()
+        lines.append("")
+        lines.append(f"{i}. {name} -- you may have {suspicion}.")
+        if check:
+            lines.append(f"   To check: {check}.")
+    return "\n".join(lines)
+
+
+# ---- token-yoked / content-control inputs (loaded lazily, frozen files only) ----
+_YOKE_BUDGET_CACHE = None
+_MISMATCH_MAP_CACHE = None
+_DONOR_ROUNDS_CACHE = None
+_RESUME_TRAJ_CACHE = None
+
+
+def _load_yoke_budget():
+    """Per-question token budget for the token-yoked control (env YOKE_BUDGET_FILE).
+    Returns None when the env var is unset (A2P then behaves exactly as before)."""
+    global _YOKE_BUDGET_CACHE
+    p = os.environ.get("YOKE_BUDGET_FILE")
+    if not p:
+        return None
+    if _YOKE_BUDGET_CACHE is None:
+        _YOKE_BUDGET_CACHE = json.load(open(p))["budget"]
+    return _YOKE_BUDGET_CACHE
+
+
+def _load_mismatch_map():
+    """Donor pairing for C2X (env MISMATCH_MAP_FILE, default mismatch_map_qwen.json)."""
+    global _MISMATCH_MAP_CACHE
+    if _MISMATCH_MAP_CACHE is None:
+        p = os.environ.get("MISMATCH_MAP_FILE",
+                           str(REPO_ROOT / "experiments/hle400/t3/mismatch_map_qwen.json"))
+        _MISMATCH_MAP_CACHE = json.load(open(p))
+    return _MISMATCH_MAP_CACHE
+
+
+def _load_donor_rounds():
+    """Frozen C2 donor trajectory rounds by task id, for C2X (env C2_DONOR_TRAJ)."""
+    global _DONOR_ROUNDS_CACHE
+    if _DONOR_ROUNDS_CACHE is None:
+        p = os.environ.get(
+            "C2_DONOR_TRAJ",
+            str(REPO_ROOT / "experiments/rep200_C2_qwen3.8-flash-payg/"
+                "qwen3.8-flash-payg/loop_trajectories.jsonl"))
+        out = {}
+        for line in open(p):
+            d = json.loads(line)
+            out[d["task_id"]] = d["rounds"]
+        _DONOR_ROUNDS_CACHE = out
+    return _DONOR_ROUNDS_CACHE
+
+
+def _load_resume_traj():
+    """Existing-trajectory source for the equal-token continuation runs (env RESUME_TRAJ;
+    docs/EQUAL_TOKEN_CONTROLS_SPEC.md v4). Returns {task_id: [round]} or None when the
+    env var is unset -- A2/C2X/C2Q then behave exactly as before."""
+    global _RESUME_TRAJ_CACHE
+    if _RESUME_TRAJ_CACHE is None:
+        p = os.environ.get("RESUME_TRAJ")
+        if not p:
+            return None
+        out = {}
+        for line in open(p):
+            d = json.loads(line)
+            out[d["task_id"]] = d["rounds"]
+        _RESUME_TRAJ_CACHE = out
+    return _RESUME_TRAJ_CACHE
+
+
+def _round_token(rd: dict, arm: str) -> int:
+    """Cumulative-token accounting for one round (EQUAL_TOKEN_CONTROLS_SPEC v4 sec 2):
+    solver prompt+completion; C2Q additionally counts the critic's prompt+completion."""
+    base = (rd.get("prompt_tokens") or 0) + (rd.get("completion_tokens") or 0)
+    if arm == "C2Q":
+        base += (rd.get("critic_prompt_tokens") or 0) + (rd.get("critic_completion_tokens") or 0)
+    return base
+
+
 def _force_no_proxy() -> None:
     """Bypass the macOS system proxy (127.0.0.1:3213) which stalls the openai SDK."""
     for k in ("HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY",
@@ -627,8 +714,9 @@ def _round_record(r: int, result, correct: bool, evidence, error, no_signal,
                   top3, arm: str, rationale: str = "", rat_toks=(0, 0, 0),
                   committed_answer=None, carried: bool = False,
                   commit_source: str = None, critic_direction=None,
-                  critic_fallback=None, critic_toks=(0, 0, 0)) -> dict:
-    return {
+                  critic_fallback=None, critic_toks=(0, 0, 0),
+                  donor_task_id=None, donor_round=None, feedback_chars=None) -> dict:
+    rec = {
         "round": r,
         "arm": arm,
         "final_answer": result.final_answer,
@@ -658,6 +746,12 @@ def _round_record(r: int, result, correct: bool, evidence, error, no_signal,
         "critic_completion_tokens": critic_toks[1],
         "critic_reasoning_tokens": critic_toks[2],
     }
+    if donor_task_id is not None:
+        rec["donor_task_id"] = donor_task_id
+        rec["donor_round"] = donor_round
+    if feedback_chars is not None:
+        rec["feedback_chars"] = feedback_chars
+    return rec
 
 
 def _end_state(corrects: list[bool]) -> int:
@@ -824,10 +918,32 @@ def _append_record(traj_path, record: dict) -> None:
 
 def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
                    arm: str, rationale_mode: str = "off",
-                   feedback_agent=None, a3_rounds=None, a_round0=None) -> dict:
+                   feedback_agent=None, a3_rounds=None, a_round0=None,
+                   yoke_budget=None, mismatch_map=None, donor_rounds=None,
+                   resume_rounds=None) -> dict:
     family = _task_family(task.task_id)
     tool_cache: dict = {}
     records: list[dict] = []
+
+    # --- equal-token continuation (docs/EQUAL_TOKEN_CONTROLS_SPEC.md v4) ---
+    # A2/C2X/C2Q resume an existing trajectory (env RESUME_TRAJ) when a yoke budget is
+    # also set: the existing rounds become the verbatim first half, and the loop continues
+    # from their last round until the per-question token budget is reached (no 3-identical
+    # early stop). Without both inputs these arms behave byte-identically to before.
+    resume_mode = False
+    resumed_from_rounds = 0
+    start_round = 1
+    if resume_rounds and yoke_budget is not None and arm in ("A2", "C2X", "C2Q"):
+        resume_mode = True
+        records = [dict(r) for r in resume_rounds]
+        resumed_from_rounds = len(records)
+        start_round = len(records) + 1
+        _last = records[-1]
+        prev_answer = _last.get("final_answer")
+        prev_key, prev_source = _early_stop_key(family, task.gold_answer, prev_answer,
+                                                _last.get("reasoning_content") or "",
+                                                _last.get("finish_reason") or "")
+        prev_reasoning = _last.get("reasoning_content") or ""
 
     def score(result, answer=None) -> bool:
         row = {
@@ -847,7 +963,7 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
     # then the C3 strong-critic feedback loop (rounds 1..R) runs at T=0 (feedback_agent)
     # to isolate the round-0 gain. `a3_rounds` is this task's A3 trajectory rounds.
     round0_sample_corrects = None
-    if arm == "A3C3":
+    if not resume_mode and arm == "A3C3":
         keyed = []  # (a3_round_dict, committed_key, commit_source)
         for rec in (a3_rounds or []):
             k, src = _early_stop_key(family, task.gold_answer,
@@ -890,7 +1006,9 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
                 "reasoning_tokens": 0, "rationale_prompt_tokens": 0,
                 "rationale_completion_tokens": 0, "rationale_reasoning_tokens": 0,
             })
-    elif arm in ("A2", "A2P", "A3", "C3", "C2") and a_round0 is not None:
+    elif resume_mode:
+        pass
+    elif arm in ("A2", "A2P", "A3", "C3", "C2", "C2X", "C2Q") and a_round0 is not None:
         # A-seeding (shared round-0 anchor, 2026-10-31): reuse the A arm's
         # deterministic (T=0) round-0 answer as this arm's round 0, so `init` is
         # byte-comparable across A/A2/A3/C3 (no round-0 drift). A3 then samples
@@ -943,7 +1061,39 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
     # A3C3 feedback rounds run on the deterministic (T=0) agent to match C3; only the
     # round-0 self-consistency sampling used the T>0 `agent` above.
     solver = feedback_agent if (arm == "A3C3" and feedback_agent is not None) else agent
-    for r in range(1, max_rounds + 1):
+    # token-yoked stop (A2PY): when YOKE_BUDGET_FILE is set, ignore early-stop and stop
+    # once the cumulative solver prompt+completion tokens (incl. round 0) reach the
+    # per-question budget (docs/TOKEN_YOKED_CONTROL_SPEC.md v2.1). The caller passes
+    # max_rounds=100 in this mode (hit-cap = full 100 feedback rounds without budget).
+    yoke_mode = False
+    yoke_budget_for_task = None
+    yoke_cum = 0
+    if arm == "A2P" and yoke_budget is not None:
+        _b = yoke_budget.get(task.task_id)
+        if _b is not None:
+            yoke_mode = True
+            yoke_budget_for_task = int(_b)
+            yoke_cum = sum((_r.get("prompt_tokens") or 0) + (_r.get("completion_tokens") or 0)
+                           for _r in records)
+    elif resume_mode and yoke_budget is not None:
+        _b = yoke_budget.get(task.task_id)
+        if _b is not None:
+            yoke_mode = True
+            yoke_budget_for_task = int(_b)
+            yoke_cum = sum(_round_token(_r, arm) for _r in records)
+            if yoke_cum >= yoke_budget_for_task:
+                # already spent >= budget: write out the resumed rounds verbatim,
+                # no continuation (docs/EQUAL_TOKEN_CONTROLS_SPEC.md v4 sec 2).
+                start_round = max_rounds + 1
+    # C2Q prior-suspicion labels (accumulated per round, fed back to the critic so its
+    # question-only directions differ across rounds; CONTENT_CONTROLS_SPEC v2.1 sec 3).
+    prior_names: list[str] = []
+    if resume_mode and arm == "C2Q":
+        prior_names = [str(d.get("archetype_name") or "").strip()
+                       for _r in records
+                       for d in (_r.get("critic_direction") or [])]
+    for r in range(start_round, max_rounds + 1):
+        donor_task_id = donor_round = feedback_chars = None
         if arm == "A":
             # no-treatment: bare re-solve, no reviewer message at all.
             feedback = None
@@ -965,6 +1115,53 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
             pred = evidence = error = None
             feedback = _feedback_message(prev_answer, fb_text, rationale_mode)
             no_signal = False
+        elif arm == "C2X":
+            # mismatched-critique control: show the solver the frozen DONOR question's
+            # critique (same answer type, different subject, length-matched), cycled
+            # ((r-1) mod n)+1 over the donor's critique rounds. No critic call.
+            if family is None:
+                break
+            pred = evidence = error = None
+            critic_fallback = None
+            critic_toks = (0, 0, 0)
+            donor_task_id = (mismatch_map or {}).get("donor", {}).get(task.task_id)
+            donor_rounds_list = (donor_rounds or {}).get(donor_task_id) if donor_task_id else None
+            critique_rounds = [rd for rd in (donor_rounds_list or [])
+                               if rd.get("critic_direction")]
+            if not critique_rounds:
+                # donor has no stored critique -> whole-task rerun (api_failure marker).
+                records.append({
+                    "round": r, "arm": arm, "final_answer": "", "committed_answer": None,
+                    "carried": False, "commit_source": None, "reasoning_content": "",
+                    "finish_reason": "", "is_correct": False, "rationale": None,
+                    "evidence": None, "error_score": None, "no_signal": None, "top3": [],
+                    "critic_direction": None, "tool_calls": None, "latency_ms": 0,
+                    "api_failure": True, "prompt_tokens": 0, "completion_tokens": 0,
+                    "reasoning_tokens": 0, "rationale_prompt_tokens": 0,
+                    "rationale_completion_tokens": 0, "rationale_reasoning_tokens": 0,
+                })
+                break
+            src_round = critique_rounds[(r - 1) % len(critique_rounds)]
+            donor_round = src_round.get("round")
+            critic_direction = src_round.get("critic_direction")
+            fb_text = _render_frozen_directions(critic_direction)
+            feedback_chars = len(fb_text)
+            feedback = _feedback_message(prev_answer, fb_text, rationale_mode)
+            no_signal = False
+        elif arm == "C2Q":
+            # question-only critique: the critic sees the question but not the answer or
+            # reasoning. Prior suspicion labels are fed back so directions differ across
+            # rounds. Critic failure falls back to the placebo exactly like C2 (v2.2).
+            if family is None:
+                break
+            pred = evidence = error = None
+            fb_text, critic_direction, evidence, critic_fallback, critic_toks = \
+                critic.feedback_question_only(task.prompt, prior_names)
+            feedback_chars = len(fb_text)
+            feedback = _feedback_message(prev_answer, fb_text, rationale_mode)
+            no_signal = False
+            prior_names.extend(str(d.get("archetype_name") or "").strip()
+                               for d in (critic_direction or []))
         else:  # C (single) / C2TFIDF (top-3) / C3 (strong LLM) / C2 (bank-free)
             if family is None:
                 break
@@ -1064,8 +1261,18 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
                                      carried=carried, commit_source=commit_source,
                                      critic_direction=critic_direction,
                                      critic_fallback=critic_fallback,
-                                     critic_toks=critic_toks))
-        if streak >= early_stop_n:
+                                     critic_toks=critic_toks,
+                                     donor_task_id=donor_task_id,
+                                     donor_round=donor_round,
+                                     feedback_chars=feedback_chars))
+        if yoke_mode:
+            _inc = (result.total_prompt_tokens or 0) + (result.total_completion_tokens or 0)
+            if arm == "C2Q":
+                _inc += (critic_toks[0] or 0) + (critic_toks[1] or 0)
+            yoke_cum += _inc
+            if yoke_cum >= yoke_budget_for_task:
+                break
+        elif streak >= early_stop_n:
             break
 
     corrects = [rec["is_correct"] for rec in records]
@@ -1075,7 +1282,7 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
         appeared = any(round0_sample_corrects) or any(corrects[1:])
     else:
         appeared = any(corrects)
-    return {
+    out = {
         "task_id": task.task_id,
         "arm": arm,
         "rationale_mode": rationale_mode,
@@ -1090,6 +1297,13 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
         "end_state": _end_state(corrects),
         "round0_sample_corrects": round0_sample_corrects,
     }
+    if yoke_mode:
+        out["yoke_budget"] = yoke_budget_for_task
+        out["yoke_cum_tokens"] = yoke_cum
+        out["yoke_hit_cap"] = yoke_cum < yoke_budget_for_task
+    if resume_mode:
+        out["resumed_from_rounds"] = resumed_from_rounds
+    return out
 
 
 def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
@@ -1120,6 +1334,15 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
         # AIME/GPQA); use the frozen reasoning budget.
         if max_tokens is None:
             max_tokens = config.REASONING_BENCH_MAX_TOKENS
+    elif task_set == "hle_confirm":
+        # Two new text-only confirmation sets (docs/SELECTION_CONFIRMATION_SPEC.md),
+        # task ids hle_401..800 (s1) and hle_801..1200 (s2), in file order.
+        tasks = load_hle_questions(REPO_ROOT / "data/raw/hle/hle_confirm_s1.jsonl",
+                                   start_id=401)
+        tasks += load_hle_questions(REPO_ROOT / "data/raw/hle/hle_confirm_s2.jsonl",
+                                    start_id=801)
+        if max_tokens is None:
+            max_tokens = config.REASONING_BENCH_MAX_TOKENS
     else:
         tasks = load_phase1_tasks()
         if max_tokens is None:
@@ -1148,7 +1371,7 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
 
     names = models or [m for m in config.PHASE1_MODELS if config.PHASE1_MODELS[m].get("api_key")]
     summary = {
-        "run_id": run_id, "arm": arm, "bank_free": (arm == "C2"),
+        "run_id": run_id, "arm": arm, "bank_free": (arm in ("C2", "C2Q")),
         "template_critic": (arm == "A2P"),
         "family_filter": family,
         "task_set": task_set, "max_tokens": max_tokens,
@@ -1159,6 +1382,12 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
         "seed": None, "n_tasks": len(tasks), "concurrency": concurrency,
         "models": {},
     }
+
+    # token-yoked / content-control inputs (loaded once, shared across models).
+    yoke_budget = _load_yoke_budget() if arm in ("A2P", "A2", "C2X", "C2Q") else None
+    mismatch_map = _load_mismatch_map() if arm == "C2X" else None
+    donor_rounds = _load_donor_rounds() if arm == "C2X" else None
+    resume_traj = _load_resume_traj() if arm in ("A2", "C2X", "C2Q") else None
 
     for name in names:
         entry = config.PHASE1_MODELS[name]
@@ -1183,8 +1412,8 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
         critic = None
         if arm in ("C", "C2TFIDF"):
             critic = Level3Critic.load(name)
-        elif arm in ("C3", "A3C3", "C2"):
-            critic = StrongCritic.load(name, bank_free=(arm == "C2"))
+        elif arm in ("C3", "A3C3", "C2", "C2Q"):
+            critic = StrongCritic.load(name, bank_free=(arm in ("C2", "C2Q")))
         model_dir = out_root / name
         model_dir.mkdir(parents=True, exist_ok=True)
         traj_path = model_dir / "loop_trajectories.jsonl"
@@ -1210,7 +1439,7 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
         # ONCE and reuse it as their round 0 (no round-0 drift). Every pending task
         # must carry an A round-0, else the invariant is broken (run arm A first).
         a_by_task: dict = {}
-        if arm in ("A2", "A2P", "A3", "C3", "C2"):
+        if arm in ("A2", "A2P", "A3", "C3", "C2", "C2X", "C2Q"):
             summary["a_source_traj"] = str(_a_source_traj(name))
             a_by_task = _load_a_round0_by_task(_a_source_traj(name))
             a_missing = [t.task_id for t in pending_tasks if not a_by_task.get(t.task_id)]
@@ -1245,10 +1474,13 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
                     task = next(task_iter)
                 except StopIteration:
                     return
+                resume_rounds = resume_traj.get(task.task_id) if resume_traj else None
                 fut = ex.submit(_run_task_loop, agent, critic, task, tier,
                                 max_rounds, early_stop_n, arm, rationale_mode,
                                 feedback_agent, a3_by_task.get(task.task_id),
-                                a_by_task.get(task.task_id))
+                                a_by_task.get(task.task_id),
+                                yoke_budget, mismatch_map, donor_rounds,
+                                resume_rounds)
                 in_flight[fut] = task
                 deadline[fut] = time.monotonic() + solve_timeout * (max_rounds + 1)
 
@@ -1393,17 +1625,18 @@ if __name__ == "__main__":
     ap.add_argument("--early-stop", type=int, default=EARLY_STOP_N)
     ap.add_argument("--tier", default=TIER, choices=["A", "B", "C"])
     ap.add_argument("--arm", default="C",
-                    choices=["A", "A2", "A2P", "A3", "A3C3", "C", "C2", "C2TFIDF", "C3"],
+                    choices=["A", "A2", "A2P", "A3", "A3C3", "C", "C2", "C2TFIDF", "C3", "C2X", "C2Q"],
                     help="experimental arm: A=no-treatment, A2=form placebo, "
                          "A2P=perturbing placebo (zero-LLM template), "
                          "A3=i.i.d. temperature sampling (self-consistency), "
                          "A3C3=self-consistency round0 + C3 strong-critic loop, "
                          "C=critic(single), C2=bank-free strong critic, "
-                         "C2TFIDF=critic(top-3 TF-IDF), C3=strong LLM critic")
+                         "C2TFIDF=critic(top-3 TF-IDF), C3=strong LLM critic, "
+                         "C2X=mismatched-critique loop, C2Q=question-only critique loop")
     ap.add_argument("--family", default=None,
                     help="restrict to one family: math/math500/mmlu_pro/bfcl/finance/"
                          "aime/gpqa/bbh/hle")
-    ap.add_argument("--task-set", default="phase1", choices=["phase1", "new", "gpqa", "hle"],
+    ap.add_argument("--task-set", default="phase1", choices=["phase1", "new", "gpqa", "hle", "hle_confirm"],
                     help="phase1 = the 5 baseline families; new = AIME+GPQA+BBH "
                          "discrimination set; gpqa = full 198 GPQA-Diamond; "
                          "hle = 50-question HLE stratified pilot")

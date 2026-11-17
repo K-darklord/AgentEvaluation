@@ -6,8 +6,9 @@ answer appears among a method's answers (**reached**) and whether the method's m
 (**selected**).
 
 > Status (2026-11-15). Complete: three models (deepseek-v4-flash, qwen3.8-flash, MiniMax-M2.5) on 400 questions
-> of Humanity's Last Exam, and an audit of 100 scored answers. The manuscript is in `paper/acl/` (version 13).
-> No further experiments are planned. Start from **`docs/INDEX.md`**.
+> of Humanity's Last Exam, an audit of 100 scored answers, and three controls on one model (token-yoked generic
+> doubt, mismatched critique, question-only critique; `docs/CONTROLS_RESULTS.md`). The manuscript is in `paper/acl/`
+> (version 15). A confirmation on new questions is running (`docs/SELECTION_CONFIRMATION_SPEC.md`). Start from **`docs/INDEX.md`**.
 
 ## What is here
 
@@ -49,6 +50,8 @@ The analysis scripts read frozen files only and never call a model.
 | Conversion, where selected questions come from, last answer against plurality answer | `scripts/search_not_verification.py` |
 | Repeat probabilities, first revision, whether the critic hands over answers | `scripts/three_model_appendix.py` |
 | Robustness of reach: second candidates, question format | `scripts/reach_quality_checks.py` |
+| Token-yoked and content controls on qwen | `scripts/controls_readout.py` |
+| Reach by subject area; questions drawn first and last | `scripts/reach_by_subject.py`, `scripts/reach_by_draw.py` |
 | Selected questions under exact matching | `scripts/selected_exact_only.py` |
 | Sampling at equal cost, the model as selector (deepseek) | `scripts/cost_matched_readout.py` |
 | Comparison with studies that find voting ahead of revision | `scripts/reconcile_with_voting_literature.py` |

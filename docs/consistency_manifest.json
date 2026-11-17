@@ -1,8 +1,8 @@
 {
  "schema_version": 3,
  "paper": "paper/acl/main.tex",
- "paper_version": "v13",
- "date": "2026-11-15",
+ "paper_version": "v16 draft",
+ "date": "2026-11-17",
  "model_order": [
   "deepseek-v4-flash",
   "qwen3.8-flash",
@@ -3699,11 +3699,2376 @@
   {
    "id": "tokens",
    "what": "tokens in millions: reassuring, generic, critique, samples per model",
-   "value": "24.6, 31.8, 61, 51.4; 15.2, 21.0, 36, 31.8; 21.3, 24.3, 45, 44.7",
+   "value": "24.6, 31.8, 61, 51.4; 15.2, 21.0, 36, 31.8; 21.3, 24.3, 40, 44.7",
    "paper": "AppF",
    "source": "solver: main-table scripts; critic: e2_*_token_replay*.py and run logs",
    "tex": [
-    "\\ds{} 24.6, 31.8, 61, 51.4; \\qw{} 15.2, 21.0, 36, 31.8; \\mm{} 21.3, 24.3, 45, 44.7"
+    "\\ds{} 24.6, 31.8, 61, 51.4; \\qw{} 15.2, 21.0, 36, 31.8; \\mm{} 21.3, 24.3, 40, 44.7",
+    "10.6 million measured on \\mm",
+    "61, 36 and 40 million tokens",
+    "1.9 to 2.5 times the tokens"
+   ]
+  },
+  {
+   "id": "tokens_critique_deepseek",
+   "what": "critique loop tokens (M), solver + critic",
+   "value": 61.2,
+   "paper": "AppF",
+   "source": "scripts/budget_matched_reach.py",
+   "json": [
+    "experiments/hle400/t3/budget_matched_reach.json",
+    "deepseek",
+    "critique_full",
+    "tokens_M"
+   ]
+  },
+  {
+   "id": "tokens_critique_qwen",
+   "what": "critique loop tokens (M), solver + critic",
+   "value": 36.2,
+   "paper": "AppF",
+   "source": "scripts/budget_matched_reach.py",
+   "json": [
+    "experiments/hle400/t3/budget_matched_reach.json",
+    "qwen",
+    "critique_full",
+    "tokens_M"
+   ]
+  },
+  {
+   "id": "tokens_critique_minimax",
+   "what": "critique loop tokens (M), solver + critic",
+   "value": 40.4,
+   "paper": "AppF",
+   "source": "scripts/budget_matched_reach.py",
+   "json": [
+    "experiments/hle400/t3/budget_matched_reach.json",
+    "minimax",
+    "critique_full",
+    "tokens_M"
+   ]
+  },
+  {
+   "id": "subject_Math_A2",
+   "what": "reached only by critique / only by reassuring, summed over models, Math (descriptive)",
+   "value": [
+    73,
+    12
+   ],
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "by_subject",
+    "Math",
+    "A2",
+    "sum"
+   ]
+  },
+  {
+   "id": "subject_Math_A2P",
+   "what": "reached only by critique / only by generic doubt, summed over models, Math (descriptive)",
+   "value": [
+    55,
+    20
+   ],
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "by_subject",
+    "Math",
+    "A2P",
+    "sum"
+   ]
+  },
+  {
+   "id": "subject_Computer Science/AI_A2",
+   "what": "reached only by critique / only by reassuring, summed over models, Computer Science/AI (descriptive)",
+   "value": [
+    12,
+    2
+   ],
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "by_subject",
+    "Computer Science/AI",
+    "A2",
+    "sum"
+   ]
+  },
+  {
+   "id": "subject_Computer Science/AI_A2P",
+   "what": "reached only by critique / only by generic doubt, summed over models, Computer Science/AI (descriptive)",
+   "value": [
+    12,
+    2
+   ],
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "by_subject",
+    "Computer Science/AI",
+    "A2P",
+    "sum"
+   ]
+  },
+  {
+   "id": "subject_Biology/Medicine_A2",
+   "what": "reached only by critique / only by reassuring, summed over models, Biology/Medicine (descriptive)",
+   "value": [
+    29,
+    3
+   ],
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "by_subject",
+    "Biology/Medicine",
+    "A2",
+    "sum"
+   ]
+  },
+  {
+   "id": "subject_Biology/Medicine_A2P",
+   "what": "reached only by critique / only by generic doubt, summed over models, Biology/Medicine (descriptive)",
+   "value": [
+    20,
+    2
+   ],
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "by_subject",
+    "Biology/Medicine",
+    "A2P",
+    "sum"
+   ]
+  },
+  {
+   "id": "subject_Physics_A2",
+   "what": "reached only by critique / only by reassuring, summed over models, Physics (descriptive)",
+   "value": [
+    14,
+    3
+   ],
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "by_subject",
+    "Physics",
+    "A2",
+    "sum"
+   ]
+  },
+  {
+   "id": "subject_Physics_A2P",
+   "what": "reached only by critique / only by generic doubt, summed over models, Physics (descriptive)",
+   "value": [
+    11,
+    3
+   ],
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "by_subject",
+    "Physics",
+    "A2P",
+    "sum"
+   ]
+  },
+  {
+   "id": "subject_Humanities/Social Science_A2",
+   "what": "reached only by critique / only by reassuring, summed over models, Humanities/Social Science (descriptive)",
+   "value": [
+    12,
+    3
+   ],
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "by_subject",
+    "Humanities/Social Science",
+    "A2",
+    "sum"
+   ]
+  },
+  {
+   "id": "subject_Humanities/Social Science_A2P",
+   "what": "reached only by critique / only by generic doubt, summed over models, Humanities/Social Science (descriptive)",
+   "value": [
+    9,
+    3
+   ],
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "by_subject",
+    "Humanities/Social Science",
+    "A2P",
+    "sum"
+   ]
+  },
+  {
+   "id": "subject_Other_A2",
+   "what": "reached only by critique / only by reassuring, summed over models, Other (descriptive)",
+   "value": [
+    9,
+    4
+   ],
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "by_subject",
+    "Other",
+    "A2",
+    "sum"
+   ]
+  },
+  {
+   "id": "subject_Other_A2P",
+   "what": "reached only by critique / only by generic doubt, summed over models, Other (descriptive)",
+   "value": [
+    8,
+    7
+   ],
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "by_subject",
+    "Other",
+    "A2P",
+    "sum"
+   ]
+  },
+  {
+   "id": "subject_Chemistry_A2",
+   "what": "reached only by critique / only by reassuring, summed over models, Chemistry (descriptive)",
+   "value": [
+    9,
+    0
+   ],
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "by_subject",
+    "Chemistry",
+    "A2",
+    "sum"
+   ]
+  },
+  {
+   "id": "subject_Chemistry_A2P",
+   "what": "reached only by critique / only by generic doubt, summed over models, Chemistry (descriptive)",
+   "value": [
+    7,
+    1
+   ],
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "by_subject",
+    "Chemistry",
+    "A2P",
+    "sum"
+   ]
+  },
+  {
+   "id": "subject_Engineering_A2",
+   "what": "reached only by critique / only by reassuring, summed over models, Engineering (descriptive)",
+   "value": [
+    1,
+    1
+   ],
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "by_subject",
+    "Engineering",
+    "A2",
+    "sum"
+   ]
+  },
+  {
+   "id": "subject_Engineering_A2P",
+   "what": "reached only by critique / only by generic doubt, summed over models, Engineering (descriptive)",
+   "value": [
+    3,
+    3
+   ],
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "by_subject",
+    "Engineering",
+    "A2P",
+    "sum"
+   ],
+   "tex": [
+    "mathematics (175 questions) 73 and 12; computer science and AI (44) 12 and 2; biology and medicine (41) 29 and 3; physics (40) 14 and 3; humanities and social science (36) 12 and 3; other (31) 9 and 4; chemistry (20) 9 and 0; engineering (13) 1 and 1",
+    "55 and 20; 12 and 2; 20 and 2; 11 and 3; 9 and 3; 8 and 7; 7 and 1; 3 and 3",
+    "AIME 47 of 50 correct, GPQA-Diamond 41 of 50, BBH 40 of 44, MMLU-Pro 43 of 50, MATH-500 45 of 50 and BFCL 45 of 50"
+   ]
+  },
+  {
+   "id": "subject_count_deepseek_A2",
+   "what": "subject areas (of 8) in which the critique loop reaches more than the reassuring loop",
+   "value": 8,
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "subjects_with_more_for_critique",
+    "A2",
+    "deepseek"
+   ]
+  },
+  {
+   "id": "subject_count_deepseek_A2P",
+   "what": "subject areas (of 8) in which the critique loop reaches more than the generic-doubt loop",
+   "value": 8,
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "subjects_with_more_for_critique",
+    "A2P",
+    "deepseek"
+   ]
+  },
+  {
+   "id": "subject_count_qwen_A2",
+   "what": "subject areas (of 8) in which the critique loop reaches more than the reassuring loop",
+   "value": 7,
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "subjects_with_more_for_critique",
+    "A2",
+    "qwen"
+   ]
+  },
+  {
+   "id": "subject_count_qwen_A2P",
+   "what": "subject areas (of 8) in which the critique loop reaches more than the generic-doubt loop",
+   "value": 6,
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "subjects_with_more_for_critique",
+    "A2P",
+    "qwen"
+   ]
+  },
+  {
+   "id": "subject_count_minimax_A2",
+   "what": "subject areas (of 8) in which the critique loop reaches more than the reassuring loop",
+   "value": 5,
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "subjects_with_more_for_critique",
+    "A2",
+    "minimax"
+   ]
+  },
+  {
+   "id": "subject_count_minimax_A2P",
+   "what": "subject areas (of 8) in which the critique loop reaches more than the generic-doubt loop",
+   "value": 6,
+   "paper": "AppF",
+   "source": "scripts/reach_by_subject.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_subject.json",
+    "subjects_with_more_for_critique",
+    "A2P",
+    "minimax"
+   ]
+  },
+  {
+   "id": "draw_deepseek_first_200_A2_reached_only_critique",
+   "what": "first_200 questions, critique vs A2, deepseek: reached_only_critique (post hoc)",
+   "value": 25,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "deepseek",
+    "first_200",
+    "A2",
+    "reached_only_critique"
+   ]
+  },
+  {
+   "id": "draw_deepseek_first_200_A2_reached_only_comparison",
+   "what": "first_200 questions, critique vs A2, deepseek: reached_only_comparison (post hoc)",
+   "value": 5,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "deepseek",
+    "first_200",
+    "A2",
+    "reached_only_comparison"
+   ]
+  },
+  {
+   "id": "draw_deepseek_first_200_A2_selected_diff",
+   "what": "first_200 questions, critique vs A2, deepseek: selected_diff (post hoc)",
+   "value": 5.2,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "deepseek",
+    "first_200",
+    "A2",
+    "selected_diff"
+   ]
+  },
+  {
+   "id": "draw_deepseek_first_200_A2P_reached_only_critique",
+   "what": "first_200 questions, critique vs A2P, deepseek: reached_only_critique (post hoc)",
+   "value": 21,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "deepseek",
+    "first_200",
+    "A2P",
+    "reached_only_critique"
+   ]
+  },
+  {
+   "id": "draw_deepseek_first_200_A2P_reached_only_comparison",
+   "what": "first_200 questions, critique vs A2P, deepseek: reached_only_comparison (post hoc)",
+   "value": 6,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "deepseek",
+    "first_200",
+    "A2P",
+    "reached_only_comparison"
+   ]
+  },
+  {
+   "id": "draw_deepseek_first_200_A2P_selected_diff",
+   "what": "first_200 questions, critique vs A2P, deepseek: selected_diff (post hoc)",
+   "value": 5.4,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "deepseek",
+    "first_200",
+    "A2P",
+    "selected_diff"
+   ]
+  },
+  {
+   "id": "draw_deepseek_last_200_A2_reached_only_critique",
+   "what": "last_200 questions, critique vs A2, deepseek: reached_only_critique (post hoc)",
+   "value": 27,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "deepseek",
+    "last_200",
+    "A2",
+    "reached_only_critique"
+   ]
+  },
+  {
+   "id": "draw_deepseek_last_200_A2_reached_only_comparison",
+   "what": "last_200 questions, critique vs A2, deepseek: reached_only_comparison (post hoc)",
+   "value": 2,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "deepseek",
+    "last_200",
+    "A2",
+    "reached_only_comparison"
+   ]
+  },
+  {
+   "id": "draw_deepseek_last_200_A2_selected_diff",
+   "what": "last_200 questions, critique vs A2, deepseek: selected_diff (post hoc)",
+   "value": 7.2,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "deepseek",
+    "last_200",
+    "A2",
+    "selected_diff"
+   ]
+  },
+  {
+   "id": "draw_deepseek_last_200_A2P_reached_only_critique",
+   "what": "last_200 questions, critique vs A2P, deepseek: reached_only_critique (post hoc)",
+   "value": 18,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "deepseek",
+    "last_200",
+    "A2P",
+    "reached_only_critique"
+   ]
+  },
+  {
+   "id": "draw_deepseek_last_200_A2P_reached_only_comparison",
+   "what": "last_200 questions, critique vs A2P, deepseek: reached_only_comparison (post hoc)",
+   "value": 6,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "deepseek",
+    "last_200",
+    "A2P",
+    "reached_only_comparison"
+   ]
+  },
+  {
+   "id": "draw_deepseek_last_200_A2P_selected_diff",
+   "what": "last_200 questions, critique vs A2P, deepseek: selected_diff (post hoc)",
+   "value": 5.8,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "deepseek",
+    "last_200",
+    "A2P",
+    "selected_diff"
+   ]
+  },
+  {
+   "id": "draw_qwen_first_200_A2_reached_only_critique",
+   "what": "first_200 questions, critique vs A2, qwen: reached_only_critique (post hoc)",
+   "value": 34,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "qwen",
+    "first_200",
+    "A2",
+    "reached_only_critique"
+   ]
+  },
+  {
+   "id": "draw_qwen_first_200_A2_reached_only_comparison",
+   "what": "first_200 questions, critique vs A2, qwen: reached_only_comparison (post hoc)",
+   "value": 5,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "qwen",
+    "first_200",
+    "A2",
+    "reached_only_comparison"
+   ]
+  },
+  {
+   "id": "draw_qwen_first_200_A2_selected_diff",
+   "what": "first_200 questions, critique vs A2, qwen: selected_diff (post hoc)",
+   "value": 12.0,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "qwen",
+    "first_200",
+    "A2",
+    "selected_diff"
+   ]
+  },
+  {
+   "id": "draw_qwen_first_200_A2P_reached_only_critique",
+   "what": "first_200 questions, critique vs A2P, qwen: reached_only_critique (post hoc)",
+   "value": 30,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "qwen",
+    "first_200",
+    "A2P",
+    "reached_only_critique"
+   ]
+  },
+  {
+   "id": "draw_qwen_first_200_A2P_reached_only_comparison",
+   "what": "first_200 questions, critique vs A2P, qwen: reached_only_comparison (post hoc)",
+   "value": 9,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "qwen",
+    "first_200",
+    "A2P",
+    "reached_only_comparison"
+   ]
+  },
+  {
+   "id": "draw_qwen_first_200_A2P_selected_diff",
+   "what": "first_200 questions, critique vs A2P, qwen: selected_diff (post hoc)",
+   "value": 9.9,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "qwen",
+    "first_200",
+    "A2P",
+    "selected_diff"
+   ]
+  },
+  {
+   "id": "draw_qwen_last_200_A2_reached_only_critique",
+   "what": "last_200 questions, critique vs A2, qwen: reached_only_critique (post hoc)",
+   "value": 35,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "qwen",
+    "last_200",
+    "A2",
+    "reached_only_critique"
+   ]
+  },
+  {
+   "id": "draw_qwen_last_200_A2_reached_only_comparison",
+   "what": "last_200 questions, critique vs A2, qwen: reached_only_comparison (post hoc)",
+   "value": 5,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "qwen",
+    "last_200",
+    "A2",
+    "reached_only_comparison"
+   ]
+  },
+  {
+   "id": "draw_qwen_last_200_A2_selected_diff",
+   "what": "last_200 questions, critique vs A2, qwen: selected_diff (post hoc)",
+   "value": 11.2,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "qwen",
+    "last_200",
+    "A2",
+    "selected_diff"
+   ]
+  },
+  {
+   "id": "draw_qwen_last_200_A2P_reached_only_critique",
+   "what": "last_200 questions, critique vs A2P, qwen: reached_only_critique (post hoc)",
+   "value": 19,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "qwen",
+    "last_200",
+    "A2P",
+    "reached_only_critique"
+   ]
+  },
+  {
+   "id": "draw_qwen_last_200_A2P_reached_only_comparison",
+   "what": "last_200 questions, critique vs A2P, qwen: reached_only_comparison (post hoc)",
+   "value": 7,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "qwen",
+    "last_200",
+    "A2P",
+    "reached_only_comparison"
+   ]
+  },
+  {
+   "id": "draw_qwen_last_200_A2P_selected_diff",
+   "what": "last_200 questions, critique vs A2P, qwen: selected_diff (post hoc)",
+   "value": 8.6,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "qwen",
+    "last_200",
+    "A2P",
+    "selected_diff"
+   ]
+  },
+  {
+   "id": "draw_minimax_first_200_A2_reached_only_critique",
+   "what": "first_200 questions, critique vs A2, minimax: reached_only_critique (post hoc)",
+   "value": 18,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "minimax",
+    "first_200",
+    "A2",
+    "reached_only_critique"
+   ]
+  },
+  {
+   "id": "draw_minimax_first_200_A2_reached_only_comparison",
+   "what": "first_200 questions, critique vs A2, minimax: reached_only_comparison (post hoc)",
+   "value": 8,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "minimax",
+    "first_200",
+    "A2",
+    "reached_only_comparison"
+   ]
+  },
+  {
+   "id": "draw_minimax_first_200_A2_selected_diff",
+   "what": "first_200 questions, critique vs A2, minimax: selected_diff (post hoc)",
+   "value": -1.3,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "minimax",
+    "first_200",
+    "A2",
+    "selected_diff"
+   ]
+  },
+  {
+   "id": "draw_minimax_first_200_A2P_reached_only_critique",
+   "what": "first_200 questions, critique vs A2P, minimax: reached_only_critique (post hoc)",
+   "value": 20,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "minimax",
+    "first_200",
+    "A2P",
+    "reached_only_critique"
+   ]
+  },
+  {
+   "id": "draw_minimax_first_200_A2P_reached_only_comparison",
+   "what": "first_200 questions, critique vs A2P, minimax: reached_only_comparison (post hoc)",
+   "value": 5,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "minimax",
+    "first_200",
+    "A2P",
+    "reached_only_comparison"
+   ]
+  },
+  {
+   "id": "draw_minimax_first_200_A2P_selected_diff",
+   "what": "first_200 questions, critique vs A2P, minimax: selected_diff (post hoc)",
+   "value": 3.0,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "minimax",
+    "first_200",
+    "A2P",
+    "selected_diff"
+   ]
+  },
+  {
+   "id": "draw_minimax_last_200_A2_reached_only_critique",
+   "what": "last_200 questions, critique vs A2, minimax: reached_only_critique (post hoc)",
+   "value": 20,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "minimax",
+    "last_200",
+    "A2",
+    "reached_only_critique"
+   ]
+  },
+  {
+   "id": "draw_minimax_last_200_A2_reached_only_comparison",
+   "what": "last_200 questions, critique vs A2, minimax: reached_only_comparison (post hoc)",
+   "value": 3,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "minimax",
+    "last_200",
+    "A2",
+    "reached_only_comparison"
+   ]
+  },
+  {
+   "id": "draw_minimax_last_200_A2_selected_diff",
+   "what": "last_200 questions, critique vs A2, minimax: selected_diff (post hoc)",
+   "value": 6.6,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "minimax",
+    "last_200",
+    "A2",
+    "selected_diff"
+   ]
+  },
+  {
+   "id": "draw_minimax_last_200_A2P_reached_only_critique",
+   "what": "last_200 questions, critique vs A2P, minimax: reached_only_critique (post hoc)",
+   "value": 17,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "minimax",
+    "last_200",
+    "A2P",
+    "reached_only_critique"
+   ]
+  },
+  {
+   "id": "draw_minimax_last_200_A2P_reached_only_comparison",
+   "what": "last_200 questions, critique vs A2P, minimax: reached_only_comparison (post hoc)",
+   "value": 8,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "minimax",
+    "last_200",
+    "A2P",
+    "reached_only_comparison"
+   ]
+  },
+  {
+   "id": "draw_minimax_last_200_A2P_selected_diff",
+   "what": "last_200 questions, critique vs A2P, minimax: selected_diff (post hoc)",
+   "value": 1.6,
+   "paper": "AppF",
+   "source": "scripts/reach_by_draw.py",
+   "json": [
+    "experiments/hle400/t3/reach_by_draw.json",
+    "minimax",
+    "last_200",
+    "A2P",
+    "selected_diff"
+   ],
+   "tex": [
+    "(discordant pairs 27/2, 35/5 and 20/3; on the first 200: 25/5, 34/5 and 18/8)",
+    "(18/6, 19/7 and 17/8; on the first 200: 21/6, 30/9 and 20/5)",
+    "$+7.2$, $+11.2$ and $+6.6$ on the last 200 and $+5.2$, $+12.0$ and $-1.3$ on the first 200"
+   ]
+  },
+  {
+   "id": "earlier_runs",
+   "what": "runs before the study on other benchmarks (deepseek; first -> last answer accuracy)",
+   "value": "early critic loop: GPQA-Diamond 148 q .76/.78 -> .81 (two runs), AIME+GPQA+BBH 144 q .85 -> .90; reassuring loop: .84 -> .86, .96 -> .94, 200 q .97 -> .97",
+   "paper": "AppF",
+   "source": "experiments/_deprecated/{feedback_loop_C_20261015_175552,c_gpqa_full_deepseek_20261013,feedback_loop_C_20261008,feedback_loop_A2_20261021_000317,feedback_loop_A2_20261020_232545,feedback_loop_A2_20261020_231648}/loop_summary.json",
+   "tex": [
+    "81\\% of last answers correct against 76\\% to 78\\% of first answers",
+    "90\\% against 85\\% on 144 questions",
+    "86\\% against 84\\% on the same 148 questions, 94\\% against 96\\% on the same 144, and 97\\% against 97\\% on 200 questions"
+   ]
+  },
+  {
+   "id": "splitarith_deepseek_reach_part",
+   "what": "arithmetic split of the critique - reassuring difference in selected questions, deepseek: reach_part (exploratory)",
+   "value": 42.6,
+   "paper": "AppF, Sec5",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "split",
+    "deepseek",
+    "reach_part"
+   ]
+  },
+  {
+   "id": "splitarith_deepseek_conversion_part",
+   "what": "arithmetic split of the critique - reassuring difference in selected questions, deepseek: conversion_part (exploratory)",
+   "value": -30.2,
+   "paper": "AppF, Sec5",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "split",
+    "deepseek",
+    "conversion_part"
+   ]
+  },
+  {
+   "id": "splitarith_deepseek_net",
+   "what": "arithmetic split of the critique - reassuring difference in selected questions, deepseek: net (exploratory)",
+   "value": 12.4,
+   "paper": "AppF, Sec5",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "split",
+    "deepseek",
+    "net"
+   ]
+  },
+  {
+   "id": "splitarith_deepseek_share_lost",
+   "what": "arithmetic split of the critique - reassuring difference in selected questions, deepseek: share_lost (exploratory)",
+   "value": 0.71,
+   "paper": "AppF, Sec5",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "split",
+    "deepseek",
+    "share_lost"
+   ]
+  },
+  {
+   "id": "splitarith_qwen_reach_part",
+   "what": "arithmetic split of the critique - reassuring difference in selected questions, qwen: reach_part (exploratory)",
+   "value": 43.6,
+   "paper": "AppF, Sec5",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "split",
+    "qwen",
+    "reach_part"
+   ]
+  },
+  {
+   "id": "splitarith_qwen_conversion_part",
+   "what": "arithmetic split of the critique - reassuring difference in selected questions, qwen: conversion_part (exploratory)",
+   "value": -20.3,
+   "paper": "AppF, Sec5",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "split",
+    "qwen",
+    "conversion_part"
+   ]
+  },
+  {
+   "id": "splitarith_qwen_net",
+   "what": "arithmetic split of the critique - reassuring difference in selected questions, qwen: net (exploratory)",
+   "value": 23.3,
+   "paper": "AppF, Sec5",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "split",
+    "qwen",
+    "net"
+   ]
+  },
+  {
+   "id": "splitarith_qwen_share_lost",
+   "what": "arithmetic split of the critique - reassuring difference in selected questions, qwen: share_lost (exploratory)",
+   "value": 0.47,
+   "paper": "AppF, Sec5",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "split",
+    "qwen",
+    "share_lost"
+   ]
+  },
+  {
+   "id": "splitarith_minimax_reach_part",
+   "what": "arithmetic split of the critique - reassuring difference in selected questions, minimax: reach_part (exploratory)",
+   "value": 22.0,
+   "paper": "AppF, Sec5",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "split",
+    "minimax",
+    "reach_part"
+   ]
+  },
+  {
+   "id": "splitarith_minimax_conversion_part",
+   "what": "arithmetic split of the critique - reassuring difference in selected questions, minimax: conversion_part (exploratory)",
+   "value": -16.7,
+   "paper": "AppF, Sec5",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "split",
+    "minimax",
+    "conversion_part"
+   ]
+  },
+  {
+   "id": "splitarith_minimax_net",
+   "what": "arithmetic split of the critique - reassuring difference in selected questions, minimax: net (exploratory)",
+   "value": 5.2,
+   "paper": "AppF, Sec5",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "split",
+    "minimax",
+    "net"
+   ]
+  },
+  {
+   "id": "splitarith_minimax_share_lost",
+   "what": "arithmetic split of the critique - reassuring difference in selected questions, minimax: share_lost (exploratory)",
+   "value": 0.76,
+   "paper": "AppF, Sec5",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "split",
+    "minimax",
+    "share_lost"
+   ],
+   "tex": [
+    "$+42.6$, $+43.6$ and $+22.0$",
+    "$-30.2$, $-20.3$ and $-16.7$",
+    "removes 71\\%, 47\\% and 76\\%"
+   ]
+  },
+  {
+   "id": "between_qwen-deepseek_diff",
+   "what": "difference between models in the critique - reassuring difference (selected), qwen-deepseek: diff (exploratory)",
+   "value": 10.8,
+   "paper": "AppF",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "between_models",
+    "qwen-deepseek",
+    "diff"
+   ]
+  },
+  {
+   "id": "between_qwen-deepseek_lo",
+   "what": "difference between models in the critique - reassuring difference (selected), qwen-deepseek: lo (exploratory)",
+   "value": -8.8,
+   "paper": "AppF",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "between_models",
+    "qwen-deepseek",
+    "lo"
+   ]
+  },
+  {
+   "id": "between_qwen-deepseek_hi",
+   "what": "difference between models in the critique - reassuring difference (selected), qwen-deepseek: hi (exploratory)",
+   "value": 31.6,
+   "paper": "AppF",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "between_models",
+    "qwen-deepseek",
+    "hi"
+   ]
+  },
+  {
+   "id": "between_qwen-minimax_diff",
+   "what": "difference between models in the critique - reassuring difference (selected), qwen-minimax: diff (exploratory)",
+   "value": 18.0,
+   "paper": "AppF",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "between_models",
+    "qwen-minimax",
+    "diff"
+   ]
+  },
+  {
+   "id": "between_qwen-minimax_lo",
+   "what": "difference between models in the critique - reassuring difference (selected), qwen-minimax: lo (exploratory)",
+   "value": -0.2,
+   "paper": "AppF",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "between_models",
+    "qwen-minimax",
+    "lo"
+   ]
+  },
+  {
+   "id": "between_qwen-minimax_hi",
+   "what": "difference between models in the critique - reassuring difference (selected), qwen-minimax: hi (exploratory)",
+   "value": 36.8,
+   "paper": "AppF",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "between_models",
+    "qwen-minimax",
+    "hi"
+   ]
+  },
+  {
+   "id": "between_deepseek-minimax_diff",
+   "what": "difference between models in the critique - reassuring difference (selected), deepseek-minimax: diff (exploratory)",
+   "value": 7.2,
+   "paper": "AppF",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "between_models",
+    "deepseek-minimax",
+    "diff"
+   ]
+  },
+  {
+   "id": "between_deepseek-minimax_lo",
+   "what": "difference between models in the critique - reassuring difference (selected), deepseek-minimax: lo (exploratory)",
+   "value": -11.2,
+   "paper": "AppF",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "between_models",
+    "deepseek-minimax",
+    "lo"
+   ]
+  },
+  {
+   "id": "between_deepseek-minimax_hi",
+   "what": "difference between models in the critique - reassuring difference (selected), deepseek-minimax: hi (exploratory)",
+   "value": 25.1,
+   "paper": "AppF",
+   "source": "scripts/three_model_means.py",
+   "json": [
+    "experiments/hle400/t3/three_model_means.json",
+    "between_models",
+    "deepseek-minimax",
+    "hi"
+   ],
+   "tex": [
+    "$+10.8$ \\ci{-8.8}{31.6}",
+    "$+18.0$ \\ci{-0.2}{36.8} ($p=0.07$)",
+    "$+7.2$ \\ci{-11.2}{25.1}"
+   ]
+  },
+  {
+   "id": "ctrl_reached_A2",
+   "what": "controls on qwen: reached, A2",
+   "value": 123,
+   "paper": "Tab5, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "A2",
+    "reached"
+   ]
+  },
+  {
+   "id": "ctrl_selected_A2",
+   "what": "controls on qwen: selected, A2",
+   "value": 90.8,
+   "paper": "Tab5, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "A2",
+    "selected"
+   ]
+  },
+  {
+   "id": "ctrl_tokens_A2",
+   "what": "controls on qwen: total tokens (M), A2",
+   "value": 15.2,
+   "paper": "Tab5",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "A2",
+    "total_tokens_M"
+   ]
+  },
+  {
+   "id": "ctrl_reached_C2X",
+   "what": "controls on qwen: reached, C2X",
+   "value": 120,
+   "paper": "Tab5, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "C2X",
+    "reached"
+   ]
+  },
+  {
+   "id": "ctrl_selected_C2X",
+   "what": "controls on qwen: selected, C2X",
+   "value": 93.5,
+   "paper": "Tab5, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "C2X",
+    "selected"
+   ]
+  },
+  {
+   "id": "ctrl_reached_A2P",
+   "what": "controls on qwen: reached, A2P",
+   "value": 149,
+   "paper": "Tab5, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "A2P",
+    "reached"
+   ]
+  },
+  {
+   "id": "ctrl_selected_A2P",
+   "what": "controls on qwen: selected, A2P",
+   "value": 95.6,
+   "paper": "Tab5, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "A2P",
+    "selected"
+   ]
+  },
+  {
+   "id": "ctrl_tokens_A2P",
+   "what": "controls on qwen: total tokens (M), A2P",
+   "value": 21.0,
+   "paper": "Tab5",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "A2P",
+    "total_tokens_M"
+   ]
+  },
+  {
+   "id": "ctrl_reached_C2Q",
+   "what": "controls on qwen: reached, C2Q",
+   "value": 161,
+   "paper": "Tab5, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "C2Q",
+    "reached"
+   ]
+  },
+  {
+   "id": "ctrl_selected_C2Q",
+   "what": "controls on qwen: selected, C2Q",
+   "value": 95.3,
+   "paper": "Tab5, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "C2Q",
+    "selected"
+   ]
+  },
+  {
+   "id": "ctrl_tokens_C2Q",
+   "what": "controls on qwen: total tokens (M), C2Q",
+   "value": 32.0,
+   "paper": "Tab5",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "C2Q",
+    "total_tokens_M"
+   ]
+  },
+  {
+   "id": "ctrl_reached_A2PY",
+   "what": "controls on qwen: reached, A2PY",
+   "value": 181,
+   "paper": "Tab5, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "A2PY",
+    "reached"
+   ]
+  },
+  {
+   "id": "ctrl_selected_A2PY",
+   "what": "controls on qwen: selected, A2PY",
+   "value": 92.0,
+   "paper": "Tab5, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "A2PY",
+    "selected"
+   ]
+  },
+  {
+   "id": "ctrl_tokens_A2PY",
+   "what": "controls on qwen: total tokens (M), A2PY",
+   "value": 38.0,
+   "paper": "Tab5",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "A2PY",
+    "total_tokens_M"
+   ]
+  },
+  {
+   "id": "ctrl_reached_C2",
+   "what": "controls on qwen: reached, C2",
+   "value": 182,
+   "paper": "Tab5, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "C2",
+    "reached"
+   ]
+  },
+  {
+   "id": "ctrl_selected_C2",
+   "what": "controls on qwen: selected, C2",
+   "value": 114.1,
+   "paper": "Tab5, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "C2",
+    "selected"
+   ]
+  },
+  {
+   "id": "ctrl_tokens_C2",
+   "what": "controls on qwen: total tokens (M), C2",
+   "value": 36.2,
+   "paper": "Tab5",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "C2",
+    "total_tokens_M"
+   ],
+   "tex": [
+    "Reassuring & 123 & 90.8 & & 159 & 87.7",
+    "Mismatched critique & 120 & 93.5 & & 166 & 96.8",
+    "Generic doubt & 149 & 95.6 & & 181 & 92.0",
+    "Question-only critique & 161 & 95.3 & & 179 & 91.8",
+    "Critique & 182 & 114.1 & & 182 & 114.1"
+   ]
+  },
+  {
+   "id": "ctrl_Y1_367_b",
+   "what": "Y1 critique vs token-yoked (all rounds): reached only by the first",
+   "value": 32,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "Y1 critique vs token-yoked (all rounds)",
+    "only_first"
+   ]
+  },
+  {
+   "id": "ctrl_Y1_368_c",
+   "what": "Y1 critique vs token-yoked (all rounds): reached only by the second",
+   "value": 31,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "Y1 critique vs token-yoked (all rounds)",
+    "only_second"
+   ]
+  },
+  {
+   "id": "ctrl_Y1_369_b",
+   "what": "Y1 critique vs token-yoked (within budget): reached only by the first",
+   "value": 35,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "Y1 critique vs token-yoked (within budget)",
+    "only_first"
+   ]
+  },
+  {
+   "id": "ctrl_Y1_370_c",
+   "what": "Y1 critique vs token-yoked (within budget): reached only by the second",
+   "value": 27,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "Y1 critique vs token-yoked (within budget)",
+    "only_second"
+   ]
+  },
+  {
+   "id": "ctrl_Y2_371_b",
+   "what": "Y2 token-yoked vs generic doubt: reached only by the first",
+   "value": 42,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "Y2 token-yoked vs generic doubt",
+    "only_first"
+   ]
+  },
+  {
+   "id": "ctrl_Y2_372_c",
+   "what": "Y2 token-yoked vs generic doubt: reached only by the second",
+   "value": 10,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "Y2 token-yoked vs generic doubt",
+    "only_second"
+   ]
+  },
+  {
+   "id": "ctrl_X1_373_b",
+   "what": "X1 critique vs mismatched: reached only by the first",
+   "value": 72,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "X1 critique vs mismatched",
+    "only_first"
+   ]
+  },
+  {
+   "id": "ctrl_X1_374_c",
+   "what": "X1 critique vs mismatched: reached only by the second",
+   "value": 10,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "X1 critique vs mismatched",
+    "only_second"
+   ]
+  },
+  {
+   "id": "ctrl_X2_375_b",
+   "what": "X2 mismatched vs generic doubt: reached only by the first",
+   "value": 9,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "X2 mismatched vs generic doubt",
+    "only_first"
+   ]
+  },
+  {
+   "id": "ctrl_X2_376_c",
+   "what": "X2 mismatched vs generic doubt: reached only by the second",
+   "value": 38,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "X2 mismatched vs generic doubt",
+    "only_second"
+   ]
+  },
+  {
+   "id": "ctrl_Q1_377_b",
+   "what": "Q1 critique vs question-only: reached only by the first",
+   "value": 48,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "Q1 critique vs question-only",
+    "only_first"
+   ]
+  },
+  {
+   "id": "ctrl_Q1_378_c",
+   "what": "Q1 critique vs question-only: reached only by the second",
+   "value": 27,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "Q1 critique vs question-only",
+    "only_second"
+   ]
+  },
+  {
+   "id": "ctrl_Q2_379_b",
+   "what": "Q2 question-only vs generic doubt: reached only by the first",
+   "value": 34,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "Q2 question-only vs generic doubt",
+    "only_first"
+   ]
+  },
+  {
+   "id": "ctrl_Q2_380_c",
+   "what": "Q2 question-only vs generic doubt: reached only by the second",
+   "value": 22,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "Q2 question-only vs generic doubt",
+    "only_second"
+   ]
+  },
+  {
+   "id": "ctrl_reference_381_b",
+   "what": "reference: mismatched vs reassuring: reached only by the first",
+   "value": 17,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "reference: mismatched vs reassuring",
+    "only_first"
+   ]
+  },
+  {
+   "id": "ctrl_reference_382_c",
+   "what": "reference: mismatched vs reassuring: reached only by the second",
+   "value": 20,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "reference: mismatched vs reassuring",
+    "only_second"
+   ]
+  },
+  {
+   "id": "ctrl_Q1_holm",
+   "what": "Q1 Holm-corrected p",
+   "value": 0.0406,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "Q1 critique vs question-only",
+    "p_holm"
+   ],
+   "tex": [
+    "$p=0.020$, $0.041$ after correction"
+   ]
+  },
+  {
+   "id": "ctrl_Y1_holm",
+   "what": "Y1 Holm-corrected p",
+   "value": 1.0,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "reached_tests",
+    "Y1 critique vs token-yoked (all rounds)",
+    "p_holm"
+   ]
+  },
+  {
+   "id": "ctrl_sel_Y1_diff",
+   "what": "Y1 critique vs token-yoked (all rounds): selected diff (descriptive)",
+   "value": 22.1,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "selected_tests",
+    "Y1 critique vs token-yoked (all rounds)",
+    "diff"
+   ]
+  },
+  {
+   "id": "ctrl_sel_Y1_lo",
+   "what": "Y1 critique vs token-yoked (all rounds): selected lo (descriptive)",
+   "value": 9.0,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "selected_tests",
+    "Y1 critique vs token-yoked (all rounds)",
+    "lo"
+   ]
+  },
+  {
+   "id": "ctrl_sel_Y1_hi",
+   "what": "Y1 critique vs token-yoked (all rounds): selected hi (descriptive)",
+   "value": 35.8,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "selected_tests",
+    "Y1 critique vs token-yoked (all rounds)",
+    "hi"
+   ]
+  },
+  {
+   "id": "ctrl_sel_X1_diff",
+   "what": "X1 critique vs mismatched: selected diff (descriptive)",
+   "value": 20.6,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "selected_tests",
+    "X1 critique vs mismatched",
+    "diff"
+   ]
+  },
+  {
+   "id": "ctrl_sel_X1_lo",
+   "what": "X1 critique vs mismatched: selected lo (descriptive)",
+   "value": 6.5,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "selected_tests",
+    "X1 critique vs mismatched",
+    "lo"
+   ]
+  },
+  {
+   "id": "ctrl_sel_X1_hi",
+   "what": "X1 critique vs mismatched: selected hi (descriptive)",
+   "value": 36.2,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "selected_tests",
+    "X1 critique vs mismatched",
+    "hi"
+   ]
+  },
+  {
+   "id": "ctrl_sel_Q1_diff",
+   "what": "Q1 critique vs question-only: selected diff (descriptive)",
+   "value": 18.7,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "selected_tests",
+    "Q1 critique vs question-only",
+    "diff"
+   ]
+  },
+  {
+   "id": "ctrl_sel_Q1_lo",
+   "what": "Q1 critique vs question-only: selected lo (descriptive)",
+   "value": 4.9,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "selected_tests",
+    "Q1 critique vs question-only",
+    "lo"
+   ]
+  },
+  {
+   "id": "ctrl_sel_Q1_hi",
+   "what": "Q1 critique vs question-only: selected hi (descriptive)",
+   "value": 32.8,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "selected_tests",
+    "Q1 critique vs question-only",
+    "hi"
+   ]
+  },
+  {
+   "id": "ctrl_sel_Y2_diff",
+   "what": "Y2 token-yoked vs generic doubt: selected diff (descriptive)",
+   "value": -3.6,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "selected_tests",
+    "Y2 token-yoked vs generic doubt",
+    "diff"
+   ]
+  },
+  {
+   "id": "ctrl_sel_Y2_lo",
+   "what": "Y2 token-yoked vs generic doubt: selected lo (descriptive)",
+   "value": -14.2,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "selected_tests",
+    "Y2 token-yoked vs generic doubt",
+    "lo"
+   ]
+  },
+  {
+   "id": "ctrl_sel_Y2_hi",
+   "what": "Y2 token-yoked vs generic doubt: selected hi (descriptive)",
+   "value": 7.5,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "selected_tests",
+    "Y2 token-yoked vs generic doubt",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "ctrl_alignment_ratio",
+   "what": "token-yoked total tokens / critique loop total",
+   "value": 1.049,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "token_alignment",
+    "ratio"
+   ],
+   "tex": [
+    "105\\% of the critique loop"
+   ]
+  },
+  {
+   "id": "ctrl_alignment_cap",
+   "what": "token-yoked questions at the cap",
+   "value": 0,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "token_alignment",
+    "questions_at_cap"
+   ]
+  },
+  {
+   "id": "ctrl_aligned",
+   "what": "token alignment criterion met",
+   "value": true,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "token_alignment",
+    "aligned"
+   ]
+  },
+  {
+   "id": "ctrl_fbchars_C2X",
+   "what": "feedback characters (mean)",
+   "value": 1645,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "C2X",
+    "feedback_chars_mean"
+   ]
+  },
+  {
+   "id": "ctrl_overlap_C2X",
+   "what": "overlap of feedback with the question",
+   "value": 0.011,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "C2X",
+    "overlap_with_question"
+   ]
+  },
+  {
+   "id": "ctrl_change_C2X",
+   "what": "answer change rate",
+   "value": 0.4,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "C2X",
+    "answer_change_rate"
+   ]
+  },
+  {
+   "id": "ctrl_fbchars_C2Q",
+   "what": "feedback characters (mean)",
+   "value": 1490,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "C2Q",
+    "feedback_chars_mean"
+   ]
+  },
+  {
+   "id": "ctrl_overlap_C2Q",
+   "what": "overlap of feedback with the question",
+   "value": 0.078,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "C2Q",
+    "overlap_with_question"
+   ]
+  },
+  {
+   "id": "ctrl_change_C2Q",
+   "what": "answer change rate",
+   "value": 0.59,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "C2Q",
+    "answer_change_rate"
+   ]
+  },
+  {
+   "id": "ctrl_fbchars_C2",
+   "what": "feedback characters (mean)",
+   "value": 1647,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "C2",
+    "feedback_chars_mean"
+   ]
+  },
+  {
+   "id": "ctrl_overlap_C2",
+   "what": "overlap of feedback with the question",
+   "value": 0.078,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "C2",
+    "overlap_with_question"
+   ]
+  },
+  {
+   "id": "ctrl_change_C2",
+   "what": "answer change rate",
+   "value": 0.67,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "C2",
+    "answer_change_rate"
+   ]
+  },
+  {
+   "id": "ctrl_fbchars_A2P",
+   "what": "feedback characters (mean)",
+   "value": 538,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "A2P",
+    "feedback_chars_mean"
+   ]
+  },
+  {
+   "id": "ctrl_overlap_A2P",
+   "what": "overlap of feedback with the question",
+   "value": 0.013,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "A2P",
+    "overlap_with_question"
+   ]
+  },
+  {
+   "id": "ctrl_change_A2P",
+   "what": "answer change rate",
+   "value": 0.56,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "conditions",
+    "A2P",
+    "answer_change_rate"
+   ]
+  },
+  {
+   "id": "ctrl_c2q_flag",
+   "what": "question-only critique flagged as confounded with length",
+   "value": false,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "c2q_length_confound_flag",
+    "flagged"
+   ]
+  },
+  {
+   "id": "ctrl_c2q_leak",
+   "what": "question-only critic text contains the next answer [hits, n]",
+   "value": [
+    79,
+    1096
+   ],
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "c2q_critic_contains_next_answer"
+   ],
+   "tex": [
+    "79 of 1{,}096"
+   ]
+  },
+  {
+   "id": "ctrl_exact_sel_A2",
+   "what": "controls on qwen, exact matching only: selected",
+   "value": 56.0,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "selected",
+    "A2"
+   ]
+  },
+  {
+   "id": "ctrl_exact_sel_C2X",
+   "what": "controls on qwen, exact matching only: selected",
+   "value": 55.5,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "selected",
+    "C2X"
+   ]
+  },
+  {
+   "id": "ctrl_exact_sel_A2P",
+   "what": "controls on qwen, exact matching only: selected",
+   "value": 59.0,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "selected",
+    "A2P"
+   ]
+  },
+  {
+   "id": "ctrl_exact_sel_C2Q",
+   "what": "controls on qwen, exact matching only: selected",
+   "value": 57.4,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "selected",
+    "C2Q"
+   ]
+  },
+  {
+   "id": "ctrl_exact_sel_A2PY",
+   "what": "controls on qwen, exact matching only: selected",
+   "value": 57.4,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "selected",
+    "A2PY"
+   ]
+  },
+  {
+   "id": "ctrl_exact_sel_C2",
+   "what": "controls on qwen, exact matching only: selected",
+   "value": 68.1,
+   "paper": "AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "selected",
+    "C2"
+   ]
+  },
+  {
+   "id": "ctrl_exact_diff_A2PY_diff",
+   "what": "controls on qwen, exact matching only: critique minus control, selected",
+   "value": 10.7,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "critique_minus",
+    "A2PY",
+    "selected",
+    "diff"
+   ]
+  },
+  {
+   "id": "ctrl_exact_diff_A2PY_lo",
+   "what": "controls on qwen, exact matching only: critique minus control, selected",
+   "value": -0.8,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "critique_minus",
+    "A2PY",
+    "selected",
+    "lo"
+   ]
+  },
+  {
+   "id": "ctrl_exact_diff_A2PY_hi",
+   "what": "controls on qwen, exact matching only: critique minus control, selected",
+   "value": 21.8,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "critique_minus",
+    "A2PY",
+    "selected",
+    "hi"
+   ]
+  },
+  {
+   "id": "ctrl_exact_diff_C2X_diff",
+   "what": "controls on qwen, exact matching only: critique minus control, selected",
+   "value": 12.6,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "critique_minus",
+    "C2X",
+    "selected",
+    "diff"
+   ]
+  },
+  {
+   "id": "ctrl_exact_diff_C2X_lo",
+   "what": "controls on qwen, exact matching only: critique minus control, selected",
+   "value": 1.8,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "critique_minus",
+    "C2X",
+    "selected",
+    "lo"
+   ]
+  },
+  {
+   "id": "ctrl_exact_diff_C2X_hi",
+   "what": "controls on qwen, exact matching only: critique minus control, selected",
+   "value": 23.1,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "critique_minus",
+    "C2X",
+    "selected",
+    "hi"
+   ]
+  },
+  {
+   "id": "ctrl_exact_diff_C2Q_diff",
+   "what": "controls on qwen, exact matching only: critique minus control, selected",
+   "value": 10.7,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "critique_minus",
+    "C2Q",
+    "selected",
+    "diff"
+   ]
+  },
+  {
+   "id": "ctrl_exact_diff_C2Q_lo",
+   "what": "controls on qwen, exact matching only: critique minus control, selected",
+   "value": -0.5,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "critique_minus",
+    "C2Q",
+    "selected",
+    "lo"
+   ]
+  },
+  {
+   "id": "ctrl_exact_diff_C2Q_hi",
+   "what": "controls on qwen, exact matching only: critique minus control, selected",
+   "value": 22.3,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "critique_minus",
+    "C2Q",
+    "selected",
+    "hi"
+   ]
+  },
+  {
+   "id": "ctrl_exact_diff_A2P_diff",
+   "what": "controls on qwen, exact matching only: critique minus control, selected",
+   "value": 9.1,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "critique_minus",
+    "A2P",
+    "selected",
+    "diff"
+   ]
+  },
+  {
+   "id": "ctrl_exact_diff_A2P_lo",
+   "what": "controls on qwen, exact matching only: critique minus control, selected",
+   "value": -3.8,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "critique_minus",
+    "A2P",
+    "selected",
+    "lo"
+   ]
+  },
+  {
+   "id": "ctrl_exact_diff_A2P_hi",
+   "what": "controls on qwen, exact matching only: critique minus control, selected",
+   "value": 21.8,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "critique_minus",
+    "A2P",
+    "selected",
+    "hi"
+   ]
+  },
+  {
+   "id": "ctrl_exact_diff_A2_diff",
+   "what": "controls on qwen, exact matching only: critique minus control, selected",
+   "value": 12.1,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "critique_minus",
+    "A2",
+    "selected",
+    "diff"
+   ]
+  },
+  {
+   "id": "ctrl_exact_diff_A2_lo",
+   "what": "controls on qwen, exact matching only: critique minus control, selected",
+   "value": -0.7,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "critique_minus",
+    "A2",
+    "selected",
+    "lo"
+   ]
+  },
+  {
+   "id": "ctrl_exact_diff_A2_hi",
+   "what": "controls on qwen, exact matching only: critique minus control, selected",
+   "value": 24.8,
+   "paper": "Sec4.1, AppG",
+   "source": "scripts/controls_readout.py",
+   "json": [
+    "experiments/hle400/t3/controls_readout.json",
+    "exact_match_only",
+    "critique_minus",
+    "A2",
+    "selected",
+    "hi"
+   ],
+   "tex": [
+    "10.7 \\ci{-0.8}{21.8}",
+    "12.6 \\ci{1.8}{23.1}",
+    "10.7 \\ci{-0.5}{22.3}"
+   ]
+  },
+  {
+   "id": "second_cand_counts",
+   "what": "second candidate correct when the first is wrong (critique, generic doubt)",
+   "value": "48/204, 26/171; 61/256, 42/220; 35/219, 26/168",
+   "paper": "AppF",
+   "source": "scripts/reach_quality_checks.py (stdout)",
+   "tex": [
+    "48 of 204 cases under critique and 26 of 171 under generic doubt on \\ds, 61 of 256 and 42 of 220 on \\qw, and 35 of 219 and 26 of 168 on \\mm"
    ]
   },
   {
@@ -3775,6 +6140,2489 @@
     "audit/human_audit_20261111/audit_final.json",
     "false_reject"
    ]
+  },
+  {
+   "id": "eq_A2Y_reached",
+   "value": 159,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "feedback",
+    "reassuring",
+    "equal_tokens",
+    "reached"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_A2Y_selected",
+   "value": 87.7,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "feedback",
+    "reassuring",
+    "equal_tokens",
+    "selected"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_A2Y_ratio",
+   "value": 1.043,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "feedback",
+    "reassuring",
+    "equal_tokens",
+    "ratio"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_C2XY_reached",
+   "value": 166,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "feedback",
+    "mismatched critique",
+    "equal_tokens",
+    "reached"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_C2XY_selected",
+   "value": 96.8,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "feedback",
+    "mismatched critique",
+    "equal_tokens",
+    "selected"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_C2XY_ratio",
+   "value": 1.048,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "feedback",
+    "mismatched critique",
+    "equal_tokens",
+    "ratio"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_A2PY_reached",
+   "value": 181,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "feedback",
+    "generic doubt",
+    "equal_tokens",
+    "reached"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_A2PY_selected",
+   "value": 92.0,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "feedback",
+    "generic doubt",
+    "equal_tokens",
+    "selected"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_A2PY_ratio",
+   "value": 1.049,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "feedback",
+    "generic doubt",
+    "equal_tokens",
+    "ratio"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_C2QY_reached",
+   "value": 179,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "feedback",
+    "question-only critique",
+    "equal_tokens",
+    "reached"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_C2QY_selected",
+   "value": 91.8,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "feedback",
+    "question-only critique",
+    "equal_tokens",
+    "selected"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_C2QY_ratio",
+   "value": 1.086,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "feedback",
+    "question-only critique",
+    "equal_tokens",
+    "ratio"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E1_reach_only_first",
+   "value": 35,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E1 critique vs question-only",
+    "equal_tokens",
+    "only_first"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E1_reach_only_second",
+   "value": 32,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E1 critique vs question-only",
+    "equal_tokens",
+    "only_second"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E1_reach_p",
+   "value": 0.80719,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E1 critique vs question-only",
+    "equal_tokens",
+    "p"
+   ],
+   "tex": [
+    "35/32, $p=0.81$"
+   ]
+  },
+  {
+   "id": "eq_E1_reach_p_holm",
+   "value": 0.80719,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E1 critique vs question-only",
+    "equal_tokens",
+    "p_holm"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E1_sel_diff",
+   "value": 22.3,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E1 critique vs question-only",
+    "selected_equal_tokens",
+    "diff"
+   ],
+   "tex": [
+    "22.3 (\\ci{8.4}{36.8})"
+   ]
+  },
+  {
+   "id": "eq_E1_selx_diff",
+   "value": 9.1,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E1 critique vs question-only",
+    "selected_exact_equal_tokens",
+    "diff"
+   ],
+   "tex": [
+    "$+9.1$ (\\ci{-1.8}{19.8})"
+   ]
+  },
+  {
+   "id": "eq_E1_sel_lo",
+   "value": 8.4,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E1 critique vs question-only",
+    "selected_equal_tokens",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E1_selx_lo",
+   "value": -1.8,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E1 critique vs question-only",
+    "selected_exact_equal_tokens",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E1_sel_hi",
+   "value": 36.8,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E1 critique vs question-only",
+    "selected_equal_tokens",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E1_selx_hi",
+   "value": 19.8,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E1 critique vs question-only",
+    "selected_exact_equal_tokens",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E1_gain_only_first",
+   "value": 26,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E1 critique vs question-only",
+    "gain_from_tokens",
+    "only_first"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E1_gain_only_second",
+   "value": 8,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E1 critique vs question-only",
+    "gain_from_tokens",
+    "only_second"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E2_reach_only_first",
+   "value": 37,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E2 critique vs mismatched",
+    "equal_tokens",
+    "only_first"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E2_reach_only_second",
+   "value": 21,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E2 critique vs mismatched",
+    "equal_tokens",
+    "only_second"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E2_reach_p",
+   "value": 0.04794,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E2 critique vs mismatched",
+    "equal_tokens",
+    "p"
+   ],
+   "tex": [
+    "37/21, $p=0.048$, after correction $0.096$"
+   ]
+  },
+  {
+   "id": "eq_E2_reach_p_holm",
+   "value": 0.09588,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E2 critique vs mismatched",
+    "equal_tokens",
+    "p_holm"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E2_sel_diff",
+   "value": 17.3,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E2 critique vs mismatched",
+    "selected_equal_tokens",
+    "diff"
+   ],
+   "tex": [
+    "17.3 (\\ci{3.9}{31.5})"
+   ]
+  },
+  {
+   "id": "eq_E2_selx_diff",
+   "value": 8.1,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E2 critique vs mismatched",
+    "selected_exact_equal_tokens",
+    "diff"
+   ],
+   "tex": [
+    "$+8.1$ (\\ci{-1.5}{17.8})"
+   ]
+  },
+  {
+   "id": "eq_E2_sel_lo",
+   "value": 3.9,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E2 critique vs mismatched",
+    "selected_equal_tokens",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E2_selx_lo",
+   "value": -1.5,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E2 critique vs mismatched",
+    "selected_exact_equal_tokens",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E2_sel_hi",
+   "value": 31.5,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E2 critique vs mismatched",
+    "selected_equal_tokens",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E2_selx_hi",
+   "value": 17.8,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E2 critique vs mismatched",
+    "selected_exact_equal_tokens",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E2_gain_only_first",
+   "value": 47,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E2 critique vs mismatched",
+    "gain_from_tokens",
+    "only_first"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E2_gain_only_second",
+   "value": 1,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E2 critique vs mismatched",
+    "gain_from_tokens",
+    "only_second"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E3_reach_only_first",
+   "value": 45,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E3 critique vs reassuring",
+    "equal_tokens",
+    "only_first"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E3_reach_only_second",
+   "value": 22,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E3 critique vs reassuring",
+    "equal_tokens",
+    "only_second"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E3_reach_p",
+   "value": 0.00674,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E3 critique vs reassuring",
+    "equal_tokens",
+    "p"
+   ],
+   "tex": [
+    "45/22, $p=0.007$, after correction $0.020$"
+   ]
+  },
+  {
+   "id": "eq_E3_reach_p_holm",
+   "value": 0.02022,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E3 critique vs reassuring",
+    "equal_tokens",
+    "p_holm"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E3_sel_diff",
+   "value": 26.4,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E3 critique vs reassuring",
+    "selected_equal_tokens",
+    "diff"
+   ],
+   "tex": [
+    "26.4 (\\ci{12.7}{41.8})"
+   ]
+  },
+  {
+   "id": "eq_E3_selx_diff",
+   "value": 11.9,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E3 critique vs reassuring",
+    "selected_exact_equal_tokens",
+    "diff"
+   ],
+   "tex": [
+    "$+11.9$ (\\ci{0.2}{23.6})"
+   ]
+  },
+  {
+   "id": "eq_E3_sel_lo",
+   "value": 12.7,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E3 critique vs reassuring",
+    "selected_equal_tokens",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E3_selx_lo",
+   "value": 0.2,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E3 critique vs reassuring",
+    "selected_exact_equal_tokens",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E3_sel_hi",
+   "value": 41.8,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E3 critique vs reassuring",
+    "selected_equal_tokens",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E3_selx_hi",
+   "value": 23.6,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E3 critique vs reassuring",
+    "selected_exact_equal_tokens",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E3_gain_only_first",
+   "value": 38,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E3 critique vs reassuring",
+    "gain_from_tokens",
+    "only_first"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_E3_gain_only_second",
+   "value": 2,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "tests",
+    "E3 critique vs reassuring",
+    "gain_from_tokens",
+    "only_second"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mm_yoke_ratio",
+   "value": 1.059,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "token_alignment",
+    "ratio"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mm_yoke_reached",
+   "value": 156,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "conditions",
+    "token-yoked generic doubt",
+    "reached"
+   ],
+   "tex": [
+    "It reaches 156 questions and selects 96.0."
+   ]
+  },
+  {
+   "id": "mm_yoke_selected",
+   "value": 96.0,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "conditions",
+    "token-yoked generic doubt",
+    "selected"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mm_Y1_only_first",
+   "value": 21,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "tests",
+    "Y1 critique vs token-yoked (all rounds)",
+    "only_first"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mm_Y1_only_second",
+   "value": 25,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "tests",
+    "Y1 critique vs token-yoked (all rounds)",
+    "only_second"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mm_Y1_p",
+   "value": 0.65874,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "tests",
+    "Y1 critique vs token-yoked (all rounds)",
+    "p"
+   ],
+   "tex": [
+    "21/25, $p=0.66$"
+   ]
+  },
+  {
+   "id": "mm_Y2_only_first",
+   "value": 39,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "tests",
+    "Y2 token-yoked vs generic doubt",
+    "only_first"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mm_Y2_only_second",
+   "value": 11,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "tests",
+    "Y2 token-yoked vs generic doubt",
+    "only_second"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mm_Y2_p",
+   "value": 9e-05,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "tests",
+    "Y2 token-yoked vs generic doubt",
+    "p"
+   ],
+   "tex": [
+    "39/11, $p<0.001$"
+   ]
+  },
+  {
+   "id": "mm_Y1w_only_first",
+   "value": 25,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "tests",
+    "Y1 critique vs token-yoked (within budget)",
+    "only_first"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mm_Y1w_only_second",
+   "value": 22,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "tests",
+    "Y1 critique vs token-yoked (within budget)",
+    "only_second"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mm_Y1w_p",
+   "value": 0.77087,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "tests",
+    "Y1 critique vs token-yoked (within budget)",
+    "p"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mm_sel_C2_A2PY_diff",
+   "value": 10.9,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "selected",
+    "critique - token-yoked",
+    "diff"
+   ],
+   "tex": [
+    "$+10.9$ (\\ci{-0.5}{22.3})"
+   ]
+  },
+  {
+   "id": "mm_sel_A2PY_A2P_diff",
+   "value": -6.3,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "selected",
+    "token-yoked - generic doubt",
+    "diff"
+   ],
+   "tex": [
+    "$-6.3$ (\\ci{-17.4}{4.2})"
+   ]
+  },
+  {
+   "id": "mm_sel_C2_A2PY_lo",
+   "value": -0.5,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "selected",
+    "critique - token-yoked",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mm_sel_A2PY_A2P_lo",
+   "value": -17.4,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "selected",
+    "token-yoked - generic doubt",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mm_sel_C2_A2PY_hi",
+   "value": 22.3,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "selected",
+    "critique - token-yoked",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mm_sel_A2PY_A2P_hi",
+   "value": 4.2,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "selected",
+    "token-yoked - generic doubt",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_first_answer_reached",
+   "value": 148,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "first answer",
+    "reached"
+   ],
+   "tex": [
+    "First answer & 148 & 148.0 & 148 & -- & 6"
+   ]
+  },
+  {
+   "id": "conf_first_answer_selected",
+   "value": 148.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "first answer",
+    "selected"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_first_answer_conversion",
+   "value": 1.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "first answer",
+    "conversion"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_first_answer_tokens_M",
+   "value": 5.5,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "first answer",
+    "tokens_M"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_first_answer_feedback_rounds_per_q",
+   "value": 0.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "first answer",
+    "feedback_rounds_per_q"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_first_answer_candidates_per_q",
+   "value": 0.95,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "first answer",
+    "candidates_per_q"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_first_answer_selected_exact",
+   "value": 91.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "first answer",
+    "selected_exact"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_reassuring_reached",
+   "value": 245,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "reassuring",
+    "reached"
+   ],
+   "tex": [
+    "Reassuring loop & 170 & 168.5 & 245 & .69 & 26"
+   ]
+  },
+  {
+   "id": "conf_reassuring_selected",
+   "value": 168.5,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "reassuring",
+    "selected"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_reassuring_conversion",
+   "value": 0.688,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "reassuring",
+    "conversion"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_reassuring_tokens_M",
+   "value": 25.7,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "reassuring",
+    "tokens_M"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_reassuring_feedback_rounds_per_q",
+   "value": 3.85,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "reassuring",
+    "feedback_rounds_per_q"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_reassuring_candidates_per_q",
+   "value": 2.03,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "reassuring",
+    "candidates_per_q"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_reassuring_selected_exact",
+   "value": 111.4,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "reassuring",
+    "selected_exact"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_generic_doubt_reached",
+   "value": 287,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "generic doubt",
+    "reached"
+   ],
+   "tex": [
+    "Generic-doubt loop & 176 & 183.2 & 287 & .64 & 36"
+   ]
+  },
+  {
+   "id": "conf_generic_doubt_selected",
+   "value": 183.2,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "generic doubt",
+    "selected"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_generic_doubt_conversion",
+   "value": 0.639,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "generic doubt",
+    "conversion"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_generic_doubt_tokens_M",
+   "value": 36.3,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "generic doubt",
+    "tokens_M"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_generic_doubt_feedback_rounds_per_q",
+   "value": 5.17,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "generic doubt",
+    "feedback_rounds_per_q"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_generic_doubt_candidates_per_q",
+   "value": 2.73,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "generic doubt",
+    "candidates_per_q"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_generic_doubt_selected_exact",
+   "value": 120.9,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "generic doubt",
+    "selected_exact"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_token_yoked_generic_doubt_reached",
+   "value": 363,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "token-yoked generic doubt",
+    "reached"
+   ],
+   "tex": [
+    "Token-yoked generic doubt & 173 & 181.5 & 363 & .50 & 69"
+   ]
+  },
+  {
+   "id": "conf_token_yoked_generic_doubt_selected",
+   "value": 181.5,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "token-yoked generic doubt",
+    "selected"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_token_yoked_generic_doubt_conversion",
+   "value": 0.5,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "token-yoked generic doubt",
+    "conversion"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_token_yoked_generic_doubt_tokens_M",
+   "value": 69.2,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "token-yoked generic doubt",
+    "tokens_M"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_token_yoked_generic_doubt_feedback_rounds_per_q",
+   "value": 15.21,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "token-yoked generic doubt",
+    "feedback_rounds_per_q"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_token_yoked_generic_doubt_candidates_per_q",
+   "value": 4.2,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "token-yoked generic doubt",
+    "candidates_per_q"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_token_yoked_generic_doubt_selected_exact",
+   "value": 120.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "token-yoked generic doubt",
+    "selected_exact"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_critique_reached",
+   "value": 348,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "critique",
+    "reached"
+   ],
+   "tex": [
+    "Critique loop & 207 & \\textbf{205.3} & 348 & .59 & 66"
+   ]
+  },
+  {
+   "id": "conf_critique_selected",
+   "value": 205.3,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "critique",
+    "selected"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_critique_conversion",
+   "value": 0.59,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "critique",
+    "conversion"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_critique_tokens_M",
+   "value": 66.2,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "critique",
+    "tokens_M"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_critique_feedback_rounds_per_q",
+   "value": 6.32,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "critique",
+    "feedback_rounds_per_q"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_critique_candidates_per_q",
+   "value": 3.4,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "critique",
+    "candidates_per_q"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_critique_selected_exact",
+   "value": 137.3,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "conditions",
+    "critique",
+    "selected_exact"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_align_ratio",
+   "value": 1.045,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "token_alignment",
+    "ratio"
+   ],
+   "tex": [
+    "(ratio 1.045)"
+   ]
+  },
+  {
+   "id": "conf_align_cap",
+   "value": 0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "token_alignment",
+    "questions_at_cap"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_S1_diff",
+   "value": 23.8,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "confirmatory",
+    "S1 selected: critique - token-yoked generic doubt",
+    "diff"
+   ],
+   "tex": [
+    "$+23.8$ (\\ci{5.9}{42.3}), $p=0.008$"
+   ]
+  },
+  {
+   "id": "conf_S1_lo",
+   "value": 5.9,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "confirmatory",
+    "S1 selected: critique - token-yoked generic doubt",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_S1_hi",
+   "value": 42.3,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "confirmatory",
+    "S1 selected: critique - token-yoked generic doubt",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_S1_p",
+   "value": 0.008,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "confirmatory",
+    "S1 selected: critique - token-yoked generic doubt",
+    "p"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_S1_p_holm",
+   "value": 0.008,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "confirmatory",
+    "S1 selected: critique - token-yoked generic doubt",
+    "p_holm"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_S1_confirmed",
+   "value": true,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "confirmatory",
+    "S1 selected: critique - token-yoked generic doubt",
+    "confirmed"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_S2_diff",
+   "value": 36.8,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "confirmatory",
+    "S2 selected: critique - reassuring",
+    "diff"
+   ],
+   "tex": [
+    "$+36.8$ (\\ci{17.4}{57.3}), $p=0.0003$, after correction $0.0006$"
+   ]
+  },
+  {
+   "id": "conf_S2_lo",
+   "value": 17.4,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "confirmatory",
+    "S2 selected: critique - reassuring",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_S2_hi",
+   "value": 57.3,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "confirmatory",
+    "S2 selected: critique - reassuring",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_S2_p",
+   "value": 0.0003,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "confirmatory",
+    "S2 selected: critique - reassuring",
+    "p"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_S2_p_holm",
+   "value": 0.0006,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "confirmatory",
+    "S2 selected: critique - reassuring",
+    "p_holm"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_S2_confirmed",
+   "value": true,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "confirmatory",
+    "S2 selected: critique - reassuring",
+    "confirmed"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_R1_diff",
+   "value": -15.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "R1 reached: critique - token-yoked generic doubt",
+    "diff"
+   ],
+   "tex": [
+    "$-15$, 90\\% interval $-32$ to $+2$; discordant pairs 51/66, $p=0.20$"
+   ]
+  },
+  {
+   "id": "conf_R1_lo90",
+   "value": -32.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "R1 reached: critique - token-yoked generic doubt",
+    "lo90"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_R1_hi90",
+   "value": 2.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "R1 reached: critique - token-yoked generic doubt",
+    "hi90"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_R1_verdict",
+   "value": "equivalent",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "R1 reached: critique - token-yoked generic doubt",
+    "verdict"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_R1_mcn_only_first",
+   "value": 51,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "R1 reached: critique - token-yoked generic doubt",
+    "mcnemar",
+    "only_first"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_R1_mcn_only_second",
+   "value": 66,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "R1 reached: critique - token-yoked generic doubt",
+    "mcnemar",
+    "only_second"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_R1_mcn_p",
+   "value": 0.19535,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "R1 reached: critique - token-yoked generic doubt",
+    "mcnemar",
+    "p"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_reach_C2_A2_only_first",
+   "value": 133,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "reached",
+    "critique vs reassuring",
+    "only_first"
+   ],
+   "tex": [
+    "133/30"
+   ]
+  },
+  {
+   "id": "conf_reach_C2_A2_only_second",
+   "value": 30,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "reached",
+    "critique vs reassuring",
+    "only_second"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_reach_C2_A2P_only_first",
+   "value": 101,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "reached",
+    "critique vs generic doubt",
+    "only_first"
+   ],
+   "tex": [
+    "101/40"
+   ]
+  },
+  {
+   "id": "conf_reach_C2_A2P_only_second",
+   "value": 40,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "reached",
+    "critique vs generic doubt",
+    "only_second"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_reach_A2PY_A2P_only_first",
+   "value": 102,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "reached",
+    "token-yoked vs generic doubt",
+    "only_first"
+   ],
+   "tex": [
+    "102/26"
+   ]
+  },
+  {
+   "id": "conf_reach_A2PY_A2P_only_second",
+   "value": 26,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "reached",
+    "token-yoked vs generic doubt",
+    "only_second"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_sel_C2_A2P_diff",
+   "value": 22.1,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "selected",
+    "critique - generic doubt",
+    "diff"
+   ],
+   "tex": [
+    "$+22.1$ (\\ci{4.4}{40.5})"
+   ]
+  },
+  {
+   "id": "conf_sel_C2_A2P_lo",
+   "value": 4.4,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "selected",
+    "critique - generic doubt",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_sel_C2_A2P_hi",
+   "value": 40.5,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "selected",
+    "critique - generic doubt",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_sel_A2PY_A2P_diff",
+   "value": -1.8,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "selected",
+    "token-yoked - generic doubt",
+    "diff"
+   ],
+   "tex": [
+    "$-1.8$ (\\ci{-15.8}{13.5})"
+   ]
+  },
+  {
+   "id": "conf_sel_A2PY_A2P_lo",
+   "value": -15.8,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "selected",
+    "token-yoked - generic doubt",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_sel_A2PY_A2P_hi",
+   "value": 13.5,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "selected",
+    "token-yoked - generic doubt",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_exact_S1_diff",
+   "value": 17.3,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "exact_matches_only",
+    "S1",
+    "diff"
+   ],
+   "tex": [
+    "$+17.3$ (\\ci{1.4}{33.0})"
+   ]
+  },
+  {
+   "id": "conf_exact_S1_lo",
+   "value": 1.4,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "exact_matches_only",
+    "S1",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_exact_S1_hi",
+   "value": 33.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "exact_matches_only",
+    "S1",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_exact_S2_diff",
+   "value": 25.9,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "exact_matches_only",
+    "S2",
+    "diff"
+   ],
+   "tex": [
+    "$+25.9$ (\\ci{8.2}{42.5})"
+   ]
+  },
+  {
+   "id": "conf_exact_S2_lo",
+   "value": 8.2,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "exact_matches_only",
+    "S2",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_exact_S2_hi",
+   "value": 42.5,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "exact_matches_only",
+    "S2",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_within_S1_diff",
+   "value": 28.3,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "within_budget",
+    "S1",
+    "diff"
+   ],
+   "tex": [
+    "$+28.3$ (\\ci{10.4}{46.8})"
+   ]
+  },
+  {
+   "id": "conf_within_S1_lo",
+   "value": 10.4,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "within_budget",
+    "S1",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_within_S1_hi",
+   "value": 46.8,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "secondary",
+    "within_budget",
+    "S1",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_first_S1_diff",
+   "value": 4.8,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_batch",
+    "first 400 new questions",
+    "S1",
+    "diff"
+   ],
+   "tex": [
+    "$+4.8$ (\\ci{-6.6}{17.5})"
+   ]
+  },
+  {
+   "id": "conf_first_S2_diff",
+   "value": 13.6,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_batch",
+    "first 400 new questions",
+    "S2",
+    "diff"
+   ],
+   "tex": [
+    "$+13.6$ (\\ci{1.0}{27.9})"
+   ]
+  },
+  {
+   "id": "conf_first_S1_lo",
+   "value": -6.6,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_batch",
+    "first 400 new questions",
+    "S1",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_first_S2_lo",
+   "value": 1.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_batch",
+    "first 400 new questions",
+    "S2",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_first_S1_hi",
+   "value": 17.5,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_batch",
+    "first 400 new questions",
+    "S1",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_first_S2_hi",
+   "value": 27.9,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_batch",
+    "first 400 new questions",
+    "S2",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_second_S1_diff",
+   "value": 19.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_batch",
+    "second 400 new questions",
+    "S1",
+    "diff"
+   ],
+   "tex": [
+    "$+19.0$ (\\ci{5.9}{32.0})"
+   ]
+  },
+  {
+   "id": "conf_second_S2_diff",
+   "value": 23.2,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_batch",
+    "second 400 new questions",
+    "S2",
+    "diff"
+   ],
+   "tex": [
+    "$+23.2$ (\\ci{8.5}{37.1})"
+   ]
+  },
+  {
+   "id": "conf_second_S1_lo",
+   "value": 5.9,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_batch",
+    "second 400 new questions",
+    "S1",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_second_S2_lo",
+   "value": 8.5,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_batch",
+    "second 400 new questions",
+    "S2",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_second_S1_hi",
+   "value": 32.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_batch",
+    "second 400 new questions",
+    "S1",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_second_S2_hi",
+   "value": 37.1,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_batch",
+    "second 400 new questions",
+    "S2",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_pooled_S1_diff",
+   "value": 46.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "pooled_1200_exploratory",
+    "S1",
+    "diff"
+   ],
+   "tex": [
+    "$+46.0$ (\\ci{23.0}{69.2})"
+   ]
+  },
+  {
+   "id": "conf_pooled_S1_lo",
+   "value": 23.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "pooled_1200_exploratory",
+    "S1",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_pooled_S1_hi",
+   "value": 69.2,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "pooled_1200_exploratory",
+    "S1",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_pooled_S2_diff",
+   "value": 60.1,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "pooled_1200_exploratory",
+    "S2",
+    "diff"
+   ],
+   "tex": [
+    "$+60.1$ (\\ci{35.0}{85.6})"
+   ]
+  },
+  {
+   "id": "conf_pooled_S2_lo",
+   "value": 35.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "pooled_1200_exploratory",
+    "S2",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_pooled_S2_hi",
+   "value": 85.6,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "pooled_1200_exploratory",
+    "S2",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_subj_Math_S1",
+   "value": 7.7,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_subject_new_800",
+    "Math",
+    "token-yoked generic doubt",
+    "selected_diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_subj_Biology_S1",
+   "value": 6.2,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_subject_new_800",
+    "Biology/Medicine",
+    "token-yoked generic doubt",
+    "selected_diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_subj_Computer_Science_S1",
+   "value": 1.2,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_subject_new_800",
+    "Computer Science/AI",
+    "token-yoked generic doubt",
+    "selected_diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_subj_Physics_S1",
+   "value": 5.2,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_subject_new_800",
+    "Physics",
+    "token-yoked generic doubt",
+    "selected_diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_subj_Humanities_S1",
+   "value": 0.5,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_subject_new_800",
+    "Humanities/Social Science",
+    "token-yoked generic doubt",
+    "selected_diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_subj_Other_S1",
+   "value": 1.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_subject_new_800",
+    "Other",
+    "token-yoked generic doubt",
+    "selected_diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_subj_Chemistry_S1",
+   "value": 1.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_subject_new_800",
+    "Chemistry",
+    "token-yoked generic doubt",
+    "selected_diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_subj_Engineering_S1",
+   "value": 1.0,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_subject_new_800",
+    "Engineering",
+    "token-yoked generic doubt",
+    "selected_diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_type_exactMatch_S1",
+   "value": 18.4,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_answer_type_new_800",
+    "exactMatch",
+    "token-yoked generic doubt",
+    "selected_diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "conf_type_multipleChoice_S1",
+   "value": 5.5,
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "by_answer_type_new_800",
+    "multipleChoice",
+    "token-yoked generic doubt",
+    "selected_diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_reassuring_repeat_correct",
+   "value": 0.643,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "reassuring",
+    "repeat_correct"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_reassuring_repeat_incorrect",
+   "value": 0.602,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "reassuring",
+    "repeat_incorrect"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_reassuring_ratio",
+   "value": 1.07,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "reassuring",
+    "ratio"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_reassuring_last",
+   "value": 170.0,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "reassuring",
+    "last"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_reassuring_first_revision_repaired",
+   "value": 41,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "reassuring",
+    "first_revision_repaired"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_reassuring_first_revision_damaged",
+   "value": 33,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "reassuring",
+    "first_revision_damaged"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_generic_doubt_repeat_correct",
+   "value": 0.515,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "generic doubt",
+    "repeat_correct"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_generic_doubt_repeat_incorrect",
+   "value": 0.428,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "generic doubt",
+    "repeat_incorrect"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_generic_doubt_ratio",
+   "value": 1.2,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "generic doubt",
+    "ratio"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_generic_doubt_last",
+   "value": 176.0,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "generic doubt",
+    "last"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_generic_doubt_first_revision_repaired",
+   "value": 59,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "generic doubt",
+    "first_revision_repaired"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_generic_doubt_first_revision_damaged",
+   "value": 54,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "generic doubt",
+    "first_revision_damaged"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_token_yoked_generic_doubt_repeat_correct",
+   "value": 0.584,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "token-yoked generic doubt",
+    "repeat_correct"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_token_yoked_generic_doubt_repeat_incorrect",
+   "value": 0.541,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "token-yoked generic doubt",
+    "repeat_incorrect"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_token_yoked_generic_doubt_ratio",
+   "value": 1.08,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "token-yoked generic doubt",
+    "ratio"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_token_yoked_generic_doubt_last",
+   "value": 173.0,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "token-yoked generic doubt",
+    "last"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_token_yoked_generic_doubt_first_revision_repaired",
+   "value": 58,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "token-yoked generic doubt",
+    "first_revision_repaired"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_token_yoked_generic_doubt_first_revision_damaged",
+   "value": 58,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "token-yoked generic doubt",
+    "first_revision_damaged"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_critique_repeat_correct",
+   "value": 0.431,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "critique",
+    "repeat_correct"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_critique_repeat_incorrect",
+   "value": 0.287,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "critique",
+    "repeat_incorrect"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_critique_ratio",
+   "value": 1.5,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "critique",
+    "ratio"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_critique_last",
+   "value": 207.0,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "critique",
+    "last"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_critique_first_revision_repaired",
+   "value": 104,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "critique",
+    "first_revision_repaired"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_critique_first_revision_damaged",
+   "value": 64,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "critique",
+    "first_revision_damaged"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_critique_last_minus_sel_diff",
+   "value": 1.7,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "critique",
+    "last_minus_selected",
+    "diff"
+   ],
+   "tex": [
+    "(difference $+1.7$, \\ci{-12.3}{15.2}"
+   ]
+  },
+  {
+   "id": "mech800_critique_last_minus_sel_lo",
+   "value": -12.3,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "critique",
+    "last_minus_selected",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mech800_critique_last_minus_sel_hi",
+   "value": 15.2,
+   "json": [
+    "experiments/hle400/t3/confirmation_mechanism.json",
+    "new 800",
+    "critique",
+    "last_minus_selected",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_rdiff_qw_yoke_diff",
+   "value": 1,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "reached_difference_equal_tokens",
+    "critique - generic doubt",
+    "diff"
+   ],
+   "tex": [
+    "$+1$ on \\qw{} (90\\% interval $-11$ to $14$)"
+   ]
+  },
+  {
+   "id": "eq_rdiff_qw_yoke_lo90",
+   "value": -11,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "reached_difference_equal_tokens",
+    "critique - generic doubt",
+    "lo90"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_rdiff_qw_yoke_hi90",
+   "value": 14,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "qwen",
+    "reached_difference_equal_tokens",
+    "critique - generic doubt",
+    "hi90"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_rdiff_mm_yoke_diff",
+   "value": -4,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "reached_difference",
+    "critique - token-yoked",
+    "diff"
+   ],
+   "tex": [
+    "$-4$ on \\mm{} ($-15$ to $7$)"
+   ]
+  },
+  {
+   "id": "eq_rdiff_mm_yoke_lo90",
+   "value": -15,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "reached_difference",
+    "critique - token-yoked",
+    "lo90"
+   ],
+   "tex": []
+  },
+  {
+   "id": "eq_rdiff_mm_yoke_hi90",
+   "value": 7,
+   "json": [
+    "experiments/hle400/t3/equal_token_readout.json",
+    "minimax",
+    "reached_difference",
+    "critique - token-yoked",
+    "hi90"
+   ],
+   "tex": []
   }
  ]
 }

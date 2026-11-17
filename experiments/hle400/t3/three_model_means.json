@@ -44,5 +44,45 @@
    "hi": 26.4,
    "p": 0.0001
   }
+ },
+ "between_models": {
+  "qwen-deepseek": {
+   "diff": 10.8,
+   "lo": -8.8,
+   "hi": 31.6,
+   "p": 0.3037
+  },
+  "qwen-minimax": {
+   "diff": 18.0,
+   "lo": -0.2,
+   "hi": 36.8,
+   "p": 0.0651
+  },
+  "deepseek-minimax": {
+   "diff": 7.2,
+   "lo": -11.2,
+   "hi": 25.1,
+   "p": 0.4319
+  }
+ },
+ "split": {
+  "deepseek": {
+   "reach_part": 42.6,
+   "conversion_part": -30.2,
+   "net": 12.4,
+   "share_lost": 0.71
+  },
+  "qwen": {
+   "reach_part": 43.6,
+   "conversion_part": -20.3,
+   "net": 23.3,
+   "share_lost": 0.47
+  },
+  "minimax": {
+   "reach_part": 22.0,
+   "conversion_part": -16.7,
+   "net": 5.2,
+   "share_lost": 0.76
+  }
  }
 }

@@ -1,0 +1,49 @@
+{
+  "run_id": "conf_C2_qwen3.8-flash-payg",
+  "arm": "C2",
+  "bank_free": true,
+  "template_critic": false,
+  "family_filter": null,
+  "task_set": "hle_confirm",
+  "max_tokens": 8192,
+  "max_rounds": 10,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "off",
+  "seed": null,
+  "n_tasks": 800,
+  "concurrency": 120,
+  "models": {
+    "qwen3.8-flash-payg": {
+      "model_id": "qwen3.8-flash",
+      "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "init_accuracy": 0.1138,
+      "final_accuracy": 0.1713,
+      "end_state_distribution": {
+        "1": 31,
+        "2": 29,
+        "3": 31,
+        "4": 75,
+        "5": 79,
+        "6": 555
+      },
+      "l3_activation_rate": 0.3063,
+      "l3_reversibility_rate": 0.2172,
+      "l4_lock_rate": 0.3407,
+      "l4_misled_rate": 0.3187,
+      "avg_rounds": 7.32,
+      "critic_fallback_rounds": 18,
+      "archetype_draw_counts": {},
+      "k_draw_counts": {},
+      "total_prompt_tokens": 4598832,
+      "total_completion_tokens": 36719885,
+      "total_reasoning_tokens": 36159838,
+      "total_rationale_prompt_tokens": 0,
+      "total_rationale_completion_tokens": 0,
+      "total_rationale_reasoning_tokens": 0
+    }
+  },
+  "a_source_traj": "/Users/kevin/PycharmProjects/AgentEvaluation/experiments/conf_A_qwen3.8-flash-payg/qwen3.8-flash-payg/loop_trajectories.jsonl"
+}

@@ -1,0 +1,287 @@
+{
+ "deepseek": {
+  "critique_full": {
+   "reached": 198,
+   "tokens_M": 61.2,
+   "rounds_per_q": 6.88
+  },
+  "A2": {
+   "comparison_reached": 153,
+   "comparison_tokens_M": 24.6,
+   "full": {
+    "b": 52,
+    "c": 7
+   },
+   "per_question_budget": {
+    "reached": 155,
+    "b": 18,
+    "c": 16,
+    "p": 0.8642,
+    "rounds_kept_per_q": 2.36,
+    "tokens_M": 19.5,
+    "only_first_answer_kept": 158
+   },
+   "uniform_cap": {
+    "feedback_rounds": 2,
+    "reached": 168,
+    "b": 30,
+    "c": 15,
+    "p": 0.0357,
+    "tokens_M": 23.7
+   }
+  },
+  "A2P": {
+   "comparison_reached": 171,
+   "comparison_tokens_M": 31.8,
+   "full": {
+    "b": 39,
+    "c": 12
+   },
+   "per_question_budget": {
+    "reached": 165,
+    "b": 17,
+    "c": 23,
+    "p": 0.4296,
+    "rounds_kept_per_q": 2.96,
+    "tokens_M": 25.2,
+    "only_first_answer_kept": 109
+   },
+   "uniform_cap": {
+    "feedback_rounds": 3,
+    "reached": 177,
+    "b": 27,
+    "c": 21,
+    "p": 0.4709,
+    "tokens_M": 30.3
+   }
+  },
+  "first_reach_per_round": {
+   "A2": {
+    "rounds_1_2": [
+     33,
+     559,
+     0.059
+    ],
+    "rounds_3_10": [
+     9,
+     521,
+     0.017
+    ]
+   },
+   "A2P": {
+    "rounds_1_2": [
+     38,
+     556,
+     0.068
+    ],
+    "rounds_3_10": [
+     23,
+     729,
+     0.032
+    ]
+   },
+   "C2": {
+    "rounds_1_2": [
+     57,
+     532,
+     0.107
+    ],
+    "rounds_3_10": [
+     30,
+     959,
+     0.031
+    ]
+   }
+  }
+ },
+ "qwen": {
+  "critique_full": {
+   "reached": 182,
+   "tokens_M": 36.2,
+   "rounds_per_q": 7.54
+  },
+  "A2": {
+   "comparison_reached": 123,
+   "comparison_tokens_M": 15.2,
+   "full": {
+    "b": 69,
+    "c": 10
+   },
+   "per_question_budget": {
+    "reached": 113,
+    "b": 15,
+    "c": 25,
+    "p": 0.1539,
+    "rounds_kept_per_q": 2.48,
+    "tokens_M": 11.9,
+    "only_first_answer_kept": 178
+   },
+   "uniform_cap": {
+    "feedback_rounds": 2,
+    "reached": 142,
+    "b": 38,
+    "c": 19,
+    "p": 0.0163,
+    "tokens_M": 13.2
+   }
+  },
+  "A2P": {
+   "comparison_reached": 149,
+   "comparison_tokens_M": 21.0,
+   "full": {
+    "b": 49,
+    "c": 16
+   },
+   "per_question_budget": {
+    "reached": 130,
+    "b": 13,
+    "c": 32,
+    "p": 0.0066,
+    "rounds_kept_per_q": 3.3,
+    "tokens_M": 16.2,
+    "only_first_answer_kept": 109
+   },
+   "uniform_cap": {
+    "feedback_rounds": 3,
+    "reached": 152,
+    "b": 33,
+    "c": 30,
+    "p": 0.8013,
+    "tokens_M": 17.3
+   }
+  },
+  "first_reach_per_round": {
+   "A2": {
+    "rounds_1_2": [
+     43,
+     633,
+     0.068
+    ],
+    "rounds_3_10": [
+     12,
+     609,
+     0.02
+    ]
+   },
+   "A2P": {
+    "rounds_1_2": [
+     58,
+     627,
+     0.093
+    ],
+    "rounds_3_10": [
+     24,
+     777,
+     0.031
+    ]
+   },
+   "C2": {
+    "rounds_1_2": [
+     74,
+     616,
+     0.12
+    ],
+    "rounds_3_10": [
+     40,
+     1093,
+     0.037
+    ]
+   }
+  }
+ },
+ "minimax": {
+  "critique_full": {
+   "reached": 152,
+   "tokens_M": 40.4,
+   "rounds_per_q": 6.63
+  },
+  "A2": {
+   "comparison_reached": 125,
+   "comparison_tokens_M": 21.3,
+   "full": {
+    "b": 38,
+    "c": 11
+   },
+   "per_question_budget": {
+    "reached": 119,
+    "b": 13,
+    "c": 19,
+    "p": 0.3771,
+    "rounds_kept_per_q": 2.69,
+    "tokens_M": 16.5,
+    "only_first_answer_kept": 112
+   },
+   "uniform_cap": {
+    "feedback_rounds": 2,
+    "reached": 130,
+    "b": 23,
+    "c": 18,
+    "p": 0.5327,
+    "tokens_M": 17.1
+   }
+  },
+  "A2P": {
+   "comparison_reached": 128,
+   "comparison_tokens_M": 24.3,
+   "full": {
+    "b": 37,
+    "c": 13
+   },
+   "per_question_budget": {
+    "reached": 124,
+    "b": 19,
+    "c": 23,
+    "p": 0.644,
+    "rounds_kept_per_q": 3.17,
+    "tokens_M": 19.2,
+    "only_first_answer_kept": 62
+   },
+   "uniform_cap": {
+    "feedback_rounds": 3,
+    "reached": 140,
+    "b": 31,
+    "c": 19,
+    "p": 0.1189,
+    "tokens_M": 21.8
+   }
+  },
+  "first_reach_per_round": {
+   "A2": {
+    "rounds_1_2": [
+     31,
+     619,
+     0.05
+    ],
+    "rounds_3_10": [
+     14,
+     486,
+     0.029
+    ]
+   },
+   "A2P": {
+    "rounds_1_2": [
+     34,
+     617,
+     0.055
+    ],
+    "rounds_3_10": [
+     14,
+     571,
+     0.025
+    ]
+   },
+   "C2": {
+    "rounds_1_2": [
+     50,
+     613,
+     0.082
+    ],
+    "rounds_3_10": [
+     22,
+     944,
+     0.023
+    ]
+   }
+  }
+ }
+}

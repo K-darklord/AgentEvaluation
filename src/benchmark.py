@@ -761,6 +761,7 @@ def load_new_discrimination_tasks(n_per_bench: int | None = None,
 def load_hle_questions(
     jsonl_path: str | Path | None = None,
     limit: int | None = None,
+    start_id: int = 1,
 ) -> list[Task]:
     """Load the HLE stratified pilot (text-only slice).
 
@@ -792,7 +793,7 @@ def load_hle_questions(
             answer_type = str(d.get("answer_type", "")).strip()
             shape = str(d.get("shape", "")).strip()
             tasks.append(Task(
-                task_id=f"hle_{i:03d}",
+                task_id=f"hle_{i + start_id - 1:03d}",
                 category=str(d.get("raw_subject", "") or "Unknown"),
                 difficulty="Hard",
                 prompt=str(d.get("question", "")).strip(),

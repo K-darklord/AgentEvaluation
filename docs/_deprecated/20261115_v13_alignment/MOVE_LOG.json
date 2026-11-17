@@ -11,6 +11,26 @@
    "from": "paper/acl/v12_anonymous.pdf, paper/acl/v12_preprint.pdf",
    "to": "paper/acl/_old/",
    "note": "被 v13 取代（数值更正，见 paper/acl/REVISION_LOG.md）"
+  },
+  {
+   "from": "docs/COMPUTE_MATCHED_PLACEBO_SPEC.md",
+   "to": "docs/_deprecated/20261115_v13_alignment/COMPUTE_MATCHED_PLACEBO_SPEC_v1.md",
+   "note": "被 docs/TOKEN_YOKED_CONTROL_SPEC.md（v2）取代；修订发生在任何相关运行之前"
+  },
+  {
+   "from": "docs/CONTENT_CONTROLS_SPEC.md (v1)",
+   "to": "docs/_deprecated/20261115_v13_alignment/CONTENT_CONTROLS_SPEC_v1.md",
+   "note": "副本；v2 在原路径，修订发生在任何相关运行之前"
+  },
+  {
+   "from": "docs/EQUAL_TOKEN_CONTROLS_SPEC.md (v1)",
+   "to": "docs/_deprecated/20261115_v13_alignment/EQUAL_TOKEN_CONTROLS_SPEC_v1.md",
+   "note": "副本；v2（续跑、不重跑）在原路径；v1 没有任何运行"
+  },
+  {
+   "from": "docs/EQUAL_TOKEN_CONTROLS_SPEC.md (v3)",
+   "to": "docs/_deprecated/20261115_v13_alignment/EQUAL_TOKEN_CONTROLS_SPEC_v3.md",
+   "note": "副本；v4（三个条件统一按题对齐）在原路径；v3 没有任何运行。v3 的预算文件移到 _to_delete/"
   }
  ]
 }

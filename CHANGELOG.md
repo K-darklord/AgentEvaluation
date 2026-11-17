@@ -755,3 +755,8 @@ Entries between 2026-10-10 and 2026-11-10 were kept in the documents rather than
 
 ### Deprecated (moved, not deleted)
 - `docs/NEXT_EXPERIMENTS_FOR_MAIN_CONFERENCE.md` to `docs/_deprecated/20261115_v13_alignment/` (no further experiments are planned); earlier PDFs to `paper/acl/_old/`.
+
+### Added later the same day (manuscript v14)
+- Post hoc analyses with rules written down first (`docs/REVIEW_RESPONSE_PLAN.md`): `scripts/budget_matched_reach.py` (at a placebo loop's token budget the critique loop reaches no more), `scripts/reach_by_subject.py`; appendix paragraph on the choice of benchmark.
+- Correction: tokens of the critique loop on MiniMax-M2.5 are 40M (critic 10.6M), not 45M (15.4M); reasoning tokens had been counted twice.
+- Specification of one further control, not yet run: `docs/TOKEN_YOKED_CONTROL_SPEC.md`, with `scripts/make_yoke_budget.py`.

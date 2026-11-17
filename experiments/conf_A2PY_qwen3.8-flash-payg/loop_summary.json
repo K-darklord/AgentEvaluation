@@ -1,0 +1,59 @@
+{
+  "run_id": "conf_A2PY_qwen3.8-flash-payg",
+  "arm": "A2P",
+  "bank_free": false,
+  "template_critic": true,
+  "family_filter": null,
+  "task_set": "hle_confirm",
+  "max_tokens": 8192,
+  "max_rounds": 100,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "off",
+  "seed": null,
+  "n_tasks": 800,
+  "concurrency": 180,
+  "models": {
+    "qwen3.8-flash-payg": {
+      "model_id": "qwen3.8-flash",
+      "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "init_accuracy": 0.1138,
+      "final_accuracy": 0.1375,
+      "end_state_distribution": {
+        "1": 18,
+        "2": 36,
+        "3": 37,
+        "4": 55,
+        "5": 113,
+        "6": 541
+      },
+      "l3_activation_rate": 0.3237,
+      "l3_reversibility_rate": 0.237,
+      "l4_lock_rate": 0.1978,
+      "l4_misled_rate": 0.3956,
+      "avg_rounds": 16.21,
+      "critic_fallback_rounds": 0,
+      "archetype_draw_counts": {
+        "constraint-blind decimation": 6877,
+        "descriptor/label conflation": 6800,
+        "format / precision non-conformance": 6974,
+        "procedure truncation / omission": 6876,
+        "retrieval-abort": 6856
+      },
+      "k_draw_counts": {
+        "1": 369,
+        "2": 1380,
+        "3": 10418
+      },
+      "total_prompt_tokens": 6856872,
+      "total_completion_tokens": 62380818,
+      "total_reasoning_tokens": 61558775,
+      "total_rationale_prompt_tokens": 0,
+      "total_rationale_completion_tokens": 0,
+      "total_rationale_reasoning_tokens": 0
+    }
+  },
+  "a_source_traj": "/Users/kevin/PycharmProjects/AgentEvaluation/experiments/conf_A_qwen3.8-flash-payg/qwen3.8-flash-payg/loop_trajectories.jsonl"
+}

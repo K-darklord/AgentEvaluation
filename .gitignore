@@ -146,3 +146,8 @@ paper/acl/*.out
 # Superseded PDFs and files awaiting manual deletion
 paper/acl/_old/
 _to_delete/
+
+# External benchmark clones (not this repo content)
+data/raw/bbeh/
+data/raw/correctbench/
+data/raw/olymmath/

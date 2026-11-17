@@ -1,0 +1,363 @@
+{
+ "conditions": {
+  "A2": {
+   "name": "reassuring",
+   "reached": 123,
+   "selected": 90.8,
+   "feedback_rounds_per_q": 4.24,
+   "candidates_per_q": 2.11,
+   "answer_change_rate": 0.404,
+   "solver_tokens_M": 15.2,
+   "critic_tokens_M": 0.0,
+   "total_tokens_M": 15.2
+  },
+  "A2P": {
+   "name": "generic doubt",
+   "reached": 149,
+   "selected": 95.6,
+   "feedback_rounds_per_q": 5.41,
+   "candidates_per_q": 2.94,
+   "answer_change_rate": 0.561,
+   "solver_tokens_M": 21.0,
+   "critic_tokens_M": 0.0,
+   "total_tokens_M": 21.0,
+   "feedback_chars_mean": 538,
+   "overlap_with_question": 0.013,
+   "share_three_doubts": 0.866,
+   "doubts_per_round": {
+    "1": 78,
+    "2": 213,
+    "3": 1874
+   },
+   "critic_fallback_rounds": 0
+  },
+  "A2PY": {
+   "name": "token-yoked generic doubt",
+   "reached": 181,
+   "selected": 92.0,
+   "feedback_rounds_per_q": 16.66,
+   "candidates_per_q": 4.49,
+   "answer_change_rate": 0.449,
+   "solver_tokens_M": 38.0,
+   "critic_tokens_M": 0.0,
+   "total_tokens_M": 38.0,
+   "feedback_chars_mean": 537,
+   "overlap_with_question": 0.011,
+   "share_three_doubts": 0.858,
+   "doubts_per_round": {
+    "1": 226,
+    "2": 721,
+    "3": 5717
+   },
+   "critic_fallback_rounds": 0
+  },
+  "C2X": {
+   "name": "mismatched critique",
+   "reached": 120,
+   "selected": 93.5,
+   "feedback_rounds_per_q": 4.12,
+   "candidates_per_q": 2.07,
+   "answer_change_rate": 0.398,
+   "solver_tokens_M": 15.3,
+   "critic_tokens_M": 7.9,
+   "total_tokens_M": 23.2,
+   "feedback_chars_mean": 1645,
+   "overlap_with_question": 0.011,
+   "share_three_doubts": 0.954,
+   "doubts_per_round": {
+    "1": 5,
+    "2": 70,
+    "3": 1572
+   },
+   "critic_fallback_rounds": 0
+  },
+  "C2Q": {
+   "name": "question-only critique",
+   "reached": 161,
+   "selected": 95.3,
+   "feedback_rounds_per_q": 5.73,
+   "candidates_per_q": 3.18,
+   "answer_change_rate": 0.592,
+   "solver_tokens_M": 22.9,
+   "critic_tokens_M": 9.1,
+   "total_tokens_M": 32.0,
+   "feedback_chars_mean": 1490,
+   "overlap_with_question": 0.078,
+   "share_three_doubts": 0.994,
+   "doubts_per_round": {
+    "0": 4,
+    "2": 8,
+    "3": 2279,
+    "4": 1
+   },
+   "critic_fallback_rounds": 4
+  },
+  "C2": {
+   "name": "critique",
+   "reached": 182,
+   "selected": 114.1,
+   "feedback_rounds_per_q": 6.54,
+   "candidates_per_q": 3.62,
+   "answer_change_rate": 0.672,
+   "solver_tokens_M": 23.6,
+   "critic_tokens_M": 12.6,
+   "total_tokens_M": 36.2,
+   "feedback_chars_mean": 1647,
+   "overlap_with_question": 0.078,
+   "share_three_doubts": 0.954,
+   "doubts_per_round": {
+    "0": 10,
+    "1": 9,
+    "2": 102,
+    "3": 2496
+   },
+   "critic_fallback_rounds": 10
+  },
+  "A2PY_within": {
+   "name": "token-yoked, rounds within budget",
+   "reached": 174,
+   "selected": 91.2
+  }
+ },
+ "token_alignment": {
+  "critique_total_M": 36.22,
+  "yoked_total_M": 38.0,
+  "ratio": 1.049,
+  "questions_at_cap": 0,
+  "aligned": true,
+  "within_budget_total_M": 34.39
+ },
+ "c2q_length_confound_flag": {
+  "length_ratio": 0.9,
+  "three_doubts_difference": 0.04,
+  "flagged": false
+ },
+ "c2q_critic_contains_next_answer": [
+  79,
+  1096
+ ],
+ "reached_tests": {
+  "Y1 critique vs token-yoked (all rounds)": {
+   "only_first": 32,
+   "only_second": 31,
+   "p": 1.0,
+   "p_holm": 1.0
+  },
+  "Y1 critique vs token-yoked (within budget)": {
+   "only_first": 35,
+   "only_second": 27,
+   "p": 0.37415
+  },
+  "Y2 token-yoked vs generic doubt": {
+   "only_first": 42,
+   "only_second": 10,
+   "p": 1e-05
+  },
+  "X1 critique vs mismatched": {
+   "only_first": 72,
+   "only_second": 10,
+   "p": 0.0,
+   "p_holm": 0.0
+  },
+  "X2 mismatched vs generic doubt": {
+   "only_first": 9,
+   "only_second": 38,
+   "p": 2e-05
+  },
+  "Q1 critique vs question-only": {
+   "only_first": 48,
+   "only_second": 27,
+   "p": 0.0203,
+   "p_holm": 0.0406
+  },
+  "Q2 question-only vs generic doubt": {
+   "only_first": 34,
+   "only_second": 22,
+   "p": 0.1409
+  },
+  "reference: critique vs generic doubt": {
+   "only_first": 49,
+   "only_second": 16,
+   "p": 5e-05
+  },
+  "reference: mismatched vs reassuring": {
+   "only_first": 17,
+   "only_second": 20,
+   "p": 0.74283
+  },
+  "reference: question-only vs reassuring": {
+   "only_first": 52,
+   "only_second": 14,
+   "p": 0.0
+  },
+  "reference: token-yoked vs reassuring": {
+   "only_first": 64,
+   "only_second": 6,
+   "p": 0.0
+  },
+  "reference: question-only vs mismatched": {
+   "only_first": 50,
+   "only_second": 9,
+   "p": 0.0
+  }
+ },
+ "selected_tests": {
+  "Y1 critique vs token-yoked (all rounds)": {
+   "diff": 22.1,
+   "lo": 9.0,
+   "hi": 35.8,
+   "p": 0.0021
+  },
+  "Y1 critique vs token-yoked (within budget)": {
+   "diff": 22.8,
+   "lo": 10.4,
+   "hi": 37.2,
+   "p": 0.0013
+  },
+  "Y2 token-yoked vs generic doubt": {
+   "diff": -3.6,
+   "lo": -14.2,
+   "hi": 7.5,
+   "p": 0.5188
+  },
+  "X1 critique vs mismatched": {
+   "diff": 20.6,
+   "lo": 6.5,
+   "hi": 36.2,
+   "p": 0.006
+  },
+  "X2 mismatched vs generic doubt": {
+   "diff": -2.1,
+   "lo": -13.1,
+   "hi": 8.9,
+   "p": 0.7193
+  },
+  "Q1 critique vs question-only": {
+   "diff": 18.7,
+   "lo": 4.9,
+   "hi": 32.8,
+   "p": 0.0073
+  },
+  "Q2 question-only vs generic doubt": {
+   "diff": -0.2,
+   "lo": -11.2,
+   "hi": 10.8,
+   "p": 0.9658
+  },
+  "reference: critique vs generic doubt": {
+   "diff": 18.5,
+   "lo": 3.9,
+   "hi": 34.3,
+   "p": 0.0193
+  },
+  "reference: mismatched vs reassuring": {
+   "diff": 2.7,
+   "lo": -9.0,
+   "hi": 14.7,
+   "p": 0.6797
+  },
+  "reference: question-only vs reassuring": {
+   "diff": 4.5,
+   "lo": -8.4,
+   "hi": 17.9,
+   "p": 0.5011
+  },
+  "reference: token-yoked vs reassuring": {
+   "diff": 1.1,
+   "lo": -11.0,
+   "hi": 13.5,
+   "p": 0.8651
+  },
+  "reference: question-only vs mismatched": {
+   "diff": 1.8,
+   "lo": -10.4,
+   "hi": 14.8,
+   "p": 0.7724
+  }
+ },
+ "exact_match_only": {
+  "selected": {
+   "A2": 56.0,
+   "C2X": 55.5,
+   "A2P": 59.0,
+   "C2Q": 57.4,
+   "A2PY": 57.4,
+   "C2": 68.1
+  },
+  "reached": {
+   "A2": 79,
+   "C2X": 76,
+   "A2P": 94,
+   "C2Q": 102,
+   "A2PY": 113,
+   "C2": 117
+  },
+  "critique_minus": {
+   "A2PY": {
+    "selected": {
+     "diff": 10.7,
+     "lo": -0.8,
+     "hi": 21.8,
+     "p": 0.0691
+    },
+    "reached": {
+     "only_first": 26,
+     "only_second": 22,
+     "p": 0.66547
+    }
+   },
+   "C2X": {
+    "selected": {
+     "diff": 12.6,
+     "lo": 1.8,
+     "hi": 23.1,
+     "p": 0.0279
+    },
+    "reached": {
+     "only_first": 46,
+     "only_second": 5,
+     "p": 0.0
+    }
+   },
+   "C2Q": {
+    "selected": {
+     "diff": 10.7,
+     "lo": -0.5,
+     "hi": 22.3,
+     "p": 0.0689
+    },
+    "reached": {
+     "only_first": 32,
+     "only_second": 17,
+     "p": 0.04438
+    }
+   },
+   "A2P": {
+    "selected": {
+     "diff": 9.1,
+     "lo": -3.8,
+     "hi": 21.8,
+     "p": 0.1552
+    },
+    "reached": {
+     "only_first": 35,
+     "only_second": 12,
+     "p": 0.00109
+    }
+   },
+   "A2": {
+    "selected": {
+     "diff": 12.1,
+     "lo": -0.7,
+     "hi": 24.8,
+     "p": 0.0569
+    },
+    "reached": {
+     "only_first": 47,
+     "only_second": 9,
+     "p": 0.0
+    }
+   }
+  }
+ }
+}

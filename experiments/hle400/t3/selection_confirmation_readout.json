@@ -1,0 +1,759 @@
+{
+ "n": 800,
+ "token_alignment": {
+  "critique_total_M": 66.24,
+  "token_yoked_total_M": 69.24,
+  "ratio": 1.045,
+  "questions_at_cap": 0,
+  "aligned": true
+ },
+ "conditions": {
+  "first answer": {
+   "reached": 148,
+   "selected": 148.0,
+   "conversion": 1.0,
+   "reached_exact": 91,
+   "selected_exact": 91.0,
+   "candidates_per_q": 0.95,
+   "tokens_M": 5.5,
+   "feedback_rounds_per_q": 0.0,
+   "answer_change_rate": 0.0,
+   "solver_tokens_M": 5.54
+  },
+  "reassuring": {
+   "reached": 245,
+   "selected": 168.5,
+   "conversion": 0.688,
+   "reached_exact": 157,
+   "selected_exact": 111.4,
+   "candidates_per_q": 2.03,
+   "tokens_M": 25.7,
+   "feedback_rounds_per_q": 3.85,
+   "answer_change_rate": 0.378,
+   "solver_tokens_M": 25.68
+  },
+  "generic doubt": {
+   "reached": 287,
+   "selected": 183.2,
+   "conversion": 0.639,
+   "reached_exact": 197,
+   "selected_exact": 120.9,
+   "candidates_per_q": 2.73,
+   "tokens_M": 36.3,
+   "feedback_rounds_per_q": 5.17,
+   "answer_change_rate": 0.544,
+   "solver_tokens_M": 36.34
+  },
+  "token-yoked generic doubt": {
+   "reached": 363,
+   "selected": 181.5,
+   "conversion": 0.5,
+   "reached_exact": 255,
+   "selected_exact": 120.0,
+   "candidates_per_q": 4.2,
+   "tokens_M": 69.2,
+   "feedback_rounds_per_q": 15.21,
+   "answer_change_rate": 0.439,
+   "solver_tokens_M": 69.24,
+   "within_budget": {
+    "reached": 354,
+    "selected": 177.0
+   }
+  },
+  "critique": {
+   "reached": 348,
+   "selected": 205.3,
+   "conversion": 0.59,
+   "reached_exact": 240,
+   "selected_exact": 137.3,
+   "candidates_per_q": 3.4,
+   "tokens_M": 66.2,
+   "feedback_rounds_per_q": 6.32,
+   "answer_change_rate": 0.675,
+   "solver_tokens_M": 41.32
+  }
+ },
+ "confirmatory": {
+  "S1 selected: critique - token-yoked generic doubt": {
+   "diff": 23.8,
+   "lo": 5.9,
+   "hi": 42.3,
+   "p": 0.008,
+   "p_holm": 0.008,
+   "confirmed": true
+  },
+  "S2 selected: critique - reassuring": {
+   "diff": 36.8,
+   "lo": 17.4,
+   "hi": 57.3,
+   "p": 0.0003,
+   "p_holm": 0.0006,
+   "confirmed": true
+  }
+ },
+ "R1 reached: critique - token-yoked generic doubt": {
+  "diff": -15.0,
+  "lo": -36.0,
+  "hi": 6.0,
+  "p": 0.19648,
+  "lo90": -32.0,
+  "hi90": 2.0,
+  "mcnemar": {
+   "only_first": 51,
+   "only_second": 66,
+   "p": 0.19535
+  },
+  "verdict": "equivalent"
+ },
+ "secondary": {
+  "reached": {
+   "critique vs reassuring": {
+    "only_first": 133,
+    "only_second": 30,
+    "p": 0.0
+   },
+   "critique vs generic doubt": {
+    "only_first": 101,
+    "only_second": 40,
+    "p": 0.0
+   },
+   "token-yoked vs generic doubt": {
+    "only_first": 102,
+    "only_second": 26,
+    "p": 0.0
+   },
+   "token-yoked vs reassuring": {
+    "only_first": 138,
+    "only_second": 20,
+    "p": 0.0
+   },
+   "generic doubt vs reassuring": {
+    "only_first": 75,
+    "only_second": 33,
+    "p": 7e-05
+   }
+  },
+  "selected": {
+   "critique - generic doubt": {
+    "diff": 22.1,
+    "lo": 4.4,
+    "hi": 40.5,
+    "p": 0.0209
+   },
+   "token-yoked - generic doubt": {
+    "diff": -1.8,
+    "lo": -15.8,
+    "hi": 13.5,
+    "p": 0.81682
+   },
+   "token-yoked - reassuring": {
+    "diff": 13.0,
+    "lo": -3.7,
+    "hi": 29.0,
+    "p": 0.12599
+   },
+   "generic doubt - reassuring": {
+    "diff": 14.7,
+    "lo": -1.3,
+    "hi": 30.6,
+    "p": 0.09749
+   },
+   "critique - first answer": {
+    "diff": 57.3,
+    "lo": 36.3,
+    "hi": 79.1,
+    "p": 0.0001
+   },
+   "reassuring - first answer": {
+    "diff": 20.5,
+    "lo": 3.0,
+    "hi": 37.6,
+    "p": 0.0214
+   }
+  },
+  "exact_matches_only": {
+   "S1": {
+    "diff": 17.3,
+    "lo": 1.4,
+    "hi": 33.0,
+    "p": 0.0321
+   },
+   "S2": {
+    "diff": 25.9,
+    "lo": 8.2,
+    "hi": 42.5,
+    "p": 0.003
+   },
+   "R1": {
+    "diff": -15.0,
+    "lo": -35.0,
+    "hi": 4.0,
+    "p": 0.14859,
+    "lo90": -31.0,
+    "hi90": 1.0,
+    "mcnemar": {
+     "only_first": 40,
+     "only_second": 55,
+     "p": 0.15052
+    }
+   }
+  },
+  "within_budget": {
+   "S1": {
+    "diff": 28.3,
+    "lo": 10.4,
+    "hi": 46.8,
+    "p": 0.0023
+   },
+   "R1": {
+    "diff": -6.0,
+    "lo": -27.0,
+    "hi": 15.0,
+    "p": 0.64544,
+    "lo90": -24.0,
+    "hi90": 12.0,
+    "mcnemar": {
+     "only_first": 55,
+     "only_second": 61,
+     "p": 0.64267
+    }
+   }
+  },
+  "exact_share_of_selected": {
+   "first answer": 0.615,
+   "reassuring": 0.661,
+   "generic doubt": 0.66,
+   "token-yoked generic doubt": 0.661,
+   "critique": 0.669
+  }
+ },
+ "by_batch": {
+  "first 400 new questions": {
+   "reached": {
+    "first answer": 75,
+    "reassuring": 122,
+    "generic doubt": 146,
+    "token-yoked generic doubt": 178,
+    "critique": 179
+   },
+   "selected": {
+    "first answer": 75.0,
+    "reassuring": 84.8,
+    "generic doubt": 92.7,
+    "token-yoked generic doubt": 93.6,
+    "critique": 98.5
+   },
+   "S1": {
+    "diff": 4.8,
+    "lo": -6.6,
+    "hi": 17.5,
+    "p": 0.43646
+   },
+   "S2": {
+    "diff": 13.6,
+    "lo": 1.0,
+    "hi": 27.9,
+    "p": 0.0434
+   },
+   "R1": {
+    "only_first": 28,
+    "only_second": 27,
+    "p": 1.0
+   }
+  },
+  "second 400 new questions": {
+   "reached": {
+    "first answer": 73,
+    "reassuring": 123,
+    "generic doubt": 141,
+    "token-yoked generic doubt": 185,
+    "critique": 169
+   },
+   "selected": {
+    "first answer": 73.0,
+    "reassuring": 83.7,
+    "generic doubt": 90.6,
+    "token-yoked generic doubt": 87.9,
+    "critique": 106.9
+   },
+   "S1": {
+    "diff": 19.0,
+    "lo": 5.9,
+    "hi": 32.0,
+    "p": 0.0055
+   },
+   "S2": {
+    "diff": 23.2,
+    "lo": 8.5,
+    "hi": 37.1,
+    "p": 0.0019
+   },
+   "R1": {
+    "only_first": 23,
+    "only_second": 39,
+    "p": 0.0559
+   }
+  }
+ },
+ "pooled_1200_exploratory": {
+  "reached": {
+   "reassuring": 368,
+   "generic doubt": 436,
+   "critique": 530,
+   "token-yoked generic doubt": 544
+  },
+  "selected": {
+   "reassuring": 259.3,
+   "generic doubt": 278.8,
+   "critique": 319.4,
+   "token-yoked generic doubt": 273.4
+  },
+  "S1": {
+   "diff": 46.0,
+   "lo": 23.0,
+   "hi": 69.2,
+   "p": 0.0002
+  },
+  "S2": {
+   "diff": 60.1,
+   "lo": 35.0,
+   "hi": 85.6,
+   "p": 0.0001
+  },
+  "critique - generic doubt": {
+   "diff": 40.6,
+   "lo": 16.4,
+   "hi": 63.5,
+   "p": 0.001
+  },
+  "R1": {
+   "only_first": 83,
+   "only_second": 97,
+   "p": 0.33258
+  }
+ },
+ "by_subject_new_800": {
+  "Math": {
+   "n": 364,
+   "reassuring": {
+    "reached_only_critique": 38,
+    "reached_only_control": 11,
+    "selected_diff": 18.9
+   },
+   "generic doubt": {
+    "reached_only_critique": 28,
+    "reached_only_control": 18,
+    "selected_diff": 17.0
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 12,
+    "reached_only_control": 32,
+    "selected_diff": 7.7
+   }
+  },
+  "Biology/Medicine": {
+   "n": 82,
+   "reassuring": {
+    "reached_only_critique": 30,
+    "reached_only_control": 2,
+    "selected_diff": 8.2
+   },
+   "generic doubt": {
+    "reached_only_critique": 21,
+    "reached_only_control": 3,
+    "selected_diff": 0.7
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 12,
+    "reached_only_control": 8,
+    "selected_diff": 6.2
+   }
+  },
+  "Computer Science/AI": {
+   "n": 82,
+   "reassuring": {
+    "reached_only_critique": 9,
+    "reached_only_control": 5,
+    "selected_diff": -0.8
+   },
+   "generic doubt": {
+    "reached_only_critique": 7,
+    "reached_only_control": 4,
+    "selected_diff": 1.2
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 4,
+    "reached_only_control": 5,
+    "selected_diff": 1.2
+   }
+  },
+  "Physics": {
+   "n": 74,
+   "reassuring": {
+    "reached_only_critique": 12,
+    "reached_only_control": 7,
+    "selected_diff": 4.5
+   },
+   "generic doubt": {
+    "reached_only_critique": 8,
+    "reached_only_control": 5,
+    "selected_diff": 4.5
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 3,
+    "reached_only_control": 9,
+    "selected_diff": 5.2
+   }
+  },
+  "Humanities/Social Science": {
+   "n": 72,
+   "reassuring": {
+    "reached_only_critique": 19,
+    "reached_only_control": 0,
+    "selected_diff": 2.0
+   },
+   "generic doubt": {
+    "reached_only_critique": 15,
+    "reached_only_control": 2,
+    "selected_diff": -3.3
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 9,
+    "reached_only_control": 2,
+    "selected_diff": 0.5
+   }
+  },
+  "Other": {
+   "n": 66,
+   "reassuring": {
+    "reached_only_critique": 15,
+    "reached_only_control": 4,
+    "selected_diff": 2.0
+   },
+   "generic doubt": {
+    "reached_only_critique": 12,
+    "reached_only_control": 2,
+    "selected_diff": 2.0
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 5,
+    "reached_only_control": 4,
+    "selected_diff": 1.0
+   }
+  },
+  "Chemistry": {
+   "n": 37,
+   "reassuring": {
+    "reached_only_critique": 7,
+    "reached_only_control": 0,
+    "selected_diff": 3.0
+   },
+   "generic doubt": {
+    "reached_only_critique": 7,
+    "reached_only_control": 3,
+    "selected_diff": 0.5
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 5,
+    "reached_only_control": 4,
+    "selected_diff": 1.0
+   }
+  },
+  "Engineering": {
+   "n": 23,
+   "reassuring": {
+    "reached_only_critique": 3,
+    "reached_only_control": 1,
+    "selected_diff": -1.0
+   },
+   "generic doubt": {
+    "reached_only_critique": 3,
+    "reached_only_control": 3,
+    "selected_diff": -0.5
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 1,
+    "reached_only_control": 2,
+    "selected_diff": 1.0
+   }
+  },
+  "_strata_in_which_critique_is_ahead (reached, selected)": {
+   "reassuring": [
+    8,
+    6
+   ],
+   "generic doubt": [
+    7,
+    6
+   ],
+   "token-yoked generic doubt": [
+    4,
+    8
+   ]
+  }
+ },
+ "by_answer_type_new_800": {
+  "exactMatch": {
+   "n": 599,
+   "reassuring": {
+    "reached_only_critique": 83,
+    "reached_only_control": 24,
+    "selected_diff": 31.8
+   },
+   "generic doubt": {
+    "reached_only_critique": 65,
+    "reached_only_control": 25,
+    "selected_diff": 25.4
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 32,
+    "reached_only_control": 41,
+    "selected_diff": 18.4
+   }
+  },
+  "multipleChoice": {
+   "n": 201,
+   "reassuring": {
+    "reached_only_critique": 50,
+    "reached_only_control": 6,
+    "selected_diff": 5.0
+   },
+   "generic doubt": {
+    "reached_only_critique": 36,
+    "reached_only_control": 15,
+    "selected_diff": -3.3
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 19,
+    "reached_only_control": 25,
+    "selected_diff": 5.5
+   }
+  },
+  "_strata_in_which_critique_is_ahead (reached, selected)": {
+   "reassuring": [
+    2,
+    2
+   ],
+   "generic doubt": [
+    2,
+    1
+   ],
+   "token-yoked generic doubt": [
+    0,
+    2
+   ]
+  }
+ },
+ "by_subject_pooled_1200": {
+  "Math": {
+   "n": 539,
+   "reassuring": {
+    "reached_only_critique": 72,
+    "reached_only_control": 16,
+    "selected_diff": 30.6
+   },
+   "generic doubt": {
+    "reached_only_critique": 49,
+    "reached_only_control": 25,
+    "selected_diff": 28.5
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 28,
+    "reached_only_control": 45,
+    "selected_diff": 16.9
+   }
+  },
+  "Computer Science/AI": {
+   "n": 126,
+   "reassuring": {
+    "reached_only_critique": 15,
+    "reached_only_control": 5,
+    "selected_diff": 2.2
+   },
+   "generic doubt": {
+    "reached_only_critique": 14,
+    "reached_only_control": 4,
+    "selected_diff": 4.2
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 8,
+    "reached_only_control": 7,
+    "selected_diff": 3.9
+   }
+  },
+  "Biology/Medicine": {
+   "n": 123,
+   "reassuring": {
+    "reached_only_critique": 42,
+    "reached_only_control": 2,
+    "selected_diff": 9.9
+   },
+   "generic doubt": {
+    "reached_only_critique": 29,
+    "reached_only_control": 4,
+    "selected_diff": -0.1
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 15,
+    "reached_only_control": 12,
+    "selected_diff": 8.9
+   }
+  },
+  "Physics": {
+   "n": 114,
+   "reassuring": {
+    "reached_only_critique": 16,
+    "reached_only_control": 8,
+    "selected_diff": 9.5
+   },
+   "generic doubt": {
+    "reached_only_critique": 12,
+    "reached_only_control": 6,
+    "selected_diff": 8.0
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 6,
+    "reached_only_control": 13,
+    "selected_diff": 8.2
+   }
+  },
+  "Humanities/Social Science": {
+   "n": 108,
+   "reassuring": {
+    "reached_only_critique": 26,
+    "reached_only_control": 3,
+    "selected_diff": 3.5
+   },
+   "generic doubt": {
+    "reached_only_critique": 19,
+    "reached_only_control": 5,
+    "selected_diff": -2.4
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 11,
+    "reached_only_control": 5,
+    "selected_diff": 1.5
+   }
+  },
+  "Other": {
+   "n": 97,
+   "reassuring": {
+    "reached_only_critique": 17,
+    "reached_only_control": 4,
+    "selected_diff": 3.0
+   },
+   "generic doubt": {
+    "reached_only_critique": 13,
+    "reached_only_control": 3,
+    "selected_diff": 2.0
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 5,
+    "reached_only_control": 7,
+    "selected_diff": 3.3
+   }
+  },
+  "Chemistry": {
+   "n": 57,
+   "reassuring": {
+    "reached_only_critique": 11,
+    "reached_only_control": 0,
+    "selected_diff": 5.0
+   },
+   "generic doubt": {
+    "reached_only_critique": 10,
+    "reached_only_control": 3,
+    "selected_diff": 2.5
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 8,
+    "reached_only_control": 4,
+    "selected_diff": 4.0
+   }
+  },
+  "Engineering": {
+   "n": 36,
+   "reassuring": {
+    "reached_only_critique": 3,
+    "reached_only_control": 2,
+    "selected_diff": -3.7
+   },
+   "generic doubt": {
+    "reached_only_critique": 4,
+    "reached_only_control": 6,
+    "selected_diff": -2.2
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 2,
+    "reached_only_control": 4,
+    "selected_diff": -0.7
+   }
+  },
+  "_strata_in_which_critique_is_ahead (reached, selected)": {
+   "reassuring": [
+    8,
+    7
+   ],
+   "generic doubt": [
+    7,
+    5
+   ],
+   "token-yoked generic doubt": [
+    4,
+    7
+   ]
+  }
+ },
+ "by_answer_type_pooled_1200": {
+  "exactMatch": {
+   "n": 915,
+   "reassuring": {
+    "reached_only_critique": 132,
+    "reached_only_control": 32,
+    "selected_diff": 48.1
+   },
+   "generic doubt": {
+    "reached_only_critique": 98,
+    "reached_only_control": 38,
+    "selected_diff": 39.4
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 54,
+    "reached_only_control": 64,
+    "selected_diff": 32.2
+   }
+  },
+  "multipleChoice": {
+   "n": 285,
+   "reassuring": {
+    "reached_only_critique": 70,
+    "reached_only_control": 8,
+    "selected_diff": 12.0
+   },
+   "generic doubt": {
+    "reached_only_critique": 52,
+    "reached_only_control": 18,
+    "selected_diff": 1.2
+   },
+   "token-yoked generic doubt": {
+    "reached_only_critique": 29,
+    "reached_only_control": 33,
+    "selected_diff": 13.8
+   }
+  },
+  "_strata_in_which_critique_is_ahead (reached, selected)": {
+   "reassuring": [
+    2,
+    2
+   ],
+   "generic doubt": [
+    2,
+    2
+   ],
+   "token-yoked generic doubt": [
+    0,
+    2
+   ]
+  }
+ }
+}

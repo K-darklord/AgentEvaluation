@@ -67,6 +67,20 @@ SYSTEM_BANK_FREE = (
     "\"confident\". Return JSON only."
 )
 
+# C2Q (question-only) variant: the critic sees the question but NOT the solver's answer
+# or reasoning. Exactly one sentence of SYSTEM_BANK_FREE changes (per CONTENT_CONTROLS_SPEC
+# v2.1 sec 3); all iron rules stay verbatim.
+SYSTEM_QUESTION_ONLY = (
+    "You are the STRONG critic role of an Error-Guided Test-Time Elimination (EGTE) "
+    "evaluator. At test time you are shown a hard question, but not the solver's answer or reasoning, "
+    "and, using your own judgement of where answers to such questions typically go wrong, identify "
+    "the most likely wrong direction(s) an answer to this question would exhibit. Iron rules: never read the "
+    "gold answer; never emit a probability or confidence score; never name the correct "
+    "answer, option letter, or any question-specific answer content; never tell the "
+    "solver what the answer IS. Speak only in \"possible\" (suspicion), never "
+    "\"confident\". Return JSON only."
+)
+
 A2_PLACEBO_FEEDBACK = "No confident error direction was found for this answer."
 
 
@@ -85,6 +99,29 @@ def _extract_json(content: str) -> dict | None:
     except json.JSONDecodeError:
         return None
     return obj if isinstance(obj, dict) else None
+
+
+def _render_directions(directions):
+    """Render parsed critic directions into the solver-facing feedback text and the
+    structured list, in C2's exact format. Shared by ``feedback`` (C2/C3) and
+    ``feedback_question_only`` (C2Q) so the render template stays byte-identical."""
+    lines = ["A few possible error directions were inferred for this answer:"]
+    structured = []
+    for i, d in enumerate(directions, 1):
+        name = (d.get("id") or "").strip()
+        suspicion = _clean(d.get("suspicion", ""))
+        check = _clean(d.get("check", ""))
+        lines.append("")
+        lines.append(f"{i}. {name} -- you may have {suspicion}.")
+        if check:
+            lines.append(f"   To check: {check}.")
+        structured.append({
+            "archetype_id": None,
+            "archetype_name": name,
+            "suspicion": suspicion,
+            "check": check,
+        })
+    return "\n".join(lines), structured
 
 
 class StrongCritic:
@@ -187,25 +224,8 @@ class StrongCritic:
         system = SYSTEM_BANK_FREE if self.bank_free else SYSTEM
         fallback = False if self.bank_free else None
 
-        def _render(directions):
-            lines = ["A few possible error directions were inferred for this answer:"]
-            structured = []
-            for i, d in enumerate(directions, 1):
-                name = (d.get("id") or "").strip()
-                suspicion = _clean(d.get("suspicion", ""))
-                check = _clean(d.get("check", ""))
-                lines.append("")
-                lines.append(f"{i}. {name} -- you may have {suspicion}.")
-                if check:
-                    lines.append(f"   To check: {check}.")
-                structured.append({
-                    "archetype_id": None,
-                    "archetype_name": name,
-                    "suspicion": suspicion,
-                    "check": check,
-                })
-            return "\n".join(lines), structured
-
+        # Render via the shared module-level _render_directions (byte-identical across
+        # C2/C3/C2Q) so the solver-facing format cannot drift between arms.
         def _call():
             content, _reasoning, _info = self._agent._call_llm_text(
                 [{"role": "system", "content": system},
@@ -238,5 +258,74 @@ class StrongCritic:
                 text, structured = self._weak.render_topk(pairs)
                 return text, structured, None, None, (0, 0, 0)
 
-        text, structured = _render(directions)
+        text, structured = _render_directions(directions)
+        return text, structured, None, fallback, toks
+
+    def _build_question_only_user(self, question: str, prior_names: list[str]) -> str:
+        """C2Q user prompt: the question only, with the answer/reasoning withheld and
+        the previously-raised suspicion ids listed (verbatim per CONTENT_CONTROLS_SPEC)."""
+        lines = [
+            "Question:",
+            question,
+            "",
+            "The model's answer and reasoning are not shown to you.",
+            "",
+            "Suspicions already raised in earlier rounds (do not repeat them):",
+        ]
+        if prior_names:
+            lines.extend(prior_names)
+        else:
+            lines.append("(none)")
+        lines += [
+            "",
+            "Return a JSON object with exactly one key \"directions\": a list of 1 to 3 "
+            "objects ranked most-likely first. Each object has three string fields:",
+            "  \"id\"        : a short label (at most 4 words) naming the kind of shortcoming",
+            "  \"suspicion\" : a past-participle clause (no leading 'the answer', no 'you "
+            "may have') grounded in THIS question's specific pitfalls, still answer-free",
+            "  \"check\"     : a concrete gold-free self-check the solver can run to catch "
+            "it",
+            "Do not re-derive or re-solve the question. Output ONLY the JSON object.",
+        ]
+        return "\n".join(lines)
+
+    def feedback_question_only(self, question: str, prior_names: list[str]):
+        """C2Q critic: sees the question only (no answer/reasoning).
+
+        Failure handling is identical to C2 (CONTENT_CONTROLS_SPEC v2.2): on a critic
+        call failure or empty directions, retry once; if still failing, ablate to the
+        neutral placebo sentence with an empty directions list, critic_fallback=True and
+        (0,0,0) critic tokens -- never an api_failure / whole-task rerun.
+
+        Returns ``(text, structured, None, fallback, toks)``.
+        """
+        user = self._build_question_only_user(question, prior_names)
+
+        def _call():
+            content, _reasoning, _info = self._agent._call_llm_text(
+                [{"role": "system", "content": SYSTEM_QUESTION_ONLY},
+                 {"role": "user", "content": user}])
+            u = getattr(_info, "usage", None)
+            toks = (
+                getattr(u, "prompt_tokens", 0) or 0,
+                getattr(u, "completion_tokens", 0) or 0,
+                getattr(u, "reasoning_tokens", 0) or 0,
+            )
+            parsed = _extract_json(content)
+            directions = parsed.get("directions", []) if parsed else []
+            directions = [d for d in directions if isinstance(d, dict) and d.get("suspicion")]
+            if not directions:
+                raise ValueError("C2Q critic returned empty directions")
+            return directions, toks
+
+        fallback = False
+        try:
+            directions, toks = _call()
+        except Exception:
+            try:
+                directions, toks = _call()
+            except Exception:
+                return A2_PLACEBO_FEEDBACK, [], None, True, (0, 0, 0)
+
+        text, structured = _render_directions(directions)
         return text, structured, None, fallback, toks

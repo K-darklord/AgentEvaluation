@@ -1,0 +1,59 @@
+{
+  "run_id": "yoke_A2PY_minimax-m2.5",
+  "arm": "A2P",
+  "bank_free": false,
+  "template_critic": true,
+  "family_filter": null,
+  "task_set": "hle",
+  "max_tokens": 8192,
+  "max_rounds": 100,
+  "early_stop_n": 3,
+  "tier": "C",
+  "temperature": 0.0,
+  "skip_finance": false,
+  "rationale_mode": "off",
+  "seed": null,
+  "n_tasks": 400,
+  "concurrency": 30,
+  "models": {
+    "minimax-m2.5": {
+      "model_id": "MiniMax-M2.5",
+      "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "init_accuracy": 0.1275,
+      "final_accuracy": 0.13,
+      "end_state_distribution": {
+        "1": 20,
+        "2": 18,
+        "3": 13,
+        "4": 19,
+        "5": 36,
+        "6": 294
+      },
+      "l3_activation_rate": 0.265,
+      "l3_reversibility_rate": 0.1576,
+      "l4_lock_rate": 0.3922,
+      "l4_misled_rate": 0.3529,
+      "avg_rounds": 10.84,
+      "critic_fallback_rounds": 0,
+      "archetype_draw_counts": {
+        "constraint-blind decimation": 2259,
+        "descriptor/label conflation": 2228,
+        "format / precision non-conformance": 2189,
+        "procedure truncation / omission": 2238,
+        "retrieval-abort": 2211
+      },
+      "k_draw_counts": {
+        "1": 126,
+        "2": 428,
+        "3": 3381
+      },
+      "total_prompt_tokens": 2262744,
+      "total_completion_tokens": 40488971,
+      "total_reasoning_tokens": 40098086,
+      "total_rationale_prompt_tokens": 0,
+      "total_rationale_completion_tokens": 0,
+      "total_rationale_reasoning_tokens": 0
+    }
+  },
+  "a_source_traj": "/Users/kevin/PycharmProjects/AgentEvaluation/experiments/rep3_A_minimax-m2.5/minimax-m2.5/loop_trajectories.jsonl"
+}

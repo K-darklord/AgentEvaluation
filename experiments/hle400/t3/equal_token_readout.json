@@ -1,0 +1,494 @@
+{
+ "qwen": {
+  "critique": {
+   "reached": 182,
+   "selected": 114.1,
+   "tokens_M": 36.22,
+   "selected_exact": 68.1
+  },
+  "feedback": {
+   "reassuring": {
+    "natural": {
+     "reached": 123,
+     "selected": 90.8,
+     "tokens_M": 15.2
+    },
+    "equal_tokens": {
+     "reached": 159,
+     "selected": 87.7,
+     "selected_exact": 56.2,
+     "tokens_M": 37.77,
+     "ratio": 1.043,
+     "feedback_rounds_per_q": 24.0,
+     "candidates_per_q": 3.52,
+     "answer_change_rate": 0.206,
+     "questions_short_of_budget": 7,
+     "aligned": true
+    },
+    "all_rounds": {
+     "reached": 160,
+     "selected": 87.8,
+     "tokens_M": 38.55,
+     "ratio": 1.064,
+     "at_cap": 7
+    }
+   },
+   "mismatched critique": {
+    "natural": {
+     "reached": 120,
+     "selected": 93.5,
+     "tokens_M": 15.3
+    },
+    "equal_tokens": {
+     "reached": 166,
+     "selected": 96.8,
+     "selected_exact": 60.0,
+     "tokens_M": 37.95,
+     "ratio": 1.048,
+     "feedback_rounds_per_q": 20.02,
+     "candidates_per_q": 3.6,
+     "answer_change_rate": 0.256,
+     "questions_short_of_budget": 0,
+     "aligned": true
+    },
+    "all_rounds": {
+     "reached": 167,
+     "selected": 96.0,
+     "tokens_M": 38.88,
+     "ratio": 1.073,
+     "at_cap": 0
+    }
+   },
+   "generic doubt": {
+    "natural": {
+     "reached": 149,
+     "selected": 95.6,
+     "tokens_M": 21.0
+    },
+    "equal_tokens": {
+     "reached": 181,
+     "selected": 92.0,
+     "selected_exact": 57.4,
+     "tokens_M": 38.0,
+     "ratio": 1.049,
+     "feedback_rounds_per_q": 16.66,
+     "candidates_per_q": 4.49,
+     "answer_change_rate": 0.449,
+     "questions_short_of_budget": 0,
+     "aligned": true
+    },
+    "all_rounds": {
+     "reached": 181,
+     "selected": 92.0,
+     "tokens_M": 38.0,
+     "ratio": 1.049,
+     "at_cap": 0
+    }
+   },
+   "question-only critique": {
+    "natural": {
+     "reached": 161,
+     "selected": 95.3,
+     "tokens_M": 32.0
+    },
+    "equal_tokens": {
+     "reached": 179,
+     "selected": 91.8,
+     "selected_exact": 58.9,
+     "tokens_M": 39.35,
+     "ratio": 1.086,
+     "feedback_rounds_per_q": 7.83,
+     "candidates_per_q": 3.62,
+     "answer_change_rate": 0.538,
+     "questions_short_of_budget": 0,
+     "aligned": true
+    },
+    "all_rounds": {
+     "reached": 187,
+     "selected": 98.9,
+     "tokens_M": 44.78,
+     "ratio": 1.236,
+     "at_cap": 0
+    }
+   }
+  },
+  "reached_difference_equal_tokens": {
+   "critique - question-only": {
+    "diff": 3,
+    "lo90": -10,
+    "hi90": 17,
+    "lo95": -13,
+    "hi95": 19
+   },
+   "critique - mismatched": {
+    "diff": 16,
+    "lo90": 4,
+    "hi90": 29,
+    "lo95": 2,
+    "hi95": 31
+   },
+   "critique - reassuring": {
+    "diff": 23,
+    "lo90": 9,
+    "hi90": 36,
+    "lo95": 7,
+    "hi95": 39
+   },
+   "critique - generic doubt": {
+    "diff": 1,
+    "lo90": -11,
+    "hi90": 14,
+    "lo95": -15,
+    "hi95": 17
+   }
+  },
+  "tests": {
+   "E1 critique vs question-only": {
+    "equal_tokens": {
+     "only_first": 35,
+     "only_second": 32,
+     "p": 0.80719,
+     "p_holm": 0.80719
+    },
+    "natural": {
+     "only_first": 48,
+     "only_second": 27,
+     "p": 0.0203
+    },
+    "all_rounds": {
+     "only_first": 32,
+     "only_second": 37,
+     "p": 0.63046
+    },
+    "gain_from_tokens": {
+     "only_first": 26,
+     "only_second": 8,
+     "p": 0.00294
+    },
+    "selected_equal_tokens": {
+     "diff": 22.3,
+     "lo": 8.4,
+     "hi": 36.8,
+     "p": 0.0021
+    },
+    "selected_natural": {
+     "diff": 18.7,
+     "lo": 4.9,
+     "hi": 32.8,
+     "p": 0.0073
+    },
+    "selected_all_rounds": {
+     "diff": 15.2,
+     "lo": 1.5,
+     "hi": 29.2,
+     "p": 0.0319
+    },
+    "selected_exact_equal_tokens": {
+     "diff": 9.1,
+     "lo": -1.8,
+     "hi": 19.8,
+     "p": 0.1041
+    }
+   },
+   "E2 critique vs mismatched": {
+    "equal_tokens": {
+     "only_first": 37,
+     "only_second": 21,
+     "p": 0.04794,
+     "p_holm": 0.09588
+    },
+    "natural": {
+     "only_first": 72,
+     "only_second": 10,
+     "p": 0.0
+    },
+    "all_rounds": {
+     "only_first": 37,
+     "only_second": 22,
+     "p": 0.06744
+    },
+    "gain_from_tokens": {
+     "only_first": 47,
+     "only_second": 1,
+     "p": 0.0
+    },
+    "selected_equal_tokens": {
+     "diff": 17.3,
+     "lo": 3.9,
+     "hi": 31.5,
+     "p": 0.0124
+    },
+    "selected_natural": {
+     "diff": 20.6,
+     "lo": 6.5,
+     "hi": 36.2,
+     "p": 0.006
+    },
+    "selected_all_rounds": {
+     "diff": 18.1,
+     "lo": 4.2,
+     "hi": 32.3,
+     "p": 0.0125
+    },
+    "selected_exact_equal_tokens": {
+     "diff": 8.1,
+     "lo": -1.5,
+     "hi": 17.8,
+     "p": 0.111
+    }
+   },
+   "E3 critique vs reassuring": {
+    "equal_tokens": {
+     "only_first": 45,
+     "only_second": 22,
+     "p": 0.00674,
+     "p_holm": 0.02022
+    },
+    "natural": {
+     "only_first": 69,
+     "only_second": 10,
+     "p": 0.0
+    },
+    "all_rounds": {
+     "only_first": 44,
+     "only_second": 22,
+     "p": 0.00921
+    },
+    "gain_from_tokens": {
+     "only_first": 38,
+     "only_second": 2,
+     "p": 0.0
+    },
+    "selected_equal_tokens": {
+     "diff": 26.4,
+     "lo": 12.7,
+     "hi": 41.8,
+     "p": 0.0004
+    },
+    "selected_natural": {
+     "diff": 23.3,
+     "lo": 8.8,
+     "hi": 39.2,
+     "p": 0.0039
+    },
+    "selected_all_rounds": {
+     "diff": 26.3,
+     "lo": 12.7,
+     "hi": 41.8,
+     "p": 0.0003
+    },
+    "selected_exact_equal_tokens": {
+     "diff": 11.9,
+     "lo": 0.2,
+     "hi": 23.6,
+     "p": 0.0537
+    }
+   },
+   "(earlier Y1) critique vs generic doubt": {
+    "equal_tokens": {
+     "only_first": 32,
+     "only_second": 31,
+     "p": 1.0
+    },
+    "natural": {
+     "only_first": 49,
+     "only_second": 16,
+     "p": 5e-05
+    },
+    "all_rounds": {
+     "only_first": 32,
+     "only_second": 31,
+     "p": 1.0
+    },
+    "gain_from_tokens": {
+     "only_first": 42,
+     "only_second": 10,
+     "p": 1e-05
+    },
+    "selected_equal_tokens": {
+     "diff": 22.1,
+     "lo": 9.0,
+     "hi": 35.8,
+     "p": 0.0021
+    },
+    "selected_natural": {
+     "diff": 18.5,
+     "lo": 3.9,
+     "hi": 34.3,
+     "p": 0.0193
+    },
+    "selected_all_rounds": {
+     "diff": 22.1,
+     "lo": 9.0,
+     "hi": 35.8,
+     "p": 0.0021
+    },
+    "selected_exact_equal_tokens": {
+     "diff": 10.7,
+     "lo": -0.8,
+     "hi": 21.8,
+     "p": 0.0691
+    }
+   }
+  },
+  "between_controls_equal_tokens": {
+   "reassuring vs mismatched critique": {
+    "only_first": 18,
+    "only_second": 25,
+    "p": 0.36038
+   },
+   "reassuring vs generic doubt": {
+    "only_first": 17,
+    "only_second": 39,
+    "p": 0.00456
+   },
+   "reassuring vs question-only critique": {
+    "only_first": 16,
+    "only_second": 36,
+    "p": 0.00779
+   },
+   "mismatched critique vs generic doubt": {
+    "only_first": 18,
+    "only_second": 33,
+    "p": 0.04887
+   },
+   "mismatched critique vs question-only critique": {
+    "only_first": 15,
+    "only_second": 28,
+    "p": 0.06599
+   },
+   "generic doubt vs question-only critique": {
+    "only_first": 24,
+    "only_second": 22,
+    "p": 0.883
+   }
+  },
+  "question_only_strata": {
+   "already_over_budget": {
+    "n": 135,
+    "critique_reached": 63,
+    "control_reached": 67,
+    "only_critique": 10,
+    "only_control": 14
+   },
+   "continued": {
+    "n": 265,
+    "critique_reached": 119,
+    "control_reached": 112,
+    "only_critique": 25,
+    "only_control": 18
+   }
+  },
+  "exact_share_of_selected": {
+   "reassuring": 0.641,
+   "mismatched critique": 0.62,
+   "generic doubt": 0.624,
+   "question-only critique": 0.642,
+   "critique": 0.597
+  }
+ },
+ "minimax": {
+  "token_alignment": {
+   "critique_total_M": 40.36,
+   "yoked_total_M": 42.75,
+   "ratio": 1.059,
+   "questions_at_cap": 0,
+   "aligned": true
+  },
+  "conditions": {
+   "reassuring": {
+    "reached": 125,
+    "selected": 101.7
+   },
+   "generic doubt": {
+    "reached": 128,
+    "selected": 102.3,
+    "answer_change_rate": 0.412
+   },
+   "token-yoked generic doubt": {
+    "reached": 156,
+    "selected": 96.0,
+    "reached_within_budget": 149,
+    "selected_within_budget": 98.3,
+    "feedback_rounds_per_q": 9.84,
+    "candidates_per_q": 3.02,
+    "answer_change_rate": 0.317,
+    "selected_exact": 59.3
+   },
+   "critique": {
+    "reached": 152,
+    "selected": 106.9,
+    "answer_change_rate": 0.593,
+    "selected_exact": 66.6
+   }
+  },
+  "tests": {
+   "Y1 critique vs token-yoked (all rounds)": {
+    "only_first": 21,
+    "only_second": 25,
+    "p": 0.65874
+   },
+   "Y1 critique vs token-yoked (within budget)": {
+    "only_first": 25,
+    "only_second": 22,
+    "p": 0.77087
+   },
+   "Y2 token-yoked vs generic doubt": {
+    "only_first": 39,
+    "only_second": 11,
+    "p": 9e-05
+   },
+   "reference: token-yoked vs reassuring": {
+    "only_first": 41,
+    "only_second": 10,
+    "p": 1e-05
+   },
+   "reference: critique vs generic doubt": {
+    "only_first": 37,
+    "only_second": 13,
+    "p": 0.00094
+   }
+  },
+  "selected": {
+   "critique - token-yoked": {
+    "diff": 10.9,
+    "lo": -0.5,
+    "hi": 22.3,
+    "p": 0.077
+   },
+   "critique - token-yoked (exact matches only)": {
+    "diff": 7.2,
+    "lo": -2.0,
+    "hi": 17.1,
+    "p": 0.1562
+   },
+   "token-yoked - generic doubt": {
+    "diff": -6.3,
+    "lo": -17.4,
+    "hi": 4.2,
+    "p": 0.2786
+   },
+   "critique - generic doubt": {
+    "diff": 4.6,
+    "lo": -8.4,
+    "hi": 16.8,
+    "p": 0.4791
+   },
+   "critique - reassuring": {
+    "diff": 5.2,
+    "lo": -6.9,
+    "hi": 18.0,
+    "p": 0.4218
+   }
+  },
+  "reached_difference": {
+   "critique - token-yoked": {
+    "diff": -4,
+    "lo90": -15,
+    "hi90": 7,
+    "lo95": -17,
+    "hi95": 10
+   }
+  }
+ }
+}
