@@ -134,3 +134,5 @@ def table(vecs,rows,key,label):
 OUT['by_subject_new_800']=table(V,new,'category','new 800'); OUT['by_answer_type_new_800']=table(V,new,'answer_type','new 800')
 OUT['by_subject_pooled_1200']=table(P,old+new,'category','pooled 1,200'); OUT['by_answer_type_pooled_1200']=table(P,old+new,'answer_type','pooled 1,200')
 json.dump(OUT,open(T+'selection_confirmation_readout.json','w'),indent=1)
+# per-question vectors of the tested comparisons, for an independent re-computation (scripts/crosscheck_stats.py)
+json.dump({'selected':{a:V[a][1] for a in V},'reached':{a:[int(x) for x in V[a][0]] for a in V},'selected_exact':{a:X[a][1] for a in X}},open(T+'vectors_confirm.json','w'))

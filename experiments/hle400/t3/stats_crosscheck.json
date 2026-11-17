@@ -1,0 +1,326 @@
+{
+ "scipy_version": "1.18.1",
+ "identical_exact_quantities": true,
+ "max_interval_limit_difference": 1.28,
+ "max_permutation_p_difference": 0.0012,
+ "rows": [
+  {
+   "test": "S1 selected: critique - token-yoked",
+   "kind": "selected",
+   "repository": [
+    23.8,
+    5.9,
+    42.3,
+    0.008
+   ],
+   "scipy": [
+    23.8189,
+    5.922,
+    41.9866,
+    0.0074
+   ],
+   "agree": true
+  },
+  {
+   "test": "S2 selected: critique - reassuring",
+   "kind": "selected",
+   "repository": [
+    36.8,
+    17.4,
+    57.3,
+    0.0003
+   ],
+   "scipy": [
+    36.7955,
+    17.1212,
+    56.0303,
+    0.0002
+   ],
+   "agree": true
+  },
+  {
+   "test": "S1, exact matches only",
+   "kind": "selected",
+   "repository": [
+    17.3,
+    1.4,
+    33.0,
+    0.0321
+   ],
+   "scipy": [
+    17.3076,
+    1.8409,
+    32.917,
+    0.0326
+   ],
+   "agree": true
+  },
+  {
+   "test": "S2, exact matches only",
+   "kind": "selected",
+   "repository": [
+    25.9,
+    8.2,
+    42.5,
+    0.003
+   ],
+   "scipy": [
+    25.9167,
+    9.1667,
+    42.6667,
+    0.003
+   ],
+   "agree": true
+  },
+  {
+   "test": "R1 reached: critique - token-yoked (90% interval)",
+   "kind": "equivalence",
+   "repository": [
+    -15.0,
+    -32.0,
+    2.0
+   ],
+   "scipy": [
+    -15.0,
+    -33.0,
+    3.0
+   ],
+   "agree": true
+  },
+  {
+   "test": "R1 discordant pairs",
+   "kind": "reached",
+   "repository": [
+    51,
+    66,
+    0.19535
+   ],
+   "scipy": [
+    51,
+    66,
+    0.19535
+   ],
+   "agree": true
+  },
+  {
+   "test": "reached: critique vs reassuring",
+   "kind": "reached",
+   "repository": [
+    133,
+    30,
+    0.0
+   ],
+   "scipy": [
+    133,
+    30,
+    0.0
+   ],
+   "agree": true
+  },
+  {
+   "test": "reached: critique vs generic doubt",
+   "kind": "reached",
+   "repository": [
+    101,
+    40,
+    0.0
+   ],
+   "scipy": [
+    101,
+    40,
+    0.0
+   ],
+   "agree": true
+  },
+  {
+   "test": "reached: token-yoked vs generic doubt",
+   "kind": "reached",
+   "repository": [
+    102,
+    26,
+    0.0
+   ],
+   "scipy": [
+    102,
+    26,
+    0.0
+   ],
+   "agree": true
+  },
+  {
+   "test": "E1 reached: critique vs question-only",
+   "kind": "reached",
+   "repository": [
+    35,
+    32,
+    0.80719
+   ],
+   "scipy": [
+    35,
+    32,
+    0.80719
+   ],
+   "agree": true
+  },
+  {
+   "test": "E1 selected: critique vs question-only",
+   "kind": "selected",
+   "repository": [
+    22.3,
+    8.4,
+    36.8,
+    0.0021
+   ],
+   "scipy": [
+    22.2993,
+    8.5255,
+    35.9672,
+    0.002
+   ],
+   "agree": true
+  },
+  {
+   "test": "E2 reached: critique vs mismatched",
+   "kind": "reached",
+   "repository": [
+    37,
+    21,
+    0.04794
+   ],
+   "scipy": [
+    37,
+    21,
+    0.04794
+   ],
+   "agree": true
+  },
+  {
+   "test": "E2 selected: critique vs mismatched",
+   "kind": "selected",
+   "repository": [
+    17.3,
+    3.9,
+    31.5,
+    0.0124
+   ],
+   "scipy": [
+    17.3485,
+    3.9318,
+    30.4487,
+    0.0112
+   ],
+   "agree": true
+  },
+  {
+   "test": "E3 reached: critique vs reassuring",
+   "kind": "reached",
+   "repository": [
+    45,
+    22,
+    0.00674
+   ],
+   "scipy": [
+    45,
+    22,
+    0.00674
+   ],
+   "agree": true
+  },
+  {
+   "test": "E3 selected: critique vs reassuring",
+   "kind": "selected",
+   "repository": [
+    26.4,
+    12.7,
+    41.8,
+    0.0004
+   ],
+   "scipy": [
+    26.4318,
+    11.4167,
+    41.5152,
+    0.0006
+   ],
+   "agree": true
+  },
+  {
+   "test": "reached: critique vs token-yoked (qwen, 400)",
+   "kind": "reached",
+   "repository": [
+    32,
+    31,
+    1.0
+   ],
+   "scipy": [
+    32,
+    31,
+    1.0
+   ],
+   "agree": true
+  },
+  {
+   "test": "selected: critique vs token-yoked (qwen, 400)",
+   "kind": "selected",
+   "repository": [
+    22.1,
+    9.0,
+    35.8,
+    0.0021
+   ],
+   "scipy": [
+    22.1485,
+    8.6966,
+    35.9337,
+    0.0018
+   ],
+   "agree": true
+  },
+  {
+   "test": "MiniMax reached: critique vs token-yoked",
+   "kind": "reached",
+   "repository": [
+    21,
+    25,
+    0.65874
+   ],
+   "scipy": [
+    21,
+    25,
+    0.65874
+   ],
+   "agree": true
+  },
+  {
+   "test": "MiniMax reached: token-yoked vs generic doubt",
+   "kind": "reached",
+   "repository": [
+    39,
+    11,
+    9e-05
+   ],
+   "scipy": [
+    39,
+    11,
+    9e-05
+   ],
+   "agree": true
+  },
+  {
+   "test": "MiniMax selected: critique - token-yoked",
+   "kind": "selected",
+   "repository": [
+    10.9,
+    -0.5,
+    22.3,
+    0.077
+   ],
+   "scipy": [
+    10.9167,
+    -0.7521,
+    23.25,
+    0.0762
+   ],
+   "agree": true
+  }
+ ]
+}

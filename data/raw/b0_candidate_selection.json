@@ -1,0 +1,74 @@
+{
+ "rule": "B0 second-benchmark candidate sampling, FIXED seed, never re-drawn",
+ "seed": 20261117,
+ "gsm8k": {
+  "n": 200,
+  "file": "data/raw/b0/gsm8k_b0_200.jsonl",
+  "source": "data/raw/gsm8k_test.jsonl",
+  "source_rows": 1319
+ },
+ "bbeh": {
+  "n": 805,
+  "per_task": 35,
+  "tasks": [
+   "bbeh_boardgame_qa",
+   "bbeh_boolean_expressions",
+   "bbeh_buggy_tables",
+   "bbeh_causal_understanding",
+   "bbeh_disambiguation_qa",
+   "bbeh_dyck_languages",
+   "bbeh_geometric_shapes",
+   "bbeh_hyperbaton",
+   "bbeh_linguini",
+   "bbeh_movie_recommendation",
+   "bbeh_multistep_arithmetic",
+   "bbeh_nycc",
+   "bbeh_object_counting",
+   "bbeh_object_properties",
+   "bbeh_sarc_triples",
+   "bbeh_shuffled_objects",
+   "bbeh_spatial_reasoning",
+   "bbeh_sportqa",
+   "bbeh_temporal_sequence",
+   "bbeh_time_arithmetic",
+   "bbeh_web_of_lies",
+   "bbeh_word_sorting",
+   "bbeh_zebra_puzzles"
+  ],
+  "n_tasks": 23,
+  "per_task_distribution": {
+   "bbeh_boardgame_qa": 35,
+   "bbeh_boolean_expressions": 35,
+   "bbeh_buggy_tables": 35,
+   "bbeh_causal_understanding": 35,
+   "bbeh_disambiguation_qa": 35,
+   "bbeh_dyck_languages": 35,
+   "bbeh_geometric_shapes": 35,
+   "bbeh_hyperbaton": 35,
+   "bbeh_linguini": 35,
+   "bbeh_movie_recommendation": 35,
+   "bbeh_multistep_arithmetic": 35,
+   "bbeh_nycc": 35,
+   "bbeh_object_counting": 35,
+   "bbeh_object_properties": 35,
+   "bbeh_sarc_triples": 35,
+   "bbeh_shuffled_objects": 35,
+   "bbeh_spatial_reasoning": 35,
+   "bbeh_sportqa": 35,
+   "bbeh_temporal_sequence": 35,
+   "bbeh_time_arithmetic": 35,
+   "bbeh_web_of_lies": 35,
+   "bbeh_word_sorting": 35,
+   "bbeh_zebra_puzzles": 35
+  },
+  "file": "data/raw/b0/bbeh_b0_805.jsonl"
+ },
+ "olymmath": {
+  "n": 200,
+  "split_distribution": {
+   "EASY": 100,
+   "HARD": 100
+  },
+  "file": "data/raw/b0/olymmath_b0_200.jsonl"
+ }
+}

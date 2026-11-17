@@ -121,3 +121,5 @@ By subject (new 800): selected difference critique − token-yoked positive in 8
 Not in the spec, reported for transparency: by draw, S1 is +4.8 [−6.6, 17.5] on the first 400 new questions and +19.0 [5.9, 32.0] on the second; S2 +13.6 and +23.2.
 
 **Verdict under 4.6 (first row):** on qwen, more tokens buy reach, not selection; critique that reads the answer raises selection. Limited to qwen.
+
+**补记（2026-11-17 深夜，SciPy 独立复算）。** `scripts/crosscheck_stats.py`：不一致对、差值、精确 McNemar p 值完全一致；置换检验 p 值最大相差 0.0012；区间端点最大相差 1.3 题。R1 的 90% 区间按事先写定的做法（2,000 次重抽样）为 [−32, +2]；SciPy 用 10,000 次重抽样为 [−33, +3]；正态近似为 [−32.8, +2.8]。按写定的做法判定仍为"等价"，但下端落在界限上：可靠的是"critique 的 reach 不比 token-yoked 多"，"不比它明显少"则在边界上。

@@ -137,3 +137,5 @@ for k,v in c.items(): print(f"  {k:26s} "+' '.join(f"{a}={b}" for a,b in v.items
 for k,v in m['tests'].items(): print(f"  {k:46s} {v['only_first']:3d}/{v['only_second']:<3d} p={v['p']:.4f}")
 for k,v in m['selected'].items(): print(f"  selected {k:44s} {v['diff']:+5.1f} [{v['lo']:+.1f},{v['hi']:+.1f}] p={v['p']:.3f}")
 json.dump(OUT,open(T+'equal_token_readout.json','w'),indent=1)
+json.dump({'qwen':{'critique':{'reached':[int(x) for x in Rc],'selected':Sc},**{n:{'reached':[int(x) for x in V[n]['eq'][0]],'selected':V[n]['eq'][1],'reached_natural':[int(x) for x in V[n]['nat'][0]]} for n in V}},
+ 'minimax':{'critique':{'reached':[int(x) for x in RC],'selected':SC},'token-yoked generic doubt':{'reached':[int(x) for x in RY],'selected':SY},'generic doubt':{'reached':[int(x) for x in RG],'selected':SG}}},open(T+'vectors_equal_token.json','w'))

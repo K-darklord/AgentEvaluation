@@ -13,41 +13,43 @@
   "skip_finance": false,
   "rationale_mode": "off",
   "seed": null,
-  "n_tasks": 16,
+  "n_tasks": 800,
   "concurrency": 120,
   "models": {
     "deepseek-v4-flash-payg": {
       "model_id": "deepseek-v4-flash-0731",
       "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
-      "init_accuracy": 0.0625,
-      "final_accuracy": 0.1875,
+      "init_accuracy": 0.15,
+      "final_accuracy": 0.1938,
       "end_state_distribution": {
-        "1": 1,
-        "4": 2,
-        "5": 1,
-        "6": 12
+        "1": 79,
+        "2": 17,
+        "3": 24,
+        "4": 52,
+        "5": 38,
+        "6": 590
       },
-      "l3_activation_rate": 0.25,
-      "l3_reversibility_rate": 0.2,
-      "l4_lock_rate": 1.0,
-      "l4_misled_rate": 0.0,
-      "avg_rounds": 5.19,
+      "l3_activation_rate": 0.2625,
+      "l3_reversibility_rate": 0.1324,
+      "l4_lock_rate": 0.6583,
+      "l4_misled_rate": 0.1417,
+      "avg_rounds": 5.49,
       "critic_fallback_rounds": 0,
       "archetype_draw_counts": {
-        "constraint-blind decimation": 39,
-        "descriptor/label conflation": 36,
-        "format / precision non-conformance": 35,
-        "procedure truncation / omission": 42,
-        "retrieval-abort": 38
+        "constraint-blind decimation": 2076,
+        "descriptor/label conflation": 2000,
+        "format / precision non-conformance": 2081,
+        "procedure truncation / omission": 1992,
+        "retrieval-abort": 1978
       },
       "k_draw_counts": {
-        "1": 2,
-        "2": 7,
-        "3": 58
+        "1": 108,
+        "2": 421,
+        "3": 3059
       },
-      "total_prompt_tokens": 35837,
-      "total_completion_tokens": 1099125,
-      "total_reasoning_tokens": 1081878,
+      "total_prompt_tokens": 2691115,
+      "total_completion_tokens": 54787913,
+      "total_reasoning_tokens": 52327056,
       "total_rationale_prompt_tokens": 0,
       "total_rationale_completion_tokens": 0,
       "total_rationale_reasoning_tokens": 0
