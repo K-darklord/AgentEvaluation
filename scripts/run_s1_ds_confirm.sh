@@ -6,7 +6,7 @@
 # temperature 0, A3 temperature 0.7). C2 logs critic tokens per round.
 # checkpoint-resumable: `health` writes the first 16 questions, `full` resumes to 800.
 # Usage: bash scripts/run_s1_ds_confirm.sh <arm> [health|full]   arm in {A,A2,A2P,C2,A3,A2PY}
-set -euo pipefail
+set -eo pipefail
 cd "$(dirname "$0")/.."
 set -a; . ./.env; set +a
 export CRITIC_HOLD_ON_REPEAT=0
