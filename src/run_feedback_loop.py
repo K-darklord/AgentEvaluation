@@ -944,7 +944,7 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
     resume_mode = False
     resumed_from_rounds = 0
     start_round = 1
-    if resume_rounds and yoke_budget is not None and arm in ("A2", "C2X", "C2Q"):
+    if resume_rounds and yoke_budget is not None and arm in ("A2", "C2X", "C2Q", "A3"):
         resume_mode = True
         records = [dict(r) for r in resume_rounds]
         resumed_from_rounds = len(records)
@@ -1051,18 +1051,53 @@ def _run_task_loop(agent, critic, task, tier, max_rounds, early_stop_n,
         # (NOT a vote); rounds 1..n-1 are n-1 independent i.i.d. T>0 samples with no
         # feedback and no early stop. The SC vote = majority over those n-1 samples
         # (score_hle_arms A3.vote); init = round 0 = A. Coverage = pass@k.
-        for r in range(1, max_rounds):
+        # A3Y (resume_mode): continue the existing conf_A3 samples (rounds 1..9, kept
+        # verbatim) until the per-question solver prompt+completion token budget
+        # (EXCLUDING round 0) is reached, capped at 100 samples total
+        # (docs/EQUAL_TOKEN_SAMPLES_SPEC.md sec 1). The overshoot sample is kept.
+        yoke_mode = False
+        yoke_budget_for_task = None
+        yoke_cum = 0
+        if resume_mode and yoke_budget is not None:
+            _b = yoke_budget.get(task.task_id)
+            if _b is not None:
+                yoke_budget_for_task = int(_b)
+                yoke_mode = True
+                yoke_cum = sum(
+                    (_r.get("prompt_tokens") or 0) + (_r.get("completion_tokens") or 0)
+                    for _r in records if (_r.get("round") or 0) >= 1)
+        if resume_mode:
+            # next sample round = one past the existing sample count (round 0 excluded);
+            # the total sample count is capped at 100 (rounds 1..100).
+            first_sample_round = (
+                sum(1 for _r in records if (_r.get("round") or 0) >= 1) + 1)
+            sample_rounds = range(first_sample_round, 101)
+        else:
+            sample_rounds = range(1, max_rounds)
+        for r in sample_rounds:
+            if yoke_mode and yoke_cum >= yoke_budget_for_task:
+                break
             result = _solve_with_retry(agent, task, tool_cache=tool_cache)
             records.append(_round_record(r, result, score(result),
                                          None, None, None, None, arm))
+            if yoke_mode:
+                yoke_cum += ((result.total_prompt_tokens or 0)
+                             + (result.total_completion_tokens or 0))
         corrects = [rec["is_correct"] for rec in records]
-        return {
+        out = {
             "task_id": task.task_id, "arm": arm, "family": family,
             "gold_answer": task.gold_answer, "prompt": task.prompt,
             "rounds": records, "n_rounds": len(records),
             "start_correct": corrects[0], "final_correct": corrects[-1],
             "correct_appeared": any(corrects), "end_state": _end_state(corrects),
         }
+        if yoke_mode:
+            out["yoke_budget"] = yoke_budget_for_task
+            out["yoke_cum_tokens"] = yoke_cum
+            out["yoke_hit_cap"] = yoke_cum < yoke_budget_for_task
+        if resume_mode:
+            out["resumed_from_rounds"] = resumed_from_rounds
+        return out
 
     critic_direction = None
     critic_fallback = None   # per-round fallback flag (bank-free C2 only; None otherwise)
@@ -1401,10 +1436,10 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
     }
 
     # token-yoked / content-control inputs (loaded once, shared across models).
-    yoke_budget = _load_yoke_budget() if arm in ("A2P", "A2", "C2X", "C2Q") else None
+    yoke_budget = _load_yoke_budget() if arm in ("A2P", "A2", "C2X", "C2Q", "A3") else None
     mismatch_map = _load_mismatch_map() if arm == "C2X" else None
     donor_rounds = _load_donor_rounds() if arm == "C2X" else None
-    resume_traj = _load_resume_traj() if arm in ("A2", "C2X", "C2Q") else None
+    resume_traj = _load_resume_traj() if arm in ("A2", "C2X", "C2Q", "A3") else None
 
     for name in names:
         entry = config.PHASE1_MODELS[name]
