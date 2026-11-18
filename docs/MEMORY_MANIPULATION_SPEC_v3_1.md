@@ -7,7 +7,7 @@
 
 | 冻结记录（执行方在相应时刻填写并提交） | |
 |---|---|
-| 规格与第一阶段读出脚本冻结（commit / tag `pre-memory-runs-20261119`） | 待填 |
+| 规格与第一阶段读出脚本冻结（commit / tag `pre-memory-runs-20261119`） | `b15bbb4` |
 | `scripts/memory_manipulation_readout.py` sha256 | `631b44c7bb0d62926362253effcc0048b4e42df1c3a7a7a2fd887ffed366e4a3` |
 | 第一阶段运行开始时间 | 待填 |
 | `bbeh_sidecar_nm.json` sha256 | 待填 |
