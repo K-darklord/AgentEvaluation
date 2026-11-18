@@ -49,3 +49,12 @@ them, with P1–P5 as the mechanism-level refinement.
 - Do not adjust P1–P5 after seeing any number.
 - When the runs finish, regenerate the sidecar in full, record its sha256 here, then run the audit
   (item counts, rounds, token alignment, shared first answer, label coverage) and only then read out.
+
+## Regenerated sidecar (runs complete)
+
+`experiments/hle400/t3/bbeh_sidecar.json` was regenerated in full after all runs completed
+(2026-11-18). sha256:
+
+`31ab3cf8cf57dce4d7eeb79035423f38956d73d8fdfe11fc5424ac8aedb56bd6`
+
+Pre-read-out audit: `ALL PASS — a single read-out may proceed`.
