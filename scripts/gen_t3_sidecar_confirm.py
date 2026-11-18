@@ -197,13 +197,14 @@ def get_client():
 
 
 def astra_judge(question, gold, response):
-    last_served = None
+    last_err = None
+    max_tok = 200
     for _ in range(3):
         try:
             r = get_client().chat.completions.create(
                 model=config.ASTRA_MODEL,
                 messages=[{"role": "user", "content": hs.JUDGE_PROMPT.format(question=question, response=response[:4000], gold=gold)}],
-                max_tokens=200, temperature=0,
+                max_tokens=max_tok, temperature=0,
             )
             txt = (r.choices[0].message.content or "").strip().upper()
             served = getattr(r, "model", None)
@@ -211,10 +212,18 @@ def astra_judge(question, gold, response):
                 return True, served
             if txt.startswith("INCORRECT"):
                 return False, served
-            last_served = served
+            # Reasoning model exhausted the token budget before emitting a verdict
+            # (finish_reason=length, empty content): retry with a larger cap. This is
+            # a budget-truncation, not an interface error, and the verdict rules are
+            # unchanged.
+            if r.choices[0].finish_reason == "length" and not txt:
+                max_tok = 2000
+                last_err = "empty verdict (finish_reason=length); retrying with max_tokens=2000"
+                continue
+            last_err = f"unparseable verdict: {txt[:80]!r}"
         except Exception as e:  # noqa: BLE001
-            last_served = f"ERR:{type(e).__name__}"
-    return None, last_served
+            last_err = f"{type(e).__name__}: {e}"
+    raise RuntimeError(f"astra judge failed after 3 attempts: {last_err}")
 
 
 def load_astra_cache():
@@ -242,8 +251,6 @@ def score_round(meta, tid, r, astra_cache, dry_run):
     if dry_run:
         return {"c": None, "s": "astra_needed"}
     verdict, _ = astra_judge(meta["question"], meta["gold"], fa)
-    if verdict is None:
-        verdict = False
     with open(ASTRA_CACHE, "a", encoding="utf-8") as f:
         f.write(json.dumps({"task_id": tid, "final_answer": fa, "c": verdict}, ensure_ascii=False) + "\n")
     astra_cache[key] = verdict
@@ -298,8 +305,6 @@ def main():
             arm, tid, i, key = item
             m = idx[tid]
             verdict, served = astra_judge(m["question"], m["gold"], key[1])
-            if verdict is None:
-                verdict = False
             return {"task_id": tid, "final_answer": key[1], "c": verdict, "served_model": served}
 
         with ThreadPoolExecutor(max_workers=args.workers) as ex:

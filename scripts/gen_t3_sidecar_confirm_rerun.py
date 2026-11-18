@@ -92,8 +92,6 @@ def main():
             tid, fa = key
             m = idx[tid]
             verdict, served = gen.astra_judge(m["question"], m["gold"], fa)
-            if verdict is None:
-                verdict = False
             return {"task_id": tid, "final_answer": fa, "c": verdict,
                     "served_model": served}
 

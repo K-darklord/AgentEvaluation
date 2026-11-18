@@ -11,6 +11,7 @@ export CRITIC_HOLD_ON_REPEAT=0
 M=qwen3.8-flash-payg
 CONC=120
 export RESUME_TRAJ="$PWD/experiments/conf_C2Q_qwen3.8-flash-payg/$M/loop_trajectories.jsonl"
+export A_SOURCE_TRAJ="$PWD/experiments/conf_A_qwen3.8-flash-payg/$M/loop_trajectories.jsonl"
 export YOKE_BUDGET_FILE="$PWD/experiments/hle400/t3/yoke_budget_qwen_confirm.json"
 OUT="yoke_C2QY_confirm_qwen3.8-flash-payg"
 TASKS16="hle_401,hle_402,hle_403,hle_404,hle_405,hle_406,hle_407,hle_408,hle_409,hle_410,hle_411,hle_412,hle_413,hle_414,hle_415,hle_416"
