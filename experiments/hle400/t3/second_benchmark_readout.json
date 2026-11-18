@@ -1,0 +1,702 @@
+{
+ "dry_run": false,
+ "hard": {
+  "n": 800,
+  "first_answer_correct": 263,
+  "token_alignment": {
+   "critique_M": 96.41,
+   "token_yoked_M": 100.57,
+   "ratio": 1.043,
+   "at_cap": 0,
+   "aligned": true
+  },
+  "conditions": {
+   "first answer": {
+    "reached": 263,
+    "selected": 263.0,
+    "last": 263,
+    "conversion": 1.0,
+    "rounds_per_q": 1.0,
+    "candidates_per_q": 1.0,
+    "answer_change_rate": 0.0,
+    "tokens_M": 7.8,
+    "repeat_correct": 0.0,
+    "repeat_incorrect": 0.0,
+    "first_revision_repaired": 0,
+    "first_revision_damaged": 0
+   },
+   "reassuring": {
+    "reached": 465,
+    "selected": 379.9,
+    "last": 359,
+    "conversion": 0.817,
+    "rounds_per_q": 5.33,
+    "candidates_per_q": 2.67,
+    "answer_change_rate": 0.509,
+    "tokens_M": 48.1,
+    "repeat_correct": 0.725,
+    "repeat_incorrect": 0.384,
+    "first_revision_repaired": 77,
+    "first_revision_damaged": 53
+   },
+   "generic doubt": {
+    "reached": 510,
+    "selected": 388.9,
+    "last": 370,
+    "conversion": 0.763,
+    "rounds_per_q": 6.08,
+    "candidates_per_q": 3.09,
+    "answer_change_rate": 0.603,
+    "tokens_M": 57.4,
+    "repeat_correct": 0.652,
+    "repeat_incorrect": 0.286,
+    "first_revision_repaired": 107,
+    "first_revision_damaged": 69
+   },
+   "token-yoked generic doubt": {
+    "reached": 576,
+    "selected": 371.9,
+    "last": 291,
+    "conversion": 0.646,
+    "rounds_per_q": 16.5,
+    "candidates_per_q": 4.38,
+    "answer_change_rate": 0.449,
+    "tokens_M": 100.6,
+    "repeat_correct": 0.701,
+    "repeat_incorrect": 0.485,
+    "first_revision_repaired": 95,
+    "first_revision_damaged": 62
+   },
+   "critique": {
+    "reached": 591,
+    "selected": 390.5,
+    "last": 357,
+    "conversion": 0.661,
+    "rounds_per_q": 7.94,
+    "candidates_per_q": 3.83,
+    "answer_change_rate": 0.758,
+    "tokens_M": 96.4,
+    "repeat_correct": 0.453,
+    "repeat_incorrect": 0.158,
+    "first_revision_repaired": 124,
+    "first_revision_damaged": 100
+   },
+   "nine samples": {
+    "reached": 547,
+    "selected": 344.4,
+    "last": 270,
+    "conversion": 0.63,
+    "rounds_per_q": 9.0,
+    "candidates_per_q": 3.9,
+    "answer_change_rate": 0.589,
+    "tokens_M": 69.7,
+    "repeat_correct": 0.581,
+    "repeat_incorrect": 0.325,
+    "first_revision_repaired": 99,
+    "first_revision_damaged": 92
+   }
+  },
+  "selected_tests": {
+   "S1 selected: critique - token-yoked generic doubt": {
+    "diff": 18.6,
+    "lo": -3.3,
+    "hi": 41.4,
+    "lo90": 0.5,
+    "hi90": 37.4,
+    "p": 0.10359,
+    "p_holm": 0.20718,
+    "confirmed": false
+   },
+   "S2 selected: critique - reassuring": {
+    "diff": 10.6,
+    "lo": -11.3,
+    "hi": 33.5,
+    "lo90": -7.9,
+    "hi90": 29.8,
+    "p": 0.35296,
+    "p_holm": 0.35296,
+    "confirmed": false
+   },
+   "A3 selected: critique - nine samples": {
+    "diff": 46.1,
+    "lo": 25.8,
+    "hi": 67.1,
+    "lo90": 28.5,
+    "hi90": 63.8,
+    "p": 0.0001,
+    "p_holm": 0.0003,
+    "confirmed": true
+   }
+  },
+  "reached_critique_minus_token_yoked": {
+   "diff": 15.0,
+   "lo": -5.0,
+   "hi": 37.0,
+   "lo90": -2.0,
+   "hi90": 34.0,
+   "p": 0.16968,
+   "mcnemar": {
+    "only_first": 61,
+    "only_second": 46,
+    "p": 0.17564
+   },
+   "verdict": "inconclusive",
+   "critique_reaches_no_more": false
+  },
+  "reached": {
+   "critique vs reassuring": {
+    "only_first": 150,
+    "only_second": 24,
+    "p": 0.0
+   },
+   "critique vs generic doubt": {
+    "only_first": 128,
+    "only_second": 47,
+    "p": 0.0
+   },
+   "token-yoked generic doubt vs generic doubt": {
+    "only_first": 97,
+    "only_second": 31,
+    "p": 0.0
+   },
+   "critique vs nine samples": {
+    "only_first": 95,
+    "only_second": 51,
+    "p": 0.00034
+   },
+   "generic doubt vs reassuring": {
+    "only_first": 82,
+    "only_second": 37,
+    "p": 5e-05
+   }
+  },
+  "selected_other": {
+   "critique - generic doubt": {
+    "diff": 1.6,
+    "lo": -21.2,
+    "hi": 25.0,
+    "lo90": -17.6,
+    "hi90": 21.3,
+    "p": 0.89351
+   },
+   "token-yoked generic doubt - generic doubt": {
+    "diff": -17.0,
+    "lo": -35.8,
+    "hi": 1.1,
+    "lo90": -33.1,
+    "hi90": -1.9,
+    "p": 0.07529
+   },
+   "token-yoked generic doubt - reassuring": {
+    "diff": -8.0,
+    "lo": -29.1,
+    "hi": 12.4,
+    "lo90": -26.4,
+    "hi90": 8.8,
+    "p": 0.44956
+   },
+   "nine samples - reassuring": {
+    "diff": -35.5,
+    "lo": -54.2,
+    "hi": -16.0,
+    "lo90": -52.0,
+    "hi90": -18.7,
+    "p": 0.0006
+   },
+   "critique - first answer": {
+    "diff": 127.5,
+    "lo": 102.9,
+    "hi": 153.5,
+    "lo90": 106.9,
+    "hi90": 148.3,
+    "p": 0.0001
+   },
+   "reassuring - first answer": {
+    "diff": 116.9,
+    "lo": 93.5,
+    "hi": 140.7,
+    "lo90": 97.6,
+    "hi90": 136.5,
+    "p": 0.0001
+   }
+  },
+  "by_task": {
+   "bbeh_b1_geometric_shapes": {
+    "n": 80,
+    "first_correct": 20,
+    "critique - reassuring": 0.1,
+    "critique - token-yoked generic doubt": 1.9,
+    "critique - nine samples": 7.9
+   },
+   "bbeh_b1_hyperbaton": {
+    "n": 80,
+    "first_correct": 16,
+    "critique - reassuring": 10.7,
+    "critique - token-yoked generic doubt": 11.8,
+    "critique - nine samples": 11.0
+   },
+   "bbeh_b1_linguini": {
+    "n": 80,
+    "first_correct": 17,
+    "critique - reassuring": 3.5,
+    "critique - token-yoked generic doubt": 4.1,
+    "critique - nine samples": 4.6
+   },
+   "bbeh_b1_multistep_arithmetic": {
+    "n": 80,
+    "first_correct": 47,
+    "critique - reassuring": -0.4,
+    "critique - token-yoked generic doubt": 2.8,
+    "critique - nine samples": 3.4
+   },
+   "bbeh_b1_nycc": {
+    "n": 80,
+    "first_correct": 12,
+    "critique - reassuring": 1.2,
+    "critique - token-yoked generic doubt": 2.0,
+    "critique - nine samples": 1.0
+   },
+   "bbeh_b1_sarc_triples": {
+    "n": 80,
+    "first_correct": 31,
+    "critique - reassuring": 0.3,
+    "critique - token-yoked generic doubt": 0.8,
+    "critique - nine samples": 2.3
+   },
+   "bbeh_b1_shuffled_objects": {
+    "n": 80,
+    "first_correct": 42,
+    "critique - reassuring": 1.5,
+    "critique - token-yoked generic doubt": 0.2,
+    "critique - nine samples": 3.2
+   },
+   "bbeh_b1_sportqa": {
+    "n": 80,
+    "first_correct": 29,
+    "critique - reassuring": 1.0,
+    "critique - token-yoked generic doubt": 0.0,
+    "critique - nine samples": 3.0
+   },
+   "bbeh_b1_temporal_sequence": {
+    "n": 80,
+    "first_correct": 25,
+    "critique - reassuring": -0.2,
+    "critique - token-yoked generic doubt": 8.9,
+    "critique - nine samples": 12.2
+   },
+   "bbeh_b1_zebra_puzzles": {
+    "n": 80,
+    "first_correct": 24,
+    "critique - reassuring": -7.0,
+    "critique - token-yoked generic doubt": -13.9,
+    "critique - nine samples": -2.5
+   }
+  },
+  "predictions": {
+   "cells": {
+    "0-3 | first correct": {
+     "n": 78,
+     "critique_plurality_is_first_answer": 0.596,
+     "reassuring_plurality_is_first_answer": 0.665,
+     "selected_reassuring": 59.8,
+     "selected_critique": 58.5
+    },
+    "0-3 | first wrong": {
+     "n": 348,
+     "critique_plurality_is_first_answer": 0.2,
+     "reassuring_plurality_is_first_answer": 0.211,
+     "selected_reassuring": 131.9,
+     "selected_critique": 137.5
+    },
+    "4-6 | first correct": {
+     "n": 76,
+     "critique_plurality_is_first_answer": 0.816,
+     "reassuring_plurality_is_first_answer": 0.934,
+     "selected_reassuring": 73.0,
+     "selected_critique": 64.0
+    },
+    "4-6 | first wrong": {
+     "n": 101,
+     "critique_plurality_is_first_answer": 0.688,
+     "reassuring_plurality_is_first_answer": 0.77,
+     "selected_reassuring": 6.2,
+     "selected_critique": 16.5
+    },
+    "7-9 | first correct": {
+     "n": 109,
+     "critique_plurality_is_first_answer": 0.972,
+     "reassuring_plurality_is_first_answer": 0.982,
+     "selected_reassuring": 108.0,
+     "selected_critique": 107.0
+    },
+    "7-9 | first wrong": {
+     "n": 88,
+     "critique_plurality_is_first_answer": 0.864,
+     "reassuring_plurality_is_first_answer": 0.977,
+     "selected_reassuring": 1.0,
+     "selected_critique": 7.0
+    }
+   },
+   "P1": {
+    "pooled_by_stratum": {
+     "0-3": 0.273,
+     "4-6": 0.743,
+     "7-9": 0.924
+    },
+    "high_first_correct": 0.972,
+    "high_first_wrong": 0.864,
+    "monotone": true,
+    "high_at_least_.85": true,
+    "high_difference_at_most_.10": false,
+    "holds": false
+   },
+   "P2": {
+    "gain_low_confidence_first_wrong": 5.7,
+    "total_gain": 10.6,
+    "share": 0.534,
+    "holds": false
+   },
+   "P3": null,
+   "P4_high_confidence_first_correct": {
+    "correct": 109,
+    "n": 197
+   },
+   "P5": {
+    "predicted_net": 20.9,
+    "observed": 10.6,
+    "observed_95": [
+     -11.3,
+     33.5
+    ],
+    "inside": true
+   }
+  }
+ },
+ "easy": {
+  "n": 240,
+  "first_answer_correct": 195,
+  "token_alignment": {
+   "critique_M": 11.33,
+   "token_yoked_M": 11.82,
+   "ratio": 1.044,
+   "at_cap": 0,
+   "aligned": true
+  },
+  "conditions": {
+   "first answer": {
+    "reached": 195,
+    "selected": 195.0,
+    "last": 195,
+    "conversion": 1.0,
+    "rounds_per_q": 1.0,
+    "candidates_per_q": 1.0,
+    "answer_change_rate": 0.0,
+    "tokens_M": 0.8,
+    "repeat_correct": 0.0,
+    "repeat_incorrect": 0.0,
+    "first_revision_repaired": 0,
+    "first_revision_damaged": 0
+   },
+   "reassuring": {
+    "reached": 231,
+    "selected": 222.5,
+    "last": 220,
+    "conversion": 0.963,
+    "rounds_per_q": 3.89,
+    "candidates_per_q": 1.39,
+    "answer_change_rate": 0.261,
+    "tokens_M": 3.5,
+    "repeat_correct": 0.871,
+    "repeat_incorrect": 0.319,
+    "first_revision_repaired": 31,
+    "first_revision_damaged": 18
+   },
+   "generic doubt": {
+    "reached": 233,
+    "selected": 227.5,
+    "last": 226,
+    "conversion": 0.976,
+    "rounds_per_q": 3.87,
+    "candidates_per_q": 1.39,
+    "answer_change_rate": 0.267,
+    "tokens_M": 3.8,
+    "repeat_correct": 0.871,
+    "repeat_incorrect": 0.219,
+    "first_revision_repaired": 33,
+    "first_revision_damaged": 15
+   },
+   "token-yoked generic doubt": {
+    "reached": 235,
+    "selected": 226.5,
+    "last": 204,
+    "conversion": 0.964,
+    "rounds_per_q": 11.66,
+    "candidates_per_q": 1.83,
+    "answer_change_rate": 0.228,
+    "tokens_M": 11.8,
+    "repeat_correct": 0.878,
+    "repeat_incorrect": 0.225,
+    "first_revision_repaired": 34,
+    "first_revision_damaged": 24
+   },
+   "critique": {
+    "reached": 235,
+    "selected": 223.8,
+    "last": 216,
+    "conversion": 0.952,
+    "rounds_per_q": 4.9,
+    "candidates_per_q": 1.62,
+    "answer_change_rate": 0.455,
+    "tokens_M": 11.3,
+    "repeat_correct": 0.719,
+    "repeat_incorrect": 0.134,
+    "first_revision_repaired": 31,
+    "first_revision_damaged": 30
+   },
+   "nine samples": {
+    "reached": 232,
+    "selected": 225.5,
+    "last": 209,
+    "conversion": 0.972,
+    "rounds_per_q": 9.0,
+    "candidates_per_q": 2.05,
+    "answer_change_rate": 0.244,
+    "tokens_M": 7.4,
+    "repeat_correct": 0.874,
+    "repeat_incorrect": 0.234,
+    "first_revision_repaired": 27,
+    "first_revision_damaged": 18
+   }
+  },
+  "selected_tests": {
+   "S1 selected: critique - token-yoked generic doubt": {
+    "diff": -2.7,
+    "lo": -8.5,
+    "hi": 2.8,
+    "lo90": -7.5,
+    "hi90": 2.0,
+    "p": 0.38116
+   },
+   "S2 selected: critique - reassuring": {
+    "diff": 1.3,
+    "lo": -5.2,
+    "hi": 8.3,
+    "lo90": -4.2,
+    "hi90": 7.2,
+    "p": 0.77292
+   },
+   "A3 selected: critique - nine samples": {
+    "diff": -1.7,
+    "lo": -9.3,
+    "hi": 6.0,
+    "lo90": -8.2,
+    "hi90": 4.5,
+    "p": 0.70933
+   }
+  },
+  "reached_critique_minus_token_yoked": {
+   "diff": 0.0,
+   "lo": -3.0,
+   "hi": 3.0,
+   "lo90": -2.0,
+   "hi90": 2.0,
+   "p": 1.0,
+   "mcnemar": {
+    "only_first": 1,
+    "only_second": 1,
+    "p": 1.0
+   }
+  },
+  "reached": {
+   "critique vs reassuring": {
+    "only_first": 5,
+    "only_second": 1,
+    "p": 0.21875
+   },
+   "critique vs generic doubt": {
+    "only_first": 3,
+    "only_second": 1,
+    "p": 0.625
+   },
+   "token-yoked generic doubt vs generic doubt": {
+    "only_first": 3,
+    "only_second": 1,
+    "p": 0.625
+   },
+   "critique vs nine samples": {
+    "only_first": 4,
+    "only_second": 1,
+    "p": 0.375
+   },
+   "generic doubt vs reassuring": {
+    "only_first": 2,
+    "only_second": 0,
+    "p": 0.5
+   }
+  },
+  "selected_other": {
+   "critique - generic doubt": {
+    "diff": -3.7,
+    "lo": -10.2,
+    "hi": 2.5,
+    "lo90": -9.0,
+    "hi90": 1.7,
+    "p": 0.27947
+   },
+   "token-yoked generic doubt - generic doubt": {
+    "diff": -1.0,
+    "lo": -5.5,
+    "hi": 4.0,
+    "lo90": -5.0,
+    "hi90": 3.0,
+    "p": 0.84632
+   },
+   "token-yoked generic doubt - reassuring": {
+    "diff": 4.0,
+    "lo": -1.0,
+    "hi": 10.0,
+    "lo90": -0.5,
+    "hi90": 9.0,
+    "p": 0.21748
+   },
+   "nine samples - reassuring": {
+    "diff": 3.0,
+    "lo": -4.0,
+    "hi": 10.5,
+    "lo90": -2.5,
+    "hi90": 9.0,
+    "p": 0.49045
+   },
+   "critique - first answer": {
+    "diff": 28.8,
+    "lo": 17.8,
+    "hi": 40.3,
+    "lo90": 19.0,
+    "hi90": 38.5,
+    "p": 0.0001
+   },
+   "reassuring - first answer": {
+    "diff": 27.5,
+    "lo": 16.5,
+    "hi": 39.0,
+    "lo90": 18.0,
+    "hi90": 36.5,
+    "p": 0.0001
+   }
+  },
+  "by_task": {
+   "bbeh_b1_boardgame_qa": {
+    "n": 80,
+    "first_correct": 68,
+    "critique - reassuring": -1.7,
+    "critique - token-yoked generic doubt": -3.2,
+    "critique - nine samples": -7.2
+   },
+   "bbeh_b1_object_counting": {
+    "n": 80,
+    "first_correct": 62,
+    "critique - reassuring": 1.0,
+    "critique - token-yoked generic doubt": 0.0,
+    "critique - nine samples": 2.0
+   },
+   "bbeh_b1_time_arithmetic": {
+    "n": 80,
+    "first_correct": 65,
+    "critique - reassuring": 2.0,
+    "critique - token-yoked generic doubt": 0.5,
+    "critique - nine samples": 3.5
+   }
+  },
+  "predictions": {
+   "cells": {
+    "0-3 | first correct": {
+     "n": 4,
+     "critique_plurality_is_first_answer": 0.75,
+     "reassuring_plurality_is_first_answer": 1.0,
+     "selected_reassuring": 4.0,
+     "selected_critique": 4.0
+    },
+    "0-3 | first wrong": {
+     "n": 36,
+     "critique_plurality_is_first_answer": 0.037,
+     "reassuring_plurality_is_first_answer": 0.028,
+     "selected_reassuring": 31.0,
+     "selected_critique": 32.3
+    },
+    "4-6 | first correct": {
+     "n": 29,
+     "critique_plurality_is_first_answer": 0.931,
+     "reassuring_plurality_is_first_answer": 0.966,
+     "selected_reassuring": 28.0,
+     "selected_critique": 27.0
+    },
+    "4-6 | first wrong": {
+     "n": 2,
+     "critique_plurality_is_first_answer": 0.5,
+     "reassuring_plurality_is_first_answer": 0.5,
+     "selected_reassuring": 1.0,
+     "selected_critique": 1.0
+    },
+    "7-9 | first correct": {
+     "n": 162,
+     "critique_plurality_is_first_answer": 0.978,
+     "reassuring_plurality_is_first_answer": 0.978,
+     "selected_reassuring": 158.5,
+     "selected_critique": 158.5
+    },
+    "7-9 | first wrong": {
+     "n": 7,
+     "critique_plurality_is_first_answer": 0.857,
+     "reassuring_plurality_is_first_answer": 1.0,
+     "selected_reassuring": 0.0,
+     "selected_critique": 1.0
+    }
+   },
+   "P1": {
+    "pooled_by_stratum": {
+     "0-3": 0.108,
+     "4-6": 0.903,
+     "7-9": 0.973
+    },
+    "high_first_correct": 0.978,
+    "high_first_wrong": 0.857,
+    "monotone": true,
+    "high_at_least_.85": true,
+    "high_difference_at_most_.10": false,
+    "holds": false
+   },
+   "P2": {
+    "gain_low_confidence_first_wrong": 1.3,
+    "total_gain": 1.3,
+    "share": 1.026,
+    "holds": true
+   },
+   "P3": {
+    "abs_difference": 1.3,
+    "holds": true
+   },
+   "P4_high_confidence_first_correct": {
+    "correct": 162,
+    "n": 169
+   },
+   "P5": {
+    "predicted_net": -6.1,
+    "observed": 1.3,
+    "observed_95": [
+     -5.2,
+     8.3
+    ],
+    "inside": false
+   }
+  }
+ },
+ "hypotheses_of_18_50": {
+  "B-S2": 10.6,
+  "interval": [
+   -11.3,
+   33.5
+  ],
+  "half_of_HLE_estimate": 18.4,
+  "supports": "state"
+ }
+}
