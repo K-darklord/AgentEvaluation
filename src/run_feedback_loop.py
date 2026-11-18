@@ -71,8 +71,9 @@ _load_dotenv()
 
 from src import config
 from src.agent import HuggingFaceAgent
-from src.benchmark import load_gpqa_questions, load_hle_questions, load_new_discrimination_tasks, load_phase1_tasks
+from src.benchmark import load_bbeh_questions, load_gpqa_questions, load_hle_questions, load_new_discrimination_tasks, load_phase1_tasks
 from src.hle_scorer import score_t1 as _score_hle_t1
+from src.bbeh_eval import evaluate_correctness as _bbeh_evaluate_correctness, answer_key as _bbeh_answer_key
 from src.build_weak_critic import _task_family  # noqa: E402
 from src.egte_critic import Level3Critic  # noqa: E402
 from src.strong_critic import StrongCritic  # noqa: E402
@@ -309,6 +310,9 @@ def _is_correct(family: str | None, row: dict) -> bool:
                 md.get("shape", ""),
                 row.get("final_answer", ""),
             )
+        if family == "bbeh":
+            return _bbeh_evaluate_correctness(
+                row.get("final_answer", ""), row.get("gold_answer", ""))
         if family == "finance":
             # quantitative (T1 numeric) or rubric-covered -> zero-LLM pass
             if _score_t1_numeric(row) >= thresh or _rubric_coverage_normalized(row):
@@ -355,6 +359,13 @@ def _early_stop_key(family, gold: str, answer: str, reasoning: str = "", finish_
     if not a:
         return None, None
     truncated = (finish_reason == "length")
+    if family == "bbeh":
+        k = _bbeh_answer_key(a, finish_reason)
+        if k is None:
+            return None, None
+        if isinstance(k, (int, float)):
+            return ("num", k), "content"
+        return ("raw", k), "content"
     if family == "hle":
         g = str(gold or "").strip()
         # multipleChoice -> option letter; else dispatch on the gold's form so the
@@ -1343,6 +1354,12 @@ def run_feedback_loop(models=None, num_tasks=0, max_rounds=MAX_ROUNDS,
                                     start_id=801)
         if max_tokens is None:
             max_tokens = config.REASONING_BENCH_MAX_TOKENS
+    elif task_set in ("bbeh_hard", "bbeh_easy"):
+        _bbeh_file = ("data/raw/b1/bbeh_hard_800.jsonl" if task_set == "bbeh_hard"
+                      else "data/raw/b1/bbeh_easy_240.jsonl")
+        tasks = load_bbeh_questions(REPO_ROOT / _bbeh_file)
+        if max_tokens is None:
+            max_tokens = config.REASONING_BENCH_MAX_TOKENS
     else:
         tasks = load_phase1_tasks()
         if max_tokens is None:
@@ -1636,7 +1653,7 @@ if __name__ == "__main__":
     ap.add_argument("--family", default=None,
                     help="restrict to one family: math/math500/mmlu_pro/bfcl/finance/"
                          "aime/gpqa/bbh/hle")
-    ap.add_argument("--task-set", default="phase1", choices=["phase1", "new", "gpqa", "hle", "hle_confirm"],
+    ap.add_argument("--task-set", default="phase1", choices=["phase1", "new", "gpqa", "hle", "hle_confirm", "bbeh_hard", "bbeh_easy"],
                     help="phase1 = the 5 baseline families; new = AIME+GPQA+BBH "
                          "discrimination set; gpqa = full 198 GPQA-Diamond; "
                          "hle = 50-question HLE stratified pilot")

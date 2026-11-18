@@ -812,6 +812,45 @@ def load_hle_questions(
     return tasks
 
 
+def load_bbeh_questions(jsonl_path: str | Path | None = None) -> list[Task]:
+    """Load the B1 BBEH question list (docs/SECOND_BENCHMARK_SPEC.md).
+
+    Each row is a sampled item with fields task_id / question / gold_answer / task /
+    group / source_index (see scripts/sample_bbeh_b1.py). benchmark="bbeh" so the
+    solver uses the BBEH answer-format prompt and closed-book (no tools).
+    """
+    if jsonl_path is None:
+        jsonl_path = "data/raw/b1/bbeh_hard_800.jsonl"
+    p = Path(jsonl_path)
+    if not p.exists():
+        print(f"[BBEH] No file at {p}; returning empty list.")
+        return []
+    tasks: list[Task] = []
+    with p.open(encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            d = json.loads(line)
+            tasks.append(Task(
+                task_id=str(d["task_id"]),
+                category="Reasoning",
+                difficulty=str(d.get("difficulty", "Hard")),
+                prompt=str(d.get("question", "")).strip(),
+                gold_answer=str(d.get("gold_answer", "")).strip(),
+                reasoning_steps=[],
+                rubric=["final_answer_matches_gold"],
+                evidence=[],
+                metadata={
+                    "source": "bbeh", "benchmark": "bbeh",
+                    "task": str(d.get("task", "")),
+                    "group": str(d.get("group", "")),
+                    "source_index": int(d.get("source_index", -1)),
+                },
+            ))
+    return tasks
+
+
 if __name__ == "__main__":
     # Show mini benchmark
     mini = load_tasks()

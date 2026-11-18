@@ -332,7 +332,7 @@ PHASE1_MODELS = {
 #       open-book agent that must retrieve filings to answer.
 # Frozen 2026-10-08; see docs/TOOL_POLICY.md.
 CLOSED_BOOK_BENCHMARKS = frozenset({
-    "math", "math500", "mmlu_pro", "aime", "gpqa", "bbh", "hle",
+    "math", "math500", "mmlu_pro", "aime", "gpqa", "bbh", "hle", "bbeh",
 })
 TOOL_NATIVE_BENCHMARKS = frozenset({
     "bfcl", "finance",

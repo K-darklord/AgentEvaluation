@@ -1,0 +1,48 @@
+{
+ "rule": "B1 second-benchmark BBEH sampling, FIXED seed, never re-drawn; excludes B0-screened source_index",
+ "seed": 20261118,
+ "excluded_source": "data/raw/b0/bbeh_b0_805.jsonl",
+ "per_task": 80,
+ "hard": {
+  "n": 800,
+  "tasks": [
+   "multistep_arithmetic",
+   "nycc",
+   "geometric_shapes",
+   "sportqa",
+   "hyperbaton",
+   "temporal_sequence",
+   "zebra_puzzles",
+   "linguini",
+   "sarc_triples",
+   "shuffled_objects"
+  ],
+  "per_task_distribution": {
+   "multistep_arithmetic": 80,
+   "nycc": 80,
+   "geometric_shapes": 80,
+   "sportqa": 80,
+   "hyperbaton": 80,
+   "temporal_sequence": 80,
+   "zebra_puzzles": 80,
+   "linguini": 80,
+   "sarc_triples": 80,
+   "shuffled_objects": 80
+  },
+  "file": "data/raw/b1/bbeh_hard_800.jsonl"
+ },
+ "easy": {
+  "n": 240,
+  "tasks": [
+   "time_arithmetic",
+   "object_counting",
+   "boardgame_qa"
+  ],
+  "per_task_distribution": {
+   "time_arithmetic": 80,
+   "object_counting": 80,
+   "boardgame_qa": 80
+  },
+  "file": "data/raw/b1/bbeh_easy_240.jsonl"
+ }
+}

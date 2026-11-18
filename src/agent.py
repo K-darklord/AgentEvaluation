@@ -940,6 +940,18 @@ class HuggingFaceAgent(BaseAgent):
                 "respond with the short answer (a number or a single word). Do not "
                 "include any reasoning or explanation."
             )
+        elif benchmark == "bbeh":
+            # BIG-Bench Extra Hard (B1): identical answer-format contract to the B0
+            # screening first-answer prompt (scripts/run_b0_a.py), per
+            # docs/SECOND_BENCHMARK_SPEC.md. No other prompt change; loop/stop rules,
+            # token cap, critic prompt and the five generic-doubt archetypes are all
+            # unchanged from the HLE run.
+            system_msg = (
+                "You are answering a reasoning question. If it is multiple-choice, respond with "
+                "ONLY the option letter (for example \"A\"). Otherwise respond with the short "
+                "answer (a number, a single word, or a short phrase). Do not include any "
+                "reasoning or explanation."
+            )
         elif benchmark == "hle":
             # HLE is open-form (integer / symbolic LaTeX / word / short text). Ask for
             # the final answer verbatim so the exact-match scorer sees a clean commit;
