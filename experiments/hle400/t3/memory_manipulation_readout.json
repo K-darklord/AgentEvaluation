@@ -1,0 +1,207 @@
+{
+ "selftest": false,
+ "conditions": {
+  "A2PY": {
+   "n": 800,
+   "reached": 576,
+   "selected": 371.9,
+   "conversion": 0.646,
+   "candidates_per_q": 4.38,
+   "rounds_per_q": 16.5,
+   "tokens_M": 100.6,
+   "repeat_correct": 0.701,
+   "repeat_incorrect": 0.485,
+   "round1_same_as_first": 0.501
+  },
+  "A3": {
+   "n": 800,
+   "reached": 547,
+   "selected": 344.4,
+   "conversion": 0.63,
+   "candidates_per_q": 3.9,
+   "rounds_per_q": 9.0,
+   "tokens_M": 69.7,
+   "repeat_correct": 0.581,
+   "repeat_incorrect": 0.325,
+   "round1_same_as_first": null
+  },
+  "GNM": {
+   "n": 800,
+   "reached": 592,
+   "selected": 359.5,
+   "conversion": 0.607,
+   "candidates_per_q": 4.96,
+   "rounds_per_q": 17.61,
+   "tokens_M": 100.5,
+   "repeat_correct": 0.608,
+   "repeat_incorrect": 0.384,
+   "round1_same_as_first": 0.41
+  },
+  "GKI": {
+   "n": 400,
+   "reached": 284,
+   "selected": 174.5,
+   "conversion": 0.615,
+   "candidates_per_q": 5.09,
+   "rounds_per_q": 16.38,
+   "tokens_M": 54.7,
+   "repeat_correct": 0.612,
+   "repeat_incorrect": 0.37,
+   "round1_same_as_first": 0.412
+  }
+ },
+ "conditions_on_the_400": {
+  "A2PY": {
+   "n": 400,
+   "reached": 281,
+   "selected": 176.5,
+   "conversion": 0.628,
+   "candidates_per_q": 4.74,
+   "rounds_per_q": 17.19,
+   "tokens_M": 54.6,
+   "repeat_correct": 0.683,
+   "repeat_incorrect": 0.477,
+   "round1_same_as_first": 0.463
+  },
+  "A3": {
+   "n": 400,
+   "reached": 262,
+   "selected": 160.2,
+   "conversion": 0.611,
+   "candidates_per_q": 3.94,
+   "rounds_per_q": 9.0,
+   "tokens_M": 35.9,
+   "repeat_correct": 0.557,
+   "repeat_incorrect": 0.337,
+   "round1_same_as_first": null
+  },
+  "GNM": {
+   "n": 400,
+   "reached": 292,
+   "selected": 168.2,
+   "conversion": 0.576,
+   "candidates_per_q": 5.32,
+   "rounds_per_q": 18.36,
+   "tokens_M": 54.6,
+   "repeat_correct": 0.595,
+   "repeat_incorrect": 0.377,
+   "round1_same_as_first": 0.4
+  },
+  "GKI": {
+   "n": 400,
+   "reached": 284,
+   "selected": 174.5,
+   "conversion": 0.615,
+   "candidates_per_q": 5.09,
+   "rounds_per_q": 16.38,
+   "tokens_M": 54.7,
+   "repeat_correct": 0.612,
+   "repeat_incorrect": 0.37,
+   "round1_same_as_first": 0.412
+  }
+ },
+ "GNM_token_alignment": {
+  "ratio": 1.043,
+  "at_cap": 0,
+  "aligned": true
+ },
+ "manipulation_check": {
+  "GNM vs A2PY (800)": {
+   "n": 799,
+   "without_memory": 0.411,
+   "with_memory": 0.501,
+   "difference": 0.09,
+   "mcnemar": {
+    "only_first": 71,
+    "only_second": 143,
+    "p": 0.0
+   },
+   "direction": "less repetition without memory",
+   "passed": true
+  },
+  "GKI vs A2PY (400; descriptive)": {
+   "n": 400,
+   "without_memory": 0.412,
+   "with_memory": 0.463,
+   "difference": 0.05,
+   "mcnemar": {
+    "only_first": 40,
+    "only_second": 60,
+    "p": 0.05689
+   },
+   "direction": "less repetition without memory",
+   "passed": false
+  }
+ },
+ "stage_2_to_be_run": false,
+ "NM-2 selected: token-yoked generic doubt - the same without memory (800; confirmatory)": {
+  "diff": 12.4,
+  "lo": -6.0,
+  "hi": 30.9,
+  "lo90": -3.2,
+  "hi90": 27.7,
+  "p": 0.20018,
+  "judged": true,
+  "not_judged_because": [],
+  "confirmed": false
+ },
+ "reached: token-yoked vs the same without memory (800)": {
+  "only_first": 35,
+  "only_second": 51,
+  "p": 0.10523
+ },
+ "concentration_wording_allowed": false,
+ "visibility_and_permission_400": {
+  "permission (A2PY - GKI)": {
+   "diff": 2.0,
+   "lo": -10.3,
+   "hi": 14.1,
+   "lo90": -8.2,
+   "hi90": 11.9,
+   "p": 0.75662
+  },
+  "visibility (GKI - GNM)": {
+   "diff": 6.4,
+   "lo": -6.4,
+   "hi": 19.3,
+   "lo90": -4.3,
+   "hi90": 17.4,
+   "p": 0.32077
+  },
+  "both (A2PY - GNM)": {
+   "diff": 8.4,
+   "lo": -4.6,
+   "hi": 21.4,
+   "lo90": -2.5,
+   "hi90": 19.4,
+   "p": 0.21458
+  }
+ },
+ "visibility_claim_allowed": false,
+ "minus_nine_samples": {
+  "GNM": {
+   "diff": 15.0,
+   "lo": -4.6,
+   "hi": 34.0,
+   "lo90": -0.8,
+   "hi90": 31.2,
+   "p": 0.14319
+  },
+  "A2PY": {
+   "diff": 27.5,
+   "lo": 7.1,
+   "hi": 46.7,
+   "lo90": 10.6,
+   "hi90": 43.7,
+   "p": 0.0069
+  },
+  "GKI": {
+   "diff": 14.4,
+   "lo": -0.3,
+   "hi": 28.2,
+   "lo90": 1.9,
+   "hi90": 26.0,
+   "p": 0.05399
+  }
+ }
+}
