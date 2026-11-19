@@ -135,6 +135,7 @@ experiments/**/astra_verdicts*.jsonl
 audit/human_audit_*/pilot_*.xlsx
 audit/human_audit_*/cas_results.json
 audit/human_audit_*/milp_check.json
+audit/selection_audit_*/cas_results.json
 
 # LaTeX build files
 paper/acl/*.aux
