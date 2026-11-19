@@ -53,6 +53,15 @@ case "$ARM" in
     export YOKE_BUDGET_FILE="$PWD/experiments/hle400/t3/yoke_budget_bbeh_${GROUP}.json"
     run A2P "b1_A2PY_${GROUP}_${M}" --temperature 0 --max-rounds 100
     ;;
+  A3Y)
+    export YOKE_BUDGET_FILE="$PWD/experiments/hle400/t3/yoke_budget_bbeh_hard.json"
+    export RESUME_TRAJ="$PWD/experiments/b1_A3_hard_${M}/${M}/loop_trajectories.jsonl"
+    run A3 "b1_A3Y_hard_${M}" --temperature 0.7 --max-rounds 100
+    ;;
+  GT7)
+    export YOKE_BUDGET_FILE="$PWD/experiments/hle400/t3/yoke_budget_bbeh_hard.json"
+    run A2P "b1_GT7_hard_${M}" --temperature 0.7 --max-rounds 100
+    ;;
   GNM)
     export YOKE_BUDGET_FILE="$PWD/experiments/hle400/t3/yoke_budget_bbeh_hard.json"
     export HIDE_PREVIOUS_ANSWER=1 DROP_KEEP_INSTRUCTION=1
