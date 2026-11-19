@@ -9,7 +9,7 @@
 |---|---|
 | 规格与第一阶段读出脚本冻结（commit / tag `pre-memory-runs-20261119`） | `b15bbb4` |
 | `scripts/memory_manipulation_readout.py` sha256 | `631b44c7bb0d62926362253effcc0048b4e42df1c3a7a7a2fd887ffed366e4a3` |
-| 第一阶段运行开始时间 | 待填 |
+| 第一阶段运行开始时间 | `2026-11-19 07:24:46`（全量 G-NM 800 / G-KI 400；健康检查 16 题/条件于 07:05 启动、07:22 终止后转全量）——事后补填 |
 | `bbeh_sidecar_nm.json` sha256 | 待填 |
 | 第一阶段读出时间与输出 sha256 | 待填 |
 | 第二阶段读出脚本 `scripts/memory_qo_readout.py` commit 与 sha256（先于第二阶段任何运行） | 待填 |
