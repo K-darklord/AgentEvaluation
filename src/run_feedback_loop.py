@@ -557,12 +557,24 @@ def _feedback_message(prev_answer: str, critic_text: str,
       - transition : no tail is appended here; the loop collects the change rationale
                      conditionally (two-stage side channel) ONLY when the committed
                      answer actually switches to a different value."""
+    hide_prev = os.environ.get("HIDE_PREVIOUS_ANSWER") == "1"
+    drop_keep = os.environ.get("DROP_KEEP_INSTRUCTION") == "1"
+    if hide_prev:
+        opening = ("A reviewer looked at your previous attempt (not shown) to this "
+                   "question and gave feedback.\n")
+        prev_block = ""
+    else:
+        opening = ("A reviewer looked at your PREVIOUS answer to this question and "
+                   "gave feedback.\n")
+        prev_block = f"Your previous answer was:\n\"\"\"\n{prev_answer}\n\"\"\"\n\n"
+    keep = ("" if drop_keep
+            else "If you believe your previous answer was already correct, keep it as is.")
     msg = (
-        "A reviewer looked at your PREVIOUS answer to this question and gave feedback.\n"
-        f"Your previous answer was:\n\"\"\"\n{prev_answer}\n\"\"\"\n\n"
-        f"Reviewer feedback:\n{critic_text}\n\n"
-        "Reconsider the question and provide your final answer again. "
-        "If you believe your previous answer was already correct, keep it as is."
+        opening
+        + prev_block
+        + f"Reviewer feedback:\n{critic_text}\n\n"
+        + "Reconsider the question and provide your final answer again. "
+        + keep
     )
     if rationale_mode == "reason_line":
         # Keep the answer on the SAME commit format as a rationale-free round (the
