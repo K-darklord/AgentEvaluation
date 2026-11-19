@@ -11,7 +11,7 @@ cd "$(dirname "$0")/.."
 set -a; . ./.env; set +a
 export CRITIC_HOLD_ON_REPEAT=0
 M=qwen3.8-flash-payg
-CONC=120
+CONC=360
 GROUP="${1:?usage: run_b1.sh <hard|easy> <arm> [health|full]}"
 ARM="${2:?usage: run_b1.sh <hard|easy> <arm> [health|full]}"
 MODE="${3:-full}"
