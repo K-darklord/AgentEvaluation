@@ -1,0 +1,97 @@
+{
+ "cell": "qwen",
+ "as_read_out": {
+  "critique_selected": 205.3,
+  "samples_selected": 180.0,
+  "difference": {
+   "diff": 25.3,
+   "lo": 4.4,
+   "hi": 46.5,
+   "lo90": 8.0,
+   "hi90": 43.2,
+   "p": 0.0139
+  }
+ },
+ "a_last_answer": {
+  "critique_last": 207.0,
+  "last - samples plurality": {
+   "diff": 27.0,
+   "lo": 5.0,
+   "hi": 49.3,
+   "lo90": 8.7,
+   "hi90": 46.0,
+   "p": 0.0168
+  },
+  "last - own plurality": {
+   "diff": 1.7,
+   "lo": -11.9,
+   "hi": 15.5,
+   "lo90": -9.9,
+   "hi90": 13.7,
+   "p": 0.81372
+  },
+  "token_yoked_last": 173.0
+ },
+ "b_loop_without_first_answer": {
+  "critique_selected": 209.1,
+  "critique_reached": 335,
+  "difference": {
+   "diff": 29.1,
+   "lo": 7.9,
+   "hi": 51.0,
+   "lo90": 11.0,
+   "hi90": 47.5,
+   "p": 0.0059
+  }
+ },
+ "c_samples_within_budget": {
+  "samples_per_q": 16.66,
+  "samples_selected": 176.9,
+  "samples_reached": 365,
+  "critique_reached": 348,
+  "selected difference": {
+   "diff": 28.5,
+   "lo": 8.1,
+   "hi": 48.0,
+   "lo90": 11.4,
+   "hi90": 45.5,
+   "p": 0.0067
+  },
+  "reached difference": {
+   "diff": -17.0,
+   "lo": -41.0,
+   "hi": 6.0,
+   "lo90": -37.0,
+   "hi90": 2.0,
+   "p": 0.18018
+  },
+  "reached mcnemar": {
+   "only_first": 63,
+   "only_second": 80,
+   "p": 0.1807
+  }
+ },
+ "d_vote_splitting_bound": {
+  "critique_selected": 216.6,
+  "samples_selected": 207.2,
+  "difference": {
+   "diff": 9.3,
+   "lo": -12.7,
+   "hi": 31.2,
+   "lo90": -8.8,
+   "hi90": 27.6,
+   "p": 0.38616
+  },
+  "token_yoked_selected": 188.7
+ },
+ "e_cut_off_share": {
+  "C2": 0.0,
+  "A2PY": 0.0002,
+  "A3Y": 0.0
+ },
+ "f_sequential_depth": {
+  "critique_feedback_rounds_per_q": 6.32,
+  "token_yoked_rounds_per_q": 15.21,
+  "samples_per_q": 18.75
+ }
+}

@@ -1,0 +1,160 @@
+{
+ "cell": "bbeh",
+ "as_read_out": {
+  "critique_selected": 390.5,
+  "samples_selected": 356.5,
+  "difference": {
+   "diff": 34.0,
+   "lo": 13.8,
+   "hi": 55.0,
+   "lo90": 16.9,
+   "hi90": 52.1,
+   "p": 0.0016
+  }
+ },
+ "a_last_answer": {
+  "critique_last": 357.0,
+  "last - samples plurality": {
+   "diff": 0.5,
+   "lo": -24.5,
+   "hi": 25.5,
+   "lo90": -20.2,
+   "hi90": 21.3,
+   "p": 0.9695
+  },
+  "last - own plurality": {
+   "diff": -33.5,
+   "lo": -51.7,
+   "hi": -15.4,
+   "lo90": -48.6,
+   "hi90": -18.3,
+   "p": 0.0005
+  },
+  "token_yoked_last": 291.0
+ },
+ "b_loop_without_first_answer": {
+  "critique_selected": 396.2,
+  "critique_reached": 582,
+  "difference": {
+   "diff": 39.7,
+   "lo": 17.1,
+   "hi": 62.8,
+   "lo90": 21.3,
+   "hi90": 58.4,
+   "p": 0.0012
+  }
+ },
+ "c_samples_within_budget": {
+  "samples_per_q": 19.39,
+  "samples_selected": 338.1,
+  "samples_reached": 588,
+  "critique_reached": 591,
+  "selected difference": {
+   "diff": 52.5,
+   "lo": 30.1,
+   "hi": 74.7,
+   "lo90": 33.7,
+   "hi90": 71.3,
+   "p": 0.0001
+  },
+  "reached difference": {
+   "diff": 3.0,
+   "lo": -17.0,
+   "hi": 25.0,
+   "lo90": -14.0,
+   "hi90": 21.0,
+   "p": 0.85411
+  },
+  "reached mcnemar": {
+   "only_first": 61,
+   "only_second": 58,
+   "p": 0.85463
+  }
+ },
+ "d_vote_splitting_bound": {
+  "critique_selected": 393.0,
+  "samples_selected": 365.7,
+  "difference": {
+   "diff": 27.3,
+   "lo": 7.2,
+   "hi": 49.4,
+   "lo90": 10.8,
+   "hi90": 46.1,
+   "p": 0.0146
+  },
+  "token_yoked_selected": 373.9
+ },
+ "e_cut_off_share": {
+  "C2": 0.0,
+  "A2PY": 0.0001,
+  "A3Y": 0.0
+ },
+ "f_sequential_depth": {
+  "critique_feedback_rounds_per_q": 6.94,
+  "token_yoked_rounds_per_q": 15.5,
+  "samples_per_q": 21.16
+ },
+ "g_by_task": {
+  "geometric_shapes": {
+   "n": 80,
+   "critique": 45.8,
+   "samples": 39.7,
+   "diff": 6.0
+  },
+  "hyperbaton": {
+   "n": 80,
+   "critique": 27.5,
+   "samples": 15.5,
+   "diff": 12.0
+  },
+  "linguini": {
+   "n": 80,
+   "critique": 22.5,
+   "samples": 19.3,
+   "diff": 3.2
+  },
+  "multistep_arithmetic": {
+   "n": 80,
+   "critique": 66.9,
+   "samples": 65.7,
+   "diff": 1.3
+  },
+  "nycc": {
+   "n": 80,
+   "critique": 14.5,
+   "samples": 12.5,
+   "diff": 2.0
+  },
+  "sarc_triples": {
+   "n": 80,
+   "critique": 32.3,
+   "samples": 33.5,
+   "diff": -1.2
+  },
+  "shuffled_objects": {
+   "n": 80,
+   "critique": 66.0,
+   "samples": 65.9,
+   "diff": 0.1
+  },
+  "sportqa": {
+   "n": 80,
+   "critique": 30.0,
+   "samples": 30.0,
+   "diff": 0.0
+  },
+  "temporal_sequence": {
+   "n": 80,
+   "critique": 55.0,
+   "samples": 41.8,
+   "diff": 13.2
+  },
+  "zebra_puzzles": {
+   "n": 80,
+   "critique": 30.0,
+   "samples": 32.5,
+   "diff": -2.5
+  }
+ },
+ "g_tasks_with_critique_ahead": 7
+}

@@ -1,0 +1,38 @@
+{
+ "qwen3.8-flash-payg, HLE new 800": {
+  "criticized answer correct": {
+   "rounds": 962,
+   "mean_doubts": 2.96,
+   "share_with_three_or_more": 0.965
+  },
+  "criticized answer incorrect": {
+   "rounds": 3804,
+   "mean_doubts": 2.96,
+   "share_with_three_or_more": 0.965
+  }
+ },
+ "deepseek-v4-flash-payg, HLE new 800": {
+  "criticized answer correct": {
+   "rounds": 1046,
+   "mean_doubts": 2.81,
+   "share_with_three_or_more": 0.841
+  },
+  "criticized answer incorrect": {
+   "rounds": 3093,
+   "mean_doubts": 2.86,
+   "share_with_three_or_more": 0.873
+  }
+ },
+ "qwen3.8-flash-payg, BBEH-hard 800": {
+  "criticized answer correct": {
+   "rounds": 1573,
+   "mean_doubts": 2.94,
+   "share_with_three_or_more": 0.942
+  },
+  "criticized answer incorrect": {
+   "rounds": 3958,
+   "mean_doubts": 2.95,
+   "share_with_three_or_more": 0.953
+  }
+ }
+}

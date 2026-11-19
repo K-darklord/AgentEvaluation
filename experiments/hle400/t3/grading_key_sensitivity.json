@@ -1,0 +1,96 @@
+{
+ "qwen3.8-flash-payg": {
+  "answer_keys": 8664,
+  "keys_with_conflicting_verdicts": 20,
+  "questions_affected": 20,
+  "E-SC": {
+   "as scored": {
+    "critique": 205.3,
+    "equal_token_samples": 180.0,
+    "diff": 25.3,
+    "lo": 4.4,
+    "hi": 46.5,
+    "lo90": 8.0,
+    "hi90": 43.2,
+    "p": 0.0139
+   },
+   "majority": {
+    "critique": 208.3,
+    "equal_token_samples": 181.0,
+    "diff": 27.3,
+    "lo": 7.0,
+    "hi": 46.4,
+    "lo90": 10.6,
+    "hi90": 43.3,
+    "p": 0.0064
+   },
+   "correct if any": {
+    "critique": 211.3,
+    "equal_token_samples": 183.5,
+    "diff": 27.8,
+    "lo": 7.0,
+    "hi": 47.1,
+    "lo90": 10.7,
+    "hi90": 43.9,
+    "p": 0.0053
+   },
+   "correct only if all": {
+    "critique": 196.3,
+    "equal_token_samples": 168.5,
+    "diff": 27.8,
+    "lo": 7.7,
+    "hi": 46.9,
+    "lo90": 12.2,
+    "hi90": 44.6,
+    "p": 0.0048
+   }
+  }
+ },
+ "deepseek-v4-flash-payg": {
+  "answer_keys": 8464,
+  "keys_with_conflicting_verdicts": 19,
+  "questions_affected": 19,
+  "E-SC": {
+   "as scored": {
+    "critique": 254.2,
+    "equal_token_samples": 229.0,
+    "diff": 25.2,
+    "lo": 7.8,
+    "hi": 41.8,
+    "lo90": 11.2,
+    "hi90": 39.5,
+    "p": 0.0039
+   },
+   "majority": {
+    "critique": 253.7,
+    "equal_token_samples": 228.0,
+    "diff": 25.7,
+    "lo": 8.9,
+    "hi": 42.5,
+    "lo90": 11.8,
+    "hi90": 40.0,
+    "p": 0.0024
+   },
+   "correct if any": {
+    "critique": 255.7,
+    "equal_token_samples": 231.0,
+    "diff": 24.7,
+    "lo": 9.0,
+    "hi": 42.0,
+    "lo90": 11.3,
+    "hi90": 38.7,
+    "p": 0.0039
+   },
+   "correct only if all": {
+    "critique": 243.7,
+    "equal_token_samples": 220.0,
+    "diff": 23.7,
+    "lo": 7.5,
+    "hi": 39.6,
+    "lo90": 9.7,
+    "hi90": 37.2,
+    "p": 0.0042
+   }
+  }
+ }
+}
