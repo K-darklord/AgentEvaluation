@@ -186,3 +186,16 @@ Trigger: read-outs of the equal-token continuation (qwen), token-yoked generic d
 - Previous state kept as `_old/main_v16a.tex`.
 - AI-use statement reordered (responsibility first; verifiability sentence added; 'simulated reviews' removed); no claim added that the author has not confirmed.
 - Independent re-computation with SciPy (`scripts/crosscheck_stats.py` → `experiments/hle400/t3/stats_crosscheck.json`; vectors written by the two read-out scripts): discordant counts, differences and exact p-values identical; permutation p within 0.0012; interval limits within 1.3 questions. Finding: the R1 equivalence interval is -33 to +3 with 10,000 SciPy resamples (pre-specified procedure: -32 to +2; normal approximation -32.8 to +2.8), i.e. on the margin. Appendix and §4.3 now say which side of the equivalence statement is secure. `docs/CONTROLS_RESULTS.md` updated.
+
+## v17 draft (2026-11-20)
+- Rewritten around the agreed narrative: reach follows tokens; at equal tokens independent samples reach more and the critique loop selects more (three settings: Qwen HLE, DeepSeek HLE, Qwen BBEH; all confirmatory); whether a placebo loop selects as well depends on model and benchmark.
+- New title. New Figure 1 (`figs/equal_tokens.pdf`, `make_figs_v17.py`, numbers read from frozen read-outs). New tables: parts of the study, core equal-token tests, placebo loops, keep probabilities. First-study tables moved to Appendix G.
+- New appendices: order of the studies and what was fixed in advance (incl. departures and the grading incident), samples at equal tokens and USC, the second benchmark (screening, tasks, predictions), removing the previous answer. Updated: prompts (USC), scoring (BBEH, grading incident, two-spellings sensitivity), audit (second audit in progress), controls (question-only spot check), confirmation (added runs and DeepSeek results).
+- Body ends on page 7 (limit 8). Manifest: 792 facts, 0 problems (`scripts/build_manifest_v17.py`). v16 kept in `_old/main_v16.tex`.
+- Open: results of the second human audit; transcription confirmations of its symbolic checks.
+
+## v17b draft (2026-11-20)
+- After an independent ARR-style review: attribution in abstract/intro/conclusion changed to two layers (self-critique adds selection over samples; how much needs the critique depends on the model); DeepSeek's reassuring-loop result moved into the main text; "reach follows tokens" narrowed (tokens plus a reason to try another answer); descriptive statements removed from the abstract.
+- Supplementary read-outs (`scripts/equal_token_supplement.py`): samples within the budget, loop without first answer, last answer, merged correct candidates, cut-off shares, sequential depth, BBEH by task; new Table in Appendix J and a paragraph in Section 4.3.
+- Clarified: token definition and why sample counts and totals do not multiply; what a loop's answer list contains; decomposition form; candidate counts; rounding. Placeholder about the second audit removed from Limitations. Author wording unified. Three references added (Olausson 2024, Snell 2024, Du 2024). Figure 1 label corrected.
+- Manifest 847 facts, 0 problems. Body ends on page 7.
