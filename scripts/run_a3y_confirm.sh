@@ -31,7 +31,7 @@ TASKS_ARG=()
 if [ "$MODE" = "health" ]; then TASKS_ARG=(--tasks "$TASKS16"); fi
 
 echo "=== A3Y $MODE ($MODEL_KEY) -> experiments/$OUT ==="
-python3 src/run_feedback_loop.py --models "$M" --task-set hle_confirm "${TASKS_ARG[@]}" \
+python3 src/run_feedback_loop.py --models "$M" --task-set hle_confirm ${TASKS_ARG[@]+"${TASKS_ARG[@]}"} \
   --arm A3 --max-rounds 100 --early-stop 3 --rationale-mode off --tier C \
   --temperature 0.7 --concurrency "$CONC" --out-dir "$OUT"
 echo "A3Y_DONE"
