@@ -1,8 +1,8 @@
 {
  "schema_version": 3,
  "paper": "paper/acl/main.tex",
- "paper_version": "v16 draft",
- "date": "2026-11-17",
+ "paper_version": "v17b draft",
+ "date": "2026-11-20",
  "model_order": [
   "deepseek-v4-flash",
   "qwen3.8-flash",
@@ -3252,10 +3252,7 @@
    ],
    "paper": "Sec4.3",
    "source": "scripts/three_model_appendix.py",
-   "tex": [
-    "0.23 to 0.28, 0.11 to 0.17, 0.13 to 0.17",
-    "(1.8 to 2.0)"
-   ]
+   "tex": []
   },
   {
    "id": "gap_deepseek_A2",
@@ -3478,10 +3475,7 @@
    ],
    "paper": "Sec4.3",
    "source": "derived from Tab3 and single_sample_*",
-   "tex": [
-    "32.0, 21.8 and 20.7",
-    "28.0, 10.8 and 19.7"
-   ]
+   "tex": []
   },
   {
    "id": "judge_reach",
@@ -3704,9 +3698,7 @@
    "source": "solver: main-table scripts; critic: e2_*_token_replay*.py and run logs",
    "tex": [
     "\\ds{} 24.6, 31.8, 61, 51.4; \\qw{} 15.2, 21.0, 36, 31.8; \\mm{} 21.3, 24.3, 40, 44.7",
-    "10.6 million measured on \\mm",
-    "61, 36 and 40 million tokens",
-    "1.9 to 2.5 times the tokens"
+    "10.6 million measured on \\mm"
    ]
   },
   {
@@ -5127,13 +5119,7 @@
     "C2",
     "total_tokens_M"
    ],
-   "tex": [
-    "Reassuring & 123 & 90.8 & & 159 & 87.7",
-    "Mismatched critique & 120 & 93.5 & & 166 & 96.8",
-    "Generic doubt & 149 & 95.6 & & 181 & 92.0",
-    "Question-only critique & 161 & 95.3 & & 179 & 91.8",
-    "Critique & 182 & 114.1 & & 182 & 114.1"
-   ]
+   "tex": []
   },
   {
    "id": "ctrl_Y1_367_b",
@@ -6362,9 +6348,7 @@
     "selected_equal_tokens",
     "diff"
    ],
-   "tex": [
-    "22.3 (\\ci{8.4}{36.8})"
-   ]
+   "tex": []
   },
   {
    "id": "eq_E1_selx_diff",
@@ -6524,9 +6508,7 @@
     "selected_equal_tokens",
     "diff"
    ],
-   "tex": [
-    "17.3 (\\ci{3.9}{31.5})"
-   ]
+   "tex": []
   },
   {
    "id": "eq_E2_selx_diff",
@@ -6686,9 +6668,7 @@
     "selected_equal_tokens",
     "diff"
    ],
-   "tex": [
-    "26.4 (\\ci{12.7}{41.8})"
-   ]
+   "tex": []
   },
   {
    "id": "eq_E3_selx_diff",
@@ -7017,9 +6997,7 @@
     "first answer",
     "reached"
    ],
-   "tex": [
-    "First answer & 148 & 148.0 & 148 & -- & 6"
-   ]
+   "tex": []
   },
   {
    "id": "conf_first_answer_selected",
@@ -7096,9 +7074,7 @@
     "reassuring",
     "reached"
    ],
-   "tex": [
-    "Reassuring loop & 170 & 168.5 & 245 & .69 & 26"
-   ]
+   "tex": []
   },
   {
    "id": "conf_reassuring_selected",
@@ -7175,9 +7151,7 @@
     "generic doubt",
     "reached"
    ],
-   "tex": [
-    "Generic-doubt loop & 176 & 183.2 & 287 & .64 & 36"
-   ]
+   "tex": []
   },
   {
    "id": "conf_generic_doubt_selected",
@@ -7254,9 +7228,7 @@
     "token-yoked generic doubt",
     "reached"
    ],
-   "tex": [
-    "Token-yoked generic doubt & 173 & 181.5 & 363 & .50 & 69"
-   ]
+   "tex": []
   },
   {
    "id": "conf_token_yoked_generic_doubt_selected",
@@ -7333,9 +7305,7 @@
     "critique",
     "reached"
    ],
-   "tex": [
-    "Critique loop & 207 & \\textbf{205.3} & 348 & .59 & 66"
-   ]
+   "tex": []
   },
   {
    "id": "conf_critique_selected",
@@ -8520,9 +8490,7 @@
     "last_minus_selected",
     "diff"
    ],
-   "tex": [
-    "(difference $+1.7$, \\ci{-12.3}{15.2}"
-   ]
+   "tex": []
   },
   {
    "id": "mech800_critique_last_minus_sel_lo",
@@ -8558,9 +8526,7 @@
     "critique - generic doubt",
     "diff"
    ],
-   "tex": [
-    "$+1$ on \\qw{} (90\\% interval $-11$ to $14$)"
-   ]
+   "tex": []
   },
   {
    "id": "eq_rdiff_qw_yoke_lo90",
@@ -8596,9 +8562,7 @@
     "critique - token-yoked",
     "diff"
    ],
-   "tex": [
-    "$-4$ on \\mm{} ($-15$ to $7$)"
-   ]
+   "tex": []
   },
   {
    "id": "eq_rdiff_mm_yoke_lo90",
@@ -8623,6 +8587,2434 @@
     "hi90"
    ],
    "tex": []
+  },
+  {
+   "id": "e2_qw_crit_reached",
+   "value": 348,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "conditions",
+    "critique",
+    "reached"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_samp_reached",
+   "value": 385,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "conditions",
+    "equal-token samples",
+    "reached"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_samp_selected",
+   "value": 180.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "conditions",
+    "equal-token samples",
+    "selected"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_usc",
+   "value": 183.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "conditions",
+    "USC",
+    "correct"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_esc_diff",
+   "value": 25.3,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "tests",
+    "E-SC selected: critique - equal-token samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_esc_lo",
+   "value": 4.4,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "tests",
+    "E-SC selected: critique - equal-token samples",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_esc_hi",
+   "value": 46.5,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "tests",
+    "E-SC selected: critique - equal-token samples",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_eusc_diff",
+   "value": 22.3,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "tests",
+    "E-USC selected: critique - USC",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_eusc_lo",
+   "value": 1.5,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "tests",
+    "E-USC selected: critique - USC",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_eusc_hi",
+   "value": 43.1,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "tests",
+    "E-USC selected: critique - USC",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_ec_diff",
+   "value": 26.8,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "tests",
+    "E-C selected on questions reached by both: critique - equal-token samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_ec_lo",
+   "value": 9.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "tests",
+    "E-C selected on questions reached by both: critique - equal-token samples",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_ec_hi",
+   "value": 44.9,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "tests",
+    "E-C selected on questions reached by both: critique - equal-token samples",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_er_diff",
+   "value": -37.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "E-R reached: critique - equal-token samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_er_lo90",
+   "value": -58.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "E-R reached: critique - equal-token samples",
+    "lo90"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_er_hi90",
+   "value": -18.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "E-R reached: critique - equal-token samples",
+    "hi90"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_both",
+   "value": 290,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "n_reached_by_both"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_ratio",
+   "value": 1.181,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "alignment",
+    "ratio"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_spq",
+   "value": 18.75,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "samples_per_question",
+    "mean"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_uscfail",
+   "value": 3,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "usc_parse_failures"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_exact only, E-SC",
+   "value": 28.6,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "descriptive",
+    "exact only, E-SC",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_exact only, E-USC",
+   "value": 41.3,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "descriptive",
+    "exact only, E-USC",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_equal-token samples - nine samples",
+   "value": 1.9,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "descriptive",
+    "equal-token samples - nine samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_USC - equal-token samples",
+   "value": 3.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "descriptive",
+    "USC - equal-token samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_exactMatch",
+   "value": 24.3,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "by_answer_type",
+    "exactMatch",
+    "E-SC",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_multipleChoice",
+   "value": 1.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "by_answer_type",
+    "multipleChoice",
+    "E-SC",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_reach_term",
+   "value": -19.6,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "decomposition",
+    "critique - equal-token samples",
+    "reach_term"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_qw_conversion_term",
+   "value": 44.8,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "qwen",
+    "decomposition",
+    "critique - equal-token samples",
+    "conversion_term"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_crit_reached",
+   "value": 370,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "conditions",
+    "critique",
+    "reached"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_samp_reached",
+   "value": 397,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "conditions",
+    "equal-token samples",
+    "reached"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_samp_selected",
+   "value": 229.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "conditions",
+    "equal-token samples",
+    "selected"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_usc",
+   "value": 235.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "conditions",
+    "USC",
+    "correct"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_esc_diff",
+   "value": 25.2,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "tests",
+    "E-SC selected: critique - equal-token samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_esc_lo",
+   "value": 7.8,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "tests",
+    "E-SC selected: critique - equal-token samples",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_esc_hi",
+   "value": 41.8,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "tests",
+    "E-SC selected: critique - equal-token samples",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_eusc_diff",
+   "value": 19.2,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "tests",
+    "E-USC selected: critique - USC",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_eusc_lo",
+   "value": 2.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "tests",
+    "E-USC selected: critique - USC",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_eusc_hi",
+   "value": 37.1,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "tests",
+    "E-USC selected: critique - USC",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_ec_diff",
+   "value": 32.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "tests",
+    "E-C selected on questions reached by both: critique - equal-token samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_ec_lo",
+   "value": 17.6,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "tests",
+    "E-C selected on questions reached by both: critique - equal-token samples",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_ec_hi",
+   "value": 46.4,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "tests",
+    "E-C selected on questions reached by both: critique - equal-token samples",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_er_diff",
+   "value": -27.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "E-R reached: critique - equal-token samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_er_lo90",
+   "value": -45.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "E-R reached: critique - equal-token samples",
+    "lo90"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_er_hi90",
+   "value": -8.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "E-R reached: critique - equal-token samples",
+    "hi90"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_both",
+   "value": 323,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "n_reached_by_both"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_ratio",
+   "value": 1.153,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "alignment",
+    "ratio"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_spq",
+   "value": 17.21,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "samples_per_question",
+    "mean"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_uscfail",
+   "value": 21,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "usc_parse_failures"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_exact only, E-SC",
+   "value": 17.2,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "descriptive",
+    "exact only, E-SC",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_exact only, E-USC",
+   "value": 23.6,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "descriptive",
+    "exact only, E-USC",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_equal-token samples - nine samples",
+   "value": 4.4,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "descriptive",
+    "equal-token samples - nine samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_USC - equal-token samples",
+   "value": 6.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "descriptive",
+    "USC - equal-token samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_exactMatch",
+   "value": 19.8,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "by_answer_type",
+    "exactMatch",
+    "E-SC",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_multipleChoice",
+   "value": 5.4,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "by_answer_type",
+    "multipleChoice",
+    "E-SC",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_reach_term",
+   "value": -17.1,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "decomposition",
+    "critique - equal-token samples",
+    "reach_term"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_ds_conversion_term",
+   "value": 42.3,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/equal_token_samples_readout.json",
+    "deepseek",
+    "decomposition",
+    "critique - equal-token samples",
+    "conversion_term"
+   ],
+   "tex": []
+  },
+  {
+   "id": "e2_core_strings",
+   "value": null,
+   "paper": "v17",
+   "tex": [
+    "348 / \\textbf{385} & 370 / \\textbf{397} & 591 / \\textbf{611}",
+    "\\textbf{205.3} / 180.0 & \\textbf{254.2} / 229.0 & \\textbf{390.5} / 356.5",
+    "18.8; 1.18 & 17.2; 1.15 & 21.2; 1.13",
+    "$+25.3$ \\ci{4.4}{46.5}$^{*}$ & $+25.2$ \\ci{7.8}{41.8}$^{**}$ & $+34.0$ \\ci{13.8}{55.0}$^{**}$",
+    "$+26.8$ \\ci{9.0}{44.9}$^{**}$ (290) & $+32.0$ \\ci{17.6}{46.4}$^{***}$ (323) & $+35.4$ \\ci{16.0}{54.0}$^{**}$ (540)",
+    "$+22.3$ \\ci{1.5}{43.1}$^{*}$ & $+19.2$ \\ci{2.0}{37.1}$^{*}$",
+    "$-37$ \\ci{-58}{-18} & $-27$ \\ci{-45}{-8} & $-20$ \\ci{-39}{-1}",
+    "by 28.6 (\\ci{10.2}{47.5}) and 17.2 (\\ci{2.8}{31.6})",
+    "($+24.3$ and $+19.8$)",
+    "($+1.0$ and $+5.4$)",
+    "reach 56, 36 and 64 more questions and select 1.9, 4.4 and 12.0 more"
+   ]
+  },
+  {
+   "id": "bet_C2_reached",
+   "value": 591,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "conditions",
+    "C2",
+    "reached"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_C2_selected",
+   "value": 390.5,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "conditions",
+    "C2",
+    "selected"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_A3Y_reached",
+   "value": 611,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "conditions",
+    "A3Y",
+    "reached"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_A3Y_selected",
+   "value": 356.5,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "conditions",
+    "A3Y",
+    "selected"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_GT7_reached",
+   "value": 582,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "conditions",
+    "GT7",
+    "reached"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_GT7_selected",
+   "value": 368.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "conditions",
+    "GT7",
+    "selected"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_A2PY_reached",
+   "value": 576,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "conditions",
+    "A2PY",
+    "reached"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_A2PY_selected",
+   "value": 371.9,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "conditions",
+    "A2PY",
+    "selected"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_A3_reached",
+   "value": 547,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "conditions",
+    "A3",
+    "reached"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_A3_selected",
+   "value": 344.4,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "conditions",
+    "A3",
+    "selected"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_B-SC_diff",
+   "value": 34.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "tests",
+    "B-SC selected: critique - equal-token samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_B-SC_lo",
+   "value": 13.8,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "tests",
+    "B-SC selected: critique - equal-token samples",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_B-SC_hi",
+   "value": 55.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "tests",
+    "B-SC selected: critique - equal-token samples",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_B-EC_diff",
+   "value": 35.4,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "tests",
+    "B-EC selected on questions reached by both: critique - equal-token samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_B-EC_lo",
+   "value": 16.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "tests",
+    "B-EC selected on questions reached by both: critique - equal-token samples",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_B-EC_hi",
+   "value": 54.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "tests",
+    "B-EC selected on questions reached by both: critique - equal-token samples",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_T-1 _diff",
+   "value": 11.6,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "tests",
+    "T-1 selected: generic-doubt loop at T=0.7 - equal-token samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_T-1 _lo",
+   "value": -9.6,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "tests",
+    "T-1 selected: generic-doubt loop at T=0.7 - equal-token samples",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_T-1 _hi",
+   "value": 31.6,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "tests",
+    "T-1 selected: generic-doubt loop at T=0.7 - equal-token samples",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_er_diff",
+   "value": -20.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "B-ER reached: critique - equal-token samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_er_lo90",
+   "value": -39.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "B-ER reached: critique - equal-token samples",
+    "lo90"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_er_hi90",
+   "value": -1.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "B-ER reached: critique - equal-token samples",
+    "hi90"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_GT7 - A2PY (_diff",
+   "value": -3.9,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "descriptive",
+    "GT7 - A2PY (temperature within the loop)",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_GT7 - A2PY (_lo",
+   "value": -22.5,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "descriptive",
+    "GT7 - A2PY (temperature within the loop)",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_GT7 - A2PY (_hi",
+   "value": 15.9,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "descriptive",
+    "GT7 - A2PY (temperature within the loop)",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_critique - G_diff",
+   "value": 22.5,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "descriptive",
+    "critique - GT7",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_critique - G_lo",
+   "value": -0.9,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "descriptive",
+    "critique - GT7",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_critique - G_hi",
+   "value": 44.4,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "descriptive",
+    "critique - GT7",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_A3Y - nine s_diff",
+   "value": 12.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "descriptive",
+    "A3Y - nine samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_A3Y - nine s_lo",
+   "value": -0.4,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "descriptive",
+    "A3Y - nine samples",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_A3Y - nine s_hi",
+   "value": 24.2,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "descriptive",
+    "A3Y - nine samples",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_A2PY - equal_diff",
+   "value": 15.4,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "descriptive",
+    "A2PY - equal-token samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_A2PY - equal_lo",
+   "value": -2.4,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "descriptive",
+    "A2PY - equal-token samples",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_A2PY - equal_hi",
+   "value": 33.7,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/bbeh_equal_token_readout.json",
+    "descriptive",
+    "A2PY - equal-token samples",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bet_crit_keep",
+   "value": [
+    0.453,
+    0.158
+   ],
+   "paper": "v17",
+   "tex": [
+    "Critique & .43 & \\textbf{.29} & & .44 & \\textbf{.29} & & .45 & \\textbf{.16}"
+   ]
+  },
+  {
+   "id": "v17_strings",
+   "value": null,
+   "paper": "v17",
+   "tex": [
+    "It selects 368.0 questions, against 371.9 at temperature 0 ($-3.9$, \\ci{-22.5}{15.9}) and 356.5 for the samples.",
+    "($+11.6$, \\ci{-9.6}{31.6})",
+    "2.96 against 2.96 per round on \\qw, 2.81 against 2.86 on \\ds{} and 2.94 against 2.95 on BBEH",
+    "(0.41 against 0.50 in the first round; $p<0.001$) and lowered the selected count by 12.4 (\\ci{-6.0}{30.9})",
+    "token-yoked & $\\mathbf{+23.8}$ & $-7.2$ & $+18.6$",
+    "reassuring & $\\mathbf{+36.8}$ & $-1.9$ & $+10.6$",
+    " & $+1.5$ & $+32.4$ & $+15.4$",
+    "Reassuring & .64 & .60 & & .75 & .63 & & .72 & .38",
+    "Token-yoked & .58 & .54 & & .73 & .61 & & .70 & .49",
+    "Samples & .35 & .31 & & .50 & .34 & & .58 & .32",
+    "$+27.3$, $+27.8$ and $+27.8$ on \\qw{} and $+25.7$, $+24.7$ and $+23.7$ on \\ds"
+   ]
+  },
+  {
+   "id": "crit_qwen3.8-_r correct",
+   "value": 2.96,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/critic_doubts_by_correctness.json",
+    "qwen3.8-flash-payg, HLE new 800",
+    "criticized answer correct",
+    "mean_doubts"
+   ],
+   "tex": []
+  },
+  {
+   "id": "crit_qwen3.8-_incorrect",
+   "value": 2.96,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/critic_doubts_by_correctness.json",
+    "qwen3.8-flash-payg, HLE new 800",
+    "criticized answer incorrect",
+    "mean_doubts"
+   ],
+   "tex": []
+  },
+  {
+   "id": "crit_deepseek_r correct",
+   "value": 2.81,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/critic_doubts_by_correctness.json",
+    "deepseek-v4-flash-payg, HLE new 800",
+    "criticized answer correct",
+    "mean_doubts"
+   ],
+   "tex": []
+  },
+  {
+   "id": "crit_deepseek_incorrect",
+   "value": 2.86,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/critic_doubts_by_correctness.json",
+    "deepseek-v4-flash-payg, HLE new 800",
+    "criticized answer incorrect",
+    "mean_doubts"
+   ],
+   "tex": []
+  },
+  {
+   "id": "crit_qwen3.8-_r correct",
+   "value": 2.94,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/critic_doubts_by_correctness.json",
+    "qwen3.8-flash-payg, BBEH-hard 800",
+    "criticized answer correct",
+    "mean_doubts"
+   ],
+   "tex": []
+  },
+  {
+   "id": "crit_qwen3.8-_incorrect",
+   "value": 2.95,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/critic_doubts_by_correctness.json",
+    "qwen3.8-flash-payg, BBEH-hard 800",
+    "criticized answer incorrect",
+    "mean_doubts"
+   ],
+   "tex": []
+  },
+  {
+   "id": "sens_qwen_as scored",
+   "value": 25.3,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/grading_key_sensitivity.json",
+    "qwen3.8-flash-payg",
+    "E-SC",
+    "as scored",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "sens_qwen_majority",
+   "value": 27.3,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/grading_key_sensitivity.json",
+    "qwen3.8-flash-payg",
+    "E-SC",
+    "majority",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "sens_qwen_correct if any",
+   "value": 27.8,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/grading_key_sensitivity.json",
+    "qwen3.8-flash-payg",
+    "E-SC",
+    "correct if any",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "sens_qwen_correct only if all",
+   "value": 27.8,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/grading_key_sensitivity.json",
+    "qwen3.8-flash-payg",
+    "E-SC",
+    "correct only if all",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "sens_deep_as scored",
+   "value": 25.2,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/grading_key_sensitivity.json",
+    "deepseek-v4-flash-payg",
+    "E-SC",
+    "as scored",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "sens_deep_majority",
+   "value": 25.7,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/grading_key_sensitivity.json",
+    "deepseek-v4-flash-payg",
+    "E-SC",
+    "majority",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "sens_deep_correct if any",
+   "value": 24.7,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/grading_key_sensitivity.json",
+    "deepseek-v4-flash-payg",
+    "E-SC",
+    "correct if any",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "sens_deep_correct only if all",
+   "value": 23.7,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/grading_key_sensitivity.json",
+    "deepseek-v4-flash-payg",
+    "E-SC",
+    "correct only if all",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mem_nm2_diff",
+   "value": 12.4,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/memory_manipulation_readout.json",
+    "NM-2 selected: token-yoked generic doubt - the same without memory (800; confirmatory)",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mem_nm2_lo",
+   "value": -6.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/memory_manipulation_readout.json",
+    "NM-2 selected: token-yoked generic doubt - the same without memory (800; confirmatory)",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mem_nm2_hi",
+   "value": 30.9,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/memory_manipulation_readout.json",
+    "NM-2 selected: token-yoked generic doubt - the same without memory (800; confirmatory)",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mem_check_without",
+   "value": 0.411,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/memory_manipulation_readout.json",
+    "manipulation_check",
+    "GNM vs A2PY (800)",
+    "without_memory"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mem_check_with",
+   "value": 0.501,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/memory_manipulation_readout.json",
+    "manipulation_check",
+    "GNM vs A2PY (800)",
+    "with_memory"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mem_visib",
+   "value": 6.4,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/memory_manipulation_readout.json",
+    "visibility_and_permission_400",
+    "visibility (GKI - GNM)",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "mem_permi",
+   "value": 2.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/memory_manipulation_readout.json",
+    "visibility_and_permission_400",
+    "permission (A2PY - GKI)",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "s1_r1_diff",
+   "value": -15.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "R1 reached: critique - token-yoked generic doubt",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "s1_r1_lo90",
+   "value": -32.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "R1 reached: critique - token-yoked generic doubt",
+    "lo90"
+   ],
+   "tex": []
+  },
+  {
+   "id": "s1_r1_hi90",
+   "value": 2.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_readout.json",
+    "R1 reached: critique - token-yoked generic doubt",
+    "hi90"
+   ],
+   "tex": []
+  },
+  {
+   "id": "ds_r1_diff",
+   "value": -1.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_ds_readout.json",
+    "D-R1 reached: critique - token-yoked generic doubt",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "ds_r1_lo90",
+   "value": -16.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_ds_readout.json",
+    "D-R1 reached: critique - token-yoked generic doubt",
+    "lo90"
+   ],
+   "tex": []
+  },
+  {
+   "id": "ds_r1_hi90",
+   "value": 15.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_ds_readout.json",
+    "D-R1 reached: critique - token-yoked generic doubt",
+    "hi90"
+   ],
+   "tex": []
+  },
+  {
+   "id": "ds_D-S1_diff",
+   "value": -7.2,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_ds_readout.json",
+    "confirmatory",
+    "D-S1 selected: critique - token-yoked generic doubt",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "ds_D-S1_lo",
+   "value": -23.9,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_ds_readout.json",
+    "confirmatory",
+    "D-S1 selected: critique - token-yoked generic doubt",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "ds_D-S1_hi",
+   "value": 9.3,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_ds_readout.json",
+    "confirmatory",
+    "D-S1 selected: critique - token-yoked generic doubt",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "ds_D-S2_diff",
+   "value": -1.9,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_ds_readout.json",
+    "confirmatory",
+    "D-S2 selected: critique - reassuring",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "ds_D-S2_lo",
+   "value": -18.6,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_ds_readout.json",
+    "confirmatory",
+    "D-S2 selected: critique - reassuring",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "ds_D-S2_hi",
+   "value": 15.3,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_ds_readout.json",
+    "confirmatory",
+    "D-S2 selected: critique - reassuring",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "ds_D-A3_diff",
+   "value": 29.6,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_ds_readout.json",
+    "confirmatory",
+    "D-A3 selected: critique - nine samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "ds_D-A3_lo",
+   "value": 12.4,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_ds_readout.json",
+    "confirmatory",
+    "D-A3 selected: critique - nine samples",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "ds_D-A3_hi",
+   "value": 47.8,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_ds_readout.json",
+    "confirmatory",
+    "D-A3 selected: critique - nine samples",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bb_S1_diff",
+   "value": 18.6,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/second_benchmark_readout.json",
+    "hard",
+    "selected_tests",
+    "S1 selected: critique - token-yoked generic doubt",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bb_S1_lo",
+   "value": -3.3,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/second_benchmark_readout.json",
+    "hard",
+    "selected_tests",
+    "S1 selected: critique - token-yoked generic doubt",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bb_S1_hi",
+   "value": 41.4,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/second_benchmark_readout.json",
+    "hard",
+    "selected_tests",
+    "S1 selected: critique - token-yoked generic doubt",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bb_S2_diff",
+   "value": 10.6,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/second_benchmark_readout.json",
+    "hard",
+    "selected_tests",
+    "S2 selected: critique - reassuring",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bb_S2_lo",
+   "value": -11.3,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/second_benchmark_readout.json",
+    "hard",
+    "selected_tests",
+    "S2 selected: critique - reassuring",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bb_S2_hi",
+   "value": 33.5,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/second_benchmark_readout.json",
+    "hard",
+    "selected_tests",
+    "S2 selected: critique - reassuring",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bb_A3_diff",
+   "value": 46.1,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/second_benchmark_readout.json",
+    "hard",
+    "selected_tests",
+    "A3 selected: critique - nine samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bb_A3_lo",
+   "value": 25.8,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/second_benchmark_readout.json",
+    "hard",
+    "selected_tests",
+    "A3 selected: critique - nine samples",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bb_A3_hi",
+   "value": 67.1,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/second_benchmark_readout.json",
+    "hard",
+    "selected_tests",
+    "A3 selected: critique - nine samples",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bb_r_diff",
+   "value": 15.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/second_benchmark_readout.json",
+    "hard",
+    "reached_critique_minus_token_yoked",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bb_r_lo90",
+   "value": -2.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/second_benchmark_readout.json",
+    "hard",
+    "reached_critique_minus_token_yoked",
+    "lo90"
+   ],
+   "tex": []
+  },
+  {
+   "id": "bb_r_hi90",
+   "value": 34.0,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/second_benchmark_readout.json",
+    "hard",
+    "reached_critique_minus_token_yoked",
+    "hi90"
+   ],
+   "tex": []
+  },
+  {
+   "id": "add_T-A3_diff",
+   "value": 27.2,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_addendum_readout.json",
+    "tests",
+    "T-A3 selected: critique - nine samples",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "add_T-A3_lo",
+   "value": 6.8,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_addendum_readout.json",
+    "tests",
+    "T-A3 selected: critique - nine samples",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "add_T-A3_hi",
+   "value": 47.2,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_addendum_readout.json",
+    "tests",
+    "T-A3 selected: critique - nine samples",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "add_T-Q _diff",
+   "value": 11.8,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_addendum_readout.json",
+    "tests",
+    "T-Q selected: critique - question-only critique at equal tokens",
+    "diff"
+   ],
+   "tex": []
+  },
+  {
+   "id": "add_T-Q _lo",
+   "value": -7.4,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_addendum_readout.json",
+    "tests",
+    "T-Q selected: critique - question-only critique at equal tokens",
+    "lo"
+   ],
+   "tex": []
+  },
+  {
+   "id": "add_T-Q _hi",
+   "value": 29.4,
+   "paper": "v17",
+   "json": [
+    "experiments/hle400/t3/selection_confirmation_addendum_readout.json",
+    "tests",
+    "T-Q selected: critique - question-only critique at equal tokens",
+    "hi"
+   ],
+   "tex": []
+  },
+  {
+   "id": "supp_qwen_a_last - s_diff",
+   "value": 27.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "a_last_answer",
+    "last - samples plurality",
+    "diff"
+   ]
+  },
+  {
+   "id": "supp_qwen_a_last - s_lo",
+   "value": 5.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "a_last_answer",
+    "last - samples plurality",
+    "lo"
+   ]
+  },
+  {
+   "id": "supp_qwen_a_last - s_hi",
+   "value": 49.3,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "a_last_answer",
+    "last - samples plurality",
+    "hi"
+   ]
+  },
+  {
+   "id": "supp_qwen_b_differen_diff",
+   "value": 29.1,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "b_loop_without_first_answer",
+    "difference",
+    "diff"
+   ]
+  },
+  {
+   "id": "supp_qwen_b_differen_lo",
+   "value": 7.9,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "b_loop_without_first_answer",
+    "difference",
+    "lo"
+   ]
+  },
+  {
+   "id": "supp_qwen_b_differen_hi",
+   "value": 51.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "b_loop_without_first_answer",
+    "difference",
+    "hi"
+   ]
+  },
+  {
+   "id": "supp_qwen_c_selected_diff",
+   "value": 28.5,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "c_samples_within_budget",
+    "selected difference",
+    "diff"
+   ]
+  },
+  {
+   "id": "supp_qwen_c_selected_lo",
+   "value": 8.1,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "c_samples_within_budget",
+    "selected difference",
+    "lo"
+   ]
+  },
+  {
+   "id": "supp_qwen_c_selected_hi",
+   "value": 48.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "c_samples_within_budget",
+    "selected difference",
+    "hi"
+   ]
+  },
+  {
+   "id": "supp_qwen_c_reached _diff",
+   "value": -17.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "c_samples_within_budget",
+    "reached difference",
+    "diff"
+   ]
+  },
+  {
+   "id": "supp_qwen_c_reached _lo",
+   "value": -41.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "c_samples_within_budget",
+    "reached difference",
+    "lo"
+   ]
+  },
+  {
+   "id": "supp_qwen_c_reached _hi",
+   "value": 6.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "c_samples_within_budget",
+    "reached difference",
+    "hi"
+   ]
+  },
+  {
+   "id": "supp_qwen_d_differen_diff",
+   "value": 9.3,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "d_vote_splitting_bound",
+    "difference",
+    "diff"
+   ]
+  },
+  {
+   "id": "supp_qwen_d_differen_lo",
+   "value": -12.7,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "d_vote_splitting_bound",
+    "difference",
+    "lo"
+   ]
+  },
+  {
+   "id": "supp_qwen_d_differen_hi",
+   "value": 31.2,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "d_vote_splitting_bound",
+    "difference",
+    "hi"
+   ]
+  },
+  {
+   "id": "supp_qwen_last",
+   "value": 207.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "a_last_answer",
+    "critique_last"
+   ]
+  },
+  {
+   "id": "supp_qwen_depth",
+   "value": 6.32,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "f_sequential_depth",
+    "critique_feedback_rounds_per_q"
+   ]
+  },
+  {
+   "id": "supp_qwen_within_n",
+   "value": 16.66,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_qwen.json",
+    "c_samples_within_budget",
+    "samples_per_q"
+   ]
+  },
+  {
+   "id": "supp_deepseek_a_last - s_diff",
+   "value": 25.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "a_last_answer",
+    "last - samples plurality",
+    "diff"
+   ]
+  },
+  {
+   "id": "supp_deepseek_a_last - s_lo",
+   "value": 4.1,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "a_last_answer",
+    "last - samples plurality",
+    "lo"
+   ]
+  },
+  {
+   "id": "supp_deepseek_a_last - s_hi",
+   "value": 45.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "a_last_answer",
+    "last - samples plurality",
+    "hi"
+   ]
+  },
+  {
+   "id": "supp_deepseek_b_differen_diff",
+   "value": 26.5,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "b_loop_without_first_answer",
+    "difference",
+    "diff"
+   ]
+  },
+  {
+   "id": "supp_deepseek_b_differen_lo",
+   "value": 8.8,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "b_loop_without_first_answer",
+    "difference",
+    "lo"
+   ]
+  },
+  {
+   "id": "supp_deepseek_b_differen_hi",
+   "value": 43.4,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "b_loop_without_first_answer",
+    "difference",
+    "hi"
+   ]
+  },
+  {
+   "id": "supp_deepseek_c_selected_diff",
+   "value": 26.4,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "c_samples_within_budget",
+    "selected difference",
+    "diff"
+   ]
+  },
+  {
+   "id": "supp_deepseek_c_selected_lo",
+   "value": 9.7,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "c_samples_within_budget",
+    "selected difference",
+    "lo"
+   ]
+  },
+  {
+   "id": "supp_deepseek_c_selected_hi",
+   "value": 43.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "c_samples_within_budget",
+    "selected difference",
+    "hi"
+   ]
+  },
+  {
+   "id": "supp_deepseek_c_reached _diff",
+   "value": -8.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "c_samples_within_budget",
+    "reached difference",
+    "diff"
+   ]
+  },
+  {
+   "id": "supp_deepseek_c_reached _lo",
+   "value": -29.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "c_samples_within_budget",
+    "reached difference",
+    "lo"
+   ]
+  },
+  {
+   "id": "supp_deepseek_c_reached _hi",
+   "value": 13.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "c_samples_within_budget",
+    "reached difference",
+    "hi"
+   ]
+  },
+  {
+   "id": "supp_deepseek_d_differen_diff",
+   "value": 19.2,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "d_vote_splitting_bound",
+    "difference",
+    "diff"
+   ]
+  },
+  {
+   "id": "supp_deepseek_d_differen_lo",
+   "value": 2.8,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "d_vote_splitting_bound",
+    "difference",
+    "lo"
+   ]
+  },
+  {
+   "id": "supp_deepseek_d_differen_hi",
+   "value": 36.5,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "d_vote_splitting_bound",
+    "difference",
+    "hi"
+   ]
+  },
+  {
+   "id": "supp_deepseek_last",
+   "value": 254.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "a_last_answer",
+    "critique_last"
+   ]
+  },
+  {
+   "id": "supp_deepseek_depth",
+   "value": 6.01,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "f_sequential_depth",
+    "critique_feedback_rounds_per_q"
+   ]
+  },
+  {
+   "id": "supp_deepseek_within_n",
+   "value": 15.05,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_deepseek.json",
+    "c_samples_within_budget",
+    "samples_per_q"
+   ]
+  },
+  {
+   "id": "supp_bbeh_a_last - s_diff",
+   "value": 0.5,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "a_last_answer",
+    "last - samples plurality",
+    "diff"
+   ]
+  },
+  {
+   "id": "supp_bbeh_a_last - s_lo",
+   "value": -24.5,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "a_last_answer",
+    "last - samples plurality",
+    "lo"
+   ]
+  },
+  {
+   "id": "supp_bbeh_a_last - s_hi",
+   "value": 25.5,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "a_last_answer",
+    "last - samples plurality",
+    "hi"
+   ]
+  },
+  {
+   "id": "supp_bbeh_b_differen_diff",
+   "value": 39.7,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "b_loop_without_first_answer",
+    "difference",
+    "diff"
+   ]
+  },
+  {
+   "id": "supp_bbeh_b_differen_lo",
+   "value": 17.1,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "b_loop_without_first_answer",
+    "difference",
+    "lo"
+   ]
+  },
+  {
+   "id": "supp_bbeh_b_differen_hi",
+   "value": 62.8,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "b_loop_without_first_answer",
+    "difference",
+    "hi"
+   ]
+  },
+  {
+   "id": "supp_bbeh_c_selected_diff",
+   "value": 52.5,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "c_samples_within_budget",
+    "selected difference",
+    "diff"
+   ]
+  },
+  {
+   "id": "supp_bbeh_c_selected_lo",
+   "value": 30.1,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "c_samples_within_budget",
+    "selected difference",
+    "lo"
+   ]
+  },
+  {
+   "id": "supp_bbeh_c_selected_hi",
+   "value": 74.7,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "c_samples_within_budget",
+    "selected difference",
+    "hi"
+   ]
+  },
+  {
+   "id": "supp_bbeh_c_reached _diff",
+   "value": 3.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "c_samples_within_budget",
+    "reached difference",
+    "diff"
+   ]
+  },
+  {
+   "id": "supp_bbeh_c_reached _lo",
+   "value": -17.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "c_samples_within_budget",
+    "reached difference",
+    "lo"
+   ]
+  },
+  {
+   "id": "supp_bbeh_c_reached _hi",
+   "value": 25.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "c_samples_within_budget",
+    "reached difference",
+    "hi"
+   ]
+  },
+  {
+   "id": "supp_bbeh_d_differen_diff",
+   "value": 27.3,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "d_vote_splitting_bound",
+    "difference",
+    "diff"
+   ]
+  },
+  {
+   "id": "supp_bbeh_d_differen_lo",
+   "value": 7.2,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "d_vote_splitting_bound",
+    "difference",
+    "lo"
+   ]
+  },
+  {
+   "id": "supp_bbeh_d_differen_hi",
+   "value": 49.4,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "d_vote_splitting_bound",
+    "difference",
+    "hi"
+   ]
+  },
+  {
+   "id": "supp_bbeh_last",
+   "value": 357.0,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "a_last_answer",
+    "critique_last"
+   ]
+  },
+  {
+   "id": "supp_bbeh_depth",
+   "value": 6.94,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "f_sequential_depth",
+    "critique_feedback_rounds_per_q"
+   ]
+  },
+  {
+   "id": "supp_bbeh_within_n",
+   "value": 19.39,
+   "paper": "v17b",
+   "json": [
+    "experiments/hle400/t3/equal_token_supplement_bbeh.json",
+    "c_samples_within_budget",
+    "samples_per_q"
+   ]
+  },
+  {
+   "id": "supp_strings",
+   "value": null,
+   "paper": "v17b",
+   "tex": [
+    "\\quad within the budget & $+28.5$ & $+26.4$ & $+52.5$",
+    "\\quad no first answer & $+29.1$ & $+26.5$ & $+39.7$",
+    "\\quad last answer & $+27.0$ & $+25.0$ & $+0.5$",
+    "\\quad merged & $+9.3$ & $+19.2$ & $+27.3$",
+    "\\quad within the budget & $-17$ & $-8$ & $+3$",
+    "($-17$, $-8$ and $+3$, no difference significant)",
+    "grows to 28.5, 26.4 and 52.5",
+    "(29.1, 26.5 and 39.7)",
+    "(the last answer is ahead of the samples by 27.0 and 25.0)",
+    "correct on 357 questions against 390.5",
+    "19.2 (\\ci{2.8}{36.5}) on \\ds{} and 27.3 (\\ci{7.2}{49.4}) on BBEH, and 9.3 (\\ci{-13.3}{31.5}) on \\qw{} with HLE",
+    "selects 256.2 questions against 254.2",
+    "(16.7, 15.1 and 19.4 per question)",
+    "6.3, 6.0 and 6.9 rounds of feedback"
+   ]
   }
  ]
 }
