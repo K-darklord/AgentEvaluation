@@ -1,0 +1,522 @@
+{
+ "qwen": {
+  "alignment": {
+   "A3Y_tokens_M": 78.25,
+   "budget_M": 66.24,
+   "ratio": 1.181,
+   "at_cap": 1,
+   "aligned": true
+  },
+  "samples_per_question": {
+   "median": 13,
+   "mean": 18.75,
+   "max": 100
+  },
+  "usc_parse_failures": 3,
+  "conditions": {
+   "critique": {
+    "reached": 348,
+    "selected": 205.3,
+    "conversion": 0.59,
+    "last": 207,
+    "reached_exact": 240,
+    "selected_exact": 137.3,
+    "rounds_per_q": 7.32,
+    "candidates_per_q": 3.4,
+    "answer_change_rate": 0.675,
+    "tokens_M": 66.2,
+    "repeat_correct": 0.431,
+    "repeat_incorrect": 0.287,
+    "repeat_ratio": 1.5,
+    "first_revision_repaired": 104,
+    "first_revision_damaged": 64
+   },
+   "reassuring": {
+    "reached": 245,
+    "selected": 168.5,
+    "conversion": 0.688,
+    "last": 170,
+    "reached_exact": 157,
+    "selected_exact": 111.4,
+    "rounds_per_q": 4.85,
+    "candidates_per_q": 2.03,
+    "answer_change_rate": 0.378,
+    "tokens_M": 25.7,
+    "repeat_correct": 0.643,
+    "repeat_incorrect": 0.602,
+    "repeat_ratio": 1.07,
+    "first_revision_repaired": 41,
+    "first_revision_damaged": 33
+   },
+   "token-yoked generic doubt": {
+    "reached": 363,
+    "selected": 181.5,
+    "conversion": 0.5,
+    "last": 173,
+    "reached_exact": 255,
+    "selected_exact": 120.0,
+    "rounds_per_q": 16.21,
+    "candidates_per_q": 4.2,
+    "answer_change_rate": 0.439,
+    "tokens_M": 69.2,
+    "repeat_correct": 0.584,
+    "repeat_incorrect": 0.541,
+    "repeat_ratio": 1.08,
+    "first_revision_repaired": 58,
+    "first_revision_damaged": 58
+   },
+   "nine samples": {
+    "reached": 329,
+    "selected": 178.1,
+    "conversion": 0.541,
+    "last": 141,
+    "reached_exact": 209,
+    "selected_exact": 112.3,
+    "rounds_per_q": 9.0,
+    "candidates_per_q": 4.55,
+    "answer_change_rate": 0.67,
+    "tokens_M": 52.0,
+    "repeat_correct": 0.348,
+    "repeat_incorrect": 0.31,
+    "repeat_ratio": 1.12,
+    "first_revision_repaired": 63,
+    "first_revision_damaged": 63
+   },
+   "equal-token samples": {
+    "reached": 385,
+    "selected": 180.0,
+    "conversion": 0.468,
+    "reached_exact": 244,
+    "selected_exact": 108.8,
+    "candidates_per_q": 6.6
+   },
+   "USC": {
+    "correct": 183.0,
+    "correct_exact": 96.0
+   }
+  },
+  "n_reached_by_both": 290,
+  "tests": {
+   "E-SC selected: critique - equal-token samples": {
+    "diff": 25.3,
+    "lo": 4.4,
+    "hi": 46.5,
+    "lo90": 8.0,
+    "hi90": 43.2,
+    "p": 0.0139,
+    "p_holm": 0.0278,
+    "confirmed": true,
+    "judged": true
+   },
+   "E-USC selected: critique - USC": {
+    "diff": 22.3,
+    "lo": 1.5,
+    "hi": 43.1,
+    "lo90": 5.0,
+    "hi90": 39.5,
+    "p": 0.0304,
+    "p_holm": 0.0304,
+    "confirmed": true,
+    "judged": true
+   },
+   "E-C selected on questions reached by both: critique - equal-token samples": {
+    "diff": 26.8,
+    "lo": 9.0,
+    "hi": 44.9,
+    "lo90": 11.7,
+    "hi90": 41.9,
+    "p": 0.0025,
+    "p_holm": 0.0075,
+    "confirmed": true,
+    "judged": true
+   }
+  },
+  "E-R reached: critique - equal-token samples": {
+   "diff": -37.0,
+   "lo": -63.0,
+   "hi": -14.0,
+   "lo90": -58.0,
+   "hi90": -18.0,
+   "p": 0.0034,
+   "mcnemar": {
+    "only_first": 58,
+    "only_second": 95,
+    "p": 0.00347
+   },
+   "verdict": "inconclusive",
+   "margin": 33
+  },
+  "decomposition": {
+   "critique - equal-token samples": {
+    "total": 25.3,
+    "reach_term": -19.6,
+    "conversion_term": 44.8
+   },
+   "critique - nine samples": {
+    "total": 27.2,
+    "reach_term": 10.7,
+    "conversion_term": 16.5
+   },
+   "token-yoked - equal-token samples": {
+    "total": 1.5,
+    "reach_term": -10.6,
+    "conversion_term": 12.1
+   }
+  },
+  "descriptive": {
+   "equal-token samples - nine samples": {
+    "diff": 1.9,
+    "lo": -7.1,
+    "hi": 10.6,
+    "lo90": -5.4,
+    "hi90": 8.7,
+    "p": 0.67703
+   },
+   "USC - equal-token samples": {
+    "diff": 3.0,
+    "lo": -8.1,
+    "hi": 13.5,
+    "lo90": -6.6,
+    "hi90": 11.7,
+    "p": 0.60074
+   },
+   "equal-token samples - reassuring": {
+    "diff": 11.5,
+    "lo": -7.1,
+    "hi": 29.3,
+    "lo90": -4.4,
+    "hi90": 26.5,
+    "p": 0.20908
+   },
+   "equal-token samples - token-yoked": {
+    "diff": -1.5,
+    "lo": -16.5,
+    "hi": 13.5,
+    "lo90": -14.1,
+    "hi90": 10.8,
+    "p": 0.84922
+   },
+   "reached equal-token vs nine samples": {
+    "only_first": 56,
+    "only_second": 0,
+    "p": 0.0
+   },
+   "exact only, E-SC": {
+    "diff": 28.6,
+    "lo": 10.2,
+    "hi": 47.5,
+    "lo90": 12.7,
+    "hi90": 44.8,
+    "p": 0.0031
+   },
+   "exact only, E-USC": {
+    "diff": 41.3,
+    "lo": 21.7,
+    "hi": 61.5,
+    "lo90": 25.3,
+    "hi90": 57.8,
+    "p": 0.0001
+   }
+  },
+  "by_answer_type": {
+   "exactMatch": {
+    "n": 599,
+    "E-SC": {
+     "diff": 24.3,
+     "lo": 7.8,
+     "hi": 39.7,
+     "lo90": 10.4,
+     "hi90": 37.4,
+     "p": 0.0029
+    },
+    "E-USC": {
+     "diff": 16.3,
+     "lo": 0.2,
+     "hi": 32.5,
+     "lo90": 2.6,
+     "hi90": 30.2,
+     "p": 0.05109
+    }
+   },
+   "multipleChoice": {
+    "n": 201,
+    "E-SC": {
+     "diff": 1.0,
+     "lo": -11.5,
+     "hi": 13.4,
+     "lo90": -9.3,
+     "hi90": 11.2,
+     "p": 0.91241
+    },
+    "E-USC": {
+     "diff": 6.0,
+     "lo": -6.0,
+     "hi": 18.0,
+     "lo90": -4.0,
+     "hi90": 16.0,
+     "p": 0.37306
+    }
+   }
+  }
+ },
+ "deepseek": {
+  "alignment": {
+   "A3Y_tokens_M": 132.71,
+   "budget_M": 115.09,
+   "ratio": 1.153,
+   "at_cap": 10,
+   "aligned": true
+  },
+  "samples_per_question": {
+   "median": 12,
+   "mean": 17.21,
+   "max": 100
+  },
+  "usc_parse_failures": 21,
+  "conditions": {
+   "critique": {
+    "reached": 370,
+    "selected": 254.2,
+    "conversion": 0.687,
+    "last": 254,
+    "reached_exact": 243,
+    "selected_exact": 165.6,
+    "rounds_per_q": 7.01,
+    "candidates_per_q": 3.33,
+    "answer_change_rate": 0.654,
+    "tokens_M": 115.1,
+    "repeat_correct": 0.444,
+    "repeat_incorrect": 0.291,
+    "repeat_ratio": 1.52,
+    "first_revision_repaired": 89,
+    "first_revision_damaged": 54
+   },
+   "reassuring": {
+    "reached": 291,
+    "selected": 256.2,
+    "conversion": 0.88,
+    "last": 252,
+    "reached_exact": 185,
+    "selected_exact": 161.5,
+    "rounds_per_q": 4.57,
+    "candidates_per_q": 1.77,
+    "answer_change_rate": 0.313,
+    "tokens_M": 42.7,
+    "repeat_correct": 0.747,
+    "repeat_incorrect": 0.635,
+    "repeat_ratio": 1.18,
+    "first_revision_repaired": 40,
+    "first_revision_damaged": 18
+   },
+   "token-yoked generic doubt": {
+    "reached": 371,
+    "selected": 261.5,
+    "conversion": 0.705,
+    "last": 246,
+    "reached_exact": 252,
+    "selected_exact": 170.5,
+    "rounds_per_q": 13.69,
+    "candidates_per_q": 3.7,
+    "answer_change_rate": 0.334,
+    "tokens_M": 120.4,
+    "repeat_correct": 0.734,
+    "repeat_incorrect": 0.61,
+    "repeat_ratio": 1.2,
+    "first_revision_repaired": 47,
+    "first_revision_damaged": 31
+   },
+   "nine samples": {
+    "reached": 361,
+    "selected": 224.7,
+    "conversion": 0.622,
+    "last": 207,
+    "reached_exact": 247,
+    "selected_exact": 141.8,
+    "rounds_per_q": 9.0,
+    "candidates_per_q": 4.11,
+    "answer_change_rate": 0.599,
+    "tokens_M": 87.0,
+    "repeat_correct": 0.499,
+    "repeat_incorrect": 0.335,
+    "repeat_ratio": 1.49,
+    "first_revision_repaired": 56,
+    "first_revision_damaged": 46
+   },
+   "equal-token samples": {
+    "reached": 397,
+    "selected": 229.0,
+    "conversion": 0.577,
+    "reached_exact": 275,
+    "selected_exact": 148.3,
+    "candidates_per_q": 5.96
+   },
+   "USC": {
+    "correct": 235.0,
+    "correct_exact": 142.0
+   }
+  },
+  "n_reached_by_both": 323,
+  "tests": {
+   "E-SC selected: critique - equal-token samples": {
+    "diff": 25.2,
+    "lo": 7.8,
+    "hi": 41.8,
+    "lo90": 11.2,
+    "hi90": 39.5,
+    "p": 0.0039,
+    "p_holm": 0.0078,
+    "confirmed": true,
+    "judged": true
+   },
+   "E-USC selected: critique - USC": {
+    "diff": 19.2,
+    "lo": 2.0,
+    "hi": 37.1,
+    "lo90": 4.0,
+    "hi90": 34.1,
+    "p": 0.0387,
+    "p_holm": 0.0387,
+    "confirmed": true,
+    "judged": true
+   },
+   "E-C selected on questions reached by both: critique - equal-token samples": {
+    "diff": 32.0,
+    "lo": 17.6,
+    "hi": 46.4,
+    "lo90": 19.7,
+    "hi90": 44.9,
+    "p": 0.0002,
+    "p_holm": 0.0006,
+    "confirmed": true,
+    "judged": true
+   }
+  },
+  "E-R reached: critique - equal-token samples": {
+   "diff": -27.0,
+   "lo": -48.0,
+   "hi": -5.0,
+   "lo90": -45.0,
+   "hi90": -8.0,
+   "p": 0.0178,
+   "mcnemar": {
+    "only_first": 47,
+    "only_second": 74,
+    "p": 0.01773
+   },
+   "verdict": "inconclusive",
+   "margin": 27
+  },
+  "decomposition": {
+   "critique - equal-token samples": {
+    "total": 25.2,
+    "reach_term": -17.1,
+    "conversion_term": 42.3
+   },
+   "critique - nine samples": {
+    "total": 29.6,
+    "reach_term": 5.9,
+    "conversion_term": 23.7
+   },
+   "token-yoked - equal-token samples": {
+    "total": 32.4,
+    "reach_term": -16.7,
+    "conversion_term": 49.1
+   }
+  },
+  "descriptive": {
+   "equal-token samples - nine samples": {
+    "diff": 4.4,
+    "lo": -3.0,
+    "hi": 11.6,
+    "lo90": -1.8,
+    "hi90": 10.4,
+    "p": 0.25117
+   },
+   "USC - equal-token samples": {
+    "diff": 6.0,
+    "lo": -3.0,
+    "hi": 15.0,
+    "lo90": -1.8,
+    "hi90": 13.6,
+    "p": 0.20898
+   },
+   "equal-token samples - reassuring": {
+    "diff": -27.1,
+    "lo": -45.0,
+    "hi": -8.6,
+    "lo90": -41.6,
+    "hi90": -11.9,
+    "p": 0.0025
+   },
+   "equal-token samples - token-yoked": {
+    "diff": -32.4,
+    "lo": -48.8,
+    "hi": -16.3,
+    "lo90": -46.1,
+    "hi90": -18.7,
+    "p": 0.0002
+   },
+   "reached equal-token vs nine samples": {
+    "only_first": 36,
+    "only_second": 0,
+    "p": 0.0
+   },
+   "exact only, E-SC": {
+    "diff": 17.2,
+    "lo": 2.8,
+    "hi": 31.6,
+    "lo90": 5.0,
+    "hi90": 29.4,
+    "p": 0.0234
+   },
+   "exact only, E-USC": {
+    "diff": 23.6,
+    "lo": 9.0,
+    "hi": 38.5,
+    "lo90": 11.3,
+    "hi90": 36.1,
+    "p": 0.0016
+   }
+  },
+  "by_answer_type": {
+   "exactMatch": {
+    "n": 599,
+    "E-SC": {
+     "diff": 19.8,
+     "lo": 5.7,
+     "hi": 33.6,
+     "lo90": 7.6,
+     "hi90": 31.6,
+     "p": 0.0081
+    },
+    "E-USC": {
+     "diff": 14.2,
+     "lo": -1.6,
+     "hi": 29.9,
+     "lo90": 0.7,
+     "hi90": 27.7,
+     "p": 0.07539
+    }
+   },
+   "multipleChoice": {
+    "n": 201,
+    "E-SC": {
+     "diff": 5.4,
+     "lo": -3.0,
+     "hi": 13.9,
+     "lo90": -1.2,
+     "hi90": 12.3,
+     "p": 0.23288
+    },
+    "E-USC": {
+     "diff": 5.0,
+     "lo": -3.5,
+     "hi": 13.5,
+     "lo90": -2.0,
+     "hi90": 12.5,
+     "p": 0.30707
+    }
+   }
+  }
+ }
+}
