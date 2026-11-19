@@ -6,8 +6,8 @@
 | `scripts/bbeh_equal_token_readout.py` sha256 | `02818646268f3521c5fdca134d36547f27aca3a0cf518d4fa06e9e94300e47da` |
 | 运行开始时间 | `2026-11-19 21:33:10 +0800` |
 | 并发（运行记录） | A3Y 全程并发 120；GT7 并发 120 启动，`2026-11-19 22:58:12 +0800` 重启到并发 360 |
-| `bbeh_sidecar_et.json` sha256 | 待填 |
-| 读出时间与输出 sha256 | 待填 |
+| `bbeh_sidecar_et.json` sha256 | `95ad5b27f498232c4b190592dc7e7b1be3a30a8e53c1e562cd0e12b788c34270` |
+| 读出时间与输出 sha256 | `2026-11-20 00:18:33 +0800`，`d21af94d9e8ec6f3a61652d77d41f3c9fd25cfaf55245df369d903bb57379070` |
 
 ## 1. 目的
 

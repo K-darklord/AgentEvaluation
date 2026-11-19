@@ -1,0 +1,199 @@
+{
+ "selftest": false,
+ "conditions": {
+  "C2": {
+   "reached": 591,
+   "selected": 390.5,
+   "conversion": 0.661,
+   "candidates_per_q": 3.83,
+   "answers_per_q": 7.94,
+   "accuracy_per_answer": 0.305,
+   "tokens_M": 96.4,
+   "repeat_after_correct": 0.453,
+   "repeat_after_incorrect": 0.158
+  },
+  "A2PY": {
+   "reached": 576,
+   "selected": 371.9,
+   "conversion": 0.646,
+   "candidates_per_q": 4.38,
+   "answers_per_q": 16.5,
+   "accuracy_per_answer": 0.306,
+   "tokens_M": 100.6,
+   "repeat_after_correct": 0.701,
+   "repeat_after_incorrect": 0.485
+  },
+  "A3": {
+   "reached": 547,
+   "selected": 344.4,
+   "conversion": 0.63,
+   "candidates_per_q": 3.9,
+   "answers_per_q": 9.0,
+   "accuracy_per_answer": 0.336,
+   "tokens_M": 69.7,
+   "repeat_after_correct": 0.581,
+   "repeat_after_incorrect": 0.325
+  },
+  "A3Y": {
+   "reached": 611,
+   "selected": 356.5,
+   "conversion": 0.583,
+   "candidates_per_q": 5.42,
+   "answers_per_q": 21.16,
+   "accuracy_per_answer": 0.296,
+   "tokens_M": 108.9,
+   "repeat_after_correct": 0.598,
+   "repeat_after_incorrect": 0.389
+  },
+  "GT7": {
+   "reached": 582,
+   "selected": 368.0,
+   "conversion": 0.632,
+   "candidates_per_q": 4.56,
+   "answers_per_q": 16.3,
+   "accuracy_per_answer": 0.305,
+   "tokens_M": 100.7,
+   "repeat_after_correct": 0.687,
+   "repeat_after_incorrect": 0.467
+  }
+ },
+ "alignment": {
+  "A3Y": {
+   "ratio": 1.129,
+   "at_cap": 0,
+   "aligned": true
+  },
+  "GT7": {
+   "ratio": 1.044,
+   "at_cap": 0,
+   "aligned": true
+  }
+ },
+ "n_reached_by_both": 540,
+ "tests": {
+  "B-SC selected: critique - equal-token samples": {
+   "diff": 34.0,
+   "lo": 13.8,
+   "hi": 55.0,
+   "lo90": 16.9,
+   "hi90": 52.1,
+   "p": 0.0016,
+   "p_holm": 0.0032,
+   "confirmed": true,
+   "holm_p": 0.0032,
+   "judged": true,
+   "not_judged_because": []
+  },
+  "B-EC selected on questions reached by both: critique - equal-token samples": {
+   "diff": 35.4,
+   "lo": 16.0,
+   "hi": 54.0,
+   "lo90": 19.1,
+   "hi90": 51.5,
+   "p": 0.0005,
+   "p_holm": 0.0015,
+   "confirmed": true,
+   "holm_p": 0.0015,
+   "judged": true,
+   "not_judged_because": []
+  },
+  "T-1 selected: generic-doubt loop at T=0.7 - equal-token samples": {
+   "diff": 11.6,
+   "lo": -9.6,
+   "hi": 31.6,
+   "lo90": -6.0,
+   "hi90": 28.8,
+   "p": 0.26817,
+   "p_holm": 0.26817,
+   "confirmed": false,
+   "holm_p": 0.26817,
+   "judged": true,
+   "not_judged_because": []
+  }
+ },
+ "B-ER reached: critique - equal-token samples": {
+  "diff": -20.0,
+  "lo": -42.0,
+  "hi": 3.0,
+  "lo90": -39.0,
+  "hi90": -1.0,
+  "p": 0.08699,
+  "equivalent_within_33": false
+ },
+ "B-ER mcnemar": {
+  "only_first": 51,
+  "only_second": 71,
+  "p": 0.08498
+ },
+ "decomposition": {
+  "critique - equal-token samples": {
+   "total": 34.0,
+   "reach_term": -12.4,
+   "conversion_term": 46.5
+  },
+  "GT7 - equal-token samples": {
+   "total": 11.6,
+   "reach_term": -17.6,
+   "conversion_term": 29.2
+  },
+  "critique - nine samples": {
+   "total": 46.1,
+   "reach_term": 28.4,
+   "conversion_term": 17.7
+  },
+  "A2PY - equal-token samples": {
+   "total": 15.4,
+   "reach_term": -21.5,
+   "conversion_term": 37.0
+  },
+  "GT7 - A2PY": {
+   "total": -3.9,
+   "reach_term": 3.8,
+   "conversion_term": -7.7
+  },
+  "critique - GT7": {
+   "total": 22.5,
+   "reach_term": 5.8,
+   "conversion_term": 16.7
+  }
+ },
+ "descriptive": {
+  "GT7 - A2PY (temperature within the loop)": {
+   "diff": -3.9,
+   "lo": -22.5,
+   "hi": 15.9,
+   "lo90": -20.2,
+   "hi90": 12.9,
+   "p": 0.69873
+  },
+  "critique - GT7": {
+   "diff": 22.5,
+   "lo": -0.9,
+   "hi": 44.4,
+   "lo90": 2.9,
+   "hi90": 41.4,
+   "p": 0.05729
+  },
+  "A3Y - nine samples": {
+   "diff": 12.0,
+   "lo": -0.4,
+   "hi": 24.2,
+   "lo90": 2.0,
+   "hi90": 22.6,
+   "p": 0.05799
+  },
+  "A2PY - equal-token samples": {
+   "diff": 15.4,
+   "lo": -2.4,
+   "hi": 33.7,
+   "lo90": 0.0,
+   "hi90": 30.5,
+   "p": 0.10689
+  },
+  "reached GT7 vs A3Y": {
+   "only_first": 28,
+   "only_second": 57,
+   "p": 0.00219
+  }
+ }
+}
