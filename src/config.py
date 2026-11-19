@@ -277,6 +277,17 @@ PHASE1_MODELS = {
         # (qwen ~12.5k hidden CoT / round). E6 budget-alignment fix (2026-11-08).
         "thinking_budget": 16384,
     },
+    "qwen4-max-payg": {
+        "tier": "mid",
+        "model": "qwen4-max",
+        "base_url": DASHSCOPE_BASE_URL,
+        "api_key": os.getenv("DASHSCOPE_API_KEY", ""),
+        # Capability-gradient study (docs/CAPABILITY_GRADIENT_SPEC.md, 2026-11-20):
+        # identical to qwen3.8-flash-payg except the model name. thinking stays at the
+        # model default (ON); thinking_budget 16384 + REASONING_CONTENT_MARGIN 8192 =
+        # 24576 visible budget, matching the frozen qwen/deepseek budget.
+        "thinking_budget": 16384,
+    },
     "glm-5.3": {
         "tier": "mid",
         "model": "glm-5.3",
