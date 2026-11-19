@@ -5,6 +5,7 @@
 | 规格与读出脚本冻结（commit / tag `pre-bbeh-et-20261119`） | commit `9dd460f` |
 | `scripts/bbeh_equal_token_readout.py` sha256 | `02818646268f3521c5fdca134d36547f27aca3a0cf518d4fa06e9e94300e47da` |
 | 运行开始时间 | `2026-11-19 21:33:10 +0800` |
+| 并发（运行记录） | A3Y 全程并发 120；GT7 并发 120 启动，`2026-11-19 22:58:12 +0800` 重启到并发 360 |
 | `bbeh_sidecar_et.json` sha256 | 待填 |
 | 读出时间与输出 sha256 | 待填 |
 
