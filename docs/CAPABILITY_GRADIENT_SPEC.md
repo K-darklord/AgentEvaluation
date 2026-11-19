@@ -2,7 +2,7 @@
 
 | 冻结记录（执行方在相应时刻填写并提交） | |
 |---|---|
-| 规格与读出脚本冻结（commit / tag `pre-gradient-20261120`） | 待填 |
+| 规格与读出脚本冻结（commit / tag `pre-gradient-20261120`） | tag `pre-gradient-20261120`（本提交为冻结点） |
 | `scripts/capability_gradient_readout.py` sha256 | `582fee21c6fc2f7e4185e817323c4a51dddff95f6e76b9449f81766e1cac2f67` |
 | 试跑（16 题）实测 token 与全量费用估计；作者批准全量的时间 | 待填 |
 | 运行开始时间 | 待填 |
