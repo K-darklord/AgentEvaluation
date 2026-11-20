@@ -1,0 +1,80 @@
+{
+ "qwen, HLE-800": {
+  "n": 800,
+  "first_answer_correct": 149,
+  "M1_auroc": 0.563,
+  "M1_interval": [
+   0.511,
+   0.608
+  ],
+  "strata": {
+   "0-3": {
+    "questions": 517,
+    "first_answer_correct": 82,
+    "share": 0.159
+   },
+   "4-6": {
+    "questions": 140,
+    "first_answer_correct": 41,
+    "share": 0.293
+   },
+   "7-9": {
+    "questions": 143,
+    "first_answer_correct": 26,
+    "share": 0.182
+   }
+  }
+ },
+ "deepseek, HLE-800": {
+  "n": 800,
+  "first_answer_correct": 205,
+  "M1_auroc": 0.631,
+  "M1_interval": [
+   0.589,
+   0.672
+  ],
+  "strata": {
+   "0-3": {
+    "questions": 485,
+    "first_answer_correct": 92,
+    "share": 0.19
+   },
+   "4-6": {
+    "questions": 131,
+    "first_answer_correct": 43,
+    "share": 0.328
+   },
+   "7-9": {
+    "questions": 184,
+    "first_answer_correct": 70,
+    "share": 0.38
+   }
+  }
+ },
+ "qwen, BBEH-800": {
+  "n": 800,
+  "first_answer_correct": 263,
+  "M1_auroc": 0.745,
+  "M1_interval": [
+   0.711,
+   0.777
+  ],
+  "strata": {
+   "0-3": {
+    "questions": 426,
+    "first_answer_correct": 78,
+    "share": 0.183
+   },
+   "4-6": {
+    "questions": 177,
+    "first_answer_correct": 76,
+    "share": 0.429
+   },
+   "7-9": {
+    "questions": 197,
+    "first_answer_correct": 109,
+    "share": 0.553
+   }
+  }
+ }
+}

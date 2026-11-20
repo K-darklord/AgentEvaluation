@@ -7,10 +7,10 @@ E2=json.load(open(T+'equal_token_samples_readout.json')); BE=json.load(open(T+'b
 S1=json.load(open(T+'selection_confirmation_readout.json')); DS=json.load(open(T+'selection_confirmation_ds_readout.json')); BB=json.load(open(T+'second_benchmark_readout.json'))
 def hle(o): c=o['conditions']; return [(c['equal-token samples']['selected'],c['equal-token samples']['reached']),(c['token-yoked generic doubt']['selected'],c['token-yoked generic doubt']['reached']),(c['critique']['selected'],c['critique']['reached'])]
 b=BE['conditions']
-CELLS=[('Qwen, HLE (800 new questions)',S1['conditions']['first answer']['selected'],hle(E2['qwen'])),
-       ('DeepSeek, HLE (800 new questions)',DS['conditions']['first answer']['selected'],hle(E2['deepseek'])),
-       ('Qwen, BBEH hard tasks (800 questions)',BB['hard']['first_answer_correct'],[(b[a]['selected'],b[a]['reached']) for a in ('A3Y','A2PY','C2')])]
-NAMES=['Independent samples','Token-yoked doubt loop','Critique loop']
+CELLS=[('Qwen, HLE-800',S1['conditions']['first answer']['selected'],hle(E2['qwen'])),
+       ('DeepSeek, HLE-800',DS['conditions']['first answer']['selected'],hle(E2['deepseek'])),
+       ('Qwen, BBEH-800',BB['hard']['first_answer_correct'],[(b[a]['selected'],b[a]['reached']) for a in ('A3Y','A2PY','C2')])]
+NAMES=['Independent sampling','Token-matched placebo loop','Critique loop']
 plt.rcParams.update({'font.family':'serif','font.serif':['Times New Roman','DejaVu Serif'],'font.size':8,'axes.linewidth':0.6})
 INK='#1a1a19'; MUTED='#6b6a63'; GRID='#e3e2dc'; BLUE='#2a78d6'
 fig,axes=plt.subplots(3,1,figsize=(3.03,3.1),gridspec_kw={'hspace':0.95})

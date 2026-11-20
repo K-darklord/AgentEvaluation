@@ -199,3 +199,10 @@ Trigger: read-outs of the equal-token continuation (qwen), token-yoked generic d
 - Supplementary read-outs (`scripts/equal_token_supplement.py`): samples within the budget, loop without first answer, last answer, merged correct candidates, cut-off shares, sequential depth, BBEH by task; new Table in Appendix J and a paragraph in Section 4.3.
 - Clarified: token definition and why sample counts and totals do not multiply; what a loop's answer list contains; decomposition form; candidate counts; rounding. Placeholder about the second audit removed from Limitations. Author wording unified. Three references added (Olausson 2024, Snell 2024, Du 2024). Figure 1 label corrected.
 - Manifest 847 facts, 0 problems. Body ends on page 7.
+
+## v18 draft (2026-11-20)
+- Rewritten after the author's 69 comments on the Word copy. Principles: compare against what a reader expects (independent sampling); one structure throughout (reach / selection x critique loop / placebo loop / independent sampling); three core claims stated in the abstract and repeated as section titles (Tokens buy reach; A loop buys selection; The critique is not always needed); conclusions first, numbers in support; one term per concept (independent sampling, most frequent answer, loop, reach); explicit referents; no stray semicolons; process detail moved to the appendix.
+- Names: HLE-400, HLE-800, BBEH-800, BBEH-240; "token-matched placebo loop" replaces "token-yoked".
+- Related work rewritten by relation to this paper (builds on / appears to contradict and why / closest designs). MiniMax's HLE-400 result and the reason it was not run further are in the main text.
+- Removed from the main text: grading incident, list of departures (both kept in the appendix). AI statement shortened, facts kept.
+- No number changed. Manifest 848 facts, 0 problems (`scripts/build_manifest_v18.py`). Body ends on page 7.

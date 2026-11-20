@@ -1,7 +1,7 @@
 {
  "schema_version": 3,
  "paper": "paper/acl/main.tex",
- "paper_version": "v17b draft",
+ "paper_version": "v18 draft",
  "date": "2026-11-20",
  "model_order": [
   "deepseek-v4-flash",
@@ -9309,15 +9309,10 @@
    "tex": [
     "348 / \\textbf{385} & 370 / \\textbf{397} & 591 / \\textbf{611}",
     "\\textbf{205.3} / 180.0 & \\textbf{254.2} / 229.0 & \\textbf{390.5} / 356.5",
-    "18.8; 1.18 & 17.2; 1.15 & 21.2; 1.13",
     "$+25.3$ \\ci{4.4}{46.5}$^{*}$ & $+25.2$ \\ci{7.8}{41.8}$^{**}$ & $+34.0$ \\ci{13.8}{55.0}$^{**}$",
-    "$+26.8$ \\ci{9.0}{44.9}$^{**}$ (290) & $+32.0$ \\ci{17.6}{46.4}$^{***}$ (323) & $+35.4$ \\ci{16.0}{54.0}$^{**}$ (540)",
     "$+22.3$ \\ci{1.5}{43.1}$^{*}$ & $+19.2$ \\ci{2.0}{37.1}$^{*}$",
-    "$-37$ \\ci{-58}{-18} & $-27$ \\ci{-45}{-8} & $-20$ \\ci{-39}{-1}",
-    "by 28.6 (\\ci{10.2}{47.5}) and 17.2 (\\ci{2.8}{31.6})",
     "($+24.3$ and $+19.8$)",
-    "($+1.0$ and $+5.4$)",
-    "reach 56, 36 and 64 more questions and select 1.9, 4.4 and 12.0 more"
+    "($+1.0$ and $+5.4$)"
    ]
   },
   {
@@ -9732,25 +9727,15 @@
     0.158
    ],
    "paper": "v17",
-   "tex": [
-    "Critique & .43 & \\textbf{.29} & & .44 & \\textbf{.29} & & .45 & \\textbf{.16}"
-   ]
+   "tex": []
   },
   {
    "id": "v17_strings",
    "value": null,
    "paper": "v17",
    "tex": [
-    "It selects 368.0 questions, against 371.9 at temperature 0 ($-3.9$, \\ci{-22.5}{15.9}) and 356.5 for the samples.",
     "($+11.6$, \\ci{-9.6}{31.6})",
     "2.96 against 2.96 per round on \\qw, 2.81 against 2.86 on \\ds{} and 2.94 against 2.95 on BBEH",
-    "(0.41 against 0.50 in the first round; $p<0.001$) and lowered the selected count by 12.4 (\\ci{-6.0}{30.9})",
-    "token-yoked & $\\mathbf{+23.8}$ & $-7.2$ & $+18.6$",
-    "reassuring & $\\mathbf{+36.8}$ & $-1.9$ & $+10.6$",
-    " & $+1.5$ & $+32.4$ & $+15.4$",
-    "Reassuring & .64 & .60 & & .75 & .63 & & .72 & .38",
-    "Token-yoked & .58 & .54 & & .73 & .61 & & .70 & .49",
-    "Samples & .35 & .31 & & .50 & .34 & & .58 & .32",
     "$+27.3$, $+27.8$ and $+27.8$ on \\qw{} and $+25.7$, $+24.7$ and $+23.7$ on \\ds"
    ]
   },
@@ -11005,15 +10990,155 @@
     "\\quad last answer & $+27.0$ & $+25.0$ & $+0.5$",
     "\\quad merged & $+9.3$ & $+19.2$ & $+27.3$",
     "\\quad within the budget & $-17$ & $-8$ & $+3$",
-    "($-17$, $-8$ and $+3$, no difference significant)",
-    "grows to 28.5, 26.4 and 52.5",
-    "(29.1, 26.5 and 39.7)",
-    "(the last answer is ahead of the samples by 27.0 and 25.0)",
-    "correct on 357 questions against 390.5",
-    "19.2 (\\ci{2.8}{36.5}) on \\ds{} and 27.3 (\\ci{7.2}{49.4}) on BBEH, and 9.3 (\\ci{-13.3}{31.5}) on \\qw{} with HLE",
     "selects 256.2 questions against 254.2",
     "(16.7, 15.1 and 19.4 per question)",
     "6.3, 6.0 and 6.9 rounds of feedback"
+   ]
+  },
+  {
+   "id": "v18_strings",
+   "value": null,
+   "paper": "v18",
+   "tex": [
+    "348 / \\textbf{385} & 370 / \\textbf{397} & 591 / \\textbf{611}",
+    "\\textbf{205.3} / 180.0 & \\textbf{254.2} / 229.0 & \\textbf{390.5} / 356.5",
+    "Samples per question & 18.8 & 17.2 & 21.2",
+    "$+25.3$ \\ci{4.4}{46.5}$^{*}$ & $+25.2$ \\ci{7.8}{41.8}$^{**}$ & $+34.0$ \\ci{13.8}{55.0}$^{**}$",
+    "$+26.8$ \\ci{9.0}{44.9}$^{**}$ & $+32.0$ \\ci{17.6}{46.4}$^{***}$ & $+35.4$ \\ci{16.0}{54.0}$^{**}$",
+    "$+22.3$ \\ci{1.5}{43.1}$^{*}$ & $+19.2$ \\ci{2.0}{37.1}$^{*}$",
+    "Both methods reach 290, 323 and 540 questions.",
+    "reaches 56, 36 and 64 more questions and selects only 1.9, 4.4 and 12.0 more",
+    "independent sampling selects 47, 58 and 58. The critique loop selects 59, 69 and 66.",
+    "are $-15$ questions on \\qw{} and $-1$ on \\ds",
+    "17 and 8 more on HLE-800 and 3 fewer on BBEH-800",
+    "Token-matched & $\\mathbf{+23.8}$ & $-7.2$ & $+18.6$",
+    "Reassuring loop & $\\mathbf{+36.8}$ & $-1.9$ & $+10.6$",
+    "selects 256.2 questions against 254.2",
+    "It selects 27.1 more than independent sampling (\\ci{8.6}{45.0})",
+    "(368.0 against 371.9 at temperature 0)",
+    "($+11.6$, \\ci{-9.6}{31.6})",
+    "2.96 against 2.96 per round on \\qw, 2.81 against 2.86 on \\ds{} and 2.94 against 2.95 on BBEH-800",
+    "Critique loop & .43 & \\textbf{.29} & & .44 & \\textbf{.29} & & .45 & \\textbf{.16}",
+    "by 12.4 questions, but the difference was not significant (\\ci{-6.0}{30.9}",
+    "the differences are 29.1, 26.5 and 39.7, and with the samples held within the budget they are 28.5, 26.4 and 52.5",
+    "($+27.0$ and $+25.0$) and disappears on BBEH-800 ($+0.5$)",
+    "($+19.2$, \\ci{2.8}{36.5}) and on BBEH-800 ($+27.3$, \\ci{7.2}{49.4}) but not on \\qw{} with HLE-800 ($+9.3$, \\ci{-13.3}{31.5})",
+    "($+1.5$, \\ci{-13.5}{16.5})",
+    "which is 14\\%, 11\\% and 10\\% more"
+   ]
+  },
+  {
+   "id": "props_qwen, HLE-800_auc",
+   "value": 0.563,
+   "paper": "v18",
+   "json": [
+    "experiments/hle400/t3/first_answer_confidence.json",
+    "qwen, HLE-800",
+    "M1_auroc"
+   ]
+  },
+  {
+   "id": "props_qwen, HLE-800_0-3",
+   "value": 0.159,
+   "paper": "v18",
+   "json": [
+    "experiments/hle400/t3/first_answer_confidence.json",
+    "qwen, HLE-800",
+    "strata",
+    "0-3",
+    "share"
+   ]
+  },
+  {
+   "id": "props_qwen, HLE-800_7-9",
+   "value": 0.182,
+   "paper": "v18",
+   "json": [
+    "experiments/hle400/t3/first_answer_confidence.json",
+    "qwen, HLE-800",
+    "strata",
+    "7-9",
+    "share"
+   ]
+  },
+  {
+   "id": "props_deepseek, HLE-800_auc",
+   "value": 0.631,
+   "paper": "v18",
+   "json": [
+    "experiments/hle400/t3/first_answer_confidence.json",
+    "deepseek, HLE-800",
+    "M1_auroc"
+   ]
+  },
+  {
+   "id": "props_deepseek, HLE-800_0-3",
+   "value": 0.19,
+   "paper": "v18",
+   "json": [
+    "experiments/hle400/t3/first_answer_confidence.json",
+    "deepseek, HLE-800",
+    "strata",
+    "0-3",
+    "share"
+   ]
+  },
+  {
+   "id": "props_deepseek, HLE-800_7-9",
+   "value": 0.38,
+   "paper": "v18",
+   "json": [
+    "experiments/hle400/t3/first_answer_confidence.json",
+    "deepseek, HLE-800",
+    "strata",
+    "7-9",
+    "share"
+   ]
+  },
+  {
+   "id": "props_qwen, BBEH-800_auc",
+   "value": 0.745,
+   "paper": "v18",
+   "json": [
+    "experiments/hle400/t3/first_answer_confidence.json",
+    "qwen, BBEH-800",
+    "M1_auroc"
+   ]
+  },
+  {
+   "id": "props_qwen, BBEH-800_0-3",
+   "value": 0.183,
+   "paper": "v18",
+   "json": [
+    "experiments/hle400/t3/first_answer_confidence.json",
+    "qwen, BBEH-800",
+    "strata",
+    "0-3",
+    "share"
+   ]
+  },
+  {
+   "id": "props_qwen, BBEH-800_7-9",
+   "value": 0.553,
+   "paper": "v18",
+   "json": [
+    "experiments/hle400/t3/first_answer_confidence.json",
+    "qwen, BBEH-800",
+    "strata",
+    "7-9",
+    "share"
+   ]
+  },
+  {
+   "id": "props_strings",
+   "value": null,
+   "paper": "v18",
+   "tex": [
+    "Signal (area under ROC) & .56 & .63 & .75",
+    " & \\ci{.51}{.61} & \\ci{.59}{.67} & \\ci{.71}{.78}",
+    "7--9 samples agree with it & 18\\% & 38\\% & 55\\%",
+    "0--3 samples agree with it & 16\\% & 19\\% & 18\\%",
+    "Use (keep correct / incorrect) & 1.07 & 1.18 & 1.89"
    ]
   }
  ]
